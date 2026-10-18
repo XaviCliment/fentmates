@@ -6,7 +6,7 @@
             | "resource" (recurs/enllaç) | "exam" (examen)
      title: text o bé { va: "...", es: "...", en: "..." }
      desc:  (opcional) igual que title
-     date:  (opcional) "AAAA-MM-DD" -> durant uns dies es marca com a "Nou"
+     date:  (opcional) "AAAA-MM-DD", data en què es va penjar
      url:   ruta al fitxer (p. ex. "materials/3eso/t1-apunts.pdf")
             o enllaç (YouTube, GeoGebra, Drive...). Si està buit -> "Pròximament".
 
@@ -23,8 +23,7 @@
 window.SITE = {
   email: "xavicliment@gmail.com",
   x: "xavier_climent",
-  linkedin: "https://www.linkedin.com/in/xavier-climent-balaguer-5679a4155",
-  newDays: 14          // dies que un material es marca com a "Nou"
+  linkedin: "https://www.linkedin.com/in/xavier-climent-balaguer-5679a4155"
 };
 
 window.LEVELS = {

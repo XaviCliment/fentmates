@@ -55,11 +55,6 @@
   }
   function parseDay(s) { var p = String(s).split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
   function today() { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
-  function isNew(it) {
-    if (!it.date || !it.url) return false;
-    var days = (today() - parseDay(it.date)) / 864e5;
-    return days >= 0 && days <= (SITE.newDays || 14);
-  }
   function fmtDate(s) {
     return parseDay(s).toLocaleDateString(DATE_LOCALE[lang], { day: "numeric", month: "long", year: "numeric" });
   }
@@ -237,12 +232,11 @@
     if (!box) return;
     box.innerHTML = Object.keys(LEVELS).map(function (k) {
       var L = LEVELS[k];
-      var n = 0, nNew = 0;
-      L.units.forEach(function (u) { u.items.forEach(function (i) { n++; if (isNew(i)) nNew++; }); });
+      var n = 0;
+      L.units.forEach(function (u) { n += u.items.length; });
       return '<a class="level-card" href="' + k + '.html" style="--c:' + L.color + '">' +
         '<span class="symbol" aria-hidden="true">' + esc(L.symbol || "") + "</span>" +
-        '<span class="tags"><span class="tag">' + L.units.filter(function (u) { return !u.num; }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>" +
-        (nNew ? '<span class="badge-new">' + nNew + " " + esc(t("level.new")) + "</span>" : "") + "</span>" +
+        '<span class="tags"><span class="tag">' + L.units.filter(function (u) { return !u.num; }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>" + "</span>" +
         "<h3>" + esc(tx(L.name)) + "</h3>" +
         "<p>" + esc(tx(L.desc)) + "</p>" +
         '<span class="go">' + esc(t("levels.go")) + "</span></a>";
@@ -307,16 +301,13 @@
         return (utitle + " " + tx(it.title) + " " + tx(it.desc)).toLowerCase().indexOf(state.q) >= 0;
       });
       if (!items.length) return;
-      var hasNew = items.some(isNew);
-      var open = state.q || state.type !== "all" || openIds[ui] || (first && (ui === 0 || hasNew));
+      var open = state.q || state.type !== "all" || openIds[ui] || (first && ui === 0);
       html += '<details class="unit" data-i="' + ui + '"' + (open ? " open" : "") + ">" +
         '<summary><span class="num">' + esc(num) + '</span><span class="u-title">' + esc(utitle) + "</span>" +
-        (hasNew ? '<span class="badge-new">' + esc(t("badge.new")) + "</span>" : "") +
         '<span class="count">' + items.length + " " + esc(t("level.items")) + "</span>" + ICONS.chev + "</summary><ul>" +
         items.map(function (it) {
           var inner = '<span class="ico">' + (ICONS[it.type] || ICONS.resource) + "</span>" +
-            '<span class="meta"><span class="t">' + esc(tx(it.title)) +
-            (isNew(it) ? ' <span class="badge-new">' + esc(t("badge.new")) + "</span>" : "") + "</span>" +
+            '<span class="meta"><span class="t">' + esc(tx(it.title)) + "</span>" +
             (it.url ? (it.desc ? '<span class="d">' + esc(tx(it.desc)) + "</span>" : "") : '<span class="d">' + esc(t("level.soon")) + "</span>") +
             '</span><span class="kind">' + esc(t("kind." + it.type)) + "</span>";
           if (!it.url) return '<li><div class="item soon">' + inner + "</div></li>";

@@ -34,7 +34,6 @@ Tipus: `notes` (apunts), `exercises`, `video`, `resource`, `exam`.
 Si `url` és un enllaç de YouTube, el vídeo s'obri dins de la web.
 Si `url` està buit, apareix com a "Pròximament".
 
-Afig `date: "AAAA-MM-DD"` i el material es marcarà com a **Nou** durant 14 dies.
 
 ## Fórmules (LaTeX)
 
