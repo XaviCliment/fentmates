@@ -6,7 +6,7 @@
 window.I18N = {
   va: {
     "site.name": "FentMates",
-    "site.tagline": "Matemàtiques per entendre-les, no per memoritzar-les",
+    "site.tagline": "Construïm les matemàtiques, edifiquem el coneixement",
     "nav.home": "Inici",
     "nav.menu": "Obri el menú",
     "nav.theme": "Canvia entre mode clar i fosc",
@@ -45,6 +45,7 @@ window.I18N = {
     "level.units": "unitats",
     "level.empty": "No s'ha trobat cap material amb aquest filtre.",
     "level.soon": "Pròximament",
+    "item.download": "Descarrega",
     "level.close": "Tanca",
 
     "kind.notes": "Apunts",
@@ -59,7 +60,7 @@ window.I18N = {
 
   es: {
     "site.name": "FentMates",
-    "site.tagline": "Matemáticas para entenderlas, no para memorizarlas",
+    "site.tagline": "Construimos las matemáticas, edificamos el conocimiento",
     "nav.home": "Inicio",
     "nav.menu": "Abrir el menú",
     "nav.theme": "Cambiar entre modo claro y oscuro",
@@ -98,6 +99,7 @@ window.I18N = {
     "level.units": "unidades",
     "level.empty": "No se ha encontrado ningún material con este filtro.",
     "level.soon": "Próximamente",
+    "item.download": "Descargar",
     "level.close": "Cerrar",
 
     "kind.notes": "Apuntes",
@@ -112,7 +114,7 @@ window.I18N = {
 
   en: {
     "site.name": "FentMates",
-    "site.tagline": "Maths to understand, not to memorise",
+    "site.tagline": "Building mathematics, constructing knowledge",
     "nav.home": "Home",
     "nav.menu": "Open menu",
     "nav.theme": "Toggle light and dark mode",
@@ -151,6 +153,7 @@ window.I18N = {
     "level.units": "units",
     "level.empty": "No materials match this filter.",
     "level.soon": "Coming soon",
+    "item.download": "Download",
     "level.close": "Close",
 
     "kind.notes": "Notes",
