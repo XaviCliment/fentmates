@@ -42,8 +42,7 @@ window.LEVELS = {
         title: { va: "Nombres racionals", es: "Números racionales", en: "Rational numbers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t1-nombres-racionals.html", date: "2026-10-18" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis 1", es: "Ficha de ejercicios 1", en: "Worksheet 1" }, url: "" },
-          { type: "video", title: { va: "Fraccions: operacions combinades", es: "Fracciones: operaciones combinadas", en: "Fractions: combined operations" }, url: "" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis 1", es: "Ficha de ejercicios 1", en: "Worksheet 1" }, url: "" }
         ]
       },
       {

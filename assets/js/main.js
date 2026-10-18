@@ -138,15 +138,56 @@
     });
   }
 
-  function contactLinks(cls) {
+  function contactLinks(cls, menuUp) {
     var links = [];
-    if (SITE.email) links.push(["mailto:" + SITE.email, "mail", t("contact.mail"), false]);
-    if (SITE.x) links.push(["https://x.com/" + SITE.x, "x", "X", true]);
-    if (SITE.linkedin) links.push([SITE.linkedin, "linkedin", "LinkedIn", true]);
-    return links.map(function (l) {
-      return '<a class="' + cls + '" href="' + esc(l[0]) + '" aria-label="' + esc(l[2]) + '" title="' + esc(l[2]) + '"' +
-        (l[3] ? ' target="_blank" rel="noopener"' : "") + ">" + ICONS[l[1]] + "</a>";
+    if (SITE.x) links.push(["https://x.com/" + SITE.x, "x", "X"]);
+    if (SITE.linkedin) links.push([SITE.linkedin, "linkedin", "LinkedIn"]);
+    var out = "";
+    // Correu: menú amb Gmail, aplicació de correu o copiar l'adreça
+    // (el mailto sol no funciona si l'ordinador no té cap aplicació de correu configurada)
+    if (SITE.email) {
+      var gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(SITE.email);
+      out += '<span class="mail-wrap"><button type="button" class="' + cls + ' mail-btn" aria-haspopup="true" aria-expanded="false" aria-label="' + esc(t("contact.mail")) + '" title="' + esc(t("contact.mail")) + '">' + ICONS.mail + "</button>" +
+        '<span class="mail-menu' + (menuUp ? " up" : "") + '" role="menu">' +
+          '<a role="menuitem" href="' + esc(gmail) + '" target="_blank" rel="noopener">' + esc(t("contact.gmail")) + "</a>" +
+          '<a role="menuitem" href="mailto:' + esc(SITE.email) + '">' + esc(t("contact.app")) + "</a>" +
+          '<button role="menuitem" type="button" class="mail-copy">' + esc(t("contact.copy")) + "</button>" +
+        "</span></span>";
+    }
+    return out + links.map(function (l) {
+      return '<a class="' + cls + '" href="' + esc(l[0]) + '" aria-label="' + esc(l[2]) + '" title="' + esc(l[2]) + '" target="_blank" rel="noopener">' + ICONS[l[1]] + "</a>";
     }).join("");
+  }
+
+  function closeMailMenus(except) {
+    document.querySelectorAll(".mail-wrap.open").forEach(function (w) {
+      if (w === except) return;
+      w.classList.remove("open");
+      w.querySelector(".mail-btn").setAttribute("aria-expanded", "false");
+    });
+  }
+
+  function setupMailMenu() {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest(".mail-btn");
+      if (btn) {
+        var w = btn.parentNode;
+        closeMailMenus(w);
+        var open = w.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open);
+        return;
+      }
+      var copy = e.target.closest && e.target.closest(".mail-copy");
+      if (copy) {
+        var done = function () { copy.textContent = t("contact.copied"); setTimeout(function () { copy.textContent = t("contact.copy"); }, 2000); };
+        if (navigator.clipboard) navigator.clipboard.writeText(SITE.email).then(done, function () { prompt("", SITE.email); });
+        else prompt("", SITE.email);
+        return;
+      }
+      if (!(e.target.closest && e.target.closest(".mail-menu"))) closeMailMenus();
+      else setTimeout(closeMailMenus, 100);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMailMenus(); });
   }
 
   function renderFooter() {
@@ -155,7 +196,7 @@
     f.innerHTML =
       '<div class="container">' +
         "<span>© " + new Date().getFullYear() + " · FentMates · " + esc(t("footer.made")) + "</span>" +
-        '<span class="footer-links">' + contactLinks("social-btn small") + '<a href="#top">' + esc(t("footer.top")) + "</a></span>" +
+        '<span class="footer-links">' + contactLinks("social-btn small", true) + '<a href="#top">' + esc(t("footer.top")) + "</a></span>" +
       "</div>";
   }
 
@@ -418,5 +459,6 @@
 
   renderAll();
   setupVideoModal();
+  setupMailMenu();
   setupReveal();
 })();

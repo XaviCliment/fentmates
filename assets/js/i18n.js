@@ -21,7 +21,7 @@ window.I18N = {
     "about.text": "<strong>Professor de matemàtiques de Secundària i Batxillerat.</strong> Sempre cercant la manera de millorar la pedagogia d'aquesta ciència fascinant. Busejant en aquest món inesgotable.",
     "about.chip1": "📐 ESO",
     "about.chip2": "📊 Batxillerat",
-    "about.chip3": "💡 Aprenentatge actiu",
+    "about.chip3": "💡 Metodologies actives",
 
     "levels.eyebrow": "Nivells",
     "levels.title": "Tria el teu curs",
@@ -75,7 +75,7 @@ window.I18N = {
     "about.text": "<strong>Profesor de matemáticas de Secundaria y Bachillerato.</strong> Siempre buscando la manera de mejorar la pedagogía de esta ciencia fascinante. Buceando en este mundo inagotable.",
     "about.chip1": "📐 ESO",
     "about.chip2": "📊 Bachillerato",
-    "about.chip3": "💡 Aprendizaje activo",
+    "about.chip3": "💡 Metodologías activas",
 
     "levels.eyebrow": "Niveles",
     "levels.title": "Elige tu curso",
@@ -129,7 +129,7 @@ window.I18N = {
     "about.text": "<strong>Secondary and Baccalaureate maths teacher.</strong> Always looking for ways to improve how this fascinating science is taught. Diving into this endless world.",
     "about.chip1": "📐 Secondary (ESO)",
     "about.chip2": "📊 Baccalaureate",
-    "about.chip3": "💡 Active learning",
+    "about.chip3": "💡 Active methodologies",
 
     "levels.eyebrow": "Levels",
     "levels.title": "Choose your course",
@@ -169,6 +169,10 @@ window.I18N = {
 
 /* ---------- Noves seccions: contacte, PAU, reptes, curiositats ---------- */
 Object.assign(window.I18N.va, {
+  "contact.gmail": "Escriu amb Gmail",
+  "contact.app": "Obri l'aplicació de correu",
+  "contact.copy": "Copia l'adreça",
+  "contact.copied": "Adreça copiada ✓",
   "nav.pau": "Racó PAU",
   "nav.challenges": "Reptes",
   "contact.mail": "Escriu-me",
@@ -210,6 +214,10 @@ Object.assign(window.I18N.va, {
 });
 
 Object.assign(window.I18N.es, {
+  "contact.gmail": "Escribe con Gmail",
+  "contact.app": "Abrir la aplicación de correo",
+  "contact.copy": "Copiar la dirección",
+  "contact.copied": "Dirección copiada ✓",
   "nav.pau": "Rincón PAU",
   "nav.challenges": "Retos",
   "contact.mail": "Escríbeme",
@@ -251,6 +259,10 @@ Object.assign(window.I18N.es, {
 });
 
 Object.assign(window.I18N.en, {
+  "contact.gmail": "Write with Gmail",
+  "contact.app": "Open mail app",
+  "contact.copy": "Copy address",
+  "contact.copied": "Address copied ✓",
   "nav.pau": "Exam corner",
   "nav.challenges": "Challenges",
   "contact.mail": "Email me",
