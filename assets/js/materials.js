@@ -13,6 +13,8 @@
    Als títols pots posar fórmules en LaTeX entre $...$ (doblant les barres: \\frac).
    Els enllaços de Google Drive funcionen directament (compartits com "Qualsevol amb l'enllaç").
    Els vídeos de YouTube s'obrin dins de la pàgina automàticament.
+   Una unitat pot portar num: "★" (o un altre símbol) per a seccions especials
+   que no compten com a unitat numerada (p. ex. el Resum teòric).
    Per afegir un curs nou: copia un bloc de LEVELS, canvia la clau
    i crea una pàgina .html com 3eso.html amb data-level="clau-nova".
    ========================================================== */
@@ -39,7 +41,7 @@ window.LEVELS = {
       {
         title: { va: "Nombres racionals", es: "Números racionales", en: "Rational numbers" },
         items: [
-          { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t1-nombres-racionals.html", date: "2026-10-18" },
           { type: "exercises", title: { va: "Fitxa d'exercicis 1", es: "Ficha de ejercicios 1", en: "Worksheet 1" }, url: "" },
           { type: "video", title: { va: "Fraccions: operacions combinades", es: "Fracciones: operaciones combinadas", en: "Fractions: combined operations" }, url: "" }
         ]
@@ -79,6 +81,13 @@ window.LEVELS = {
     },
     units: [
       {
+        num: "★",
+        title: { va: "Resum Teòric", es: "Resumen Teórico", en: "Theory Summary" },
+        items: [
+          { type: "notes", title: { va: "Formulari-resum teòric de tot el curs (interactiu)", es: "Formulario-resumen teórico de todo el curso (interactivo)", en: "Whole-course theory summary and formula sheet (interactive)" }, desc: { va: "Àlgebra, programació lineal, anàlisi i probabilitat", es: "Álgebra, programación lineal, análisis y probabilidad", en: "Algebra, linear programming, calculus and probability" }, url: "materials/2batx-ccss/resum-teoric.html", date: "2026-10-18" }
+        ]
+      },
+      {
         title: { va: "Matrius i determinants", es: "Matrices y determinantes", en: "Matrices and determinants" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t1-matrius-determinants.html", date: "2026-10-18" },
@@ -88,7 +97,7 @@ window.LEVELS = {
       {
         title: { va: "Sistemes d'equacions lineals", es: "Sistemas de ecuaciones lineales", en: "Systems of linear equations" },
         items: [
-          { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t2-sistemes-equacions.html", date: "2026-10-18" }
         ]
       },
       {

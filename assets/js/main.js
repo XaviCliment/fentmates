@@ -199,7 +199,7 @@
       L.units.forEach(function (u) { u.items.forEach(function (i) { n++; if (isNew(i)) nNew++; }); });
       return '<a class="level-card" href="' + k + '.html" style="--c:' + L.color + '">' +
         '<span class="symbol" aria-hidden="true">' + esc(L.symbol || "") + "</span>" +
-        '<span class="tags"><span class="tag">' + L.units.length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>" +
+        '<span class="tags"><span class="tag">' + L.units.filter(function (u) { return !u.num; }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>" +
         (nNew ? '<span class="badge-new">' + nNew + " " + esc(t("level.new")) + "</span>" : "") + "</span>" +
         "<h3>" + esc(tx(L.name)) + "</h3>" +
         "<p>" + esc(tx(L.desc)) + "</p>" +
@@ -255,8 +255,10 @@
     box.querySelectorAll("details[open]").forEach(function (dd) { openIds[dd.dataset.i] = true; });
     var first = !box.dataset.rendered;
 
+    var unitN = 0;
     L.units.forEach(function (u, ui) {
       var utitle = tx(u.title);
+      var num = u.num || String(++unitN);
       var items = u.items.filter(function (it) {
         if (state.type !== "all" && it.type !== state.type) return false;
         if (!state.q) return true;
@@ -266,7 +268,7 @@
       var hasNew = items.some(isNew);
       var open = state.q || state.type !== "all" || openIds[ui] || (first && (ui === 0 || hasNew));
       html += '<details class="unit" data-i="' + ui + '"' + (open ? " open" : "") + ">" +
-        '<summary><span class="num">' + (ui + 1) + '</span><span class="u-title">' + esc(utitle) + "</span>" +
+        '<summary><span class="num">' + esc(num) + '</span><span class="u-title">' + esc(utitle) + "</span>" +
         (hasNew ? '<span class="badge-new">' + esc(t("badge.new")) + "</span>" : "") +
         '<span class="count">' + items.length + " " + esc(t("level.items")) + "</span>" + ICONS.chev + "</summary><ul>" +
         items.map(function (it) {

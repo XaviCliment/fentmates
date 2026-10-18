@@ -83,3 +83,10 @@ dins del mateix fitxer i recorden l'idioma i el tema triats a la web.
 2. **Opció enllaç.** Recurs *URL* amb l'adreça de la pàgina (Visualització: *Incrusta* o *Obri*).
 3. **Sense web.** Recurs *Fitxer* pujant directament el `.html` (funciona sol perquè
    les fórmules es carreguen des d'internet).
+
+## Resum teòric (2n Batx CCSS)
+
+`materials/2batx-ccss/resum-teoric.html` és el formulari-resum de tot el curs (trilingüe i
+interactiu), amb llicència CC BY-NC-SA 4.0 (sense finalitats comercials). Apareix a la pàgina de 2n Batx CCSS com a secció
+«Resum Teòric» abans de la Unitat 1: a `materials.js` porta `num: "★"`, i les unitats amb
+`num` no compten en la numeració (la Unitat 1 continua sent la 1).
