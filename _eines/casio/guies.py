@@ -1,0 +1,440 @@
+# -*- coding: utf-8 -*-
+"""
+Contingut de les guies «Amb la calculadora» (Casio ClassWiz fx-991SP CW).
+
+Marcatge dins dels textos:
+  [[OK]]          -> tecla (vegeu KEYS a build_casio.py)
+  [[7]]           -> qualsevol altre text es dibuixa com a tecla (xifres, lletres)
+  <<Matriz>>      -> opció de menú de la pantalla
+  {{text}}        -> resultat que es veu a la pantalla
+  $...$           -> fórmula LaTeX
+
+Els noms de menú són els del manual oficial en castellà (fx-991SP CW).
+"""
+
+GUIDES = []
+
+# ---------------------------------------------------------------- 3r ESO · U1
+GUIDES.append({
+  "file": "materials/3eso/casio-u1-racionals.html",
+  "back": "../../3eso.html", "back_label": "3r ESO",
+  "unit": "Unitat 1", "title": "Nombres racionals",
+  "color": "#ff7a50",
+  "intro": "Fraccions, operacions combinades, decimals periòdics i fracció generatriu.",
+  "sections": [
+    {"t": "Introduir fraccions i operar",
+     "why": "La tecla de fracció escriu la fracció tal com la veus al llibre. El resultat ix sempre simplificat.",
+     "steps": [
+        "Escriu el numerador, prem [[FRAC]] i escriu el denominador.",
+        "Per eixir de la fracció i continuar l'operació, prem [[RIGHT]].",
+        "Quan acabes, prem [[EXE]]."],
+     "ex": "Calcula $\\dfrac34-\\dfrac56\\cdot\\dfrac25$",
+     "keys": "[[3]] [[FRAC]] [[4]] [[RIGHT]] [[−]] [[5]] [[FRAC]] [[6]] [[RIGHT]] [[×]] [[2]] [[FRAC]] [[5]] [[EXE]]",
+     "screen": "5/12",
+     "tip": "La calculadora respecta la jerarquia de les operacions (primer el producte). Si vols forçar un altre ordre, posa parèntesis amb [[(]] i [[)]]."},
+    {"t": "Fraccions mixtes",
+     "steps": [
+        "Prem [[SHIFT]] [[FRAC]] per obtenir la plantilla de fracció mixta $\\square\\frac{\\square}{\\square}$.",
+        "Escriu la part entera, prem [[RIGHT]], el numerador, [[DOWN]] i el denominador."],
+     "ex": "$\\dfrac23+1\\dfrac12$",
+     "keys": "[[2]] [[FRAC]] [[3]] [[RIGHT]] [[+]] [[SHIFT]] [[FRAC]] [[1]] [[RIGHT]] [[1]] [[DOWN]] [[2]] [[EXE]]",
+     "screen": "13/6"},
+    {"t": "Canviar el format del resultat (decimal, mixta…)",
+     "why": "Amb la tecla [[FORMAT]] pots veure el mateix resultat de diverses maneres.",
+     "steps": [
+        "Amb el resultat a la pantalla, prem [[FORMAT]].",
+        "Tria <<Decimal>>, <<Fracción mixta>>, <<Fracción impropia>> o <<Dec periódico>> i prem [[OK]].",
+        "Per tornar al resultat original, prem [[FORMAT]] i tria <<Estándar>>."],
+     "ex": "Expressa $\\dfrac{13}{6}$ en decimal i com a fracció mixta",
+     "keys": "(amb 13/6 a la pantalla) [[FORMAT]] <<Decimal>> [[OK]] · [[FORMAT]] <<Fracción mixta>> [[OK]]",
+     "screen": "2,166666667 · 2 1/6"},
+    {"t": "Decimal periòdic → fracció generatriu",
+     "why": "La calculadora pot escriure un decimal amb la ratlla del període i convertir-lo en fracció.",
+     "steps": [
+        "Escriu la part que <b>no</b> es repeteix (part entera i anteperíode) amb la tecla [[.]].",
+        "Prem [[CATALOG]] i tria <<Cálculo numérico>> › <<Periodo>>.",
+        "Escriu les xifres del període i prem [[EXE]]: apareix la fracció generatriu."],
+     "ex": "Troba la fracció generatriu de $0{,}2\\overline{3}$ i de $1{,}2\\overline{36}$",
+     "keys": "[[0]] [[.]] [[2]] [[CATALOG]] <<Cálculo numérico>> <<Periodo>> [[3]] [[EXE]]<br>[[1]] [[.]] [[2]] [[CATALOG]] <<Cálculo numérico>> <<Periodo>> [[3]] [[6]] [[EXE]]",
+     "screen": "7/30 · 68/55",
+     "tip": "Ho pots fer al revés: calcula $7\\div30$ i amb [[FORMAT]] <<Dec periódico>> veuràs $0{,}2\\overline{3}$. Ideal per comprovar si has trobat bé la generatriu a mà."},
+    {"t": "Simplificar fraccions",
+     "steps": [
+        "Escriu la fracció amb [[FRAC]] i prem [[EXE]].",
+        "Ix directament la fracció irreductible."],
+     "ex": "Simplifica $\\dfrac{234}{678}$",
+     "keys": "[[2]] [[3]] [[4]] [[FRAC]] [[6]] [[7]] [[8]] [[EXE]]",
+     "screen": "39/113"},
+    {"t": "Màxim comú divisor i mínim comú múltiple",
+     "steps": [
+        "Prem [[CATALOG]] i tria <<Cálculo numérico>> › <<MCD>> (o <<MCM>>).",
+        "Escriu els dos nombres separats per una coma: la coma és [[SHIFT]] [[)]].",
+        "Tanca el parèntesi amb [[)]] i prem [[EXE]]."],
+     "ex": "m.c.d.(28, 35) i m.c.m.(9, 15)",
+     "keys": "[[CATALOG]] <<Cálculo numérico>> <<MCD>> [[2]] [[8]] [[SHIFT]] [[)]] [[3]] [[5]] [[)]] [[EXE]]",
+     "screen": "7 · 45",
+     "tip": "Molt útil per trobar el denominador comú abans de sumar fraccions a mà."},
+    {"t": "Potències amb exponent negatiu",
+     "steps": [
+        "Posa la base entre parèntesis i prem [[POW]] per escriure l'exponent.",
+        "El signe negatiu és [[SHIFT]] [[−]] (no la resta)."],
+     "ex": "$\\left(\\dfrac23\\right)^{-2}$",
+     "keys": "[[(]] [[2]] [[FRAC]] [[3]] [[RIGHT]] [[)]] [[POW]] [[SHIFT]] [[−]] [[2]] [[EXE]]",
+     "screen": "9/4"},
+    {"t": "Comprovar un resultat fet a mà (Verificar)",
+     "why": "La funció Verificar et diu si una igualtat és <b>Verdadero</b> o <b>Falso</b>. Perfecte per autocorregir-te sense veure la solució.",
+     "steps": [
+        "A l'aplicació Calcular, prem [[TOOLS]] i tria <<Verificar ON>>.",
+        "Escriu l'operació, prem [[CATALOG]] › <<Verificar>> › <<=>> i escriu el teu resultat.",
+        "Prem [[EXE]]. Quan acabes, desactiva-ho: [[TOOLS]] › <<Verificar OFF>>."],
+     "ex": "És cert que $\\dfrac12+\\dfrac13=\\dfrac56$?",
+     "keys": "[[1]] [[FRAC]] [[2]] [[RIGHT]] [[+]] [[1]] [[FRAC]] [[3]] [[RIGHT]] [[CATALOG]] <<Verificar>> <<=>> [[5]] [[FRAC]] [[6]] [[EXE]]",
+     "screen": "Verdadero"},
+  ]})
+
+# ---------------------------------------------------------------- 3r ESO · U2
+GUIDES.append({
+  "file": "materials/3eso/casio-u2-reals.html",
+  "back": "../../3eso.html", "back_label": "3r ESO",
+  "unit": "Unitat 2", "title": "Nombres reals",
+  "color": "#ff7a50",
+  "intro": "Radicals, potències d'exponent fraccionari, aproximacions, notació científica i intervals.",
+  "sections": [
+    {"t": "Arrels quadrades i radicals simplificats",
+     "why": "Amb la configuració de fàbrica la calculadora deixa els radicals simplificats, com al quadern.",
+     "steps": ["Prem [[SQRT]], escriu el radicand i prem [[EXE]]."],
+     "ex": "$\\sqrt{12}$ i $\\sqrt{18}+\\sqrt8$",
+     "keys": "[[SQRT]] [[1]] [[2]] [[EXE]]<br>[[SQRT]] [[1]] [[8]] [[RIGHT]] [[+]] [[SQRT]] [[8]] [[EXE]]",
+     "screen": "2√3 · 5√2",
+     "tip": "Si vols el valor decimal, prem [[FORMAT]] › <<Decimal>>."},
+    {"t": "Racionalitzar (comprovació)",
+     "steps": ["Escriu la fracció amb l'arrel al denominador i prem [[EXE]]. La calculadora ja la dona racionalitzada."],
+     "ex": "$\\dfrac{6}{\\sqrt3}$",
+     "keys": "[[6]] [[FRAC]] [[SQRT]] [[3]] [[EXE]]",
+     "screen": "2√3"},
+    {"t": "Arrels d'índex qualsevol com a potència",
+     "why": "Recorda que $\\sqrt[n]{a^m}=a^{m/n}$. Amb la tecla de potència i una fracció a l'exponent pots calcular qualsevol arrel.",
+     "steps": ["Escriu la base, prem [[POW]] i escriu l'exponent en forma de fracció amb [[FRAC]]."],
+     "ex": "$\\sqrt[3]{8}=8^{1/3}$ i $\\sqrt[4]{16^3}=16^{3/4}$",
+     "keys": "[[8]] [[POW]] [[1]] [[FRAC]] [[3]] [[EXE]]<br>[[1]] [[6]] [[POW]] [[3]] [[FRAC]] [[4]] [[EXE]]",
+     "screen": "2 · 8"},
+    {"t": "Aproximar amb un nombre fix de decimals",
+     "steps": [
+        "Prem [[CONFIG]] › <<Config cálculo>> › <<Formato número>> › <<Fijar decim>>.",
+        "Tria el nombre de decimals (per exemple 3) i prem [[OK]].",
+        "Tots els resultats en decimal s'arrodoniran. Per tornar com abans: <<Formato número>> › <<Normal>> › <<Normal 2>>."],
+     "ex": "Aproxima $\\pi$ i $\\sqrt2$ a les mil·lèsimes",
+     "keys": "(Fijar decim 3) [[SHIFT]] [[7]] (π) [[FORMAT]] <<Decimal>> [[OK]]",
+     "screen": "3,142 · 1,414"},
+    {"t": "Error absolut i error relatiu",
+     "why": "Fes servir la memòria Ans, que guarda l'últim resultat.",
+     "steps": [
+        "Calcula l'error absolut amb el valor absolut: [[CATALOG]] › <<Cálculo numérico>> › <<Valor absoluto>>.",
+        "Divideix l'últim resultat pel valor exacte: prem [[÷]] (la calculadora escriu Ans÷ sola)."],
+     "ex": "Aproximem $\\sqrt2$ per $1{,}41$. Errors absolut i relatiu?",
+     "keys": "[[CATALOG]] <<Cálculo numérico>> <<Valor absoluto>> [[SQRT]] [[2]] [[RIGHT]] [[−]] [[1]] [[.]] [[4]] [[1]] [[EXE]] → [[÷]] [[SQRT]] [[2]] [[EXE]]",
+     "screen": "Ea ≈ 0,004213562 · Er ≈ 0,002979 (0,30 %)"},
+    {"t": "Notació científica",
+     "steps": [
+        "Per escriure $3{,}2\\cdot10^5$: [[3]] [[.]] [[2]] [[×]] [[1]] [[0]] [[POW]] [[5]].",
+        "Per veure els resultats en notació científica: [[CONFIG]] › <<Config cálculo>> › <<Formato número>> › <<Not cient>> i tria les xifres significatives."],
+     "ex": "$(3{,}2\\cdot10^5)\\cdot(4\\cdot10^{-8})$",
+     "keys": "[[3]] [[.]] [[2]] [[×]] [[1]] [[0]] [[POW]] [[5]] [[RIGHT]] [[×]] [[4]] [[×]] [[1]] [[0]] [[POW]] [[SHIFT]] [[−]] [[8]] [[EXE]]",
+     "screen": "0,0128  (amb Not cient 3: 1,28×10⁻²)"},
+    {"t": "Representar intervals a la recta real",
+     "why": "L'aplicació Math Box dibuixa fins a tres intervals o semirectes alhora: ideal per veure unions i interseccions.",
+     "steps": [
+        "Prem [[HOME]], tria l'aplicació <<Math Box>> i prem [[OK]]. Tria <<Recta real>>.",
+        "Selecciona <<A:>>, tria el tipus (per exemple <<a<x≤b>>) i escriu els extrems.",
+        "Repeteix-ho amb <<B:>> si vols comparar dos intervals. Després tria <<Ejecutar>>.",
+        "El punt ple vol dir que l'extrem està inclòs, i el buit que no ho està."],
+     "ex": "Representa $(-2,3]$ i $[1,+\\infty)$ i observa'n la intersecció",
+     "keys": "<<A:>> <<a<x≤b>> [[SHIFT]] [[−]] [[2]] [[EXE]] [[3]] [[EXE]] <<Confirmar>> · <<B:>> <<x≥a>> [[1]] [[EXE]] <<Confirmar>> · <<Ejecutar>>",
+     "screen": "Dues rectes: la intersecció és [1, 3]"},
+  ]})
+
+# ---------------------------------------------------------------- 3r ESO · U3
+GUIDES.append({
+  "file": "materials/3eso/casio-u3-polinomis.html",
+  "back": "../../3eso.html", "back_label": "3r ESO",
+  "unit": "Unitat 3", "title": "Polinomis",
+  "color": "#ff7a50",
+  "intro": "Valor numèric, arrels d'un polinomi i comprovació d'identitats notables i factoritzacions.",
+  "sections": [
+    {"t": "Valor numèric d'un polinomi",
+     "why": "Defineix el polinomi una vegada com a f(x) i després calcula f(a) per a tants valors com vulgues. Molt útil per al teorema del residu: $P(a)$ és el residu de dividir entre $(x-a)$.",
+     "steps": [
+        "A l'aplicació Calcular, prem [[FUNC]] › <<Definir f(x)>>.",
+        "Escriu el polinomi fent servir la tecla [[X]] i prem [[EXE]].",
+        "Per calcular-lo: [[FUNC]] › <<f(x)>>, escriu el valor, tanca amb [[)]] i prem [[EXE]]."],
+     "ex": "$P(x)=x^3-2x^2-5x+6$. Calcula $P(1)$ i $P(-1)$",
+     "keys": "[[FUNC]] <<Definir f(x)>> [[X]] [[POW]] [[3]] [[RIGHT]] [[−]] [[2]] [[X]] [[SQ]] [[−]] [[5]] [[X]] [[+]] [[6]] [[EXE]]<br>[[FUNC]] <<f(x)>> [[1]] [[)]] [[EXE]] · [[FUNC]] <<f(x)>> [[SHIFT]] [[−]] [[1]] [[)]] [[EXE]]",
+     "screen": "P(1) = 0  (x = 1 és arrel) · P(−1) = 8",
+     "tip": "Si $P(a)=0$, aleshores $(x-a)$ és un factor del polinomi: ja saps per on començar Ruffini."},
+    {"t": "Buscar les arrels enteres amb una taula",
+     "steps": [
+        "Prem [[HOME]] › aplicació <<Tabla>> › [[OK]]. Si no has definit f(x), fes-ho amb [[TOOLS]] › <<Def f(x)/g(x)>> › <<Definir f(x)>>.",
+        "Prem [[TOOLS]] › <<Rango tabla>>. Posa Inic. = −6, Final = 6 i Paso = 1. Prem [[EXE]].",
+        "Busca a la taula els valors de x on f(x) = 0: són les arrels enteres."],
+     "ex": "Arrels enteres de $P(x)=x^3-2x^2-5x+6$",
+     "keys": "[[HOME]] <<Tabla>> [[OK]] [[TOOLS]] <<Rango tabla>> [[SHIFT]] [[−]] [[6]] [[EXE]] [[6]] [[EXE]] [[1]] [[EXE]] [[EXE]]",
+     "screen": "f(x) = 0 per a x = −2, x = 1 i x = 3",
+     "tip": "Les arrels enteres són divisors del terme independent (6). Per això n'hi ha prou de mirar entre −6 i 6."},
+    {"t": "Arrels d'un polinomi de grau 2, 3 o 4",
+     "steps": [
+        "Prem [[HOME]] › aplicació <<Ecuación>> › <<Polinómica>> i tria el grau.",
+        "Escriu els coeficients en ordre (prem [[EXE]] després de cadascun). Si falta algun terme, el coeficient és 0.",
+        "Prem [[EXE]] i ves passant les solucions amb [[DOWN]]."],
+     "ex": "Arrels de $x^3-2x^2-5x+6$",
+     "keys": "[[HOME]] <<Ecuación>> [[OK]] <<Polinómica>> <<ax³+bx²+cx+d>> [[1]] [[EXE]] [[SHIFT]] [[−]] [[2]] [[EXE]] [[SHIFT]] [[−]] [[5]] [[EXE]] [[6]] [[EXE]] [[EXE]]",
+     "screen": "x₁ = 3 · x₂ = −2 · x₃ = 1",
+     "tip": "Amb les arrels, la factorització és immediata: $P(x)=(x-3)(x+2)(x-1)$."},
+    {"t": "Comprovar una identitat notable o una factorització",
+     "why": "Si dues expressions són iguals, a la taula tindran els mateixos valors per a tots els x.",
+     "steps": [
+        "A l'aplicació Tabla, defineix f(x) amb una expressió i g(x) amb l'altra.",
+        "Genera la taula: si les columnes f(x) i g(x) coincideixen, la igualtat és certa."],
+     "ex": "És cert que $(x+3)^2=x^2+6x+9$?",
+     "keys": "[[TOOLS]] <<Def f(x)/g(x)>> <<Definir f(x)>> [[(]] [[X]] [[+]] [[3]] [[)]] [[SQ]] [[EXE]] · <<Definir g(x)>> [[X]] [[SQ]] [[+]] [[6]] [[X]] [[+]] [[9]] [[EXE]] · [[EXE]]",
+     "screen": "Columnes f(x) i g(x) idèntiques"},
+  ]})
+
+# ---------------------------------------------------------------- 3r ESO · U4
+GUIDES.append({
+  "file": "materials/3eso/casio-u4-equacions.html",
+  "back": "../../3eso.html", "back_label": "3r ESO",
+  "unit": "Unitat 4", "title": "Equacions i sistemes",
+  "color": "#ff7a50",
+  "intro": "Equacions de segon grau, sistemes de dues equacions i comprovació de les teues solucions.",
+  "sections": [
+    {"t": "Equacions de segon grau",
+     "why": "A més de les solucions, la calculadora et dona el vèrtex de la paràbola $y=ax^2+bx+c$.",
+     "steps": [
+        "Prem [[HOME]] › aplicació <<Ecuación>> › [[OK]] › <<Polinómica>> › <<ax²+bx+c>>.",
+        "Escriu a, b i c (amb [[EXE]] després de cadascun). <b>Abans</b>, passa-ho tot a un costat: $ax^2+bx+c=0$.",
+        "Prem [[EXE]] i baixa amb [[DOWN]] per veure les dues solucions i el vèrtex."],
+     "ex": "$x^2-5x+6=0$",
+     "keys": "[[1]] [[EXE]] [[SHIFT]] [[−]] [[5]] [[EXE]] [[6]] [[EXE]] [[EXE]]",
+     "screen": "x₁ = 3 · x₂ = 2 · mínim (5/2, −1/4)",
+     "tip": "Si l'equació no té solució real, ix un resultat amb «i» (nombres complexos). Per a 3r d'ESO això vol dir que <b>no té solució</b>. Si vols, ho pots desactivar: [[TOOLS]] › <<Raíz compleja>> › <<Off>>, i aleshores ix «Raíces no reales»."},
+    {"t": "Sistemes de dues equacions amb dues incògnites",
+     "steps": [
+        "Escriu cada equació en la forma $ax+by=c$.",
+        "Prem [[HOME]] › <<Ecuación>> › <<Sist ec lineal>> › <<2 incógnitas>>.",
+        "Escriu els coeficients fila per fila (a, b, c de la primera equació i després de la segona). Prem [[EXE]]."],
+     "ex": "$\\begin{cases}2x+3y=12\\\\x-y=1\\end{cases}$",
+     "keys": "[[2]] [[EXE]] [[3]] [[EXE]] [[1]] [[2]] [[EXE]] [[1]] [[EXE]] [[SHIFT]] [[−]] [[1]] [[EXE]] [[1]] [[EXE]] [[EXE]]",
+     "screen": "x = 3 · y = 2"},
+    {"t": "Comprovar la teua solució (Verificar)",
+     "why": "En lloc de donar-te la solució, la calculadora et pregunta la teua i et diu si és correcta.",
+     "steps": [
+        "Dins de l'aplicació Ecuación, prem [[TOOLS]] › <<Verificar ON>>.",
+        "Escriu els coeficients com sempre i prem [[EXE]].",
+        "Tria <<Introducir sol>> i escriu la teua solució (o tria <<Sin solución>> / <<Infin soluciones>>).",
+        "La calculadora contesta Verdadero o Falso."],
+     "ex": "Comprova que $x=3,\\ y=2$ és la solució del sistema anterior",
+     "keys": "[[TOOLS]] <<Verificar ON>> … [[EXE]] <<Introducir sol>> [[3]] [[EXE]] [[2]] [[EXE]]",
+     "screen": "Verdadero",
+     "tip": "Verificar funciona amb equacions de segon grau i sistemes de 2 incògnites."},
+    {"t": "Qualsevol equació (Resolver)",
+     "why": "Per a equacions que no són polinòmiques o que tens sense ordenar. Dona una solució aproximada a partir d'un valor inicial.",
+     "steps": [
+        "Prem [[HOME]] › <<Ecuación>> › <<Resolver>>.",
+        "Escriu l'equació. El signe = s'obté amb [[CATALOG]] › <<Ecuación>> › <<=>>. Prem [[EXE]].",
+        "Confirma la incògnita x, escriu un valor inicial proper a la solució i prem [[EXE]]."],
+     "ex": "$\\dfrac{x}{2}+\\dfrac{x-1}{3}=4$",
+     "keys": "[[X]] [[FRAC]] [[2]] [[RIGHT]] [[+]] [[X]] [[−]] [[1]] [[FRAC]] [[3]] [[RIGHT]] [[CATALOG]] <<Ecuación>> <<=>> [[4]] [[EXE]] [[EXE]] [[1]] [[EXE]]",
+     "screen": "x = 5,2  (= 26/5)"},
+  ]})
+
+# ---------------------------------------------------------------- 2n Batx CCSS · U1
+GUIDES.append({
+  "file": "materials/2batx-ccss/casio-u1-matrius.html",
+  "back": "../../2batx-ccss.html", "back_label": "2n Batxillerat CCSS",
+  "unit": "Unitat 1", "title": "Matrius i determinants",
+  "color": "#2bb3a3",
+  "intro": "Matrius de fins a 4×4: operacions, potències, inversa, determinant, transposada, rang i equacions matricials.",
+  "sections": [
+    {"t": "Entrar a l'aplicació i guardar una matriu",
+     "why": "La calculadora treballa amb quatre matrius guardades: MatA, MatB, MatC i MatD.",
+     "steps": [
+        "Prem [[HOME]], tria l'aplicació <<Matriz>> i prem [[OK]].",
+        "Prem [[TOOLS]] per veure la llista de matrius. Tria <<MatA:>> i prem [[OK]] (si ja n'hi havia una, tria <<Definir nuevo/a>>).",
+        "Tria <<Filas>> i <<Columnas>> i després <<Confirmar>>.",
+        "Escriu els elements fila a fila, prem [[EXE]] després de cada número. Els negatius s'escriuen amb [[SHIFT]] [[−]].",
+        "Prem [[AC]] per tornar a la pantalla de càlcul."],
+     "ex": "Guarda $A=\\begin{pmatrix}2&1\\\\3&2\\end{pmatrix}$ i $B=\\begin{pmatrix}1&-1\\\\0&2\\end{pmatrix}$",
+     "keys": "[[TOOLS]] <<MatA:>> [[OK]] <<Confirmar>> [[2]] [[EXE]] [[1]] [[EXE]] [[3]] [[EXE]] [[2]] [[EXE]] [[AC]]<br>[[TOOLS]] <<MatB:>> [[OK]] <<Confirmar>> [[1]] [[EXE]] [[SHIFT]] [[−]] [[1]] [[EXE]] [[0]] [[EXE]] [[2]] [[EXE]] [[AC]]",
+     "screen": "MatA: 2×2 · MatB: 2×2",
+     "tip": "Les matrius es queden guardades encara que apagues la calculadora. Si et cal canviar-ne un element, tria la matriu a la llista i <<Editar>>."},
+    {"t": "Escriure una matriu en una operació",
+     "steps": [
+        "A la pantalla de càlcul, prem [[CATALOG]] › <<Matriz>> › <<MatA>> (o la que vulgues).",
+        "Les operacions + − × es fan amb les tecles normals."],
+     "ex": "$A+B$, $A\\cdot B$ i $3A$",
+     "keys": "[[CATALOG]] <<Matriz>> <<MatA>> [[+]] [[CATALOG]] <<Matriz>> <<MatB>> [[EXE]]<br>[[CATALOG]] <<Matriz>> <<MatA>> [[×]] [[CATALOG]] <<Matriz>> <<MatB>> [[EXE]]<br>[[3]] [[×]] [[CATALOG]] <<Matriz>> <<MatA>> [[EXE]]",
+     "screen": "A+B = [[3,0],[3,4]] · A·B = [[2,0],[3,1]] · 3A = [[6,3],[9,6]]",
+     "tip": "Si les dimensions no permeten l'operació, ix «ERROR Dimensión». Recorda: $A_{m\\times n}\\cdot B_{n\\times p}$ (les columnes d'A han de coincidir amb les files de B)."},
+    {"t": "Potències, inversa, transposada i identitat",
+     "why": "Totes estan dins de [[CATALOG]] › <<Matriz>> › <<Cálculos matriz>>.",
+     "steps": [
+        "<b>Quadrat i cub:</b> escriu MatA i després <<Cálculos matriz>> › <<Mat al cuadrado>> o <<Matriz cúbica>>.",
+        "<b>Inversa:</b> escriu MatA i després <<Cálculos matriz>> › <<Matriz inversa>> (posa el ⁻¹).",
+        "<b>Transposada:</b> <<Cálculos matriz>> › <<Transpuesta>> i després MatA.",
+        "<b>Identitat:</b> <<Cálculos matriz>> › <<Identidad>> i la dimensió (per exemple 2)."],
+     "ex": "$A^2$, $A^{-1}$ i $A^t$",
+     "keys": "[[CATALOG]] <<Matriz>> <<MatA>> [[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<Mat al cuadrado>> [[EXE]]<br>[[CATALOG]] <<Matriz>> <<MatA>> [[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<Matriz inversa>> [[EXE]]<br>[[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<Transpuesta>> [[CATALOG]] <<Matriz>> <<MatA>> [[)]] [[EXE]]",
+     "screen": "A² = [[7,4],[12,7]] · A⁻¹ = [[2,−1],[−3,2]] · Aᵗ = [[2,3],[1,2]]",
+     "tip": "Si la matriu no té inversa (determinant 0), la calculadora dona error. Els elements fraccionaris de la inversa es veuen com a fraccions."},
+    {"t": "Determinant",
+     "steps": ["[[CATALOG]] › <<Matriz>> › <<Cálculos matriz>> › <<Determinante>>, després MatA, tanca amb [[)]] i prem [[EXE]]."],
+     "ex": "$|A|$",
+     "keys": "[[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<Determinante>> [[CATALOG]] <<Matriz>> <<MatA>> [[)]] [[EXE]]",
+     "screen": "1",
+     "tip": "Només per a matrius quadrades (fins a 4×4). Ideal per comprovar els determinants que calcules per Sarrus o per adjunts."},
+    {"t": "Rang d'una matriu",
+     "why": "La calculadora no té una funció «rang», però el pots llegir a la forma esglaonada: el rang és el nombre de files que <b>no</b> són tot zeros.",
+     "steps": [
+        "Guarda la matriu (per exemple a MatC).",
+        "[[CATALOG]] › <<Matriz>> › <<Cálculos matriz>> › <<F esc reducida>> i després MatC. Prem [[EXE]].",
+        "Compta les files que no són totes zero."],
+     "ex": "Rang de $C=\\begin{pmatrix}1&2&3\\\\2&4&6\\\\1&0&1\\end{pmatrix}$",
+     "keys": "[[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<F esc reducida>> [[CATALOG]] <<Matriz>> <<MatC>> [[)]] [[EXE]]",
+     "screen": "[[1,0,1],[0,1,1],[0,0,0]] → rang 2",
+     "tip": "<<Form escalonada>> fa el mateix que el mètode de Gauss, i <<F esc reducida>> deixa uns i zeros (Gauss-Jordan). Totes dues serveixen per al rang."},
+    {"t": "Equacions matricials",
+     "why": "Primer aïlla la X a mà (amb l'ordre correcte!) i després calcula amb la calculadora.",
+     "steps": [
+        "$AX=B\\ \\Rightarrow\\ X=A^{-1}B$ (la inversa multiplica per l'<b>esquerra</b>).",
+        "$XA=B\\ \\Rightarrow\\ X=BA^{-1}$ (la inversa multiplica per la <b>dreta</b>).",
+        "Escriu l'expressió amb les matrius guardades i prem [[EXE]]."],
+     "ex": "Resol $AX=B$ i $XA=B$",
+     "keys": "[[CATALOG]] <<Matriz>> <<MatA>> <<Matriz inversa>> [[×]] [[CATALOG]] <<Matriz>> <<MatB>> [[EXE]]<br>[[CATALOG]] <<Matriz>> <<MatB>> [[×]] [[CATALOG]] <<Matriz>> <<MatA>> <<Matriz inversa>> [[EXE]]",
+     "screen": "AX=B: X = [[2,−4],[−3,7]] · XA=B: X = [[5,−3],[−6,4]]",
+     "tip": "Com que el producte de matrius no és commutatiu, $A^{-1}B\\neq BA^{-1}$: fixa't que els dos resultats són diferents."},
+    {"t": "Guardar un resultat per a usar-lo després",
+     "steps": [
+        "El resultat de l'última operació queda a <<MatAns>> ([[CATALOG]] › <<Matriz>> › <<MatAns>>).",
+        "Per guardar-lo en una matriu: amb el resultat a la pantalla prem [[TOOLS]] › <<Guardar>> › <<MatD>>."],
+     "ex": "Guarda $A^{-1}$ a MatD per fer-la servir en altres càlculs",
+     "keys": "(amb A⁻¹ a la pantalla) [[TOOLS]] <<Guardar>> <<MatD>>",
+     "screen": "MatD = [[2,−1],[−3,2]]"},
+  ]})
+
+# ---------------------------------------------------------------- 2n Batx CCSS · U2
+GUIDES.append({
+  "file": "materials/2batx-ccss/casio-u2-sistemes.html",
+  "back": "../../2batx-ccss.html", "back_label": "2n Batxillerat CCSS",
+  "unit": "Unitat 2", "title": "Sistemes d'equacions lineals",
+  "color": "#2bb3a3",
+  "intro": "Resolució de sistemes de 2, 3 i 4 incògnites, mètode de Gauss, Cramer, forma matricial i discussió per rangs.",
+  "sections": [
+    {"t": "Resoldre un sistema compatible determinat",
+     "steps": [
+        "Prem [[HOME]] › aplicació <<Ecuación>> › [[OK]] › <<Sist ec lineal>> i tria el nombre d'incògnites.",
+        "Escriu els coeficients de cada equació en ordre: x, y, z i el terme independent. Prem [[EXE]] després de cada número.",
+        "Prem [[EXE]] per resoldre. Baixa amb [[DOWN]] per veure x, y i z."],
+     "ex": "$\\begin{cases}x+y+z=6\\\\2x-3y-z=-9\\\\3x+2y-5z=-1\\end{cases}$ (PAU Setembre 1996)",
+     "keys": "<<3 incógnitas>> [[1]] [[EXE]] [[1]] [[EXE]] [[1]] [[EXE]] [[6]] [[EXE]] [[2]] [[EXE]] [[SHIFT]] [[−]] [[3]] [[EXE]] [[SHIFT]] [[−]] [[1]] [[EXE]] [[SHIFT]] [[−]] [[9]] [[EXE]] [[3]] [[EXE]] [[2]] [[EXE]] [[SHIFT]] [[−]] [[5]] [[EXE]] [[SHIFT]] [[−]] [[1]] [[EXE]] [[EXE]]",
+     "screen": "x = 1 · y = 3 · z = 2",
+     "tip": "Si una incògnita no apareix en una equació, el seu coeficient és 0. No t'oblides de posar-lo!"},
+    {"t": "Què passa si el sistema no és compatible determinat",
+     "why": "L'aplicació Ecuación només et diu si el sistema no té solució o en té infinites. <b>No</b> et dona la solució en funció d'un paràmetre: això ho has de fer tu (o amb la forma esglaonada).",
+     "steps": [
+        "Si el sistema és incompatible, la calculadora indica que no hi ha solució.",
+        "Si és compatible indeterminat, indica que hi ha infinites solucions.",
+        "En els dos casos, fes el pas següent (Gauss amb la matriu ampliada) per a la discussió completa."],
+     "ex": "$\\begin{cases}x+y+2z=4\\\\x+2y+3z=6\\\\x+3y+4z=8\\end{cases}$ (PAU Setembre 1995)",
+     "keys": "<<3 incógnitas>> [[1]] [[EXE]] [[1]] [[EXE]] [[2]] [[EXE]] [[4]] [[EXE]] [[1]] [[EXE]] [[2]] [[EXE]] [[3]] [[EXE]] [[6]] [[EXE]] [[1]] [[EXE]] [[3]] [[EXE]] [[4]] [[EXE]] [[8]] [[EXE]] [[EXE]]",
+     "screen": "Infinites solucions (SCI)"},
+    {"t": "Mètode de Gauss amb la matriu ampliada",
+     "why": "Amb l'aplicació Matriz pots esglaonar la matriu ampliada $(A|B)$ i llegir-ne els rangs i la solució, també quan hi ha paràmetres lliures.",
+     "steps": [
+        "A l'aplicació <<Matriz>>, guarda la matriu ampliada (per exemple 3 files × 4 columnes) a MatA.",
+        "Calcula [[CATALOG]] › <<Matriz>> › <<Cálculos matriz>> › <<F esc reducida>> de MatA i prem [[EXE]].",
+        "Llig la matriu final com un sistema. Una fila $(0\\ 0\\ 0\\,|\\,k)$ amb $k\\neq0$ vol dir <b>incompatible</b>. Si hi ha menys files no nul·les que incògnites, és <b>compatible indeterminat</b>."],
+     "ex": "Matriu ampliada del sistema anterior: $\\left(\\begin{array}{ccc|c}1&1&2&4\\\\1&2&3&6\\\\1&3&4&8\\end{array}\\right)$",
+     "keys": "[[TOOLS]] <<MatA:>> <<Filas>> <<3 filas>> <<Columnas>> <<4 columnas>> <<Confirmar>> (12 elements amb [[EXE]]) [[AC]] [[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<F esc reducida>> [[CATALOG]] <<Matriz>> <<MatA>> [[)]] [[EXE]]",
+     "screen": "[[1,0,1,2],[0,1,1,2],[0,0,0,0]]",
+     "tip": "Es llig així: $x+z=2$ i $y+z=2$. Si fem $z=\\lambda$: $x=2-\\lambda,\\ y=2-\\lambda,\\ z=\\lambda$. El rang d'A és 2, igual que el de A*, i és menor que 3 incògnites: per Rouché-Frobenius, SCI."},
+    {"t": "Teorema de Rouché-Frobenius (rangs)",
+     "steps": [
+        "Guarda la matriu de coeficients A a MatA i l'ampliada A* a MatB.",
+        "Calcula la forma esglaonada (<<Form escalonada>> o <<F esc reducida>>) de cadascuna i compta les files no nul·les.",
+        "Compara: rang A = rang A* = nre. d'incògnites → SCD; rang A = rang A* < nre. d'incògnites → SCI; rang A ≠ rang A* → SI."],
+     "ex": "Canvia el 8 per un 9 al sistema anterior",
+     "keys": "F esc reducida de l'ampliada amb 9",
+     "screen": "[[1,0,1,0],[0,1,1,0],[0,0,0,1]] → rang A = 2, rang A* = 3 → SI"},
+    {"t": "Regla de Cramer (determinants)",
+     "steps": [
+        "Guarda la matriu de coeficients a MatA i calcula'n el determinant: si és 0, no pots aplicar Cramer.",
+        "Guarda a MatB la matriu amb la columna de la x substituïda pels termes independents i calcula'n el determinant.",
+        "$x=\\dfrac{|A_x|}{|A|}$. Fes el mateix per a y i z (pots reutilitzar MatB editant-la)."],
+     "ex": "Primer sistema de la pàgina: $|A|$ i $|A_x|$",
+     "keys": "[[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<Determinante>> [[CATALOG]] <<Matriz>> <<MatA>> [[)]] [[÷]] [[CATALOG]] <<Matriz>> <<Cálculos matriz>> <<Determinante>> [[CATALOG]] <<Matriz>> <<MatB>> [[)]] [[EXE]]",
+     "screen": "|A| = 37 · |Aₓ| = 37 → x = 37/37 = 1"},
+    {"t": "Forma matricial: $X=A^{-1}B$",
+     "steps": [
+        "Guarda la matriu de coeficients A (3×3) a MatA i la columna de termes independents B (3×1) a MatB.",
+        "Calcula $A^{-1}\\cdot B$: el resultat és la columna $(x,\\ y,\\ z)$."],
+     "ex": "Primer sistema de la pàgina en forma matricial",
+     "keys": "[[CATALOG]] <<Matriz>> <<MatA>> <<Matriz inversa>> [[×]] [[CATALOG]] <<Matriz>> <<MatB>> [[EXE]]",
+     "screen": "[[1],[3],[2]]",
+     "tip": "Només funciona si A té inversa ($|A|\\neq0$), és a dir, quan el sistema és compatible determinat."},
+    {"t": "Comprovar la teua solució (Verificar)",
+     "steps": [
+        "A l'aplicació Ecuación, [[TOOLS]] › <<Verificar ON>>. Funciona amb sistemes de <b>2 incògnites</b>.",
+        "Escriu els coeficients, prem [[EXE]] i tria <<Introducir sol>>, <<Sin solución>> o <<Infin soluciones>>.",
+        "Per a sistemes de 3 incògnites, comprova substituint: a Calcular, [[TOOLS]] › <<Verificar ON>> i escriu, per exemple, $1+3+2=6$."],
+     "ex": "Comprova la primera equació amb $x=1,\\ y=3,\\ z=2$",
+     "keys": "[[1]] [[+]] [[3]] [[+]] [[2]] [[CATALOG]] <<Verificar>> <<=>> [[6]] [[EXE]]",
+     "screen": "Verdadero"},
+  ]})
+
+# ---------------------------------------------------------------- 2n Batx CCSS · U3
+GUIDES.append({
+  "file": "materials/2batx-ccss/casio-u3-programacio-lineal.html",
+  "back": "../../2batx-ccss.html", "back_label": "2n Batxillerat CCSS",
+  "unit": "Unitat 3", "title": "Programació lineal",
+  "color": "#2bb3a3",
+  "intro": "La calculadora no dibuixa la regió factible, però t'ajuda a trobar els vèrtexs, comprovar restriccions i avaluar la funció objectiu ràpidament.",
+  "sections": [
+    {"t": "Punts per dibuixar cada recta",
+     "why": "Per representar $2x+y=80$, aïlla la y: $y=80-2x$. Amb una taula obtens tots els punts que vulgues.",
+     "steps": [
+        "Prem [[HOME]] › <<Tabla>> › [[OK]]. Defineix f(x) i g(x) amb dues restriccions aïllades: [[TOOLS]] › <<Def f(x)/g(x)>>.",
+        "[[TOOLS]] › <<Rango tabla>>: per exemple Inic. 0, Final 60, Paso 10. Prem [[EXE]]."],
+     "ex": "Ensaïmades (PAU Juny 2010): $2x+y\\le80$ i $x+y\\le60$",
+     "keys": "<<Definir f(x)>> [[8]] [[0]] [[−]] [[2]] [[X]] [[EXE]] · <<Definir g(x)>> [[6]] [[0]] [[−]] [[X]] [[EXE]] · <<Rango tabla>> [[0]] [[EXE]] [[6]] [[0]] [[EXE]] [[1]] [[0]] [[EXE]] [[EXE]]",
+     "screen": "x=0: 80 | 60 · x=20: 40 | 40 · x=40: 0 | 20",
+     "tip": "Fixa't: per a x = 20 les dues columnes valen 40. Això vol dir que les rectes es tallen al punt (20, 40)!"},
+    {"t": "Vèrtexs: tall de dues rectes",
+     "steps": [
+        "Prem [[HOME]] › <<Ecuación>> › <<Sist ec lineal>> › <<2 incógnitas>>.",
+        "Escriu les dues rectes com a igualtats $ax+by=c$ i prem [[EXE]].",
+        "Repeteix-ho per a cada parella de rectes que formen un vèrtex. Recorda que $x=0$ i $y=0$ també són rectes."],
+     "ex": "Tall de $2x+y=80$ i $x+y=60$",
+     "keys": "[[2]] [[EXE]] [[1]] [[EXE]] [[8]] [[0]] [[EXE]] [[1]] [[EXE]] [[1]] [[EXE]] [[6]] [[0]] [[EXE]] [[EXE]]",
+     "screen": "x = 20 · y = 40",
+     "tip": "Si ix que no hi ha solució, les dues rectes són paral·leles: no formen cap vèrtex."},
+    {"t": "Comprovar si un punt compleix les restriccions",
+     "why": "Amb Verificar pots comprovar desigualtats: molt útil per saber de quin costat de la recta està la regió factible.",
+     "steps": [
+        "A Calcular: [[TOOLS]] › <<Verificar ON>>.",
+        "Escriu la restricció substituint el punt i tria el signe a [[CATALOG]] › <<Verificar>> (≤, ≥, <, >).",
+        "Si la resposta és Verdadero, el punt és dins del semiplà."],
+     "ex": "El punt (20, 40) compleix $2x+y\\le80$?",
+     "keys": "[[2]] [[×]] [[2]] [[0]] [[+]] [[4]] [[0]] [[CATALOG]] <<Verificar>> <<≤>> [[8]] [[0]] [[EXE]]",
+     "screen": "Verdadero"},
+    {"t": "Avaluar la funció objectiu en tots els vèrtexs",
+     "why": "Truc ràpid: guarda les coordenades del vèrtex a les variables x i y i escriu la funció objectiu una sola vegada.",
+     "steps": [
+        "A Calcular, escriu la coordenada x del vèrtex, prem [[EXE]] i després [[VAR]] › <<x=>> › <<Guardar>>.",
+        "Fes el mateix amb la coordenada y: [[VAR]] › <<y=>> › <<Guardar>>.",
+        "Escriu la funció objectiu: la x amb la tecla [[X]], i la y amb [[VAR]] › <<y=>> › <<Recuperar>>. Prem [[EXE]].",
+        "Per al vèrtex següent, guarda els nous x i y, puja a l'historial amb [[UP]] fins a la funció objectiu i prem [[EXE]]."],
+     "ex": "$F(x,y)=2x+1{,}5y$ en (0,0), (40,0), (20,40) i (0,60)",
+     "keys": "[[2]] [[0]] [[EXE]] [[VAR]] <<x=>> <<Guardar>> · [[4]] [[0]] [[EXE]] [[VAR]] <<y=>> <<Guardar>> · [[2]] [[X]] [[+]] [[1]] [[.]] [[5]] [[VAR]] <<y=>> <<Recuperar>> [[EXE]]",
+     "screen": "F(0,0)=0 · F(40,0)=80 · F(20,40)=100 · F(0,60)=90 → màxim 100 € en (20, 40)",
+     "tip": "Escriu sempre una taula vèrtex | valor de F al full: és el que es puntua a la PAU."},
+  ]})

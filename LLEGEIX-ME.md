@@ -105,3 +105,15 @@ El fitxer continua al servidor: qui conega l'adreça exacta el pot obrir.
 
 Un curs amb `units: []` a `materials.js` apareix com a "Pròximament".
 Quan hi afegisques la primera unitat, el cercador i els filtres apareixen sols.
+
+## Guies «Amb la calculadora» (Casio fx-991SP CW)
+
+El contingut és a `_eines/casio/guies.py` (un bloc per unitat). Per canviar-lo o afegir una unitat nova,
+edita aquest fitxer i torna a generar les pàgines des de la carpeta del web:
+
+```
+python3 _eines/casio/build_casio.py
+```
+
+Al text, `[[EXE]]` dibuixa una tecla, `<<Matriz>>` una opció de menú i `$...$` una fórmula.
+Després enllaça la pàgina a `materials.js` amb `type: "calc"`.

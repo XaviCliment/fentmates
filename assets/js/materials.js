@@ -3,7 +3,7 @@
 
    Cada material té:
      type:  "notes" (apunts) | "exercises" (exercicis) | "video" (vídeo)
-            | "resource" (recurs/enllaç) | "exam" (examen)
+            | "resource" (recurs/enllaç) | "exam" (examen) | "calc" (guia de calculadora)
      title: text o bé { va: "...", es: "...", en: "..." }
      desc:  (opcional) igual que title
      date:  (opcional) "AAAA-MM-DD", data en què es va penjar
@@ -70,7 +70,8 @@ window.LEVELS = {
         title: { va: "Nombres racionals", es: "Números racionales", en: "Rational numbers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t1-nombres-racionals.html", date: "2026-10-18" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis 1", es: "Ficha de ejercicios 1", en: "Worksheet 1" }, url: "" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis 1", es: "Ficha de ejercicios 1", en: "Worksheet 1" }, url: "" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u1-racionals.html" }
         ]
       },
       {
@@ -78,21 +79,24 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t2-nombres-reals.html", date: "2026-10-18" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 46 exercicis graduats per nivells de dificultat", es: "PDF · 46 ejercicios graduados por niveles de dificultad", en: "PDF · 46 exercises graded by difficulty" }, url: "materials/3eso/t2-fitxa-exercicis.pdf", download: true, date: "2026-10-18" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 46 exercicis", es: "PDF · Soluciones de los 46 ejercicios", en: "PDF · Solutions to all 46 exercises" }, url: "materials/3eso/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-18" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 46 exercicis", es: "PDF · Soluciones de los 46 ejercicios", en: "PDF · Solutions to all 46 exercises" }, url: "materials/3eso/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-18" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u2-reals.html" }
         ]
       },
       {
         title: { va: "Polinomis", es: "Polinomios", en: "Polynomials" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
-          { type: "resource", date: "2026-10-15", title: { va: "GeoGebra: identitats notables $(a+b)^2$", es: "GeoGebra: identidades notables $(a+b)^2$", en: "GeoGebra: special products $(a+b)^2$" }, url: "https://www.geogebra.org" }
+          { type: "resource", date: "2026-10-15", title: { va: "GeoGebra: identitats notables $(a+b)^2$", es: "GeoGebra: identidades notables $(a+b)^2$", en: "GeoGebra: special products $(a+b)^2$" }, url: "https://www.geogebra.org" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u3-polinomis.html" }
         ]
       },
       {
         title: { va: "Equacions i sistemes", es: "Ecuaciones y sistemas", en: "Equations and systems" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
-          { type: "exercises", title: { va: "Problemes amb equacions", es: "Problemas con ecuaciones", en: "Equation word problems" }, url: "" }
+          { type: "exercises", title: { va: "Problemes amb equacions", es: "Problemas con ecuaciones", en: "Equation word problems" }, url: "" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u4-equacions.html" }
         ]
       }
     ]
@@ -186,14 +190,16 @@ window.LEVELS = {
         title: { va: "Matrius i determinants", es: "Matrices y determinantes", en: "Matrices and determinants" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t1-matrius-determinants.html", date: "2026-10-18" },
-          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "33 exercicis de la PAU valenciana (1994–2026)", es: "33 ejercicios de la PAU valenciana (1994–2026)", en: "33 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u1-matrius.html" }
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "33 exercicis de la PAU valenciana (1994–2026)", es: "33 ejercicios de la PAU valenciana (1994–2026)", en: "33 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u1-matrius.html" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-ccss/casio-u1-matrius.html" }
         ]
       },
       {
         title: { va: "Sistemes d'equacions lineals", es: "Sistemas de ecuaciones lineales", en: "Systems of linear equations" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t2-sistemes-equacions.html", date: "2026-10-18" },
-          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "68 exercicis de la PAU valenciana (1994–2026)", es: "68 ejercicios de la PAU valenciana (1994–2026)", en: "68 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u2-sistemes.html" }
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "68 exercicis de la PAU valenciana (1994–2026)", es: "68 ejercicios de la PAU valenciana (1994–2026)", en: "68 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u2-sistemes.html" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-ccss/casio-u2-sistemes.html" }
         ]
       },
       {
@@ -201,7 +207,8 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t3-programacio-lineal.html", date: "2026-10-19" },
           { type: "video", title: { va: "Resolució gràfica pas a pas", es: "Resolución gráfica paso a paso", en: "Graphical method step by step" }, url: "" },
-          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "83 exercicis de la PAU valenciana (1994–2026)", es: "83 ejercicios de la PAU valenciana (1994–2026)", en: "83 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u3-programacio-lineal.html" }
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "83 exercicis de la PAU valenciana (1994–2026)", es: "83 ejercicios de la PAU valenciana (1994–2026)", en: "83 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u3-programacio-lineal.html" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-ccss/casio-u3-programacio-lineal.html" }
         ]
       },
       {
