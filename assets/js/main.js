@@ -375,14 +375,14 @@
       var tick = function () {
         var ms = target - new Date();
         if (ms <= 0) { cd.innerHTML = '<p class="cd-done">' + esc(t("pau.done")) + "</p>"; clearInterval(countdownTimer); return; }
-        var d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
-        cd.innerHTML = [[d, "pau.days"], [h, "pau.hours"], [m, "pau.minutes"]].map(function (p) {
+        var d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
+        cd.innerHTML = [[d, "pau.days"], [h, "pau.hours"], [m, "pau.minutes"], [s, "pau.seconds"]].map(function (p) {
           return '<div class="cd-box"><span class="cd-n">' + p[0] + '</span><span class="cd-l">' + esc(t(p[1])) + "</span></div>";
         }).join("");
       };
       clearInterval(countdownTimer);
       tick();
-      countdownTimer = setInterval(tick, 30000);
+      countdownTimer = setInterval(tick, 1000);
       var dl = el("pau-date");
       if (dl) dl.textContent = target.toLocaleDateString(DATE_LOCALE[lang], { weekday: "long", day: "numeric", month: "long", year: "numeric" }) +
         (P.confirmed ? "" : " · " + t("pau.date.note"));
@@ -400,7 +400,7 @@
       ex.innerHTML = Object.keys(years).sort(function (a, b) { return b - a; }).map(function (y) {
         return '<div class="year-card"><h3>' + y + "</h3>" + years[y].map(function (e) {
           return '<div class="conv"><span class="conv-name">' + esc(t("pau." + e.conv)) + "</span>" +
-            '<span class="conv-links">' + link(e.exam, "pau.exam", "notes") + link(e.solutions, "pau.solutions", "exam") + "</span></div>";
+            '<span class="conv-links">' + link(e.exam, "pau.exam", "notes") + link(e.criteria, "pau.criteria", "exam") + "</span></div>";
         }).join("") + "</div>";
       }).join("");
     }
