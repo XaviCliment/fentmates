@@ -198,7 +198,7 @@ window.LEVELS = {
       {
         title: { va: "Programació lineal", es: "Programación lineal", en: "Linear programming" },
         items: [
-          { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t3-programacio-lineal.html", date: "2026-10-19" },
           { type: "video", title: { va: "Resolució gràfica pas a pas", es: "Resolución gráfica paso a paso", en: "Graphical method step by step" }, url: "" }
         ]
       },
