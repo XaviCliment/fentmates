@@ -7,6 +7,7 @@
      title: text o bé { va: "...", es: "...", en: "..." }
      desc:  (opcional) igual que title
      date:  (opcional) "AAAA-MM-DD", data en què es va penjar
+     hidden: (opcional) true -> el material NO es mostra al web (p. ex. solucions)
      url:   ruta al fitxer (p. ex. "materials/3eso/t1-apunts.pdf")
             o enllaç (YouTube, GeoGebra, Drive...). Si està buit -> "Pròximament".
 
@@ -15,6 +16,7 @@
    Els vídeos de YouTube s'obrin dins de la pàgina automàticament.
    Una unitat pot portar num: "★" (o un altre símbol) per a seccions especials
    que no compten com a unitat numerada (p. ex. el Resum teòric).
+   Un curs amb units: [] apareix com a "Pròximament".
    Per afegir un curs nou: copia un bloc de LEVELS, canvia la clau
    i crea una pàgina .html com 3eso.html amb data-level="clau-nova".
    ========================================================== */
@@ -27,7 +29,34 @@ window.SITE = {
 };
 
 window.LEVELS = {
+  "1eso": {
+    color: "#e6b84a",
+    symbol: "½",
+    stage: "eso",
+    name: { va: "1r ESO", es: "1º ESO", en: "1st ESO (Year 7)" },
+    desc: {
+      va: "Nombres naturals i enters, fraccions, proporcionalitat i geometria plana.",
+      es: "Números naturales y enteros, fracciones, proporcionalidad y geometría plana.",
+      en: "Whole numbers and integers, fractions, proportionality and plane geometry."
+    },
+    units: []
+  },
+
+  "2eso": {
+    color: "#3b82f6",
+    symbol: "%",
+    stage: "eso",
+    name: { va: "2n ESO", es: "2º ESO", en: "2nd ESO (Year 8)" },
+    desc: {
+      va: "Fraccions i decimals, percentatges, àlgebra inicial, equacions i geometria.",
+      es: "Fracciones y decimales, porcentajes, álgebra inicial, ecuaciones y geometría.",
+      en: "Fractions and decimals, percentages, early algebra, equations and geometry."
+    },
+    units: []
+  },
+
   "3eso": {
+    stage: "eso",
     color: "#ff7a50",
     symbol: "x²",
     name: { va: "3r ESO", es: "3º ESO", en: "3rd ESO (Year 9)" },
@@ -49,7 +78,7 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t2-nombres-reals.html", date: "2026-10-18" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 46 exercicis graduats per nivells de dificultat", es: "PDF · 46 ejercicios graduados por niveles de dificultad", en: "PDF · 46 exercises graded by difficulty" }, url: "materials/3eso/t2-fitxa-exercicis.pdf", download: true, date: "2026-10-18" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 46 exercicis", es: "PDF · Soluciones de los 46 ejercicios", en: "PDF · Solutions to all 46 exercises" }, url: "materials/3eso/t2-fitxa-solucions.pdf", download: true, date: "2026-10-18" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 46 exercicis", es: "PDF · Soluciones de los 46 ejercicios", en: "PDF · Solutions to all 46 exercises" }, url: "materials/3eso/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-18" }
         ]
       },
       {
@@ -69,7 +98,73 @@ window.LEVELS = {
     ]
   },
 
+  "4eso-a": {
+    color: "#a78bfa",
+    symbol: "Δ",
+    stage: "eso",
+    name: { va: "4t ESO Matemàtiques A", es: "4º ESO Matemáticas A", en: "4th ESO Maths A" },
+    desc: {
+      va: "Matemàtiques aplicades: nombres, àlgebra, funcions, estadística i probabilitat.",
+      es: "Matemáticas aplicadas: números, álgebra, funciones, estadística y probabilidad.",
+      en: "Applied maths: numbers, algebra, functions, statistics and probability."
+    },
+    units: []
+  },
+
+  "4eso-b": {
+    color: "#6d28d9",
+    symbol: "√",
+    stage: "eso",
+    name: { va: "4t ESO Matemàtiques B", es: "4º ESO Matemáticas B", en: "4th ESO Maths B" },
+    desc: {
+      va: "Radicals i logaritmes, àlgebra, trigonometria, geometria analítica i funcions.",
+      es: "Radicales y logaritmos, álgebra, trigonometría, geometría analítica y funciones.",
+      en: "Radicals and logarithms, algebra, trigonometry, coordinate geometry and functions."
+    },
+    units: []
+  },
+
+  "1batx-mi": {
+    color: "#9b1c1c",
+    symbol: "sin",
+    stage: "batx",
+    name: { va: "1r Batxillerat MI", es: "1º Bachillerato MI", en: "1st Baccalaureate Maths I" },
+    desc: {
+      va: "Nombres reals i complexos, trigonometria, vectors, geometria analítica i anàlisi.",
+      es: "Números reales y complejos, trigonometría, vectores, geometría analítica y análisis.",
+      en: "Real and complex numbers, trigonometry, vectors, coordinate geometry and calculus."
+    },
+    units: []
+  },
+
+  "1batx-ccss": {
+    color: "#ef6b6b",
+    symbol: "σ",
+    stage: "batx",
+    name: { va: "1r Batxillerat CCSS", es: "1º Bachillerato CCSS", en: "1st Baccalaureate (Social Sciences)" },
+    desc: {
+      va: "Matemàtica financera, àlgebra, funcions, estadística i probabilitat.",
+      es: "Matemática financiera, álgebra, funciones, estadística y probabilidad.",
+      en: "Financial maths, algebra, functions, statistics and probability."
+    },
+    units: []
+  },
+
+  "2batx-mii": {
+    color: "#1e6b47",
+    symbol: "∂",
+    stage: "batx",
+    name: { va: "2n Batxillerat MII", es: "2º Bachillerato MII", en: "2nd Baccalaureate Maths II" },
+    desc: {
+      va: "Matrius, geometria a l'espai, anàlisi i probabilitat. Preparació de la PAU.",
+      es: "Matrices, geometría en el espacio, análisis y probabilidad. Preparación de la PAU.",
+      en: "Matrices, 3D geometry, calculus and probability. University entrance exam prep."
+    },
+    units: []
+  },
+
   "2batx-ccss": {
+    stage: "batx",
     color: "#2bb3a3",
     symbol: "∫",
     pau: true,

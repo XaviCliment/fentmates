@@ -89,3 +89,19 @@ dins del mateix fitxer i recorden l'idioma i el tema triats a la web.
 interactiu), amb llicència CC BY-NC-SA 4.0 (sense finalitats comercials). Apareix a la pàgina de 2n Batx CCSS com a secció
 «Resum Teòric» abans de la Unitat 1: a `materials.js` porta `num: "★"`, i les unitats amb
 `num` no compten en la numeració (la Unitat 1 continua sent la 1).
+
+## Amagar un material (p. ex. solucions)
+
+A `assets/js/materials.js`, afig `hidden: true` a la línia del material:
+
+```js
+{ type: "exercises", title: {...}, url: "materials/3eso/t2-fitxa-solucions.pdf", download: true, hidden: true }
+```
+
+Per tornar a mostrar-lo, esborra `, hidden: true` (o posa `hidden: false`).
+El fitxer continua al servidor: qui conega l'adreça exacta el pot obrir.
+
+## Cursos "Pròximament"
+
+Un curs amb `units: []` a `materials.js` apareix com a "Pròximament".
+Quan hi afegisques la primera unitat, el cercador i els filtres apareixen sols.

@@ -18,7 +18,7 @@ window.I18N = {
 
     "about.eyebrow": "Sobre mi",
     "about.hello": "Benvinguts a FentMates!",
-    "about.text": "<strong>Professor de matemàtiques de Secundària i Batxillerat.</strong> Sempre cercant la manera de millorar la pedagogia d'aquesta ciència fascinant. Busejant en aquest món inesgotable.",
+    "about.text": "<strong>Xavi Climent</strong><br><strong>Professor de matemàtiques de Secundària i Batxillerat.</strong> Sempre cercant la manera de millorar la pedagogia d'aquesta ciència fascinant. Busejant en aquest món inesgotable.",
     "about.chip1": "📐 ESO",
     "about.chip2": "📊 Batxillerat",
     "about.chip3": "💡 Metodologies actives",
@@ -72,7 +72,7 @@ window.I18N = {
 
     "about.eyebrow": "Sobre mí",
     "about.hello": "¡Bienvenidos a FentMates!",
-    "about.text": "<strong>Profesor de matemáticas de Secundaria y Bachillerato.</strong> Siempre buscando la manera de mejorar la pedagogía de esta ciencia fascinante. Buceando en este mundo inagotable.",
+    "about.text": "<strong>Xavi Climent</strong><br><strong>Profesor de matemáticas de Secundaria y Bachillerato.</strong> Siempre buscando la manera de mejorar la pedagogía de esta ciencia fascinante. Buceando en este mundo inagotable.",
     "about.chip1": "📐 ESO",
     "about.chip2": "📊 Bachillerato",
     "about.chip3": "💡 Metodologías activas",
@@ -126,7 +126,7 @@ window.I18N = {
 
     "about.eyebrow": "About me",
     "about.hello": "Welcome to FentMates!",
-    "about.text": "<strong>Secondary and Baccalaureate maths teacher.</strong> Always looking for ways to improve how this fascinating science is taught. Diving into this endless world.",
+    "about.text": "<strong>Xavi Climent</strong><br><strong>Secondary and Baccalaureate maths teacher.</strong> Always looking for ways to improve how this fascinating science is taught. Diving into this endless world.",
     "about.chip1": "📐 Secondary (ESO)",
     "about.chip2": "📊 Baccalaureate",
     "about.chip3": "💡 Active methodologies",
@@ -169,6 +169,11 @@ window.I18N = {
 
 /* ---------- Noves seccions: contacte, PAU, reptes, curiositats ---------- */
 Object.assign(window.I18N.va, {
+  "nav.courses": "Cursos",
+  "stage.eso": "ESO",
+  "stage.batx": "Batxillerat",
+  "level.comingsoon": "Pròximament",
+  "level.comingsoon.text": "Encara no hi ha materials en aquest curs. Ben aviat hi trobaràs apunts, exercicis i recursos.",
   "contact.gmail": "Escriu amb Gmail",
   "contact.app": "Obri l'aplicació de correu",
   "contact.copy": "Copia l'adreça",
@@ -214,6 +219,11 @@ Object.assign(window.I18N.va, {
 });
 
 Object.assign(window.I18N.es, {
+  "nav.courses": "Cursos",
+  "stage.eso": "ESO",
+  "stage.batx": "Bachillerato",
+  "level.comingsoon": "Próximamente",
+  "level.comingsoon.text": "Todavía no hay materiales en este curso. Muy pronto encontrarás apuntes, ejercicios y recursos.",
   "contact.gmail": "Escribe con Gmail",
   "contact.app": "Abrir la aplicación de correo",
   "contact.copy": "Copiar la dirección",
@@ -259,6 +269,11 @@ Object.assign(window.I18N.es, {
 });
 
 Object.assign(window.I18N.en, {
+  "nav.courses": "Courses",
+  "stage.eso": "ESO",
+  "stage.batx": "Baccalaureate",
+  "level.comingsoon": "Coming soon",
+  "level.comingsoon.text": "There are no materials for this course yet. Notes, exercises and resources are on their way.",
   "contact.gmail": "Write with Gmail",
   "contact.app": "Open mail app",
   "contact.copy": "Copy address",

@@ -59,6 +59,11 @@
     return parseDay(s).toLocaleDateString(DATE_LOCALE[lang], { day: "numeric", month: "long", year: "numeric" });
   }
   function el(id) { return document.getElementById(id); }
+  // materials visibles (els que porten hidden: true no es mostren)
+  function visible(items) { return (items || []).filter(function (i) { return !i.hidden; }); }
+  function levelKeys(stage) {
+    return Object.keys(LEVELS).filter(function (k) { return !stage || (LEVELS[k].stage || "eso") === stage; });
+  }
 
   /* Fórmules LaTeX amb KaTeX */
   function typeset(root) {
@@ -95,7 +100,14 @@
     var h = el("site-header");
     if (!h) return;
     var links = navLink("index.html", t("nav.home"), page === "home");
-    Object.keys(LEVELS).forEach(function (k) { links += navLink(k + ".html", tx(LEVELS[k].name), k === levelKey); });
+    var sub = ["eso", "batx"].map(function (st) {
+      var ks = levelKeys(st);
+      if (!ks.length) return "";
+      return '<li class="sub-group"><span class="sub-head">' + esc(t("stage." + st)) + "</span><ul>" +
+        ks.map(function (k) { return navLink(k + ".html", tx(LEVELS[k].name), k === levelKey).replace("<a ", '<a style="--c:' + LEVELS[k].color + '" '); }).join("") + "</ul></li>";
+    }).join("");
+    links += '<li class="has-sub' + (levelKey ? " current" : "") + '"><button type="button" class="sub-toggle" aria-expanded="false">' +
+      esc(t("nav.courses")) + ICONS.chev + '</button><ul class="sub-menu">' + sub + "</ul></li>";
     links += navLink("pau.html", t("nav.pau"), page === "pau");
     links += navLink("reptes.html", t("nav.challenges"), page === "reptes");
 
@@ -130,6 +142,18 @@
     });
     nav.addEventListener("click", function (e) {
       if (e.target.tagName === "A") { nav.classList.remove("open"); mt.setAttribute("aria-expanded", "false"); }
+    });
+    var hs = h.querySelector(".has-sub"), st = h.querySelector(".sub-toggle");
+    st.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = hs.classList.toggle("open");
+      st.setAttribute("aria-expanded", open);
+    });
+    document.addEventListener("click", function (e) {
+      if (!hs.contains(e.target)) { hs.classList.remove("open"); st.setAttribute("aria-expanded", "false"); }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { hs.classList.remove("open"); st.setAttribute("aria-expanded", "false"); }
     });
   }
 
@@ -227,19 +251,30 @@
   }
 
   /* ---------- inici: targetes de nivell ---------- */
+  function levelCard(k) {
+    var L = LEVELS[k];
+    var n = 0;
+    L.units.forEach(function (u) { n += visible(u.items).length; });
+    var soon = !L.units.length;
+    var tag = soon
+      ? '<span class="tag">' + esc(t("level.comingsoon")) + "</span>"
+      : '<span class="tag">' + L.units.filter(function (u) { return !u.num; }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>";
+    return '<a class="level-card' + (soon ? " soon" : "") + '" href="' + k + '.html" style="--c:' + L.color + '">' +
+      '<span class="symbol" aria-hidden="true">' + esc(L.symbol || "") + "</span>" +
+      '<span class="tags">' + tag + "</span>" +
+      "<h3>" + esc(tx(L.name)) + "</h3>" +
+      "<p>" + esc(tx(L.desc)) + "</p>" +
+      '<span class="go">' + esc(t("levels.go")) + "</span></a>";
+  }
+
   function renderLevelCards() {
     var box = el("level-cards");
     if (!box) return;
-    box.innerHTML = Object.keys(LEVELS).map(function (k) {
-      var L = LEVELS[k];
-      var n = 0;
-      L.units.forEach(function (u) { n += u.items.length; });
-      return '<a class="level-card" href="' + k + '.html" style="--c:' + L.color + '">' +
-        '<span class="symbol" aria-hidden="true">' + esc(L.symbol || "") + "</span>" +
-        '<span class="tags"><span class="tag">' + L.units.filter(function (u) { return !u.num; }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>" + "</span>" +
-        "<h3>" + esc(tx(L.name)) + "</h3>" +
-        "<p>" + esc(tx(L.desc)) + "</p>" +
-        '<span class="go">' + esc(t("levels.go")) + "</span></a>";
+    box.innerHTML = ["eso", "batx"].map(function (st) {
+      var ks = levelKeys(st);
+      if (!ks.length) return "";
+      return '<div class="level-group"><h3 class="group-title">' + esc(t("stage." + st)) + '</h3><div class="levels">' +
+        ks.map(levelCard).join("") + "</div></div>";
     }).join("");
   }
 
@@ -254,13 +289,17 @@
     document.querySelectorAll("[data-level-name]").forEach(function (n) { n.textContent = tx(L.name); });
     var d = el("level-desc"); if (d) d.textContent = tx(L.desc);
 
+    var soon = !L.units.length;
+    var tb = document.querySelector(".toolbar");
+    if (tb) tb.hidden = soon;
+
     var cta = el("level-cta");
     if (cta) cta.innerHTML = L.pau ? '<a class="pau-cta" href="pau.html">🎯 ' + esc(t("level.pau.cta")) + "</a>" : "";
 
     var f = el("filters");
     if (f) {
       var present = KINDS.filter(function (k) {
-        return L.units.some(function (u) { return u.items.some(function (i) { return i.type === k; }); });
+        return L.units.some(function (u) { return visible(u.items).some(function (i) { return i.type === k; }); });
       });
       f.innerHTML = ["all"].concat(present).map(function (k) {
         return '<button type="button" class="filter" data-type="' + k + '" aria-pressed="' + (state.type === k) + '">' +
@@ -295,7 +334,7 @@
     L.units.forEach(function (u, ui) {
       var utitle = tx(u.title);
       var num = u.num || String(++unitN);
-      var items = u.items.filter(function (it) {
+      var items = visible(u.items).filter(function (it) {
         if (state.type !== "all" && it.type !== state.type) return false;
         if (!state.q) return true;
         return (utitle + " " + tx(it.title) + " " + tx(it.desc)).toLowerCase().indexOf(state.q) >= 0;
@@ -318,6 +357,8 @@
           return "<li>" + link + "</li>";
         }).join("") + "</ul></details>";
     });
+    if (!L.units.length) html = '<div class="coming-soon"><span class="cs-ico" aria-hidden="true">🚧</span><h2>' + esc(t("level.comingsoon")) +
+      "</h2><p>" + esc(t("level.comingsoon.text")) + "</p></div>";
     box.innerHTML = html || '<p class="empty">' + esc(t("level.empty")) + "</p>";
     box.dataset.rendered = "1";
     typeset(box);
@@ -390,11 +431,14 @@
     var cus = window.CURIOSITIES || [];
 
     var home = el("challenge-home");
-    if (home) home.innerHTML = list.length ? challengeHTML(list[0], true) : "";
+    if (home) home.innerHTML = list.slice(0, 2).map(function (c, i) { return challengeHTML(c, i === 0); }).join("");
     var cuHome = el("curiosity-home");
     if (cuHome && cus.length) {
+      // dues curiositats que van canviant cada setmana
       var week = Math.floor(today() / (7 * 864e5));
-      cuHome.innerHTML = curiosityHTML(cus[week % cus.length]);
+      var picks = [cus[week % cus.length]];
+      if (cus.length > 1) picks.push(cus[(week + 1) % cus.length]);
+      cuHome.innerHTML = picks.map(curiosityHTML).join("");
     }
 
     var cur = el("challenge-current");
