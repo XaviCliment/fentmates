@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nombres reals · Resum · FentMates</title>
+<meta name="description" content="Presentació-resum interactiva de la Unitat 2 (Nombres reals) de 3r d'ESO, en valencià, castellà i anglés.">
+<meta name="author" content="Xavier Climent Balaguer">
+<meta name="theme-color" content="#1b2748">
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+/* Idioma i tema abans de pintar (comparteix preferències amb la web) */
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --ok: #15803d; --bad: #c2410c; --warn-bg: #fff4e5;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b; --r5: #3b82f6;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6); --ok: #4ade80; --bad: #fb923c; --warn-bg: #2a2116;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6); --ok: #4ade80; --bad: #fb923c; --warn-bg: #2a2116;
+  }
+}
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+html[data-lang="va"] .les, html[data-lang="va"] .len, html[data-lang="es"] .lva, html[data-lang="es"] .len, html[data-lang="en"] .lva, html[data-lang="en"] .les { display: none; }
+html[data-lang="en"] .dc { visibility: hidden; }
+html[data-lang="en"] .dc::after { content: "."; visibility: visible; margin-left: -.278em; }
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--text); background: var(--bg); overflow: hidden; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: "Outfit", "Inter", sans-serif; line-height: 1.15; letter-spacing: -.01em; margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.katex { font-size: 1.1em; }
+.katex-display { margin: .5em 0; overflow-x: auto; overflow-y: hidden; padding: 2px; }
+
+/* estructura */
+.deck { position: fixed; inset: 0; display: flex; flex-direction: column; }
+.top { flex: none; height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 18px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.top .crumb { font-size: .88rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.top .crumb a { text-decoration: none; font-weight: 700; color: var(--text); }
+.top .crumb a:hover { color: var(--accent); }
+.top .spacer { flex: 1; }
+.top .logo { flex: none; height: 50px; padding: 4px 10px; background: #fff; border-radius: 10px; display: flex; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.top .logo img { height: 42px; width: auto; display: block; }
+.progress { position: absolute; left: 0; top: 63px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .3s; z-index: 5; }
+
+.stage { flex: 1; position: relative; overflow: hidden; font-size: clamp(15px, min(1.75vw, 2.9vh), 30px); }
+.slide { position: absolute; inset: 0; overflow-y: auto; display: flex; padding: 2.2vh 4vw 2.6vh; opacity: 0; visibility: hidden; transform: translateX(28px); transition: opacity .35s, transform .35s, visibility .35s; }
+.slide.on { opacity: 1; visibility: visible; transform: none; }
+.slide.past { transform: translateX(-28px); }
+.slide > .in { margin: auto; width: 100%; max-width: 1180px; }
+.slide h2 { font-size: 1.9em; margin-bottom: .55em; display: flex; align-items: center; gap: .45em; flex-wrap: wrap; }
+.slide h2 .tag { font: 700 .4em "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--accent); padding: .35em .8em; border-radius: 999px; }
+.lead { color: var(--muted); font-size: .95em; margin: -.4em 0 .9em; }
+
+.bar { flex: none; height: 58px; display: flex; align-items: center; gap: 8px; padding: 0 14px; border-top: 1px solid var(--border); background: var(--surface); }
+.bar .count { font: 600 .9rem "Inter", sans-serif; color: var(--muted); min-width: 4.2em; text-align: center; font-variant-numeric: tabular-nums; }
+.nav-btn, .icon-btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; height: 40px; min-width: 40px; display: inline-grid; place-items: center; cursor: pointer; padding: 0 12px; font-weight: 600; font-size: .9rem; }
+.nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nav-btn[disabled] { opacity: .4; cursor: default; }
+.icon-btn { padding: 0; width: 40px; }
+.icon-btn svg { width: 18px; height: 18px; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 6px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+
+/* elements de contingut */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13em), 1fr)); gap: .9em; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: .8em 1.1em; box-shadow: var(--shadow); }
+.card h3 { font-size: 1.05em; margin-bottom: .35em; display: flex; gap: .4em; align-items: center; }
+.card p { margin: .3em 0; }
+.card.c1 { border-top: 5px solid var(--r1); } .card.c2 { border-top: 5px solid var(--r2); } .card.c3 { border-top: 5px solid var(--r3); } .card.c4 { border-top: 5px solid var(--r4); } .card.c5 { border-top: 5px solid var(--r5); }
+.big { font-size: 1.35em; text-align: center; margin: .3em 0 .7em; }
+.warn { background: var(--warn-bg); border-left: 5px solid var(--bad); border-radius: 0 12px 12px 0; padding: .55em 1em; margin-top: .9em; }
+.warn b { color: var(--bad); }
+.key { background: color-mix(in srgb, var(--yellow) 40%, transparent); padding: 0 .25em; border-radius: 4px; font-weight: 600; }
+.muted { color: var(--muted); }
+.steps-list { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+.steps-list li { counter-increment: s; display: flex; gap: .6em; align-items: flex-start; margin: .45em 0; }
+.steps-list li::before { content: counter(s); flex: none; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font: 700 .8em "Outfit", sans-serif; margin-top: .1em; }
+:root[data-theme="dark"] .steps-list li::before { background: var(--accent); }
+table.t { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); font-size: .92em; }
+table.t th, table.t td { padding: .45em .8em; border-bottom: 1px solid var(--border); text-align: left; }
+table.t th { background: var(--navy); color: #fff; font: 700 .78em "Inter", sans-serif; text-transform: uppercase; letter-spacing: .06em; }
+table.t tr:last-child td { border-bottom: 0; }
+table.t td.n { font-weight: 800; color: var(--accent); width: 2em; text-align: center; font-family: "Outfit", sans-serif; }
+.tbl-wrap { overflow-x: auto; }
+
+/* passos que es revelen */
+.frag { opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .3s; }
+.frag.vis { opacity: 1; transform: none; }
+.hint { font-size: .78em; color: var(--muted); margin-top: .7em; display: flex; gap: .4em; align-items: center; }
+.hint kbd { font: 600 .9em "Inter", sans-serif; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 6px; padding: 0 .4em; background: var(--surface); }
+
+/* portada */
+.cover { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; border-radius: 26px; padding: 2.2em 2.4em; position: relative; overflow: hidden; }
+.cover::after { content: "ℝ"; position: absolute; right: .1em; bottom: -.35em; font: 800 11em/1 "Outfit", sans-serif; color: rgba(255,255,255,.06); pointer-events: none; }
+.cover .kicker { display: inline-block; background: rgba(255,255,255,.14); padding: .3em .9em; border-radius: 999px; font-size: .8em; font-weight: 600; }
+.cover h1 { font-size: 3em; margin: .35em 0 .2em; }
+.cover h1 .u { color: var(--yellow); }
+.cover p { color: rgba(255,255,255,.85); margin: .2em 0; font-size: 1.05em; }
+.cover .chips { display: flex; flex-wrap: wrap; gap: .5em; margin-top: 1.2em; position: relative; z-index: 1; }
+.cover .chips button { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25); color: #fff; border-radius: 999px; padding: .35em .9em; font-size: .85em; cursor: pointer; }
+.cover .chips button:hover { background: rgba(255,255,255,.2); }
+.cover .lic { font-size: .7em; color: rgba(255,255,255,.65); margin-top: 1.6em; position: relative; z-index: 1; }
+.cover .lic a { color: inherit; }
+
+/* mapa conceptual */
+.mm { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-areas: "a b c" ". m ." "d . e"; gap: 1.2em 1.6em; align-items: center; }
+.mm svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.mm svg.lines line { stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 7; }
+.mm .center { grid-area: m; justify-self: center; background: var(--navy); color: #fff; border-radius: 999px; padding: .7em 1.6em; font: 800 1.3em "Outfit", sans-serif; text-align: center; box-shadow: var(--shadow); position: relative; z-index: 1; }
+:root[data-theme="dark"] .mm .center { background: var(--accent); }
+.mm .center small { display: block; font: 600 .55em "Inter", sans-serif; opacity: .8; letter-spacing: .06em; text-transform: uppercase; }
+.mm .node { position: relative; z-index: 1; text-align: left; background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: .6em .9em; cursor: pointer; box-shadow: var(--shadow); transition: transform .15s, border-color .15s; }
+.mm .node:hover { transform: translateY(-2px); }
+.mm .node h3 { font-size: 1.05em; display: flex; align-items: center; gap: .4em; margin-bottom: .3em; }
+.mm .node h3 .dot { width: .7em; height: .7em; border-radius: 50%; flex: none; }
+.mm .node ul { margin: 0; padding-left: 1.1em; font-size: .82em; color: var(--muted); }
+.mm .node .go { font-size: .72em; font-weight: 700; margin-top: .35em; display: block; }
+.mm .n1 { grid-area: a; border-color: var(--r1); } .mm .n1 .dot { background: var(--r1); } .mm .n1 .go { color: var(--r1); }
+.mm .n2 { grid-area: b; border-color: var(--r4); } .mm .n2 .dot { background: var(--r4); } .mm .n2 .go { color: var(--r4); }
+.mm .n3 { grid-area: c; border-color: var(--r3); } .mm .n3 .dot { background: var(--r3); } .mm .n3 .go { color: var(--r3); }
+.mm .n4 { grid-area: d; border-color: var(--r2); } .mm .n4 .dot { background: var(--r2); } .mm .n4 .go { color: var(--r2); }
+.mm .n5 { grid-area: e; border-color: var(--r5); } .mm .n5 .dot { background: var(--r5); } .mm .n5 .go { color: var(--r5); }
+
+/* recta real */
+.nl svg { width: 100%; height: auto; display: block; }
+.nl-ax, .nl-tk { stroke: var(--muted); stroke-width: 1.5; }
+.nl-axh { fill: var(--muted); }
+.nl-num { fill: var(--muted); font: 500 15px "Inter", sans-serif; text-anchor: middle; }
+.nl-lab { fill: var(--text); font: 700 18px "Outfit", sans-serif; }
+.nl-empty { fill: var(--muted); font: 700 20px "Inter", sans-serif; text-anchor: middle; }
+.ivc { display: grid; gap: .1em; }
+.ivc .nm { font: 700 .72em "Inter", sans-serif; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.rules { display: flex; flex-wrap: wrap; gap: .5em; margin-bottom: .9em; }
+.rules > span { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: .3em .9em; font-size: .9em; }
+.rules > span > b { color: var(--accent); }
+
+/* conjunts */
+.sets { width: 100%; height: auto; max-height: 52vh; }
+.sets rect { fill: transparent; stroke-width: 2.5; transition: fill .25s, stroke-width .25s; }
+.sets #set-R { stroke: var(--muted); } .sets #set-Q { stroke: var(--r2); } .sets #set-Z { stroke: var(--r3); } .sets #set-N { stroke: var(--r1); } .sets #set-I { stroke: var(--r4); }
+.sets #set-R.on { fill: color-mix(in srgb, var(--muted) 10%, transparent); stroke-width: 4; }
+.sets #set-Q.on { fill: color-mix(in srgb, var(--r2) 16%, transparent); stroke-width: 4; }
+.sets #set-Z.on { fill: color-mix(in srgb, var(--r3) 16%, transparent); stroke-width: 4; }
+.sets #set-N.on { fill: color-mix(in srgb, var(--r1) 18%, transparent); stroke-width: 4; }
+.sets #set-I.on { fill: color-mix(in srgb, var(--r4) 18%, transparent); stroke-width: 4; }
+.sets .sl { font: 800 24px "Outfit", sans-serif; fill: var(--text); }
+.sets .se { font: 500 15px "Inter", sans-serif; fill: var(--muted); }
+.chipset { display: flex; flex-wrap: wrap; gap: .45em; }
+.chipset button { border: 1.5px solid var(--border); background: var(--surface); border-radius: 12px; padding: .25em .7em; cursor: pointer; min-height: 2.3em; }
+.chipset button:hover { border-color: var(--accent); }
+.chipset button.act { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.cls-info { margin-top: .8em; min-height: 3.2em; background: var(--surface-2); border-radius: 12px; padding: .5em .9em; }
+.bdg { display: inline-block; font-weight: 700; font-size: .85em; padding: .1em .6em; border-radius: 999px; border: 1.5px solid var(--ok); color: var(--ok); margin: .15em .2em 0 0; }
+.split { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.4em; align-items: center; }
+
+/* errors típics */
+.errs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15em), 1fr)); gap: .8em; }
+.err { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: .6em .9em; box-shadow: var(--shadow); }
+.err .bad { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
+.err .good { color: var(--ok); font-weight: 600; }
+.err .why { font-size: .78em; color: var(--muted); margin-top: .2em; }
+
+/* targetes */
+.flips { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14em), 1fr)); gap: .9em; }
+.flip { perspective: 900px; border: 0; background: none; padding: 0; cursor: pointer; min-height: 7.2em; text-align: center; }
+.flip .fi { position: relative; width: 100%; height: 100%; min-height: 7.2em; transition: transform .5s; transform-style: preserve-3d; }
+.flip.on .fi { transform: rotateY(180deg); }
+.flip .fa, .flip .fb { position: absolute; inset: 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .6em; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: var(--shadow); }
+.flip .fa { background: var(--surface); border: 2px solid var(--border); }
+.flip .fb { background: color-mix(in srgb, var(--accent-2) 16%, var(--surface)); border: 2px solid var(--accent-2); transform: rotateY(180deg); }
+.flip small { font-size: .7em; color: var(--muted); margin-top: .4em; }
+
+/* llista de repàs */
+.check { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19em), 1fr)); gap: .45em .9em; }
+.check label { display: flex; gap: .6em; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .45em .8em; cursor: pointer; }
+.check input { width: 1.15em; height: 1.15em; accent-color: var(--accent-2); flex: none; margin-top: .15em; }
+.check input:checked + span { color: var(--muted); text-decoration: line-through; }
+.meter { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: .9em 0 .3em; }
+.meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.links { display: flex; flex-wrap: wrap; gap: .6em; margin-top: 1em; }
+.links a { text-decoration: none; background: var(--navy); color: #fff; border-radius: 999px; padding: .45em 1.1em; font-weight: 600; font-size: .9em; }
+.links a.alt { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+
+/* índex de diapositives */
+.overview { position: fixed; inset: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); overflow-y: auto; padding: 24px; }
+.overview .in { max-width: 980px; margin: 0 auto; }
+.overview h2 { font-size: 1.4rem; margin: 6px 0 16px; display: flex; justify-content: space-between; align-items: center; }
+.overview ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.overview button.it { width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; font-weight: 600; }
+.overview button.it:hover, .overview button.it.cur { border-color: var(--accent); }
+.overview button.it .n { color: var(--accent); font-weight: 800; font-family: "Outfit", sans-serif; min-width: 1.6em; }
+
+@media (max-width: 760px) {
+  .top { height: 56px; padding: 0 12px; }
+  .top .logo { height: 44px; padding: 3px 8px; } .top .logo img { height: 36px; }
+  .progress { top: 55px; }
+  .bar { padding: 0 8px; gap: 6px; }
+  .bar .hide-s { display: none; }
+  .slide { padding: 16px 16px 20px; }
+  .slide h2 { font-size: 1.55em; }
+  .cover { padding: 1.4em 1.3em; }
+  .cover h1 { font-size: 2.2em; }
+  .mm { grid-template-columns: 1fr; grid-template-areas: "m" "a" "b" "c" "d" "e"; gap: .7em; }
+  .mm svg.lines { display: none; }
+  .split { grid-template-columns: 1fr; }
+}
+@media (max-width: 420px) { .top .crumb { display: none; } }
+
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+  body { overflow: visible; background: #fff; }
+  .deck { position: static; display: block; }
+  .bar, .progress, .overview, .hint { display: none !important; }
+  .top { position: static; }
+  .stage { overflow: visible; font-size: 15px; }
+  .slide { position: relative; opacity: 1; visibility: visible; transform: none; overflow: visible; page-break-after: always; break-after: page; min-height: 170mm; }
+  .frag { opacity: 1; transform: none; }
+  .flip .fi { transform: none; } .flip .fb { position: relative; transform: none; margin-top: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="deck">
+  <header class="top">
+    <span class="crumb"><a href="../../3eso.html"><span data-l="va">3r ESO</span><span data-l="es">3º ESO</span><span data-l="en">3rd ESO</span></a> · <span data-l="va">Unitat 2 · Nombres reals</span><span data-l="es">Unidad 2 · Números reales</span><span data-l="en">Unit 2 · Real numbers</span></span>
+    <span class="spacer"></span>
+    <span class="logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARoAAACuCAYAAADpn8JtAAAMTmlDQ1BJQ0MgUHJvZmlsZQAASImVVwdYU8kWnltSIQQIhCIl9CaISAkgJYQWekcQlZAECCXGhKBiRxdXcK2ICJYVXQVR7ICIDXXVlUWxu5bFgsrKurguduVNCKDLvvK9+b65899/zvxzzrkz994BgN7Fl0rzUE0A8iUFsriQANaklFQWqQeQgQEAAAN6fIFcyomJiYB3YLj9e3l9AyDK9qqjUuuf/f+1aAlFcgEASAzEGUK5IB/iQwDgrQKprAAAohTyFjMLpEpcDrGODDoIca0SZ6lwqxJnqPDlQZuEOC7EjwEgq/P5siwANPogzyoUZEEdOowWOEuEYgnE/hD75udPF0K8EGJbaAPnpCv12Rlf6WT9TTNjRJPPzxrBqlgGCzlQLJfm8Wf/n+n43yU/TzE8hw2s6tmy0DhlzDBvj3OnhyuxOsRvJRlR0RBrA4DiYuGgvRIzsxWhiSp71FYg58KcASbEE+V58bwhPk7IDwyH2AjiTEleVMSQTXGmOFhpA/OHVooLeAkQ60NcK5IHxQ/ZnJRNjxue90amjMsZ4p/xZYM+KPU/K3ITOSp9TDtbxBvSx5yKshOSIaZCHFgoToqCWAPiKHlufPiQTVpRNjdq2EamiFPGYgmxTCQJCVDpYxWZsuC4Iftd+fLh2LGT2WJe1BC+UpCdEKrKFfZYwB/0H8aC9YkknMRhHZF8UsRwLEJRYJAqdpwskiTGq3hcX1oQEKcai9tL82KG7PEAUV6IkjeHOEFeGD88trAALk6VPl4iLYhJUPmJV+Xww2JU/uD7QATggkDAAgpYM8B0kAPEHb1NvfBO1RMM+EAGsoAIOA4xwyOSB3sk8BoPisDvEImAfGRcwGCvCBRC/tMoVsmJRzjV1RFkDvUpVXLBE4jzQTjIg/eKQSXJiAdJ4DFkxP/wiA+rAMaQB6uy/9/zw+wXhgOZiCFGMTwjiz5sSQwiBhJDicFEO9wQ98W98Qh49YfVBWfjnsNxfLEnPCF0Eh4SrhO6CLeniYtlo7yMBF1QP3goPxlf5we3hppueADuA9WhMs7EDYEj7grn4eB+cGY3yHKH/FZmhTVK+28RfPWEhuwozhSUokfxp9iOHqlhr+E2oqLM9df5UfmaMZJv7kjP6Pm5X2VfCNvw0ZbYt9hB7Bx2CruAtWJNgIWdwJqxduyYEo+suMeDK254trhBf3Khzug18+XJKjMpd6537nH+qOorEM0qUG5G7nTpbJk4K7uAxYFfDBGLJxE4jWW5OLu4AaD8/qheb69iB78rCLP9C7f4VwB8TgwMDBz9woWdAGC/B3wlHPnC2bLhp0UNgPNHBApZoYrDlRcCfHPQ4e4zACbAAtjCeFyAO/AG/iAIhIFokABSwFTofTZc5zIwE8wFi0AJKAOrwDpQBbaAbaAW7AEHQBNoBafAj+AiuAyugztw9XSD56APvAYfEAQhITSEgRggpogV4oC4IGzEFwlCIpA4JAVJR7IQCaJA5iKLkTJkDVKFbEXqkP3IEeQUcgHpRG4jD5Ae5E/kPYqh6qgOaoxao+NQNspBw9EEdAqahc5Ai9Al6Aq0Eq1Bd6ON6Cn0Inod7UKfo/0YwNQwJmaGOWJsjItFY6lYJibD5mOlWAVWgzVgLfA5X8W6sF7sHU7EGTgLd4QrOBRPxAX4DHw+vhyvwmvxRvwMfhV/gPfhnwk0ghHBgeBF4BEmEbIIMwklhArCDsJhwlm4l7oJr4lEIpNoQ/SAezGFmEOcQ1xO3ETcSzxJ7CQ+IvaTSCQDkgPJhxRN4pMKSCWkDaTdpBOkK6Ru0luyGtmU7EIOJqeSJeRicgV5F/k4+Qr5KfkDRZNiRfGiRFOElNmUlZTtlBbKJUo35QNVi2pD9aEmUHOoi6iV1AbqWepd6is1NTVzNU+1WDWx2kK1SrV9aufVHqi9U9dWt1fnqqepK9RXqO9UP6l+W/0VjUazpvnTUmkFtBW0Otpp2n3aWw2GhpMGT0OosUCjWqNR44rGCzqFbkXn0KfSi+gV9IP0S/ReTYqmtSZXk685X7Na84jmTc1+LYbWeK1orXyt5Vq7tC5oPdMmaVtrB2kLtZdob9M+rf2IgTEsGFyGgLGYsZ1xltGtQ9Sx0eHp5OiU6ezR6dDp09XWddVN0p2lW617TLeLiTGtmTxmHnMl8wDzBvO9nrEeR0+kt0yvQe+K3hv9Mfr++iL9Uv29+tf13xuwDIIMcg1WGzQZ3DPEDe0NYw1nGm42PGvYO0ZnjPcYwZjSMQfG/GKEGtkbxRnNMdpm1G7Ub2xiHGIsNd5gfNq414Rp4m+SY1Juctykx5Rh6msqNi03PWH6G0uXxWHlsSpZZ1h9ZkZmoWYKs61mHWYfzG3ME82Lzfea37OgWrAtMi3KLdos+ixNLSMt51rWW/5iRbFiW2Vbrbc6Z/XG2sY62XqpdZP1Mxt9G55NkU29zV1bmq2f7QzbGttrdkQ7tl2u3Sa7y/aovZt9tn21/SUH1MHdQeywyaFzLGGs51jJ2JqxNx3VHTmOhY71jg+cmE4RTsVOTU4vxlmOSx23ety5cZ+d3ZzznLc73xmvPT5sfPH4lvF/uti7CFyqXa5NoE0InrBgQvOEl64OriLXza633BhukW5L3drcPrl7uMvcG9x7PCw90j02etxk67Bj2MvZ5z0JngGeCzxbPd95uXsVeB3w+sPb0TvXe5f3s4k2E0UTt0985GPuw/fZ6tPly/JN9/3et8vPzI/vV+P30N/CX+i/w/8px46Tw9nNeRHgHCALOBzwhuvFncc9GYgFhgSWBnYEaQclBlUF3Q82D84Krg/uC3ELmRNyMpQQGh66OvQmz5gn4NXx+sI8wuaFnQlXD48Prwp/GGEfIYtoiUQjwyLXRt6NsoqSRDVFg2he9NroezE2MTNijsYSY2Niq2OfxI2Pmxt3Lp4RPy1+V/zrhICElQl3Em0TFYltSfSktKS6pDfJgclrkrsmjZs0b9LFFMMUcUpzKik1KXVHav/koMnrJnenuaWVpN2YYjNl1pQLUw2n5k09No0+jT/tYDohPTl9V/pHfjS/ht+fwcvYmNEn4ArWC54L/YXlwh6Rj2iN6GmmT+aazGdZPllrs3qy/bIrsnvFXHGV+GVOaM6WnDe50bk7cwfykvP25pPz0/OPSLQluZIz002mz5reKXWQlki7ZnjNWDejTxYu2yFH5FPkzQU68Ee/XWGr+EbxoNC3sLrw7cykmQdnac2SzGqfbT972eynRcFFP8zB5wjmtM01m7to7oN5nHlb5yPzM+a3LbBYsGRB98KQhbWLqItyF/1c7Fy8pvivxcmLW5YYL1m45NE3Id/Ul2iUyEpuLvVeuuVb/Fvxtx3LJizbsOxzqbD0pzLnsoqyj8sFy3/6bvx3ld8NrMhc0bHSfeXmVcRVklU3Vvutrl2jtaZozaO1kWsby1nlpeV/rZu27kKFa8WW9dT1ivVdlRGVzRssN6za8LEqu+p6dUD13o1GG5dtfLNJuOnKZv/NDVuMt5Rtef+9+PtbW0O2NtZY11RsI24r3PZke9L2cz+wf6jbYbijbMennZKdXbVxtWfqPOrqdhntWlmP1ivqe3an7b68J3BPc4Njw9a9zL1l+8A+xb7f9qfvv3Eg/EDbQfbBhkNWhzYeZhwubUQaZzf2NWU3dTWnNHceCTvS1uLdcvio09GdrWat1cd0j608Tj2+5PjAiaIT/SelJ3tPZZ161Dat7c7pSaevnYk903E2/Oz5H4N/PH2Oc+7EeZ/zrRe8Lhz5if1T00X3i43tbu2Hf3b7+XCHe0fjJY9LzZc9L7d0Tuw8fsXvyqmrgVd/vMa7dvF61PXOG4k3bt1Mu9l1S3jr2e282y9/Kfzlw52Fdwl3S+9p3qu4b3S/5le7X/d2uXcdexD4oP1h/MM7jwSPnj+WP/7YveQJ7UnFU9Ondc9cnrX2BPdc/m3yb93Ppc8/9Jb8rvX7xhe2Lw794f9He9+kvu6XspcDfy5/ZfBq51+uf7X1x/Tff53/+sOb0rcGb2vfsd+de5/8/umHmR9JHys/2X1q+Rz++e5A/sCAlC/jD/4KYEB5tMkE4M+dANBSAGDAcyN1sup8OFgQ1Zl2EIH/hFVnyMHiDkAD/KeP7YV/NzcB2LcdAGuoT08DIIYGQIInQCdMGKnDZ7nBc6eyEOHZ4Pv4Txn5GeDfFNWZ9Cu/R7dAqeoKRrf/Ak2TgvKaJE3vAAAAimVYSWZNTQAqAAAACAAEARoABQAAAAEAAAA+ARsABQAAAAEAAABGASgAAwAAAAEAAgAAh2kABAAAAAEAAABOAAAAAAAAAJAAAAABAAAAkAAAAAEAA5KGAAcAAAASAAAAeKACAAQAAAABAAABGqADAAQAAAABAAAArgAAAABBU0NJSQAAAFNjcmVlbnNob3Rt7s8cAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB1mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyI+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj4xNzQ8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+MjgyPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6VXNlckNvbW1lbnQ+U2NyZWVuc2hvdDwvZXhpZjpVc2VyQ29tbWVudD4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cl7QIYQAAAAcaURPVAAAAAIAAAAAAAAAVwAAACgAAABXAAAAVwAAMNMNFL0uAAAwn0lEQVR4AeydB2BX1dn/n0DCJuwZ0LCXoCDDAYgDBQVHrXvWWotWbbX9d6m1w2r3+7ZapfpWrbVqneDACYIgw8FQhgwVWWEEEgghG/7fz0kevMaAQfKDAPfAybn3/O587jnf86zznKQdShanmAIxBWIKJJACSTHQJJC68aVjCsQUCBSIgSZuCDEFYgoknAIx0CScxPENYgrEFIiBJm4DMQViCiScAjHQJJzE8Q1iCsQUiIEmbgMxBWIKJJwCMdAknMTxDWIKxBSIgSZuAzEFYgoknAIx0CScxPENYgrEFIiBJm4DMQViCiScAjHQJJzE8Q1iCsQUiIEmbgMxBWIKJJwCMdAknMTxDWIKxBSIgSZuAzEFYgoknAIx0CScxPENYgrEFIiBJm4DMQViCiScAjHQJJzE8Q1iCsQUiIEmbgMxBWIKJJwCMdAknMTxDWIKxBSIgeYgbgPRcNDRbV45ul9+Oykpycg1a9Y8iKkTv9q+pEAMNPuS2vvwXiUlJVZYWGjFxcWh3L59+859tqnnmIKCAtuwYYOtWbPGMjMzLScnx9q0aWNDhgyxjh07Wq1atQLo7MNHj291EFIgBppq8lHhKjzzSL7tpdfl5ubatm3bQs7Pzzcy+9ST2Qc82N60aVMos7KyQv3GjRvDfp06dSwvL8+KiopCmZycHAAFUElJSQkgxDHDhg2z4cOH2xFHHGF169aNAaeatJUD8TFioKmCrwYYVJR2Ve/HRn/fsmVLAAbnKrKzs23z5s2B29i6dWsoARQ4DkDCQQZQYRtRB8AgOWA0bNgwAESjRo0M4CADJPXq1Qsl22TOq127djiPbQAIDmfy5MmBCzr11FPtyiuvtHbt2lmNGjViwPEPGJeVpkAMNJUm1RcPRPxwbmN32wDHypUrA4hkZGQEjmL16tXGNr+tX7/eABk6t1+PO7ENUAASAEPjxo0DKKSmplqTJk1Cff369a1BgwY7uQ3AhhQt2Y7m8r+HEyLn+D7v5IDz7LPPhuf9wQ9+YN/97ncDYAE4cYopUFkKHDJAU74TQyCvo/QEh0AHo0SPQfZ9SjJ1iCPr1q0LXAciCfoQSrgQfoMLQXwhoVSls9M54RwADUQRsnMaTZs2DfsOHICLAwTXqGibOv8tbCTgD4ADJzVjxgybOXOmHXbYYXbVVVfZoEGDrEWLFoEb8udIwO3jSx4kFDgkgAYgQeFJhwEAED0AAcQQRBT2AQjAxUGCfedUABbOBUwAGsQLMkCB6AF4AAxwGOxTz+9wJIgx/EbJcQcyJwBN3n//fVuwYIG1bdvWRo0aFXQ4LVu2PEi6Q/waiaJAtQIa5yy8g/s+ZbSOfTIcBcCA0pNOAGCwD6jAXQAqiCWuMMXKQken4wMGcBo1lGuqDpCgjuzA4PoLjgvH6jjOp559wIR9tkNCTCn7Uj7Ke0l1dLvssAOq4BtAQ2i9bNkye+eddwxR7sYbb7ShQ4fupMsB9VLxw+4TCiQcaGiY3kApHTC85C2jgLJixYoAFnAaa9euDZwEQIJOAwVlVDHKtTkXYECX4SIJ+y6ioM8APCipAyTo8OWzKgJIROv3yRc4QG8C7QH26dOn2xtvvGEnnHCC/eIXvwimcbg3p+MB+nrxY1cxBRIGNAAAosi7775rq1atsk8++SRwHq67gOOgoSKOcJwnGilcAroLRkt0Fmw7lwGYwH2wD4A4d+Hn701J54hT5Siwc3DQ4Ws1CEycODFwkqNHj7Zzzz3XOnXq9DmnV7lLxkcdxBRIGNAw4sFa//QnP7F5H3xgRx99dPDHADQAExc9KNmnHtCA66DOxRHv/F9VHsTfqNq+GmBDhjtFj+XiFNs33HCDnXHGGWHQqLYvED/YPqNAwoCGxjZu3Dh79umnrWN6uk2aMsV69eoVWOyUMq7FwWOfvW18o51iqpPCORPfpyxfV37fj0G8hTN1hTrK9aVLl9qcOXOsc+fO9vzzz1uHDh2CGBW9frx96FEgYUCDdWb8+PH26ssT7Jwzzwy6lfEvvGiffvaZDZHisEuXLkE0QkyK076hAFwmAwAlXIiXfCvnSigBDLfSoUx3axyAgrIdCxyZYz05GFFSj+l77NixdtZZZ+3kTv3YuDz0KJBQoIGjef3VV+3cs84MjY0G/dGSJfbWtLdN7m7WtUtX61Xm3u6i0qH3CXb9xnRa78AcFd33ekr0XFHzO2BCHSZ8SjKgwjHoyMjUASBY5LAisc3xfCOOjV5/V9u7fnKz5s2b23333Wdnn312sM7t7tj4t4OfAgkDGhedxj33rF164YWhsQVRSb5xudtybdFHH9n0mbNss0bMk085xbp27Rrk+YNBnPKOubvm81XH8DuAABcBGMBlQFM4CrYBDerJDhiAhwMFJcdQUg+XEeVAdvdsVfFbDDRVQcWD5xoJAxoa9aeffmpXX321tWzWzC664HyrL0sRfisaLkOjL1QnePe99+yZceOte48eNmLEiGBlQpw60AAHYNiZaR/R/cg2P2GuRzQBSFw0YToC9QAJnAUgAQ13XlPXIJWv43dPldn2YxNdxkCTaAofWNdPGNB4B1m+fLnd+dvf2irN9zlhyGDr3q1bKZhgSlYuKSlWB8uy8S+8YBnr1lv/AQOsm7ibVPnFJBpwvGN6yafz5/bPyD4cA+IEHAUdnW04BTL7Xu9OggAIpnsXSwAQ9p0rcdEkei/fpvTn8GeojiUDgQ8GXvKcXg/Q3H///TZy5MhYR1MdP+A+fqaEAU30PeioWCCeeeYZy9dIfeIJQwPgpMizlkTXKlEnXrBokU18c7JtV2frJ3M4Viq8b6MNOZxQBX8ACJ+G4PoKgAMOA26CZ3aAcfEF4OBYMmDiOg1ABLBxkKiCx6v2l8CHiakH7knt7gn4OeH/1L59exszZkyY8Z2I71ftCRQ/4BcokDCgodM5m88dGcXx7p0wYYL959FHrUvnTjZC4QeayWM3iFM6ZruOyVEH/ljOfZOnTtXwWMNOO+20YMEorywOHAAX1n3CdqQEEBBFAA3nLNxiAlfB7w4agAvPRuZ5AZFoXfTapbf7MsfBMdU9OXfoVj7fdw6EkjrAHSdJn+QJaKSlpVmrVq2CjxMe1vg94e+E0yQDgWfOp57f+Y3s96vu9ImfL7EUSBjQ0HHxCsbEfcEFFwRzNg2QRNiE22+/3RaLg7n04ousi7xIfWoA4tQOdfht4hJeff11e+mVV23gwIHhfM6l4XJtV5TCdTDniekKgAj1LtI4SHAe21Hgq+7g4FzAV5XQw7MfCyhTxz4ZuuPPcvjhh4epGHAdTNnoJjEWAAE8ABa4Es716/j50M/roCH0d9pGacoxfl+u43PBvI7rxOnQpEDCgAbO4O6777bXX3vNctX5jzn2WBstf5r+/fuHBg2nMWnSJPvnP/9pjVMb2jHSzaSrI9ApAn8AMCivUuyWu++9L3gX7+4TfRVwfNXvu7v2vv6NDgs3wOxv96QGiJl6AYcBjRwUEFHQhwAcPlucumZSwPt0DcSb8smBY1f10Mv1SoB3RsYay87KFrf5cVDybwXUpbT+TDo4Uo0apYG3WrRoGfRr6XLS7N69uxz3uoSQoIBZnA5dCiQUaP72t7/ZRgV2OrL3ETZX0xBw1jtcDfCiiy62HrIyMephfXnzzTdt2tS3rJbY8OMFSDTKGupsJEScR594wp548qlq/ZXouBVlRnOS/wZYIIoAJIADAAJQAAyACKAAiESDXgEsZK9DPOE46OccCNd3LsPvR+l1XlJHsC1ESwAEfRT6JThClNbsl4qVBbZNQJKTsyXk1atWWs6WbKuxo8DaNatpqfVqWuvGAr864mJ0b4Amt2C7rd5YaJlbiuzjjGJxNCnWrv3h1rVbdxswYKCdKjH48MPTP+deeZg4HRIUSDjQbJaL+lBZm2CxM7U9ddo0e2/OXLtIvjVXfutbobPBiiP+vCDL078eftjOlZNX3yP7BDYcMejxJ5+0fz/2eJV/EDqnJ9/2srL1HMc5gAVBoRBFAAT0HHjH4gENcJIdRJwbAWQAIkCEbUQNgMPByZ+BEqCIlhVtE7kPlwIc8LCAwVXOmzcvAAgggvIaLiWq6Ib2fBvAZft2hdEINJF4JPBhOjuAMqBrA+VU63VYfWuaqlCgtTQ/LTnJaqcoZEZNHVRGx+KSHZZfqKDoxTssJ6/Ylq7eZpM+yLK35udazZS6ltauvQ0bdqJd973rrXXrNl8AyfJ0Dy8b/zloKJBQoEF02qCR8uRhJ4TOQ1ehUTOiPvXsc4YfzQ9/9CM76qijQkekM6Ewvu222yxpx3aZw4cEZfFTCiVZ1UBD54Yz8M5NB3fOIarcZEUARBFAA44DTgTQ6NmzZ9in3oHCW0W001S0Ha2Dm6CT0+HdclXKUZSuYOB178nfyAEEwGD7ww8/DCX0BFQ4luSg9FXb/hzE46lZE11PkjWsm2Sp9Wta304N7JSjmtox3SWS1ZXeBtQp/e+4UravyrIktbxuXroDLrLJs2zeVmIT3s20Ce9lieMpttzCZDvr7HPsQg02R/Q6wpqKm4P+cTp4KZAwoKHRY9J+5F//smHiaPCNwZydpEaNsjdfStw5c+fZjFkzrUvXbjZK4QUID8moTyd6+eWXbepbU6xu7TryIl5kr0+ctFP8oIN4J3FFo+8DHgABIgrbcApsUwdIeB37rVu3DpwHv3Mc4gsmW/bhSKhzDsOvX770pkGHAkRJ3tEBADgIsgMBQApH4SIL7wonwj5WMujGPo57iDaACnVcm+t65j7UeT37lU1wLUkCFcpa4k7gWjq3ra1cL3AuPds3sLTmsh4lC3yEI6VcTmWv/uXj0LWViDSbcors/WVb7M0PNtn8z/Itt7iBDTzmOIlUI6zvUX2ts7g/5/a+fJW45kCmQMKAhg5Bx8F3BnGoc6eONlLmbBSU3lkhHLqCDz6cb3Okw+khLuHaa6+1Dh06hA6EGABYPf7440EEAAjccuKgwSxhLCZcl0bqug8AyzkW6lz/AfcBxxJ9BgeGij5kRb8BGgToAkh4RzgQRD8AAuCgDpGPdwNk+J19AAOdFEBDvYstFd03EXW8c3Iy3MmOEFWwVdMUG963iR3bo5F1TZPuqFkpuCTi3n5NuBzEq3mf5NikeRvtuemZVrijrnR2Pe0ELe9y8cWXhukoPKtnPzcuD1wKJAxoIAmd1DvcL3/5S5ujeLMXnn+e2OWe4hQUBlONidEO/xksGJiyJ0oxTLT9yy67LIADnZGOSieFe/HsjRCOg23nbLiv/8Y2iefw7PvOCXjJ73ARxFQhUFfUVD5VPj38BjgAIlGQ8OtyHZ7V96NleIjIc/gzeH2iS+iBaFRT7AkSSnqrunbNyLY2rLc4P4lFKeG3Mrol+GHKJCtxOGobxdsta2uRPfTaahs3M9uKd8iaVrdeEKsIgA74MDDw/HE6sCmQMKCho3knpkQEgDt5WNxNGylMTz5xmLXGCYyGJAAhAUrLPv7YXpzwsjUR93LllVdav379ArcCkJTvvOw798C53AduAzHERRU6P4pQuKOoQhSwQMeBeAKI+PH+zH4vnqs8gFB3IKQAwOqjtVIUKL1eDespZe4Zg5rZyP7NrUEdOdqhyFXaX93YQadQgPPxmm32+OQMe//jbbZu8w5rkNpU7hBnicO5xNLTO4Q24IPKgUD7+Bm/SIGEAQ2dE4c9ouwNkI8M+hcSIT0fe+wxm6WlO9qntdV0hBOsuUDFRy1hh4Ai196R8nPGrHeso0QjFjBDKQsYLJffBl6+DiafyWTuugzAhm1EGkQYwAQxBfA41BKKXcC5UYNkG9StoZ3Yp4md3Fc6qEalTpPQY38BTPlv4YADl/PRyq325rxNNnFeli1dU2SNmzQP+rvRo8/UMr1Dgw6v/PnxfvWnQMKAhk7/pz/9yWYqeHV+Qb4d1bdfWHwMHxJ+W6K4NE8r+t4kxZodpYl3/fv1LdWdwN0IbYrLOJEPtbTH8y++FCxUgBccDOCBKBXlNJzUzol46fUHSgngBk5EdPBtnj0qMrKPDgqHOJTamNPRO0HXyVpdMjNzvaXWTbaT+ja2bw5uaR3b1LPmDWU+FwdTGcXujqpEIKFIZS7nYIMoXVC03dZsLLCZH2XboxPX2rqcZGvZqrUGnBF2zXfHBB0e7wtN4nRgUCBhQAMY3HXXXVZTisc+R/S2J556ypav+MxuuunmEA4CRS0J8eXXv/61Rt4GNuqMkdakUeNg6VEvC4CTJe7lHgVQmjJ1WrWlaBQQeMiK9ql3JbT/Thm1arGPtQvTOYAMgJDRUwyRqR8HPxTigAwWMRcn4fTgHn/+s5/a0iULrXmjFPveqLY2epAmPdaWbgZaRlLo1NGq6DY4X0sVwdxUetIOLM/ymwkp9O3oCbqaM4y43ogrCXZt+dRQn1QU+Z0LaJfEFcJmZD/8UPaHajgcQOfxyWuU11t2XrLVa5Bq37lmTHD6bCXwcTpAuzhVXwokHGhqS9E4QDOxEV8WKtjVSy+/Yk3l3Mb8J9YCYkRG8cqyq1M0Grdp1dKO6tNnpzi1Rb/9few/gpK4OpKRBo7FC4Bw0zmA4u7/gAQZQHHfG8ADsMBKhhUNJz/Op45zy6dddSKU5IsXL7b//Oc/9vBDD1qTekU2vF8Tu/rUttaicdmSJ7pY+S4IcOwAMMTh7EjRrynaVrkjON+Vv3sV7IMagI4c+UwAlFSifbapc0CiLpI4hRQ4U5Xrsgrtlfc2yAEw25asLrRmreRhfvHFdtqpp1k3cXZYFuNUfSmQcKCpVQY0jL5uXUIcWrJ0WZgTc/Y5ZwfZm86EwvZ1TaScO3u2de7YwXorzCfiwL3/uL/KgIb7VCYDDqzGCAcBgAACvAOevoACDRugABgwr8NtRIGG85wbob68IpMOVD65uEeJv40Hx4I7JPsa3ijW4WIoFy6Yb4sWzpcepr5dfnJrG9itUeBidopIoAwZcBGnEoAFQGGfcn9JH7x+BGgAngBERWWAVEaeJJVsQhM8j9dni3tbslm+OFk2bdE269CpR2g/w6XHQ4fjvk86JU7ViAIJAxoAgrlOb06aaGO+851gXQqNXx0dhz04lblyj3/+pQlhZYSbf/jD0LHRvbDk6gMPPGCZ69fZ6NNPt0cff8Imidvx5CO8l7urp4E6sHAcDbFv3747wQHQoO5YzbHC1wZOBFABaAAS50ZcH+DOfQ4c0WfgXiQvK9pGQf2RODs3obOP/w1mdQcWOBWy66LgBqELdQAMuinqktQLcaq7Ynhr+87I9kHRixJ4JwsDmNSRtU7zkRB9AhejzWqbIJ+Dj0SupMLSbOW4ne0SqbJlFl+yKtfGvrTS3llWIA64hQ0YOCiI5sQy4nuRo9+n2r73IfBgCQMaOgIOa+hp3p421UZrjZ8+4lAayOtWX5/eGDpLnjrPf596WvqbFfa966+3k046KXARdCyc/f7yl78EKxLiFZ2bTANyIICj8Lr09PTAccBdACAc07RpkxB8qZ3m2eD1C6h44/OS77y7bTo2gEDpndzr6Pi8K/tYuxYuXBjM6Fi/AAYABEsbVjDqAGBSFIyi+9H6ira9Dp+Y1k2T7bpR7e2Sk9oGHxm8feFQ4Fp2yJwdAKY6A0ugRCX+AD6AToEDj/yiVLddHE6xTOOzFm+2+19eJYtVnkaSVK0JPtquve46LWLXOXCalbhDfEiCKZAwoOG56RR00FdeecWe1MTIWgKJo2Vd6qE4KD7i0EnprOhv3p4x01LFURA5//jjjw8cBuLUTJnC6bSIIIgslOh22rVrF8QT9gEVH8EADTr0RC3V+vDDDwU/mZNOPtkuueTSwDU5TeEYPPwmx3tm6V2eyTkKyo/l38O78ByY1tn25Xup4xjehcx77yr7vfemxHrUrV1tu+GsdDvxyGbB6S6IQrUFMHAwKndyNXtzo+p4rrieUhGrDHSkgC7RrPG8vBKbtiDLJs3dZHM/3SawbW4jzxhtI0aersUL+wfAqUj/VR1f8WB8poQDDURjtKdThgXlxKUQ6GrEqcMD5+KcBANv9uZsm79wkc2SBSUtrZ1dLZELhz0HEB/Nox+ifB37dPy5c+cGK8zCD+ZpgqY6vjif4wcP0QziduIsSucPARY46wEcgAxcFCWcCSXg4RxM9J77cxumpWu7OnbXVV3tqI6p4tAELPUFMHVVotiFkIdQSmIeKfodrFvieLZmF9miFVvttdmZ9uI7WVanYeswteESOf4NPWFY4Fxpc97uDiFS7ddXTRjQ0EFRXqLU7CMrEhwHdYhTt/z85wEIzj/3G3a09CXJEmfQ34TpCOIIAIrJU96y8S++aGeMGhWWV8VhDxDBj+btt98O10EcQaTCRI7jHspRMveBI6kpHUYnKUAvbtnA/rtBIUIltZTISSQvvxRAoDzXjIJVdD9av1+/UtnN4WT6dKxn91wn83fzOlYD5W5jORCoPNQA5kvfo1Q9ZjsAnK3brSinxLIUF+eh11bZC7OyrKRGfRs8eKjdetsvgv9RVIT+0rXiiiqnQMKABo4Ah70nNCESs+4ll14aPIRRtsIpvKqF5R555JEQBmKYfERatGguhXHtMKuYt4S7WC0R5mmFk/hw/vwQV9inGwAkDgiULrJwXhQc6tetbT3q17Jr0+R/klLTHlyz2d6VEnGrZPt8AVFx8ecLpXHu/kjR0dVHWa/jPXk3Ui1xK0d3rm+3XtLZeqU3tJroYFKV3b9lfzx8Nb5nEjqcbdKd5ZbYkuVb7YmJGfbO4hyrnZpmF158hdYFHx2CsCGKO8dcjV/ngH+0hAENYIIiWBGUrI5CPTCloKXCMrDwO1MKGFE82NV0cSgN9MGHHH9cCCAFVZEA4HDggO78wx8ENgv2mNi1NFO5T+N6dn27RpZWO8VyFKtg4qZce2GjRCaBTVGRVnRU9s68xzeoghPQG+Cch84pquBmVjqK5enyrOb5+netb7+8tIv1UQAqayiAEdAc8lxMZekvLmd7nvy4lubYK9PX2+Q5ihRYP12TN8/Wkr1nW+8+vdUeP5+aUdnLxsdVngIJB5pashD1P7pfEHlYTuWdd98LDns/lDmbcJ5wIJh6Cec57rnnbPCxx1g/iVMEY2JkxzP4f++5x96ePqPyb1V2JLOSj2xSPwBNOwEN3HW+TKOf5hXa/2Xk2IoCiVgCnwJxNyUETKlEcm7DR0HnQtj3Oi5DPVME8MXBAuY+N/jh4KTHSOoOevjbuK8NFjSABRHwkksusWVLF1uH1il2z/W9rGvHBlajUSwqVeIzfekQNTPbocFlm4JwrcnIs+mzs+zFadlmddLspJNPtauu+rald+gQ/KL4jnGqWgokFGh+97vfWYq0lwPl18AMbRz20J2MU8jO9xXO81sKBUBnwjeFjrlcEyZ/+tOfWrKOPUu6mWbNmgaT8F/v+btN08i+p+kLQFMH99fSRKPLltj0SMYWm6FgTIWqyC/Qsivq4HBadHaehwzH4dteHiEzPSsIACBkjmeZEq8DOKgjR8GHu0cBycW8aIm4hHL6dPkPzZs3R3F5ze69oZf17JZqNZsll/rClL1HXHw9CvD9md6QLW/jca9n2BOvrhddG9nlV1xtl152eQgzGrVifr27xGdFKZAwoAFQ/vrXv9rHSxbbacOHW6o6n3osSpTAWWBCDpMlpYu5QCEd8Z8hLCYd7TlxNhMmvBSW0u3UsaP969+PBktU9MErsw3Q9BFHc4NEp3YRoOFcGttWcTHTsrfZixKlMsReE1LydIl2mEOd2+jdu3cQa9ysDnhUlACh8ilahw8NYSqgC/onuBb2UWhTx3ujBMeZ733F7XlDpvnmqUn2owvS7dzh8pORz0wsKpWn8N7t0wbIGzYV2PhJa22ylMYF21vaaaefayO1PHNPDR6ItHHaewokDGjoOMzDuUdxg1eu+MyGDT3BevXoHjgGAMfXblqsWdyz586z2vLG/eY3v2kny9+FDoqTG4vNzZD+ZpZCTaxXZLooN8Crw20ceeSRQezwKQIECe8gFhguYey9f7c2xdvs+rTULwEN59PISvRnYW6BTcrKs/ekPOwuC9l5mod1/vkXBm7F2WgHDQCCa0czoh/WNYAC0IAjgTvDdI6uCmBBkY3Z3PehD/qn8rFwwvUVJFw2OPv+ee3tsnMOs0bNpT+IuXk+WUIS7YAgXKvW5tk7H2y2SQKcDTnNFdrkeDttxEgbPvzUoD+L/XC+PvkTBjQ8Ep2RzvXSSy/Zfffeq1AQ/eyMEadZbbn2Y86m83IM0xEI5/my1oAinOfPZf5OT08PnRbPWixUmMqPOeaYnToP12kwbcBFFO5JPdwHnX2InP7qZa627+0CaDieREPbIu7mraxtNn6TAoXXayC5/RQ77/wLAjBgQud6gADAME0rOaBDoQ5gwR8HAAE8OAZg4Tcsb+yT9yQly5I0WgGqfnNTd2vYTCDzZWZpTy4XH7sHFGA+1SbNp3p/QbY9/GyG5lbVU5s8QkH0/5/M40N2isI+AO3BpQ/pQxMKNFCWTkYHhEP51a9+ZZ9qAbLzzz3XOorrQL8Rkno6FqZ8+bc8IQ/ij8TloL8ZrYDl+M/wUQEk5yq85NzoNhwFmXsiqow47VRrmLVWHM2XRafSG5f9FdDoP9NsbHlekT24doutkM9NviqwShUJOLg/ycvKbEePDSdX8s9xvRvaw3f0tZSGxFyp5EnxYVVGAT417TFPDeD16RvskXEZtmlzDet79BC76eabg5Ifzjna9qrs5gfphRIGNIDL0qVLw1wf9BysOID4QDhPVjioL65mQP+jFbS8U6mmX9yNg9LiJUttiuZHpcgsjlJ08ODBgZMBrOAe4BTgKNDzuCjCuXBPiCzUATTTdY2OydtLrU7ldDS7+p7SEVqeuJsJG7fa1M0FllEoq5TeBcDBMvV1wWNX96uo/tc3dLJLzjpMnBpcX0VHxHVfRQGYSLSBATT0UcvGCduWX2LZcuSjLBH3AqDs4PfIBUu5bQYxccjyv4LDnPLuRpv2/mb7ZHWSDR4yPExtOO6440K7jJ3/IsTbxWbCgAaRgtnbr736ikSlusG6hA8NYg3zlxCHxo97ztrJ/MuESyw1jBDer7KlJF2qUBKTFRi8QMCCohjxCaBx0QRg4T6uXC3/jsmYt+VHc0P7xhXqaMofv3Nfra5IDfBjmcHf2JRnU7ZIz6LGWCRLFb43WKeqKlU0KvbrVd9u/lZnO1brKsHRxGCze2oDIjuBQhvFGhA+0ioLazcUWKbEoCWfbrUtctRELMrVnKicrcWWJ9cGZoEHQOJ8v4AaIPSmHTJxtY4ChzVi0bw6NcXhCJz06d/9cKuCqDfSemR9w7y8iy66KMzLg/Ou6Hvu/ukPjV8TBjRwFZi3k6TY7CzL0QMPPaQQDE3sdq2GgH8JTWPLlpzg1PeGYtBcpiBGR4rzSZaTXfjS+vJwECiB/6gZ3IukWIabcI7Ct32/os+FmfzIJl8DaLiYGh5wUqjGODsnzx5fLw5K3I12A3fD4ne7u3dFz+N1AVDVmmmY0cZJPQpHRtB6Cu0wYnAju+qb7axtC+m01OhjwHEKlpZ8C2ZvAyCr5Bsz5d1MmzFnk30gD+ACzfaWsK1/cqsI8TE4R3uyGiYlCRDCJcoQpfRyu/hbyvGUqB3jnlEiB9QignbpCrXkCoG+ETEKv7DzzjsvWKmi33QXFz3kqhMKNHgG19aHJR4wCt+psiDNlAVpuKKiMQqwhCwfhTCUDz34oDVq2EALiR1lrVq20GJzpeEc4Gz+9+57vpYfTSnQ1BVHo5nelRSdvtQC1KYIh7K2QAviZW61uRoZN6pxF2koLChE2UujK/WPcd8ZAmG5gpr3g7VGaY1vBmBCHYGxjpZ/EdYyFNgADMcQF4d9jh1739329pRnbED3Qju+XyNr27KOZmqzCF/piBtufAj9geuA3vkCfEzS6xRX+KVJWjlh4RZZjIotqWYtdfTm4pobhNnaOEkSe4hZ/mxDV/ydiGjINt8FuvM9KkoMJIjpzPDHoRQrIZ7auCW4a8JmOZRuV8yKmlo+iDl9Y8aMCUYLvL3dEhpzOWqvImZpT6mI0ntRB0fjQDNQuhiGY27FtINJk6fYZgHPIFmRzpViOD09PVhzMGdPfestrTNUM0xHaKGRIgCNPIOnvb3nDntVAjQRGoApH+Tk20RZp+bkamlXVeD4BWgwrYKYNzRoODZKd/5DLARUKWnYu/LFidwqbKJ3QsSEjpkZs+3kY5raaUNaWa8uqTuXSil/zsG6TyvdLJD/4KMtNn3ORntvfpbNX5KnTp4SOnj//v2tozhn9IEAC9t8g6ru5LRhrJD4O2ERpZw1a1aYLkIAM+43cODAoFsk3AnAtisgO1i/VUXvlTCgYSQgaNUyiTznnHVm6WiuJwDViqRXWSv9ykwtp4JIdPkVVwTAoWEARCiL35Cpe6Aaz+GHtbe7773PpismzZ4mgKZP47p242F7wdGUu6m4dNsiXc3ibYX28sZttkgyf4q4ktKJo5fJF+i8ADA0LsdwGh/bAAfJ65nLhIIbSxn0wiQ+Z86cnatZontC6Y2fTmbmerHqO6xNixQ7rm9Tu+zsw6xj+/pBYUzoiIMxAewobNeLcxk/cY0c6jItY0ORZmWbNWqs9alGnq7Y0xeGuWJwKXiYQ3cyNK9qkHEa+7fke/KNaLPoC1laCM4HZ0sGFAAPy+nll19u6RpMd8c9+bUP1jJhQIPVCcRn1cmS4iK7TKJSSyl0a+oDeMfjGFZGePiRR4NV6jd33BFGIhoKI8XPfvYzK5Dyd4WUwGRPLqJ4Q6J0zb/Xce0dyh2TS6oUaMIzqAMAmAXqCa9rkuZzmQqEhdwv9rmz1hgfM+a68DtOfG4VA1BmzJgRgAMFNs/n2YGHkjoasNf5O0dLdDiNNbHyktFpdsEZada8qcQAKb5FtgM+wbkgHhVq9YO1mQX2+Isr7cmX10lcYsWIWhKJGts111xjlyoaAOKJi6P7+8UdfPi2BEn785//HLhRBg9EacDmO4qvhKcxYltludr9/V5Vdf+EAQ0PCPGRa8eOHRtWODiy9xHBaQ8LkgOCDgrL4U55a6rNUziIY2Uy/MY3vhHmDQEe999/v7EkLR0QAOIDwRZ3klmc32lojBSwq+g4+Ijswwkcpwma9Tas3iPzdqUJWwY2AM7GohJ7dWOuzd5aaCuZKSxFIZYpuBQ3iVcEHJWtK/9MgYHRH+GrdUirZReMSrMTBjQPHE4tBcI6kFO25p7NX7LFXn9bjp5aYmVTdok1adrsCxYeQrXSfjxXp/flm5IZLFi7bPz48TZ58uQgWvG8F8vowXLPiFSHUkoo0EBICE6HQ+HLgnFE7T9WQaSZ0Y2yDOLzYQAS4s+8o+PWbci0gVrZko8CKPmHA2ScNfYPSukNLlrHSDJU/jcNNmV8pWfwXn3wMsAp1nOsyC+yeVsL7O3N+bZCCkvErCJZzng3Yt9Ai6pOcDEp4nB6dKprQwc0szNPamMd2tUX2AY4qurbJeR6kGVrXrHNUhjOCVPWSv+y2TKzEI+aakrKcIlII0NoV5w3DyTxg+9ORqx6T2FS8Cgn8iP6vJtuuikMlAkhaDW8aMKBJvrOaO/fkrKXyZb1pI+59KILrUVzcTfBdFvaMdDffKawn0xHWLFqtd0sT0zMhgCMAwnXXLt2bbiW6zf4oDgIMiER9jXoNnSdbgpxSTyar211ir5AJbbxt4HDmb45z57NzLM8RjcBDo5h7oezt4ADsJK89O06ihXcunmyXXB6W7tcc6RqCWyqs1lcJAl0yZFi/S8PLbNX3togZzq9V41kzS8abj/+8Y9DKBGCpR3oogZtlzbJFBYGWMQp2vShkvYp0NDByGjt79XcJ6xMxw0aGJS+TdSYCCUhNNnJwcz78EP792OPW0OJRMQOZlY33sUASRR0/GNRR/LfkgVgHvhqXwENyhmewn1wxm3IsWnyMMYkrpC24dkQp/DDQRfhzxwevJJ/aKgeWsO5Oerq1asrfVixRtAMa92syL5/eWfr37uxtZAOpzomAAYL0u/uX2or1xRrSkpD6yiR+PbbfxmABtGYzhgF1Or4HpV9Jm+X/s0qe97BcNw+BRonGGCDOAUb+e9/P2Kbs7K1MkLXsGBcXUySZYCDngPO5Y7f/d6Wf/ZZYEP3hBvYXZgIf5ZEluAe4tNa+dvMkji1WPOolklE2KJKfHNYXxzQcT0OXtNdpUxGPPARHNM5FhUXGWikKEHRUflxXofuCv8ORNQXX3heCvUPrF/P2jb6xFY2qE+ToDQm7vD+TNCEDreY8JovrrJxbygQfHGKQjL0Dr5VKE3RwfD+BwvA7E96V5d77xegib48c5KwxrygOVDZ6iQnnTgsTEvwRrY3Dnv7G2ii70kHI9jWEpnF5+YU2NQtmvUNR6ODEKvwVh2s2Mljxlxr7du3DyACDRAbWI8KUGHf6RK9dvltTK5Y7VgXa+zY+yx/20Y75shU+8ZpbW34cS2CFnl/mMTDuwpkZy/Mtt/et9gWfayZ8ttr2rXXXmtXXnllcBFAmR+ng48C+x1oGN3Qr2AGxgfhF7fdFpz1Tj3llGBRQlQilOfXctiTyZdQnhUFvtrnn5KRXDdFpEKPk6/3fkmexrM0jypDplwi0NSUqFC/Xv0QV5kQFQMGDAg02FMTLjSF80PEJLDWrbfeYk89+YRAqsh6d6lrP7mmq3VXWNB9baEqkIL8waeX272PrQjm6rS09vbHP/7JRijIFD5UB5OYtM/bVzW/4X4Hmih93GntrjvvtFXymzlW+puGCiXxj//7524d9nykj472dDYmxfVMrWM3agrC4XU/D+UZvef+3EaswvlvgSxVExV4a60AB7GquIZmDAt0Djs8PZj68aBOT+8QFIiIV259q8yzO4hPmjTJ/i7AnjN3tuafbZF1qoWNkkjVJV3xjGthzavM1b7eMXhPZ24qtP9OWGX/GrdaExxrGDOf8ZMismIsJn09uh5IZ1UroIFwAATcDWs3EVJimUKBzl+w8AsOe+UJTEMl0p57hgI4dLAlOjc5L9d+1L6R9W5YvVlyQOcjRfr7VHqc+bmF9olmCmdq8p6WoQqB2vEv6tGjZ1CKo4sZNOiYSotSTi/3un7qqadE36nWuEG+9Det7axT2ljnwxX4PEHqm5Wa8PjHfy6xN97OEjeXEtwWbrnllqBn8meLy4ObAtUOaCC3i1M4+02ZMiWIVOgdYK0BFdz9WUGBbWe38bdx72CuAdDcKc5o3HPP2FAFkLo2rbGlBB0Hv1a/JHwt09doTo+4HDJ+OdNQIgt0iphJKU4HC1yqlKXp4naO1hSN448fLNAZtFMxjC5nVwlxCrrgsfzKKy/bH7SMzYZ1qy2tVZKdIt3N1eenW2p9Jm0y63nvkxgZW756m936PwsUWiFXuqY2Mln/xC5UjGifeLr3d4mvcCBQoFoCjRPOAYcOwjYJbiUKMH5s+ZIOtUjLu1x55RW2UlH9jq9fw65q08hqqxMlauQu/wx7ta/XxTJFTGNi47yglTbnyvN4FY6AqmclWGYMM6UjWd7RxFrGuQ1RpKFmwQM4yZoBD61cpHRQ5rkAbpwaAZv77rvXCgu2WatmSXb79V3t6COahDgse2OhQlxavS7fbvufhTZzXq4AsondoSkmV2heW6zw5QscWqlaA41/CgcZ3/eO4/u7KulMiGC/+fWvbM5779oxDZLtfC2Py2Jywqvqn0qxNXA6PCyK5AwtC0O4UZTI2TKNr9OUh43IXaTAsclLWNxe9+49gpiFBSutbZrVl66LSX7MIPcEXQHxBQsW2N0KIj9p0kRbu2a5DRvUxM4bmabJm80C4Pjxe1LCyfz+gSX22tQsa9W6jd1yy6327W9/+wtc555cLz72wKbAfgEaZ+HxFJ43b25g5ZkXMlIR5zHxVhZIvor0zhHNnj3bfn/XnTZj6hRNstxhZzerZ70b1NHa3KFvftVlqs/vwhMgBcCB08mWB/JqxclZW1hsq1SuK5R3tMSsAgV7whcpqUy0PCw9PQBMh/QOYT5Yc3lj91bsFMC2S5euIRwl1j2miTz//HiJVRMkZmbbgCNS7ZxT29pA+eBU1kIFJ/OZQOaOexfbW+9utuYtWgUHvCFDBgcHRfyEsKJ9ncT3xGBACFfM9wAqIWLdsS96TY5loMnN3WpLlyy1DZkbxBVHj/h8G+/pY489LvjvRNse55deIzdMEG6pOEktW7YK99sTd4PP73Tobu1ToPGOj2fwA5os+dKEF23Txk02ROCCMnfU6DNDo49+7Kr4NIhRKEIfuP8fIacU5NnxDaWUbNXQagUuoCrush+voQ6ET06+uBPWqspVnpadLwCSRUsOgszD8j5G1DmcIvHCRdFMgHi8igW51q59O8VxHmBz580LM483bcpSWIpkGzG0hd1wWSfNGBcnuBvRU7e3FRnb7Md/mG+zF+QKWJIUBpNYPO3D4AH43fj9H2hS4eWl+yBdJVNp2ym2G2+8wWbOmKmY0DnhHYbJ7+quu37/BXGMYzEofP/7N9ocDTL4amHqDzAdvvcX70t769K5iz340MPBZ4nzEStff/01e1iRIddkrLE87WMJZHnn47R083XXXW8dOnQIomklX+GQPuz/AwAA//+hw1nUAAA4XklEQVTtnQWAVUXbx4fuLulOi1SJF1DEAlv0VUHCBhQxMVDBLkp9FQzA+hQ7CANRLLAFiw7FQKVjyfP9f89l7p67exeW2BXYM3o5Z++dM/Gcmf8889TkCpRcNqXVq1e7qVM/dDfdeKPbsCHFdep8orvuuutcyZKlrAW5c+d2fPZ0oot81q1b514c94L738MPuYUL5ruGBXK73pVLuLJ5c7tcufZ0rdlcnt4iL9J/qN1erP5ZvWWLm7Zyvdus+8nLU5xTXzfp9/Vb9Y86vkXfr9eHP0lbt2w1em3estlt3qycol2lCnndlT3ruDbNyrjSJfO73EnoNXvhGnf3yNnuw89Xurwqp3i+/K5YgXzu4AJ5VVfgvt241eUqXMh9991MV6ZMGZcnTx6rLzP/bFEf3nn7bdfr/J4uZf16a1+uXLldhQrl3ajHHndt27aLF0Pe5//vOXf11Ve5lJQUy8uPuTS2ihcr5goUKOjy5svrgq1b3WblpSsHVKzkhg8f4Q455BD322+/aVxe49595x1HWTZ+tpVO3ty587jGjRu7Bx962DVs2FAkTEKMbfmjS4wCuUREDbGsTVQByDzzzNNuyJAHXL269Vzfvpe5du3bu0KFCmUJuCTrEe3YvHmzBvp31pZ/lvzqzq1bxZVYOMul/LLQBZpYTCr+26/SNhDZqr4BJvTun01b3G8pm52mkVu9eatblLLJgIh+b1a+pZu2ug0CB57ZvHmL27p1i/tV9GndoqQ77dhK7ojGZVwhATVzbLOQavp3y93I5xe46d+udmUEAEcUL+xqFCrgyufL45TLypy8cq37emtud9PAm93ll1/u8uXLR3WZShs3bnRX9LvcvfDC827TJmASjMxlgPXoyFHumGOOjZfD7336XOpeevFFe98+b7FixV3v3r1d02bNXYkSxd3GjZvc2rVrDUjq1q3rateu7X7//XfX+9JL3McffySQAXBj8Ms4LViwoFuxcqXlz5s3r7v22utcv35X2BiOVx7dJKVAtgANk3vy5Mnummuu0kqY2z3z7HOuUaNGuwwwYWzc1dWEle7PP/5w5cuUdhsXzXNL35/o/nz3Tbdx2d9a0mODa78DnKRDIP2Xwh23TOCyYRsdQCYAZ9aaFPfm0lVudZHAHVy/mDv9mMquRpXC7oPP/3ZjX/3F/fbnJldL4NGxdFFXUyAT5k0Bt5nrNrjJKVvchf2vMk62QIEC6SvP4Bu40aM7HOW+/35mPAfvHm54xIMPupNPPiX+/Zo1a9yxx3R0M2fOiH9noFS2rHv0UUDpmPj34Ru4l4dU1j333u3WaGEMp4MOOlgLYzv39FNPu1WrVhrInX32Oe6uu+9xpUrFOPJw/ug+kQLZAjQMkiuv7O/eevMN9+ToMe7II49yrAi7AhKeK9mqScDzrIq7Wg6kgOmFhd66aaNbv2Sxm/fIfW7ZF5+6QH/71SyRZDngL6ECwJA2bRHYpIjL+WjZGjd2yXK3if2RCLhpU6CPc4cUyu+OL13clRAXA135+ER5c1M2unfWb3FnXdLbDRw4cKc4gZXiJACPH3/8wRdp772kJvmDDz7kTjrpZPue8QHAdO16rrbHCxLyljGgGZnA/fgMPLdkyRLjhD784AOtNbHFhl4wvs486yzX5Ywu4sT62taKbdsll1ziBt58iytatKgvJrpmQIFsARq2Tcd0PNrlz5/fjRn7lKtWrdpO7c/DbWdAfPXVV+6OO+5whx12mDv11FNd9erVja3dFcDxZTOwlv3zt5v7889u8Xvj3V/jX3Kltm5ypTVp8mqg2aQJzxz/YA67ivyS6cS2W8/9ssx9vTLFIWk5pGhB17JEEZfH0yoNXQxo1m9wk9ZtcusKFHbz5893RYoUSZMr+Z+884ULF7jTTzvVzZ07N56J942sx7iUY2NbJ/K+9957rk/vS90ff/yemHc7HA3vf/r0ae7iiy9KACihjHHegwcNds2aN3eXalu15Nclrnjx4m74iBGus+SMWSFXjDd8P7nJVqBZvny5e/mVV1yDBg13GWigO4PimWeecbfddpsrq8HTrVs3d84552jfXWKXuBvKBAwfeeR/JihesWKFy6c1vW7BPO6IYgVc8+IFXfn8cGDkjBLszvINW9ySNZvcKsl68ksynG8HxIkBzUY3Yc0Gtzpvfrdo0SJXTILZzCTA4+OPP3YXXnC+uIkl8UdiQFPWjRw1ynXsGNsOMTZeffVVd/VVV7p/tHD4RF7GCvIcn9f/xpVt0xtvvC4u5WK3Xhy4TzyXW0LrYcOGu2OPPc6NGvmomyGOqeURLV3XbudJGF3BZ42u26FAtgANW6e+fXu7CePHuyuvutpdcUV/4262064d/rRemoeZM2e6AQMGuFmzZgm8Grj+/fu7Dh06SKtQwACHQZLZxErZ/bxu1q5bbrnVvfPu2+4NDdgVf0qOoyW7edF87qjShV0paSvYMSTsCzJbyX6QT3PeLZOc5c+1m9wmbaMAENKOKE2+eRI4AzSr8uTbaaD54IMpxm38IWGtT8mABsAYMXyYu+uuO03jFM5btlw595g0VEcd1cF/Hb8iR3z99dfcpQIa5HfxBNBomzRQAuz+V15pC9KqVaskGyppHFnEzcQptd2bbAEatACvvPyyhMFXu/Up66Xi/tgh5UdOszuJQfXnn3+6Bx54wDgcBkt7abJuuOEGKx8tASpUW5Wk2txeWrBgvuvZs4crXLiIe+mll8UO53Lffvudu/32we7br79xGzesdyWks+lcqqBrW6qwK6jf2VJZqTuaZdureF/5TUghXDFOxoPMzjQdoJkP0Kzd4Fbm3nmgmaztENuWPwX8PvFeS5cu4/73yKPu+OOPt68Za3fffZcbNnRIXDvFD8hUypcv75548skEVbgvi7H01ltvuosvutDMIPz3MRmNc2f997+2RYuAJZUyO3OXLUADO7t48WJ3rYDmvcnvuRYtWogVHWE2CDvT2GR5YasZJNOnT9fW5xH3xRdf2GrJwDvpxBNdvfr1XX192Mtvj8NB2Dh40K1u3Lhx7rn/+z/XsmUr23tT/vjxb5ladfpn04wdL5IrcB1LFnBNixV0tSQABXR2uKQna/y+8p1QYoNU2P9IHf7XOpkA7EIKA80qAc3Cndw6vfPO25K79HZLl/6ZWruApqS2y0M1lk4//XT7Hu75jttvEyg8kg5oDjigghs95inXqlWr1DK23TFGkf1dIhnNnDmz0/3eqlVrN1YaJ8Bqe+Mo3YPRF0aBbAEaDwYYQPXvf4VbuXKFO+64401ijyB3Zwy3kr03ymegMMgAms8++8wxMH/66WcbGAceeKAJjI+VwBBDK7QE1Mnq5Fco7DSee+5ZCZlvlxr1aKlMH4rbecApLVu2zISFGI29/fYkt3LZP7IXCVxt2ZIcWCS/ayzQKZU3j4ShrJ7JWrlvfidTErd64xZtlza7NbKtYeu0K4nH5q7f6CaKo1mdJ/9OA83EiRPcZZf1dX8tXZpavQjNu7znnnslpzvPvv9DJgs33HC95DSvuC16bz4BDhUrVjSgaS6hLn+H3z9jiGcRIk9+f7JpIv2zXCvKoO/Ou+4yNfrucuLhcnPKfbYAjScmQPD444+52wYPskl8wgmd3P0PDDGh4O6Cja+DAQNoLNWARO7y0EMPug8/nOqQ6ZTTHh2BcadOncw4q2PHjvEV6q+/ltq+HkFi4UKF3Y8//SR5TXo7jxUrlksDstA9//zzZmWM4LiQJBXFcgeudTGpd8sUdUVlacyWCrwxzNnXgEeoADDw+V0C3xUS/G5m37QbiafnyI7GgCZvgZ2W0SA/6X/FFQkCXhCd7fEgaYQuvbS3tW7OnDnK18998snHxun6JgMsvPtzu3Z11apWc/mkAf3vf89OUE3DGQ/VluuB+++XId8a/6hd8+bN5046+SSB2n3xMZOQIfpjuxTIVqABBNhDY9497oVxmvzrTEU9ctTjrmrVqnHuYrstzuSPcDh8qBON0htvvCHW+EtxPJ+LO1luAj+sQlNSNoi7yW1m904cSnFZjwJE7PuTWa5Sni978eJFbuzYMW7i+AmmSsXIK59ApXmRvK6DBMfVCuZzxcU55Y0jTiYb/29mEyJgGbxG7gKLV280tNk9iIl1ZneBZtwLL8gS92qH5jI15ZLgP78Jai+XhS5p1qyfXT9ZHU+TqnqrgMMngIbFrLS20PllewU3g2KiV6/zfRYbK6jEzzn7bPfV11+p76k95/mCBQu5+wRCABSmGlHKPAWyFWhoFpOUbcidd94hsHlePk8b3OGHH+FukP9T06bN4hqjzHdhxzk9MLBixbRVMwxs5onj+V0Di+9JDKbKlSrbylWrVu0dAh/lsq2Ce0I1+tHUqWZQ9od8ZbbKR6hhwdzu4ML5DXBqFY6Bjm2trDKrcu/4R/OJKbVRcpi12h6tFAfDFXuZPZUoKcbRbHRr8hUwrjCz6m3o/PTTT7kbtSVC4xNOTHhcGtBkkn788Ud3ubZYX375pcZaGGhyu8pVKkt+c6crVLiwLS6HHXa4cTnh8ry8r5cUAwie/dggD+BUrVp148LRbvI3YyZKO6ZAtgONbxJWmEMeuN89Lf8nVp6Gckm47roB0h6csE++QCYDgDNbqnbYdrZg8+bNtb1+Se2jquTP7WoXzCtZTgHXQOCDYRspPkzjN55CWXwNYYgX9K4TuKTI83JPAozvRRhoUsQZzJ03P9N2NNB29JNPSKY3MJ1rAFugm24caKpn6vrhh+9d3z593DfffJMANDhCNmjYQK4wU3ZoKMjWG6fMW2652RZFuFifAJb69Ru4YcNHaIE83Lgk/1t0zZgC/xrQMHjgLhC+PiG5DVuqwrIUHXTrIDOEYtvCirGvJD8YWQHhcrDF+O67b92oUSPdVJm0b9DfcDko9Mvny+2ayC7npLLFXGGxONmtJmfe8Fm1Tci7TuCCLxNsjf7PkkS5nqPZIBnYnLnzdgponn5KHM2NO+Zovv9eQNO3j/t2N4AmNjbXuREjhrsHZf3rHS9jhMHtRVtjUxg86A44oGKW0Gt/K/RfAxoIyeRk6zRS1pZY5f79119aIfK687p3l89JH1e5cpVd9onaG14UoAOAzps3z02S1uT9Ke+7X3/5Ra4O/1iog7zyDK6dP5drWbyAqclLSIhcTJ/8Algg1mB2ZzidEEr4W65bJcglFAScCg6TCHfXyqIXg7usBJfwO6AdcaCRrdKcOXMzDTSMkxdfHOeuuRoZzbJQschNCrhbtTj17tPXvscX6rK+fU1VHd46Yd3bqGEjmVdMNlupUCEJt7wzFkDq2bRps+xxhkob+Yzde983uBpcEO659z7XpcuZSWV5CYVGf0j86Zfif5EYrBhvvfmmDO/uNytfBHxt27WTI+ZVJr/ZUxqpf7GLVjUrJab0sPeffvqp+1HXBQsWmBygmFCleoE8roo+9WSbUza/rtpi5WeLlQmwgSHZIuBgG8SkRku0UR++Q/YCqKToyt//RkoFmg1uQ+GiOw00WJXj0PiXFqN4Em2KigvGg7p79x729c/yVevX7zKzqwoLgxlDhxx6qJs48W0BTeF4EeEbpgLvg3AmMxRK5BiZQ7Rr194NvOlG+U+9Gw85wTOAzcmnnKqwJ0Pl2lCGb8JFRfdpKLBXAA0TEM5mxowZ7uabb3JfyhaGF1e9RnV3Xrfu7sKLLrLBsT8I3lgx+fwjrobPnNmz3fTPp7s3JUxe9vff+m2zKyROJ7/ggi1WHcl16slOp7KsqPEn8ptJhjVggkyFbQ8T2cAm4R6GZRuw6LLtLs0QyJ4/qRuOBheEjUV2Hmjelv1S3z7pDfYI0RD23sb04BoFvMKxElr6hO3Lf9q2lVnCuAy9xnkvg269RYG0RrlNktNcdPElGo+3mH3NKSefaCDky0O1jvHepEnvmKnE/jA2433Lgpu9Amh8vxgYa9eusxVp4oSJBj6FChV0Xc48y4IM4cDGyrQ/vVRAFpkOWywEmBimYRCITw8GZ3xyKU8ugU8lWSBX1NbqoIL5pTbX9kpoE9tiEcogdU3dG9dWDzTY0WwopK3T3MzLaOA0prz/vjk8pvPILpPoVAl3fLssg0c++qjoGguQxfjCDqZHjx4yurvbbG/8mAtfeZagVxj7ITy+Wlu1G28aaJrS224bbMqL1PyxECVjJTvq1KnzfjUmU/u45+72KqChW0w83AHQMoweM9pkGviptG7dyl3er79r06ZNhivSniNL9pbkd6/+ysqKSwXbgC/E7cyfP09ynWVy41jkNgqQYF3YUlUT2JSSMLmyQlkUlVyniP4uIvTh6jmf7O1JxrUBNLPWpbhJaze6zUVLuNni5DIbxwW6fP311+6887q6XxYvjlfCglO2bDkL5Ym6mQTtkPlhFApw+JRXygUCVT0gA1GM/JKlMNCA3L1791GEgNtNTvimtvZdzz079JiE+BIKDx06TO3qHgFNiDLJbvc6oKGRDKy1a9a4z6ZNU8SzEXIp+NRt0speURJ+QkJg3VlJ9i77qyk4/Qdw+TBxCKnwt7ZVc+fOMRnWIm0P8MtZJVcOOB4Cd+WXzQjhl4oKaIpqknAtJ5cI/LAqCojy6Uo4Kv1k0gS4nuzkfACa6avWuQ8VJOvI405wo0eP3qkFAwvs448/VnKtH2x8qDib3HC5o8eM1ULUhq/st28ESj16dnfQyYM3nDB2Wq+99rorJkGuz8sVOgNa0PpKucg88+wzRtcORx9twFSjRk1zaTmzyxn2nP2j/IWkpqe8I1q2jIAmlTJJ7/ZKoPEtZQDgjImKeKy4G1wYCip2Kw6PmJ0TGHp/20r5vie7MmmgASsv/mJLl/5lIIyPzuuvKaSFJiM0UzZxNOJ6VEiebVdApao4ndLigAChKoqvU0x/x2LhbattG/JkBEAZfc/TAEmyZN/rnxRt/SYsX+tmy6GS7UuvXr12SluDbcsF5/dycBZe9oL5Qy3F+Z0wYZLUzAfEq0dr1P+Ky6WpetG0RbQOrhinyscef0JOla0tL2Vi4EcEgNatW5smCcPAgQNvMloSyHywOBo4IbZiyA8tCWRy60MgrLFjn5Z2tHIENHHqJ7/Zq4GGJjNxGDgvvfSiGzpkiPvll8Um/KxQvoIbcP0N7kR5aCMQ3JdsbpK/isx9C9j4D0/4e65wPdPE/f0qY0hkGn///ZdtQ7HhYVIR0IkreQ2N9Dw2PNUFOIUEPrhPFOJvgRCCZ/5mQnmA4Tssm9MmFFkbKVOJf3Fh4LNMuvQ/iD2sL5fLO3OxVOrVa9XSNuibnTZbgNsYpxMs8GMCbElwtG3a/MeNE6DgHuATYwb19GmKyPe9YhbBDdMwQn+0b3+k69nrfBlW/ixB7iQLVM/3xASeOOltk5UBaO++ywkIW2U5XNyi6GGAuWZNLI4wqvLy5crbtuo0eY0nc1XxbYmuMQrs9UBDMxk4fIgFO3z4cDf1ww8tQDTczEkKSt2jR0/XpEkT23vnFMBJNoABECakpxd/IwvBYRT/rgUL5rvluq6TjxmrOL5ZmxQbeZ04pKX6GxDiAwixHeN5A6VtlZUU0BRKIvxJAUjCanPlM4DCHkhC1bz585mDap26dVzfyy436++dFejTDgCmV88ecpL90PpYomQJd999D5hvWtrJDg3mzp1rEfHwW1q0cJGeX2vR8ghkBfLkEVCxHW/WvJmNoebNW1h/l/z6q3tIR/LgUsLCxikQMRsa4t+UtsD6Z3TpIgDqLDlT5qIEJntfOem7fQJo/AthsDFp3nrrLUVRG27+Mrm1GtepXccCE11yyaW278/JYONptb0rGq5lCnPBaQEYpeHc+vdff8eAZpuwebVW7x9kZQtwYXpgnIp+MyBKUzgrfMECBRCamMNiPgELkzavjC/5Dc4D26ga1Wu4agoLsqsOibx/5FUIhgFCgAaOxkdUTNMs+5NtJvGGcXkBqNDw0ad8OnOKNiHjYQteRCr31CSzATnbYvzHGU8cywJw5VM/iKxXU1wZca+jlHkK7FNAQ7d44UyUxRpwN8qQ6n3FDuHAMwZ3kyZNpdq8XTFnmuQo2U3mX3csp+dSwtfwPbn4m0np7+1m2/f+3l+FL0qxPZXnVAAXf++vLADc+7/98ztz5f0DFCTKg6vdXqIffHjO99Hn923x7fLfx65wh4lcXSw/eAqnloS1Sywg+itEgX0OaHzb/Ur7lMI0jNFnwfz5NgARCmJoRXT6KlWq2P55dwa2ry+6RhSIKLDrFNhngcZ3mVUX58UXCEQlgTF+RLD57WU6zlk8RK4n+n0ENp5i0TWiQPZTYJ8HGkgGd0OckplyYRjxYExYDKtMRLXmik+M7AaVOLKBiOXN/kEW1RhRYL8AGv8aARysinGKI4TniuUrTM4AwJyig+YGDLjehH8ecCIux1MuukYUyFoK7FdAA6m88A/txBgZ+Y3XERrcs8UqJ9uHc8891x2vWMWHypN3Z85+ztrXEJUeUWD/psB+BzT+dcHdYOg3Y8Z3Zpj1yisvuz9lQYt2pLasSfGZOuXU0+L2NzvSXvhy94crQbnQ2s1XSAQO3qtUqaKpe5NxeGxBURGTv7KE6/4ECb5H+0c85n9kKLhUZgeA+QaphfEmzyv3B0z9tsoiuGbNmq5WrVho1I0bNwj4F7vff//NjOywqiVoPFqqsKYqTGffBkI3rJBFNOE069SpY1vh7b03v6WePXuW1VWrVk2LReOfYVEiD30gvCymEynrU+zsMTROtAdjPkwA8NSuV6+eRRGAHj/IFaKQrNT5jqN9k9GO8qERC92vss2pJbV4pUqVTFOWmS187PmNcjVZZfRF5Y4dD0cH4a+V1nYImvEM75c6f5djLvF6iMddsmQpe4a+J2trmN5Zcb/fAk2YWNiLYA9BJD8ExmypCEjOyYWcWthHQZM40M6rOTMzCMLl70v3DMQxY8bI8HGo+ZOVlFU1Bo8XS1PHxEqbCGVx/333uvETxruy8pQmPm/79u1tAvXrd7kFfN8oOxuztVHZlA+Y59IEReHN3/gWXXvtdXruSHfXnXdYADAmQx6piAsp2h6Tp2vXbu6ETp3s3gOBbwsT5p577javdiYu8WQ4rud6WYZjFZ5RYht9y80DLZZMLtWFvQzniTHZSSxEz2qbPfapsQY29AFTCcCRtqPGRnVP4LBChQu5sxRFAEvgC84/30J8QK86GjccOJi2zZQPQP6fQoLed++9NvmLFC2i01C7u0t790kKEjzjEwBIaNiHJQKYMuV9t1pjmPIAF4JudT23m+t23nkJckdoTZ84luYrxUzmnnYRAYHjYk4/4wydVX+aBRzzY93Xl+VXNW6/T3pBgVbbQMZmgayLA53dEzRq2CA4oEK5oFTJ4kHZMqUDnescfPDBB4EsZgO95P2WJtBCAzEoWaJ4UKJ4UV2LBW3atBJdZibt85QpU4J6dWtbviqVKwUPPjhCtNwUTJgw3mjH8yX4qKxyZUtb3iaNDwmaNWsSNGlyaHDIwQfa/ZAhDwRPPvlEUL16VSvL6hbta1SvJvqXCkqXLmnt+PSTj9PRX8fhBjVrVI/XQ32lS5UMFAY2aZv5knf45BOPWxvJX1J11atbJ6A/Pin+UfCfNq2DUqVKbCtb+UQX+tv40IODZk2bBE2bNA4OOeSgoEnjQ4OrrroyUHC2oEL5stZfyj3ggPLBggUL0rUZOjPeunY9N152GfWxU6fjAxkO+iYkvTJWv/32G6u7tNoWpzH9sE9xG7sDB94YSAkSL0MgHOhsMmuTPcP7Vb8rVTrAaEz9hx3WXDR4f4dtiBe6h25YcXJU4iVqNQ2mT58W3HbboOCYjkcHlSoeYJOkZs3qwTln/zcYM3p08N133wVikQ2gGDT7S6Ivtw0eFBQvViQoVrSwfWrUqBYoBo6MbdP3c6gAAlAgb/VqVYKXX3rJgObmmwfGn/flHHRgo+Dpp58OdLZSIEvcYN68uYG2rsFPP/0UaGsS6HQC1Rsri2eY4MOHDws6dz7BJiOT4qADGwYTJ0wImDQ+yc8tob1Wn9oPiPE+07YbkJH7QXCwfvdto7+1a9UIJk9+zxdrfS5frkyo7CIGTDpDKlCIjuCXX34JFghEFIdYn5mBovsFOr0jYML6cnn+k08+sXbEC9YNbRJHERx6yMHxvIBYu7b/sXEVzpv2XpbMwTHHdDRQKcZ70od34N8DdQNy0Oq9d9+Ngxygc4EWTMAp1r4iBjTQ/bRTT7F204YDGzUM6KM4uHS0S9uWPfV3jgOaMOEAHAbUs888E5x1ZpeggjgcVgJWrLZt2wQ68TDQsR22MjF40w7ocFn7yj19YOLSTz9ZmDhPaPVnBU6b4PR8vtq1agaKXGeT6qgj28e/97+3aN4sUKjS+MAPlwWneNKJnROegQOS3CWQS4FA46CguE2mYkHrVi0DhTs1etPe++67N+E5X98BFcpr5f82XX30Q0ezJABCWqCh3FGjRiaWqwkNpySP7qTvGvC74op+Bka+DeXKlgne1WSHywsnytcZVEHlyhXjdUDz1q2OCLSVD2dNuGecAe4VxSkZyAhUAGc4KhZFXy9XgIcxKhmTtXfOnNkCqKNT3636E3u3TwQfffRRcMQRhxmoQmeF3LAFgPqyI+VooGEwQGiQndVg2rRpQc8e3fWSKxirySCqooFy8kmdg3feecdeaHilzY4XtKfroM/vT54c1BL35gcy20c5KxrXkba+8Irc+NBDbJWW7MO4ifCg5z4joKHO+fPnJ3AY5Ado2LKx8uu0AZvktIkVWVHyjKvh/Vx6ycUJE8zXy/OjxX2GAZK6fv75J9uuhTmAMNCQB05I52wnlrutbtpEnrSJeo479lgDxNQ2lEnHgfEc7VY8HOOWfV6ApqUme0ZAY88sWmSAHG47nN+zzz4TPDZqVGJ7RcM2rVsFEvxafR9//FFivwEabUtZWFhUJa8ymkMLxjaAxvfZkXI00IQJ7AdfSsp6W9FuuulGY3NrSKbAS6lQvpwG2THBU0+NNVZaTok2wJMNyHC5e9/9VlvJjj9OE0YDjknAoG7fvm3w229L4s2lXwCwrazKQ74j27ezAT1BWxu4Gz+B/LVFi2baRqTnaCgLLgFO0eflWr5cWaMlv+sU0aB586b2O+1SiAcDJyZfmKsKPw8gXXjhBQZUvuGAgSLsmVwinDct0LBgnHbaKQntMZATdydnyqRAw6SE0w2Xy9iYOHFiwlaPttButlwsWj5/DGgOzxBoaBNbu/r168afgZs5+KBGAeAON4ksq1jR1G0v7+fLL7+w+hQGNmjYoF4qEIqOyL90Xrz1R2fSBw30O++btpxw/HG2eHraZeU1AprtUHfRooWBfKmC88/vGRyo/TAviL1xC02I/v37Ba+8/HIgzUDSQbmdYv/1n5A1XHjh+akDUpOeiThr1s/xtrHifyjhOGDgJ8rgQbcaJ/DqKy9LiFs1/r3//bAWzQOd7mCDPl6QbgASuIS0QIMwnslIknYrOOOM06xM2nKktmbId2iHQnimq4s6eR+HH94igROTGjnoJgEs8h7fLq5pgQZAYrsWzgPQoBj46afkWyeEuAiPw88ANIpdk27rBNAwsdne+fyxrVPLDIEGzg6ZFeCQ+oy4zV49THj76aefBNUkJ6Mv/ne2RjrP3uj08ssv2XuJ/76tP1OnTrV3ANeOPIx2kKdunVqBgqUZ/bP6nwhotkNhBgsDEvnC559/HgwbOiRoocnEhGECop1glWef/PXXX20THm/a64GHyQtoMOD8gOU6VqDqE9yMVMoJg/7hhx+ylVuGkEHlSqmyB19Gu3b/EXCk33YANGhR0gNNeZPFUCf1sW21sjQJ0Aoq7ozV16nTCQnt9PWx2tevV9feDWVQD9tCQBCgCQuew0DDe0WugRLAl+XrBRiQ21FW2sREZasSfqZcuTLSVk6xiR7OTx1o5sJ9RhALUKFkSJYUNdFokCrMLWzbSJkEiD4pBuJo7eJAondG3ltvudnqV3TAGLB5INKV7aVC4Vp/4Mj6978i9t71W3mNY+RI2ZEioMkklRl4sLbsr1k5TuzcKahWtXLAQOMDi3ymBMrsh+FyGEyAFJM62aDNZLVZlu355/8vQVDJ5Bkw4Lp4W1m9u3fvlir41MCULZL16RLJTJDrhCcc9yeffKK4i3/iZfjG03+AmIEdfga2X4Zvlg2g6RECGrYLH3001WjOyht+jokGN4NQk3eg6HdWJ7S+5pqr7bejjmqvNnrtSyJHQz7kGqimw+XC0VDerFmz0vWBRjIpEeaGn0HrhACcMsOJv1944XktSGXi+QGatm0z1jopQmKAkD28APA8442xB2DUlIYwDDT08dprr7H64WxiILWN41F/AJovvvjC+gPQ8O6sfP0GqEZAE35re8k9E4YPqxUv/osvPg90PnNworQpDerXs1UUwR02GFdffWUga2TbMnitwF7SDWsGthQmZ9GA8xOnw1FHxicYbWbQ2qC2QVnO2GwAAQBiUvrn/BXTgGSgmhHQVKpYIQ40MsqT0P1EK5M6O3bsYNwRdE7LebC1gJtEQ8Skuf22wfY+ZG1sW1wmF2ro8LaPMmttU29TJvKO8O/0gTx1BGqo55P1g+1dq5bpgQYQZUyEE0AD50dbPH3gsgCSjDgaxX62+o3mag/PYXLx9qRJ1r9PBGjYMoV/B2iuv36AAY3iGhvI+vp4R9SvY3ysP7Qfjgqawe1hjoDsJztSxNHsBpUZTEw8BVAXmzwhuPuuu4JTTznZjMuQP2B3gpD1ggt6BXLytK0AqxYrC88mG8y70ZydenT+/HkxLZAGox+YlWXYxSSgXdiQ+AHNwER+AjdnQHOegGbbRAhfAQcdExMofKitlEw+yuLztYS9aTkaDzTkU9hMs++gPCbB+b16Bkw8aEW+cD2s8meeeUZcXtFTGjPae+cdd9jEAgzuvvuuBG6CvtSqWcNU0XCaQ2R4VzYEAla+8mBTxAKBQNjX798T765ly8MT2sLWSEceJwUaTAbCQAMXeNxxx2QINAobGuc2fH9Ra3s7nQ8//CDW5tA7A2iwaWI8IQSH0/PPeqDBJow+TBa41q1T2zhB2tKt27kZyot2ajBlInMENJkgUmay8CKZFKzMyHOwIEWVaVav4gxQkzdsWN9WFAXYNk0Ae3IGPSssAyU8MTNT5+7kAVDMriI0MAHHN998w9rCdsRrNxA4Xj9ggMkJ4HTO/u9ZqYM5BDgVBQhmCdy0iWk05syZHQKaZFunGEezdu0as/KFVgACW6pRo0YaXVavXpUOaJjcw4cNDQ7S9oo2tm/XNlCkxaCqtj1wORioASThSR4DmuoyU3jbwPLWW26RjUmq0DU2OWN2NPXq1ZFV7qESSLczuYgHmhhHkwg0bD88OIffB+9z9OgnE9rA5D5d2rSMLIPhpOIgsY2ucJnIvRgbAIUHf58PrhMLaep77LFRiVta0RIasHWiTp3gaVorygC8FeXAxl+43Vl1HwHNHqQsA5IBwUsHPFj92e//738Pm0Fg06aNAwYxnAOTl5fdpcvpgfxZbBu2UHYXyHfQPvjBvQebl1AUdTDow7IWNC46R8sGH2p8DzRwEBgu0jdWbwa/H+jhKyb7t956S3CPuAmdWGD9p1L68s03X6fjaJCRoHWCtWcrhMwF7qntf9oYh0J9WBQDYOF6AMSXXnwx6HLG6fY97Tvj9NO0mhcz+yAsu+Eg0wKNbUOk6uW9XHvNNQkGfZTPBMRN4aor+4s7vdOAAgtn/y5oS9qtU5UqlYwuCcTVH4wBhLNopXzbAYVe4tSgfdpEHT/ISNHn9VdkgVg5Qwust/33/oq6m/GVAGzqh/2uKzRQMH9Tm8Md0Ue4HmjHeKPc7EgR0GQxlXmRcC0MrgUyZ8fWYYgMpXT0atBZ2hQmZ/VqVW3vzcqMb4yOX7UVndWX/T9aL1YkeT4bgFGmH/y72nwm28MPPZSgVUKGQP1wZtdKqOoHMyDAaktCTd3yiMRV3eeD06FcPgx8n2iroiAmaGB4Bg4GQSfAxXaJSYBW5Y03Xjea0U/6Hrbl4TmAhu2NHBbtGZ7jO64dj+4QzBa4jxgxXOWnykf4jW0RmiDa1+/yy4z78W3nSp6zzupi7hPkYbEIT0RUwVgtx59RfgTV4Ty+z3z34ovjErZvgMKNN95g9PX5/DVGo+9Sy1Z7qIeFaMGC+cY1vfXmm+l+xyBP51cZvfFzwq+JflgbdYXDg9PBKpttFmBcp3Ytoztt3N1x5Nu/o2sENDuiUBb8zssFeObNm2sGbmiAsNpkojaQsRbcTswnpYE5Gp6u1Ro5D5OHyQUXwOqqo1JsgDFg/KDJ7MABCDCdxxAxPnE0sLGFQRZz7jlnx7/HuI8tIWnmzBkZAg32K8kSbQKgwqpe6mTQN2/W1HyemBxwJkNlQkBfSFx1Omc67RDblde0taNNbEl5lg/l3SVOBGBPa4/C78jMADFApE+f3umBRis9QIudUbLEtjGs3qZMrKV9e8PP8N2kSRMT+sxW7SGBO/WnTTEazYjT3L8Ttofn6F10735e0OmE49P9DseC3x7v0+xo0miloAnW3XCLgDnge+8992SbENj3MwIaT4l/4cpgZIAwMeBYkEcAIGy3nnziieC6a6+1FRS7EHxmYNOxX0EWARd0+GEtzDwfrQsyigXimCiHMneUGNjUm9YeBjkSkxGfGT/YL+vbJ25BuqtAk8wyGGElbDxGkPQPcGAy+0Q/3n///YTJSpswJcApELDGPYEtCVuuqqIPNIATgWuEY/J9ABRQDWPFy0S/ot/lOw000DZssEeZR8hgMBm4827TGuzRnif0XqF72kQZ0Mi3N3bFV6mUqaHZZob74/Ox/eY56hs//i3ZFdUxQPG/00Y+/M34efjhB22MkD87UwQ02UntTNbFIGCysIVB0Lhkya+2P3/00UdsgmCvgjarRYtmMk8/0LRcqD3ZdgySjIRnM5vSboNqSZ06eNAg81ticMJdDZPg1YMXGjY0J34gh694DidLTCKM4OA+wvn9PSCBlgmbjvCkxVGRrWYCJ6RJA/DCLdBPbEvYcuIVzdbCb3kQxocnpgGN+uaFwQi36ZtvA1dWfTgHtEvJEu8D+ZF/hjJxSQi32T/HOyQMRdgFgfaMHTMmKdDw3OzZs+NlA8Jsi7AtQl6G4Jbtnq/bX3lfs2b9bEDDYoO1c4LmSf2yvqm8qyUM1umlSTkw3+6sukZAk1WUzcJyGdh/i73/5puvNeEmBaNGjjTNA7Y73rgrs9XfJJmBX/EYkGZ42OUMs7jlbyx0mcB+BYSLYIvkB3rqtYgBUrJ6aS8A1SqNsVv8WU2CRuKkEHZ6QKMc7pFRIX8J54Xrmjr1Q6sKsFkgLgYDPD/h+Q5wTAs0MfX2OzbR77//voTfKR+guVSyM7jKZAlOBENALyRnK3Jk+3bxesPPQK958+YmaMxoD6CRjKPhWYS+vp+UXa1qlWDcCy/ol5iSgW2z/91fCYXhhcW4f7D4sF3yv4evhIeIuUvsmOMN92VP3EdAsyeo+C+UwaTynA8DFwBAWMmq60EhM8366KOpCbYbDHDkNggRmVAdOhyplTbVUpa6LpIjIzKk8CAmL8LIjBI2KfjZhJ9B+Az4xGRSxcxgj3w+0Q+skcPCYECRyfXpJ5/4bDbRw30GaP4nd4mwnQzPYaA4RVsxAAxHxLTyKTgBhOAZGbFR7rnnnmNbPfphQCMDPA9w8Qbphu/oCxpG32cDmrGZAxragtAWw0IS5b366ivxsnyZ2PUsVPwa+o/tD0AIh+h/555gV4AowuAjxQnDOYbpZRVk8T8R0GQxgff24uEEDj00Jiz0gzP1WiToqokV5jKYbKyymOqn5oM9L2KhDDLq79KlfwannHxSwjMIMgncBNfEKsxE8P5UHkixNQqrtwEMovcBFBkltlyY4yNc9m0EFOpIQ4Sql0kGMKf1QGdyE0UvI0dD+n7D9QNMeE25tKVNm9YZAg0yt/B2EaAZPToxrEW4D3BAvr3Q48BGDYxrJQ/0QGPmf/fXYxUgC0dS+oQqHutqANx+V/sAcdxiUMtjysACggkC/c/OFAFNdlJ7L6yL1RsDwvjg1ATygxg5AfYoDHKfuF+orQraoni+bc9gCh/O65/hyuRFDhN+htUeDVrMYrWWyRaQNRFXhUlNWUyIsGUwkxuPbQJeZZQAxslyrkQ75esDaOpKTU8YC8olD0Gs/O9cyXPWWWeaSj1Z2QAYFsfe0I+2oNFJxh1QB9wlXv++DiY9WrVkWifqw66FMslvnIi2Qaj3fUIGE7Z7Ih8W23BO1IfTJwsDgG11qiz88DD4mzB+vIWbME5JgItQPFm7fV17+hoBzZ6m6D5WHhMa5z/sL/yE4MqAZ1B+/vn0dD1igKIhMl8o5fHPISj9TvYyTLCVApb33ns3QICN4Rqc0+DBg1J9pFQ+YDVfAbFQp1Me6mdWXITN82UYSD20jxgqvg7AAMdG1OUZJZ7755+/EzRq9AXfHsKKkpiYeF3DzfGbla824Q+FHxh9QANG/zHtf+Lxx82w8K233gzJjGL2O3B4RAlkC4Msatasn00TtGLFcgXXuti2LYA24HGcTAWQRSEcJy/9x1APkOFvaEAfARRsX9B0+USYiNjv2+xk0gANAIaDpRdy8w4JK4FFMwvKkAce2GY9XSI4/fRTzTYqzK36erLiGgFNVlB1HytzgTgUgnrB1bCXZ+LhHIpGKqxuDneLfX5f2aKwHWACweqzVaEctBtccTRli9WwQX2b1Aho2S5RPs+wlfrjj99t0jMRrrqqv8ooa7IVJgxCWUCja1fJRVS+bxde8kyejBIgAkDhD8UzTDgmLpq6cH8AOIKtM3npO20iH+Az4LrrzHgPlwr6QDAquBFsbPCA9ip1uIeaCpwOiBHIvJmsvxsrODtWuGi+0DwR3DyWn0D4MYdQ6iAvAdxxwj18W9Dwo48+ymhPPjSIYe4HwThl0Ub6xYcQtHA9vs9E4UNLx2/0B7sf7yIBPYmjBBDBJV4vb/3s2kJFQJPRaM1B37Oqvf7662aXQwBvrF3Nwlbq1oxWPACA7RAyFTQvyBMw3+dZ3CzgQjBmQ3jq3RemT59mAFSndk1Tyw8bOjQ+0JkogM1ll/W1ctCeEH6B78eNG2eBuCmb73FvyKhd/rXxHAaJ1MXEQz4DZwUA+UQeJjJCVk4nYBIT3wbHQ+uDwAXzAXyenn32WZuw9BuAou2tW7e0fpKftiG85R6ABXSefPIJ44xmCmx6Sk3NNgsr63B+aNZItAMEsYchpCl/A1xff/VVQj8BikG33mo+XvQHYz48tuG+SLTtKz2Dqwt18E6wCvZ95nc4pKslh6J8VOFwX9Ahq1MuKsjyM12iCvZqCjAENAjdnNmz3fwF8+3soMaHNrZzrzhsLKMDx3hOcgu3Zs1aJ9bfDmHToLe+FixQwFXUwXTVdNgbh51xBpIGvOMwN3la23lMDRs2sjOGfPmUp4nvZBuj74u7+vXr24F1mthOWx6nrYirXLmKHdpGef65jIir1dopSqD7/ofvdeBcXde5c2c7uyt8bpfvO23T1sWJw3KajHa+Uz4dpVymTGm1o0G8D9SliWn04sC5+fMX2AF7W7ZstgP0cufmHKVCamdlV6NGDTt3iWfol7ZJVj51bdm8xW3WM/nzF9A5TcWsfZxRtWbNajucLm+evO6www+PnzXm6xV34qRdcuIoXdmyZXVWVSM75wpa0Bfapm2lzoT602jcqNGB8d/DZcjw0s58atq02Q7PmOK53U0R0OwuBaPnIwpEFNghBSKg2SGJogwRBSIK7C4FIqDZXQpGz0cUiCiwQwpEQLNDEkUZIgpEFNhdCkRAs7sUjJ6PKBBRYIcUiIBmhySKMkQUiCiwuxSIgGZ3KRg9H1EgosAOKRABzQ5JFGXITgpgC4L9iyx/XcWKFc3+hvr5DludOnVqy+4jv9mMyGhPdjmzZceyJm6H4u1JFHvZyffH1a1bN6H5Mgo0G5Tq1asn2OHIK90pHrJsaNaa7Qq/lypV2uqRB7nsUpaazU/VqlXNNgZbHGyGaFODBg0S6qAsbGWwpwnb7CRkyml/6MVGKaLAXkMBrFQJd4CHMZbCPnHS5clyWYj5/sSiA3J2E+ckEQgMZ0LyY/2K1fBzsuQ9r1tX/3j8+plithC3FwfJcMLqtlfP7uYWQRhTf4a4AEMnLgyzwFp4SnO6gncLwGsab+lwov34RxEyg2ejFKNA5IIQjYS9igIABY6ZhGvAn8on4tIweYmHQ57Jk9+z6Ha/63v8l/CNIu4y5viAyGOjRlrwd/+8v+IwiY9WWhAgkBghS6dN+8xcDAAMEvURKpXQnxzg1qZNK/OSllumOULiS8Q9iWfIj88WwEeboxSjQAQ00UjYqygAiBAC4sr+V5jjJH8zgbkCDlz54DHdo8d5NrHhMDhDiVMlcBIk3yh5XJ9wwnGWl+c9cBCDuE/vS40rCX8vd4KAkzavu+5a+RsNj+cHOG6T1zlH09x77z3B2crjnRQXyBkVoPFlw0kR7/mUU04Keoo7ItYO30VJ++GICBEF9iYKACJwNBcq/jDBrYjux3fhxN/fKCxD+3axOMGf63RMjunFcxnQAWjgaDpYdMDZwRJtcfyEh6MhLs5PP/1oYR1iW7FAXtlLxYWcbdsqwkLATQEgMaAZbLGCOQ2C0yf5LhlHw/fXXHOVBZlim3XRRRfGnUbD7c+J9xHQ5MS3vhf3mcmNFzOnDRD4G8/p2MRObTR5ABMCZHHAGoHJhymEA9wMIMTn+eef14Q/3Lyiw+E52RrBcbQTSCGLmTEjdlwswNJDgckJLcpvnLJAOQAUHuo3DxwYvP7aa3bqgm8PEe1OO/WUeMMIIUF7iXMzZcoUC1Phz8OKZ8qhN5HWKadJ//eB/gpITGujiW6aoXz58sW1T+HmCwQsH9/lyZPHvJC91onfeJ6y8PTmdz7+e37jb35DM+TrFA5Ynf4ZyuYZyiUfz3HlWe5J3JN8Gfzu8/Ic7c/pKQKanD4Cov5HFMgGCkRAkw1EjqqIKJDTKRABTU4fAVH/IwpkAwUioMkGIkdVRBTI6RSIgCanj4Co/xEFsoECEdBkA5GjKiIK5HQKRECT00dA1P+IAtlAgQhosoHIURURBXI6BSKgyekjIOp/RIFsoEAENNlA5KiKiAI5nQIR0OT0ERD1P6JANlAgAppsIHJURUSBnE6BCGhy+giI+h9RIBsoEAFNNhA5qiKiQE6nQAQ0OX0ERP2PKJANFIiAJhuIHFURUSCnU+D/AZNpnRxei8DIAAAAAElFTkSuQmCC" alt="IES Vermellar · L'Olleria"></span>
+  </header>
+  <div class="progress" id="progress"></div>
+
+  <main class="stage" id="stage">
+
+<!-- 1 · Portada -->
+<section class="slide" data-title-va="Portada" data-title-es="Portada" data-title-en="Cover"><div class="in">
+  <div class="cover">
+    <span class="kicker"><span data-l="va">Resum per a preparar l'examen</span><span data-l="es">Resumen para preparar el examen</span><span data-l="en">Summary to prepare for the exam</span></span>
+    <h1><span class="u"><span data-l="va">Unitat 2</span><span data-l="es">Unidad 2</span><span data-l="en">Unit 2</span></span> · <span data-l="va">Nombres reals</span><span data-l="es">Números reales</span><span data-l="en">Real numbers</span></h1>
+    <p><span data-l="va">3r d'ESO · Matemàtiques</span><span data-l="es">3º de ESO · Matemáticas</span><span data-l="en">3rd ESO · Mathematics</span></p>
+    <div class="chips">
+      <button type="button" data-go="3"><span data-l="va">Potències</span><span data-l="es">Potencias</span><span data-l="en">Powers</span></button>
+      <button type="button" data-go="7"><span data-l="va">Notació científica</span><span data-l="es">Notación científica</span><span data-l="en">Scientific notation</span></button>
+      <button type="button" data-go="8"><span data-l="va">Radicals</span><span data-l="es">Radicales</span><span data-l="en">Radicals</span></button>
+      <button type="button" data-go="10"><span data-l="va">Intervals</span><span data-l="es">Intervalos</span><span data-l="en">Intervals</span></button>
+      <button type="button" data-go="12"><span data-l="va">Classificació</span><span data-l="es">Clasificación</span><span data-l="en">Classification</span></button>
+    </div>
+    <div class="lic"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> · Xavier Climent Balaguer · IES Vermellar</div>
+  </div>
+  <div class="hint"><kbd>←</kbd><kbd>→</kbd> <span data-l="va">o els botons de baix per a avançar · fes lliscar el dit en el mòbil</span><span data-l="es">o los botones de abajo para avanzar · desliza el dedo en el móvil</span><span data-l="en">or the buttons below to move · swipe on a phone</span></div>
+</div></section>
+
+<!-- 2 · Mapa conceptual -->
+<section class="slide" data-title-va="Mapa de la unitat" data-title-es="Mapa de la unidad" data-title-en="Unit map"><div class="in">
+  <h2><span data-l="va">Mapa de la unitat</span><span data-l="es">Mapa de la unidad</span><span data-l="en">Unit map</span></h2>
+  <p class="lead"><span data-l="va">Toca un bloc per anar directament a la seua diapositiva.</span><span data-l="es">Toca un bloque para ir directamente a su diapositiva.</span><span data-l="en">Tap a block to jump straight to its slide.</span></p>
+  <div class="mm" id="mm">
+    <svg class="lines" aria-hidden="true"></svg>
+    <div class="center"><span style="font-size:1.5em;line-height:1">ℝ</span><small><span data-l="va">Nombres reals</span><span data-l="es">Números reales</span><span data-l="en">Real numbers</span></small></div>
+    <button type="button" class="node n1" data-go="3"><h3><span class="dot"></span><span data-l="va">Potències</span><span data-l="es">Potencias</span><span data-l="en">Powers</span></h3>
+      <ul><li><span data-l="va">Exponent natural i signes</span><span data-l="es">Exponente natural y signos</span><span data-l="en">Natural exponent and signs</span></li><li><span data-l="va">Les 5 propietats</span><span data-l="es">Las 5 propiedades</span><span data-l="en">The 5 properties</span></li><li><span data-l="va">Exponent negatiu</span><span data-l="es">Exponente negativo</span><span data-l="en">Negative exponent</span></li></ul>
+      <span class="go">→ 3–6</span></button>
+    <button type="button" class="node n2" data-go="7"><h3><span class="dot"></span><span data-l="va">Notació científica</span><span data-l="es">Notación científica</span><span data-l="en">Scientific notation</span></h3>
+      <ul><li>\(a\cdot10^{n}\), \(1\le|a|\lt10\)</li><li><span data-l="va">Nombres grans i xicotets</span><span data-l="es">Números grandes y pequeños</span><span data-l="en">Large and small numbers</span></li></ul>
+      <span class="go">→ 7</span></button>
+    <button type="button" class="node n3" data-go="8"><h3><span class="dot"></span><span data-l="va">Radicals</span><span data-l="es">Radicales</span><span data-l="en">Radicals</span></h3>
+      <ul><li><span data-l="va">Extraure i introduir factors</span><span data-l="es">Extraer e introducir factores</span><span data-l="en">Taking factors out and in</span></li><li><span data-l="va">Sumes, productes i quocients</span><span data-l="es">Sumas, productos y cocientes</span><span data-l="en">Sums, products and quotients</span></li></ul>
+      <span class="go">→ 8–9</span></button>
+    <button type="button" class="node n4" data-go="10"><h3><span class="dot"></span><span data-l="va">Intervals</span><span data-l="es">Intervalos</span><span data-l="en">Intervals</span></h3>
+      <ul><li><span data-l="va">Tipus, notació i desigualtats</span><span data-l="es">Tipos, notación y desigualdades</span><span data-l="en">Types, notation and inequalities</span></li><li><span data-l="va">Representació gràfica</span><span data-l="es">Representación gráfica</span><span data-l="en">Graphing</span></li><li><span data-l="va">Unió i intersecció</span><span data-l="es">Unión e intersección</span><span data-l="en">Union and intersection</span></li></ul>
+      <span class="go">→ 10–11</span></button>
+    <button type="button" class="node n5" data-go="12"><h3><span class="dot"></span><span data-l="va">Classificació</span><span data-l="es">Clasificación</span><span data-l="en">Classification</span></h3>
+      <ul><li>\(\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}\)</li><li><span data-l="va">Irracionals</span><span data-l="es">Irracionales</span><span data-l="en">Irrationals</span> \(\mathbb{I}\)</li></ul>
+      <span class="go">→ 12</span></button>
+  </div>
+</div></section>
+
+<!-- 3 · Potències d'exponent natural -->
+<section class="slide" data-title-va="Potències d'exponent natural" data-title-es="Potencias de exponente natural" data-title-en="Natural exponents"><div class="in">
+  <h2><span class="tag"><span data-l="va">Potències</span><span data-l="es">Potencias</span><span data-l="en">Powers</span></span><span data-l="va">Exponent natural</span><span data-l="es">Exponente natural</span><span data-l="en">Natural exponent</span></h2>
+  <div class="big"><span data-l="va">\[a^{n}=\underbrace{a\cdot a\cdots a}_{n\ \text{vegades}}\qquad 3^{4}=3\cdot3\cdot3\cdot3=81\]</span><span data-l="es">\[a^{n}=\underbrace{a\cdot a\cdots a}_{n\ \text{veces}}\qquad 3^{4}=3\cdot3\cdot3\cdot3=81\]</span><span data-l="en">\[a^{n}=\underbrace{a\cdot a\cdots a}_{n\ \text{times}}\qquad 3^{4}=3\cdot3\cdot3\cdot3=81\]</span></div>
+  <div class="cols">
+    <div class="card c2"><h3>➕ <span data-l="va">Exponent parell</span><span data-l="es">Exponente par</span><span data-l="en">Even exponent</span></h3><p><span data-l="va">Sempre positiu:</span><span data-l="es">Siempre positivo:</span><span data-l="en">Always positive:</span> \((-2)^{4}=16\)</p></div>
+    <div class="card c1"><h3>➖ <span data-l="va">Exponent imparell</span><span data-l="es">Exponente impar</span><span data-l="en">Odd exponent</span></h3><p><span data-l="va">Manté el signe de la base:</span><span data-l="es">Mantiene el signo de la base:</span><span data-l="en">Keeps the sign of the base:</span> \((-2)^{3}=-8\)</p></div>
+    <div class="card c3"><h3>½ <span data-l="va">Fraccions</span><span data-l="es">Fracciones</span><span data-l="en">Fractions</span></h3><p>\(\left(\frac{2}{3}\right)^{3}=\frac{8}{27}\)</p></div>
+  </div>
+  <div class="warn frag"><b>⚠ <span data-l="va">Compte amb els parèntesis!</span><span data-l="es">¡Cuidado con los paréntesis!</span><span data-l="en">Watch the brackets!</span></b>&nbsp; \((-2)^{4}=16\) <span data-l="va">però</span><span data-l="es">pero</span><span data-l="en">but</span> \(-2^{4}=-16\)</div>
+</div></section>
+
+<!-- 4 · Propietats -->
+<section class="slide" data-title-va="Propietats de les potències" data-title-es="Propiedades de las potencias" data-title-en="Properties of powers"><div class="in">
+  <h2><span class="tag"><span data-l="va">Potències</span><span data-l="es">Potencias</span><span data-l="en">Powers</span></span><span data-l="va">Les 5 propietats</span><span data-l="es">Las 5 propiedades</span><span data-l="en">The 5 properties</span></h2>
+  <div class="tbl-wrap"><table class="t">
+    <thead><tr><th></th><th><span data-l="va">Quan…</span><span data-l="es">Cuando…</span><span data-l="en">When…</span></th><th><span data-l="va">Regla</span><span data-l="es">Regla</span><span data-l="en">Rule</span></th><th><span data-l="va">Exemple</span><span data-l="es">Ejemplo</span><span data-l="en">Example</span></th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><span data-l="va">mateixa base, producte</span><span data-l="es">misma base, producto</span><span data-l="en">same base, product</span></td><td>\(a^{m}\cdot a^{n}=a^{m+n}\)</td><td>\(2^{5}\cdot2^{3}=2^{8}\)</td></tr>
+      <tr><td class="n">2</td><td><span data-l="va">mateixa base, quocient</span><span data-l="es">misma base, cociente</span><span data-l="en">same base, quotient</span></td><td>\(a^{m}:a^{n}=a^{m-n}\)</td><td>\(7^{9}:7^{7}=7^{2}\)</td></tr>
+      <tr><td class="n">3</td><td><span data-l="va">potència d'una potència</span><span data-l="es">potencia de una potencia</span><span data-l="en">power of a power</span></td><td>\(\left(a^{m}\right)^{n}=a^{m\cdot n}\)</td><td>\(\left(5^{2}\right)^{3}=5^{6}\)</td></tr>
+      <tr><td class="n">4</td><td><span data-l="va">mateix exponent, producte</span><span data-l="es">mismo exponente, producto</span><span data-l="en">same exponent, product</span></td><td>\(a^{n}\cdot b^{n}=(a\cdot b)^{n}\)</td><td>\(2^{4}\cdot5^{4}=10^{4}\)</td></tr>
+      <tr><td class="n">5</td><td><span data-l="va">mateix exponent, quocient</span><span data-l="es">mismo exponente, cociente</span><span data-l="en">same exponent, quotient</span></td><td>\(a^{n}:b^{n}=(a:b)^{n}\)</td><td>\(15^{3}:5^{3}=3^{3}\)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="cols" style="margin-top:.9em">
+    <div class="card c2"><p>\(a^{0}=1\qquad a^{1}=a\)</p></div>
+    <div class="warn frag" style="margin-top:0"><b>⚠</b> <span data-l="va">No valen per a sumes:</span><span data-l="es">No valen para sumas:</span><span data-l="en">Not for sums:</span> \(2^{2}+2^{3}\neq2^{5}\)</div>
+  </div>
+</div></section>
+
+<!-- 5 · Bases diferents -->
+<section class="slide" data-title-va="Bases diferents: descompon" data-title-es="Bases distintas: descompón" data-title-en="Different bases: factorise"><div class="in">
+  <h2><span class="tag"><span data-l="va">Potències</span><span data-l="es">Potencias</span><span data-l="en">Powers</span></span><span data-l="va">Bases diferents? Descompon!</span><span data-l="es">¿Bases distintas? ¡Descompón!</span><span data-l="en">Different bases? Factorise!</span></h2>
+  <div class="split">
+    <div class="card c1">
+      <ol class="steps-list">
+        <li><span data-l="va">Descompon cada base en factors primers.</span><span data-l="es">Descompón cada base en factores primos.</span><span data-l="en">Write each base as prime factors.</span></li>
+        <li><span data-l="va">Reparteix l'exponent a cada factor.</span><span data-l="es">Reparte el exponente a cada factor.</span><span data-l="en">Give the exponent to every factor.</span></li>
+        <li><span data-l="va">Agrupa per bases i resta exponents.</span><span data-l="es">Agrupa por bases y resta exponentes.</span><span data-l="en">Group by base and subtract exponents.</span></li>
+      </ol>
+    </div>
+    <div>
+      <div class="big" style="margin:0">\[\frac{6^{3}\cdot9^{2}}{4\cdot27^{2}}\]</div>
+      <div class="frag">\[=\frac{(2\cdot3)^{3}\cdot\left(3^{2}\right)^{2}}{2^{2}\cdot\left(3^{3}\right)^{2}}\]</div>
+      <div class="frag">\[=\frac{2^{3}\cdot3^{7}}{2^{2}\cdot3^{6}}\]</div>
+      <div class="frag">\[=2\cdot3=\boxed{6}\]</div>
+    </div>
+  </div>
+  <div class="hint"><kbd>→</kbd> <span data-l="va">mostra el pas següent</span><span data-l="es">muestra el paso siguiente</span><span data-l="en">shows the next step</span></div>
+</div></section>
+
+<!-- 6 · Exponent negatiu -->
+<section class="slide" data-title-va="Exponent negatiu" data-title-es="Exponente negativo" data-title-en="Negative exponent"><div class="in">
+  <h2><span class="tag"><span data-l="va">Potències</span><span data-l="es">Potencias</span><span data-l="en">Powers</span></span><span data-l="va">Exponent negatiu</span><span data-l="es">Exponente negativo</span><span data-l="en">Negative exponent</span></h2>
+  <div class="big">\[\boxed{a^{-n}=\frac{1}{a^{n}}}\qquad\qquad\boxed{\left(\frac{a}{b}\right)^{-n}=\left(\frac{b}{a}\right)^{n}}\]</div>
+  <div class="cols">
+    <div class="card c1"><p>\(2^{-3}=\dfrac{1}{2^{3}}=\dfrac18\)</p></div>
+    <div class="card c2"><p>\((-3)^{-2}=\dfrac{1}{9}\)</p></div>
+    <div class="card c3"><p>\(\left(\dfrac23\right)^{-2}=\dfrac94\)</p></div>
+    <div class="card c4"><p>\(10^{-4}=0\dc0001\)</p></div>
+  </div>
+  <div class="warn frag"><b>⚠</b> <span data-l="va">L'exponent negatiu <strong>no</strong> fa negatiu el resultat: «gira» la base. Les 5 propietats continuen valent:</span><span data-l="es">El exponente negativo <strong>no</strong> hace negativo el resultado: «da la vuelta» a la base. Las 5 propiedades siguen valiendo:</span><span data-l="en">A negative exponent does <strong>not</strong> make the result negative: it "flips" the base. The 5 properties still hold:</span> \(5^{-3}:5^{-7}=5^{4}\)</div>
+</div></section>
+
+<!-- 7 · Notació científica -->
+<section class="slide" data-title-va="Notació científica" data-title-es="Notación científica" data-title-en="Scientific notation"><div class="in">
+  <h2><span class="tag">10ⁿ</span><span data-l="va">Notació científica</span><span data-l="es">Notación científica</span><span data-l="en">Scientific notation</span></h2>
+  <div class="big">\[a\cdot10^{\,n}\qquad 1\le|a|\lt10,\ \ n\in\mathbb{Z}\]</div>
+  <div class="cols">
+    <div class="card c4"><h3>🐘 <span data-l="va">Nombre gran → \(n\gt0\)</span><span data-l="es">Número grande → \(n\gt0\)</span><span data-l="en">Large number → \(n\gt0\)</span></h3>
+      <p class="muted"><span data-l="va">La coma es mou a l'esquerra</span><span data-l="es">La coma se mueve a la izquierda</span><span data-l="en">The point moves left</span></p>
+      <p>\(340\,000\,000=3\dc4\cdot10^{8}\)</p></div>
+    <div class="card c5"><h3>🦠 <span data-l="va">Nombre xicotet → \(n\lt0\)</span><span data-l="es">Número pequeño → \(n\lt0\)</span><span data-l="en">Small number → \(n\lt0\)</span></h3>
+      <p class="muted"><span data-l="va">La coma es mou a la dreta</span><span data-l="es">La coma se mueve a la derecha</span><span data-l="en">The point moves right</span></p>
+      <p>\(0\dc000\,052=5\dc2\cdot10^{-5}\)</p></div>
+  </div>
+  <div class="warn frag"><b>⚠</b> \(25\cdot10^{3}\) <span data-l="va">no està en notació científica (\(25\ge10\)):</span><span data-l="es">no está en notación científica (\(25\ge10\)):</span><span data-l="en">is not in scientific notation (\(25\ge10\)):</span> \(25\cdot10^{3}=2\dc5\cdot10^{4}\)</div>
+</div></section>
+
+<!-- 8 · Radicals -->
+<section class="slide" data-title-va="Radicals: extraure i introduir" data-title-es="Radicales: extraer e introducir" data-title-en="Radicals: out and in"><div class="in">
+  <h2><span class="tag">√</span><span data-l="va">Radicals</span><span data-l="es">Radicales</span><span data-l="en">Radicals</span></h2>
+  <div class="big">\[\sqrt[n]{a}=b\iff b^{n}=a\qquad \sqrt[3]{-8}=-2\]</div>
+  <div class="cols">
+    <div class="card c3"><h3>⬆ <span data-l="va">Extraure factors</span><span data-l="es">Extraer factores</span><span data-l="en">Take factors out</span></h3>
+      <p class="muted"><span data-l="va">Cada grup de \(n\) factors iguals ix fora.</span><span data-l="es">Cada grupo de \(n\) factores iguales sale fuera.</span><span data-l="en">Each group of \(n\) equal factors comes out.</span></p>
+      <p>\(\sqrt{72}=\sqrt{2^{3}\cdot3^{2}}=6\sqrt{2}\)</p><p>\(\sqrt[3]{54}=\sqrt[3]{2\cdot3^{3}}=3\sqrt[3]{2}\)</p></div>
+    <div class="card c2"><h3>⬇ <span data-l="va">Introduir factors</span><span data-l="es">Introducir factores</span><span data-l="en">Bring factors in</span></h3>
+      <p class="muted"><span data-l="va">Entren elevats a l'índex.</span><span data-l="es">Entran elevados al índice.</span><span data-l="en">They go in raised to the index.</span></p>
+      <p>\(3\sqrt{2}=\sqrt{3^{2}\cdot2}=\sqrt{18}\)</p><p>\(2\sqrt[3]{5}=\sqrt[3]{40}\)</p></div>
+  </div>
+  <div class="warn frag"><b>⚠</b> <span data-l="va">Índex parell i radicand negatiu: no existeix en \(\mathbb{R}\).</span><span data-l="es">Índice par y radicando negativo: no existe en \(\mathbb{R}\).</span><span data-l="en">Even index and negative radicand: it does not exist in \(\mathbb{R}\).</span> \(\sqrt{-4}\notin\mathbb{R}\)</div>
+</div></section>
+
+<!-- 9 · Operacions amb radicals -->
+<section class="slide" data-title-va="Operacions amb radicals" data-title-es="Operaciones con radicales" data-title-en="Operations with radicals"><div class="in">
+  <h2><span class="tag">√</span><span data-l="va">Operacions amb radicals</span><span data-l="es">Operaciones con radicales</span><span data-l="en">Operations with radicals</span></h2>
+  <div class="cols">
+    <div class="card c1"><h3>＋ <span data-l="va">Sumar i restar</span><span data-l="es">Sumar y restar</span><span data-l="en">Add and subtract</span></h3>
+      <p class="muted"><span data-l="va">Només radicals <span class="key">semblants</span> (mateix índex i radicand). Primer, extrau factors.</span><span data-l="es">Solo radicales <span class="key">semejantes</span> (mismo índice y radicando). Primero, extrae factores.</span><span data-l="en">Only <span class="key">like</span> radicals (same index and radicand). Take factors out first.</span></p>
+      <p>\(\sqrt{50}-\sqrt{18}+\sqrt{8}\)</p>
+      <p class="frag">\(=5\sqrt2-3\sqrt2+2\sqrt2=\boxed{4\sqrt2}\)</p></div>
+    <div class="card c3"><h3>× <span data-l="va">Multiplicar i dividir</span><span data-l="es">Multiplicar y dividir</span><span data-l="en">Multiply and divide</span></h3>
+      <p class="muted"><span data-l="va">Mateix índex: s'opera dins.</span><span data-l="es">Mismo índice: se opera dentro.</span><span data-l="en">Same index: work inside.</span></p>
+      <p>\(\sqrt[n]{a}\cdot\sqrt[n]{b}=\sqrt[n]{a\cdot b}\)</p>
+      <p class="frag">\(\sqrt6\cdot\sqrt{15}=\sqrt{90}=\boxed{3\sqrt{10}}\)</p>
+      <p class="frag">\(\sqrt{72}:\sqrt2=\sqrt{36}=\boxed{6}\)</p></div>
+  </div>
+  <div class="warn frag"><b>⚠</b> \(\sqrt{9}+\sqrt{16}=3+4=7\) <span data-l="va">però</span><span data-l="es">pero</span><span data-l="en">but</span> \(\sqrt{25}=5\): <span data-l="va">els radicands no se sumen!</span><span data-l="es">¡los radicandos no se suman!</span><span data-l="en">radicands are not added!</span></div>
+</div></section>
+
+<!-- 10 · Intervals -->
+<section class="slide" data-title-va="Intervals" data-title-es="Intervalos" data-title-en="Intervals"><div class="in">
+  <h2><span class="tag">[ , )</span><span data-l="va">Intervals</span><span data-l="es">Intervalos</span><span data-l="en">Intervals</span></h2>
+  <div class="rules">
+    <span><b>[ ]</b> ● <span data-l="va">l'extrem hi pertany</span><span data-l="es">el extremo pertenece</span><span data-l="en">endpoint included</span> (\(\le,\ \ge\))</span>
+    <span><b>( )</b> ○ <span data-l="va">no hi pertany</span><span data-l="es">no pertenece</span><span data-l="en">not included</span> (\(\lt,\ \gt\))</span>
+    <span><b>∞</b> <span data-l="va">sempre amb</span><span data-l="es">siempre con</span><span data-l="en">always with</span> <b>( )</b></span>
+  </div>
+  <div class="cols">
+    <div class="card ivc"><span class="nm"><span data-l="va">Tancat</span><span data-l="es">Cerrado</span><span data-l="en">Closed</span></span>\([-2,\ 3]\ \Leftrightarrow\ -2\le x\le3\)<div class="nl" data-iv="[-2,3]"></div></div>
+    <div class="card ivc"><span class="nm"><span data-l="va">Obert</span><span data-l="es">Abierto</span><span data-l="en">Open</span></span>\((0,\ 4)\ \Leftrightarrow\ 0\lt x\lt4\)<div class="nl" data-iv="(0,4)"></div></div>
+    <div class="card ivc"><span class="nm"><span data-l="va">Semiobert</span><span data-l="es">Semiabierto</span><span data-l="en">Half-open</span></span>\((-1,\ 4]\ \Leftrightarrow\ -1\lt x\le4\)<div class="nl" data-iv="(-1,4]"></div></div>
+    <div class="card ivc"><span class="nm"><span data-l="va">Semirecta</span><span data-l="es">Semirrecta</span><span data-l="en">Ray</span></span>\((-\infty,\ 1]\ \Leftrightarrow\ x\le1\)<div class="nl" data-iv="(-inf,1]"></div></div>
+  </div>
+</div></section>
+
+<!-- 11 · Unió i intersecció -->
+<section class="slide" data-title-va="Unió i intersecció" data-title-es="Unión e intersección" data-title-en="Union and intersection"><div class="in">
+  <h2><span class="tag">∪ ∩</span><span data-l="va">Unió i intersecció</span><span data-l="es">Unión e intersección</span><span data-l="en">Union and intersection</span></h2>
+  <div class="split" style="grid-template-columns:1.5fr 1fr">
+    <div class="card">
+      <p style="margin-top:0">\(A=[-2,\ 3)\qquad B=(1,\ 5]\)</p>
+      <div class="nl" data-rows="A:[-2,3)|B:(1,5]"></div>
+      <div class="frag" data-f="u"><div class="nl" data-rows="A ∪ B:[-2,5]" data-colors="var(--r1)"></div></div>
+      <div class="frag" data-f="i"><div class="nl" data-rows="A ∩ B:(1,3)" data-colors="var(--r4)"></div></div>
+    </div>
+    <div style="display:grid;gap:.6em">
+      <div class="card"><b>∪</b> <span data-l="va">tot el que està pintat</span><span data-l="es">todo lo que está pintado</span><span data-l="en">everything shaded</span><div class="frag" data-f="u">\(A\cup B=\boxed{[-2,\ 5]}\)</div></div>
+      <div class="card"><b>∩</b> <span data-l="va">només la part comuna</span><span data-l="es">solo la parte común</span><span data-l="en">only the common part</span><div class="frag" data-f="i">\(A\cap B=\boxed{(1,\ 3)}\)</div></div>
+      <div class="card"><b>∅</b> <span data-l="va">si no tenen res en comú</span><span data-l="es">si no tienen nada en común</span><span data-l="en">if nothing is shared</span></div>
+    </div>
+  </div>
+  <div class="hint"><kbd>→</kbd> <span data-l="va">mostra la unió i després la intersecció</span><span data-l="es">muestra la unión y después la intersección</span><span data-l="en">shows the union, then the intersection</span></div>
+</div></section>
+
+<!-- 12 · Classificació -->
+<section class="slide" data-title-va="Classificació dels nombres reals" data-title-es="Clasificación de los números reales" data-title-en="Classifying real numbers"><div class="in">
+  <h2><span class="tag">ℕ ℤ ℚ 𝕀 ℝ</span><span data-l="va">Classificació</span><span data-l="es">Clasificación</span><span data-l="en">Classification</span></h2>
+  <div class="split">
+    <svg class="sets" viewBox="0 0 520 280" role="img" aria-label="ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ, 𝕀 ⊂ ℝ">
+      <rect id="set-R" x="4" y="4" width="512" height="272" rx="22"/>
+      <rect id="set-Q" x="22" y="44" width="304" height="216" rx="18"/>
+      <rect id="set-Z" x="40" y="84" width="200" height="160" rx="16"/>
+      <rect id="set-N" x="58" y="124" width="112" height="104" rx="14"/>
+      <rect id="set-I" x="342" y="44" width="158" height="216" rx="18"/>
+      <text class="sl" x="20" y="32">ℝ</text><text class="sl" x="38" y="72">ℚ</text><text class="sl" x="56" y="112">ℤ</text><text class="sl" x="72" y="152">ℕ</text><text class="sl" x="358" y="72">𝕀</text>
+      <text class="se" x="80" y="186">0, 1, 2…</text>
+      <text class="se" x="186" y="160">−1</text><text class="se" x="186" y="200">−5</text>
+      <text class="se" x="256" y="120">1/2</text><text class="se" x="256" y="170">−3/4</text><text class="se" x="256" y="220">5/3</text>
+      <text class="se" x="380" y="120">√2</text><text class="se" x="440" y="160">π</text><text class="se" x="380" y="200">√5</text><text class="se" x="440" y="236">e</text>
+    </svg>
+    <div>
+      <p style="margin-top:0"><strong>\(\mathbb{Q}\)</strong>: <span data-l="va">fracció → decimal exacte o periòdic.</span><span data-l="es">fracción → decimal exacto o periódico.</span><span data-l="en">fraction → terminating or recurring decimal.</span><br><strong>\(\mathbb{I}\)</strong>: <span data-l="va">infinites xifres sense període.</span><span data-l="es">infinitas cifras sin periodo.</span><span data-l="en">infinitely many non-repeating digits.</span></p>
+      <p class="muted" style="font-size:.85em"><span data-l="va">Toca un nombre:</span><span data-l="es">Toca un número:</span><span data-l="en">Tap a number:</span></p>
+      <div class="chipset" id="cls"></div>
+      <div class="cls-info" id="cls-info"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 13 · Errors típics -->
+<section class="slide" data-title-va="Errors típics" data-title-es="Errores típicos" data-title-en="Common mistakes"><div class="in">
+  <h2><span class="tag">⚠</span><span data-l="va">Errors típics a l'examen</span><span data-l="es">Errores típicos en el examen</span><span data-l="en">Common exam mistakes</span></h2>
+  <div class="errs">
+    <div class="err"><span class="bad">\(-3^{2}=9\)</span> → <span class="good">\(-3^{2}=-9\)</span><div class="why"><span data-l="va">Sense parèntesis, el signe no s'eleva.</span><span data-l="es">Sin paréntesis, el signo no se eleva.</span><span data-l="en">Without brackets, the sign isn't raised.</span></div></div>
+    <div class="err"><span class="bad">\(2^{3}\cdot2^{4}=2^{12}\)</span> → <span class="good">\(2^{7}\)</span><div class="why"><span data-l="va">En el producte, els exponents se sumen.</span><span data-l="es">En el producto, los exponentes se suman.</span><span data-l="en">In a product, exponents are added.</span></div></div>
+    <div class="err"><span class="bad">\(5^{-2}=-25\)</span> → <span class="good">\(\frac{1}{25}\)</span><div class="why"><span data-l="va">Exponent negatiu = invers, no negatiu.</span><span data-l="es">Exponente negativo = inverso, no negativo.</span><span data-l="en">Negative exponent = reciprocal, not negative.</span></div></div>
+    <div class="err"><span class="bad">\(\sqrt{9}+\sqrt{16}=\sqrt{25}\)</span> → <span class="good">\(7\)</span><div class="why"><span data-l="va">Els radicands no se sumen.</span><span data-l="es">Los radicandos no se suman.</span><span data-l="en">Radicands are not added.</span></div></div>
+    <div class="err"><span class="bad">\(56\cdot10^{-5}\)</span> → <span class="good">\(5\dc6\cdot10^{-4}\)</span><div class="why"><span data-l="va">\(a\) ha d'estar entre 1 i 10.</span><span data-l="es">\(a\) debe estar entre 1 y 10.</span><span data-l="en">\(a\) must be between 1 and 10.</span></div></div>
+    <div class="err"><span class="bad">\([2,\ +\infty]\)</span> → <span class="good">\([2,\ +\infty)\)</span><div class="why"><span data-l="va">L'infinit sempre va amb parèntesi.</span><span data-l="es">El infinito siempre va con paréntesis.</span><span data-l="en">Infinity always takes a round bracket.</span></div></div>
+  </div>
+</div></section>
+
+<!-- 14 · Posa't a prova -->
+<section class="slide" data-title-va="Posa't a prova" data-title-es="Ponte a prueba" data-title-en="Test yourself"><div class="in">
+  <h2><span class="tag">?</span><span data-l="va">Posa't a prova</span><span data-l="es">Ponte a prueba</span><span data-l="en">Test yourself</span></h2>
+  <p class="lead"><span data-l="va">Pensa la resposta i després toca la targeta per girar-la.</span><span data-l="es">Piensa la respuesta y después toca la tarjeta para girarla.</span><span data-l="en">Think of the answer, then tap the card to flip it.</span></p>
+  <div class="flips">
+    <button type="button" class="flip"><div class="fi"><div class="fa">\((-1)^{2027}\)<small>↻</small></div><div class="fb">\(-1\)<small><span data-l="va">exponent imparell</span><span data-l="es">exponente impar</span><span data-l="en">odd exponent</span></small></div></div></button>
+    <button type="button" class="flip"><div class="fi"><div class="fa">\(\dfrac{4^{3}\cdot2^{5}}{8^{3}}\)<small>↻</small></div><div class="fb">\(\dfrac{2^{6}\cdot2^{5}}{2^{9}}=4\)</div></div></button>
+    <button type="button" class="flip"><div class="fi"><div class="fa">\(\left(\dfrac{2}{5}\right)^{-2}\)<small>↻</small></div><div class="fb">\(\left(\dfrac{5}{2}\right)^{2}=\dfrac{25}{4}\)</div></div></button>
+    <button type="button" class="flip"><div class="fi"><div class="fa">\(0\dc000\,72\)<small><span data-l="va">en notació científica</span><span data-l="es">en notación científica</span><span data-l="en">in scientific notation</span></small></div><div class="fb">\(7\dc2\cdot10^{-4}\)</div></div></button>
+    <button type="button" class="flip"><div class="fi"><div class="fa">\(\sqrt{48}+\sqrt{3}\)<small>↻</small></div><div class="fb">\(4\sqrt3+\sqrt3=5\sqrt3\)</div></div></button>
+    <button type="button" class="flip"><div class="fi"><div class="fa">\([-2,\ 4)\cap(1,\ 6]\)<small>↻</small></div><div class="fb">\((1,\ 4)\)</div></div></button>
+  </div>
+</div></section>
+
+<!-- 15 · Llista de repàs -->
+<section class="slide" data-title-va="Abans de l'examen" data-title-es="Antes del examen" data-title-en="Before the exam"><div class="in">
+  <h2><span class="tag">✓</span><span data-l="va">Abans de l'examen, sé…</span><span data-l="es">Antes del examen, sé…</span><span data-l="en">Before the exam, I can…</span></h2>
+  <ul class="check" id="check">
+    <li><label><input type="checkbox"><span><span data-l="va">calcular potències i aplicar la regla dels signes</span><span data-l="es">calcular potencias y aplicar la regla de los signos</span><span data-l="en">work out powers and use the sign rule</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">aplicar les 5 propietats de les potències</span><span data-l="es">aplicar las 5 propiedades de las potencias</span><span data-l="en">use the 5 properties of powers</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">descompondre bases per a simplificar</span><span data-l="es">descomponer bases para simplificar</span><span data-l="en">factorise bases to simplify</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">treballar amb exponents negatius</span><span data-l="es">trabajar con exponentes negativos</span><span data-l="en">work with negative exponents</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">passar a notació científica i al revés</span><span data-l="es">pasar a notación científica y al revés</span><span data-l="en">convert to and from scientific notation</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">extraure i introduir factors en radicals</span><span data-l="es">extraer e introducir factores en radicales</span><span data-l="en">take factors out of and into radicals</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">sumar, multiplicar i dividir radicals</span><span data-l="es">sumar, multiplicar y dividir radicales</span><span data-l="en">add, multiply and divide radicals</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">escriure, representar i operar intervals</span><span data-l="es">escribir, representar y operar intervalos</span><span data-l="en">write, graph and combine intervals</span></span></label></li>
+    <li><label><input type="checkbox"><span><span data-l="va">classificar nombres en \(\mathbb{N},\ \mathbb{Z},\ \mathbb{Q},\ \mathbb{I},\ \mathbb{R}\)</span><span data-l="es">clasificar números en \(\mathbb{N},\ \mathbb{Z},\ \mathbb{Q},\ \mathbb{I},\ \mathbb{R}\)</span><span data-l="en">classify numbers in \(\mathbb{N},\ \mathbb{Z},\ \mathbb{Q},\ \mathbb{I},\ \mathbb{R}\)</span></span></label></li>
+  </ul>
+  <div class="meter"><i id="check-bar"></i></div>
+  <div class="muted" style="font-size:.85em"><span id="check-n">0</span>/9 · <span data-l="va">Si en falta algun, repassa'l amb aquests materials:</span><span data-l="es">Si falta alguno, repásalo con estos materiales:</span><span data-l="en">If any are missing, review them with these materials:</span></div>
+  <div class="links">
+    <a href="t2-nombres-reals.html"><span data-l="va">Apunts interactius</span><span data-l="es">Apuntes interactivos</span><span data-l="en">Interactive notes</span></a>
+    <a class="alt" href="t2-fitxa-exercicis.pdf" target="_blank" rel="noopener"><span data-l="va">Fitxa d'exercicis (PDF)</span><span data-l="es">Ficha de ejercicios (PDF)</span><span data-l="en">Worksheet (PDF)</span></a>
+  </div>
+</div></section>
+
+  </main>
+
+  <nav class="bar" aria-label="Diapositives">
+    <button class="nav-btn" type="button" id="prev" aria-label="←">←</button>
+    <span class="count" id="count">1 / 15</span>
+    <button class="nav-btn primary" type="button" id="next" aria-label="→">→</button>
+    <button class="icon-btn" type="button" id="ov-btn" title="" aria-label=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
+    <span class="spacer" style="flex:1"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language"><button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button></div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label=""></button>
+    <button class="icon-btn hide-s" type="button" id="fs-btn" aria-label=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </nav>
+</div>
+
+<div class="overview" id="overview" hidden>
+  <div class="in">
+    <h2><span data-l="va">Diapositives</span><span data-l="es">Diapositivas</span><span data-l="en">Slides</span><button class="icon-btn" type="button" id="ov-close" aria-label="×">×</button></h2>
+    <ol id="ov-list"></ol>
+  </div>
+</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement, LANGS = ["va", "es", "en"], HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var lang = root.getAttribute("data-lang") || "va";
+  var UI = {
+    va: { ov: "Totes les diapositives (O)", theme: "Mode clar / fosc", fs: "Pantalla completa (F)", tap: "Toca un nombre per a veure on viu." },
+    es: { ov: "Todas las diapositivas (O)", theme: "Modo claro / oscuro", fs: "Pantalla completa (F)", tap: "Toca un número para ver dónde vive." },
+    en: { ov: "All slides (O)", theme: "Light / dark mode", fs: "Full screen (F)", tap: "Tap a number to see where it lives." }
+  };
+  var TITLES = { va: "Nombres reals · Resum · FentMates", es: "Números reales · Resumen · FentMates", en: "Real numbers · Summary · FentMates" };
+  function u(k) { return UI[lang][k]; }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  var MACROS = { "\\dc": "\\htmlClass{dc}{{,}}" };
+  function trust(c) { return c.command === "\\htmlClass"; }
+  function tex(s) { try { return window.katex.renderToString(s, { throwOnError: false, strict: "ignore", macros: MACROS, trust: trust }); } catch (e) { return s; } }
+  var refreshers = [];
+  function onLang(fn) { refreshers.push(fn); fn(); }
+
+  /* ---------- diapositives ---------- */
+  var slides = [].slice.call(document.querySelectorAll(".slide")), cur = 0;
+  var bar = document.getElementById("progress"), cnt = document.getElementById("count"), prevB = document.getElementById("prev"), nextB = document.getElementById("next");
+  function frags(i) { return [].slice.call(slides[i].querySelectorAll(".frag")); }
+  function show(i, opts) {
+    opts = opts || {};
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, k) { s.classList.toggle("on", k === i); s.classList.toggle("past", k < i); s.setAttribute("aria-hidden", String(k !== i)); });
+    var f = frags(i);
+    if (i !== cur || opts.reset) f.forEach(function (x) { x.classList.toggle("vis", !!opts.allFrags); });
+    cur = i;
+    slides[i].scrollTop = 0;
+    cnt.textContent = (i + 1) + " / " + slides.length;
+    bar.style.width = ((i + 1) / slides.length * 100) + "%";
+    prevB.disabled = i === 0; nextB.disabled = i === slides.length - 1 && !f.some(function (x) { return !x.classList.contains("vis"); });
+    try { history.replaceState(null, "", "#" + (i + 1)); } catch (e) {}
+    if (slides[i].querySelector("#mm")) requestAnimationFrame(drawMap);
+  }
+  function next() {
+    var hid = frags(cur).filter(function (x) { return !x.classList.contains("vis"); });
+    if (hid.length) { var g = hid[0].dataset.f; hid.forEach(function (x, k) { if (k === 0 || (g && x.dataset.f === g)) x.classList.add("vis"); }); show(cur); return; }
+    if (cur < slides.length - 1) show(cur + 1);
+  }
+  function prev() {
+    var vis = frags(cur).filter(function (x) { return x.classList.contains("vis"); });
+    if (vis.length) { var g = vis[vis.length - 1].dataset.f; vis.forEach(function (x, k) { if (k === vis.length - 1 || (g && x.dataset.f === g)) x.classList.remove("vis"); }); show(cur); return; }
+    if (cur > 0) show(cur - 1, { allFrags: true, reset: true });
+  }
+  prevB.addEventListener("click", prev); nextB.addEventListener("click", next);
+  document.addEventListener("click", function (e) {
+    var g = e.target.closest && e.target.closest("[data-go]");
+    if (g) show(+g.dataset.go - 1, { reset: true });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.matches && e.target.matches("input, select, textarea")) return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    var k = e.key;
+    if (!ov.hidden) { if (k === "Escape" || k === "o" || k === "O") { closeOv(); e.preventDefault(); } return; }
+    if (k === "ArrowRight" || k === "PageDown" || k === " ") { next(); e.preventDefault(); }
+    else if (k === "ArrowLeft" || k === "PageUp") { prev(); e.preventDefault(); }
+    else if (k === "Home") { show(0, { reset: true }); e.preventDefault(); }
+    else if (k === "End") { show(slides.length - 1, { reset: true }); e.preventDefault(); }
+    else if (k === "o" || k === "O") { openOv(); e.preventDefault(); }
+    else if (k === "f" || k === "F") { toggleFs(); }
+  });
+  var tx = null, ty = null;
+  var stage = document.getElementById("stage");
+  stage.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener("touchend", function (e) {
+    if (tx == null) return;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) { if (dx < 0) next(); else prev(); }
+  }, { passive: true });
+
+  /* ---------- índex ---------- */
+  var ov = document.getElementById("overview"), ovList = document.getElementById("ov-list");
+  function openOv() {
+    ovList.innerHTML = "";
+    slides.forEach(function (s, i) {
+      var li = document.createElement("li"), b = document.createElement("button");
+      b.type = "button"; b.className = "it" + (i === cur ? " cur" : "");
+      b.innerHTML = '<span class="n">' + (i + 1) + "</span><span></span>"; b.lastChild.textContent = s.dataset["title" + lang.charAt(0).toUpperCase() + lang.slice(1)];
+      b.addEventListener("click", function () { closeOv(); show(i, { reset: true }); });
+      li.appendChild(b); ovList.appendChild(li);
+    });
+    ov.hidden = false; var c = ovList.querySelector(".cur"); if (c) c.focus();
+  }
+  function closeOv() { ov.hidden = true; }
+  document.getElementById("ov-btn").addEventListener("click", openOv);
+  document.getElementById("ov-close").addEventListener("click", closeOv);
+  ov.addEventListener("click", function (e) { if (e.target === ov) closeOv(); });
+
+  /* ---------- pantalla completa ---------- */
+  function toggleFs() {
+    try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); } catch (e) {}
+  }
+  var fsB = document.getElementById("fs-btn");
+  if (!document.fullscreenEnabled) fsB.hidden = true; else fsB.addEventListener("click", toggleFs);
+
+  /* ---------- mapa conceptual: línies ---------- */
+  var COLS = { n1: "var(--r1)", n2: "var(--r4)", n3: "var(--r3)", n4: "var(--r2)", n5: "var(--r5)" };
+  function drawMap() {
+    var mm = document.getElementById("mm"), svg = mm.querySelector("svg.lines"), c = mm.querySelector(".center");
+    if (!mm.offsetWidth) return;
+    var R = mm.getBoundingClientRect(), C = c.getBoundingClientRect(), cx = C.left + C.width / 2 - R.left, cy = C.top + C.height / 2 - R.top, h = "";
+    mm.querySelectorAll(".node").forEach(function (n) {
+      var B = n.getBoundingClientRect(), k = [].filter.call(n.classList, function (x) { return COLS[x]; })[0];
+      h += '<line x1="' + cx + '" y1="' + cy + '" x2="' + (B.left + B.width / 2 - R.left) + '" y2="' + (B.top + B.height / 2 - R.top) + '" style="stroke:' + COLS[k] + '"/>';
+    });
+    svg.setAttribute("viewBox", "0 0 " + R.width + " " + R.height); svg.innerHTML = h;
+  }
+  window.addEventListener("resize", function () { if (slides[cur].querySelector("#mm")) drawMap(); });
+
+  /* ---------- recta real ---------- */
+  function parseIv(s) {
+    var lc = s[0] === "[", rc = s[s.length - 1] === "]", p = s.slice(1, -1).split(",");
+    var a = /inf/.test(p[0]) ? -Infinity : +p[0], b = /inf/.test(p[1]) ? Infinity : +p[1];
+    return { a: a, b: b, lc: lc && isFinite(a), rc: rc && isFinite(b) };
+  }
+  function nlSVG(rows) {
+    var lo = -6, hi = 6, lab = rows.some(function (r) { return r.label; }), W = 600, L = lab ? 78 : 16, RM = 18, rh = 50, H = rows.length * rh;
+    function X(v) { return +(L + (v - lo) / (hi - lo) * (W - L - RM)).toFixed(1); }
+    var o = '<svg viewBox="0 0 ' + W + " " + H + '" role="img">';
+    rows.forEach(function (r, i) {
+      var y = i * rh + 18, col = r.color;
+      if (r.label) o += '<text class="nl-lab" x="2" y="' + (y + 6) + '">' + r.label + "</text>";
+      o += '<line class="nl-ax" x1="' + (L - 10) + '" y1="' + y + '" x2="' + (W - 4) + '" y2="' + y + '"/><path class="nl-axh" d="M' + (W - 2) + " " + y + ' l-9 -5 v10 z"/>';
+      for (var v = lo; v <= hi; v++) o += '<line class="nl-tk" x1="' + X(v) + '" y1="' + (y - 5) + '" x2="' + X(v) + '" y2="' + (y + 5) + '"/><text class="nl-num" x="' + X(v) + '" y="' + (y + 22) + '">' + String(v).replace("-", "−") + "</text>";
+      r.pieces.forEach(function (p) {
+        var x1 = isFinite(p.a) ? X(p.a) : L - 4, x2 = isFinite(p.b) ? X(p.b) : W - 16;
+        o += '<line x1="' + x1 + '" y1="' + y + '" x2="' + x2 + '" y2="' + y + '" stroke-width="6" style="stroke:' + col + '"/>';
+        if (!isFinite(p.a)) o += '<path d="M' + (x1 - 8) + " " + y + ' l11 -7 v14 z" style="fill:' + col + '"/>';
+        if (!isFinite(p.b)) o += '<path d="M' + (x2 + 8) + " " + y + ' l-11 -7 v14 z" style="fill:' + col + '"/>';
+        [[p.a, p.lc], [p.b, p.rc]].forEach(function (e) {
+          if (isFinite(e[0])) o += '<circle cx="' + X(e[0]) + '" cy="' + y + '" r="7" stroke-width="2.5" style="stroke:' + col + ";fill:" + (e[1] ? col : "var(--surface)") + '"/>';
+        });
+      });
+    });
+    return o + "</svg>";
+  }
+  var NLC = ["var(--r3)", "var(--r2)"];
+  document.querySelectorAll(".nl[data-iv]").forEach(function (el) { el.innerHTML = nlSVG([{ pieces: [parseIv(el.dataset.iv)], color: "var(--accent)" }]); });
+  document.querySelectorAll(".nl[data-rows]").forEach(function (el) {
+    var cols = el.dataset.colors ? el.dataset.colors.split("|") : NLC;
+    el.innerHTML = nlSVG(el.dataset.rows.split("|").map(function (r, i) { var k = r.indexOf(":"); return { label: r.slice(0, k), pieces: [parseIv(r.slice(k + 1))], color: cols[i % cols.length] }; }));
+  });
+
+  /* ---------- classificador ---------- */
+  var NUMS = [
+    { t: "\\sqrt{9}", v: "3", s: "N" }, { t: "-5", s: "Z" }, { t: "\\frac{3}{4}", v: "0\\dc75", s: "Q" },
+    { t: "0\\dc\\overline{3}", v: "\\frac13", s: "Q" }, { t: "\\frac{22}{7}", s: "Q" }, { t: "\\sqrt{2}", v: "1\\dc4142\\ldots", s: "I" },
+    { t: "\\pi", v: "3\\dc1415\\ldots", s: "I" }, { t: "-\\sqrt{16}", v: "-4", s: "Z" }
+  ];
+  var MEMB = { N: ["N", "Z", "Q", "R"], Z: ["Z", "Q", "R"], Q: ["Q", "R"], I: ["I", "R"] }, SYM = { N: "\\mathbb{N}", Z: "\\mathbb{Z}", Q: "\\mathbb{Q}", I: "\\mathbb{I}", R: "\\mathbb{R}" };
+  var clsBox = document.getElementById("cls"), clsInfo = document.getElementById("cls-info"), clsCur = null;
+  function renderCls() {
+    [].forEach.call(clsBox.children, function (b, i) { b.classList.toggle("act", i === clsCur); });
+    ["N", "Z", "Q", "I", "R"].forEach(function (k) { document.getElementById("set-" + k).classList.remove("on"); });
+    if (clsCur == null) { clsInfo.innerHTML = '<span class="muted">' + u("tap") + "</span>"; return; }
+    var n = NUMS[clsCur], m = MEMB[n.s];
+    m.forEach(function (k) { document.getElementById("set-" + k).classList.add("on"); });
+    clsInfo.innerHTML = tex(n.t + (n.v ? "=" + n.v : "")) + "<br>" + m.map(function (k) { return '<span class="bdg">' + tex(SYM[k]) + " ✓</span>"; }).join("");
+  }
+
+  /* ---------- targetes i llista ---------- */
+  document.querySelectorAll(".flip").forEach(function (b) { b.addEventListener("click", function () { b.classList.toggle("on"); }); });
+  var CK = "fm-3eso-u2-resum-check", ck = [].slice.call(document.querySelectorAll("#check input")), saved = [];
+  try { saved = JSON.parse(store(CK) || "[]") || []; } catch (e) {}
+  function meter() {
+    var n = ck.filter(function (x) { return x.checked; }).length;
+    document.getElementById("check-n").textContent = n;
+    document.getElementById("check-bar").style.width = (n / ck.length * 100) + "%";
+  }
+  ck.forEach(function (x, i) { x.checked = !!saved[i]; x.addEventListener("change", function () { store(CK, JSON.stringify(ck.map(function (y) { return y.checked; }))); meter(); }); });
+  meter();
+
+  /* ---------- idioma i tema ---------- */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  var tb = document.getElementById("theme-btn"), lb = document.querySelectorAll("[data-setlang]");
+  function paint() {
+    tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); tb.title = u("theme");
+    var ob = document.getElementById("ov-btn"); ob.title = u("ov"); ob.setAttribute("aria-label", u("ov"));
+    fsB.title = u("fs"); fsB.setAttribute("aria-label", u("fs"));
+    lb.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); });
+    document.title = TITLES[lang];
+  }
+  tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paint(); });
+  lb.forEach(function (b) { b.addEventListener("click", function () {
+    lang = b.dataset.setlang; root.setAttribute("data-lang", lang); root.lang = HTML_LANG[lang]; store("lang", lang);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", lang); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+    if (slides[cur].querySelector("#mm")) drawMap();
+  }); });
+
+  function init() {
+    if (window.renderMathInElement) window.renderMathInElement(document.body, { delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }], throwOnError: false, strict: "ignore", macros: MACROS, trust: trust });
+    NUMS.forEach(function (n, i) { var b = document.createElement("button"); b.type = "button"; b.innerHTML = tex(n.t); b.addEventListener("click", function () { clsCur = i; renderCls(); }); clsBox.appendChild(b); });
+    onLang(paint); onLang(renderCls);
+    var h = parseInt((location.hash || "").replace("#", ""), 10);
+    show(h > 0 ? h - 1 : 0, { reset: true });
+  }
+  if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+})();
+</script>
+</body>
+</html>
