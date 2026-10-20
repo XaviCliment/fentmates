@@ -354,7 +354,7 @@
         return (utitle + " " + tx(it.title) + " " + tx(it.desc)).toLowerCase().indexOf(state.q) >= 0;
       });
       if (!items.length) return;
-      var open = state.q || state.type !== "all" || openIds[ui] || (first && ui === 0);
+      var open = state.q || state.type !== "all" || openIds[ui];
       html += '<details class="unit" data-i="' + ui + '"' + (open ? " open" : "") + ">" +
         '<summary><span class="num">' + esc(num) + '</span><span class="u-title">' + esc(utitle) + "</span>" +
         '<span class="count">' + items.length + " " + esc(t("level.items")) + "</span>" + ICONS.chev + "</summary><ul>" +
