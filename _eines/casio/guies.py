@@ -153,11 +153,11 @@ GUIDES.append({
      "screen": "Dues rectes: la intersecció és [1, 3]"},
   ]})
 
-# ---------------------------------------------------------------- 3r ESO · U3
+# ---------------------------------------------------------------- 3r ESO · U4
 GUIDES.append({
-  "file": "materials/3eso/casio-u3-polinomis.html",
+  "file": "materials/3eso/casio-u4-polinomis.html",
   "back": "../../3eso.html", "back_label": "3r ESO",
-  "unit": "Unitat 3", "title": "Polinomis",
+  "unit": "Unitat 4", "title": "Polinomis",
   "color": "#ff7a50",
   "intro": "Valor numèric, arrels d'un polinomi i comprovació d'identitats notables i factoritzacions.",
   "sections": [
@@ -199,11 +199,11 @@ GUIDES.append({
      "screen": "Columnes f(x) i g(x) idèntiques"},
   ]})
 
-# ---------------------------------------------------------------- 3r ESO · U4
+# ---------------------------------------------------------------- 3r ESO · U5
 GUIDES.append({
-  "file": "materials/3eso/casio-u4-equacions.html",
+  "file": "materials/3eso/casio-u5-equacions.html",
   "back": "../../3eso.html", "back_label": "3r ESO",
-  "unit": "Unitat 4", "title": "Equacions i sistemes",
+  "unit": "Unitat 5", "title": "Equacions i sistemes",
   "color": "#ff7a50",
   "intro": "Equacions de segon grau, sistemes de dues equacions i comprovació de les teues solucions.",
   "sections": [

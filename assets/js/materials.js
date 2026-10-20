@@ -86,11 +86,17 @@ window.LEVELS = {
         ]
       },
       {
+        title: { va: "Proporcionalitat i percentatges", es: "Proporcionalidad y porcentajes", en: "Proportionality and percentages" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t3-proporcionalitat-percentatges.html", date: "2026-10-20" }
+        ]
+      },
+      {
         title: { va: "Polinomis", es: "Polinomios", en: "Polynomials" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
           { type: "resource", date: "2026-10-15", title: { va: "GeoGebra: identitats notables $(a+b)^2$", es: "GeoGebra: identidades notables $(a+b)^2$", en: "GeoGebra: special products $(a+b)^2$" }, url: "https://www.geogebra.org" },
-          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u3-polinomis.html" }
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u4-polinomis.html" }
         ]
       },
       {
@@ -98,7 +104,7 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
           { type: "exercises", title: { va: "Problemes amb equacions", es: "Problemas con ecuaciones", en: "Equation word problems" }, url: "" },
-          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u4-equacions.html" }
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u5-equacions.html" }
         ]
       }
     ]

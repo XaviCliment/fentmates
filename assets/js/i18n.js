@@ -169,6 +169,7 @@ window.I18N = {
 
 /* ---------- Noves seccions: contacte, PAU, reptes, curiositats ---------- */
 Object.assign(window.I18N.va, {
+  "footer.visits": "visites",
   "kind.calc": "Calculadora",
   "nav.courses": "Cursos",
   "stage.eso": "ESO",
@@ -221,6 +222,7 @@ Object.assign(window.I18N.va, {
 });
 
 Object.assign(window.I18N.es, {
+  "footer.visits": "visitas",
   "kind.calc": "Calculadora",
   "nav.courses": "Cursos",
   "stage.eso": "ESO",
@@ -273,6 +275,7 @@ Object.assign(window.I18N.es, {
 });
 
 Object.assign(window.I18N.en, {
+  "footer.visits": "visits",
   "kind.calc": "Calculator",
   "nav.courses": "Courses",
   "stage.eso": "ESO",

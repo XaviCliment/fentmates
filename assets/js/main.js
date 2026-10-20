@@ -210,12 +210,25 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMailMenus(); });
   }
 
+  /* Comptador de visites (hits.sh): compta cada pàgina vista del web publicat.
+     Estadístiques: https://hits.sh/fentmates.org/  ·  En local no compta. */
+  function visitCounter() {
+    var h = location.hostname;
+    if (!h || h === "localhost" || h === "127.0.0.1" || /\.local$/.test(h)) {
+      return '<span class="visits" title="El comptador només funciona al web publicat">' + esc(t("footer.visits")) + ': —</span>';
+    }
+    return '<span class="visits"><img src="https://hits.sh/fentmates.org.svg?style=flat-square&amp;label=' +
+      encodeURIComponent(t("footer.visits")) + '&amp;color=5d6685&amp;labelColor=8a93ad" alt="' + esc(t("footer.visits")) +
+      '" width="80" height="20" loading="lazy" referrerpolicy="no-referrer"></span>';
+  }
+
   function renderFooter() {
     var f = el("site-footer");
     if (!f) return;
     f.innerHTML =
       '<div class="container">' +
         "<span>© " + new Date().getFullYear() + " · FentMates · " + esc(t("footer.made")) + "</span>" +
+        visitCounter() +
         '<span class="footer-links">' + contactLinks("social-btn small", true) + '<a href="#top">' + esc(t("footer.top")) + "</a></span>" +
       "</div>";
   }
