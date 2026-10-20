@@ -88,7 +88,9 @@ window.LEVELS = {
       {
         title: { va: "Proporcionalitat i percentatges", es: "Proporcionalidad y porcentajes", en: "Proportionality and percentages" },
         items: [
-          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t3-proporcionalitat-percentatges.html", date: "2026-10-20" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t3-proporcionalitat-percentatges.html", date: "2026-10-20" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 79 exercicis graduats per nivells de dificultat", es: "PDF · 79 ejercicios graduados por niveles de dificultad", en: "PDF · 79 exercises graded by difficulty" }, url: "materials/3eso/t3-fitxa-exercicis.pdf", download: true, date: "2026-10-20" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 79 exercicis", es: "PDF · Soluciones de los 79 ejercicios", en: "PDF · Solutions to all 79 exercises" }, url: "materials/3eso/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-20" }
         ]
       },
       {
