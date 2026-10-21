@@ -109,6 +109,20 @@ figure img { max-width: min(100%, 420px); height: auto; background: #fff; border
 .empty { text-align: center; color: var(--muted); padding: 40px 0; }
 .foot { color: var(--muted); font-size: .85rem; text-align: center; padding: 0 0 40px; }
 
+/* solucions desplegables */
+details.sol { margin: 14px 0 0; border: 1px dashed color-mix(in srgb, var(--c) 60%, transparent); border-radius: 12px; background: color-mix(in srgb, var(--c) 5%, var(--surface)); }
+details.sol > summary { cursor: pointer; list-style: none; padding: 9px 14px; font-weight: 700; color: var(--c); user-select: none; }
+details.sol > summary::-webkit-details-marker { display: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol[open] > summary .show, details.sol:not([open]) > summary .hide { display: none; }
+.sol-body { padding: 0 16px 12px; border-top: 1px dashed var(--border); }
+.sol-body .steps { padding-left: 1.3em; margin: 10px 0; }
+.sol-body .steps > li { margin: 8px 0; }
+.sol-body .steps ul { margin: 4px 0; padding-left: 1.2em; }
+.sol-body .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+.sol-body .res { margin: 10px 0 0; padding: 10px 14px; border-radius: 10px; background: color-mix(in srgb, var(--c) 14%, transparent); }
+.has-sol { font-size: .75rem; font-weight: 700; color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 50%, transparent); padding: 2px 8px; border-radius: 999px; }
+
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .wrap { padding: 0 14px; }
@@ -222,9 +236,9 @@ var EXERCICIS = [{"conv": "Setembre 2002", "y": 2002, "m": 9, "h": "<p>Obtenir d
     var list = document.getElementById("list");
     list.innerHTML = items.length ? items.map(function (e) {
       return '<article class="ex' + (done[e.n] ? " done" : "") + '" id="ex' + e.n + '">' +
-        '<div class="ex-head"><span class="n">' + e.n + '</span><span class="date">' + e.conv + "</span>" +
+        '<div class="ex-head"><span class="n">' + e.n + '</span><span class="date">' + e.conv + "</span>" + (e.s ? '<span class="has-sol">✓ Amb solució</span>' : "") +
         '<label class="check"><input type="checkbox" data-n="' + e.n + '"' + (done[e.n] ? " checked" : "") + "> Fet</label></div>" +
-        e.h + "</article>";
+        e.h + (e.s ? '<details class="sol noprint"><summary><span class="show">Mostra la solució</span><span class="hide">Amaga la solució</span></summary><div class="sol-body">' + e.s + "</div></details>" : "") + "</article>";
     }).join("") : '<p class="empty">No hi ha cap exercici amb aquest filtre.</p>';
     if (window.renderMathInElement) {
       renderMathInElement(list, { delimiters: [{ left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }], throwOnError: false });

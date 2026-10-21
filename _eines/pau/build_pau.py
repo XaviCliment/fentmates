@@ -65,8 +65,35 @@ def txt(s):
     return s.replace("&lt;br&gt;", "<br>")
 
 
+def parse_sol(path):
+    """Solucions: blocs "## TIPUS | Convocatòria | n" seguits d'HTML."""
+    sol = {}
+    if not os.path.exists(path):
+        return sol
+    for block in open(path, encoding="utf-8").read().split("\n## ")[1:]:
+        head, _, body = block.partition("\n")
+        kind, conv, n = [s.strip() for s in head.split("|")]
+        sol[(kind, conv, int(n))] = body.strip()
+    return sol
+
+
+def attach_sol(items, sol):
+    seen = {}
+    for e in items:
+        key = (e["k"], e["conv"])
+        seen[key] = seen.get(key, 0) + 1
+        s = sol.pop((e["k"], e["conv"], seen[key]), None)
+        if s:
+            e["s"] = s
+
+
 alg = parse(os.path.join(SP, "alg.txt"))
 pl = parse(os.path.join(SP, "pl.txt"))
+sol = parse_sol(os.path.join(SP, "sol.txt"))
+attach_sol(alg, sol)
+attach_sol(pl, sol)
+if sol:
+    print("AVÍS: solucions sense exercici:", sorted(sol))
 units = [
     ("pau-u1-matrius.html", "1", "Matrius i determinants", [e for e in alg if e["k"] == "M"]),
     ("pau-u2-sistemes.html", "2", "Sistemes d'equacions lineals", [e for e in alg if e["k"] == "S"]),
@@ -74,7 +101,7 @@ units = [
 ]
 tpl = open(os.path.join(SP, "pau_template.html"), encoding="utf-8").read()
 for fn, num, name, items in units:
-    data = [{"conv": e["conv"], "y": e["y"], "m": e["m"], "h": e["h"]} for e in items]
+    data = [{"conv": e["conv"], "y": e["y"], "m": e["m"], "h": e["h"], **({"s": e["s"]} if "s" in e else {})} for e in items]
     page = (tpl.replace("{{NUM}}", num).replace("{{NAME}}", name)
                .replace("{{COUNT}}", str(len(items))).replace("{{KEY}}", fn.replace(".html", ""))
                .replace("{{DATA}}", json.dumps(data, ensure_ascii=False).replace("</", "<\\/")))

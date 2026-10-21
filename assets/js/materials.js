@@ -39,7 +39,14 @@ window.LEVELS = {
       es: "Números naturales y enteros, fracciones, proporcionalidad y geometría plana.",
       en: "Whole numbers and integers, fractions, proportionality and plane geometry."
     },
-    units: []
+    units: [
+      {
+        title: { va: "Nombres naturals", es: "Números naturales", en: "Natural numbers" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t1-nombres-naturals.html", date: "2026-10-21" }
+        ]
+      }
+    ]
   },
 
   "2eso": {
