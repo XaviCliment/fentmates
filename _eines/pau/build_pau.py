@@ -3,6 +3,8 @@
 import json, re, sys, html, os
 
 SP = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, SP)
+from gauss_gen import expand  # noqa: E402
 OUT = sys.argv[1]  # carpeta materials/2batx-ccss
 
 MONTHS = {"Juny": 6, "Juliol": 7, "Setembre": 9}
@@ -73,7 +75,7 @@ def parse_sol(path):
     for block in open(path, encoding="utf-8").read().split("\n## ")[1:]:
         head, _, body = block.partition("\n")
         kind, conv, n = [s.strip() for s in head.split("|")]
-        sol[(kind, conv, int(n))] = body.strip()
+        sol[(kind, conv, int(n))] = expand(body.strip())
     return sol
 
 
