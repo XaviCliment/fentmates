@@ -128,18 +128,19 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1` i `1eso-t2` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
 
 ## Apunts interactius generats
 
-Els apunts de 1r ESO, Unitat 1 es generen amb `_eines/apunts/1eso-t1/build.py` (contingut), `app.js` (ginys)
-i `extra.css` (estil propi). Des de la carpeta del web:
+Els apunts de 1r ESO es generen amb `_eines/apunts/1eso-tN/build.py` (contingut), `app.js` (ginys)
+i `extra.css` (estil propi), una carpeta per unitat (`1eso-t1`, `1eso-t2`…). Des de la carpeta del web:
 
 ```
 python3 _eines/apunts/1eso-t1/build.py
+python3 _eines/apunts/1eso-t2/build.py
 ```
 
 `_eines/apunts/relabel.py` fa que cada exercici dels quadres «Practica» comence per a) i ajusta les solucions.
