@@ -117,3 +117,35 @@ python3 _eines/casio/build_casio.py
 
 Al text, `[[EXE]]` dibuixa una tecla, `<<Matriz>>` una opció de menú i `$...$` una fórmula.
 Després enllaça la pàgina a `materials.js` amb `type: "calc"`.
+
+## Fitxes d'exercicis en PDF (LaTeX)
+
+Les fonts són a `_eines/fonts-latex/<curs-unitat>/` (per exemple `3eso-t3`, `1eso-t1`). Cada carpeta té la fitxa,
+les solucions i els logos. Per a compilar-les cal tindre LaTeX instal·lat (MacTeX); des de la carpeta de la fitxa:
+
+```
+pdflatex t3-fitxa-exercicis.tex
+pdflatex t3-fitxa-solucions.tex
+```
+
+A `1eso-t1` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
+Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
+si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
+
+## Apunts interactius generats
+
+Els apunts de 1r ESO, Unitat 1 es generen amb `_eines/apunts/1eso-t1/build.py` (contingut), `app.js` (ginys)
+i `extra.css` (estil propi). Des de la carpeta del web:
+
+```
+python3 _eines/apunts/1eso-t1/build.py
+```
+
+`_eines/apunts/relabel.py` fa que cada exercici dels quadres «Practica» comence per a) i ajusta les solucions.
+
+## Treballar des de casa i des de l'institut
+
+El repositori de GitHub és la còpia de referència. Abans de començar, baixa els canvis (`git pull` o *Fetch/Pull*
+a GitHub Desktop); en acabar, puja'ls (`git add -A`, `git commit -m "…"`, `git push`). No poses la carpeta dins de
+OneDrive: la sincronització la fa GitHub. Les carpetes que comencen per `_` no es publiquen a fentmates.org.

@@ -1,0 +1,548 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 2: Nombres reals. 3r d'ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={nombres reals, potències, radicals, notació científica, intervals}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=2pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 2: Nombres reals · 3r d'ESO}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\stepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+% ---------- recta real ----------
+\newcommand{\rectabuida}{\begin{tikzpicture}[x=0.42cm,baseline=0]
+  \draw[-latex,muted] (-6.7,0)--(6.8,0);
+  \foreach \i in {-6,...,6}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}
+  \end{tikzpicture}}
+% \rectaint{x1}{x2}{estil esquerra}{estil dreta}: estil = ple, buit, inf
+\newcommand{\extrem}[2]{\ifx#2p\fill[accent] (#1,0) circle (0.13);\else\ifx#2b\filldraw[fill=white,draw=accent,line width=1.2pt] (#1,0) circle (0.13);\fi\fi}
+\newcommand{\rectaint}[4]{\begin{tikzpicture}[x=0.42cm,baseline=0]
+  \draw[-latex,muted] (-6.7,0)--(6.8,0);
+  \foreach \i in {-6,...,6}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}
+  \draw[accent,line width=3pt] (#1,0)--(#2,0);
+  \ifx#3i\fill[accent] (#1-0.25,0)--(#1+0.15,0.2)--(#1+0.15,-0.2)--cycle;\else\extrem{#1}{#3}\fi
+  \ifx#4i\fill[accent] (#2+0.25,0)--(#2-0.15,0.2)--(#2-0.15,-0.2)--cycle;\else\extrem{#2}{#4}\fi
+  \end{tikzpicture}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+\thispagestyle{primera}
+
+% ---------- encapçalament ----------
+\begin{minipage}[c]{0.25\textwidth}\includegraphics[width=\linewidth]{logo-gva.png}\end{minipage}%
+\begin{minipage}[c]{0.5\textwidth}\centering
+  {\color{navy}\Large\bfseries Fitxa d'exercicis de la unitat 2:\\[2pt] Nombres reals}\\[5pt]
+  {\color{accent}\large\bfseries 3r d'ESO}
+\end{minipage}%
+\begin{minipage}[c]{0.25\textwidth}\hfill\includegraphics[width=0.85\linewidth]{logo-vermellar.png}\end{minipage}
+
+\vspace{6pt}
+{\color{navy}\hrule height 1.2pt}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Exercicis graduats per nivells de dificultat:\quad
+\estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt]
+Resol-los al quadern mostrant tots els passos. Les rectes i les taules es poden completar directament en la fitxa.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Potències d'exponent natural}
+
+\ex{1} Escriu com a potència i calcula:
+\begin{tasks}(2)
+  \task $5\cdot5\cdot5$
+  \task $(-2)(-2)(-2)(-2)(-2)$
+  \task $\frac23\cdot\frac23\cdot\frac23\cdot\frac23$
+  \task $(-1)(-1)(-1)(-1)(-1)(-1)(-1)$
+\end{tasks}
+
+\ex{1} Calcula:
+\begin{tasks}(4)
+  \task $2^{6}$
+  \task $(-3)^{3}$
+  \task $(-3)^{4}$
+  \task $-3^{4}$
+  \task $(-1)^{100}$
+  \task $\left(-\frac12\right)^{3}$
+  \task $0^{9}$
+  \task $10^{7}$
+\end{tasks}
+
+\ex{2} Sense fer cap càlcul, indica si el resultat és positiu o negatiu. Justifica-ho.
+\begin{tasks}(4)
+  \task $(-7)^{12}$
+  \task $(-5)^{9}$
+  \task $-(-2)^{6}$
+  \task $-(-4)^{3}$
+\end{tasks}
+
+\ex{2} Calcula:
+\begin{tasks}(2)
+  \task $-2^{2}+(-2)^{2}-(-2)^{3}$
+  \task $(-1)^{5}+(-1)^{6}-1^{7}$
+  \task $3^{2}-2^{3}+(-1)^{10}$
+  \task $\left(-\frac23\right)^{2}\cdot\left(\frac32\right)^{3}$
+\end{tasks}
+
+\ex{3} Troba el valor de $x$ en cada cas:
+\begin{tasks}(4)
+  \task $2^{x}=64$
+  \task $(-3)^{x}=-27$
+  \task $x^{4}=81$
+  \task $\left(\frac25\right)^{x}=\frac{8}{125}$
+\end{tasks}
+
+% =====================================================
+\seccio{2}{Propietats de les potències}
+
+\ex{1} Expressa com una sola potència:
+\begin{tasks}(3)
+  \task $3^{4}\cdot3^{5}$
+  \task $7^{10}:7^{6}$
+  \task $\left(2^{3}\right)^{5}$
+  \task $5^{3}\cdot5\cdot5^{4}$
+  \task $a^{8}:a^{3}\ \ (a\neq0)$
+  \task $\left((-2)^{2}\right)^{3}$
+\end{tasks}
+
+\ex{1} Aplica les propietats de les potències amb el mateix exponent i calcula:
+\begin{tasks}(4)
+  \task $2^{5}\cdot5^{5}$
+  \task $12^{4}:4^{4}$
+  \task $(-3)^{3}\cdot(-2)^{3}$
+  \task $\left(\frac34\right)^{2}\cdot\left(\frac43\right)^{2}$
+\end{tasks}
+
+\ex{2} Simplifica i calcula:
+\begin{tasks}(4)
+  \task $\dfrac{2^{7}\cdot2^{3}}{\left(2^{4}\right)^{2}}$
+  \task $\dfrac{\left(3^{2}\right)^{4}\cdot3^{3}}{3^{5}\cdot3^{4}}$
+  \task $\dfrac{5^{6}\cdot5^{3}}{\left(5^{2}\right)^{4}}$
+  \task $\dfrac{6^{3}\cdot6^{5}}{\left(6^{2}\right)^{3}}$
+\end{tasks}
+
+\ex{2} Descompon les bases en factors primers, simplifica i calcula:
+\begin{tasks}(4)
+  \task $\dfrac{4^{3}\cdot8^{2}}{16^{2}}$
+  \task $\dfrac{9^{2}\cdot27}{3^{6}}$
+  \task $\dfrac{25^{3}}{5^{2}\cdot125}$
+  \task $\dfrac{6^{4}}{2^{3}\cdot3^{2}}$
+\end{tasks}
+
+\ex{3} Descompon, simplifica i calcula:
+\begin{tasks}(4)
+  \task $\dfrac{12^{3}\cdot18^{2}}{8^{2}\cdot27^{2}}$
+  \task $\dfrac{15^{2}\cdot10^{3}}{6^{2}\cdot25^{2}}$
+  \task $\dfrac{20^{3}\cdot9^{2}}{30^{2}\cdot4^{2}\cdot3}$
+  \task $\dfrac{14^{2}\cdot21^{3}}{49^{2}\cdot6^{2}}$
+\end{tasks}
+
+\ex{3} Indica si cada igualtat és vertadera o falsa. Justifica la resposta.
+\begin{tasks}(3)
+  \task $2^{3}+2^{3}=2^{4}$
+  \task $3^{2}\cdot3^{3}=9^{5}$
+  \task $(2+3)^{2}=2^{2}+3^{2}$
+  \task $5^{3}\cdot2^{3}=10^{3}$
+  \task $2^{10}+2^{10}=2^{11}$
+  \task $4^{5}:4^{5}=0$
+\end{tasks}
+
+% =====================================================
+\seccio{3}{Potències d'exponent enter negatiu}
+
+\ex{1} Calcula:
+\begin{tasks}(4)
+  \task $3^{-2}$
+  \task $(-2)^{-3}$
+  \task $10^{-3}$
+  \task $\left(\frac14\right)^{-2}$
+  \task $\left(\frac23\right)^{-3}$
+  \task $\left(-\frac35\right)^{-2}$
+  \task $7^{0}$
+  \task $-2^{-4}$
+\end{tasks}
+
+\ex{1} Escriu com una potència d'exponent negatiu:
+\begin{tasks}(5)
+  \task $\dfrac{1}{5^{4}}$
+  \task $\dfrac{1}{27}$
+  \task $\dfrac{1}{16}$
+  \task $0,001$
+  \task $\dfrac{1}{49}$
+\end{tasks}
+
+\ex{2} Expressa com una sola potència:
+\begin{tasks}(3)
+  \task $5^{-3}\cdot5^{7}$
+  \task $2^{-4}:2^{3}$
+  \task $\left(3^{-2}\right)^{-3}$
+  \task $7^{-2}\cdot7^{-5}:7^{-9}$
+  \task $\left(4^{-1}\right)^{3}\cdot4^{5}$
+  \task $10^{-3}\cdot10^{5}\cdot10^{-6}$
+\end{tasks}
+
+\ex{2} Calcula i dona el resultat en forma de fracció:
+\begin{tasks}(4)
+  \task $2^{-1}+2^{-2}$
+  \task $3^{-1}-3^{-2}$
+  \task $\left(\frac12\right)^{-2}+\left(\frac13\right)^{-1}$
+  \task $5^{0}-5^{-1}$
+\end{tasks}
+
+\ex{3} Descompon, simplifica i calcula:
+\begin{tasks}(3)
+  \task $\dfrac{8^{-2}\cdot4^{3}}{2^{-5}\cdot16}$
+  \task $\dfrac{9^{-1}\cdot27^{2}}{3^{-2}\cdot81}$
+  \task $\dfrac{6^{-2}\cdot12^{3}}{18^{-1}\cdot2^{5}}$
+  \task $\dfrac{10^{-2}\cdot25^{3}}{5^{4}\cdot2^{-3}}$
+  \task $\left(\dfrac23\right)^{-2}\cdot\left(\dfrac94\right)^{-1}$
+  \task $\left[\left(\dfrac12\right)^{-3}\cdot4^{-2}\right]^{-1}$
+\end{tasks}
+
+% =====================================================
+\seccio{4}{Notació científica}
+
+\ex{1} Escriu en notació científica:
+\begin{tasks}(3)
+  \task $45\,000\,000$
+  \task $0,000\,72$
+  \task $908\,000$
+  \task $0,000\,000\,3$
+  \task $-12\,500$
+  \task $0,05$
+\end{tasks}
+
+\ex{1} Escriu en forma decimal:
+\begin{tasks}(5)
+  \task $3,2\cdot10^{6}$
+  \task $5\cdot10^{-3}$
+  \task $1,07\cdot10^{9}$
+  \task $8,45\cdot10^{-6}$
+  \task $-6,1\cdot10^{4}$
+\end{tasks}
+
+\ex{2} Indica quines d'aquestes expressions no estan escrites en notació científica i corregeix-les:
+\begin{tasks}(3)
+  \task $2,7\cdot10^{5}$
+  \task $34\cdot10^{6}$
+  \task $0,8\cdot10^{-3}$
+  \task $10,5\cdot10^{-2}$
+  \task $125\cdot10^{-8}$
+  \task $0,0042\cdot10^{9}$
+\end{tasks}
+
+\ex{2} Ordena aquests nombres de menor a major:
+\[
+3,1\cdot10^{-4}\qquad 2,9\cdot10^{-3}\qquad 5\cdot10^{-5}\qquad 1,2\cdot10^{-4}\qquad 9\cdot10^{-6}
+\]
+
+\ex{3} Expressa en notació científica les dades següents:
+\begin{tasks}(1)
+  \task La velocitat de la llum és de $300\,000$ km/s.
+  \task El diàmetre d'un glòbul roig és de $0,000\,007\,5$ m.
+  \task La població mundial és d'uns 8\,000 milions de persones.
+  \task La massa d'un àtom d'hidrogen és de $0,000\,000\,000\,000\,000\,000\,000\,001\,67$ g.
+  \task Un any llum equival a uns $9\,460\,000\,000\,000$ km.
+\end{tasks}
+
+% =====================================================
+\seccio{5}{Radicals. Extracció i introducció de factors}
+
+\ex{1} Calcula, si existeixen en $\mathbb{R}$:
+\begin{tasks}(4)
+  \task $\sqrt{81}$
+  \task $\sqrt[3]{-125}$
+  \task $\sqrt[4]{16}$
+  \task $\sqrt{-9}$
+  \task $\sqrt[5]{-32}$
+  \task $\sqrt{\dfrac{25}{49}}$
+  \task $\sqrt[3]{\dfrac{8}{27}}$
+  \task $\sqrt[6]{1}$
+\end{tasks}
+
+\ex{1} Extreu tots els factors possibles del radical:
+\begin{tasks}(6)
+  \task $\sqrt{12}$
+  \task $\sqrt{18}$
+  \task $\sqrt{45}$
+  \task $\sqrt{98}$
+  \task $\sqrt[3]{16}$
+  \task $\sqrt[3]{81}$
+\end{tasks}
+
+\ex{1} Introdueix els factors dins del radical:
+\begin{tasks}(6)
+  \task $2\sqrt{5}$
+  \task $3\sqrt{3}$
+  \task $5\sqrt{2}$
+  \task $2\sqrt[3]{3}$
+  \task $3\sqrt[4]{2}$
+  \task $a\sqrt{b}$
+\end{tasks}
+
+\ex{2} Extreu tots els factors possibles del radical:
+\begin{tasks}(3)
+  \task $\sqrt{200}$
+  \task $\sqrt{2^{5}\cdot3^{3}}$
+  \task $\sqrt[3]{2^{7}\cdot5^{4}}$
+  \task $\sqrt[4]{3^{9}}$
+  \task $\sqrt{a^{7}\,b^{4}}$
+  \task $\sqrt[3]{x^{5}\,y^{9}}$
+\end{tasks}
+
+\ex{2} Introdueix els factors dins del radical i ordena de menor a major:
+\[
+3\sqrt{5}\qquad 4\sqrt{3}\qquad 2\sqrt{11}\qquad 5\sqrt{2}
+\]
+
+\ex{3} Extreu tots els factors possibles:
+\begin{tasks}(4)
+  \task $\sqrt{\dfrac{50}{81}}$
+  \task $\sqrt{12a^{3}}$
+  \task $\sqrt[3]{-54}$
+  \task $\sqrt[4]{32\,a^{6}\,b^{5}}$
+\end{tasks}
+
+% =====================================================
+\seccio{6}{Operacions amb radicals}
+
+\ex{1} Opera aquests radicals semblants:
+\begin{tasks}(2)
+  \task $3\sqrt{5}+2\sqrt{5}$
+  \task $7\sqrt{3}-4\sqrt{3}+\sqrt{3}$
+  \task $2\sqrt[3]{6}-5\sqrt[3]{6}+8\sqrt[3]{6}$
+  \task $\sqrt{2}+3\sqrt{2}-6\sqrt{2}$
+\end{tasks}
+
+\ex{1} Calcula i simplifica:
+\begin{tasks}(6)
+  \task $\sqrt{3}\cdot\sqrt{12}$
+  \task $\sqrt{5}\cdot\sqrt{20}$
+  \task $\sqrt{2}\cdot\sqrt{6}$
+  \task $\sqrt[3]{2}\cdot\sqrt[3]{4}$
+  \task $\sqrt{48}:\sqrt{3}$
+  \task $\sqrt[3]{54}:\sqrt[3]{2}$
+\end{tasks}
+
+\ex{2} Extreu factors i opera:
+\begin{tasks}(2)
+  \task $\sqrt{8}+\sqrt{18}$
+  \task $\sqrt{12}+\sqrt{75}-\sqrt{27}$
+  \task $2\sqrt{20}-\sqrt{45}+\sqrt{80}$
+  \task $\sqrt{50}-2\sqrt{32}+3\sqrt{2}$
+  \task $\sqrt[3]{16}+\sqrt[3]{54}-\sqrt[3]{2}$
+  \task $\sqrt{28}+\sqrt{63}-\sqrt{7}$
+\end{tasks}
+
+\ex{2} Calcula i simplifica:
+\begin{tasks}(3)
+  \task $2\sqrt{3}\cdot5\sqrt{6}$
+  \task $\sqrt{10}\cdot\sqrt{15}$
+  \task $\left(3\sqrt{2}\right)^{2}$
+  \task $12\sqrt{30}:\left(4\sqrt{6}\right)$
+  \task $\left(\sqrt{3}\right)^{5}$
+  \task $\sqrt{2}\cdot\sqrt{3}\cdot\sqrt{6}$
+\end{tasks}
+
+\ex{3} Opera i simplifica:
+\begin{tasks}(3)
+  \task $\sqrt{2}\left(\sqrt{8}+\sqrt{18}\right)$
+  \task $\sqrt{3}\left(2\sqrt{3}-\sqrt{12}\right)$
+  \task $\left(\sqrt{6}+\sqrt{2}\right)\cdot\sqrt{2}$
+  \task $\sqrt{12}+\sqrt{27}-\sqrt{3}\cdot\sqrt{6}$
+  \task $\dfrac{\sqrt{50}-\sqrt{8}}{\sqrt{2}}$
+\end{tasks}
+
+% =====================================================
+\seccio{7}{Intervals: definició i tipus}
+
+\ex{1} Completa la taula:\par\smallskip
+{\renewcommand{\arraystretch}{1.75}\centering
+\begin{tabular}{|C{3.6cm}|C{4.2cm}|C{6.2cm}|}
+\hline
+\rowcolor{soft}\textbf{Interval} & \textbf{Desigualtat} & \textbf{Tipus d'interval} \\ \hline
+$(-3,\ 5)$ & & \\ \hline
+$[-1,\ 4]$ & & \\ \hline
+ & $2<x\le 6$ & \\ \hline
+ & $x\ge -2$ & \\ \hline
+$(-\infty,\ 0)$ & & \\ \hline
+ & $-5\le x<-1$ & \\ \hline
+\end{tabular}\par}
+
+\ex{1} Escriu com a interval i com a desigualtat:
+\begin{tasks}(2)
+  \task Els nombres majors que $-4$.
+  \task Els nombres menors o iguals que $7$.
+  \task Els nombres compresos entre $0$ i $10$, tots dos inclosos.
+  \task Els nombres majors que $-2$ i menors o iguals que $3$.
+\end{tasks}
+
+\ex{2} Indica si el nombre pertany o no a l'interval:
+\begin{tasks}(3)
+  \task $3\in(-1,\ 3)$?
+  \task $-2\in[-2,\ 5)$?
+  \task $0\in(-\infty,\ 0]$?
+  \task $2,5\in(2,\ 3)$?
+  \task $-7\in(-6,\ +\infty)$?
+  \task $\sqrt{2}\in[1,\ 2]$?
+\end{tasks}
+
+\ex{3} Respon:
+\begin{tasks}(1)
+  \task Escriu tres nombres que pertanyen a l'interval $(1,\ 2)$. Quants nombres reals conté aquest interval?
+  \task Escriu un interval que continga el $0$ i el $5$, però no el $-1$ ni el $6$.
+  \task Quin és el major nombre enter que pertany a $[-3,\ 4)$? I el major que pertany a $(-3,\ 4]$?
+  \task Escriu com a interval el conjunt de nombres reals la distància dels quals al $2$ és menor que $3$.
+\end{tasks}
+
+% =====================================================
+\seccio{8}{Representació gràfica d'intervals}
+
+\ex{1} Representa a la recta real els intervals següents:\par\smallskip
+\begin{tabular}{@{}l@{\ \ }l@{\qquad}l@{\ \ }l@{}}
+a) $[-2,\ 3]$ & \rectabuida & b) $(0,\ 4)$ & \rectabuida \\[16pt]
+c) $(-\infty,\ 1]$ & \rectabuida & d) $(-3,\ +\infty)$ & \rectabuida \\[16pt]
+e) $[-4,\ -1)$ & \rectabuida & f) $x\le 2$ & \rectabuida
+\end{tabular}
+
+\ex{2} Escriu l'interval i la desigualtat que corresponen a cada representació:\par\smallskip
+\begin{tabular}{@{}l@{\ \ }l@{\qquad}l@{\ \ }l@{}}
+a) & \rectaint{-1}{4}{b}{p} & b) & \rectaint{2}{6.4}{p}{i} \\[16pt]
+c) & \rectaint{-6.4}{-3}{i}{b} & d) & \rectaint{-4}{0}{p}{p}
+\end{tabular}
+
+\ex{3} Representa a la recta real i escriu com a interval (o unió d'intervals):\par\smallskip
+\begin{tabular}{@{}l@{\ \ }l@{}}
+a) $x>-1$\ \ i\ \ $x\le 5$ & \rectabuida \\[16pt]
+b) $x\ge -3$\ \ i\ \ $x<2$ & \rectabuida \\[16pt]
+c) $x\le -1$\ \ o\ \ $x>4$ & \rectabuida
+\end{tabular}
+
+% =====================================================
+\seccio{9}{Unió i intersecció d'intervals}
+
+\ex{1} Siguen $A=[-2,\ 4]$ i $B=(1,\ 6)$. Representa'ls en la mateixa recta i calcula $A\cup B$ i $A\cap B$.\par\smallskip
+{\centering\rectabuida\par\vspace{12pt}\rectabuida\par}
+
+\ex{2} Calcula $A\cup B$ i $A\cap B$ en cada cas (fes-ne abans la representació gràfica):
+\begin{tasks}(2)
+  \task $A=(-\infty,\ 3)$,\ \ $B=[0,\ +\infty)$
+  \task $A=[-5,\ -1]$,\ \ $B=(-3,\ 2)$
+  \task $A=(-\infty,\ -2]$,\ \ $B=(1,\ +\infty)$
+  \task $A=[0,\ 5)$,\ \ $B=[5,\ 8]$
+  \task $A=(-4,\ 4)$,\ \ $B=[-1,\ 1]$
+\end{tasks}
+
+\ex{3} Respon:
+\begin{tasks}(1)
+  \task Escriu dos intervals $A$ i $B$ tals que $A\cap B=[2,\ 3]$.
+  \task Siguen $A=[-3,\ 5)$ i $B=(a,\ 8]$. Quin valor ha de tindre $a$ perquè $A\cap B=(1,\ 5)$?
+  \task Siguen $A=[-2,\ 6]$, $B=(0,\ +\infty)$ i $C=(-\infty,\ 3]$. Calcula $A\cap B\cap C$ i $(A\cap B)\cup C$.
+  \task Escriu l'interval $[-1,\ 7)$ com la intersecció de dues semirectes.
+\end{tasks}
+
+% =====================================================
+\seccio{10}{Classificació dels nombres reals}
+
+\ex{1} Marca amb una creu els conjunts als quals pertany cada nombre:\par\smallskip
+{\renewcommand{\arraystretch}{1.3}\centering
+\begin{tabular}{|C{3.6cm}|C{1.3cm}|C{1.3cm}|C{1.3cm}|C{1.3cm}|C{1.3cm}|}
+\hline
+\rowcolor{soft}\textbf{Nombre} & $\mathbb{N}$ & $\mathbb{Z}$ & $\mathbb{Q}$ & $\mathbb{I}$ & $\mathbb{R}$ \\ \hline
+$12$ & & & & & \\ \hline
+$-5$ & & & & & \\ \hline
+$\dfrac37$ & & & & & \\ \hline
+$0,25$ & & & & & \\ \hline
+$\sqrt{3}$ & & & & & \\ \hline
+$\pi$ & & & & & \\ \hline
+$-\sqrt{49}$ & & & & & \\ \hline
+$0,\overline{3}$ & & & & & \\ \hline
+$1,234\,567\,891\,011\ldots$ & & & & & \\ \hline
+\end{tabular}\par}
+
+\ex{2} Indica el conjunt numèric més xicotet al qual pertany cada nombre:
+\begin{tasks}(4)
+  \task $\dfrac{18}{6}$
+  \task $-\sqrt{25}$
+  \task $\sqrt{8}$
+  \task $2,\overline{5}$
+  \task $1+\sqrt{2}$
+  \task $-\dfrac{27}{9}$
+  \task $\sqrt{0,09}$
+  \task $0,101\,001\,000\,1\ldots$
+  \task $\sqrt[3]{-64}$
+  \task $\dfrac{\pi}{2}$
+\end{tasks}
+
+\ex{2} Indica si les afirmacions següents són vertaderes o falses. Justifica-ho.
+\begin{tasks}(2)
+  \task Tot nombre natural és enter.
+  \task Tot nombre enter és natural.
+  \task Tot nombre decimal periòdic és racional.
+  \task L'arrel quadrada d'un natural sempre és irracional.
+  \task Hi ha nombres que són racionals i irracionals alhora.
+  \task Tots els nombres decimals són racionals.
+\end{tasks}
+
+\ex{3} Respon:
+\begin{tasks}(1)
+  \task Escriu un nombre irracional comprés entre $3$ i $4$.
+  \task Escriu un nombre racional comprés entre $\sqrt{2}$ i $\sqrt{3}$.
+  \task Per a quins valors naturals de $n$, entre $1$ i $30$, el nombre $\sqrt{n}$ és racional?
+  \task La suma de dos nombres irracionals és sempre irracional? Busca'n un contraexemple.
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Si et costa algun exercici, repassa els apunts interactius de la unitat.\end{center}
+
+\end{document}
