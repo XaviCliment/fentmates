@@ -84,4 +84,4 @@ svg=f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" preserveA
     <text x="1545" y="585" text-anchor="end" font-size="26" fill-opacity=".15">1, 1, 2, 3, 5, 8, 13, 21…</text>
   </g>
 </svg>'''
-open(sys.argv[1],"w").write(svg)
+open(sys.argv[1],"w",encoding="utf-8").write(svg)

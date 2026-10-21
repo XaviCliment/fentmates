@@ -149,3 +149,15 @@ python3 _eines/apunts/1eso-t1/build.py
 El repositori de GitHub és la còpia de referència. Abans de començar, baixa els canvis (`git pull` o *Fetch/Pull*
 a GitHub Desktop); en acabar, puja'ls (`git add -A`, `git commit -m "…"`, `git push`). No poses la carpeta dins de
 OneDrive: la sincronització la fa GitHub. Les carpetes que comencen per `_` no es publiquen a fentmates.org.
+
+### Des d'un ordinador amb Windows
+
+- **Git:** GitHub Desktop (s'instal·la per a l'usuari, sense permisos d'administrador). Si no es pot instal·lar res,
+  obri el repositori a github.com i prem la tecla `.` per a editar-lo al navegador.
+- **Editor:** Visual Studio Code (també té versió per a l'usuari).
+- **Python:** des de python.org o la Microsoft Store. A Windows l'ordre és `py` en lloc de `python3`:
+  `py _eines/apunts/1eso-t1/build.py`
+- **LaTeX:** MiKTeX (instal·la sol els paquets que falten la primera vegada que compiles). Sense instal·lar res,
+  pots pujar la carpeta de la fitxa a Overleaf i compilar-la allà.
+- **Vista prèvia:** obri `index.html` amb doble clic al navegador (les fórmules necessiten connexió a internet).
+- El fitxer `.gitattributes` fa que els salts de línia siguen els mateixos a Mac i a Windows.
