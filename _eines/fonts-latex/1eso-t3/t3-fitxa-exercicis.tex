@@ -1,0 +1,543 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 3: Nombres enters. 1r d'ESO},pdfsubject={Matemàtiques 1r ESO},pdfkeywords={nombres enters, recta numèrica, valor absolut, oposat, suma i resta, regla dels signes, operacions combinades, problemes}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=2pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 3: Nombres enters · 1r d'ESO}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\stepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% recta numèrica entera: \rectabuida{min}{max} i \recta{min}{max}{punts}
+\newcommand{\rectabase}[2]{\draw[latex-latex,muted] (#1-0.8,0)--(#2+0.8,0);
+  \foreach \i in {#1,...,#2}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}}
+\newcommand{\rectabuida}[2]{\begin{tikzpicture}[x=0.78cm,baseline=0]\rectabase{#1}{#2}\end{tikzpicture}}
+\newcommand{\recta}[3]{\begin{tikzpicture}[x=0.78cm,baseline=0]\rectabase{#1}{#2}
+  \foreach \p in {#3}{\fill[accent] (\p,0) circle (0.11) node[above=1pt,font=\small\bfseries,text=navy]{$\p$};}\end{tikzpicture}}
+\newcommand{\res}[1]{#1}
+
+\begin{document}
+\thispagestyle{primera}
+
+\begin{minipage}[c]{0.25\textwidth}\includegraphics[width=\linewidth]{logo-gva.png}\end{minipage}%
+\begin{minipage}[c]{0.5\textwidth}\centering
+  {\color{navy}\Large\bfseries Fitxa d'exercicis de la unitat 3:\\[2pt] Nombres enters}\\[5pt]
+  {\color{accent}\large\bfseries 1r d'ESO}
+\end{minipage}%
+\begin{minipage}[c]{0.25\textwidth}\hfill\includegraphics[width=0.85\linewidth]{logo-vermellar.png}\end{minipage}
+
+\vspace{6pt}
+{\color{navy}\hrule height 1.2pt}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Exercicis graduats per nivells de dificultat:\quad \estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt] Resol-los al quadern mostrant tots els passos. Les rectes numèriques es poden completar directament en la fitxa. Fes els càlculs sense calculadora.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Els nombres enters}
+
+\ex{1} Representa les situacions següents amb un nombre enter:\begin{tasks}(1)
+  \task Un avió sobrevola la ciutat a 432 peus d'altura. \dotfill
+  \task Aquesta nit el termòmetre ha marcat 6 °C baix zero. \dotfill
+  \task El cotxe el tenim aparcat al tercer soterrani. \dotfill
+  \task Sòcrates va nàixer l'any 470 abans de Crist. \dotfill
+  \task M'he gastat tots els diners (ni en tinc ni en dec). \dotfill
+  \task València està situada a 15 m sobre el nivell de la mar. \dotfill
+  \task En un examen tipus test, cada resposta incorrecta resta 1 punt. \dotfill
+\end{tasks}\recorda{Primer busca el \textbf{zero} (la referència): 0\,°C, la planta baixa, el nivell de la mar, no tindre ni deure diners\ldots{} El que està \emph{per damunt} és \textbf{positiu} i el que està \emph{per davall}, \textbf{negatiu}.}
+
+\ex{1} Descriu tres situacions de la vida real en què s'utilitzen els nombres negatius.
+
+\ex{1} Escriu una situació que es puga representar amb cada enter:\begin{tasks}(5)
+  \task $-12$
+  \task $+8$
+  \task $-1500$
+  \task $+2026$
+  \task $-4$
+\end{tasks}
+
+\ex{1} Classifica aquests enters en \emph{positius}, \emph{negatius} i \emph{ni positius ni negatius}. Quins són també nombres naturals? \[-7\qquad 12\qquad 0\qquad +3\qquad {-25}\qquad 1\qquad {-1}\qquad 100\]
+
+\ex{2} Escriu l'enter anterior i el següent de cada nombre:\begin{tasks}(5)
+  \task $5$
+  \task $-1$
+  \task $0$
+  \task $-10$
+  \task $-99$
+\end{tasks}
+
+\ex{2} Escriu tots els enters compresos entre:\begin{tasks}(3)
+  \task $-4$ i $3$
+  \task $-10$ i $-6$
+  \task $-2$ i $2$
+\end{tasks}
+
+\ex{3} Quants enters hi ha compresos entre $-50$ i $50$? I entre $-50$ i $0$?
+
+
+% =====================================================
+\seccio{2}{Recta numèrica, ordre i comparació}
+
+\ex{1} Representa en la recta numèrica els nombres: \ $-2,\ 0,\ 4,\ {-1},\ 8,\ {-3},\ {-7}$ \ i \ $1$.\par\smallskip{\centering\rectabuida{-9}{9}\par}\recorda{Els \textbf{positius} van a la \textbf{dreta} del zero i els \textbf{negatius}, a l'\textbf{esquerra}. Com més a la dreta, més gran és el nombre.}
+
+\ex{1} Representa en la recta numèrica aquests nombres i ordena'ls de menor a major: \[-7\qquad 3\qquad 1\qquad {-4}\qquad 6\qquad {-5}\qquad {-2}\qquad 0\]{\centering\rectabuida{-9}{9}\par}
+
+\ex{1} Ordena els nombres següents de major a menor: \ $-7,\ 0,\ 1,\ {-1},\ 8,\ {-4},\ {-9},\ 3$.
+
+\ex{1} Compara les parelles de nombres amb el signe $<$, $>$ o $=$:\begin{tasks}(4)
+  \task $-6\ \square\ 6$
+  \task $0\ \square\ {-1}$
+  \task $10\ \square\ {-1}$
+  \task $8\ \square\ 3$
+  \task $-8\ \square\ {-9}$
+  \task $1\ \square\ {-2}$
+  \task $-15\ \square\ {-51}$
+  \task $-100\ \square\ 1$
+\end{tasks}
+
+\ex{2} Escriu un enter comprès entre:\begin{tasks}(4)
+  \task $-5$ i $-2$
+  \task $-1$ i $1$
+  \task $-13$ i $-11$
+  \task $-100$ i $-98$
+\end{tasks}
+
+\ex{2} Quin enter està\ldots\begin{tasks}(2)
+  \task 5 unitats a l'esquerra de $2$?
+  \task 7 unitats a la dreta de $-4$?
+  \task 3 unitats a l'esquerra de $-6$?
+  \task a 4 unitats del $0$? (n'hi ha dos)
+\end{tasks}
+
+\ex{3} Vertader o fals? Justifica-ho:\begin{tasks}(1)
+  \task Tot nombre negatiu és menor que zero.
+  \task $-20>-2$.
+  \task Entre $-3$ i $3$ hi ha 5 enters.
+  \task El major dels nombres negatius és $-1$.
+  \task Si $a<b$, aleshores $-a>-b$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Valor absolut i oposat}
+
+\ex{1} Calcula el valor absolut dels nombres següents:\begin{tasks}(6)
+  \task $\lvert -5\rvert $
+  \task $\lvert -1\rvert $
+  \task $\lvert 0\rvert $
+  \task $\lvert 8\rvert $
+  \task $\lvert -23\rvert $
+  \task $\lvert 7\rvert $
+\end{tasks}\recorda{El \textbf{valor absolut} d'un nombre és la \textbf{distància} d'aquest nombre al 0: \ $\lvert -5\rvert =\lvert 5\rvert =5$. Mai no és negatiu.}
+
+\ex{1} Calcula l'oposat dels nombres següents:\begin{tasks}(6)
+  \task $\text{op}(-8)$
+  \task $\text{op}(-3)$
+  \task $\text{op}(0)$
+  \task $\text{op}(4)$
+  \task $\text{op}(-100)$
+  \task $\text{op}(15)$
+\end{tasks}\recorda{L'\textbf{oposat} d'un nombre és el que està a la \textbf{mateixa distància} del zero, però a l'altre costat: canviem el signe. \ $\text{op}(-8)=8$, \ $\text{op}(4)=-4$.}
+
+\ex{1} Dos nombres oposats es troben a una distància de $36$ unitats l'un de l'altre. Quins nombres són?
+
+\ex{2} Ordena de menor a major els nombres següents, fent abans els càlculs: \[3\qquad \text{op}(4)\qquad \lvert -6\rvert \qquad 1\qquad \text{op}(5)\qquad {-2}\qquad \lvert 7\rvert \qquad \lvert -2\rvert \qquad 0\qquad 5\]
+
+\ex{2} Compara les parelles de nombres:\begin{tasks}(3)
+  \task $\lvert -3\rvert \ \square\ 3$
+  \task $\text{op}(-2)\ \square\ {-1}$
+  \task $\lvert -2\rvert \ \square\ \lvert -1\rvert $
+  \task $\text{op}(\text{op}(-1))\ \square\ 0$
+  \task $\lvert -4\rvert \ \square\ \text{op}(2)$
+  \task $-8\ \square\ \text{op}(8)$
+\end{tasks}
+
+\ex{3} Completa els buits amb el nombre o els nombres que corresponguen:\begin{tasks}(3)
+  \task $\text{op}(\text{op}(\square))=-7$
+  \task $\lvert \square\rvert =10$
+  \task $\text{op}(\lvert \square\rvert )=-2$
+  \task $\lvert \text{op}(-8)\rvert =\square$
+  \task $\text{op}(\lvert -4\rvert )=\square$
+  \task $\lvert \square\rvert =\text{op}(5)$
+\end{tasks}
+
+\ex{3} Quins enters tenen valor absolut menor que $4$? I quins tenen valor absolut menor o igual que $2$?
+
+
+% =====================================================
+\seccio{4}{Suma i resta d'enters}
+
+\ex{1} Calcula:\begin{tasks}(5)
+  \task $5-7$
+  \task $-8-9$
+  \task $-3+7$
+  \task $4-3$
+  \task $-5+1$
+  \task $10-14$
+  \task $-7+5$
+  \task $9-13$
+  \task $3+10$
+  \task $9-4$
+  \task $-5-5$
+  \task $-4+4$
+  \task $-3-2$
+  \task $8+12$
+  \task $-5+15$
+\end{tasks}\recorda{\textbf{Mateix signe}: se sumen i es posa el signe comú ($-3-5=-8$). \ \textbf{Signes diferents}: se resten (gran menys xicotet) i es posa el signe del que té major valor absolut ($-7+4=-3$).}
+
+\ex{1} Calcula:\begin{tasks}(6)
+  \task $10-3-5$
+  \task $15-9-6$
+  \task $5-8+4$
+  \task $9-3+5$
+  \task $-2+2+7$
+  \task $-10+8+6$
+  \task $-10-3+8$
+  \task $-4-3-2$
+  \task $-1-5-7$
+  \task $9-2-3$
+  \task $12-4-6$
+  \task $3-7+4$
+  \task $5-9+8$
+  \task $-13+6+4$
+  \task $-2+10-15$
+  \task $-11-4+8$
+  \task $-5-3-4$
+  \task $-8+5+6$
+\end{tasks}
+
+\ex{2} Calcula:\begin{tasks}(4)
+  \task $5+7-2-4$
+  \task $2-6+4-9$
+  \task $9-6-7+2$
+  \task $-4-5+3+8$
+  \task $-8+2-7+6$
+  \task $-1+5+6-7$
+  \task $4-1-2-11$
+  \task $-2+6-8-1$
+  \task $-1+2+17-12$
+  \task $-24+15+13-8$
+  \task $-18-10+12+1$
+  \task $11-15-13-2$
+\end{tasks}\recorda{Pots agrupar: suma tots els positius, suma tots els negatius i resta: \ $5-9+8-2=(5+8)-(9+2)=13-11=2$.}
+
+\ex{2} Calcula de dues maneres, d'esquerra a dreta i agrupant positius i negatius:\begin{tasks}(2)
+  \task $12-4-6+9-15$
+  \task $-7+3-8+10-2+5$
+\end{tasks}
+
+\ex{3} Troba el nombre que falta:\begin{tasks}(3)
+  \task $-3+\square=5$
+  \task $\square-7=-2$
+  \task $4+\square=-6$
+  \task $\square+9=0$
+  \task $-8-\square=-3$
+  \task $\square-(-4)=1$
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Parèntesis i claudàtors}
+
+\ex{1} Calcula, eliminant prèviament els parèntesis:\begin{tasks}(3)
+  \task $(-6)+(-3)$
+  \task $(+7)+(-4)$
+  \task $(-8)+(+1)$
+  \task $(-3)+(-7)$
+  \task $(+12)+(+5)$
+  \task $(+3)+(-5)$
+  \task $(+3)+(+4)$
+  \task $(+4)+(-6)$
+  \task $(+7)+(-8)$
+  \task $(-5)+(+4)$
+  \task $(-9)+(+3)$
+  \task $(+1)+(-1)$
+  \task $(-7)+(+7)$
+  \task $(-12)+(-3)$
+  \task $(+7)+(+5)$
+  \task $(-4)+(-10)$
+  \task $(+6)+(-12)$
+  \task $(-9)+(+15)$
+\end{tasks}\recorda{Regla dels signes per a llevar parèntesis: \ $+(+\ \to\ +$ \qquad $+(-\ \to\ -$ \qquad $-(+\ \to\ -$ \qquad $-(-\ \to\ +$}
+
+\ex{2} Calcula, eliminant prèviament els parèntesis:\begin{tasks}(2)
+  \task $3-(-1)$
+  \task $-8+(-17)$
+  \task $-4-(-7)$
+  \task $-(-5)+3$
+  \task $8+(-14)$
+  \task $(-2)-(+3)+(-6)$
+  \task $-(-5)+(-4)-(-10)$
+  \task $-15-(-3)+7$
+  \task $(-8)+(-3)-(-17)+(+1)$
+  \task $-2-(-3)+7-8$
+  \task $-(-3)+(-1)-(+3)-(-8)$
+  \task $-3+(-6)-4+1$
+  \task $12-25+3-8-(-6)$
+  \task $-7+4-(-8)+(-3)$
+  \task $-(+4)+(-8)-(-6)+4-1$
+  \task $-8+(-3)+4-7-5$
+  \task $-(-6)+(-1)-7+(-3)$
+  \task $15-(+3)-6+3-12$
+\end{tasks}
+
+\ex{2} Calcula, resolent prèviament els parèntesis:\begin{tasks}(4)
+  \task $12+(+3-5)$
+  \task $14+(+12-10)$
+  \task $6-(9-7)$
+  \task $15-(2-9)$
+  \task $11-(-6+3)$
+  \task $10-(-7-5)$
+  \task $13+(-8+2)$
+  \task $17+(-5-9)$
+  \task $1+(-3+8)$
+  \task $9-(2-1)$
+  \task $-6-(2-7)$
+  \task $11+(-1-3)$
+  \task $6+(6+3)$
+  \task $-5-(-2-8)$
+  \task $3+(-8+7)$
+  \task $15+(-6-8)$
+\end{tasks}\recorda{Resol primer l'operació de dins del parèntesi, o bé lleva'l: si davant hi ha un $-$, canvia el signe de \textbf{tots} els termes de dins: \ $6-(9-7)=6-9+7=4$.}
+
+\ex{2} Calcula, resolent prèviament els parèntesis:\begin{tasks}(3)
+  \task $(7-4)+(9-5)$
+  \task $(2+6)+(5-8)$
+  \task $(5-9)+(2-12)$
+  \task $(7+3)-(5+4)$
+  \task $(8-12)-(2-5)$
+  \task $(10-7)-(-2-6)$
+  \task $-(8+4)+(5-9)$
+  \task $-(6-2)-(7-9)$
+  \task $(-8-2)+(-1-5)$
+  \task $(7-1)-(-5+11)$
+  \task $(15-8)+(-6-12)$
+  \task $(-2+3)-(8-4)$
+  \task $(17-12)-(-7-8)$
+  \task $(-10+3)-(2-9)$
+  \task $-(6-4)+(8+1)$
+  \task $-(-7-1)-(2-10)$
+\end{tasks}
+
+\ex{3} Calcula, començant pels parèntesis de dins:\begin{tasks}(3)
+  \task $6+[5+(7+2)]$
+  \task $8+[4-(3+5)]$
+  \task $10-[6+(2+7)]$
+  \task $15-[2-(6-10)]$
+  \task $15-[10-(8+4)]$
+  \task $12-[7-(2-10)]$
+  \task $(-6)+[5+(2-12)]$
+  \task $(-7)-[3-(4-9)]$
+  \task $(2-10)+[5-(8+2)]$
+  \task $(12-3)-[1-(2-6)]$
+  \task $[9-(+5)]+[7+(-10)]$
+  \task $[10-(-2)]-[5-(+12)]$
+  \task $[8-(6+4)]-(5-7)$
+  \task $[1+(6-9)]-(8-12)$
+  \task $2-[6-(-1-21)]$
+  \task $-1+[-5-(2-13)]$
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Multiplicació i divisió}
+
+\ex{1} Resol les multiplicacions següents:\begin{tasks}(3)
+  \task $(-4)\cdot (+7)$
+  \task $(+2)\cdot (+6)$
+  \task $(-5)\cdot (-7)$
+  \task $(+3)\cdot (-8)$
+  \task $(-9)\cdot (-3)$
+  \task $(-6)\cdot (+4)$
+  \task $3\cdot (-2)$
+  \task $4\cdot (+5)$
+  \task $8\cdot (-6)$
+  \task $-5\cdot (+3)$
+  \task $-2\cdot (-4)$
+  \task $-6\cdot (+3)$
+  \task $(+3)\cdot (-5)\cdot (+2)$
+  \task $(-4)\cdot (-1)\cdot (+6)$
+  \task $(-2)\cdot (-7)\cdot (-2)$
+  \task $(+5)\cdot (-4)\cdot (-3)$
+  \task $(-8)\cdot 4\cdot (-6)$
+  \task $5\cdot 3\cdot (-9)\cdot 4$
+\end{tasks}\recorda{Regla dels signes: \ $+\cdot+\ \to\ +$ \qquad $+\cdot-\ \to\ -$ \qquad $-\cdot+\ \to\ -$ \qquad $-\cdot-\ \to\ +$. \ Per a la divisió és igual.}
+
+\ex{1} Calcula:\begin{tasks}(3)
+  \task $(-8):(+2)$
+  \task $(+20):(-10)$
+  \task $(-12):(-4)$
+  \task $(-4):(+2)$
+  \task $(+21):(-7)$
+  \task $(-12):(+6)$
+  \task $(-15):(-3)$
+  \task $(+32):(+8)$
+  \task $(-36):(+9)$
+  \task $(+42):(-7)$
+  \task $(-48):(-8)$
+  \task $(+54):(+6)$
+  \task $[(+80):(-8)]:(-5)$
+  \task $[(-70):(-2)]:(-7)$
+  \task $(+50):[(-30):(+6)]$
+  \task $(-40):[(+24):(+3)]$
+\end{tasks}
+
+\ex{2} Troba el nombre que falta:\begin{tasks}(3)
+  \task $(-6)\cdot(\ \square\ )=-18$
+  \task $(\ \square\ )\cdot(-3)=-24$
+  \task $(\ \square\ )\cdot(-5)=+35$
+  \task $(+15)\cdot(\ \square\ )=+60$
+  \task $(-8)\cdot(\ \square\ )=40$
+  \task $(\ \square\ )\cdot7=-77$
+\end{tasks}
+
+\ex{2} Calcula (les multiplicacions i divisions seguides es fan d'esquerra a dreta):\begin{tasks}(4)
+  \task $[(+6)\cdot (-4)]:(-3)$
+  \task $[(-15)\cdot (-2)]:(+6)$
+  \task $(-5)\cdot [(+12):(-3)]$
+  \task $[(-5)\cdot (+12)]:(-3)$
+  \task $24:(-2)\cdot (-3)$
+  \task $(-40)\cdot [(-10):(-5)]$
+  \task $(-70)\cdot (-5):(+2)$
+  \task $(+100):(+4)\cdot (-2)$
+\end{tasks}
+
+\ex{3} Troba dos nombres enters que complisquen, en cada cas:\begin{tasks}(1)
+  \task El producte és $-12$ i la suma és $1$.
+  \task El producte és $18$ i la suma és $-9$.
+  \task El producte és $-20$ i la suma és $-1$.
+\end{tasks}
+
+\ex{3} Sense fer els càlculs, digues quin signe tindrà el resultat. Després, comprova-ho:\begin{tasks}(1)
+  \task $(-1)\cdot (-2)\cdot (-3)\cdot (-4)$
+  \task $(-5)\cdot (+2)\cdot (-1)\cdot (-3)\cdot (+4)$
+  \task El producte de set factors iguals a $-1$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Operacions combinades}
+
+\ex{1} Calcula:\begin{tasks}(2)
+  \task $(-8)\cdot (+2)+(-5)\cdot (-3)$
+  \task $(+40):(-8)-(-30):(+6)$
+  \task $(-2)\cdot (-9)+(-24):(-3)-(-6)\cdot 4$
+  \task $(+27):(-3)-(+3)\cdot (-5)-(-6)\cdot (-2)$
+  \task $(-3)\cdot [(-2)+(-4)]$
+  \task $(+4)\cdot [(-5)+(+2)]$
+  \task $(+6):[(+5)-(+7)]$
+  \task $(-20):[(-6)-(-2)]$
+\end{tasks}\recorda{Ordre de les operacions: \ 1) parèntesis i claudàtors (de dins cap a fora); \ 2) multiplicacions i divisions, d'esquerra a dreta; \ 3) sumes i restes.}
+
+\ex{2} Calcula:\begin{tasks}(2)
+  \task $[(-8)+(+7)]\cdot (-3)$
+  \task $[(-9)+(-3)]:(+6)$
+  \task $19-(-3)\cdot [5-(+8)]$
+  \task $12+(-5)\cdot [8+(-9)]$
+  \task $12-[13-(-7)]:(-5)$
+  \task $10-(+20):[7+(-3)]$
+  \task $(-2)\cdot (5-7)-(-3)\cdot (8-6)$
+  \task $(9-6)\cdot (-2)+(13+3):(-4)$
+\end{tasks}
+
+\ex{3} Calcula:\begin{tasks}(2)
+  \task $-2\cdot [3-(-4+6)\cdot (-2)]+15:(-5)$
+  \task $[(-3)\cdot 4-(-2)\cdot 5]:(-2)$
+  \task $18:[-7-(-4)]-(-2)\cdot [5-3\cdot (-1)]$
+  \task $(-4)\cdot [6-2\cdot (3-7)]-[-10:(-5)]$
+\end{tasks}
+
+\ex{3} Posa parèntesis on calga perquè les igualtats siguen certes:\begin{tasks}(3)
+  \task $6-4\cdot2-5=-6$
+  \task $-3+5\cdot2-4=0$
+  \task $10-2\cdot3+1=2$
+\end{tasks}
+
+
+% =====================================================
+\seccio{8}{Problemes amb enters}
+
+\ex{1} Quina diferència de temperatura suporta una persona que passa de la cambra de conservació de les verdures, que es troba a $4$\,°C, a la del peix congelat, que està a $-18$\,°C? I si passa de la cambra del peix a la de les verdures?\recorda{Escriu cada dada com un enter \textbf{amb el seu signe} (\emph{puja, guanya, sobre zero} $\to +$; \ \emph{baixa, perd, deu, baix zero} $\to -$). Per a calcular una \textbf{diferència} o variació: \ \textbf{valor final} $-$ \textbf{valor inicial}.}
+
+\ex{1} La Mònica ix en l'ascensor des de la planta zero del seu edifici. L'ascensor puja 5 plantes, després baixa 3, puja 5, baixa 8, puja 10, puja 5 i baixa 6. En quina planta està?
+
+\ex{1} En Joan li deu 14 euros a la seua germana. Si li paga 9 euros, quant li deu?
+
+\ex{1} En una estació d'esquí, el termòmetre marcava $14$\,° baix zero a les 8 del matí; al migdia la temperatura havia pujat 10 graus i a les 19.00 havia baixat 5 graus respecte al migdia. Quina temperatura feia a les 19.00?
+
+\ex{1} Si estava bussejant a una profunditat de 2 metres i ara estic sobre un penya-segat a 8 m d'altura, quina distància hi ha entre els dos llocs?
+
+\ex{1} El primer mes de l'any la gasolina va baixar 5 cèntims, el segon va pujar 3 cèntims, el tercer va pujar 8 cèntims i el quart va baixar 2 cèntims. Expressa-ho amb nombres enters i calcula la variació total del preu en aquest temps.
+
+\ex{2} Un dia d'hivern, la temperatura a les sis del matí era de $3$\,° baix zero. Al migdia havia pujat 9 graus, però a les dotze de la nit el termòmetre marcava $1$\,° baix zero. Quina diferència de temperatura hi ha hagut entre el migdia i la mitjanit?
+
+\ex{2} Euclides va ser un matemàtic que va viure 60 anys i va morir l'any 265 a.\,C. En quin any va nàixer?
+
+\ex{2} El Mulhacén, el pic més alt de la península Ibèrica, fa $3478$ metres d'altura. El Sistema del Trave, un dels avencs més profunds del món, arriba a $1441$ metres de profunditat. Troba la diferència d'altitud entre els dos punts.
+
+\ex{2} En Pau tenia 850 euros a la seua cartilla d'estalvis. Ha ingressat 250 euros cada mes durant els 5 últims mesos i després en va traure 2300 per a pagar el fuster. Quin saldo li queda?
+
+\ex{3} Arquimedes va nàixer l'any 287 a.\,C. i va morir l'any 212 a.\,C. Quants anys va viure?
+
+\ex{3} Un submarí es troba a 120 m de profunditat. Puja 45 m i després baixa el triple del que ha pujat. A quina profunditat es troba ara?
+
+\ex{3} En un examen tipus test, cada resposta correcta suma 3 punts, cada resposta incorrecta en resta 2 i cada pregunta en blanc val 0. La Laia n'ha encertat 11, n'ha fallat 6 i n'ha deixat 3 en blanc. Quina puntuació ha obtingut? Quantes n'hauria d'haver encertat, com a mínim, per a no tindre una puntuació negativa si n'haguera fallat 9 i n'haguera deixat 3 en blanc?
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Si et costa algun exercici, repassa els apunts interactius de la unitat.\end{center}
+
+\end{document}

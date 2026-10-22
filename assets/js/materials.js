@@ -55,6 +55,22 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 70 exercicis graduats per nivells de dificultat", es: "PDF · 70 ejercicios graduados por niveles de dificultad", en: "PDF · 70 exercises graded by difficulty" }, url: "materials/1eso/t2-fitxa-exercicis.pdf", download: true, date: "2026-10-21" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 70 exercicis", es: "PDF · Soluciones de los 70 ejercicios", en: "PDF · Solutions to all 70 exercises" }, url: "materials/1eso/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-21" }
         ]
+      },
+      {
+        title: { va: "Nombres enters", es: "Números enteros", en: "Integers" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t3-nombres-enters.html", date: "2026-10-22" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis graduats per nivells de dificultat", es: "PDF · 54 ejercicios graduados por niveles de dificultad", en: "PDF · 54 exercises graded by difficulty" }, url: "materials/1eso/t3-fitxa-exercicis.pdf", download: true, date: "2026-10-22" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/1eso/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-22" }
+        ]
+      },
+      {
+        title: { va: "Fraccions", es: "Fracciones", en: "Fractions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t4-fraccions.html", date: "2026-10-22" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 70 exercicis graduats per nivells de dificultat", es: "PDF · 70 ejercicios graduados por niveles de dificultad", en: "PDF · 70 exercises graded by difficulty" }, url: "materials/1eso/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-22" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 70 exercicis", es: "PDF · Soluciones de los 70 ejercicios", en: "PDF · Solutions to all 70 exercises" }, url: "materials/1eso/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-22" }
+        ]
       }
     ]
   },
