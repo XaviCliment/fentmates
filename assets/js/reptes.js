@@ -7,9 +7,28 @@
    Reptes: el més recent (per data, sense passar d'avui) surt a
    la pàgina d'inici. Pots programar-ne de futurs: no es veuran
    fins que arribe la data.
+
+   Amb hideSolution: true el repte es mostra sense la solució.
+   Quan passe la setmana, esborra eixa línia per a publicar-la.
    ========================================================== */
 
 window.CHALLENGES = [
+  {
+    date: "2026-10-19",
+    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
+    title: { va: "Duel de potències", es: "Duelo de potencias", en: "Battle of powers" },
+    hideSolution: true,
+    statement: {
+      va: "Quin nombre és més gran, $2^{300}$ o $3^{200}$? Tots dos tenen prop de cent xifres, així que la calculadora no t'ajudarà: cal trobar una manera de comparar-los.",
+      es: "¿Qué número es mayor, $2^{300}$ o $3^{200}$? Ambos tienen cerca de cien cifras, así que la calculadora no te ayudará: hay que encontrar una forma de compararlos.",
+      en: "Which number is bigger, $2^{300}$ or $3^{200}$? Both have nearly a hundred digits, so a calculator won't help: you need to find a way to compare them."
+    },
+    solution: {
+      va: "Escrivim les dues potències amb el mateix exponent usant $(a^m)^n = a^{m \\cdot n}$: $2^{300} = (2^3)^{100} = 8^{100}$ i $3^{200} = (3^2)^{100} = 9^{100}$. Amb el mateix exponent, guanya la base més gran: com que $9 > 8$, el més gran és $\\mathbf{3^{200}}$.",
+      es: "Escribimos las dos potencias con el mismo exponente usando $(a^m)^n = a^{m \\cdot n}$: $2^{300} = (2^3)^{100} = 8^{100}$ y $3^{200} = (3^2)^{100} = 9^{100}$. Con el mismo exponente, gana la base mayor: como $9 > 8$, el mayor es $\\mathbf{3^{200}}$.",
+      en: "Write both powers with the same exponent using $(a^m)^n = a^{m \\cdot n}$: $2^{300} = (2^3)^{100} = 8^{100}$ and $3^{200} = (3^2)^{100} = 9^{100}$. With equal exponents, the bigger base wins: since $9 > 8$, the bigger number is $\\mathbf{3^{200}}$."
+    }
+  },
   {
     date: "2026-10-12",
     level: { va: "Per a tothom", es: "Para todos", en: "For everyone" },

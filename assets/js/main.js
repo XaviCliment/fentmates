@@ -432,8 +432,10 @@
       '<span class="ch-date">' + esc(t("ch.week")) + " " + esc(fmtDate(c.date)) + "</span></div>" +
       "<h3>" + esc(tx(c.title)) + "</h3>" +
       '<p class="ch-statement">' + esc(tx(c.statement)) + "</p>" +
+      // reptes amb hideSolution: true no mostren la solució
+      (c.hideSolution ? "" :
       '<details class="solution"><summary><span class="show">' + esc(t("ch.show")) + '</span><span class="hide">' + esc(t("ch.hide")) + "</span></summary>" +
-      "<p>" + esc(tx(c.solution)) + "</p></details></article>";
+      "<p>" + esc(tx(c.solution)) + "</p></details>") + "</article>";
   }
 
   function curiosityHTML(c) {
