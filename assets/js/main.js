@@ -117,14 +117,19 @@
     }).join("");
     h.innerHTML =
       '<div class="container">' +
-        '<a class="brand" href="index.html"><span class="brand-logo" aria-hidden="true">π</span><span class="brand-text">Fent<b>Mates</b></span></a>' +
+
+        '<button class="icon-btn menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="' + esc(t("nav.menu")) + '">' + ICONS.menu + "</button>" +
         '<nav class="main-nav" id="main-nav" aria-label="Principal"><ul>' + links + "</ul></nav>" +
         '<div class="header-tools">' +
           '<div class="lang-switch" role="group" aria-label="Idioma / Language">' + langs + "</div>" +
           '<button class="icon-btn theme-toggle" type="button" aria-label="' + esc(t("nav.theme")) + '">' + (currentTheme() === "dark" ? ICONS.sun : ICONS.moon) + "</button>" +
-          '<button class="icon-btn menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="' + esc(t("nav.menu")) + '">' + ICONS.menu + "</button>" +
+
         "</div>" +
       "</div>";
+
+    // la barra del menú va just davall del banner (dalt del banner no hi ha res)
+    var banner = document.querySelector(".hero, .page-hero");
+    if (banner && h.previousElementSibling !== banner) banner.parentNode.insertBefore(h, banner.nextSibling);
 
     h.querySelectorAll("[data-lang]").forEach(function (b) {
       b.addEventListener("click", function () { setLang(b.getAttribute("data-lang")); });
