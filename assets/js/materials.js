@@ -204,6 +204,7 @@ window.LEVELS = {
     color: "#1e6b47",
     symbol: "∂",
     stage: "batx",
+    pau: true,
     cards: true,
     name: { va: "2n Batxillerat MII", es: "2º Bachillerato MII", en: "2nd Baccalaureate Maths II" },
     desc: {
