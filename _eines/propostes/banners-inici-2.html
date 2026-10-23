@@ -24,6 +24,9 @@
 .hv .bgart { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .hv .bgart svg { width: 100%; height: 100%; display: block; }
 .btn-light { background: #fff; color: var(--bg); box-shadow: none; }
+.btn-white { background: #fff; color: #1f3263; box-shadow: none; }
+.btn-yellow { background: #ffd166; color: #1f3263; box-shadow: none; }
+.btn-white:hover, .btn-yellow:hover { box-shadow: none; filter: brightness(.96); }
 .foot { color: var(--muted); font-size: .9rem; padding: 26px 0 60px; }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .float { animation: bob 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
@@ -85,9 +88,9 @@
   })();
 
   /* B · Adhesius de colors: cercles i quadrats arredonits amb icona blanca, una mica girats */
-  var B = (function () {
+  function stickers(calcColor) {
     var st = [["#ff7a50","pi",1100,170,0,-8],["#ffc94d","bulb",1280,120,1,6],["#2bb3a3","compass",1450,210,0,-6],["#8064a1","dice",1200,360,1,10],
-      ["#4e81bd","calc",1390,420,0,-4],["#7fa040","graph",1040,430,1,4],["#e0475b","star",1530,500,0,12],["#ffc94d","sum",900,290,0,-10]];
+      [calcColor || "#4e81bd","calc",1390,420,0,-4],["#7fa040","graph",1040,430,1,4],["#e0475b","star",1530,500,0,12],["#ffc94d","sum",1555,335,0,-10]];
     var inner = st.map(function (s, i) {
       var shape = s[3] ? '<rect x="-62" y="-62" width="124" height="124" rx="30" fill="' + s[0] + '" stroke="none"/>' : '<circle r="66" fill="' + s[0] + '" stroke="none"/>';
       return '<g transform="translate(' + s[2] + " " + s[3] + ") rotate(" + s[5] + ')"><g class="float" style="animation-delay:' + (i * .5) + 's">' +
@@ -96,7 +99,8 @@
     }).join("");
     var dots = '<g fill="#fff" fill-opacity=".12" stroke="none">' + Array.from({ length: 60 }, function (_, i) { return '<circle cx="' + (40 + (i * 97) % 1560) + '" cy="' + (30 + (i * 53) % 560) + '" r="3"/>'; }).join("") + "</g>";
     return svg(dots + inner);
-  })();
+  }
+  var B = stickers();
 
   /* C · Formes que suren: grans formes de colors mig fora del banner + doodles */
   var C = (function () {
@@ -135,6 +139,9 @@
       '<p>Construïm les matemàtiques, edifiquem el coneixement</p><div class="hero-ctas"><a class="btn ' + (btn || "btn-primary") + '">Veure els materials</a><a class="btn btn-ghost">Qui sóc</a></div></div>';
   };
   var P = [
+    { t: "B · Adhesius sobre blau clar (botó blanc)", d: "Fons i lletra del C: blau clar i «Mates» en groc. Botó blanc, sense halo. L'adhesiu de la calculadora passa a rosa perquè no es confonga amb el fons.", bg: "#3d6aa0", mates: "#ffd166", btn: "btn-white", art: stickers("#e0457b") },
+    { t: "B · Adhesius sobre blau clar (botó groc)", d: "Igual, però el botó en groc com «Mates».", bg: "#3d6aa0", mates: "#ffd166", btn: "btn-yellow", art: stickers("#e0457b") },
+    { t: "B · Adhesius sobre blau més viu", d: "Un blau una mica més lluminós i alegre, amb botó blanc.", bg: "#2f6db5", mates: "#ffd166", btn: "btn-white", art: stickers("#e0457b") },
     { t: "Doodles de quadern", d: "Fons blau marí ple de dibuixets fets a mà (llapis, compàs, bombeta, dau, gràfiques…). Desenfadat però net: a l'esquerra queden molt tènues perquè no molesten el text.", bg: "#1f3263", art: A },
     { t: "Adhesius de colors", d: "Cercles i quadrats de colors amb una icona blanca, com adhesius enganxats a una llibreta. Molt moderns i juvenils; suren lleugerament.", bg: "#1f3263", art: B },
     { t: "Formes que suren", d: "Grans formes geomètriques de colors (cercle, triangle, quadrat) mig eixint del banner, amb icones damunt. Estil «app» actual.", bg: "#3d6aa0", mates: "#ffd166", art: C },
