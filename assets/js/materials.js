@@ -219,14 +219,16 @@ window.LEVELS = {
         title: { va: "Matrius i determinants", es: "Matrices y determinantes", en: "Matrices and determinants" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t1-matrius-determinants.html", date: "2026-10-23" },
-          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "59 exercicis resolts de la PAU valenciana (1999–2026)", es: "59 ejercicios resueltos de la PAU valenciana (1999–2026)", en: "59 solved past Valencian PAU exercises (1999–2026)" }, url: "materials/2batx-mii/pau-u1-matrius.html", date: "2026-10-23" }
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "59 exercicis resolts de la PAU valenciana (1999–2026)", es: "59 ejercicios resueltos de la PAU valenciana (1999–2026)", en: "59 solved past Valencian PAU exercises (1999–2026)" }, url: "materials/2batx-mii/pau-u1-matrius.html", date: "2026-10-23" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-mii/casio-u1-matrius.html", date: "2026-10-23" }
         ]
       },
       {
         title: { va: "Sistemes d'equacions lineals", es: "Sistemas de ecuaciones lineales", en: "Systems of linear equations" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t2-sistemes-equacions.html", date: "2026-10-23" },
-          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "64 exercicis resolts de la PAU valenciana (1997–2026)", es: "64 ejercicios resueltos de la PAU valenciana (1997–2026)", en: "64 solved past Valencian PAU exercises (1997–2026)" }, url: "materials/2batx-mii/pau-u2-sistemes.html", date: "2026-10-23" }
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "64 exercicis resolts de la PAU valenciana (1997–2026)", es: "64 ejercicios resueltos de la PAU valenciana (1997–2026)", en: "64 solved past Valencian PAU exercises (1997–2026)" }, url: "materials/2batx-mii/pau-u2-sistemes.html", date: "2026-10-23" },
+          { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-mii/casio-u2-sistemes.html", date: "2026-10-23" }
         ]
       }
     ]

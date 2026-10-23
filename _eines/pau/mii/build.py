@@ -31,7 +31,7 @@ write_pages(OUT, [
     ("pau-u2-sistemes.html", "2", "Sistemes d'equacions lineals", [e for e in alg if e["k"] == "S"]),
 ], MII)
 
-# Apunts: els mateixos que CCSS
+# Apunts i guies de calculadora: els mateixos que CCSS
 REPL = [
     ("2batx-ccss.html", "2batx-mii.html"),
     ("2n Batxillerat CCSS II", "2n Batxillerat MII"),
@@ -42,7 +42,8 @@ REPL = [
     ("2n Batxillerat CCSS", "2n Batxillerat MII"),
     ("2º Bachillerato CCSS", "2º Bachillerato MII"),
 ]
-for fn in ("t1-matrius-determinants.html", "t2-sistemes-equacions.html"):
+for fn in ("t1-matrius-determinants.html", "t2-sistemes-equacions.html",
+           "casio-u1-matrius.html", "casio-u2-sistemes.html"):
     s = open(os.path.join(ROOT, "materials", "2batx-ccss", fn), encoding="utf-8").read()
     for a, b in REPL:
         s = s.replace(a, b)
