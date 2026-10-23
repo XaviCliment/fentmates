@@ -5,7 +5,6 @@ import json, re, sys, html, os
 SP = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SP)
 from gauss_gen import expand  # noqa: E402
-OUT = sys.argv[1]  # carpeta materials/2batx-ccss
 
 MONTHS = {"Juny": 6, "Juliol": 7, "Setembre": 9}
 
@@ -89,23 +88,35 @@ def attach_sol(items, sol):
             e["s"] = s
 
 
-alg = parse(os.path.join(SP, "alg.txt"))
-pl = parse(os.path.join(SP, "pl.txt"))
-sol = parse_sol(os.path.join(SP, "sol.txt"))
-attach_sol(alg, sol)
-attach_sol(pl, sol)
-if sol:
-    print("AVÍS: solucions sense exercici:", sorted(sol))
-units = [
-    ("pau-u1-matrius.html", "1", "Matrius i determinants", [e for e in alg if e["k"] == "M"]),
-    ("pau-u2-sistemes.html", "2", "Sistemes d'equacions lineals", [e for e in alg if e["k"] == "S"]),
-    ("pau-u3-programacio-lineal.html", "3", "Programació lineal", pl),
-]
-tpl = open(os.path.join(SP, "pau_template.html"), encoding="utf-8").read()
-for fn, num, name, items in units:
-    data = [{"conv": e["conv"], "y": e["y"], "m": e["m"], "h": e["h"], **({"s": e["s"]} if "s" in e else {})} for e in items]
-    page = (tpl.replace("{{NUM}}", num).replace("{{NAME}}", name)
-               .replace("{{COUNT}}", str(len(items))).replace("{{KEY}}", fn.replace(".html", ""))
-               .replace("{{DATA}}", json.dumps(data, ensure_ascii=False).replace("</", "<\\/")))
-    open(os.path.join(OUT, fn), "w", encoding="utf-8").write(page)
-    print(fn, len(items))
+CCSS = {"SUBJECT": "Matemàtiques Aplicades a les CCSS II", "COLOR": "#2bb3a3", "COURSE_URL": "2batx-ccss.html",
+        "COURSE": "2n Batxillerat CCSS", "RANGE": "1994–2026", "FIRST": "1994"}
+
+
+def write_pages(out, units, opts):
+    tpl = open(os.path.join(SP, "pau_template.html"), encoding="utf-8").read()
+    for k, v in opts.items():
+        tpl = tpl.replace("{{%s}}" % k, v)
+    for fn, num, name, items in units:
+        data = [{"conv": e["conv"], "y": e["y"], "m": e["m"], "h": e["h"], **({"s": e["s"]} if "s" in e else {})} for e in items]
+        page = (tpl.replace("{{NUM}}", num).replace("{{NAME}}", name)
+                   .replace("{{COUNT}}", str(len(items))).replace("{{KEY}}", fn.replace(".html", ""))
+                   .replace("{{DATA}}", json.dumps(data, ensure_ascii=False).replace("</", "<\\/")))
+        open(os.path.join(out, fn), "w", encoding="utf-8").write(page)
+        print(fn, len(items), "exercicis,", sum("s" in e for e in items), "amb solució")
+
+
+if __name__ == "__main__":
+    OUT = sys.argv[1]  # carpeta materials/2batx-ccss
+    alg = parse(os.path.join(SP, "alg.txt"))
+    pl = parse(os.path.join(SP, "pl.txt"))
+    sol = parse_sol(os.path.join(SP, "sol.txt"))
+    attach_sol(alg, sol)
+    attach_sol(pl, sol)
+    if sol:
+        print("AVÍS: solucions sense exercici:", sorted(sol))
+    units = [
+        ("pau-u1-matrius.html", "1", "Matrius i determinants", [e for e in alg if e["k"] == "M"]),
+        ("pau-u2-sistemes.html", "2", "Sistemes d'equacions lineals", [e for e in alg if e["k"] == "S"]),
+        ("pau-u3-programacio-lineal.html", "3", "Programació lineal", pl),
+    ]
+    write_pages(OUT, units, CCSS)

@@ -207,7 +207,29 @@ window.LEVELS = {
       es: "Matrices, geometría en el espacio, análisis y probabilidad. Preparación de la PAU.",
       en: "Matrices, 3D geometry, calculus and probability. University entrance exam prep."
     },
-    units: []
+    units: [
+      {
+        num: "★",
+        title: { va: "Resum Teòric", es: "Resumen Teórico", en: "Theory Summary" },
+        items: [
+          { type: "notes", title: { va: "Formulari-resum teòric de tot el curs (interactiu)", es: "Formulario-resumen teórico de todo el curso (interactivo)", en: "Whole-course theory summary and formula sheet (interactive)" }, desc: { va: "Àlgebra, geometria, anàlisi i probabilitat", es: "Álgebra, geometría, análisis y probabilidad", en: "Algebra, geometry, calculus and probability" }, url: "materials/2batx-mii/resum-teoric.html", date: "2026-10-23" }
+        ]
+      },
+      {
+        title: { va: "Matrius i determinants", es: "Matrices y determinantes", en: "Matrices and determinants" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t1-matrius-determinants.html", date: "2026-10-23" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "59 exercicis resolts de la PAU valenciana (1999–2026)", es: "59 ejercicios resueltos de la PAU valenciana (1999–2026)", en: "59 solved past Valencian PAU exercises (1999–2026)" }, url: "materials/2batx-mii/pau-u1-matrius.html", date: "2026-10-23" }
+        ]
+      },
+      {
+        title: { va: "Sistemes d'equacions lineals", es: "Sistemas de ecuaciones lineales", en: "Systems of linear equations" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t2-sistemes-equacions.html", date: "2026-10-23" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "64 exercicis resolts de la PAU valenciana (1997–2026)", es: "64 ejercicios resueltos de la PAU valenciana (1997–2026)", en: "64 solved past Valencian PAU exercises (1997–2026)" }, url: "materials/2batx-mii/pau-u2-sistemes.html", date: "2026-10-23" }
+        ]
+      }
+    ]
   },
 
   "2batx-ccss": {

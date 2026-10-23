@@ -1,0 +1,1595 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistemes d'equacions lineals · FentMates</title>
+<meta name="description" content="Apunts interactius de la Unitat 2 (Sistemes d'equacions lineals) de 2n de Batxillerat MII, en valencià, castellà i anglés.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+/* Idioma i tema abans de pintar (comparteix preferències amb la web) */
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --def: #1d4f73; --def-bg: #eef4f9; --prop: #3b4252; --prop-bg: #f3f4f7;
+  --ex: #a3203a; --ex-bg: #fbf0f2; --pr: #b7791f; --pr-bg: #fff8e8;
+  --hl-a: rgba(255, 122, 80, .22); --hl-b: rgba(43, 179, 163, .25); --hl-c: rgba(59, 130, 246, .2);
+  --plus: #2563eb; --minus: #dc2626; --ok: #15803d; --bad: #c2410c;
+  --radius: 16px; --header-h: 60px;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+  --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+  --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+    --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+    --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+  }
+}
+
+/* idiomes */
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Outfit", "Inter", system-ui, sans-serif; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 .5em; }
+a { color: inherit; }
+p { margin: .6em 0; }
+strong { font-weight: 650; }
+.katex { font-size: 1.08em; }
+.katex-display { margin: .9em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* capçalera */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .in { max-width: 1240px; margin: 0 auto; height: 100%; padding: 0 16px; display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.15rem; }
+.brand .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+.crumb { color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { text-decoration: none; } .crumb a:hover { color: var(--accent); }
+.spacer { flex: 1; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn svg { width: 18px; height: 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .1s; }
+html[data-embed="1"] .brand, html[data-embed="1"] .crumb { display: none; }
+
+/* portada */
+.hero { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; position: relative; overflow: hidden; }
+.hero::after { content: "|A|"; position: absolute; right: -10px; bottom: -60px; font: 800 15rem/1 "Outfit", sans-serif; color: rgba(255,255,255,.05); pointer-events: none; }
+.hero .in { max-width: 1240px; margin: 0 auto; padding: 44px 16px 40px; position: relative; z-index: 1; }
+.hero .kicker { display: inline-block; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 999px; font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 14px 0 8px; }
+.hero h1 .u { color: var(--yellow); }
+.hero p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: .82rem; padding: 4px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); }
+html[data-embed="1"] .hero .in { padding: 28px 16px 26px; }
+
+/* disposició */
+.layout { max-width: 1240px; margin: 0 auto; padding: 28px 16px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+.toc { position: sticky; top: calc(var(--header-h) + 18px); align-self: start; max-height: calc(100vh - var(--header-h) - 36px); overflow: auto; }
+.toc details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 10px 10px; }
+.toc summary { list-style: none; font: 700 .78rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 8px; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 10px; text-decoration: none; font-size: .9rem; color: var(--muted); line-height: 1.35; }
+.toc a:hover { background: var(--surface-2); color: var(--text); }
+.toc a.active { background: var(--surface-2); color: var(--text); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.toc a .n { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2em; color: var(--accent); }
+.toc a .ck { margin-left: auto; color: var(--ok); visibility: hidden; }
+.toc a.done .ck { visibility: visible; }
+.toc .meter { margin: 10px 8px 4px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.toc .meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.toc .meter-l { font-size: .78rem; color: var(--muted); padding: 2px 8px 0; }
+article { min-width: 0; max-width: 860px; }
+
+/* seccions */
+section.unit { margin-bottom: 56px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.sec-head .num { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 800 1.05rem "Outfit", sans-serif; }
+:root[data-theme="dark"] .sec-head .num { background: var(--accent); }
+.sec-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); flex: 1; min-width: 200px; }
+.done-btn { border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.done-btn[aria-pressed="true"] { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+h3.sub { font-size: 1.2rem; margin: 30px 0 10px; }
+
+/* caixes */
+.box { border-radius: var(--radius); margin: 18px 0; border: 1.5px solid; overflow: hidden; }
+.box > .bh { padding: 9px 18px; font: 700 1rem "Outfit", sans-serif; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+.box > .bb { padding: 6px 20px 14px; }
+.box .tag { font: 700 .68rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.box.def { border-color: var(--def); background: var(--def-bg); }
+.box.def > .bh { background: var(--def); color: #fff; }
+.box.prop { border-color: var(--prop); background: var(--prop-bg); }
+.box.prop > .bh { background: var(--prop); color: var(--bg); justify-content: center; text-transform: uppercase; font-size: .95rem; letter-spacing: .04em; }
+.box.ex { border-color: var(--ex); background: var(--ex-bg); }
+.box.ex > .bh { color: var(--ex); border-bottom: 1px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.box.pr { border-color: var(--pr); background: var(--pr-bg); }
+.box.pr > .bh { color: var(--pr); }
+.box.lab { border-color: var(--accent-2); background: var(--surface); box-shadow: var(--shadow); }
+.box.lab > .bh { background: linear-gradient(90deg, var(--accent-2), #3fc7b6); color: #fff; }
+:root[data-theme="dark"] .box.def > .bh, :root[data-theme="dark"] .box.prop > .bh { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .box.def > .bh, :root:not([data-theme="light"]) .box.prop > .bh { color: #0f1526; } }
+.box ul, .box ol { padding-left: 1.4em; }
+.box li { margin: .45em 0; }
+ol.alpha { list-style: lower-alpha; }
+.key { background: color-mix(in srgb, var(--yellow) 35%, transparent); padding: 0 4px; border-radius: 4px; }
+.u-line { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.note { border-left: 4px solid var(--accent); background: var(--surface); padding: 10px 16px; border-radius: 0 12px 12px 0; margin: 14px 0; }
+.ex-list > li { margin: 1.1em 0; }
+.ex-list > li::marker { font-weight: 700; color: var(--ex); }
+
+/* passos */
+.steps > .step { transition: opacity .3s, transform .3s; }
+.steps.js > .step.hidden { display: none; }
+.steps-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 14px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.step-count { font-size: .8rem; color: var(--muted); align-self: center; }
+
+/* solucions */
+details.sol { margin: 12px 0 4px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--pr); }
+details.sol > summary { cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--pr); list-style: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol > div { padding: 0 16px 12px; }
+
+/* taula COVID */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; }
+table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: .9rem; background: var(--surface); border-radius: 12px; overflow: hidden; }
+table.data th, table.data td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+table.data thead th, table.data tbody th { background: color-mix(in srgb, var(--yellow) 70%, var(--surface)); color: #1b2340; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+table.data tbody tr:hover td { background: var(--hl-a); }
+
+/* matrius interactives */
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--shadow); }
+.widget .wt { font: 700 .75rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-2); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+.wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.mx { display: inline-grid; gap: 2px 4px; padding: 6px 12px; position: relative; font-variant-numeric: tabular-nums; }
+.mx::before, .mx::after { content: ""; position: absolute; top: 0; bottom: 0; width: 9px; border: 2px solid var(--text); }
+.mx::before { left: 0; border-right: 0; border-radius: 10px 0 0 10px; }
+.mx::after { right: 0; border-left: 0; border-radius: 0 10px 10px 0; }
+.mx.det::before, .mx.det::after { width: 0; border-radius: 0; border-width: 0 0 0 2px; }
+.mx.det::after { border-width: 0 2px 0 0; }
+.mx .c { min-width: 2.3em; height: 2.1em; display: grid; place-items: center; border-radius: 8px; transition: background .15s, opacity .15s, color .15s; cursor: default; font-size: .98rem; }
+.mx .c.hot { cursor: pointer; }
+.mx .c.hot:hover { background: var(--surface-2); }
+.mx .c.on { background: var(--hl-a); font-weight: 700; }
+.mx .c.on2 { background: var(--hl-b); font-weight: 700; }
+.mx .c.off { opacity: .25; text-decoration: line-through; }
+.mx .c.plus { background: var(--hl-c); color: var(--plus); font-weight: 700; }
+.mx .c.minus { background: rgba(220, 38, 38, .14); color: var(--minus); font-weight: 700; }
+.mx .c.r1 { color: var(--r1); } .mx .c.r2 { color: var(--r2); } .mx .c.r3 { color: var(--r3); } .mx .c.r4 { color: var(--r4); }
+.mx .c.r1, .mx .c.r2, .mx .c.r3, .mx .c.r4 { font-weight: 700; }
+.mx input { width: 3.1em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.mx input.sel { outline: 2px solid var(--accent); background: var(--hl-a); }
+.mx input.off { opacity: .3; }
+.op { font: 600 1.25rem "Outfit", sans-serif; color: var(--muted); }
+.lbl { font: 700 1.05rem "Outfit", sans-serif; }
+.info { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 2.8em; font-size: .95rem; overflow-x: auto; }
+.terms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.terms button { font: 600 .82rem "Inter", sans-serif; border-radius: 999px; padding: 5px 11px; cursor: pointer; border: 1.5px solid; background: var(--surface); }
+.terms button.p { color: var(--plus); border-color: var(--plus); }
+.terms button.m { color: var(--minus); border-color: var(--minus); }
+.terms button.act.p { background: var(--plus); color: #fff; } .terms button.act.m { background: var(--minus); color: #fff; }
+input[type="range"] { accent-color: var(--accent); width: 180px; }
+select { font: 500 .9rem "Inter", sans-serif; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 .82rem "Inter", sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.lab-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.lab-out .card { background: var(--surface-2); border-radius: 12px; padding: 10px 14px; overflow-x: auto; }
+.lab-out .card h4 { margin: 0 0 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-family: "Inter", sans-serif; }
+
+/* SVG Sarrus */
+.sarrus-fig { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 10px 0; }
+.sarrus-fig svg { width: 210px; height: auto; }
+.sarrus-fig text { font: italic 600 15px "Times New Roman", serif; fill: var(--text); }
+.sarrus-fig text.sgn { font: 700 28px "Inter", sans-serif; font-style: normal; }
+
+/* qüestionari */
+.quiz .q { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 12px 0; }
+.quiz .q p.qt { font-weight: 600; margin: 0 0 8px; }
+.quiz .opts { display: grid; gap: 6px; }
+.quiz .opts button { text-align: left; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; padding: 8px 12px; font: 500 .95rem "Inter", sans-serif; cursor: pointer; }
+.quiz .opts button:hover:not([disabled]) { border-color: var(--accent); }
+.quiz .opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg)); }
+.quiz .opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg)); }
+.quiz .fb { font-size: .9rem; margin-top: 8px; color: var(--muted); }
+.score { font: 700 1.1rem "Outfit", sans-serif; margin-top: 12px; }
+
+footer.foot { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; text-align: center; padding: 24px 16px 40px; }
+html[data-embed="1"] footer.foot { display: none; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; box-shadow: var(--shadow); }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
+  .toc { position: static; max-height: none; }
+  .toc summary { cursor: pointer; }
+  .toc summary::after { content: "▾"; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .box > .bb { padding: 4px 14px 12px; }
+  .crumb { display: none; }
+  .widget { padding: 12px; }
+  .mx .c { min-width: 2em; }
+}
+@media print {
+  .topbar, .toc, .steps-ctl, .done-btn, .to-top, .widget, .quiz-sec, footer.foot { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .steps.js > .step.hidden { display: block; }
+  details.sol { display: none; }
+  .hero { background: none; color: #000; } .hero p, .hero .chips span { color: #333; }
+  .box { break-inside: avoid; }
+}
+
+/* unitat 3: sistemes */
+.hero::after { content: "AX=B"; font-size: 10rem; bottom: -36px; }
+.mx.aug .sep { width: 2px; align-self: stretch; background: var(--text); opacity: .7; margin: 2px 2px; }
+.badge { display: inline-block; font: 700 .78rem "Inter", sans-serif; padding: 3px 10px; border-radius: 999px; color: #fff; letter-spacing: .02em; vertical-align: middle; }
+.badge.scd { background: #15803d; } .badge.sci { background: #2563eb; } .badge.si { background: #c2410c; }
+.sys-in { display: grid; gap: 8px; }
+.sys-in .eqr { display: flex; align-items: center; gap: 6px; font: italic 600 1.05rem "Times New Roman", serif; flex-wrap: wrap; }
+.sys-in .eqr.r1 { color: var(--r1); } .sys-in .eqr.r2 { color: var(--r3); }
+.sys-in input, .gauss-ctl input, .gauss-ctl select { width: 3.3em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.gauss-ctl select { width: auto; padding: 0 6px; }
+.lines-wrap { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; }
+.lines-svg { width: 100%; max-width: 300px; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+.lines-svg .g { stroke: var(--border); stroke-width: 1; }
+.lines-svg .ax { stroke: var(--muted); stroke-width: 1.4; }
+.lines-svg text { font: 600 11px "Inter", sans-serif; fill: var(--muted); }
+.eqs { display: grid; gap: 4px; }
+.eqline { padding: 2px 10px; border-radius: 8px; cursor: pointer; }
+.eqline.on { background: var(--hl-a); }
+.gauss-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; font: 600 .95rem "Inter", sans-serif; }
+.gauss-ctl .grp { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 6px 10px; border: 1px dashed var(--border); border-radius: 12px; }
+.hist { font-size: .9rem; }
+.hist .katex-display { margin: .3em 0; }
+.chain { overflow-x: auto; }
+.lab-out .card.wide { grid-column: 1 / -1; }
+.msg-ok { color: var(--ok); font-weight: 700; }
+.msg-bad { color: var(--bad); font-weight: 700; }
+.crit { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; font-size: .85rem; color: var(--muted); }
+
+/* FentMates: 80% de l'ample en ordinador (marc i text) */
+@media (min-width: 1101px) {
+  .topbar .in, .hero .in, .layout { max-width: 80vw; }
+  article { max-width: none; }
+  .slide > .in, .overview .in { max-width: 80vw; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../2batx-mii.html"><span data-l="va">2n Batxillerat MII</span><span data-l="es">2º Bachillerato MII</span><span data-l="en">2nd Baccalaureate Maths II</span></a> / <span data-l="va">Unitat 2</span><span data-l="es">Unidad 2</span><span data-l="en">Unit 2</span></span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker"><span data-l="va">Apunts de teoria · 2n Batxillerat MII</span><span data-l="es">Apuntes de teoría · 2º Bachillerato MII</span><span data-l="en">Theory notes · 2nd Baccalaureate, Maths II</span></span>
+    <h1><span class="u"><span data-l="va">Unitat 2</span><span data-l="es">Unidad 2</span><span data-l="en">Unit 2</span></span> · <span data-l="va">Sistemes d'equacions lineals</span><span data-l="es">Sistemas de ecuaciones lineales</span><span data-l="en">Systems of linear equations</span></h1>
+    <p><span data-l="va">Teoria, exemples resolts pas a pas i eines interactives per classificar i resoldre sistemes: mètode de Gauss, mètode matricial, regla de Cramer, teorema de Rouché-Frobenius i discussió de sistemes amb paràmetres.</span><span data-l="es">Teoría, ejemplos resueltos paso a paso y herramientas interactivas para clasificar y resolver sistemas: método de Gauss, método matricial, regla de Cramer, teorema de Rouché-Frobenius y discusión de sistemas con parámetros.</span><span data-l="en">Theory, step-by-step worked examples and interactive tools to classify and solve systems: Gaussian elimination, the matrix method, Cramer's rule, the Rouché–Frobenius theorem and discussing systems with parameters.</span></p>
+    <div class="chips"><span><span data-l="va">6 apartats</span><span data-l="es">6 apartados</span><span data-l="en">6 sections</span></span><span><span data-l="va">6 eines interactives</span><span data-l="es">6 herramientas interactivas</span><span data-l="en">6 interactive tools</span></span><span><span data-l="va">Autoavaluació final</span><span data-l="es">Autoevaluación final</span><span data-l="en">Final self-check</span></span></div>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="toc" aria-label="Índex">
+    <details open id="toc-d">
+      <summary><span data-l="va">Índex</span><span data-l="es">Índice</span><span data-l="en">Contents</span></summary>
+      <ol id="toc-list">
+        <li><a href="#s1"><span class="n">2.1</span><span data-l="va">Sistemes d'equacions lineals</span><span data-l="es">Sistemas de ecuaciones lineales</span><span data-l="en">Systems of linear equations</span><span class="ck">✓</span></a></li>
+        <li><a href="#s2"><span class="n">2.2</span><span data-l="va">Tractament matricial</span><span data-l="es">Tratamiento matricial</span><span data-l="en">Matrix approach</span><span class="ck">✓</span></a></li>
+        <li><a href="#s3"><span class="n">2.3</span><span data-l="va">Regla de Cramer</span><span data-l="es">Regla de Cramer</span><span data-l="en">Cramer's rule</span><span class="ck">✓</span></a></li>
+        <li><a href="#s4"><span class="n">2.4</span><span data-l="va">Teorema de Rouché-Frobenius</span><span data-l="es">Teorema de Rouché-Frobenius</span><span data-l="en">Rouché–Frobenius theorem</span><span class="ck">✓</span></a></li>
+        <li><a href="#s5"><span class="n">2.5</span><span data-l="va">Sistemes homogenis</span><span data-l="es">Sistemas homogéneos</span><span data-l="en">Homogeneous systems</span><span class="ck">✓</span></a></li>
+        <li><a href="#s6"><span class="n">2.6</span><span data-l="va">Sistemes amb paràmetres</span><span data-l="es">Sistemas con parámetros</span><span data-l="en">Systems with parameters</span><span class="ck">✓</span></a></li>
+        <li><a href="#lab"><span class="n">⚙</span><span data-l="va">Resolutor de sistemes</span><span data-l="es">Resolutor de sistemas</span><span data-l="en">System solver</span></a></li>
+        <li><a href="#quiz"><span class="n">?</span><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></a></li>
+      </ol>
+      <div class="meter"><i id="meter"></i></div>
+      <div class="meter-l"><span id="meter-n">0</span>/6 <span data-l="va">apartats estudiats</span><span data-l="es">apartados estudiados</span><span data-l="en">sections studied</span></div>
+    </details>
+  </nav>
+
+<article>
+
+<!-- ======================= 2.1 ======================= -->
+<section class="unit" id="s1">
+  <div class="sec-head"><span class="num">2.1</span><h2><span data-l="va">Sistemes d'equacions lineals</span><span data-l="es">Sistemas de ecuaciones lineales</span><span data-l="en">Systems of linear equations</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Definició: sistema d'equacions lineals</span><span data-l="es">Definición: sistema de ecuaciones lineales</span><span data-l="en">Definition: system of linear equations</span></div>
+    <div class="bb">
+      <p><span data-l="va">Un <strong>sistema de \(m\) equacions lineals amb \(n\) incògnites</strong> és un conjunt d'igualtats escrites de la manera següent:</span><span data-l="es">Un <strong>sistema de \(m\) ecuaciones lineales con \(n\) incógnitas</strong> es un conjunto de igualdades escritas de la siguiente manera:</span><span data-l="en">A <strong>system of \(m\) linear equations in \(n\) unknowns</strong> is a set of equalities written as follows:</span></p>
+      \[\left\{\begin{array}{ccccccccccc} a_{11}x_1 &+& a_{12}x_2 &+& a_{13}x_3 &+& \cdots &+& a_{1n}x_n &=& b_1\\ a_{21}x_1 &+& a_{22}x_2 &+& a_{23}x_3 &+& \cdots &+& a_{2n}x_n &=& b_2\\ a_{31}x_1 &+& a_{32}x_2 &+& a_{33}x_3 &+& \cdots &+& a_{3n}x_n &=& b_3\\ \cdots && \cdots && \cdots && \cdots && \cdots && \cdots\\ a_{m1}x_1 &+& a_{m2}x_2 &+& a_{m3}x_3 &+& \cdots &+& a_{mn}x_n &=& b_m\end{array}\right.\]
+      <p><span data-l="va">On:</span><span data-l="es">Donde:</span><span data-l="en">Where:</span></p>
+      <ol>
+        <li>\(a_{ij}\) <span data-l="va">són nombres reals coneguts anomenats <strong>coeficients</strong> del sistema.</span><span data-l="es">son números reales conocidos llamados <strong>coeficientes</strong> del sistema.</span><span data-l="en">are known real numbers called the <strong>coefficients</strong> of the system.</span></li>
+        <li>\(b_i\) <span data-l="va">són nombres reals coneguts anomenats <strong>termes independents</strong>.</span><span data-l="es">son números reales conocidos llamados <strong>términos independientes</strong>.</span><span data-l="en">are known real numbers called the <strong>constant terms</strong>.</span></li>
+        <li>\(x_j\) <span data-l="va">són nombres reals desconeguts anomenats <strong>incògnites</strong> del sistema.</span><span data-l="es">son números reales desconocidos llamados <strong>incógnitas</strong> del sistema.</span><span data-l="en">are unknown real numbers called the <strong>unknowns</strong> of the system.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Definicions</span><span data-l="es">Definiciones</span><span data-l="en">Definitions</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va">Una <strong>solució del sistema</strong> és un conjunt ordenat de nombres reals \((s_1,s_2,s_3,\dots,s_n)\) tal que, en substituir la incògnita \(x_i\) pel nombre \(s_i\ \ \forall i\in\{1,2,3,\dots,n\}\), es compleixen les \(m\) igualtats a la vegada.<br><em>Resoldre</em> un sistema consisteix a calcular totes les seues solucions o justificar que no en té cap.</span><span data-l="es">Una <strong>solución del sistema</strong> es un conjunto ordenado de números reales \((s_1,s_2,s_3,\dots,s_n)\) tal que, al sustituir la incógnita \(x_i\) por el número \(s_i\ \ \forall i\in\{1,2,3,\dots,n\}\), se cumplen las \(m\) igualdades a la vez.<br><em>Resolver</em> un sistema consiste en calcular todas sus soluciones o justificar que no tiene ninguna.</span><span data-l="en">A <strong>solution of the system</strong> is an ordered set of real numbers \((s_1,s_2,s_3,\dots,s_n)\) such that, replacing each unknown \(x_i\) by \(s_i\ \ \forall i\in\{1,2,3,\dots,n\}\), all \(m\) equalities hold at the same time.<br>To <em>solve</em> a system means to find all its solutions or to show that it has none.</span></li>
+        <li><span data-l="va">Un <strong>sistema lineal és homogeni</strong> si tots els termes independents són iguals a zero. Observeu que un sistema homogeni sempre admet la solució \(x_1=x_2=\cdots=x_n=0\).</span><span data-l="es">Un <strong>sistema lineal es homogéneo</strong> si todos los términos independientes son iguales a cero. Observad que un sistema homogéneo siempre admite la solución \(x_1=x_2=\cdots=x_n=0\).</span><span data-l="en">A <strong>linear system is homogeneous</strong> if all the constant terms are zero. Note that a homogeneous system always has the solution \(x_1=x_2=\cdots=x_n=0\).</span></li>
+        <li><span data-l="va">Direm que dos <strong>sistemes són equivalents</strong> si tenen les mateixes solucions.</span><span data-l="es">Diremos que dos <strong>sistemas son equivalentes</strong> si tienen las mismas soluciones.</span><span data-l="en">Two <strong>systems are equivalent</strong> if they have the same solutions.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Criteris d'equivalència</span><span data-l="es">Criterios de equivalencia</span><span data-l="en">Equivalence criteria</span></div>
+    <div class="bb">
+      <ol>
+        <li><span data-l="va">Si es multipliquen o divideixen els dos membres d'una equació per un nombre distint de zero, resulta un sistema equivalent.</span><span data-l="es">Si se multiplican o dividen los dos miembros de una ecuación por un número distinto de cero, resulta un sistema equivalente.</span><span data-l="en">Multiplying or dividing both sides of an equation by a non-zero number gives an equivalent system.</span></li>
+        <li><span data-l="va">Si a una equació d'un sistema se li suma o resta una altra equació, resulta un sistema equivalent.</span><span data-l="es">Si a una ecuación de un sistema se le suma o resta otra ecuación, resulta un sistema equivalente.</span><span data-l="en">Adding another equation to (or subtracting it from) an equation of the system gives an equivalent system.</span></li>
+        <li><span data-l="va">Si en un sistema lineal una equació és combinació lineal de les altres, es pot suprimir i resulta un sistema equivalent.</span><span data-l="es">Si en un sistema lineal una ecuación es combinación lineal de las demás, se puede suprimir y resulta un sistema equivalente.</span><span data-l="en">If an equation of a linear system is a linear combination of the others, it can be removed and the result is an equivalent system.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de sistemes equivalents</span><span data-l="es">Ejemplos de sistemas equivalentes</span><span data-l="en">Examples of equivalent systems</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li>\[\left\{\begin{aligned}\tfrac{x}{2}+\tfrac{y}{3}&=1\\ 100x-100y&=200\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}3x+2y&=6\\ x-y&=2\end{aligned}\right.\]
+          <span data-l="va">On hem multiplicat la primera equació per 6 i hem dividit la segona per 100.</span><span data-l="es">Donde hemos multiplicado la primera ecuación por 6 y hemos dividido la segunda por 100.</span><span data-l="en">Here we multiplied the first equation by 6 and divided the second by 100.</span></li>
+        <li>\[\left\{\begin{aligned}x+y&=5\\ x-y&=10\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}x+y&=5\\ 2x&=15\end{aligned}\right.\]
+          <span data-l="va">On hem sumat la primera i la segona equació.</span><span data-l="es">Donde hemos sumado la primera y la segunda ecuación.</span><span data-l="en">Here we added the first and second equations.</span></li>
+        <li>\[\left\{\begin{aligned}x+y&=0\\ 2x-3y&=1\\ 2x+2y&=0\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}x+y&=0\\ 2x-3y&=1\end{aligned}\right.\]
+          <span data-l="va">On hem eliminat la tercera equació per ser combinació lineal de la primera (és el doble).</span><span data-l="es">Donde hemos eliminado la tercera ecuación por ser combinación lineal de la primera (es el doble).</span><span data-l="en">Here we removed the third equation because it is a linear combination of the first (it is twice the first).</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Classificació dels sistemes</span><span data-l="es">Clasificación de los sistemas</span><span data-l="en">Classification of systems</span></div>
+    <div class="bb">
+      <p><span data-l="va">Atenent al nombre de solucions, els sistemes d'equacions lineals es classifiquen en:</span><span data-l="es">Atendiendo al número de soluciones, los sistemas de ecuaciones lineales se clasifican en:</span><span data-l="en">According to their number of solutions, systems of linear equations are classified as:</span></p>
+      <ol>
+        <li><span class="badge scd">SCD</span> <span data-l="va"><strong>Sistema compatible determinat</strong>: és aquell que té una única solució.</span><span data-l="es"><strong>Sistema compatible determinado</strong>: es aquel que tiene una única solución.</span><span data-l="en"><strong>Consistent, independent system</strong> (Spanish/Valencian abbreviation SCD): it has exactly one solution.</span></li>
+        <li><span class="badge sci">SCI</span> <span data-l="va"><strong>Sistema compatible indeterminat</strong>: és aquell que té infinites solucions.</span><span data-l="es"><strong>Sistema compatible indeterminado</strong>: es aquel que tiene infinitas soluciones.</span><span data-l="en"><strong>Consistent, dependent system</strong> (SCI): it has infinitely many solutions.</span></li>
+        <li><span class="badge si">SI</span> <span data-l="va"><strong>Sistema incompatible</strong>: és aquell que no té cap solució.</span><span data-l="es"><strong>Sistema incompatible</strong>: es aquel que no tiene ninguna solución.</span><span data-l="en"><strong>Inconsistent system</strong> (SI): it has no solution.</span></li>
+      </ol>
+      <div class="widget" id="w-lines">
+        <div class="wt">⟋ <span data-l="va">Interpretació geomètrica: cada equació amb 2 incògnites és una recta. Canvia els coeficients</span><span data-l="es">Interpretación geométrica: cada ecuación con 2 incógnitas es una recta. Cambia los coeficientes</span><span data-l="en">Geometric meaning: each equation in 2 unknowns is a line. Change the coefficients</span></div>
+        <div class="lines-wrap">
+          <div>
+            <div class="sys-in" data-role="eqs"></div>
+            <div class="steps-ctl" data-role="presets" style="margin-top:12px"></div>
+          </div>
+          <svg class="lines-svg" viewBox="0 0 300 300" role="img" aria-label="Rectes del sistema"></svg>
+        </div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Mètode de Gauss</span><span data-l="es">Método de Gauss</span><span data-l="en">Gaussian elimination</span></div>
+    <div class="bb">
+      <p><span data-l="va">El <strong>mètode de Gauss</strong> o de triangulació consisteix a obtenir un altre sistema equivalent a l'inicial que siga <strong>esglaonat</strong>, és a dir, que la primera incògnita només aparega en la primera equació, la segona incògnita en les dues primeres equacions, la tercera incògnita en les tres primeres equacions, i així successivament. Per aconseguir-ho s'utilitzen els criteris d'equivalència anteriors:</span><span data-l="es">El <strong>método de Gauss</strong> o de triangulación consiste en obtener otro sistema equivalente al inicial que sea <strong>escalonado</strong>, es decir, que la primera incógnita solo aparezca en la primera ecuación, la segunda incógnita en las dos primeras ecuaciones, la tercera incógnita en las tres primeras ecuaciones, y así sucesivamente. Para conseguirlo se utilizan los criterios de equivalencia anteriores:</span><span data-l="en"><strong>Gaussian elimination</strong> (triangulation) consists of finding another system, equivalent to the original one, in <strong>echelon form</strong>: read from the bottom up, the last equation contains only the last unknown, the one above adds the previous unknown, and so on. To achieve this we use the equivalence criteria above:</span></p>
+      <span data-l="va">\[\underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\end{aligned}\right.}_{\text{Sistema inicial}}\ \Longrightarrow\ \underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star y+\star z&=\star\\ \star z&=\star\end{aligned}\right.}_{\text{Sistema final esglaonat}}\]</span><span data-l="es">\[\underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\end{aligned}\right.}_{\text{Sistema inicial}}\ \Longrightarrow\ \underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star y+\star z&=\star\\ \star z&=\star\end{aligned}\right.}_{\text{Sistema final escalonado}}\]</span><span data-l="en">\[\underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\end{aligned}\right.}_{\text{Initial system}}\ \Longrightarrow\ \underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star y+\star z&=\star\\ \star z&=\star\end{aligned}\right.}_{\text{Final echelon system}}\]</span>
+      <p><span data-l="va">En finalitzar el procés, podem arribar als casos següents:</span><span data-l="es">Al finalizar el proceso, podemos llegar a los siguientes casos:</span><span data-l="en">At the end of the process we can reach the following cases:</span></p>
+      <ul>
+        <li><span data-l="va">Si alguna equació és de la forma \(0=d\) amb \(d\neq0\), llavors el sistema és <strong>incompatible</strong>.</span><span data-l="es">Si alguna ecuación es de la forma \(0=d\) con \(d\neq0\), entonces el sistema es <strong>incompatible</strong>.</span><span data-l="en">If some equation has the form \(0=d\) with \(d\neq0\), the system is <strong>inconsistent</strong>.</span></li>
+        <li><span data-l="va">Si hi ha tantes equacions vàlides com incògnites, pas a pas es va obtenint un valor numèric per a cada incògnita. És, per tant, un <strong>sistema compatible determinat</strong>.</span><span data-l="es">Si hay tantas ecuaciones válidas como incógnitas, paso a paso se va obteniendo un valor numérico para cada incógnita. Es, por tanto, un <strong>sistema compatible determinado</strong>.</span><span data-l="en">If there are as many valid equations as unknowns, step by step we obtain a numerical value for each unknown. It is therefore a <strong>consistent, independent system</strong>.</span></li>
+        <li><span data-l="va">Si alguna equació és de la forma \(0=0\) (i cap de la forma \(0=d\neq0\)), queden menys equacions vàlides que incògnites i el sistema és <strong>compatible indeterminat</strong>. La seua solució general vindrà donada amb tants paràmetres com incògnites sobren.</span><span data-l="es">Si alguna ecuación es de la forma \(0=0\) (y ninguna de la forma \(0=d\neq0\)), quedan menos ecuaciones válidas que incógnitas y el sistema es <strong>compatible indeterminado</strong>. Su solución general vendrá dada con tantos parámetros como incógnitas sobren.</span><span data-l="en">If some equation has the form \(0=0\) (and none has the form \(0=d\neq0\)), fewer valid equations than unknowns remain and the system is <strong>consistent and dependent</strong>. Its general solution has as many parameters as there are “extra” unknowns.</span></li>
+      </ul>
+      <p class="note"><span data-l="va">Notació: \(E_i\) indica l'equació \(i\) i \(E_i'\) l'equació \(i\) un cop transformada.</span><span data-l="es">Notación: \(E_i\) indica la ecuación \(i\) y \(E_i'\) la ecuación \(i\) una vez transformada.</span><span data-l="en">Notation: \(E_i\) denotes equation \(i\) and \(E_i'\) equation \(i\) after it has been transformed.</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples del mètode de Gauss</span><span data-l="es">Ejemplos del método de Gauss</span><span data-l="en">Examples of Gaussian elimination</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li>
+          <div class="steps">
+            <div class="step">\[\left\{\begin{aligned}x+2y-z&=2\\ 2x+y+5z&=8\\ -x-5y+6z&=0\end{aligned}\right.\ \xrightarrow[E_3'=E_3+E_1]{E_2'=E_2-2E_1}\ \left\{\begin{aligned}x+2y-z&=2\\ -3y+7z&=4\\ -3y+5z&=2\end{aligned}\right.\]</div>
+            <div class="step">\[\xrightarrow{E_3''=E_3'-E_2'}\ \left\{\begin{aligned}x+2y-z&=2\\ -3y+7z&=4\\ -2z&=-2\end{aligned}\right.\ \rightarrow\ \text{SCD}\]</div>
+            <div class="step">\[z=1\ \rightarrow\ -3y+7=4\ \rightarrow\ y=1\ \rightarrow\ x+2-1=2\ \rightarrow\ \boxed{x=1;\ y=1;\ z=1}\]</div>
+          </div>
+        </li>
+        <li>
+          <div class="steps">
+            <div class="step">\[\left\{\begin{aligned}x-3y-2z&=7\\ 2x-y+15z&=3\\ x-8y-21z&=11\end{aligned}\right.\ \xrightarrow[E_3'=E_3-E_1]{E_2'=E_2-2E_1}\ \left\{\begin{aligned}x-3y-2z&=7\\ 5y+19z&=-11\\ -5y-19z&=4\end{aligned}\right.\]</div>
+            <div class="step">\[\xrightarrow{E_3''=E_3'+E_2'}\ \left\{\begin{aligned}x-3y-2z&=7\\ 5y+19z&=-11\\ 0&=-7\end{aligned}\right.\ \rightarrow\ \boxed{\text{SI}}\]</div>
+          </div>
+        </li>
+        <li>
+          <div class="steps">
+            <div class="step">\[\left\{\begin{aligned}x+y+z&=0\\ x+2y+3z&=0\\ 2x+3y+4z&=0\end{aligned}\right.\ \xrightarrow[E_3'=E_3-2E_1]{E_2'=E_2-E_1}\ \left\{\begin{aligned}x+y+z&=0\\ y+2z&=0\\ y+2z&=0\end{aligned}\right.\]</div>
+            <div class="step">\[\xrightarrow{E_3''=E_3'-E_2'}\ \left\{\begin{aligned}x+y+z&=0\\ y+2z&=0\\ 0&=0\end{aligned}\right.\ \rightarrow\ \text{SCI}\]</div>
+            <div class="step"><p><span data-l="va">Fem \(z=\lambda\): \(y=-2\lambda\) i \(x=-y-z=2\lambda-\lambda=\lambda\). Solució general:</span><span data-l="es">Hacemos \(z=\lambda\): \(y=-2\lambda\) y \(x=-y-z=2\lambda-\lambda=\lambda\). Solución general:</span><span data-l="en">Let \(z=\lambda\): \(y=-2\lambda\) and \(x=-y-z=2\lambda-\lambda=\lambda\). General solution:</span></p>
+              \[\boxed{x=\lambda;\ y=-2\lambda;\ z=\lambda,\quad\lambda\in\mathbb{R}}\]</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2.2 ======================= -->
+<section class="unit" id="s2">
+  <div class="sec-head"><span class="num">2.2</span><h2><span data-l="va">Tractament matricial dels sistemes</span><span data-l="es">Tratamiento matricial de los sistemas</span><span data-l="en">Matrix approach to systems</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Sistemes lineals amb matrius</span><span data-l="es">Sistemas lineales con matrices</span><span data-l="en">Linear systems with matrices</span></div>
+    <div class="bb">
+      <p><span data-l="va">El sistema lineal de la definició inicial el podem escriure utilitzant matrius d'aquesta forma:</span><span data-l="es">El sistema lineal de la definición inicial lo podemos escribir utilizando matrices de esta forma:</span><span data-l="en">The linear system in the initial definition can be written using matrices like this:</span></p>
+      \[\begin{pmatrix}a_{11} & a_{12} & a_{13} & \cdots & a_{1n}\\ a_{21} & a_{22} & a_{23} & \cdots & a_{2n}\\ \cdots & \cdots & \cdots & \cdots & \vdots\\ a_{m1} & a_{m2} & a_{m3} & \cdots & a_{mn}\end{pmatrix}\cdot\begin{pmatrix}x_1\\ x_2\\ x_3\\ \vdots\\ x_n\end{pmatrix}=\begin{pmatrix}b_1\\ b_2\\ \vdots\\ b_m\end{pmatrix}\]
+      <p><span data-l="va">Abreujadament escriurem \(\boxed{A\cdot X=B}\). Fixeu-vos que, en multiplicar les matrius \(A\) i \(X\) i igualar el resultat als termes independents, obtenim les equacions del sistema.</span><span data-l="es">Abreviadamente escribiremos \(\boxed{A\cdot X=B}\). Fijaos en que, al multiplicar las matrices \(A\) y \(X\) e igualar el resultado a los términos independientes, obtenemos las ecuaciones del sistema.</span><span data-l="en">In short we write \(\boxed{A\cdot X=B}\). Notice that multiplying the matrices \(A\) and \(X\) and setting the result equal to the constant terms gives back the equations of the system.</span></p>
+      <ul>
+        <li><span data-l="va">La matriu \(A\), d'ordre \(m\times n\), s'anomena <strong>matriu de coeficients</strong>.</span><span data-l="es">La matriz \(A\), de orden \(m\times n\), se llama <strong>matriz de coeficientes</strong>.</span><span data-l="en">The \(m\times n\) matrix \(A\) is the <strong>coefficient matrix</strong>.</span></li>
+        <li><span data-l="va">La matriu columna \(X\) és la <strong>matriu de les incògnites</strong>.</span><span data-l="es">La matriz columna \(X\) es la <strong>matriz de las incógnitas</strong>.</span><span data-l="en">The column matrix \(X\) is the <strong>matrix of unknowns</strong>.</span></li>
+        <li><span data-l="va">La matriu columna \(B\) és la <strong>matriu de termes independents</strong>.</span><span data-l="es">La matriz columna \(B\) es la <strong>matriz de términos independientes</strong>.</span><span data-l="en">The column matrix \(B\) is the <strong>matrix of constant terms</strong>.</span></li>
+        <li><span data-l="va">La matriu \(A^*\), d'ordre \(m\times(n+1)\), formada afegint a \(A\) la columna dels termes independents, és la <strong>matriu ampliada</strong>.</span><span data-l="es">La matriz \(A^*\), de orden \(m\times(n+1)\), formada añadiendo a \(A\) la columna de los términos independientes, es la <strong>matriz ampliada</strong>.</span><span data-l="en">The \(m\times(n+1)\) matrix \(A^*\), obtained by adding the column of constant terms to \(A\), is the <strong>augmented matrix</strong>.</span></li>
+      </ul>
+      <div class="widget" id="w-matform">
+        <div class="wt">◉ <span data-l="va">Prova-ho: passa el ratolí per una equació o per un coeficient</span><span data-l="es">Pruébalo: pasa el ratón por una ecuación o por un coeficiente</span><span data-l="en">Try it: hover over an equation or a coefficient</span></div>
+        <div class="wrow"><div class="eqs" data-role="eqs"></div><span class="op">⟺</span><div class="mx" data-role="a"></div><span class="op">·</span><div class="mx" data-role="x"></div><span class="op">=</span><div class="mx" data-role="b"></div></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple</span><span data-l="es">Ejemplo</span><span data-l="en">Example</span></div>
+    <div class="bb">
+      <p>\(\left\{\begin{aligned}2x-y+3z&=0\\ 3x-y-z&=-2\end{aligned}\right.\) <span data-l="va">l'escriurem en forma matricial:</span><span data-l="es">lo escribiremos en forma matricial:</span><span data-l="en">is written in matrix form as:</span> \(\begin{pmatrix}2 & -1 & 3\\ 3 & -1 & -1\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}0\\ -2\end{pmatrix}\)</p>
+      <p>\(A=\begin{pmatrix}2 & -1 & 3\\ 3 & -1 & -1\end{pmatrix}\) <span data-l="va">és la matriu de coeficients i</span><span data-l="es">es la matriz de coeficientes y</span><span data-l="en">is the coefficient matrix and</span> \(A^*=\left(\begin{array}{rrr|r}2 & -1 & 3 & 0\\ 3 & -1 & -1 & -2\end{array}\right)\) <span data-l="va">la matriu ampliada.</span><span data-l="es">la matriz ampliada.</span><span data-l="en">the augmented matrix.</span></p>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Mètode de Gauss amb matrius</span><span data-l="es">Método de Gauss con matrices</span><span data-l="en">Gaussian elimination with matrices</span></div>
+    <div class="bb">
+      <p><span data-l="va">Ara utilitzarem les matrius per resoldre els sistemes pel mètode de Gauss. Per a això només agafarem la matriu ampliada \(A^*\) del sistema i farem zeros per davall de la diagonal principal, de la mateixa manera que abans ho hem fet amb les equacions. Ara \(F_i\) indica la fila \(i\).</span><span data-l="es">Ahora utilizaremos las matrices para resolver los sistemas por el método de Gauss. Para ello solo tomaremos la matriz ampliada \(A^*\) del sistema y haremos ceros por debajo de la diagonal principal, del mismo modo que antes lo hemos hecho con las ecuaciones. Ahora \(F_i\) indica la fila \(i\).</span><span data-l="en">Now we use matrices to solve systems by Gaussian elimination. We only take the augmented matrix \(A^*\) of the system and create zeros below the main diagonal, just as we did before with the equations. Here \(F_i\) denotes row \(i\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de Gauss amb matrius</span><span data-l="es">Ejemplos de Gauss con matrices</span><span data-l="en">Examples: Gaussian elimination with matrices</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Resolem pel mètode de Gauss:</span><span data-l="es">Resolvemos por el método de Gauss:</span><span data-l="en">Solve by Gaussian elimination:</span> \(\left\{\begin{aligned}2x-5y+3z&=4\\ x-2y+z&=3\\ 5x+y+7z&=11\end{aligned}\right.\)
+          <div class="steps">
+            <div class="step">\[A^*=\left(\begin{array}{rrr|r}2 & -5 & 3 & 4\\ 1 & -2 & 1 & 3\\ 5 & 1 & 7 & 11\end{array}\right)\xrightarrow{F_1\leftrightarrow F_2}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 2 & -5 & 3 & 4\\ 5 & 1 & 7 & 11\end{array}\right)\]</div>
+            <div class="step">\[\xrightarrow[F_3'=F_3-5F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 0 & -1 & 1 & -2\\ 0 & 11 & 2 & -4\end{array}\right)\xrightarrow{F_3''=11F_2'+F_3'}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 0 & -1 & 1 & -2\\ 0 & 0 & 13 & -26\end{array}\right)\]</div>
+            <div class="step"><p><span data-l="va">Ja tenim la matriu esglaonada; ara resolem de baix cap amunt:</span><span data-l="es">Ya tenemos la matriz escalonada; ahora resolvemos de abajo arriba:</span><span data-l="en">The matrix is now in echelon form; we solve from the bottom up:</span></p>
+              \[13z=-26\Rightarrow\boxed{z=-2}\qquad -y+z=-2\xrightarrow{z=-2}-y=0\Rightarrow\boxed{y=0}\qquad x-2y+z=3\Rightarrow x-0-2=3\Rightarrow\boxed{x=5}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Resolem pel mètode de Gauss:</span><span data-l="es">Resolvemos por el método de Gauss:</span><span data-l="en">Solve by Gaussian elimination:</span> \(\left\{\begin{aligned}x-3y+7z&=10\\ 5x-y+z&=8\\ x+4y-10z&=-11\end{aligned}\right.\)
+          <div class="steps">
+            <div class="step">\[A^*=\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 5 & -1 & 1 & 8\\ 1 & 4 & -10 & -11\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-5F_1}\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 0 & 14 & -34 & -42\\ 0 & 7 & -17 & -21\end{array}\right)\]</div>
+            <div class="step">\[\xrightarrow{F_3''=-2F_3'+F_2'}\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 0 & 14 & -34 & -42\\ 0 & 0 & 0 & 0\end{array}\right)\Rightarrow\textbf{SCI}\]</div>
+            <div class="step"><p><span data-l="va">Donem la solució general del sistema. Fem \(z=\lambda\) (i simplifiquem la segona fila entre 2):</span><span data-l="es">Damos la solución general del sistema. Hacemos \(z=\lambda\) (y simplificamos la segunda fila entre 2):</span><span data-l="en">We give the general solution. Let \(z=\lambda\) (and divide the second row by 2):</span></p>
+              \[7y-17\lambda=-21\rightarrow y=\frac{17\lambda-21}{7}=-3+\frac{17}{7}\lambda\]
+              \[x-3y+7\lambda=10\rightarrow x=10+3\left(-3+\tfrac{17}{7}\lambda\right)-7\lambda=1+\frac{2}{7}\lambda\]</div>
+            <div class="step">\[\boxed{x=1+\tfrac{2}{7}\lambda;\ \ y=-3+\tfrac{17}{7}\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}\]
+              <p><span data-l="va">També la podem expressar així (canviant \(\lambda\) per \(7\lambda\)):</span><span data-l="es">También la podemos expresar así (cambiando \(\lambda\) por \(7\lambda\)):</span><span data-l="en">We can also write it like this (replacing \(\lambda\) by \(7\lambda\)):</span> \(x=1+2\lambda;\ y=-3+17\lambda;\ z=7\lambda,\ \lambda\in\mathbb{R}\)</p></div>
+          </div>
+        </li>
+        <li><span data-l="va">Resolem pel mètode de Gauss:</span><span data-l="es">Resolvemos por el método de Gauss:</span><span data-l="en">Solve by Gaussian elimination:</span> \(\left\{\begin{aligned}x-3y-2z&=7\\ 2x-y+15z&=3\\ x-8y-21z&=11\end{aligned}\right.\)
+          <div class="steps">
+            <div class="step">\[A^*=\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 2 & -1 & 15 & 3\\ 1 & -8 & -21 & 11\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 0 & 5 & 19 & -11\\ 0 & -5 & -19 & 4\end{array}\right)\]</div>
+            <div class="step">\[\xrightarrow{F_3''=F_3'+F_2'}\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 0 & 5 & 19 & -11\\ 0 & 0 & 0 & -7\end{array}\right)\Rightarrow\textbf{SI}\]
+              <p><span data-l="va">L'última fila diu \(0=-7\): el sistema no té solució.</span><span data-l="es">La última fila dice \(0=-7\): el sistema no tiene solución.</span><span data-l="en">The last row says \(0=-7\): the system has no solution.</span></p></div>
+          </div>
+        </li>
+      </ol>
+      <div class="widget" id="w-gauss">
+        <div class="wt">⇣ <span data-l="va">Fes tu el mètode de Gauss: tria les operacions entre files</span><span data-l="es">Haz tú el método de Gauss: elige las operaciones entre filas</span><span data-l="en">Do the elimination yourself: choose the row operations</span></div>
+        <div class="steps-ctl" data-role="presets"></div>
+        <div class="info" data-role="cur" aria-live="polite"></div>
+        <div class="gauss-ctl">
+          <span class="grp"><span class="lbl">F</span><select data-role="i"></select><span>′ =</span><input type="text" inputmode="decimal" data-role="a" value="1" aria-label="a"><span>·F<sub data-role="isub">2</sub> +</span><input type="text" inputmode="decimal" data-role="b" value="-2" aria-label="b"><span>·F</span><select data-role="j"></select><button class="btn primary" type="button" data-role="apply"></button></span>
+          <span class="grp"><button class="btn" type="button" data-role="swap"></button></span>
+          <button class="btn" type="button" data-role="hint">💡</button>
+          <button class="btn" type="button" data-role="undo">↶</button>
+          <button class="btn" type="button" data-role="reset">↺</button>
+        </div>
+        <div class="info hist" data-role="hist"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Mètode matricial</span><span data-l="es">Método matricial</span><span data-l="en">Matrix method</span></div>
+    <div class="bb">
+      <p><span data-l="va">Com ja hem vist, un sistema de \(m\) equacions amb \(n\) incògnites es pot expressar en forma matricial com \(A\cdot X=B\), on:</span><span data-l="es">Como ya hemos visto, un sistema de \(m\) ecuaciones con \(n\) incógnitas se puede expresar en forma matricial como \(A\cdot X=B\), donde:</span><span data-l="en">As we have seen, a system of \(m\) equations in \(n\) unknowns can be written in matrix form as \(A\cdot X=B\), where:</span></p>
+      <ul>
+        <li>\(A\) <span data-l="va">és la matriu de coeficients, \(m\times n\).</span><span data-l="es">es la matriz de coeficientes, \(m\times n\).</span><span data-l="en">is the coefficient matrix, \(m\times n\).</span></li>
+        <li>\(X\) <span data-l="va">és la matriu de les incògnites, \(n\times1\).</span><span data-l="es">es la matriz de las incógnitas, \(n\times1\).</span><span data-l="en">is the matrix of unknowns, \(n\times1\).</span></li>
+        <li>\(B\) <span data-l="va">és la matriu dels termes independents, \(m\times1\).</span><span data-l="es">es la matriz de los términos independientes, \(m\times1\).</span><span data-l="en">is the matrix of constant terms, \(m\times1\).</span></li>
+      </ul>
+      <p><span data-l="va">Si <strong>\(A\) és una matriu regular</strong> (és a dir, quadrada i amb \(|A|\neq0\)) podem obtenir la solució del sistema de la forma següent:</span><span data-l="es">Si <strong>\(A\) es una matriz regular</strong> (es decir, cuadrada y con \(|A|\neq0\)) podemos obtener la solución del sistema de la siguiente forma:</span><span data-l="en">If <strong>\(A\) is a regular matrix</strong> (that is, square with \(|A|\neq0\)) we can obtain the solution of the system as follows:</span></p>
+      \[A\cdot X=B\ \rightarrow\ \underbrace{A^{-1}\cdot A}_{=I}\cdot X=A^{-1}\cdot B\ \rightarrow\ \boxed{X=A^{-1}\cdot B}\]
+      <p class="note"><span data-l="va">Compte: multipliquem per \(A^{-1}\) <strong>per l'esquerra</strong> en els dos membres. \(B\cdot A^{-1}\) no té sentit (ni tan sols es pot multiplicar si \(B\) és una columna).</span><span data-l="es">Cuidado: multiplicamos por \(A^{-1}\) <strong>por la izquierda</strong> en los dos miembros. \(B\cdot A^{-1}\) no tiene sentido (ni siquiera se puede multiplicar si \(B\) es una columna).</span><span data-l="en">Careful: we multiply both sides by \(A^{-1}\) <strong>on the left</strong>. \(B\cdot A^{-1}\) makes no sense (it cannot even be computed when \(B\) is a column).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple del mètode matricial</span><span data-l="es">Ejemplo del método matricial</span><span data-l="en">Example of the matrix method</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resolem el sistema següent amb el mètode matricial:</span><span data-l="es">Resolvamos el siguiente sistema con el método matricial:</span><span data-l="en">Solve the following system with the matrix method:</span></p>
+      \[\left\{\begin{aligned}x-y-z&=1\\ -x+3z&=18\\ -2x+5y-3z&=-52\end{aligned}\right.\ \Rightarrow\ \begin{pmatrix}1 & -1 & -1\\ -1 & 0 & 3\\ -2 & 5 & -3\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}1\\ 18\\ -52\end{pmatrix}\ \Rightarrow\ A\cdot X=B\]
+      <div class="steps">
+        <div class="step"><p><span data-l="va">Com</span><span data-l="es">Como</span><span data-l="en">Since</span> \(|A|=\begin{vmatrix}1 & -1 & -1\\ -1 & 0 & 3\\ -2 & 5 & -3\end{vmatrix}=11-12=-1\neq0\)<span data-l="va">, podem calcular la matriu inversa \(A^{-1}\).</span><span data-l="es">, podemos calcular la matriz inversa \(A^{-1}\).</span><span data-l="en">, we can compute the inverse matrix \(A^{-1}\).</span></p></div>
+        <div class="step"><p><span data-l="va">Calculem la matriu adjunta \(\mathrm{Adj}(A)\):</span><span data-l="es">Calculamos la matriz adjunta \(\mathrm{Adj}(A)\):</span><span data-l="en">We compute the adjugate (cofactor) matrix \(\mathrm{Adj}(A)\):</span></p>
+          \[A_{11}=\begin{vmatrix}0 & 3\\ 5 & -3\end{vmatrix}=-15;\ \ A_{12}=-\begin{vmatrix}-1 & 3\\ -2 & -3\end{vmatrix}=-9;\ \ A_{13}=\begin{vmatrix}-1 & 0\\ -2 & 5\end{vmatrix}=-5\]
+          \[A_{21}=-\begin{vmatrix}-1 & -1\\ 5 & -3\end{vmatrix}=-8;\ \ A_{22}=\begin{vmatrix}1 & -1\\ -2 & -3\end{vmatrix}=-5;\ \ A_{23}=-\begin{vmatrix}1 & -1\\ -2 & 5\end{vmatrix}=-3\]
+          \[A_{31}=\begin{vmatrix}-1 & -1\\ 0 & 3\end{vmatrix}=-3;\ \ A_{32}=-\begin{vmatrix}1 & -1\\ -1 & 3\end{vmatrix}=-2;\ \ A_{33}=\begin{vmatrix}1 & -1\\ -1 & 0\end{vmatrix}=-1\]</div>
+        <div class="step"><p><span data-l="va">Transposem la matriu adjunta i apliquem la fórmula de la inversa:</span><span data-l="es">Trasponemos la matriz adjunta y aplicamos la fórmula de la inversa:</span><span data-l="en">We transpose the adjugate and apply the inverse formula:</span></p>
+          \[A^{-1}=\frac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t=\frac{1}{-1}\begin{pmatrix}-15 & -8 & -3\\ -9 & -5 & -2\\ -5 & -3 & -1\end{pmatrix}=\begin{pmatrix}15 & 8 & 3\\ 9 & 5 & 2\\ 5 & 3 & 1\end{pmatrix}\]</div>
+        <div class="step"><p><span data-l="va">Ara resolem el sistema:</span><span data-l="es">Ahora resolvemos el sistema:</span><span data-l="en">Now we solve the system:</span></p>
+          \[X=A^{-1}\cdot B=\begin{pmatrix}15 & 8 & 3\\ 9 & 5 & 2\\ 5 & 3 & 1\end{pmatrix}\cdot\begin{pmatrix}1\\ 18\\ -52\end{pmatrix}=\begin{pmatrix}15+144-156\\ 9+90-104\\ 5+54-52\end{pmatrix}=\begin{pmatrix}3\\ -5\\ 7\end{pmatrix}\ \Rightarrow\ \boxed{x=3;\ y=-5;\ z=7}\]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resol els sistemes següents utilitzant el mètode de Gauss amb matrius:</span><span data-l="es">Resuelve los siguientes sistemas utilizando el método de Gauss con matrices:</span><span data-l="en">Solve the following systems using Gaussian elimination with matrices:</span></p>
+      <ol>
+        <li>\(\left\{\begin{aligned}2x-3y+z&=4\\ x+y&=6\\ x+6y+2z&=5\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x-2y+z&=0\\ x-y&=-1\\ x-4y+3z&=4\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x+y+z&=1\\ 3x+7y+5z&=5\\ x+5y+3z&=3\\ x-3y-z&=-1\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x-3y+7z&=10\\ 4x+2y-6z&=-2\\ x+4y-10z&=-11\end{aligned}\right.\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol>
+          <li><span class="badge scd">SCD</span> \(\ x=5;\ y=1;\ z=-3\)</li>
+          <li><span class="badge si">SI</span> <span data-l="va">en esglaonar apareix una fila \((0\ 0\ 0\,|\,d)\) amb \(d\neq0\).</span><span data-l="es">al escalonar aparece una fila \((0\ 0\ 0\,|\,d)\) con \(d\neq0\).</span><span data-l="en">row reduction produces a row \((0\ 0\ 0\,|\,d)\) with \(d\neq0\).</span></li>
+          <li><span class="badge sci">SCI</span> \(\ x=\frac{1-\lambda}{2};\ y=\frac{1-\lambda}{2};\ z=\lambda,\ \lambda\in\mathbb{R}\) <span data-l="va">(dues de les quatre equacions sobren)</span><span data-l="es">(dos de las cuatro ecuaciones sobran)</span><span data-l="en">(two of the four equations are redundant)</span></li>
+          <li><span class="badge sci">SCI</span> \(\ x=1+\frac{2}{7}\lambda;\ y=-3+\frac{17}{7}\lambda;\ z=\lambda,\ \lambda\in\mathbb{R}\)</li>
+        </ol>
+        <p><span data-l="va">Pots comprovar els passos amb el <a href="#lab">resolutor de sistemes</a>.</span><span data-l="es">Puedes comprobar los pasos con el <a href="#lab">resolutor de sistemas</a>.</span><span data-l="en">You can check the steps with the <a href="#lab">system solver</a>.</span></p>
+      </div></details>
+      <hr style="border:0;border-top:1px dashed var(--pr);margin:16px 0">
+      <p><span data-l="va">Resol aquests sistemes utilitzant el mètode matricial (amb la matriu inversa):</span><span data-l="es">Resuelve estos sistemas utilizando el método matricial (con la matriz inversa):</span><span data-l="en">Solve these systems using the matrix method (with the inverse matrix):</span></p>
+      <ol>
+        <li>\(\left\{\begin{aligned}x+2y+z&=1\\ 2x-y+z&=2\\ x+y-2z&=1\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}4x+2y-z&=6\\ x+z&=1\\ 2x+y+z&=3\end{aligned}\right.\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol>
+          <li>\(|A|=14\), \(A^{-1}=\frac{1}{14}\begin{pmatrix}1 & 5 & 3\\ 5 & -3 & 1\\ 3 & 1 & -5\end{pmatrix}\ \Rightarrow\ X=A^{-1}B=\begin{pmatrix}1\\ 0\\ 0\end{pmatrix}\): \(\boxed{x=1;\ y=0;\ z=0}\)</li>
+          <li>\(|A|=-3\), \(A^{-1}=\begin{pmatrix}1/3 & 1 & -2/3\\ -1/3 & -2 & 5/3\\ -1/3 & 0 & 2/3\end{pmatrix}\ \Rightarrow\ X=A^{-1}B=\begin{pmatrix}1\\ 1\\ 0\end{pmatrix}\): \(\boxed{x=1;\ y=1;\ z=0}\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2.3 ======================= -->
+<section class="unit" id="s3">
+  <div class="sec-head"><span class="num">2.3</span><h2><span data-l="va">Regla de Cramer</span><span data-l="es">Regla de Cramer</span><span data-l="en">Cramer's rule</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Regla de Cramer per a SCD</span><span data-l="es">Regla de Cramer para SCD</span><span data-l="en">Cramer's rule for a unique solution</span></div>
+    <div class="bb">
+      <p><span data-l="va">És una fórmula per obtenir la solució d'un sistema d'equacions lineals. Per poder aplicar-la, el sistema ha de ser compatible determinat; és a dir:</span><span data-l="es">Es una fórmula para obtener la solución de un sistema de ecuaciones lineales. Para poder aplicarla, el sistema debe ser compatible determinado; es decir:</span><span data-l="en">It is a formula that gives the solution of a system of linear equations. To apply it, the system must have a unique solution, that is:</span></p>
+      <ul>
+        <li>\(m=\) <span data-l="va">nombre d'equacions \(=\) nombre d'incògnites \(=n\)</span><span data-l="es">número de ecuaciones \(=\) número de incógnitas \(=n\)</span><span data-l="en">number of equations \(=\) number of unknowns \(=n\)</span></li>
+        <li>\(|A|\neq0\)<span data-l="va">, on \(A\) és la matriu de coeficients.</span><span data-l="es">, donde \(A\) es la matriz de coeficientes.</span><span data-l="en">, where \(A\) is the coefficient matrix.</span></li>
+      </ul>
+      <p><span data-l="va">Llavors calcularem les incògnites així: <strong>al numerador, substituïm la columna de la incògnita per la columna dels termes independents</strong>:</span><span data-l="es">Entonces calcularemos las incógnitas así: <strong>en el numerador, sustituimos la columna de la incógnita por la columna de los términos independientes</strong>:</span><span data-l="en">Then each unknown is computed as follows: <strong>in the numerator, replace the column of that unknown by the column of constant terms</strong>:</span></p>
+      \[x_1=\frac{\begin{vmatrix}\color{#ff7a50}b_1 & a_{12} & \cdots & a_{1n}\\ \color{#ff7a50}b_2 & a_{22} & \cdots & a_{2n}\\ \color{#ff7a50}\vdots & \vdots & & \vdots\\ \color{#ff7a50}b_n & a_{n2} & \cdots & a_{nn}\end{vmatrix}}{|A|};\quad x_2=\frac{\begin{vmatrix}a_{11} & \color{#ff7a50}b_1 & \cdots & a_{1n}\\ a_{21} & \color{#ff7a50}b_2 & \cdots & a_{2n}\\ \vdots & \color{#ff7a50}\vdots & & \vdots\\ a_{n1} & \color{#ff7a50}b_n & \cdots & a_{nn}\end{vmatrix}}{|A|};\ \cdots;\ x_n=\frac{\begin{vmatrix}a_{11} & a_{12} & \cdots & \color{#ff7a50}b_1\\ a_{21} & a_{22} & \cdots & \color{#ff7a50}b_2\\ \vdots & \vdots & & \color{#ff7a50}\vdots\\ a_{n1} & a_{n2} & \cdots & \color{#ff7a50}b_n\end{vmatrix}}{|A|}\]
+      <div class="widget" id="w-cramer">
+        <div class="wt">▦ <span data-l="va">Cramer interactiu: canvia els nombres i tria una incògnita</span><span data-l="es">Cramer interactivo: cambia los números y elige una incógnita</span><span data-l="en">Interactive Cramer: change the numbers and pick an unknown</span></div>
+        <div class="wrow"><span class="lbl">\(A^*=\)</span><div class="mx aug" data-role="in"></div><div class="seg" data-role="var"><button type="button" data-k="0" aria-pressed="true">x</button><button type="button" data-k="1" aria-pressed="false">y</button><button type="button" data-k="2" aria-pressed="false">z</button></div></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple</span><span data-l="es">Ejemplo</span><span data-l="en">Example</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resolem el sistema següent utilitzant la regla de Cramer:</span><span data-l="es">Resolvamos el siguiente sistema utilizando la regla de Cramer:</span><span data-l="en">Solve the following system using Cramer's rule:</span> \(\left\{\begin{aligned}x+2y-z&=2\\ 2x+y+5z&=8\\ -x-5y+6z&=0\end{aligned}\right.\)</p>
+      <div class="steps">
+        <div class="step"><p><span data-l="va">Com</span><span data-l="es">Como</span><span data-l="en">Since</span> \(|A|=\begin{vmatrix}1 & 2 & -1\\ 2 & 1 & 5\\ -1 & -5 & 6\end{vmatrix}=6\neq0\)<span data-l="va">, podem aplicar la regla de Cramer:</span><span data-l="es">, podemos aplicar la regla de Cramer:</span><span data-l="en">, we can apply Cramer's rule:</span></p></div>
+        <div class="step">\[x=\frac{\begin{vmatrix}\color{#ff7a50}2 & 2 & -1\\ \color{#ff7a50}8 & 1 & 5\\ \color{#ff7a50}0 & -5 & 6\end{vmatrix}}{6}=\frac{6}{6}=1;\quad y=\frac{\begin{vmatrix}1 & \color{#ff7a50}2 & -1\\ 2 & \color{#ff7a50}8 & 5\\ -1 & \color{#ff7a50}0 & 6\end{vmatrix}}{6}=\frac{6}{6}=1;\quad z=\frac{\begin{vmatrix}1 & 2 & \color{#ff7a50}2\\ 2 & 1 & \color{#ff7a50}8\\ -1 & -5 & \color{#ff7a50}0\end{vmatrix}}{6}=\frac{6}{6}=1\]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica Cramer</span><span data-l="es">Practica Cramer</span><span data-l="en">Practice: Cramer</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resol els sistemes següents utilitzant la regla de Cramer:</span><span data-l="es">Resuelve los siguientes sistemas utilizando la regla de Cramer:</span><span data-l="en">Solve the following systems using Cramer's rule:</span></p>
+      <ol class="alpha">
+        <li>\(\left\{\begin{aligned}x-3y+5z&=-24\\ 2x-y+4z&=-8\\ x+y&=9\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}2x-3y+z&=4\\ x+y&=6\\ x+6y+2z&=5\end{aligned}\right.\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(|A|=-1;\ |A_x|=-7;\ |A_y|=-2;\ |A_z|=5\ \Rightarrow\ \boxed{x=7;\ y=2;\ z=-5}\)</li>
+          <li>\(|A|=15;\ |A_x|=75;\ |A_y|=15;\ |A_z|=-45\ \Rightarrow\ \boxed{x=5;\ y=1;\ z=-3}\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Regla de Cramer per a SCI</span><span data-l="es">Regla de Cramer para SCI</span><span data-l="en">Cramer's rule for infinitely many solutions</span></div>
+    <div class="bb">
+      <p><span data-l="va">La regla de Cramer, en principi, només és vàlida per a sistemes quadrats \(n\times n\) amb \(|A|\neq0\) (aquests sistemes s'anomenen «de Cramer»). No obstant això, <strong>també es pot aplicar a qualsevol sistema compatible</strong>, com veurem a continuació.</span><span data-l="es">La regla de Cramer, en principio, solo es válida para sistemas cuadrados \(n\times n\) con \(|A|\neq0\) (estos sistemas se llaman «de Cramer»). No obstante, <strong>también se puede aplicar a cualquier sistema compatible</strong>, como veremos a continuación.</span><span data-l="en">In principle, Cramer's rule only works for square \(n\times n\) systems with \(|A|\neq0\) (called “Cramer systems”). However, <strong>it can also be applied to any consistent system</strong>, as we will now see.</span></p>
+      <p><span data-l="va">Suposem que tenim un sistema compatible de \(m\) equacions amb \(n\) incògnites amb</span><span data-l="es">Supongamos que tenemos un sistema compatible de \(m\) ecuaciones con \(n\) incógnitas con</span><span data-l="en">Suppose we have a consistent system of \(m\) equations in \(n\) unknowns with</span> \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=r\), \(r&lt;m,\ r&lt;n\).</p>
+      <p><span data-l="va">Això vol dir que la matriu de coeficients té un menor d'ordre \(r\) diferent de zero. Per simplificar, suposem que aquest menor està format per les \(r\) primeres files i les \(r\) primeres columnes (en <span style="color:#2bb3a3;font-weight:700">verd</span>):</span><span data-l="es">Esto quiere decir que la matriz de coeficientes tiene un menor de orden \(r\) distinto de cero. Para simplificar, supongamos que este menor está formado por las \(r\) primeras filas y las \(r\) primeras columnas (en <span style="color:#2bb3a3;font-weight:700">verde</span>):</span><span data-l="en">This means the coefficient matrix has a non-zero minor of order \(r\). To simplify, assume this minor is formed by the first \(r\) rows and the first \(r\) columns (in <span style="color:#2bb3a3;font-weight:700">green</span>):</span></p>
+      <span data-l="va">\[\left\{\begin{array}{l}{\color{#2bb3a3}a_{11}x_1+\cdots+a_{1r}x_r}+\overbrace{a_{1,r+1}x_{r+1}+\cdots+a_{1n}x_n}^{\text{passen al segon membre}}=c_1\\ \qquad\cdots\\ {\color{#2bb3a3}a_{r1}x_1+\cdots+a_{rr}x_r}+a_{r,r+1}x_{r+1}+\cdots+a_{rn}x_n=c_r\\ \color{#ff7a50}a_{r+1,1}x_1+\cdots+a_{r+1,n}x_n=c_{r+1}\\ \color{#ff7a50}\qquad\cdots\\ \color{#ff7a50}a_{m1}x_1+\cdots+a_{mn}x_n=c_m\end{array}\right.\]</span><span data-l="es">\[\left\{\begin{array}{l}{\color{#2bb3a3}a_{11}x_1+\cdots+a_{1r}x_r}+\overbrace{a_{1,r+1}x_{r+1}+\cdots+a_{1n}x_n}^{\text{pasan al segundo miembro}}=c_1\\ \qquad\cdots\\ {\color{#2bb3a3}a_{r1}x_1+\cdots+a_{rr}x_r}+a_{r,r+1}x_{r+1}+\cdots+a_{rn}x_n=c_r\\ \color{#ff7a50}a_{r+1,1}x_1+\cdots+a_{r+1,n}x_n=c_{r+1}\\ \color{#ff7a50}\qquad\cdots\\ \color{#ff7a50}a_{m1}x_1+\cdots+a_{mn}x_n=c_m\end{array}\right.\]</span><span data-l="en">\[\left\{\begin{array}{l}{\color{#2bb3a3}a_{11}x_1+\cdots+a_{1r}x_r}+\overbrace{a_{1,r+1}x_{r+1}+\cdots+a_{1n}x_n}^{\text{move to the right-hand side}}=c_1\\ \qquad\cdots\\ {\color{#2bb3a3}a_{r1}x_1+\cdots+a_{rr}x_r}+a_{r,r+1}x_{r+1}+\cdots+a_{rn}x_n=c_r\\ \color{#ff7a50}a_{r+1,1}x_1+\cdots+a_{r+1,n}x_n=c_{r+1}\\ \color{#ff7a50}\qquad\cdots\\ \color{#ff7a50}a_{m1}x_1+\cdots+a_{mn}x_n=c_m\end{array}\right.\]</span>
+      <p><span data-l="va">Les files en <span style="color:#ff7a50;font-weight:700">taronja</span> les suprimim, ja que són combinació lineal de les \(r\) equacions anteriors. Aleshores el sistema inicial és equivalent a aquest altre:</span><span data-l="es">Las filas en <span style="color:#ff7a50;font-weight:700">naranja</span> las suprimimos, ya que son combinación lineal de las \(r\) ecuaciones anteriores. Entonces el sistema inicial es equivalente a este otro:</span><span data-l="en">We remove the rows in <span style="color:#ff7a50;font-weight:700">orange</span>, since they are linear combinations of the first \(r\) equations. The original system is then equivalent to:</span></p>
+      \[\left\{\begin{aligned}a_{11}x_1+\cdots+a_{1r}x_r&=c_1-a_{1,r+1}x_{r+1}-\cdots-a_{1n}x_n\\ &\ \ \vdots\\ a_{r1}x_1+\cdots+a_{rr}x_r&=c_r-a_{r,r+1}x_{r+1}-\cdots-a_{rn}x_n\end{aligned}\right.\qquad\begin{vmatrix}a_{11} & \cdots & a_{1r}\\ \vdots & & \vdots\\ a_{r1} & \cdots & a_{rr}\end{vmatrix}\neq0\]
+      <p><span data-l="va">Aquest és un sistema de Cramer en què els termes independents depenen de les incògnites «sobrants» \((x_{r+1},\dots,x_n)\). Per tant, <strong>la solució depèn de \(n-r\) paràmetres</strong>.</span><span data-l="es">Este es un sistema de Cramer en el que los términos independientes dependen de las incógnitas «sobrantes» \((x_{r+1},\dots,x_n)\). Por tanto, <strong>la solución depende de \(n-r\) parámetros</strong>.</span><span data-l="en">This is a Cramer system whose constant terms depend on the “extra” unknowns \((x_{r+1},\dots,x_n)\). Therefore <strong>the solution depends on \(n-r\) parameters</strong>.</span></p>
+      <ul>
+        <li><span data-l="va">Si \(r=m\), totes les equacions són útils (no en «sobra» cap).</span><span data-l="es">Si \(r=m\), todas las ecuaciones son útiles (no «sobra» ninguna).</span><span data-l="en">If \(r=m\), all equations are useful (none is “extra”).</span></li>
+        <li><span data-l="va">Si \(r=n&lt;m\), «sobren» diverses equacions, però en suprimir-les queda un sistema de Cramer de \(n\) equacions i \(n\) incògnites, determinat.</span><span data-l="es">Si \(r=n&lt;m\), «sobran» varias ecuaciones, pero al suprimirlas queda un sistema de Cramer de \(n\) ecuaciones y \(n\) incógnitas, determinado.</span><span data-l="en">If \(r=n&lt;m\), several equations are “extra”, but once removed we are left with an \(n\times n\) Cramer system with a unique solution.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple de Cramer en un SCI</span><span data-l="es">Ejemplo de Cramer en un SCI</span><span data-l="en">Example: Cramer in a dependent system</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resoldrem amb Cramer el sistema:</span><span data-l="es">Resolveremos con Cramer el sistema:</span><span data-l="en">We solve with Cramer the system:</span> \(\left\{\begin{aligned}3x-2y+z&=2\\ 2x+5y-3z&=15\\ 11x-y&=21\end{aligned}\right.\)</p>
+      <div class="steps">
+        <div class="step">\[A=\begin{pmatrix}3 & -2 & 1\\ 2 & 5 & -3\\ 11 & -1 & 0\end{pmatrix}\rightarrow|A|=-2+66-(55+9)=0\rightarrow\operatorname{rg}(A)&lt;3\]
+          <p><span data-l="va">Com</span><span data-l="es">Como</span><span data-l="en">Since</span> \(\begin{vmatrix}3 & -2\\ 2 & 5\end{vmatrix}=19\neq0\)<span data-l="va">, podem afirmar que \(\operatorname{rg}(A)=2\).</span><span data-l="es">, podemos afirmar que \(\operatorname{rg}(A)=2\).</span><span data-l="en">, we conclude that \(\operatorname{rg}(A)=2\).</span></p></div>
+        <div class="step"><p><span data-l="va">Comprovem que tots els menors d'ordre 3 de la matriu ampliada són zero:</span><span data-l="es">Comprobamos que todos los menores de orden 3 de la matriz ampliada son cero:</span><span data-l="en">We check that all order-3 minors of the augmented matrix are zero:</span> \(A^*=\left(\begin{array}{rrr|r}3 & -2 & 1 & 2\\ 2 & 5 & -3 & 15\\ 11 & -1 & 0 & 21\end{array}\right)\)</p>
+          \[\begin{vmatrix}3 & -2 & 2\\ 2 & 5 & 15\\ 11 & -1 & 21\end{vmatrix}=315-330-4-(110-84-45)=-19-(-19)=0\]
+          \[\begin{vmatrix}3 & 1 & 2\\ 2 & -3 & 15\\ 11 & 0 & 21\end{vmatrix}=-189+165-(-66+42)=-24-(-24)=0\]
+          \[\begin{vmatrix}-2 & 1 & 2\\ 5 & -3 & 15\\ -1 & 0 & 21\end{vmatrix}=126-15-(6+105)=111-111=0\]
+          <p><span data-l="va">Aleshores \(\operatorname{rg}(A^*)=2\) i el sistema és compatible de rang 2. Com tenim 3 incògnites, una d'elles ha de passar al segon membre.</span><span data-l="es">Entonces \(\operatorname{rg}(A^*)=2\) y el sistema es compatible de rango 2. Como tenemos 3 incógnitas, una de ellas debe pasar al segundo miembro.</span><span data-l="en">So \(\operatorname{rg}(A^*)=2\) and the system is consistent with rank 2. Since there are 3 unknowns, one of them must move to the right-hand side.</span></p></div>
+        <div class="step"><p><span data-l="va">Com \(\begin{vmatrix}3 & 1\\ 11 & 0\end{vmatrix}=-11\neq0\) (columnes de \(x\) i \(z\), equacions 1a i 3a), podem agafar com a sistema equivalent:</span><span data-l="es">Como \(\begin{vmatrix}3 & 1\\ 11 & 0\end{vmatrix}=-11\neq0\) (columnas de \(x\) y \(z\), ecuaciones 1ª y 3ª), podemos tomar como sistema equivalente:</span><span data-l="en">Since \(\begin{vmatrix}3 & 1\\ 11 & 0\end{vmatrix}=-11\neq0\) (columns of \(x\) and \(z\), equations 1 and 3), we can take the equivalent system:</span></p>
+          \[\left\{\begin{aligned}3x+z&=2+2y\\ 11x&=21+y\end{aligned}\right.\]</div>
+        <div class="step"><p><span data-l="va">Apliquem ara les fórmules de Cramer:</span><span data-l="es">Aplicamos ahora las fórmulas de Cramer:</span><span data-l="en">Now apply Cramer's formulas:</span></p>
+          \[x=\frac{\begin{vmatrix}2+2y & 1\\ 21+y & 0\end{vmatrix}}{-11}=\frac{-(21+y)}{-11}=\frac{21+y}{11}\qquad z=\frac{\begin{vmatrix}3 & 2+2y\\ 11 & 21+y\end{vmatrix}}{-11}=\frac{63+3y-(22+22y)}{-11}=\frac{-41+19y}{11}\]
+          \[\boxed{x=\frac{21+\lambda}{11};\ \ y=\lambda;\ \ z=\frac{-41+19\lambda}{11},\quad\lambda\in\mathbb{R}}\]</div>
+      </div>
+      <p class="note"><span data-l="va"><span class="u-line">NOTA</span>: també podríem haver resolt el sistema equivalent aïllant \(x\) de la segona equació, \(x=\frac{21+y}{11}\), i substituint-la en la primera per obtenir \(z\). Però l'objectiu d'aquest exemple era practicar Cramer en un SCI.</span><span data-l="es"><span class="u-line">NOTA</span>: también podríamos haber resuelto el sistema equivalente despejando \(x\) de la segunda ecuación, \(x=\frac{21+y}{11}\), y sustituyéndola en la primera para obtener \(z\). Pero el objetivo de este ejemplo era practicar Cramer en un SCI.</span><span data-l="en"><span class="u-line">NOTE</span>: we could also have solved the equivalent system by isolating \(x\) from the second equation, \(x=\frac{21+y}{11}\), and substituting it into the first to get \(z\). But the aim of this example was to practise Cramer in a dependent system.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2.4 ======================= -->
+<section class="unit" id="s4">
+  <div class="sec-head"><span class="num">2.4</span><h2><span data-l="va">Teorema de Rouché-Frobenius</span><span data-l="es">Teorema de Rouché-Frobenius</span><span data-l="en">Rouché–Frobenius theorem</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Teorema de Rouché-Frobenius</span><span data-l="es">Teorema de Rouché-Frobenius</span><span data-l="en">Rouché–Frobenius theorem</span></div>
+    <div class="bb">
+      <p><span data-l="va">Aquest teorema ens permet <strong>classificar</strong> els sistemes lineals segons el nombre de solucions, <strong>abans de resoldre'ls</strong>. Siguen \(A\) la matriu de coeficients i \(A^*\) la matriu ampliada d'un sistema amb \(n\) incògnites. Aleshores:</span><span data-l="es">Este teorema nos permite <strong>clasificar</strong> los sistemas lineales según el número de soluciones, <strong>antes de resolverlos</strong>. Sean \(A\) la matriz de coeficientes y \(A^*\) la matriz ampliada de un sistema con \(n\) incógnitas. Entonces:</span><span data-l="en">This theorem lets us <strong>classify</strong> linear systems by their number of solutions <strong>before solving them</strong>. Let \(A\) be the coefficient matrix and \(A^*\) the augmented matrix of a system with \(n\) unknowns. Then:</span></p>
+      <ol>
+        <li>\(\operatorname{rg}(A)\neq\operatorname{rg}(A^*)\ \Rightarrow\) <span class="badge si">SI</span> <span data-l="va">Sistema incompatible.</span><span data-l="es">Sistema incompatible.</span><span data-l="en">Inconsistent system.</span></li>
+        <li>\(\operatorname{rg}(A)=\operatorname{rg}(A^*)=n\ \Rightarrow\) <span class="badge scd">SCD</span> <span data-l="va">Sistema compatible determinat.</span><span data-l="es">Sistema compatible determinado.</span><span data-l="en">Consistent system with a unique solution.</span></li>
+        <li>\(\operatorname{rg}(A)=\operatorname{rg}(A^*)&lt;n\ \Rightarrow\) <span class="badge sci">SCI</span> <span data-l="va">Sistema compatible indeterminat (amb \(n-\operatorname{rg}(A)\) paràmetres).</span><span data-l="es">Sistema compatible indeterminado (con \(n-\operatorname{rg}(A)\) parámetros).</span><span data-l="en">Consistent system with infinitely many solutions (\(n-\operatorname{rg}(A)\) parameters).</span></li>
+      </ol>
+      <p class="note"><span data-l="va">Recorda que \(A^*\) té una columna més que \(A\): per tant, \(\operatorname{rg}(A^*)\) és igual a \(\operatorname{rg}(A)\) o una unitat més gran.</span><span data-l="es">Recuerda que \(A^*\) tiene una columna más que \(A\): por tanto, \(\operatorname{rg}(A^*)\) es igual a \(\operatorname{rg}(A)\) o una unidad mayor.</span><span data-l="en">Remember that \(A^*\) has one more column than \(A\): so \(\operatorname{rg}(A^*)\) is either equal to \(\operatorname{rg}(A)\) or one more.</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de Rouché-Frobenius</span><span data-l="es">Ejemplos de Rouché-Frobenius</span><span data-l="en">Rouché–Frobenius examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Donat el sistema</span><span data-l="es">Dado el sistema</span><span data-l="en">Given the system</span> \(\left\{\begin{aligned}x+y&=5\\ 2x+3y&=13\\ x-y&=0\end{aligned}\right.\)<span data-l="va">, calculem els rangs de les matrius de coeficients i ampliada:</span><span data-l="es">, calculamos los rangos de las matrices de coeficientes y ampliada:</span><span data-l="en">, we compute the ranks of the coefficient and augmented matrices:</span>
+          <div class="steps">
+            <div class="step">\[A=\begin{pmatrix}1 & 1\\ 2 & 3\\ 1 & -1\end{pmatrix},\quad\begin{vmatrix}1 & 1\\ 2 & 3\end{vmatrix}=1\neq0\Rightarrow\operatorname{rg}(A)=2\]</div>
+            <div class="step">\[A^*=\left(\begin{array}{rr|r}1 & 1 & 5\\ 2 & 3 & 13\\ 1 & -1 & 0\end{array}\right),\quad\begin{vmatrix}1 & 1 & 5\\ 2 & 3 & 13\\ 1 & -1 & 0\end{vmatrix}=1\neq0\Rightarrow\operatorname{rg}(A^*)=3\]
+              <p><span data-l="va">Com \(\operatorname{rg}(A)\neq\operatorname{rg}(A^*)\), el sistema és</span><span data-l="es">Como \(\operatorname{rg}(A)\neq\operatorname{rg}(A^*)\), el sistema es</span><span data-l="en">Since \(\operatorname{rg}(A)\neq\operatorname{rg}(A^*)\), the system is</span> <span class="badge si">SI</span></p></div>
+          </div>
+        </li>
+        <li><span data-l="va">Donat el sistema</span><span data-l="es">Dado el sistema</span><span data-l="en">Given the system</span> \(\left\{\begin{aligned}2x-y&=1\\ x+y&=2\\ 5x-y&=4\end{aligned}\right.\)<span data-l="va">, calculem els rangs:</span><span data-l="es">, calculamos los rangos:</span><span data-l="en">, we compute the ranks:</span>
+          <div class="steps">
+            <div class="step">\[A=\begin{pmatrix}2 & -1\\ 1 & 1\\ 5 & -1\end{pmatrix},\quad\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}=3\neq0\Rightarrow\operatorname{rg}(A)=2\]</div>
+            <div class="step">\[A^*=\left(\begin{array}{rr|r}2 & -1 & 1\\ 1 & 1 & 2\\ 5 & -1 & 4\end{array}\right),\quad\begin{vmatrix}2 & -1 & 1\\ 1 & 1 & 2\\ 5 & -1 & 4\end{vmatrix}=0\Rightarrow\operatorname{rg}(A^*)=2\]
+              <p><span data-l="va">Com \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2=\) nre. d'incògnites, el sistema és</span><span data-l="es">Como \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2=\) n.º de incógnitas, el sistema es</span><span data-l="en">Since \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2=\) number of unknowns, the system is</span> <span class="badge scd">SCD</span><span data-l="va">. Per resoldre'l, eliminem la tercera equació (no forma part del menor que dona el rang) i apliquem Cramer:</span><span data-l="es">. Para resolverlo, eliminamos la tercera ecuación (no forma parte del menor que da el rango) y aplicamos Cramer:</span><span data-l="en">. To solve it, we drop the third equation (it is not part of the minor giving the rank) and apply Cramer:</span></p></div>
+            <div class="step">\[\left\{\begin{aligned}2x-y&=1\\ x+y&=2\end{aligned}\right.\Rightarrow x=\frac{\begin{vmatrix}1 & -1\\ 2 & 1\end{vmatrix}}{\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}}=\frac{3}{3}=1\qquad y=\frac{\begin{vmatrix}2 & 1\\ 1 & 2\end{vmatrix}}{\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}}=\frac{3}{3}=1\qquad\boxed{x=1;\ y=1}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Donat el sistema</span><span data-l="es">Dado el sistema</span><span data-l="en">Given the system</span> \(\left\{\begin{aligned}x+y+z&=3\\ x-y+2z&=2\\ 2x+3z&=5\end{aligned}\right.\)<span data-l="va">, calculem els rangs:</span><span data-l="es">, calculamos los rangos:</span><span data-l="en">, we compute the ranks:</span>
+          <div class="steps">
+            <div class="step">\[A=\begin{pmatrix}1 & 1 & 1\\ 1 & -1 & 2\\ 2 & 0 & 3\end{pmatrix},\quad\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}=-2\neq0;\quad\begin{vmatrix}1 & 1 & 1\\ 1 & -1 & 2\\ 2 & 0 & 3\end{vmatrix}=0\Rightarrow\operatorname{rg}(A)=2\]</div>
+            <div class="step">\[A^*=\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 1 & -1 & 2 & 2\\ 2 & 0 & 3 & 5\end{array}\right),\quad\begin{vmatrix}1 & 1 & 3\\ 1 & -1 & 2\\ 2 & 0 & 5\end{vmatrix}=0\Rightarrow\operatorname{rg}(A^*)=2\]
+              <p><span data-l="va">Com \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2&lt;3\) incògnites, el sistema és</span><span data-l="es">Como \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2&lt;3\) incógnitas, el sistema es</span><span data-l="en">Since \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2&lt;3\) unknowns, the system is</span> <span class="badge sci">SCI</span><span data-l="va">. Eliminem la 3a equació i passem \(z\) al segon membre (no forma part del menor del rang):</span><span data-l="es">. Eliminamos la 3.ª ecuación y pasamos \(z\) al segundo miembro (no forma parte del menor del rango):</span><span data-l="en">. We drop the 3rd equation and move \(z\) to the right-hand side (it is not part of the rank minor):</span></p></div>
+            <div class="step">\[\left\{\begin{aligned}x+y&=3-z\\ x-y&=2-2z\end{aligned}\right.\Rightarrow x=\frac{\begin{vmatrix}3-z & 1\\ 2-2z & -1\end{vmatrix}}{\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}}=\frac{5-3z}{2}\qquad y=\frac{\begin{vmatrix}1 & 3-z\\ 1 & 2-2z\end{vmatrix}}{\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}}=\frac{1+z}{2}\]
+              <p><span data-l="va">Assignem a \(z\) el paràmetre \(\lambda\) i obtenim la solució general:</span><span data-l="es">Asignamos a \(z\) el parámetro \(\lambda\) y obtenemos la solución general:</span><span data-l="en">Setting \(z=\lambda\) we get the general solution:</span></p>
+              \[\boxed{x=\frac{5-3\lambda}{2};\ \ y=\frac{1+\lambda}{2};\ \ z=\lambda,\quad\lambda\in\mathbb{R}}\]</div>
+            <div class="step"><p><strong><span data-l="va">Una altra forma de resoldre'l:</span><span data-l="es">Otra forma de resolverlo:</span><span data-l="en">Another way to solve it:</span></strong> <span data-l="va">un cop sabem que és un SCI, també podem trobar la solució amb el mètode de Gauss:</span><span data-l="es">una vez sabemos que es un SCI, también podemos hallar la solución con el método de Gauss:</span><span data-l="en">once we know it is dependent, we can also find the solution by Gaussian elimination:</span></p>
+              \[A^*\xrightarrow[F_3'=F_3-2F_1]{F_2'=F_2-F_1}\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 0 & -2 & 1 & -1\\ 0 & -2 & 1 & -1\end{array}\right)\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 0 & -2 & 1 & -1\\ 0 & 0 & 0 & 0\end{array}\right)\]
+              \[z=\lambda\ \rightarrow\ -2y+\lambda=-1\ \rightarrow\ y=\frac{1+\lambda}{2}\ \rightarrow\ x=3-\lambda-\frac{1+\lambda}{2}=\frac{5-3\lambda}{2}\]</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Classifica el sistema següent aplicant el teorema de Rouché-Frobenius i, si és compatible, resol-lo utilitzant Gauss:</span><span data-l="es">Clasifica el siguiente sistema aplicando el teorema de Rouché-Frobenius y, si es compatible, resuélvelo utilizando Gauss:</span><span data-l="en">Classify the following system using the Rouché–Frobenius theorem and, if it is consistent, solve it by Gaussian elimination:</span></p>
+      \[\left\{\begin{aligned}3x-2y+4z&=8\\ 2x+3y-3z&=4\\ x-3y-5z&=-6\\ 4x+4y+6z&=18\end{aligned}\right.\]
+      <details class="sol"><summary><span data-l="va">Mostra la solució</span><span data-l="es">Mostrar la solución</span><span data-l="en">Show the solution</span></summary><div>
+        <p>\(\operatorname{rg}(A)=3\) <span data-l="va">(hi ha un menor 3×3 no nul) i</span><span data-l="es">(hay un menor 3×3 no nulo) y</span><span data-l="en">(there is a non-zero 3×3 minor) and</span> \(|A^*|=0\Rightarrow\operatorname{rg}(A^*)=3=n\ \Rightarrow\) <span class="badge scd">SCD</span></p>
+        \[\boxed{x=2;\ y=1;\ z=1}\]
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2.5 ======================= -->
+<section class="unit" id="s5">
+  <div class="sec-head"><span class="num">2.5</span><h2><span data-l="va">Sistemes d'equacions homogenis</span><span data-l="es">Sistemas de ecuaciones homogéneos</span><span data-l="en">Homogeneous systems</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Sistemes homogenis</span><span data-l="es">Sistemas homogéneos</span><span data-l="en">Homogeneous systems</span></div>
+    <div class="bb">
+      <p><span data-l="va">Com ja hem vist a l'inici del tema, un <strong>sistema homogeni</strong> és aquell en què tots els termes independents són zero:</span><span data-l="es">Como ya hemos visto al inicio del tema, un <strong>sistema homogéneo</strong> es aquel en el que todos los términos independientes son cero:</span><span data-l="en">As we saw at the start of the unit, a <strong>homogeneous system</strong> is one in which all the constant terms are zero:</span></p>
+      \[\left\{\begin{array}{ccccccccc} a_{11}x_1 &+& a_{12}x_2 &+& \cdots &+& a_{1n}x_n &=& 0\\ a_{21}x_1 &+& a_{22}x_2 &+& \cdots &+& a_{2n}x_n &=& 0\\ \cdots && \cdots && \cdots && \cdots && \cdots\\ a_{m1}x_1 &+& a_{m2}x_2 &+& \cdots &+& a_{mn}x_n &=& 0\end{array}\right.\]
+      <p><span data-l="va">Aquests sistemes sempre admeten la <strong>solució trivial</strong>:</span><span data-l="es">Estos sistemas siempre admiten la <strong>solución trivial</strong>:</span><span data-l="en">These systems always have the <strong>trivial solution</strong>:</span> \(\boxed{x_1=x_2=\cdots=x_n=0}\)<span data-l="va">. Per tant, <span class="u-line">mai no són incompatibles</span> (de fet, \(\operatorname{rg}(A)=\operatorname{rg}(A^*)\) sempre, perquè la columna afegida és de zeros).</span><span data-l="es">. Por tanto, <span class="u-line">nunca son incompatibles</span> (de hecho, \(\operatorname{rg}(A)=\operatorname{rg}(A^*)\) siempre, porque la columna añadida es de ceros).</span><span data-l="en">. Hence they are <span class="u-line">never inconsistent</span> (in fact \(\operatorname{rg}(A)=\operatorname{rg}(A^*)\) always, because the added column is all zeros).</span></p>
+      <p><span data-l="va">Però un sistema homogeni <strong>pot tenir altres solucions</strong>. Perquè això passe, <span class="u-line">és necessari i suficient</span> que</span><span data-l="es">Pero un sistema homogéneo <strong>puede tener otras soluciones</strong>. Para que esto ocurra, <span class="u-line">es necesario y suficiente</span> que</span><span data-l="en">But a homogeneous system <strong>may have other solutions</strong>. For this to happen it is <span class="u-line">necessary and sufficient</span> that</span></p>
+      \[\operatorname{rg}(A)&lt;n\]
+      <p><span data-l="va">ja que així serà un sistema compatible indeterminat. Si el sistema és quadrat, això equival a \(|A|=0\).</span><span data-l="es">ya que así será un sistema compatible indeterminado. Si el sistema es cuadrado, esto equivale a \(|A|=0\).</span><span data-l="en">because then it is a consistent, dependent system. If the system is square, this is equivalent to \(|A|=0\).</span></p>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Classifica i resol, si és possible, els sistemes homogenis següents:</span><span data-l="es">Clasifica y resuelve, si es posible, los siguientes sistemas homogéneos:</span><span data-l="en">Classify and, where possible, solve the following homogeneous systems:</span></p>
+      <ol>
+        <li>\(\left\{\begin{aligned}x+y+z&=0\\ 2x-y+z&=0\\ x-2y-z&=0\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x-y-z&=0\\ x+y-2z&=0\\ 2x-4y-z&=0\end{aligned}\right.\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol>
+          <li>\(|A|=3\neq0\Rightarrow\operatorname{rg}(A)=3\) <span class="badge scd">SCD</span> <span data-l="va">Només té la solució trivial:</span><span data-l="es">Solo tiene la solución trivial:</span><span data-l="en">Only the trivial solution:</span> \(x=y=z=0\).</li>
+          <li>\(|A|=0,\ \operatorname{rg}(A)=2&lt;3\) <span class="badge sci">SCI</span> \(\ x=3\lambda;\ y=\lambda;\ z=2\lambda,\ \lambda\in\mathbb{R}\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2.6 ======================= -->
+<section class="unit" id="s6">
+  <div class="sec-head"><span class="num">2.6</span><h2><span data-l="va">Sistemes d'equacions amb paràmetres</span><span data-l="es">Sistemas de ecuaciones con parámetros</span><span data-l="en">Systems with parameters</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Definició: sistemes amb paràmetres</span><span data-l="es">Definición: sistemas con parámetros</span><span data-l="en">Definition: systems with parameters</span></div>
+    <div class="bb">
+      <p><span data-l="va"><strong>Discutir</strong> un sistema d'equacions que depén d'un o més paràmetres és identificar per a quins valors dels paràmetres el sistema és compatible o incompatible, distingint també els casos en què és determinat o indeterminat.</span><span data-l="es"><strong>Discutir</strong> un sistema de ecuaciones que depende de uno o más parámetros es identificar para qué valores de los parámetros el sistema es compatible o incompatible, distinguiendo también los casos en que es determinado o indeterminado.</span><span data-l="en">To <strong>discuss</strong> a system depending on one or more parameters means to identify for which parameter values the system is consistent or inconsistent, also distinguishing whether it has a unique solution or infinitely many.</span></p>
+      <p class="note"><span data-l="va"><span class="u-line">NOTA</span>: en realitat, més que un sistema d'equacions és un conjunt de sistemes, ja que per a cada valor del paràmetre \(k\) hi ha un sistema d'equacions diferent.</span><span data-l="es"><span class="u-line">NOTA</span>: en realidad, más que un sistema de ecuaciones es un conjunto de sistemas, ya que para cada valor del parámetro \(k\) hay un sistema de ecuaciones diferente.</span><span data-l="en"><span class="u-line">NOTE</span>: really, rather than one system it is a family of systems, since each value of the parameter \(k\) gives a different system.</span></p>
+      <p><span data-l="va">Els passos que seguirem per estudiar un sistema amb paràmetres són:</span><span data-l="es">Los pasos que seguiremos para estudiar un sistema con parámetros son:</span><span data-l="en">The steps to study a system with parameters are:</span></p>
+      <ol>
+        <li><span data-l="va">Calculem \(|A|\) (si \(A\) és quadrada) i busquem els valors del paràmetre que l'anul·len: són els <strong>valors crítics</strong>.</span><span data-l="es">Calculamos \(|A|\) (si \(A\) es cuadrada) y buscamos los valores del parámetro que lo anulan: son los <strong>valores críticos</strong>.</span><span data-l="en">Compute \(|A|\) (if \(A\) is square) and find the parameter values that make it zero: these are the <strong>critical values</strong>.</span></li>
+        <li><span data-l="va">Utilitzem el teorema de Rouché-Frobenius per saber el nombre de solucions en cada cas (valors crítics i resta de valors).</span><span data-l="es">Utilizamos el teorema de Rouché-Frobenius para saber el número de soluciones en cada caso (valores críticos y resto de valores).</span><span data-l="en">Use the Rouché–Frobenius theorem to find the number of solutions in each case (critical values and all other values).</span></li>
+        <li><span data-l="va">En els casos en què siga compatible, el resolem mitjançant Gauss o Cramer.</span><span data-l="es">En los casos en que sea compatible, lo resolvemos mediante Gauss o Cramer.</span><span data-l="en">In the consistent cases, solve it by Gaussian elimination or Cramer.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de sistemes amb paràmetre</span><span data-l="es">Ejemplos de sistemas con parámetro</span><span data-l="en">Examples of systems with a parameter</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Discutim i resolem, quan es puga, el sistema:</span><span data-l="es">Discutimos y resolvemos, cuando se pueda, el sistema:</span><span data-l="en">Discuss and, where possible, solve the system:</span> \(\left\{\begin{aligned}-x+my+z&=2\\ 2x-y+2z&=0\\ -x-3z&=-2\end{aligned}\right.\)
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Per estudiar el rang de la matriu de coeficients, primer calculem el determinant:</span><span data-l="es">Para estudiar el rango de la matriz de coeficientes, primero calculamos el determinante:</span><span data-l="en">To study the rank of the coefficient matrix, we first compute its determinant:</span></p>
+              \[|A|=\begin{vmatrix}-1 & m & 1\\ 2 & -1 & 2\\ -1 & 0 & -3\end{vmatrix}=-3-2m-(1-6m)=4m-4=0\ \rightarrow\ \boxed{m=1}\]</div>
+            <div class="step"><p><strong><span data-l="va">Si \(m=1\)</span><span data-l="es">Si \(m=1\)</span><span data-l="en">If \(m=1\)</span></strong> \(\rightarrow\operatorname{rg}(A)=2\) <span data-l="va">(per exemple</span><span data-l="es">(por ejemplo</span><span data-l="en">(e.g.</span> \(\begin{vmatrix}-1 & 1\\ 2 & -1\end{vmatrix}=-1\neq0\)). <span data-l="va">Estudiem el rang de la matriu ampliada calculant els menors d'ordre 3 que la contenen:</span><span data-l="es">Estudiamos el rango de la matriz ampliada calculando los menores de orden 3:</span><span data-l="en">We study the rank of the augmented matrix by computing its order-3 minors:</span></p>
+              \[A^*=\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 2 & -1 & 2 & 0\\ -1 & 0 & -3 & -2\end{array}\right)\]
+              \[\begin{vmatrix}-1 & 1 & 2\\ 2 & -1 & 0\\ -1 & 0 & -2\end{vmatrix}=0;\quad\begin{vmatrix}-1 & 1 & 2\\ 2 & 2 & 0\\ -1 & -3 & -2\end{vmatrix}=0;\quad\begin{vmatrix}1 & 1 & 2\\ -1 & 2 & 0\\ 0 & -3 & -2\end{vmatrix}=0\ \Rightarrow\ \operatorname{rg}(A^*)=2\]
+              <p><span data-l="va">Aleshores \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2&lt;3\) i, pel teorema de R-F, si \(m=1\) el sistema és</span><span data-l="es">Entonces \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2&lt;3\) y, por el teorema de R-F, si \(m=1\) el sistema es</span><span data-l="en">So \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=2&lt;3\) and, by R–F, for \(m=1\) the system is</span> <span class="badge sci">SCI</span><span data-l="va">. Calculem la solució general per Gauss:</span><span data-l="es">. Calculamos la solución general por Gauss:</span><span data-l="en">. We find the general solution by Gaussian elimination:</span></p></div>
+            <div class="step">\[A^*\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2+2F_1}\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 0 & 1 & 4 & 4\\ 0 & -1 & -4 & -4\end{array}\right)\xrightarrow{F_3''=F_3'+F_2'}\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 0 & 1 & 4 & 4\\ 0 & 0 & 0 & 0\end{array}\right)\]
+              \[z=\lambda\ \rightarrow\ y=4-4\lambda\ \rightarrow\ -x+(4-4\lambda)+\lambda=2\ \rightarrow\ x=2-3\lambda\]
+              \[\boxed{x=2-3\lambda;\ \ y=4-4\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}\]</div>
+            <div class="step"><p><strong><span data-l="va">Si \(m\neq1\)</span><span data-l="es">Si \(m\neq1\)</span><span data-l="en">If \(m\neq1\)</span></strong> \(\rightarrow\operatorname{rg}(A)=3=\operatorname{rg}(A^*)=\) <span data-l="va">nre. d'incògnites</span><span data-l="es">n.º de incógnitas</span><span data-l="en">number of unknowns</span> \(\rightarrow\) <span class="badge scd">SCD</span>. <span data-l="va">Ho resolem per Cramer:</span><span data-l="es">Lo resolvemos por Cramer:</span><span data-l="en">We solve it by Cramer:</span></p>
+              \[x=\frac{\begin{vmatrix}2 & m & 1\\ 0 & -1 & 2\\ -2 & 0 & -3\end{vmatrix}}{4m-4}=\frac{-4m+4}{4m-4}=-1;\quad y=\frac{\begin{vmatrix}-1 & 2 & 1\\ 2 & 0 & 2\\ -1 & -2 & -3\end{vmatrix}}{4m-4}=\frac{0}{4m-4}=0;\quad z=\frac{\begin{vmatrix}-1 & m & 2\\ 2 & -1 & 0\\ -1 & 0 & -2\end{vmatrix}}{4m-4}=\frac{4m-4}{4m-4}=1\]
+              \[\boxed{x=-1;\ \ y=0;\ \ z=1}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Discutim i resolem, segons els valors del paràmetre \(a\), el sistema:</span><span data-l="es">Discutimos y resolvemos, según los valores del parámetro \(a\), el sistema:</span><span data-l="en">Discuss and solve, depending on the parameter \(a\), the system:</span> \(\left\{\begin{aligned}ax+y+z&=1\\ x+ay+z&=1\\ x+y+az&=1\end{aligned}\right.\)
+          <div class="steps">
+            <div class="step">\[|A|=\begin{vmatrix}a & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}=a^3-3a+2=(a-1)^2(a+2)=0\ \rightarrow\ \left\{\begin{aligned}a&=1\\ a&=-2\end{aligned}\right.\]</div>
+            <div class="step"><p><strong><span data-l="va">Si \(a=1\)</span><span data-l="es">Si \(a=1\)</span><span data-l="en">If \(a=1\)</span></strong><span data-l="va">, les tres equacions són la mateixa i el sistema queda reduït a una sola equació, \(x+y+z=1\): \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=1&lt;3\).</span><span data-l="es">, las tres ecuaciones son la misma y el sistema queda reducido a una sola ecuación, \(x+y+z=1\): \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=1&lt;3\).</span><span data-l="en">, the three equations are identical and the system reduces to a single equation, \(x+y+z=1\): \(\operatorname{rg}(A)=\operatorname{rg}(A^*)=1&lt;3\).</span> <span class="badge sci">SCI</span> <span data-l="va">amb dos paràmetres:</span><span data-l="es">con dos parámetros:</span><span data-l="en">with two parameters:</span></p>
+              \[\boxed{x=\lambda;\ \ y=\mu;\ \ z=1-\lambda-\mu,\quad\lambda,\mu\in\mathbb{R}}\]</div>
+            <div class="step"><p><strong><span data-l="va">Si \(a=-2\)</span><span data-l="es">Si \(a=-2\)</span><span data-l="en">If \(a=-2\)</span></strong>\(\ \rightarrow\operatorname{rg}(A)=2\):</p>
+              \[A^*=\left(\begin{array}{rrr|r}-2 & 1 & 1 & 1\\ 1 & -2 & 1 & 1\\ 1 & 1 & -2 & 1\end{array}\right)\rightarrow\begin{vmatrix}-2 & 1 & 1\\ 1 & -2 & 1\\ 1 & 1 & 1\end{vmatrix}=9\neq0\]
+              <p>\(\operatorname{rg}(A^*)=3\neq\operatorname{rg}(A)=2\ \rightarrow\) <span class="badge si">SI</span> <span data-l="va">i, per tant, no té solució.</span><span data-l="es">y, por tanto, no tiene solución.</span><span data-l="en">so there is no solution.</span></p></div>
+            <div class="step"><p><strong><span data-l="va">Si \(a\neq1\) i \(a\neq-2\)</span><span data-l="es">Si \(a\neq1\) y \(a\neq-2\)</span><span data-l="en">If \(a\neq1\) and \(a\neq-2\)</span></strong>\(\ \rightarrow\operatorname{rg}(A)=3=\operatorname{rg}(A^*)\) \(\rightarrow\) <span class="badge scd">SCD</span>. <span data-l="va">Calculem la solució per Cramer:</span><span data-l="es">Calculamos la solución por Cramer:</span><span data-l="en">We compute the solution by Cramer:</span></p>
+              \[x=\frac{\begin{vmatrix}1 & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}}{(a-1)^2(a+2)}=\frac{a^2-2a+1}{(a-1)^2(a+2)}=\frac{\cancel{(a-1)^2}}{\cancel{(a-1)^2}(a+2)}=\frac{1}{a+2}\]
+              <p><span data-l="va">Anàlogament (el sistema és simètric) \(y=z=\frac{1}{a+2}\):</span><span data-l="es">Análogamente (el sistema es simétrico) \(y=z=\frac{1}{a+2}\):</span><span data-l="en">Similarly (the system is symmetric) \(y=z=\frac{1}{a+2}\):</span></p>
+              \[\boxed{x=\frac{1}{a+2};\ \ y=\frac{1}{a+2};\ \ z=\frac{1}{a+2}}\]
+              <p class="note"><span data-l="va"><span class="u-line">Cal recordar</span> que això no significa que hi haja infinites solucions: per a cada valor de \(a\) hi ha un sistema amb una solució única. Per exemple, per a \(a=0\) la solució és \(x=y=z=\frac12\).</span><span data-l="es"><span class="u-line">Hay que recordar</span> que esto no significa que haya infinitas soluciones: para cada valor de \(a\) hay un sistema con una solución única. Por ejemplo, para \(a=0\) la solución es \(x=y=z=\frac12\).</span><span data-l="en"><span class="u-line">Remember</span> that this does not mean there are infinitely many solutions: each value of \(a\) gives a system with a unique solution. For example, for \(a=0\) the solution is \(x=y=z=\frac12\).</span></p></div>
+          </div>
+        </li>
+      </ol>
+      <div class="widget" id="w-param">
+        <div class="wt">⇆ <span data-l="va">Mou el paràmetre i observa com canvia la classificació</span><span data-l="es">Mueve el parámetro y observa cómo cambia la clasificación</span><span data-l="en">Move the parameter and watch the classification change</span></div>
+        <div class="wrow">
+          <div class="seg" data-role="ex"><button type="button" data-k="0" aria-pressed="true"><span data-l="va">Exemple 1</span><span data-l="es">Ejemplo 1</span><span data-l="en">Example 1</span></button><button type="button" data-k="1" aria-pressed="false"><span data-l="va">Exemple 2</span><span data-l="es">Ejemplo 2</span><span data-l="en">Example 2</span></button></div>
+          <label><strong data-role="pname">m</strong> = <input type="range" min="-4" max="4" step="0.25" value="0" data-role="rng"> <strong data-role="pval">0</strong></label>
+        </div>
+        <div class="crit" data-role="crit"></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Discuteix i resol els sistemes següents:</span><span data-l="es">Discute y resuelve los siguientes sistemas:</span><span data-l="en">Discuss and solve the following systems:</span></p>
+      <ol>
+        <li>\(\left\{\begin{aligned}2x-my+6z&=0\\ x+3y-mz&=0\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x+y-z&=4\\ x-y&=3\\ x+z&=1\\ 3x+4y+z&=k\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x+y+az&=0\\ ax-y&=-1\\ x+4y+6z&=0\end{aligned}\right.\)</li>
+        <li>\(\left\{\begin{aligned}x+y+z&=2\\ 3x-2y-z&=4\\ -2x+y+2z&=2\\ 3y-4z&=k\end{aligned}\right.\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol>
+          <li><span data-l="va">Sistema homogeni de 2 equacions i 3 incògnites: les files mai no són proporcionals, així que \(\operatorname{rg}(A)=2&lt;3\) per a tot \(m\)</span><span data-l="es">Sistema homogéneo de 2 ecuaciones y 3 incógnitas: las filas nunca son proporcionales, así que \(\operatorname{rg}(A)=2&lt;3\) para todo \(m\)</span><span data-l="en">Homogeneous system of 2 equations in 3 unknowns: the rows are never proportional, so \(\operatorname{rg}(A)=2&lt;3\) for every \(m\)</span> \(\Rightarrow\) <span class="badge sci">SCI</span> <span data-l="va">sempre.</span><span data-l="es">siempre.</span><span data-l="en">always.</span>
+            <ul>
+              <li>\(m\neq-6\): \(\ x=\frac{m^2-18}{m+6}\lambda;\ y=\frac{2m+6}{m+6}\lambda;\ z=\lambda\)</li>
+              <li>\(m=-6\): \(\ x=-3\lambda;\ y=\lambda;\ z=0\)</li>
+            </ul></li>
+          <li>\(\operatorname{rg}(A)=3\). <span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(k=5\): \(|A^*|=0\Rightarrow\) <span class="badge scd">SCD</span> \(\ x=\frac83;\ y=-\frac13;\ z=-\frac53\). <span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(k\neq5\): \(\operatorname{rg}(A^*)=4\Rightarrow\) <span class="badge si">SI</span></li>
+          <li>\(|A|=4a^2-5a-6=(a-2)(4a+3)\).
+            <ul>
+              <li>\(a=2\) <span data-l="va">o</span><span data-l="es">o</span><span data-l="en">or</span> \(a=-\frac34\): \(\operatorname{rg}(A)=2,\ \operatorname{rg}(A^*)=3\Rightarrow\) <span class="badge si">SI</span></li>
+              <li>\(a\neq2,\ a\neq-\frac34\): <span class="badge scd">SCD</span> \(\ x=\frac{6-4a}{(a-2)(4a+3)};\ y=\frac{a-6}{(a-2)(4a+3)};\ z=\frac{3}{(a-2)(4a+3)}\)</li>
+            </ul></li>
+          <li>\(\operatorname{rg}(A)=3\). <span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(k=-18\): <span class="badge scd">SCD</span> \(\ x=1;\ y=-2;\ z=3\). <span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(k\neq-18\): <span class="badge si">SI</span></li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LAB ======================= -->
+<section class="unit" id="lab">
+  <div class="sec-head"><span class="num">⚙</span><h2><span data-l="va">Resolutor de sistemes</span><span data-l="es">Resolutor de sistemas</span><span data-l="en">System solver</span></h2></div>
+  <p><span data-l="va">Escriu la matriu ampliada de qualsevol sistema (admet enters, decimals i fraccions com <code>-5/2</code>) i comprova els teus resultats: rangs, classificació de Rouché-Frobenius, passos de Gauss i solució (amb paràmetres si és un SCI). Ideal per a revisar els exercicis!</span><span data-l="es">Escribe la matriz ampliada de cualquier sistema (admite enteros, decimales y fracciones como <code>-5/2</code>) y comprueba tus resultados: rangos, clasificación de Rouché-Frobenius, pasos de Gauss y solución (con parámetros si es un SCI). ¡Ideal para revisar los ejercicios!</span><span data-l="en">Type the augmented matrix of any system (integers, decimals and fractions like <code>-5/2</code> are accepted) and check your results: ranks, Rouché–Frobenius classification, Gaussian elimination steps and the solution (with parameters for dependent systems). Ideal for checking your exercises!</span></p>
+  <div class="box lab">
+    <div class="bh">⚙ <span data-l="va">Resolutor</span><span data-l="es">Resolutor</span><span data-l="en">Solver</span></div>
+    <div class="bb" id="w-lab">
+      <div class="wrow" style="margin:10px 0">
+        <label><span data-l="va">Equacions</span><span data-l="es">Ecuaciones</span><span data-l="en">Equations</span> <select data-role="r"></select></label>
+        <label><span data-l="va">Incògnites</span><span data-l="es">Incógnitas</span><span data-l="en">Unknowns</span> <select data-role="c"></select></label>
+        <button class="btn" type="button" data-role="rand">🎲 <span data-l="va">Aleatori</span><span data-l="es">Aleatorio</span><span data-l="en">Random</span></button>
+        <button class="btn" type="button" data-role="clear">⌫ <span data-l="va">Buida</span><span data-l="es">Vaciar</span><span data-l="en">Clear</span></button>
+      </div>
+      <div class="wrow"><span class="lbl">\(A^*=\)</span><div class="mx aug" data-role="in"></div><div class="info" data-role="sys" style="margin:0;min-height:0;background:none"></div></div>
+      <div class="lab-out"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section class="unit quiz-sec" id="quiz">
+  <div class="sec-head"><span class="num">?</span><h2><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></h2></div>
+  <p><span data-l="va">Respon i comprova a l'instant si ho has entés.</span><span data-l="es">Responde y comprueba al instante si lo has entendido.</span><span data-l="en">Answer and instantly check whether you've understood.</span></p>
+  <div class="quiz" id="quiz-box"></div>
+  <div class="score" id="quiz-score"></div>
+  <button class="btn" type="button" id="quiz-reset">↺ <span data-l="va">Torna a començar</span><span data-l="es">Volver a empezar</span><span data-l="en">Start again</span></button>
+</section>
+
+</article>
+</div>
+
+<footer class="foot">
+  <p><span data-l="va">Apunts de teoria · Unitat 2: Sistemes d'equacions lineals · 2n Batxillerat MII</span><span data-l="es">Apuntes de teoría · Unidad 2: Sistemas de ecuaciones lineales · 2º Bachillerato MII</span><span data-l="en">Theory notes · Unit 2: Systems of linear equations · 2nd Baccalaureate, Maths II</span></p>
+  <p><a href="../../index.html">FentMates</a> · <span data-l="va">Fet amb ♥ per a l'alumnat</span><span data-l="es">Hecho con ♥ para el alumnado</span><span data-l="en">Made with ♥ for students</span></p>
+</footer>
+<button class="icon-btn to-top" type="button" id="to-top" aria-label="↑">↑</button>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var UNIT_KEY = "fm-2batx-u2-done";
+
+  /* ---------- textos de la interfície ---------- */
+  var UI = {
+    va: { next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
+      eq: "Equació", coefOf: "és el coeficient de", inEq: "a l'equació", rowA: "fila", hoverEq: "Passa el ratolí per una equació o per un element de A.",
+      bad: "Revisa les dades: hi ha algun valor que no és un nombre.", rank: "Rangs", cls: "Classificació (Rouché-Frobenius)", sol: "Solució", steps: "Passos del mètode de Gauss", echelon: "Sistema esglaonat equivalent",
+      scd: "Sistema compatible determinat", sci: "Sistema compatible indeterminat", si: "Sistema incompatible", noSol: "No té solució.", params: "paràmetre(s)",
+      lineCut: "Les dues rectes es tallen en un únic punt.", lineSame: "Les dues rectes són coincidents: tots els seus punts són solució.", linePar: "Les dues rectes són paral·leles: no tenen cap punt en comú.",
+      apply: "Aplica", swap: "Intercanvia Fᵢ ↔ Fⱼ", hint: "Pas suggerit", undo: "Desfés", restart: "Reinicia", sameRow: "Tria dues files diferents.", aZero: "El coeficient de Fᵢ no pot ser 0.",
+      isEch: "Matriu esglaonada! Ja pots classificar i resoldre:", notEch: "Encara no és esglaonada: fes zeros per davall de la diagonal.", hintTxt: "Prova:", noHint: "Ja està esglaonada.", history: "Historial",
+      notCramer: "|A| = 0: no és un sistema de Cramer (no és SCD).", cramerAll: "Solució completa:", detA: "Determinant", crit: "Valors crítics:", sys: "Sistema",
+      score: "Encerts", right: "Correcte!", wrong: "No és correcte.", theme: "Canvia entre mode clar i fosc", top: "Torna amunt" },
+    es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
+      eq: "Ecuación", coefOf: "es el coeficiente de", inEq: "en la ecuación", rowA: "fila", hoverEq: "Pasa el ratón por una ecuación o por un elemento de A.",
+      bad: "Revisa los datos: hay algún valor que no es un número.", rank: "Rangos", cls: "Clasificación (Rouché-Frobenius)", sol: "Solución", steps: "Pasos del método de Gauss", echelon: "Sistema escalonado equivalente",
+      scd: "Sistema compatible determinado", sci: "Sistema compatible indeterminado", si: "Sistema incompatible", noSol: "No tiene solución.", params: "parámetro(s)",
+      lineCut: "Las dos rectas se cortan en un único punto.", lineSame: "Las dos rectas son coincidentes: todos sus puntos son solución.", linePar: "Las dos rectas son paralelas: no tienen ningún punto en común.",
+      apply: "Aplicar", swap: "Intercambiar Fᵢ ↔ Fⱼ", hint: "Paso sugerido", undo: "Deshacer", restart: "Reiniciar", sameRow: "Elige dos filas diferentes.", aZero: "El coeficiente de Fᵢ no puede ser 0.",
+      isEch: "¡Matriz escalonada! Ya puedes clasificar y resolver:", notEch: "Todavía no es escalonada: haz ceros por debajo de la diagonal.", hintTxt: "Prueba:", noHint: "Ya está escalonada.", history: "Historial",
+      notCramer: "|A| = 0: no es un sistema de Cramer (no es SCD).", cramerAll: "Solución completa:", detA: "Determinante", crit: "Valores críticos:", sys: "Sistema",
+      score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba" },
+    en: { next: "Next step", all: "Show all", reset: "Hide steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
+      eq: "Equation", coefOf: "is the coefficient of", inEq: "in equation", rowA: "row", hoverEq: "Hover over an equation or an element of A.",
+      bad: "Check the data: some value is not a number.", rank: "Ranks", cls: "Classification (Rouché–Frobenius)", sol: "Solution", steps: "Gaussian elimination steps", echelon: "Equivalent echelon system",
+      scd: "Consistent, unique solution (SCD)", sci: "Consistent, infinitely many solutions (SCI)", si: "Inconsistent, no solution (SI)", noSol: "No solution.", params: "parameter(s)",
+      lineCut: "The two lines meet at exactly one point.", lineSame: "The two lines coincide: every point on them is a solution.", linePar: "The two lines are parallel: they have no point in common.",
+      apply: "Apply", swap: "Swap Fᵢ ↔ Fⱼ", hint: "Suggested step", undo: "Undo", restart: "Restart", sameRow: "Pick two different rows.", aZero: "The coefficient of Fᵢ cannot be 0.",
+      isEch: "Echelon form! Now you can classify and solve:", notEch: "Not in echelon form yet: create zeros below the diagonal.", hintTxt: "Try:", noHint: "It is already in echelon form.", history: "History",
+      notCramer: "|A| = 0: not a Cramer system (no unique solution).", cramerAll: "Full solution:", detA: "Determinant", crit: "Critical values:", sys: "System",
+      score: "Correct", right: "Correct!", wrong: "Not quite.", theme: "Toggle light and dark mode", top: "Back to top" }
+  };
+  var lang = root.getAttribute("data-lang") || "va";
+  function u(k) { return (UI[lang] || UI.va)[k]; }
+  var refreshers = [];
+  function onLang(fn) { refreshers.push(fn); fn(); }
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function tex(s, display) { try { return window.katex.renderToString(s, { throwOnError: false, displayMode: !!display }); } catch (e) { return s; } }
+
+  /* ---------- fraccions exactes ---------- */
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a || 1; }
+  function Fr(n, d) { if (d === undefined) d = 1; if (d < 0) { n = -n; d = -d; } var g = gcd(n, d); this.n = n / g; this.d = d / g; }
+  Fr.prototype.add = function (o) { return new Fr(this.n * o.d + o.n * this.d, this.d * o.d); };
+  Fr.prototype.sub = function (o) { return new Fr(this.n * o.d - o.n * this.d, this.d * o.d); };
+  Fr.prototype.mul = function (o) { return new Fr(this.n * o.n, this.d * o.d); };
+  Fr.prototype.div = function (o) { return new Fr(this.n * o.d, this.d * o.n); };
+  Fr.prototype.zero = function () { return this.n === 0; };
+  Fr.prototype.tex = function () { if (this.d === 1) return String(this.n); return (this.n < 0 ? "-" : "") + "\\frac{" + Math.abs(this.n) + "}{" + this.d + "}"; };
+  Fr.prototype.txt = function () { return this.d === 1 ? String(this.n) : this.n + "/" + this.d; };
+  function parseFr(s) {
+    s = String(s).trim().replace(",", ".").replace("−", "-");
+    if (s === "") return new Fr(0);
+    var m = s.match(/^(-?\d+(?:\.\d+)?)(?:\/(-?\d+(?:\.\d+)?))?$/);
+    if (!m) return null;
+    function dec(x) { var p = x.split("."), k = p[1] ? p[1].length : 0, f = Math.pow(10, k); return new Fr(Math.round(parseFloat(x) * f), f); }
+    var a = dec(m[1]); if (!m[2]) return a;
+    var b = dec(m[2]); if (b.zero()) return null; return a.div(b);
+  }
+  function detFr(M) {
+    var n = M.length, A = M.map(function (r) { return r.slice(); }), d = new Fr(1);
+    for (var c = 0; c < n; c++) {
+      var p = -1; for (var r = c; r < n; r++) if (!A[r][c].zero()) { p = r; break; }
+      if (p < 0) return new Fr(0);
+      if (p !== c) { var t = A[p]; A[p] = A[c]; A[c] = t; d = d.mul(new Fr(-1)); }
+      d = d.mul(A[c][c]);
+      for (r = c + 1; r < n; r++) { var f = A[r][c].div(A[c][c]); for (var k = c; k < n; k++) A[r][k] = A[r][k].sub(f.mul(A[c][k])); }
+    }
+    return d;
+  }
+  function rankFr(M) {
+    var A = M.map(function (r) { return r.slice(); }), rows = A.length, cols = A[0].length, rk = 0;
+    for (var c = 0; c < cols && rk < rows; c++) {
+      var p = -1; for (var r = rk; r < rows; r++) if (!A[r][c].zero()) { p = r; break; }
+      if (p < 0) continue;
+      var t = A[p]; A[p] = A[rk]; A[rk] = t;
+      for (r = rk + 1; r < rows; r++) { var f = A[r][c].div(A[rk][c]); for (var k = c; k < cols; k++) A[r][k] = A[r][k].sub(f.mul(A[rk][k])); }
+      rk++;
+    }
+    return rk;
+  }
+  function invFr(M) {
+    var n = M.length, A = M.map(function (r, i) { return r.slice().concat(M.map(function (_, j) { return new Fr(i === j ? 1 : 0); })); });
+    for (var c = 0; c < n; c++) {
+      var p = -1; for (var r = c; r < n; r++) if (!A[r][c].zero()) { p = r; break; }
+      if (p < 0) return null;
+      var t = A[p]; A[p] = A[c]; A[c] = t;
+      var pv = A[c][c]; for (var k = 0; k < 2 * n; k++) A[c][k] = A[c][k].div(pv);
+      for (r = 0; r < n; r++) if (r !== c) { var f = A[r][c]; for (k = 0; k < 2 * n; k++) A[r][k] = A[r][k].sub(f.mul(A[c][k])); }
+    }
+    return A.map(function (r) { return r.slice(n); });
+  }
+  function texM(M, env) { return "\\begin{" + (env || "pmatrix") + "}" + M.map(function (r) { return r.map(function (x) { return x.tex ? x.tex() : x; }).join(" & "); }).join("\\\\") + "\\end{" + (env || "pmatrix") + "}"; }
+  function numM(s) { return s.split(";").map(function (r) { return r.split(",").map(Number); }); }
+  function par(x) { return x < 0 ? "(" + x + ")" : String(x); }
+
+  /* ---------- quadrícules de matrius ---------- */
+  function buildGrid(el, M, cls) {
+    el.innerHTML = ""; el.style.gridTemplateColumns = "repeat(" + M[0].length + ", auto)";
+    var cells = M.map(function (row, i) {
+      return row.map(function (v, j) {
+        var c = document.createElement("span"); c.className = "c" + (cls ? " " + cls : ""); c.textContent = String(v).replace("-", "−");
+        c.dataset.r = i; c.dataset.c = j; el.appendChild(c); return c;
+      });
+    });
+    return cells;
+  }
+  function buildInputs(el, rows, cols, vals) {
+    el.innerHTML = ""; el.style.gridTemplateColumns = "repeat(" + cols + ", auto)";
+    var ins = [];
+    for (var i = 0; i < rows; i++) { ins.push([]); for (var j = 0; j < cols; j++) {
+      var inp = document.createElement("input"); inp.type = "text"; inp.inputMode = "decimal"; inp.autocomplete = "off";
+      inp.value = vals && vals[i] && vals[i][j] != null ? vals[i][j] : "0"; inp.dataset.r = i; inp.dataset.c = j;
+      inp.setAttribute("aria-label", "a" + (i + 1) + (j + 1));
+      el.appendChild(inp); ins[i].push(inp);
+    } }
+    return ins;
+  }
+  function clearCls(cells, list) { cells.forEach(function (r) { r.forEach(function (c) { list.forEach(function (k) { c.classList.remove(k); }); }); }); }
+  function makeHot(c, fn) {
+    c.classList.add("hot"); c.tabIndex = 0;
+    c.addEventListener("mouseenter", fn); c.addEventListener("focus", fn); c.addEventListener("click", fn);
+  }
+
+  /* ---------- eines per a sistemes ---------- */
+  var VARS = ["x", "y", "z", "t"];
+  var PARAMS = ["\\lambda", "\\mu", "\\nu", "\\rho"];
+  function neg(x) { return x.mul(new Fr(-1)); }
+  function isOne(x) { return x.d === 1 && Math.abs(x.n) === 1; }
+  function frM(N) { return N.map(function (r) { return r.map(function (x) { return x instanceof Fr ? x : new Fr(x); }); }); }
+  function copyM(M) { return M.map(function (r) { return r.slice(); }); }
+  function coefTex(c) { return isOne(c) ? "" : c.tex(); }
+  function eqTex(row, n) {
+    var s = "", first = true;
+    for (var j = 0; j < n; j++) {
+      var c = row[j]; if (c.zero()) continue;
+      var a = c.n < 0 ? neg(c) : c;
+      s += (c.n < 0 ? "-" : (first ? "" : "+")) + coefTex(a) + VARS[j]; first = false;
+    }
+    return (first ? "0" : s) + "&=" + row[n].tex();
+  }
+  function sysTex(M, n) { return "\\left\\{\\begin{aligned}" + M.map(function (r) { return eqTex(r, n); }).join("\\\\") + "\\end{aligned}\\right."; }
+  function augTex(M, hlCol) {
+    var n = M[0].length - 1;
+    return "\\left(\\begin{array}{" + new Array(n + 1).join("r") + "|r}" + M.map(function (r) { return r.map(function (x) { return x.tex(); }).join(" & "); }).join("\\\\") + "\\end{array}\\right)";
+  }
+  function linTex(c, co) {
+    var s = c.zero() ? "" : c.tex();
+    co.forEach(function (k, i) {
+      if (k.zero()) return;
+      var a = k.n < 0 ? neg(k) : k;
+      s += (k.n < 0 ? "-" : (s ? "+" : "")) + coefTex(a) + PARAMS[i];
+    });
+    return s || "0";
+  }
+  function rrefFr(M) {
+    var A = copyM(M), rows = A.length, cols = A[0].length, piv = [], r = 0;
+    for (var c = 0; c < cols && r < rows; c++) {
+      var p = -1; for (var i = r; i < rows; i++) if (!A[i][c].zero()) { p = i; break; }
+      if (p < 0) continue;
+      var t = A[p]; A[p] = A[r]; A[r] = t;
+      var pv = A[r][c]; A[r] = A[r].map(function (x) { return x.div(pv); });
+      for (i = 0; i < rows; i++) if (i !== r && !A[i][c].zero()) { var f = A[i][c]; A[i] = A[i].map(function (x, k) { return x.sub(f.mul(A[r][k])); }); }
+      piv.push(c); r++;
+    }
+    return { A: A, piv: piv };
+  }
+  function analyse(M) {
+    var n = M[0].length - 1, A = M.map(function (r) { return r.slice(0, n); });
+    var ra = rankFr(A), rs = rankFr(M), cls = ra !== rs ? "si" : (ra === n ? "scd" : "sci"), sol = null;
+    if (cls !== "si") {
+      var R = rrefFr(M), piv = R.piv.filter(function (c) { return c < n; }), free = [];
+      for (var j = 0; j < n; j++) if (piv.indexOf(j) < 0) free.push(j);
+      sol = [];
+      for (j = 0; j < n; j++) {
+        var fi = free.indexOf(j);
+        if (fi >= 0) { sol[j] = PARAMS[fi]; continue; }
+        var row = R.A[piv.indexOf(j)];
+        sol[j] = linTex(row[n], free.map(function (f) { return neg(row[f]); }));
+      }
+    }
+    return { n: n, ra: ra, rs: rs, cls: cls, sol: sol, free: n - ra };
+  }
+  function solTex(an) {
+    return an.sol.map(function (s, j) { return VARS[j] + "=" + s; }).join(";\\ \\ ") + (an.free ? ",\\quad " + PARAMS.slice(0, an.free).join(",") + "\\in\\mathbb{R}" : "");
+  }
+  function badge(cls) { return '<span class="badge ' + cls + '">' + cls.toUpperCase() + "</span> " + u(cls); }
+  function rankTex(an) { return "\\operatorname{rg}(A)=" + an.ra + ",\\quad \\operatorname{rg}(A^*)=" + an.rs + ",\\quad n=" + an.n; }
+  function solHtml(an) { return an.cls === "si" ? u("noSol") : tex(solTex(an), true); }
+  function isEchelon(M) {
+    var n = M[0].length - 1, last = -1, zero = false;
+    for (var i = 0; i < M.length; i++) {
+      var lead = -1; for (var j = 0; j < n; j++) if (!M[i][j].zero()) { lead = j; break; }
+      if (lead < 0) { zero = true; continue; }
+      if (zero || lead <= last) return false;
+      last = lead;
+    }
+    return true;
+  }
+  /* passos de Gauss amb nombres enters quan es pot (Fr' = a·Fr − b·Fp) */
+  function rowLab(a, r, b, p) {
+    var s = "F_{" + (r + 1) + "}'=" + (a.n < 0 ? "-" : "") + coefTex(a.n < 0 ? neg(a) : a) + "F_{" + (r + 1) + "}";
+    if (!b.zero()) s += (b.n < 0 ? "-" : "+") + coefTex(b.n < 0 ? neg(b) : b) + "F_{" + (p + 1) + "}";
+    return s;
+  }
+  function gaussSteps(M, onlyFirst) {
+    var A = copyM(M), rows = A.length, cols = A[0].length - 1, rk = 0, steps = [];
+    for (var c = 0; c < cols && rk < rows; c++) {
+      var p = -1, one = -1;
+      for (var r = rk; r < rows; r++) if (!A[r][c].zero()) { if (p < 0) p = r; if (one < 0 && isOne(A[r][c])) one = r; }
+      if (p < 0) continue;
+      if (one >= 0 && !isOne(A[p][c])) p = one;
+      if (p !== rk) {
+        var t = A[p]; A[p] = A[rk]; A[rk] = t;
+        steps.push({ ops: ["F_{" + (rk + 1) + "}\\leftrightarrow F_{" + (p + 1) + "}"], raw: [{ swap: true, i: rk, j: p }], M: copyM(A) });
+        if (onlyFirst) return steps;
+      }
+      var ops = [], raw = [];
+      for (r = rk + 1; r < rows; r++) {
+        if (A[r][c].zero()) continue;
+        var pv = A[rk][c], v = A[r][c], a, b;
+        if (pv.d === 1 && v.d === 1) {
+          a = pv; b = neg(v); if (a.n < 0) { a = neg(a); b = neg(b); }
+          var g = gcd(a.n, b.n); a = new Fr(a.n / g); b = new Fr(b.n / g);
+        } else { a = new Fr(1); b = neg(v.div(pv)); }
+        A[r] = A[r].map(function (x, k) { return a.mul(x).add(b.mul(A[rk][k])); });
+        ops.push(rowLab(a, r, b, rk)); raw.push({ i: r, j: rk, a: a, b: b });
+        if (onlyFirst) return [{ ops: ops, raw: raw, M: copyM(A) }];
+      }
+      if (ops.length) steps.push({ ops: ops, raw: raw, M: copyM(A) });
+      rk++;
+    }
+    return steps;
+  }
+  function arrow(ops) { return "\\xrightarrow{" + (ops.length > 1 ? "\\substack{" + ops.join("\\\\") + "}" : ops[0]) + "}"; }
+  function readIns(ins) { return ins.map(function (r) { return r.map(function (x) { return parseFr(x.value); }); }); }
+  function okM(V) { return V.every(function (r) { return r.every(Boolean); }); }
+  function buildAug(el, rows, n, vals) {
+    el.innerHTML = ""; el.style.gridTemplateColumns = "repeat(" + n + ", auto) 2px auto";
+    var ins = [];
+    for (var i = 0; i < rows; i++) {
+      ins.push([]);
+      for (var j = 0; j <= n; j++) {
+        if (j === n) { var s = document.createElement("span"); s.className = "sep"; el.appendChild(s); }
+        var inp = document.createElement("input"); inp.type = "text"; inp.inputMode = "decimal"; inp.autocomplete = "off";
+        inp.value = vals && vals[i] && vals[i][j] != null ? vals[i][j] : "0"; inp.dataset.r = i; inp.dataset.c = j;
+        inp.setAttribute("aria-label", j < n ? "a" + (i + 1) + (j + 1) : "b" + (i + 1));
+        el.appendChild(inp); ins[i].push(inp);
+      }
+    }
+    return ins;
+  }
+
+  /* ---------- widget: rectes (2x2) ---------- */
+  function wLines() {
+    var w = document.getElementById("w-lines"); if (!w) return;
+    var eqs = w.querySelector('[data-role="eqs"]'), svg = w.querySelector("svg"), info = w.querySelector(".info"), pre = w.querySelector('[data-role="presets"]');
+    var PRE = { SCD: [[1, 1, 3], [1, -1, 1]], SCI: [[1, 2, 2], [2, 4, 4]], SI: [[1, 2, 2], [1, 2, -3]] };
+    var ins = [];
+    [0, 1].forEach(function (i) {
+      var d = document.createElement("div"); d.className = "eqr r" + (i + 1); ins.push([]);
+      ["x +", "y =", ""].forEach(function (lab, j) {
+        var inp = document.createElement("input"); inp.type = "text"; inp.inputMode = "decimal"; inp.value = PRE.SCD[i][j];
+        inp.setAttribute("aria-label", ["a", "b", "c"][j] + (i + 1)); inp.addEventListener("input", draw);
+        d.appendChild(inp); ins[i].push(inp);
+        if (lab) { var s = document.createElement("span"); s.textContent = lab; d.appendChild(s); }
+      });
+      eqs.appendChild(d);
+    });
+    Object.keys(PRE).forEach(function (k) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.innerHTML = '<span class="badge ' + k.toLowerCase() + '">' + k + "</span>";
+      b.addEventListener("click", function () { ins.forEach(function (r, i) { r.forEach(function (x, j) { x.value = PRE[k][i][j]; }); }); draw(); });
+      pre.appendChild(b);
+    });
+    var R = 6, S = 25;
+    function X(x) { return 150 + x * S; } function Y(y) { return 150 - y * S; }
+    function lineEl(a, b, c, col, dash) {
+      var x1, y1, x2, y2;
+      if (b !== 0) { x1 = -R - 1; x2 = R + 1; y1 = (c - a * x1) / b; y2 = (c - a * x2) / b; }
+      else if (a !== 0) { x1 = x2 = c / a; y1 = -R - 1; y2 = R + 1; }
+      else return "";
+      return '<line x1="' + X(x1) + '" y1="' + Y(y1) + '" x2="' + X(x2) + '" y2="' + Y(y2) + '" style="stroke:' + col + '" stroke-width="' + (dash ? 3 : 4) + '"' + (dash ? ' stroke-dasharray="9 7"' : "") + ' stroke-linecap="round"/>';
+    }
+    function draw() {
+      var V = readIns(ins);
+      var g = "";
+      for (var k = -R; k <= R; k++) { g += '<line class="g" x1="' + X(k) + '" y1="0" x2="' + X(k) + '" y2="300"/><line class="g" x1="0" y1="' + Y(k) + '" x2="300" y2="' + Y(k) + '"/>'; }
+      g += '<line class="ax" x1="0" y1="150" x2="300" y2="150"/><line class="ax" x1="150" y1="0" x2="150" y2="300"/><text x="288" y="144">x</text><text x="156" y="12">y</text>';
+      if (!okM(V)) { svg.innerHTML = g; info.textContent = u("bad"); return; }
+      var M = frM(V), an = analyse(M), f = function (x) { return x.n / x.d; };
+      g += lineEl(f(M[0][0]), f(M[0][1]), f(M[0][2]), "var(--r1)", false);
+      g += lineEl(f(M[1][0]), f(M[1][1]), f(M[1][2]), "var(--r3)", an.cls === "sci");
+      var geo = "";
+      if (an.cls === "scd") {
+        var R2 = rrefFr(M).A, px = R2[0][2], py = R2[1][2];
+        g += '<circle cx="' + X(f(px)) + '" cy="' + Y(f(py)) + '" r="6" style="fill:var(--accent);stroke:var(--surface)" stroke-width="2"/>';
+        geo = u("lineCut");
+      } else if (an.ra === 1 && an.cls === "sci") geo = u("lineSame");
+      else if (an.cls === "si" && an.ra === 1) geo = u("linePar");
+      svg.innerHTML = g;
+      info.innerHTML = "<div>" + badge(an.cls) + (geo ? " — " + geo : "") + "</div>" + tex(rankTex(an)) + (an.sol ? tex(solTex(an), true) : "");
+    }
+    onLang(draw);
+  }
+
+  /* ---------- widget: forma matricial ---------- */
+  function wMatform() {
+    var w = document.getElementById("w-matform"); if (!w) return;
+    var A = [[1, -1, -1], [-1, 0, 3], [-2, 5, -3]], B = [1, 18, -52], info = w.querySelector(".info");
+    var M = frM(A.map(function (r, i) { return r.concat(B[i]); }));
+    var ga = buildGrid(w.querySelector('[data-role="a"]'), A), gx = buildGrid(w.querySelector('[data-role="x"]'), [["x"], ["y"], ["z"]]), gb = buildGrid(w.querySelector('[data-role="b"]'), B.map(function (b) { return [b]; }));
+    var eqBox = w.querySelector('[data-role="eqs"]'), lines = [];
+    M.forEach(function (row, i) {
+      var d = document.createElement("div"); d.className = "eqline"; d.tabIndex = 0;
+      d.innerHTML = tex(eqTex(row, 3).replace("&", "")); eqBox.appendChild(d); lines.push(d);
+      ["mouseenter", "focus", "click"].forEach(function (ev) { d.addEventListener(ev, function () { cur = { row: i }; show(); }); });
+    });
+    var cur = null;
+    function show() {
+      clearCls(ga, ["on", "on2"]); clearCls(gx, ["on2"]); clearCls(gb, ["on"]); lines.forEach(function (l) { l.classList.remove("on"); });
+      if (!cur) { info.textContent = u("hoverEq"); return; }
+      var i = cur.row;
+      lines[i].classList.add("on"); ga[i].forEach(function (c) { c.classList.add("on"); }); gb[i][0].classList.add("on");
+      if (cur.col == null) {
+        info.innerHTML = u("eq") + " " + (i + 1) + ": " + tex("(" + A[i].join(",\\,") + ")\\cdot\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}=" + par(A[i][0]) + "x+" + par(A[i][1]) + "y+" + par(A[i][2]) + "z=" + B[i]);
+      } else {
+        var j = cur.col; ga[i][j].classList.remove("on"); ga[i][j].classList.add("on2"); gx[j][0].classList.add("on2");
+        info.innerHTML = tex("a_{" + (i + 1) + (j + 1) + "}=" + A[i][j]) + " " + u("coefOf") + " " + tex(VARS[j]) + " " + u("inEq") + " " + (i + 1) + ".";
+      }
+    }
+    ga.forEach(function (r, i) { r.forEach(function (c, j) { makeHot(c, function () { cur = { row: i, col: j }; show(); }); }); });
+    gb.forEach(function (r, i) { makeHot(r[0], function () { cur = { row: i }; show(); }); });
+    onLang(show);
+  }
+
+  /* ---------- widget: Gauss manual ---------- */
+  function wGauss() {
+    var w = document.getElementById("w-gauss"); if (!w) return;
+    var PRE = [
+      { k: "SCD", m: [[2, -5, 3, 4], [1, -2, 1, 3], [5, 1, 7, 11]] },
+      { k: "SCI", m: [[1, -3, 7, 10], [5, -1, 1, 8], [1, 4, -10, -11]] },
+      { k: "SI", m: [[1, -3, -2, 7], [2, -1, 15, 3], [1, -8, -21, 11]] }
+    ];
+    var cur, hist, start, note = "";
+    var curEl = w.querySelector('[data-role="cur"]'), histEl = w.querySelector('[data-role="hist"]');
+    var si = w.querySelector('[data-role="i"]'), sj = w.querySelector('[data-role="j"]'), ia = w.querySelector('[data-role="a"]'), ib = w.querySelector('[data-role="b"]'), isub = w.querySelector('[data-role="isub"]');
+    var bApply = w.querySelector('[data-role="apply"]'), bSwap = w.querySelector('[data-role="swap"]'), bHint = w.querySelector('[data-role="hint"]'), bUndo = w.querySelector('[data-role="undo"]'), bReset = w.querySelector('[data-role="reset"]');
+    [1, 2, 3].forEach(function (k) { si.add(new Option(k, k - 1)); sj.add(new Option(k, k - 1)); });
+    si.value = 1; sj.value = 0;
+    si.addEventListener("change", function () { isub.textContent = +si.value + 1; });
+    var pre = w.querySelector('[data-role="presets"]');
+    PRE.forEach(function (p, idx) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn";
+      b.innerHTML = '<span class="badge ' + p.k.toLowerCase() + '">' + p.k + "</span>";
+      b.addEventListener("click", function () { load(p.m); });
+      pre.appendChild(b);
+    });
+    function load(m) { start = frM(m); cur = copyM(start); hist = []; note = ""; render(); }
+    function push(M, ops) { hist.push({ M: cur, ops: ops }); cur = M; note = ""; render(); }
+    function render() {
+      bApply.textContent = u("apply"); bSwap.textContent = u("swap"); bHint.textContent = "💡 " + u("hint"); bUndo.textContent = "↶ " + u("undo"); bReset.textContent = "↺ " + u("restart");
+      bUndo.disabled = !hist.length;
+      var ech = isEchelon(cur), h = '<div class="wrow" style="justify-content:center">' + tex("A^*=" + augTex(cur), true) + tex("\\Leftrightarrow\\ " + sysTex(cur, 3), true) + "</div>";
+      if (ech) {
+        var an = analyse(cur);
+        h += '<div class="msg-ok">✓ ' + u("isEch") + "</div><div>" + badge(an.cls) + "</div>" + (an.sol ? tex(solTex(an), true) : "<div>" + u("noSol") + "</div>");
+      } else h += '<div style="color:var(--muted)">' + u("notEch") + "</div>";
+      if (note) h += '<div class="msg-bad">' + note + "</div>";
+      curEl.innerHTML = h;
+      if (!hist.length) { histEl.innerHTML = '<span style="color:var(--muted)">' + u("history") + ": —</span>"; return; }
+      var chain = augTex(start);
+      hist.forEach(function (st, k) { chain += arrow(st.ops) + augTex(k + 1 < hist.length ? hist[k + 1].M : cur); if (k + 1 < hist.length) chain += "\\\\ "; });
+      histEl.innerHTML = "<strong>" + u("history") + "</strong>" + '<div class="chain">' + tex("\\begin{gathered}" + chain + "\\end{gathered}", true) + "</div>";
+    }
+    bApply.addEventListener("click", function () {
+      var i = +si.value, j = +sj.value, a = parseFr(ia.value), b = parseFr(ib.value);
+      if (i === j) { note = u("sameRow"); render(); return; }
+      if (!a || !b) { note = u("bad"); render(); return; }
+      if (a.zero()) { note = u("aZero"); render(); return; }
+      var M = copyM(cur); M[i] = M[i].map(function (x, k) { return a.mul(x).add(b.mul(cur[j][k])); });
+      push(M, [rowLab(a, i, b, j)]);
+    });
+    bSwap.addEventListener("click", function () {
+      var i = +si.value, j = +sj.value; if (i === j) { note = u("sameRow"); render(); return; }
+      var M = copyM(cur), t = M[i]; M[i] = M[j]; M[j] = t;
+      push(M, ["F_{" + (i + 1) + "}\\leftrightarrow F_{" + (j + 1) + "}"]);
+    });
+    bHint.addEventListener("click", function () {
+      var s = gaussSteps(cur, true);
+      if (!s.length) { note = ""; render(); curEl.insertAdjacentHTML("beforeend", "<div>" + u("noHint") + "</div>"); return; }
+      var r = s[0].raw[0];
+      si.value = r.i; sj.value = r.j; isub.textContent = r.i + 1;
+      if (!r.swap) { ia.value = r.a.txt(); ib.value = r.b.txt(); }
+      push(s[0].M, s[0].ops);
+    });
+    bUndo.addEventListener("click", function () { if (!hist.length) return; cur = hist.pop().M; note = ""; render(); });
+    bReset.addEventListener("click", function () { cur = copyM(start); hist = []; note = ""; render(); });
+    start = frM(PRE[0].m); cur = copyM(start); hist = [];
+    onLang(render);
+  }
+
+  /* ---------- widget: Cramer ---------- */
+  function wCramer() {
+    var w = document.getElementById("w-cramer"); if (!w) return;
+    var box = w.querySelector('[data-role="in"]'), info = w.querySelector(".info"), k = 0;
+    var ins = buildAug(box, 3, 3, [[1, 2, -1, 2], [2, 1, 5, 8], [-1, -5, 6, 0]]);
+    var btns = w.querySelectorAll('[data-role="var"] button');
+    function render() {
+      ins.forEach(function (r) { r.forEach(function (x, j) { x.classList.toggle("sel", j === k || j === 3); }); });
+      var V = readIns(ins); if (!okM(V)) { info.textContent = u("bad"); return; }
+      var A = V.map(function (r) { return r.slice(0, 3); }), d = detFr(A);
+      if (d.zero()) { info.innerHTML = tex("|A|=" + texM(A, "vmatrix") + "=0", true) + "<div>" + u("notCramer") + "</div>"; return; }
+      var Ak = A.map(function (r, i) { return r.map(function (x, j) { return j === k ? V[i][3] : x; }); }), dk = detFr(Ak);
+      var num = "\\begin{vmatrix}" + Ak.map(function (r) { return r.map(function (x, j) { return j === k ? "\\color{#ff7a50}" + x.tex() : x.tex(); }).join("&"); }).join("\\\\") + "\\end{vmatrix}";
+      var sol = A[0].map(function (_, j) { var Aj = A.map(function (r, i) { return r.map(function (x, c) { return c === j ? V[i][3] : x; }); }); return VARS[j] + "=" + detFr(Aj).div(d).tex(); });
+      info.innerHTML = tex(VARS[k] + "=\\frac{|A_" + VARS[k] + "|}{|A|}=\\frac{" + num + "}{" + texM(A, "vmatrix") + "}=\\frac{" + dk.tex() + "}{" + d.tex() + "}=\\boxed{" + dk.div(d).tex() + "}", true) +
+        "<div>" + u("cramerAll") + " " + tex(sol.join(";\\ \\ ")) + "</div>";
+    }
+    btns.forEach(function (b) { b.addEventListener("click", function () { k = +b.dataset.k; btns.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); render(); }); });
+    ins.forEach(function (r) { r.forEach(function (x) { x.addEventListener("input", render); }); });
+    onLang(render);
+  }
+
+  /* ---------- widget: paràmetres ---------- */
+  function wParam() {
+    var w = document.getElementById("w-param"); if (!w) return;
+    var EX = [
+      { p: "m", det: "4m-4", crit: [1], f: function (p) { return [[-1, p, 1, 2], [2, -1, 2, 0], [-1, 0, -3, -2]]; } },
+      { p: "a", det: "(a-1)^2(a+2)", crit: [1, -2], f: function (p) { return [[p, 1, 1, 1], [1, p, 1, 1], [1, 1, p, 1]]; } }
+    ], ex = 0;
+    var rng = w.querySelector('[data-role="rng"]'), pv = w.querySelector('[data-role="pval"]'), pn = w.querySelector('[data-role="pname"]'), info = w.querySelector(".info"), crit = w.querySelector('[data-role="crit"]');
+    var btns = w.querySelectorAll('[data-role="ex"] button');
+    function render() {
+      var E = EX[ex], p = new Fr(Math.round(+rng.value * 4), 4);
+      pn.textContent = E.p; pv.textContent = p.txt().replace("-", "−");
+      crit.innerHTML = u("crit") + " ";
+      E.crit.forEach(function (c) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.textContent = E.p + " = " + String(c).replace("-", "−");
+        b.addEventListener("click", function () { rng.value = c; render(); }); crit.appendChild(b);
+      });
+      var M = E.f(p).map(function (r) { return r.map(function (x) { return x instanceof Fr ? x : new Fr(x); }); });
+      var A = M.map(function (r) { return r.slice(0, 3); }), d = detFr(A), an = analyse(M);
+      info.innerHTML = tex(E.p + "=" + p.tex() + ":\\quad" + sysTex(M, 3), true) +
+        tex("|A|=" + E.det + "=" + d.tex() + (d.zero() ? "\\ \\Rightarrow\\ \\operatorname{rg}(A)<3" : "\\neq0")) + "<br>" + tex(rankTex(an)) +
+        "<div style=\"margin-top:6px\">" + badge(an.cls) + "</div>" + (an.sol ? tex(solTex(an), true) : "");
+    }
+    rng.addEventListener("input", render);
+    btns.forEach(function (b) { b.addEventListener("click", function () { ex = +b.dataset.k; btns.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); rng.value = 0; render(); }); });
+    onLang(render);
+  }
+
+  /* ---------- widget: resolutor (laboratori) ---------- */
+  function wLab() {
+    var w = document.getElementById("w-lab"); if (!w) return;
+    var selR = w.querySelector('[data-role="r"]'), selC = w.querySelector('[data-role="c"]'), box = w.querySelector('[data-role="in"]'), out = w.querySelector(".lab-out"), sysEl = w.querySelector('[data-role="sys"]');
+    for (var k = 1; k <= 5; k++) selR.add(new Option(k, k));
+    for (k = 2; k <= 4; k++) selC.add(new Option(k, k));
+    selR.value = 3; selC.value = 3;
+    var ins = buildAug(box, 3, 3, [[1, 1, 1, 3], [1, -1, 2, 2], [2, 0, 3, 5]]);
+    function resize() {
+      var n = +selC.value;
+      var old = ins.map(function (r) { var v = r.map(function (x) { return x.value; }), b = v.pop(); v = v.slice(0, n); while (v.length < n) v.push("0"); v.push(b); return v; });
+      ins = buildAug(box, +selR.value, n, old); bind(); render();
+    }
+    function bind() { ins.forEach(function (r) { r.forEach(function (x) { x.addEventListener("input", render); }); }); }
+    function card(t, html, wide) { return '<div class="card' + (wide ? " wide" : "") + '"><h4>' + t + "</h4>" + html + "</div>"; }
+    function render() {
+      var V = readIns(ins);
+      if (!okM(V)) { sysEl.innerHTML = ""; out.innerHTML = card("⚠", u("bad")); return; }
+      var n = V[0].length - 1, an = analyse(V);
+      sysEl.innerHTML = tex("\\Longleftrightarrow\\ " + sysTex(V, n));
+      var expl = an.cls === "si" ? "\\operatorname{rg}(A)\\neq\\operatorname{rg}(A^*)" : (an.cls === "scd" ? "\\operatorname{rg}(A)=\\operatorname{rg}(A^*)=n" : "\\operatorname{rg}(A)=\\operatorname{rg}(A^*)<n");
+      var h = card(u("rank"), tex("\\operatorname{rg}(A)=" + an.ra, true) + tex("\\operatorname{rg}(A^*)=" + an.rs, true));
+      h += card(u("cls"), "<div>" + badge(an.cls) + "</div>" + tex(expl, true) + (an.cls === "sci" ? '<div style="font-size:.85rem;color:var(--muted)">' + an.free + " " + u("params") + "</div>" : ""));
+      h += card(u("sol"), an.cls === "si" ? u("noSol") : tex(an.sol.map(function (s, j) { return VARS[j] + "=" + s; }).join("\\\\"), true) + (an.free ? tex(PARAMS.slice(0, an.free).join(",") + "\\in\\mathbb{R}") : ""));
+      var st = gaussSteps(V), chain = augTex(V), last = V;
+      st.forEach(function (s, i) { chain += arrow(s.ops) + augTex(s.M); last = s.M; if (i < st.length - 1) chain += "\\\\"; });
+      h += card(u("steps"), '<div class="chain">' + tex("\\begin{gathered}" + chain + "\\end{gathered}", true) + "</div><h4 style=\"margin-top:8px\">" + u("echelon") + "</h4>" + tex(sysTex(last, n), true), true);
+      out.innerHTML = h;
+    }
+    selR.addEventListener("change", resize); selC.addEventListener("change", resize);
+    w.querySelector('[data-role="rand"]').addEventListener("click", function () { ins.forEach(function (r) { r.forEach(function (x) { x.value = Math.floor(Math.random() * 11) - 5; }); }); render(); });
+    w.querySelector('[data-role="clear"]').addEventListener("click", function () { ins.forEach(function (r) { r.forEach(function (x) { x.value = "0"; }); }); render(); });
+    bind(); onLang(render);
+  }
+
+  /* ---------- qüestionari ---------- */
+  var QUIZ = [
+    { q: { va: "Un sistema que té una única solució és…", es: "Un sistema que tiene una única solución es…", en: "A system with exactly one solution is…" },
+      o: [{ va: "SCD", es: "SCD", en: "SCD" }, { va: "SCI", es: "SCI", en: "SCI" }, { va: "SI", es: "SI", en: "SI" }], a: 0,
+      e: { va: "Compatible (té solució) i determinat (només una).", es: "Compatible (tiene solución) y determinado (solo una).", en: "Consistent (it has a solution) and determined (only one)." } },
+    { q: { va: "En aplicar Gauss obtenim la fila $(0\\ \\ 0\\ \\ 0\\,|\\,5)$. El sistema és…", es: "Al aplicar Gauss obtenemos la fila $(0\\ \\ 0\\ \\ 0\\,|\\,5)$. El sistema es…", en: "Gaussian elimination gives the row $(0\\ \\ 0\\ \\ 0\\,|\\,5)$. The system is…" },
+      o: [{ va: "SCD", es: "SCD", en: "SCD" }, { va: "SCI", es: "SCI", en: "SCI" }, { va: "SI", es: "SI", en: "SI" }], a: 2,
+      e: { va: "Aquesta fila significa $0=5$, que és impossible.", es: "Esta fila significa $0=5$, que es imposible.", en: "That row means $0=5$, which is impossible." } },
+    { q: { va: "Si $\\operatorname{rg}(A)=2$ i $\\operatorname{rg}(A^*)=3$, el sistema és…", es: "Si $\\operatorname{rg}(A)=2$ y $\\operatorname{rg}(A^*)=3$, el sistema es…", en: "If $\\operatorname{rg}(A)=2$ and $\\operatorname{rg}(A^*)=3$, the system is…" },
+      o: [{ va: "Incompatible", es: "Incompatible", en: "Inconsistent" }, { va: "Compatible determinat", es: "Compatible determinado", en: "Consistent with a unique solution" }, { va: "Compatible indeterminat", es: "Compatible indeterminado", en: "Consistent with infinitely many solutions" }], a: 0,
+      e: { va: "Rouché-Frobenius: rangs diferents ⇒ SI.", es: "Rouché-Frobenius: rangos distintos ⇒ SI.", en: "Rouché–Frobenius: different ranks ⇒ inconsistent." } },
+    { q: { va: "Un sistema amb 4 incògnites té $\\operatorname{rg}(A)=\\operatorname{rg}(A^*)=2$. Quants paràmetres té la solució?", es: "Un sistema con 4 incógnitas tiene $\\operatorname{rg}(A)=\\operatorname{rg}(A^*)=2$. ¿Cuántos parámetros tiene la solución?", en: "A system in 4 unknowns has $\\operatorname{rg}(A)=\\operatorname{rg}(A^*)=2$. How many parameters does the solution have?" },
+      o: [{ va: "1", es: "1", en: "1" }, { va: "2", es: "2", en: "2" }, { va: "4", es: "4", en: "4" }], a: 1,
+      e: { va: "$n-r=4-2=2$ paràmetres.", es: "$n-r=4-2=2$ parámetros.", en: "$n-r=4-2=2$ parameters." } },
+    { q: { va: "Un sistema homogeni pot ser incompatible.", es: "Un sistema homogéneo puede ser incompatible.", en: "A homogeneous system can be inconsistent." },
+      o: [{ va: "Vertader", es: "Verdadero", en: "True" }, { va: "Fals", es: "Falso", en: "False" }], a: 1,
+      e: { va: "Sempre té, almenys, la solució trivial $x_1=\\cdots=x_n=0$.", es: "Siempre tiene, al menos, la solución trivial $x_1=\\cdots=x_n=0$.", en: "It always has at least the trivial solution $x_1=\\cdots=x_n=0$." } },
+    { q: { va: "Per aplicar la regla de Cramer (directament) cal que…", es: "Para aplicar la regla de Cramer (directamente) es necesario que…", en: "To apply Cramer's rule (directly) we need…" },
+      o: [{ va: "$A$ siga quadrada i $|A|\\neq0$", es: "$A$ sea cuadrada y $|A|\\neq0$", en: "$A$ square and $|A|\\neq0$" }, { va: "$|A|=0$", es: "$|A|=0$", en: "$|A|=0$" }, { va: "el sistema siga homogeni", es: "el sistema sea homogéneo", en: "the system to be homogeneous" }], a: 0,
+      e: { va: "És a dir, que siga un sistema de Cramer (SCD).", es: "Es decir, que sea un sistema de Cramer (SCD).", en: "That is, a Cramer system (unique solution)." } },
+    { q: { va: "Amb el mètode matricial, la solució de $AX=B$ és…", es: "Con el método matricial, la solución de $AX=B$ es…", en: "With the matrix method, the solution of $AX=B$ is…" },
+      o: [{ va: "$X=BA^{-1}$", es: "$X=BA^{-1}$", en: "$X=BA^{-1}$" }, { va: "$X=A^{-1}B$", es: "$X=A^{-1}B$", en: "$X=A^{-1}B$" }, { va: "$X=B/A$", es: "$X=B/A$", en: "$X=B/A$" }], a: 1,
+      e: { va: "Multipliquem per $A^{-1}$ per l'esquerra.", es: "Multiplicamos por $A^{-1}$ por la izquierda.", en: "Multiply by $A^{-1}$ on the left." } },
+    { q: { va: "En el sistema $ax+y+z=1,\\ x+ay+z=1,\\ x+y+az=1$, si $a=-2$…", es: "En el sistema $ax+y+z=1,\\ x+ay+z=1,\\ x+y+az=1$, si $a=-2$…", en: "In the system $ax+y+z=1,\\ x+ay+z=1,\\ x+y+az=1$, if $a=-2$…" },
+      o: [{ va: "és SCD", es: "es SCD", en: "it is SCD" }, { va: "és SCI", es: "es SCI", en: "it is SCI" }, { va: "és SI", es: "es SI", en: "it is SI" }], a: 2,
+      e: { va: "$\\operatorname{rg}(A)=2$ però $\\operatorname{rg}(A^*)=3$.", es: "$\\operatorname{rg}(A)=2$ pero $\\operatorname{rg}(A^*)=3$.", en: "$\\operatorname{rg}(A)=2$ but $\\operatorname{rg}(A^*)=3$." } }
+  ];
+  var answers = {};
+  function rtex(s) { return s.replace(/\$([^$]+)\$/g, function (_, m) { return tex(m); }); }
+  function wQuiz() {
+    var box = document.getElementById("quiz-box"), score = document.getElementById("quiz-score");
+    if (!box) return;
+    function render() {
+      box.innerHTML = ""; var ok = 0, done = 0;
+      QUIZ.forEach(function (q, i) {
+        var d = document.createElement("div"); d.className = "q";
+        d.innerHTML = '<p class="qt">' + (i + 1) + ". " + rtex(q.q[lang]) + '</p><div class="opts"></div><div class="fb"></div>';
+        var opts = d.querySelector(".opts"), fb = d.querySelector(".fb");
+        q.o.forEach(function (o, j) {
+          var b = document.createElement("button"); b.type = "button"; b.innerHTML = rtex(o[lang]);
+          if (answers[i] != null) {
+            b.disabled = true;
+            if (j === q.a) b.classList.add("right"); else if (j === answers[i]) b.classList.add("wrong");
+          }
+          b.addEventListener("click", function () { answers[i] = j; render(); });
+          opts.appendChild(b);
+        });
+        if (answers[i] != null) { done++; if (answers[i] === q.a) ok++; fb.innerHTML = "<strong>" + (answers[i] === q.a ? "✓ " + u("right") : "✗ " + u("wrong")) + "</strong> " + rtex(q.e[lang]); }
+        box.appendChild(d);
+      });
+      score.textContent = done ? u("score") + ": " + ok + " / " + QUIZ.length : "";
+    }
+    document.getElementById("quiz-reset").addEventListener("click", function () { answers = {}; render(); });
+    onLang(render);
+  }
+
+  /* ---------- passos ---------- */
+  function wSteps() {
+    document.querySelectorAll(".steps").forEach(function (s) {
+      var steps = [].slice.call(s.children).filter(function (c) { return c.classList.contains("step"); });
+      if (steps.length < 2) return;
+      s.classList.add("js");
+      var shown = 1, ctl = document.createElement("div"); ctl.className = "steps-ctl";
+      var bn = document.createElement("button"), ba = document.createElement("button"), cnt = document.createElement("span");
+      bn.type = ba.type = "button"; bn.className = "btn primary"; ba.className = "btn"; cnt.className = "step-count";
+      ctl.appendChild(bn); ctl.appendChild(ba); ctl.appendChild(cnt); s.after(ctl);
+      function upd() {
+        steps.forEach(function (st, i) { st.classList.toggle("hidden", i >= shown); });
+        bn.textContent = u("next") + " →"; bn.disabled = shown >= steps.length;
+        ba.textContent = shown >= steps.length ? u("reset") : u("all");
+        cnt.textContent = u("step") + " " + shown + " " + u("of") + " " + steps.length;
+      }
+      bn.addEventListener("click", function () { if (shown < steps.length) { shown++; upd(); steps[shown - 1].scrollIntoView({ block: "nearest", behavior: "smooth" }); } });
+      ba.addEventListener("click", function () { shown = shown >= steps.length ? 1 : steps.length; upd(); });
+      onLang(upd);
+    });
+  }
+
+  /* ---------- índex, progrés i seccions estudiades ---------- */
+  function wNav() {
+    var links = [].slice.call(document.querySelectorAll("#toc-list a")), secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var bar = document.getElementById("progress"), top = document.getElementById("to-top");
+    function onScroll() {
+      var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + "%";
+      top.classList.toggle("show", h.scrollTop > 800);
+      var y = window.scrollY + 140, idx = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    top.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    var done = {}; try { done = JSON.parse(store(UNIT_KEY) || "{}") || {}; } catch (e) {}
+    var heads = document.querySelectorAll("section.unit[id^='s'] .sec-head");
+    heads.forEach(function (hd) {
+      var id = hd.parentNode.id, b = document.createElement("button"); b.type = "button"; b.className = "done-btn";
+      function upd() { b.setAttribute("aria-pressed", String(!!done[id])); b.textContent = (done[id] ? "✓ " + u("studied") : "○ " + u("mark")); }
+      b.addEventListener("click", function () { done[id] = !done[id]; store(UNIT_KEY, JSON.stringify(done)); upd(); meter(); });
+      hd.appendChild(b); onLang(upd);
+    });
+    function meter() {
+      var n = 0; links.forEach(function (a) { var id = a.getAttribute("href").slice(1); a.classList.toggle("done", !!done[id]); if (done[id]) n++; });
+      document.getElementById("meter").style.width = (n / 6 * 100) + "%"; document.getElementById("meter-n").textContent = n;
+    }
+    meter();
+    var d = document.getElementById("toc-d");
+    var mq = window.matchMedia("(max-width: 960px)");
+    d.open = !mq.matches;
+    if (mq.addEventListener) mq.addEventListener("change", function () { d.open = !mq.matches; });
+    links.forEach(function (a) { a.addEventListener("click", function () { if (window.matchMedia("(max-width: 960px)").matches) d.open = false; }); });
+  }
+
+  /* ---------- idioma i tema ---------- */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function wChrome() {
+    var tb = document.getElementById("theme-btn");
+    function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+    tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+    var btns = document.querySelectorAll("[data-setlang]");
+    function paintLang() { btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); }
+    btns.forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.setlang); }); });
+    onLang(function () { paintTheme(); paintLang(); });
+  }
+  var TITLES = { va: "Sistemes d'equacions lineals · FentMates", es: "Sistemas de ecuaciones lineales · FentMates", en: "Systems of linear equations · FentMates" };
+  function setLang(l) {
+    if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }
+
+  function init() {
+    document.title = TITLES[lang];
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, {
+        delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }],
+        ignoredClasses: ["widget", "lab"], throwOnError: false
+      });
+    }
+    wChrome(); wSteps(); wNav(); wLines(); wMatform(); wGauss(); wCramer(); wParam(); wLab(); wQuiz();
+    /* les etiquetes dels widgets amb fórmules \(..\) es renderitzen a banda */
+    document.querySelectorAll(".widget .lbl, .widget label, .lab .lbl").forEach(function (el) { if (window.renderMathInElement) window.renderMathInElement(el, { delimiters: [{ left: "\\(", right: "\\)", display: false }] }); });
+  }
+  if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+})();
+</script>
+</body>
+</html>

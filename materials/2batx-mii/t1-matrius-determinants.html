@@ -1,0 +1,1541 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrius i determinants · FentMates</title>
+<meta name="description" content="Apunts interactius de la Unitat 1 (Matrius i determinants) de 2n de Batxillerat MII, en valencià, castellà i anglés.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+/* Idioma i tema abans de pintar (comparteix preferències amb la web) */
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --def: #1d4f73; --def-bg: #eef4f9; --prop: #3b4252; --prop-bg: #f3f4f7;
+  --ex: #a3203a; --ex-bg: #fbf0f2; --pr: #b7791f; --pr-bg: #fff8e8;
+  --hl-a: rgba(255, 122, 80, .22); --hl-b: rgba(43, 179, 163, .25); --hl-c: rgba(59, 130, 246, .2);
+  --plus: #2563eb; --minus: #dc2626; --ok: #15803d; --bad: #c2410c;
+  --radius: 16px; --header-h: 60px;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+  --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+  --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+    --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+    --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+  }
+}
+
+/* idiomes */
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Outfit", "Inter", system-ui, sans-serif; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 .5em; }
+a { color: inherit; }
+p { margin: .6em 0; }
+strong { font-weight: 650; }
+.katex { font-size: 1.08em; }
+.katex-display { margin: .9em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* capçalera */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .in { max-width: 1240px; margin: 0 auto; height: 100%; padding: 0 16px; display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.15rem; }
+.brand .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+.crumb { color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { text-decoration: none; } .crumb a:hover { color: var(--accent); }
+.spacer { flex: 1; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn svg { width: 18px; height: 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .1s; }
+html[data-embed="1"] .brand, html[data-embed="1"] .crumb { display: none; }
+
+/* portada */
+.hero { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; position: relative; overflow: hidden; }
+.hero::after { content: "|A|"; position: absolute; right: -10px; bottom: -60px; font: 800 15rem/1 "Outfit", sans-serif; color: rgba(255,255,255,.05); pointer-events: none; }
+.hero .in { max-width: 1240px; margin: 0 auto; padding: 44px 16px 40px; position: relative; z-index: 1; }
+.hero .kicker { display: inline-block; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 999px; font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 14px 0 8px; }
+.hero h1 .u { color: var(--yellow); }
+.hero p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: .82rem; padding: 4px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); }
+html[data-embed="1"] .hero .in { padding: 28px 16px 26px; }
+
+/* disposició */
+.layout { max-width: 1240px; margin: 0 auto; padding: 28px 16px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+.toc { position: sticky; top: calc(var(--header-h) + 18px); align-self: start; max-height: calc(100vh - var(--header-h) - 36px); overflow: auto; }
+.toc details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 10px 10px; }
+.toc summary { list-style: none; font: 700 .78rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 8px; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 10px; text-decoration: none; font-size: .9rem; color: var(--muted); line-height: 1.35; }
+.toc a:hover { background: var(--surface-2); color: var(--text); }
+.toc a.active { background: var(--surface-2); color: var(--text); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.toc a .n { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2em; color: var(--accent); }
+.toc a .ck { margin-left: auto; color: var(--ok); visibility: hidden; }
+.toc a.done .ck { visibility: visible; }
+.toc .meter { margin: 10px 8px 4px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.toc .meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.toc .meter-l { font-size: .78rem; color: var(--muted); padding: 2px 8px 0; }
+article { min-width: 0; max-width: 860px; }
+
+/* seccions */
+section.unit { margin-bottom: 56px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.sec-head .num { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 800 1.05rem "Outfit", sans-serif; }
+:root[data-theme="dark"] .sec-head .num { background: var(--accent); }
+.sec-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); flex: 1; min-width: 200px; }
+.done-btn { border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.done-btn[aria-pressed="true"] { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+h3.sub { font-size: 1.2rem; margin: 30px 0 10px; }
+
+/* caixes */
+.box { border-radius: var(--radius); margin: 18px 0; border: 1.5px solid; overflow: hidden; }
+.box > .bh { padding: 9px 18px; font: 700 1rem "Outfit", sans-serif; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+.box > .bb { padding: 6px 20px 14px; }
+.box .tag { font: 700 .68rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.box.def { border-color: var(--def); background: var(--def-bg); }
+.box.def > .bh { background: var(--def); color: #fff; }
+.box.prop { border-color: var(--prop); background: var(--prop-bg); }
+.box.prop > .bh { background: var(--prop); color: var(--bg); justify-content: center; text-transform: uppercase; font-size: .95rem; letter-spacing: .04em; }
+.box.ex { border-color: var(--ex); background: var(--ex-bg); }
+.box.ex > .bh { color: var(--ex); border-bottom: 1px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.box.pr { border-color: var(--pr); background: var(--pr-bg); }
+.box.pr > .bh { color: var(--pr); }
+.box.lab { border-color: var(--accent-2); background: var(--surface); box-shadow: var(--shadow); }
+.box.lab > .bh { background: linear-gradient(90deg, var(--accent-2), #3fc7b6); color: #fff; }
+:root[data-theme="dark"] .box.def > .bh, :root[data-theme="dark"] .box.prop > .bh { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .box.def > .bh, :root:not([data-theme="light"]) .box.prop > .bh { color: #0f1526; } }
+.box ul, .box ol { padding-left: 1.4em; }
+.box li { margin: .45em 0; }
+ol.alpha { list-style: lower-alpha; }
+.key { background: color-mix(in srgb, var(--yellow) 35%, transparent); padding: 0 4px; border-radius: 4px; }
+.u-line { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.note { border-left: 4px solid var(--accent); background: var(--surface); padding: 10px 16px; border-radius: 0 12px 12px 0; margin: 14px 0; }
+.ex-list > li { margin: 1.1em 0; }
+.ex-list > li::marker { font-weight: 700; color: var(--ex); }
+
+/* passos */
+.steps > .step { transition: opacity .3s, transform .3s; }
+.steps.js > .step.hidden { display: none; }
+.steps-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 14px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.step-count { font-size: .8rem; color: var(--muted); align-self: center; }
+
+/* solucions */
+details.sol { margin: 12px 0 4px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--pr); }
+details.sol > summary { cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--pr); list-style: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol > div { padding: 0 16px 12px; }
+
+/* taula COVID */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; }
+table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: .9rem; background: var(--surface); border-radius: 12px; overflow: hidden; }
+table.data th, table.data td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+table.data thead th, table.data tbody th { background: color-mix(in srgb, var(--yellow) 70%, var(--surface)); color: #1b2340; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+table.data tbody tr:hover td { background: var(--hl-a); }
+
+/* matrius interactives */
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--shadow); }
+.widget .wt { font: 700 .75rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-2); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+.wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.mx { display: inline-grid; gap: 2px 4px; padding: 6px 12px; position: relative; font-variant-numeric: tabular-nums; }
+.mx::before, .mx::after { content: ""; position: absolute; top: 0; bottom: 0; width: 9px; border: 2px solid var(--text); }
+.mx::before { left: 0; border-right: 0; border-radius: 10px 0 0 10px; }
+.mx::after { right: 0; border-left: 0; border-radius: 0 10px 10px 0; }
+.mx.det::before, .mx.det::after { width: 0; border-radius: 0; border-width: 0 0 0 2px; }
+.mx.det::after { border-width: 0 2px 0 0; }
+.mx .c { min-width: 2.3em; height: 2.1em; display: grid; place-items: center; border-radius: 8px; transition: background .15s, opacity .15s, color .15s; cursor: default; font-size: .98rem; }
+.mx .c.hot { cursor: pointer; }
+.mx .c.hot:hover { background: var(--surface-2); }
+.mx .c.on { background: var(--hl-a); font-weight: 700; }
+.mx .c.on2 { background: var(--hl-b); font-weight: 700; }
+.mx .c.off { opacity: .25; text-decoration: line-through; }
+.mx .c.plus { background: var(--hl-c); color: var(--plus); font-weight: 700; }
+.mx .c.minus { background: rgba(220, 38, 38, .14); color: var(--minus); font-weight: 700; }
+.mx .c.r1 { color: var(--r1); } .mx .c.r2 { color: var(--r2); } .mx .c.r3 { color: var(--r3); } .mx .c.r4 { color: var(--r4); }
+.mx .c.r1, .mx .c.r2, .mx .c.r3, .mx .c.r4 { font-weight: 700; }
+.mx input { width: 3.1em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.mx input.sel { outline: 2px solid var(--accent); background: var(--hl-a); }
+.mx input.off { opacity: .3; }
+.op { font: 600 1.25rem "Outfit", sans-serif; color: var(--muted); }
+.lbl { font: 700 1.05rem "Outfit", sans-serif; }
+.info { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 2.8em; font-size: .95rem; overflow-x: auto; }
+.terms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.terms button { font: 600 .82rem "Inter", sans-serif; border-radius: 999px; padding: 5px 11px; cursor: pointer; border: 1.5px solid; background: var(--surface); }
+.terms button.p { color: var(--plus); border-color: var(--plus); }
+.terms button.m { color: var(--minus); border-color: var(--minus); }
+.terms button.act.p { background: var(--plus); color: #fff; } .terms button.act.m { background: var(--minus); color: #fff; }
+input[type="range"] { accent-color: var(--accent); width: 180px; }
+select { font: 500 .9rem "Inter", sans-serif; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 .82rem "Inter", sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.lab-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.lab-out .card { background: var(--surface-2); border-radius: 12px; padding: 10px 14px; overflow-x: auto; }
+.lab-out .card h4 { margin: 0 0 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-family: "Inter", sans-serif; }
+
+/* SVG Sarrus */
+.sarrus-fig { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 10px 0; }
+.sarrus-fig svg { width: 210px; height: auto; }
+.sarrus-fig text { font: italic 600 15px "Times New Roman", serif; fill: var(--text); }
+.sarrus-fig text.sgn { font: 700 28px "Inter", sans-serif; font-style: normal; }
+
+/* qüestionari */
+.quiz .q { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 12px 0; }
+.quiz .q p.qt { font-weight: 600; margin: 0 0 8px; }
+.quiz .opts { display: grid; gap: 6px; }
+.quiz .opts button { text-align: left; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; padding: 8px 12px; font: 500 .95rem "Inter", sans-serif; cursor: pointer; }
+.quiz .opts button:hover:not([disabled]) { border-color: var(--accent); }
+.quiz .opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg)); }
+.quiz .opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg)); }
+.quiz .fb { font-size: .9rem; margin-top: 8px; color: var(--muted); }
+.score { font: 700 1.1rem "Outfit", sans-serif; margin-top: 12px; }
+
+footer.foot { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; text-align: center; padding: 24px 16px 40px; }
+html[data-embed="1"] footer.foot { display: none; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; box-shadow: var(--shadow); }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
+  .toc { position: static; max-height: none; }
+  .toc summary { cursor: pointer; }
+  .toc summary::after { content: "▾"; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .box > .bb { padding: 4px 14px 12px; }
+  .crumb { display: none; }
+  .widget { padding: 12px; }
+  .mx .c { min-width: 2em; }
+}
+@media print {
+  .topbar, .toc, .steps-ctl, .done-btn, .to-top, .widget, .quiz-sec, footer.foot { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .steps.js > .step.hidden { display: block; }
+  details.sol { display: none; }
+  .hero { background: none; color: #000; } .hero p, .hero .chips span { color: #333; }
+  .box { break-inside: avoid; }
+}
+
+/* FentMates: 80% de l'ample en ordinador (marc i text) */
+@media (min-width: 1101px) {
+  .topbar .in, .hero .in, .layout { max-width: 80vw; }
+  article { max-width: none; }
+  .slide > .in, .overview .in { max-width: 80vw; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../2batx-mii.html"><span data-l="va">2n Batxillerat MII</span><span data-l="es">2º Bachillerato MII</span><span data-l="en">2nd Baccalaureate Maths II</span></a> / <span data-l="va">Unitat 1</span><span data-l="es">Unidad 1</span><span data-l="en">Unit 1</span></span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker"><span data-l="va">Apunts de teoria · 2n Batxillerat MII</span><span data-l="es">Apuntes de teoría · 2º Bachillerato MII</span><span data-l="en">Theory notes · 2nd Baccalaureate, Maths II</span></span>
+    <h1><span class="u"><span data-l="va">Unitat 1</span><span data-l="es">Unidad 1</span><span data-l="en">Unit 1</span></span> · <span data-l="va">Matrius i determinants</span><span data-l="es">Matrices y determinantes</span><span data-l="en">Matrices and determinants</span></h1>
+    <p><span data-l="va">Teoria, exemples resolts pas a pas i eines interactives per entendre (i no només memoritzar) les matrius, els determinants, el rang i la matriu inversa.</span><span data-l="es">Teoría, ejemplos resueltos paso a paso y herramientas interactivas para entender (y no solo memorizar) las matrices, los determinantes, el rango y la matriz inversa.</span><span data-l="en">Theory, step-by-step worked examples and interactive tools to understand (not just memorise) matrices, determinants, rank and the inverse matrix.</span></p>
+    <div class="chips"><span><span data-l="va">7 apartats</span><span data-l="es">7 apartados</span><span data-l="en">7 sections</span></span><span><span data-l="va">6 eines interactives</span><span data-l="es">6 herramientas interactivas</span><span data-l="en">6 interactive tools</span></span><span><span data-l="va">Autoavaluació final</span><span data-l="es">Autoevaluación final</span><span data-l="en">Final self-check</span></span></div>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="toc" aria-label="Índex">
+    <details open id="toc-d">
+      <summary><span data-l="va">Índex</span><span data-l="es">Índice</span><span data-l="en">Contents</span></summary>
+      <ol id="toc-list">
+        <li><a href="#s1"><span class="n">1.1</span><span data-l="va">Matrius. Definicions</span><span data-l="es">Matrices. Definiciones</span><span data-l="en">Matrices. Definitions</span><span class="ck">✓</span></a></li>
+        <li><a href="#s2"><span class="n">1.2</span><span data-l="va">Operacions amb matrius</span><span data-l="es">Operaciones con matrices</span><span data-l="en">Matrix operations</span><span class="ck">✓</span></a></li>
+        <li><a href="#s3"><span class="n">1.3</span><span data-l="va">Determinants</span><span data-l="es">Determinantes</span><span data-l="en">Determinants</span><span class="ck">✓</span></a></li>
+        <li><a href="#s4"><span class="n">1.4</span><span data-l="va">Propietats dels determinants</span><span data-l="es">Propiedades de los determinantes</span><span data-l="en">Properties of determinants</span><span class="ck">✓</span></a></li>
+        <li><a href="#s5"><span class="n">1.5</span><span data-l="va">Rang d'una matriu</span><span data-l="es">Rango de una matriz</span><span data-l="en">Rank of a matrix</span><span class="ck">✓</span></a></li>
+        <li><a href="#s6"><span class="n">1.6</span><span data-l="va">Matriu inversa</span><span data-l="es">Matriz inversa</span><span data-l="en">Inverse matrix</span><span class="ck">✓</span></a></li>
+        <li><a href="#s7"><span class="n">1.7</span><span data-l="va">Equacions i sistemes matricials</span><span data-l="es">Ecuaciones y sistemas matriciales</span><span data-l="en">Matrix equations and systems</span><span class="ck">✓</span></a></li>
+        <li><a href="#lab"><span class="n">⚙</span><span data-l="va">Laboratori de matrius</span><span data-l="es">Laboratorio de matrices</span><span data-l="en">Matrix lab</span></a></li>
+        <li><a href="#quiz"><span class="n">?</span><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></a></li>
+      </ol>
+      <div class="meter"><i id="meter"></i></div>
+      <div class="meter-l"><span id="meter-n">0</span>/7 <span data-l="va">apartats estudiats</span><span data-l="es">apartados estudiados</span><span data-l="en">sections studied</span></div>
+    </details>
+  </nav>
+
+<article>
+
+<!-- ======================= 1.1 ======================= -->
+<section class="unit" id="s1">
+  <div class="sec-head"><span class="num">1.1</span><h2><span data-l="va">Matrius. Definicions</span><span data-l="es">Matrices. Definiciones</span><span data-l="en">Matrices. Definitions</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Definició: matriu d'ordre</span><span data-l="es">Definición: matriz de orden</span><span data-l="en">Definition: matrix of order</span> \(n\times m\)</div>
+    <div class="bb">
+      <p><span data-l="va">Una <strong>matriu d'ordre o dimensió</strong> \(n\times m\) és un conjunt de \(n\cdot m\) elements distribuïts en \(n\) files i \(m\) columnes i la representem per \(A=(a_{ij})\). En general l'escriurem així:</span><span data-l="es">Una <strong>matriz de orden o dimensión</strong> \(n\times m\) es un conjunto de \(n\cdot m\) elementos distribuidos en \(n\) filas y \(m\) columnas, y la representamos por \(A=(a_{ij})\). En general la escribiremos así:</span><span data-l="en">A <strong>matrix of order (or dimension)</strong> \(n\times m\) is a set of \(n\cdot m\) elements arranged in \(n\) rows and \(m\) columns, and we denote it by \(A=(a_{ij})\). In general we write it like this:</span></p>
+      \[A=\begin{pmatrix} a_{11} & a_{12} & a_{13} & \cdots & a_{1m}\\ a_{21} & a_{22} & a_{23} & \cdots & a_{2m}\\ a_{31} & a_{32} & a_{33} & \cdots & a_{3m}\\ \cdots & \cdots & \cdots & \cdots & \vdots\\ a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nm}\end{pmatrix}\]
+      <p><span data-l="va">Cada element de la matriu l'escriurem amb dos subíndexs, \(a_{ij}\), on el primer subíndex (\(i\)) ens indica la <strong>fila</strong>, i el segon subíndex (\(j\)), la <strong>columna</strong>. En la pràctica, cada element de la matriu serà un nombre real, \(a_{23}=-1\) (per exemple).<br>Com podem veure, una matriu <span class="u-line">és una taula numèrica rectangular</span>.</span><span data-l="es">Cada elemento de la matriz lo escribiremos con dos subíndices, \(a_{ij}\), donde el primer subíndice (\(i\)) nos indica la <strong>fila</strong>, y el segundo subíndice (\(j\)), la <strong>columna</strong>. En la práctica, cada elemento de la matriz será un número real, \(a_{23}=-1\) (por ejemplo).<br>Como podemos ver, una matriz <span class="u-line">es una tabla numérica rectangular</span>.</span><span data-l="en">We write each element of the matrix with two subscripts, \(a_{ij}\), where the first subscript (\(i\)) tells us the <strong>row</strong> and the second (\(j\)) the <strong>column</strong>. In practice, each element of the matrix will be a real number, e.g. \(a_{23}=-1\).<br>As we can see, a matrix <span class="u-line">is a rectangular table of numbers</span>.</span></p>
+      <div class="widget" id="w-aij">
+        <div class="wt">◉ <span data-l="va">Prova-ho: passa el ratolí (o toca) un element</span><span data-l="es">Pruébalo: pasa el ratón (o toca) un elemento</span><span data-l="en">Try it: hover over (or tap) an element</span></div>
+        <div class="wrow"><span class="lbl">\(A=\)</span><div class="mx" data-m="7,1,4,2;0,5,-1,3;6,2,0,5"></div></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Definicions</span><span data-l="es">Definiciones</span><span data-l="en">Definitions</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va">Direm que una matriu és <strong>quadrada</strong> si \(m=n\).</span><span data-l="es">Diremos que una matriz es <strong>cuadrada</strong> si \(m=n\).</span><span data-l="en">A matrix is <strong>square</strong> if \(m=n\).</span></li>
+        <li><span data-l="va">Direm que dues <strong>matrius són iguals</strong> quan són de la mateixa dimensió i, a més, coincideixen terme a terme:</span><span data-l="es">Diremos que dos <strong>matrices son iguales</strong> cuando son de la misma dimensión y, además, coinciden término a término:</span><span data-l="en">Two <strong>matrices are equal</strong> when they have the same dimension and, in addition, they match entry by entry:</span>
+          \[\left.\begin{array}{l} A=(a_{ij})_{m,n}\\ B=(b_{ij})_{m,n}\end{array}\right\}\; A=B \iff a_{ij}=b_{ij}\]</li>
+        <li><span data-l="va">Anomenem <strong>transposada</strong> d'una matriu \(A=(a_{ij})_{m,n}\) una altra matriu \(A^t=(a_{ij})_{n,m}\), que s'obté en canviar en la matriu \(A\) les files per les columnes i les columnes per les files.</span><span data-l="es">Llamamos <strong>traspuesta</strong> de una matriz \(A=(a_{ij})_{m,n}\) a otra matriz \(A^t=(a_{ij})_{n,m}\), que se obtiene al cambiar en la matriz \(A\) las filas por las columnas y las columnas por las filas.</span><span data-l="en">The <strong>transpose</strong> of a matrix \(A=(a_{ij})_{m,n}\) is another matrix \(A^t=(a_{ij})_{n,m}\), obtained by swapping the rows of \(A\) for its columns and the columns for its rows.</span>
+          \[A=\begin{pmatrix}1 & 2\\ 3 & 4\end{pmatrix}\qquad A^t=\begin{pmatrix}1 & 3\\ 2 & 4\end{pmatrix}\]</li>
+        <li><span data-l="va">Direm que una matriu \(A\) és <strong>simètrica</strong> si, a més de ser quadrada, es compleix que \(A=A^t\).</span><span data-l="es">Diremos que una matriz \(A\) es <strong>simétrica</strong> si, además de ser cuadrada, se cumple que \(A=A^t\).</span><span data-l="en">A matrix \(A\) is <strong>symmetric</strong> if, besides being square, \(A=A^t\).</span></li>
+        <li><span data-l="va">Una matriu quadrada direm que és <strong>triangular</strong>, si tots els elements per davall o per dalt de la diagonal principal són iguals a zero, com la de l'exemple:</span><span data-l="es">Una matriz cuadrada diremos que es <strong>triangular</strong> si todos los elementos por debajo o por encima de la diagonal principal son iguales a cero, como la del ejemplo:</span><span data-l="en">A square matrix is <strong>triangular</strong> if all the elements below or above the main diagonal are zero, as in the example:</span>
+          <span data-l="va"> \[\underbrace{A=\begin{pmatrix}4 & \color{#2bb3a3}0 & \color{#2bb3a3}0\\ -1 & 5 & \color{#2bb3a3}0\\ 6 & -1 & 1\end{pmatrix}}_{\text{Triangular inferior}}\quad,\quad \underbrace{B=\begin{pmatrix}3 & 3 & -6\\ \color{#2bb3a3}0 & 2 & -1\\ \color{#2bb3a3}0 & \color{#2bb3a3}0 & 9\end{pmatrix}}_{\text{Triangular superior}}\] </span><span data-l="es"> \[\underbrace{A=\begin{pmatrix}4 & \color{#2bb3a3}0 & \color{#2bb3a3}0\\ -1 & 5 & \color{#2bb3a3}0\\ 6 & -1 & 1\end{pmatrix}}_{\text{Triangular inferior}}\quad,\quad \underbrace{B=\begin{pmatrix}3 & 3 & -6\\ \color{#2bb3a3}0 & 2 & -1\\ \color{#2bb3a3}0 & \color{#2bb3a3}0 & 9\end{pmatrix}}_{\text{Triangular superior}}\] </span><span data-l="en"> \[\underbrace{A=\begin{pmatrix}4 & \color{#2bb3a3}0 & \color{#2bb3a3}0\\ -1 & 5 & \color{#2bb3a3}0\\ 6 & -1 & 1\end{pmatrix}}_{\text{Lower triangular}}\quad,\quad \underbrace{B=\begin{pmatrix}3 & 3 & -6\\ \color{#2bb3a3}0 & 2 & -1\\ \color{#2bb3a3}0 & \color{#2bb3a3}0 & 9\end{pmatrix}}_{\text{Upper triangular}}\] </span></li>
+        <li><span data-l="va">Anomenem <strong>matriu nul·la</strong> la matriu on tots els elements són zeros. És a dir, \(a_{ij}=0\ \ \forall i,j\).</span><span data-l="es">Llamamos <strong>matriz nula</strong> a la matriz en la que todos los elementos son ceros. Es decir, \(a_{ij}=0\ \ \forall i,j\).</span><span data-l="en">The <strong>zero matrix</strong> is the matrix whose elements are all zero. That is, \(a_{ij}=0\ \ \forall i,j\).</span></li>
+        <li><span data-l="va"><strong>Matriu diagonal</strong> és una matriu quadrada on tots els elements que no pertanyen a la diagonal principal són zero. És a dir, \(a_{ij}=0\ \ \forall i\neq j\).</span><span data-l="es"><strong>Matriz diagonal</strong> es una matriz cuadrada en la que todos los elementos que no pertenecen a la diagonal principal son cero. Es decir, \(a_{ij}=0\ \ \forall i\neq j\).</span><span data-l="en">A <strong>diagonal matrix</strong> is a square matrix in which every element off the main diagonal is zero. That is, \(a_{ij}=0\ \ \forall i\neq j\).</span></li>
+        <li><span data-l="va"><strong>Matriu identitat o matriu unitat</strong> és la matriu diagonal on tots els elements de la diagonal principal són 1, és a dir, \(a_{ij}=1\ \ \forall i=j\) i \(a_{ij}=0\ \ \forall i\neq j\).</span><span data-l="es"><strong>Matriz identidad o matriz unidad</strong> es la matriz diagonal en la que todos los elementos de la diagonal principal son 1, es decir, \(a_{ij}=1\ \ \forall i=j\) y \(a_{ij}=0\ \ \forall i\neq j\).</span><span data-l="en">The <strong>identity (or unit) matrix</strong> is the diagonal matrix whose main-diagonal elements are all 1, that is, \(a_{ij}=1\ \ \forall i=j\) and \(a_{ij}=0\ \ \forall i\neq j\).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de matrius</span><span data-l="es">Ejemplos de matrices</span><span data-l="en">Examples of matrices</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}7 & 1 & 4 & 2\\ 0 & 5 & -1 & 3\\ 6 & 2 & 0 & 5\end{pmatrix}\) <span data-l="va">la seua transposada serà</span><span data-l="es">su traspuesta será</span><span data-l="en">its transpose is</span> \(A^t=\begin{pmatrix}7 & 0 & 6\\ 1 & 5 & 2\\ 4 & -1 & 0\\ 2 & 3 & 5\end{pmatrix}\).
+          <div class="widget" id="w-transp">
+            <div class="wt">⇄ <span data-l="va">Cada fila d'A es converteix en una columna d'Aᵗ (passa el ratolí per una fila)</span><span data-l="es">Cada fila de A se convierte en una columna de Aᵗ (pasa el ratón por una fila)</span><span data-l="en">Each row of A becomes a column of Aᵗ (hover over a row)</span></div>
+            <div class="wrow"><span class="lbl">\(A=\)</span><div class="mx" data-role="a"></div><span class="op">⟶</span><span class="lbl">\(A^t=\)</span><div class="mx" data-role="t"></div></div>
+          </div>
+        </li>
+        <li><span data-l="va">La matriu</span><span data-l="es">La matriz</span><span data-l="en">The matrix</span> \(B=\begin{pmatrix}1 & 6 & -5\\ 6 & 0 & 4\\ -5 & 4 & 6\end{pmatrix}\) <span data-l="va">és simètrica ja que</span><span data-l="es">es simétrica ya que</span><span data-l="en">is symmetric since</span> \(B=B^t\).</li>
+        <li>\(A=\begin{pmatrix}1 & 3\\ 0 & 1\end{pmatrix}\) <span data-l="va">matriu triangular superior.</span><span data-l="es">matriz triangular superior.</span><span data-l="en">upper triangular matrix.</span> \(B=\begin{pmatrix}1 & 0 & 0\\ 2 & 4 & 0\\ 3 & -3 & -2\end{pmatrix}\) <span data-l="va">matriu triangular inferior.</span><span data-l="es">matriz triangular inferior.</span><span data-l="en">lower triangular matrix.</span></li>
+        <li>\(C=\begin{pmatrix}1 & 0 & 0\\ 0 & 2 & 0\\ 0 & 0 & -3\end{pmatrix}\) <span data-l="va">és una matriu diagonal.</span><span data-l="es">es una matriz diagonal.</span><span data-l="en">is a diagonal matrix.</span></li>
+        <li>\(I_2=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}\) <span data-l="va">matriu identitat d'ordre 2.</span><span data-l="es">matriz identidad de orden 2.</span><span data-l="en">identity matrix of order 2.</span> \(I_3=\begin{pmatrix}1 & 0 & 0\\ 0 & 1 & 0\\ 0 & 0 & 1\end{pmatrix}\) <span data-l="va">matriu identitat d'ordre 3.</span><span data-l="es">matriz identidad de orden 3.</span><span data-l="en">identity matrix of order 3.</span></li>
+        <li><span data-l="va">En el seguiment de la pandèmia de la COVID-19 s'han comptabilitzat els contagis, les noves hospitalitzacions i les altes hospitalàries de quatre localitats durant una setmana.</span><span data-l="es">En el seguimiento de la pandemia de la COVID-19 se han contabilizado los contagios, las nuevas hospitalizaciones y las altas hospitalarias de cuatro localidades durante una semana.</span><span data-l="en">While monitoring the COVID-19 pandemic, the infections, new hospital admissions and hospital discharges in four towns were counted over one week.</span>
+          <div class="tbl-wrap"><table class="data">
+            <thead><tr><th></th><th><span data-l="va">Contagis</span><span data-l="es">Contagios</span><span data-l="en">Infections</span></th><th><span data-l="va">Noves hospitalitzacions</span><span data-l="es">Nuevas hospitalizaciones</span><span data-l="en">New admissions</span></th><th><span data-l="va">Altes hospitalàries</span><span data-l="es">Altas hospitalarias</span><span data-l="en">Discharges</span></th></tr></thead>
+            <tbody>
+              <tr><th>L₁</th><td>42</td><td>23</td><td>30</td></tr>
+              <tr><th>L₂</th><td>35</td><td>15</td><td>16</td></tr>
+              <tr><th>L₃</th><td>56</td><td>18</td><td>22</td></tr>
+              <tr><th>L₄</th><td>12</td><td>3</td><td>5</td></tr>
+            </tbody>
+          </table></div>
+          <span data-l="va">És clar que les dades configuren una matriu 4x3:</span><span data-l="es">Está claro que los datos configuran una matriz 4x3:</span><span data-l="en">Clearly, the data form a 4×3 matrix:</span>
+          \[\begin{pmatrix}42 & 23 & 30\\ 35 & 15 & 16\\ 56 & 18 & 22\\ 12 & 3 & 5\end{pmatrix}\]
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1.2 ======================= -->
+<section class="unit" id="s2">
+  <div class="sec-head"><span class="num">1.2</span><h2><span data-l="va">Operacions amb matrius</span><span data-l="es">Operaciones con matrices</span><span data-l="en">Matrix operations</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Suma/resta de matrius</span><span data-l="es">Suma/resta de matrices</span><span data-l="en">Matrix addition/subtraction</span></div>
+    <div class="bb">
+      <p><span data-l="va">Per a poder <strong>sumar/restar</strong> dues matrius cal que aquestes siguen del mateix ordre, i sols haurem de sumar/restar els elements que ocupen la mateixa posició.</span><span data-l="es">Para poder <strong>sumar/restar</strong> dos matrices es necesario que sean del mismo orden, y solo tendremos que sumar/restar los elementos que ocupan la misma posición.</span><span data-l="en">To <strong>add/subtract</strong> two matrices they must have the same order, and we simply add/subtract the elements in the same position.</span></p>
+      \[A\pm B=(a_{ij})\pm(b_{ij})=(a_{ij}\pm b_{ij});\ \forall i,j\]
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Propietats de la suma</span><span data-l="es">Propiedades de la suma</span><span data-l="en">Properties of addition</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">Associativa</span><span data-l="es">Asociativa</span><span data-l="en">Associative</span>: \(A+(B+C)=(A+B)+C\)</li>
+        <li><span data-l="va">Commutativa</span><span data-l="es">Conmutativa</span><span data-l="en">Commutative</span>: \(A+B=B+A\)</li>
+        <li><span data-l="va">Element neutre</span><span data-l="es">Elemento neutro</span><span data-l="en">Identity element</span>: \(A+0=A=0+A\)</li>
+        <li><span data-l="va">Element simètric</span><span data-l="es">Elemento simétrico</span><span data-l="en">Inverse element</span>: \(A+(-A)=0=(-A)+A\). <span data-l="va">La matriu \((-A)\) s'anomena <strong>matriu oposada</strong> d'\(A\) i està formada per tots els elements oposats de la matriu \(A\), és a dir, els elements d'\(A\) amb signe contrari.</span><span data-l="es">La matriz \((-A)\) se llama <strong>matriz opuesta</strong> de \(A\) y está formada por todos los elementos opuestos de la matriz \(A\), es decir, los elementos de \(A\) con signo contrario.</span><span data-l="en">The matrix \((-A)\) is called the <strong>opposite matrix</strong> of \(A\); it is made up of the opposites of all the elements of \(A\), i.e. the elements of \(A\) with the sign changed.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de suma/resta de matrius</span><span data-l="es">Ejemplos de suma/resta de matrices</span><span data-l="en">Examples of addition/subtraction</span></div>
+    <div class="bb">
+      <p><span data-l="va">Siguen les matrius</span><span data-l="es">Sean las matrices</span><span data-l="en">Let</span> \(A=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(B=\begin{pmatrix}1 & 2 & 1\\ 5 & 3 & 0\end{pmatrix}\)<span data-l="va">, calculem:</span><span data-l="es">, calculamos:</span><span data-l="en">; we compute:</span></p>
+      \[A+B=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}+\begin{pmatrix}1 & 2 & 1\\ 5 & 3 & 0\end{pmatrix}=\begin{pmatrix}5+1 & 3+2 & 1+1\\ 6+5 & 4+3 & 1+0\end{pmatrix}=\begin{pmatrix}6 & 5 & 2\\ 11 & 7 & 1\end{pmatrix}\]
+      \[A-B=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}-\begin{pmatrix}1 & 2 & 1\\ 5 & 3 & 0\end{pmatrix}=\begin{pmatrix}5-1 & 3-2 & 1-1\\ 6-5 & 4-3 & 1-0\end{pmatrix}=\begin{pmatrix}4 & 1 & 0\\ 1 & 1 & 1\end{pmatrix}\]
+      <p><span data-l="va">Les matrius</span><span data-l="es">Las matrices</span><span data-l="en">The matrices</span> \(\begin{pmatrix}2 & 1 & 7 & 4\\ -3 & 2 & -5 & 6\end{pmatrix}\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(\begin{pmatrix}4 & 7 & 0\\ -4 & 1 & -2\end{pmatrix}\) <span data-l="va">no poden sumar-se perquè no tenen el mateix ordre.</span><span data-l="es">no pueden sumarse porque no tienen el mismo orden.</span><span data-l="en">cannot be added because they do not have the same order.</span></p>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Producte d'una matriu per un nombre real</span><span data-l="es">Producto de una matriz por un número real</span><span data-l="en">Multiplying a matrix by a real number</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada una matriu \(A\) i un nombre real \(k\), el <strong>producte</strong> \(k\cdot A\) és una altra matriu del mateix ordre, els elements de la qual són el producte del nombre \(k\) pels elements de la matriu \(A\):</span><span data-l="es">Dada una matriz \(A\) y un número real \(k\), el <strong>producto</strong> \(k\cdot A\) es otra matriz del mismo orden, cuyos elementos son el producto del número \(k\) por los elementos de la matriz \(A\):</span><span data-l="en">Given a matrix \(A\) and a real number \(k\), the <strong>product</strong> \(k\cdot A\) is another matrix of the same order whose elements are \(k\) times the elements of \(A\):</span></p>
+      \[k\cdot A=k\cdot(a_{ij})=(k\cdot a_{ij})\ \ \forall i,j\]
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Propietats</span><span data-l="es">Propiedades</span><span data-l="en">Properties</span></div>
+    <div class="bb">
+      <p><span data-l="va">Siguen \(k\) i \(n\) dos nombres reals i \(A\) i \(B\) dues matrius del mateix ordre:</span><span data-l="es">Sean \(k\) y \(n\) dos números reales y \(A\) y \(B\) dos matrices del mismo orden:</span><span data-l="en">Let \(k\) and \(n\) be two real numbers and \(A\) and \(B\) two matrices of the same order:</span></p>
+      <ol class="alpha">
+        <li><span data-l="va">Associativa</span><span data-l="es">Asociativa</span><span data-l="en">Associative</span>: \(k\cdot(n\cdot A)=(k\cdot n)\cdot A\)</li>
+        <li><span data-l="va">Distributiva respecte de la suma de matrius</span><span data-l="es">Distributiva respecto de la suma de matrices</span><span data-l="en">Distributive over matrix addition</span>: \(k\cdot(A+B)=k\cdot A+k\cdot B\)</li>
+        <li><span data-l="va">Distributiva respecte de la suma de nombres</span><span data-l="es">Distributiva respecto de la suma de números</span><span data-l="en">Distributive over addition of numbers</span>: \((n+k)\cdot A=n\cdot A+k\cdot A\)</li>
+        <li><span data-l="va">Element neutre</span><span data-l="es">Elemento neutro</span><span data-l="en">Identity element</span>: \(1\cdot A=A\)</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple</span><span data-l="es">Ejemplo</span><span data-l="en">Example</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada la matriu</span><span data-l="es">Dada la matriz</span><span data-l="en">Given the matrix</span> \(A=\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}\)<span data-l="va">, calculem:</span><span data-l="es">, calculamos:</span><span data-l="en">, we compute:</span></p>
+      \[2\cdot A=2\cdot\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}=\begin{pmatrix}2 & 4\\ 6 & 0\\ 2 & -2\end{pmatrix}\]
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Producte de matrius</span><span data-l="es">Producto de matrices</span><span data-l="en">Matrix multiplication</span></div>
+    <div class="bb">
+      <p><span data-l="va">Perquè dues matrius \(A\) (d'ordre \(m\times n\)) i \(B\) (d'ordre \(n\times p\)) puguen multiplicar-se, \(A\cdot B\), cal que <span class="key">el nombre de columnes de la primera coincidisca amb el nombre de files de la segona</span>.<br>En tal cas, el producte \(A\cdot B=C\) és una altra matriu els elements de la qual s'obtenen multiplicant cada vector fila de la primera matriu per cada vector columna de la segona matriu, de la manera següent:</span><span data-l="es">Para que dos matrices \(A\) (de orden \(m\times n\)) y \(B\) (de orden \(n\times p\)) puedan multiplicarse, \(A\cdot B\), es necesario que <span class="key">el número de columnas de la primera coincida con el número de filas de la segunda</span>.<br>En tal caso, el producto \(A\cdot B=C\) es otra matriz cuyos elementos se obtienen multiplicando cada vector fila de la primera matriz por cada vector columna de la segunda, de la manera siguiente:</span><span data-l="en">For two matrices \(A\) (of order \(m\times n\)) and \(B\) (of order \(n\times p\)) to be multiplied, \(A\cdot B\), <span class="key">the number of columns of the first must equal the number of rows of the second</span>.<br>In that case, the product \(A\cdot B=C\) is another matrix whose elements are obtained by multiplying each row vector of the first matrix by each column vector of the second, as follows:</span></p>
+      \[C=A\cdot B=(a_{ij})\cdot(b_{ij})=c_{ij}=\sum_{k=1}^{n}a_{ik}\cdot b_{kj}\]
+      <div class="widget" id="w-prod">
+        <div class="wt">✕ <span data-l="va">Explorador del producte: tria un element del resultat</span><span data-l="es">Explorador del producto: elige un elemento del resultado</span><span data-l="en">Product explorer: pick an element of the result</span></div>
+        <div class="wrow"><div class="mx" data-role="a"></div><span class="op">·</span><div class="mx" data-role="b"></div><span class="op">=</span><div class="mx" data-role="c"></div></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Propietats del producte</span><span data-l="es">Propiedades del producto</span><span data-l="en">Properties of the product</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">Associativa</span><span data-l="es">Asociativa</span><span data-l="en">Associative</span>: \(A\cdot(B\cdot C)=(A\cdot B)\cdot C\)</li>
+        <li><span data-l="va">Element neutre</span><span data-l="es">Elemento neutro</span><span data-l="en">Identity element</span>: \(A\cdot I=I\cdot A=A\)</li>
+        <li><span data-l="va">Distributiva respecte de la suma</span><span data-l="es">Distributiva respecto de la suma</span><span data-l="en">Distributive over addition</span>: \(A\cdot(B+C)=A\cdot B+A\cdot C\)</li>
+        <li><span data-l="va">Transposada del producte</span><span data-l="es">Traspuesta del producto</span><span data-l="en">Transpose of a product</span>: \((A\cdot B)^t=B^t\cdot A^t\)</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple</span><span data-l="es">Ejemplo</span><span data-l="en">Example</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donades les matrius</span><span data-l="es">Dadas las matrices</span><span data-l="en">Given the matrices</span> \(A=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(B=\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}\)<span data-l="va">, calculem \(A\cdot B\) i \(B\cdot A\):</span><span data-l="es">, calculamos \(A\cdot B\) y \(B\cdot A\):</span><span data-l="en">, we compute \(A\cdot B\) and \(B\cdot A\):</span></p>
+      <div class="steps">
+        <div class="step">\[A\cdot B=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}\cdot\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}=\begin{pmatrix}5\cdot1+3\cdot3+1\cdot1 & 5\cdot2+3\cdot0+1\cdot(-1)\\ 6\cdot1+4\cdot3+1\cdot1 & 6\cdot2+4\cdot0+1\cdot(-1)\end{pmatrix}=\begin{pmatrix}15 & 9\\ 19 & 11\end{pmatrix}\]</div>
+        <div class="step">\[B\cdot A=\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}\cdot\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}=\begin{pmatrix}1\cdot5+2\cdot6 & 1\cdot3+2\cdot4 & 1\cdot1+2\cdot1\\ 3\cdot5+0\cdot6 & 3\cdot3+0\cdot4 & 3\cdot1+0\cdot1\\ 1\cdot5+(-1)\cdot6 & 1\cdot3+(-1)\cdot4 & 1\cdot1+(-1)\cdot1\end{pmatrix}=\begin{pmatrix}17 & 11 & 3\\ 15 & 9 & 3\\ -1 & -1 & 0\end{pmatrix}\]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh">⚠ <span data-l="va">Compte amb les no propietats</span><span data-l="es">Cuidado con las no propiedades</span><span data-l="en">Watch out: properties that do NOT hold</span></div>
+    <div class="bb">
+      <p><span data-l="va">Com podem observar, no hem parlat de la propietat commutativa en el producte de matrius i el motiu és que no es compleix sempre. En l'exemple anterior podem comprovar que no ens ha donat el mateix resultat \(A\cdot B\) que \(B\cdot A\), és a dir:</span><span data-l="es">Como podemos observar, no hemos hablado de la propiedad conmutativa en el producto de matrices y el motivo es que no se cumple siempre. En el ejemplo anterior podemos comprobar que no nos ha dado el mismo resultado \(A\cdot B\) que \(B\cdot A\), es decir:</span><span data-l="en">Notice that we have not mentioned the commutative property for the matrix product, and the reason is that it does not always hold. In the previous example we can check that \(A\cdot B\) and \(B\cdot A\) did not give the same result, that is:</span></p>
+      \[A\cdot B\neq B\cdot A\]
+      <p><span data-l="va">Açò fa que altres propietats que utilitzem amb nombres no es complisquen tampoc per a matrius:</span><span data-l="es">Esto hace que otras propiedades que utilizamos con números tampoco se cumplan para matrices:</span><span data-l="en">This means that other properties we use with numbers do not hold for matrices either:</span></p>
+      <ul>
+        <li>\((A+B)\cdot(A-B)\neq A^2-B^2\)</li>
+        <li>\((A\pm B)^2\neq A^2\pm 2AB+B^2\)</li>
+        <li><span data-l="va"> \(A\cdot B=0 \not\Rightarrow A=0\ \text{o}\ B=0\) </span><span data-l="es"> \(A\cdot B=0 \not\Rightarrow A=0\ \text{o}\ B=0\) </span><span data-l="en"> \(A\cdot B=0 \not\Rightarrow A=0\ \text{or}\ B=0\) </span></li>
+        <li>\(A\cdot B=A\cdot C \not\Rightarrow B=C\)</li>
+      </ul>
+      <p><strong><span data-l="va">En el cas que \(A\cdot B=B\cdot A\) diem que \(A\) i \(B\) són permutables.</span><span data-l="es">En el caso de que \(A\cdot B=B\cdot A\) decimos que \(A\) y \(B\) son permutables.</span><span data-l="en">If \(A\cdot B=B\cdot A\) we say that \(A\) and \(B\) commute (are permutable).</span></strong></p>
+      <div class="note">
+        <p><strong><span data-l="va">NOTA:</span><span data-l="es">NOTA:</span><span data-l="en">NOTE:</span></strong> <span data-l="va">Cal destacar el cas en què una de les dues matrius siga la matriu identitat, ja que aquesta és permutable amb qualsevol matriu (per la definició de matriu identitat):</span><span data-l="es">Hay que destacar el caso en que una de las dos matrices sea la matriz identidad, ya que esta es permutable con cualquier matriz (por la definición de matriz identidad):</span><span data-l="en">The case where one of the two matrices is the identity matrix is worth highlighting, since it commutes with any matrix (by the definition of the identity matrix):</span></p>
+        \[A\cdot I=I\cdot A\]
+        <p><span data-l="va">Per tant, en aquest cas es compliran les identitats notables:</span><span data-l="es">Por tanto, en este caso se cumplirán las identidades notables:</span><span data-l="en">Therefore, in this case the special products do hold:</span></p>
+        <ul>
+          <li>\((A+I)\cdot(A-I)=A^2-I^2=A^2-I\)<span data-l="va">, ja que:</span><span data-l="es">, ya que:</span><span data-l="en">, since:</span>
+            \[(A+I)\cdot(A-I)=A\cdot A-A\cdot I+I\cdot A-I\cdot I\overset{A\cdot I=I\cdot A}{=}A^2-A\cdot I+A\cdot I-I^2=A^2-I^2=A^2-I\]</li>
+          <li>\((A\pm I)^2=A^2\pm2AI+I^2=A^2\pm2A+I\) <span data-l="va">ja que:</span><span data-l="es">ya que:</span><span data-l="en">since:</span>
+            \[(A\pm I)^2=(A\pm I)\cdot(A\pm I)=A\cdot A\pm A\cdot I\pm I\cdot A+I\cdot I\overset{A\cdot I=I\cdot A}{=}A^2\pm A\cdot I\pm A\cdot I+I^2=A^2\pm2AI+I=A^2\pm2A+I\]</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Potència de matrius</span><span data-l="es">Potencia de matrices</span><span data-l="en">Powers of matrices</span></div>
+    <div class="bb">
+      <p><span data-l="va">Per calcular la <strong>potència d'una matriu</strong> quadrada d'ordre \(n\), es multiplica la matriu per si mateixa tantes vegades com indique l'exponent, és a dir:</span><span data-l="es">Para calcular la <strong>potencia de una matriz</strong> cuadrada de orden \(n\), se multiplica la matriz por sí misma tantas veces como indique el exponente, es decir:</span><span data-l="en">To compute the <strong>power of a square matrix</strong> of order \(n\), we multiply the matrix by itself as many times as the exponent indicates, that is:</span></p>
+      <span data-l="va"> \[A^n=A\cdot A\cdot A\cdots A\ \ (n\ \text{vegades})\] </span><span data-l="es"> \[A^n=A\cdot A\cdot A\cdots A\ \ (n\ \text{veces})\] </span><span data-l="en"> \[A^n=A\cdot A\cdot A\cdots A\ \ (n\ \text{times})\] </span>
+      <p><span data-l="va">La <strong>potència enèsima</strong> d'una matriu \(A\) és la matriu que representa totes les potències d'\(A\) en funció del valor que prenga l'exponent. L'escriurem \(A^n\).</span><span data-l="es">La <strong>potencia enésima</strong> de una matriz \(A\) es la matriz que representa todas las potencias de \(A\) en función del valor que tome el exponente. La escribiremos \(A^n\).</span><span data-l="en">The <strong>n-th power</strong> of a matrix \(A\) is the matrix that represents every power of \(A\) as a function of the exponent. We write it \(A^n\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple de potències de matrius</span><span data-l="es">Ejemplo de potencias de matrices</span><span data-l="en">Example: powers of matrices</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada la matriu</span><span data-l="es">Dada la matriz</span><span data-l="en">Given the matrix</span> \(B=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\)<span data-l="va">, calcularem \(B^n\) i \(B^{12}\):</span><span data-l="es">, calcularemos \(B^n\) y \(B^{12}\):</span><span data-l="en">, we will compute \(B^n\) and \(B^{12}\):</span></p>
+      <div class="steps">
+        <div class="step">\[B^2=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\cdot\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}=\begin{pmatrix}2 & 2\\ 2 & 2\end{pmatrix}\qquad B^3=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\cdot\begin{pmatrix}2 & 2\\ 2 & 2\end{pmatrix}=\begin{pmatrix}4 & 4\\ 4 & 4\end{pmatrix}=\begin{pmatrix}2^2 & 2^2\\ 2^2 & 2^2\end{pmatrix}\]</div>
+        <div class="step">\[B^4=B\cdot B^3=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\cdot\begin{pmatrix}4 & 4\\ 4 & 4\end{pmatrix}=\begin{pmatrix}8 & 8\\ 8 & 8\end{pmatrix}=\begin{pmatrix}2^3 & 2^3\\ 2^3 & 2^3\end{pmatrix}\]<p><span data-l="va">Aleshores podem deduir que:</span><span data-l="es">Entonces podemos deducir que:</span><span data-l="en">So we can deduce that:</span></p></div>
+        <div class="step"><span data-l="va"> \[\boxed{B^n=\begin{pmatrix}2^{n-1} & 2^{n-1}\\ 2^{n-1} & 2^{n-1}\end{pmatrix}}\ \ \text{i després calcular}\ \ \boxed{B^{12}=\begin{pmatrix}2^{11} & 2^{11}\\ 2^{11} & 2^{11}\end{pmatrix}=\begin{pmatrix}2048 & 2048\\ 2048 & 2048\end{pmatrix}}\] </span><span data-l="es"> \[\boxed{B^n=\begin{pmatrix}2^{n-1} & 2^{n-1}\\ 2^{n-1} & 2^{n-1}\end{pmatrix}}\ \ \text{y después calcular}\ \ \boxed{B^{12}=\begin{pmatrix}2^{11} & 2^{11}\\ 2^{11} & 2^{11}\end{pmatrix}=\begin{pmatrix}2048 & 2048\\ 2048 & 2048\end{pmatrix}}\] </span><span data-l="en"> \[\boxed{B^n=\begin{pmatrix}2^{n-1} & 2^{n-1}\\ 2^{n-1} & 2^{n-1}\end{pmatrix}}\ \ \text{and then compute}\ \ \boxed{B^{12}=\begin{pmatrix}2^{11} & 2^{11}\\ 2^{11} & 2^{11}\end{pmatrix}=\begin{pmatrix}2048 & 2048\\ 2048 & 2048\end{pmatrix}}\] </span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Potències de matrius relacionades amb la unitat</span><span data-l="es">Potencias de matrices relacionadas con la unidad</span><span data-l="en">Powers of matrices related to the identity</span></div>
+    <div class="bb">
+      <p><span data-l="va">Si en calcular les potències d'una matriu \(A\) ens apareix la matriu identitat, \(I\), aleshores les potències successives seran repetició de les anteriors i es podrà determinar, sense problema, la matriu \(A^n\) per a qualsevol valor de \(n\). Vegem un exemple.</span><span data-l="es">Si al calcular las potencias de una matriz \(A\) nos aparece la matriz identidad, \(I\), entonces las potencias sucesivas serán repetición de las anteriores y se podrá determinar, sin problema, la matriz \(A^n\) para cualquier valor de \(n\). Veamos un ejemplo.</span><span data-l="en">If, when computing the powers of a matrix \(A\), the identity matrix \(I\) appears, the following powers will repeat the earlier ones, and we can easily find \(A^n\) for any value of \(n\). Let's see an example.</span></p>
+      <p><span data-l="va">Donada la matriu</span><span data-l="es">Dada la matriz</span><span data-l="en">Given the matrix</span> \(A=\begin{pmatrix}2 & 3\\ -1 & -2\end{pmatrix}\)<span data-l="va">, determinar \(A^n\) i \(A^{51}\):</span><span data-l="es">, determinar \(A^n\) y \(A^{51}\):</span><span data-l="en">, find \(A^n\) and \(A^{51}\):</span></p>
+      <div class="steps">
+        <div class="step"><p><span data-l="va">Calculem</span><span data-l="es">Calculamos</span><span data-l="en">We compute</span> \(A^2=\begin{pmatrix}2 & 3\\ -1 & -2\end{pmatrix}\cdot\begin{pmatrix}2 & 3\\ -1 & -2\end{pmatrix}=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}\)<span data-l="va">; vegem ara</span><span data-l="es">; veamos ahora</span><span data-l="en">; now let's see</span> \(A^3=A^2\cdot A=I\cdot A=A\)</p></div>
+        <div class="step"><p><span data-l="va">Calculem també \(A^4=A^2\cdot A^2=I\cdot I=I\). Aleshores podem deduir que:</span><span data-l="es">Calculamos también \(A^4=A^2\cdot A^2=I\cdot I=I\). Entonces podemos deducir que:</span><span data-l="en">We also compute \(A^4=A^2\cdot A^2=I\cdot I=I\). So we can deduce that:</span></p></div>
+        <div class="step"><span data-l="va"> \[\boxed{A^n=\begin{cases} I, & \text{si $n$ parell}\\[4pt] A, & \text{si $n$ imparell}\end{cases}}\quad\text{i per tant}\quad\boxed{A^{51}=A}\] </span><span data-l="es"> \[\boxed{A^n=\begin{cases} I, & \text{si $n$ par}\\[4pt] A, & \text{si $n$ impar}\end{cases}}\quad\text{y por tanto}\quad\boxed{A^{51}=A}\] </span><span data-l="en"> \[\boxed{A^n=\begin{cases} I, & \text{if $n$ is even}\\[4pt] A, & \text{if $n$ is odd}\end{cases}}\quad\text{and therefore}\quad\boxed{A^{51}=A}\] </span></div>
+      </div>
+      <div class="widget" id="w-pow">
+        <div class="wt">⟳ <span data-l="va">Calculadora de potències: mou el control lliscant</span><span data-l="es">Calculadora de potencias: mueve el deslizador</span><span data-l="en">Power calculator: move the slider</span></div>
+        <div class="wrow">
+          <div class="seg" role="group"><button type="button" data-k="B" aria-pressed="true">B</button><button type="button" data-k="A" aria-pressed="false">A</button></div>
+          <label>\(n=\) <input type="range" min="1" max="14" value="2"> <strong class="nval">2</strong></label>
+        </div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada la matriu</span><span data-l="es">Dada la matriz</span><span data-l="en">Given the matrix</span> \(A=\begin{pmatrix}-1 & -3\\ 1 & 2\end{pmatrix}\)<span data-l="va">, determina</span><span data-l="es">, determina</span><span data-l="en">, find</span> \(A^{64}\).</p>
+      <details class="sol"><summary><span data-l="va">Mostra la solució</span><span data-l="es">Mostrar la solución</span><span data-l="en">Show the solution</span></summary><div>
+        \[A^2=\begin{pmatrix}-2 & -3\\ 1 & 1\end{pmatrix},\quad A^3=A^2\cdot A=\begin{pmatrix}-1 & 0\\ 0 & -1\end{pmatrix}=-I,\quad A^6=(A^3)^2=(-I)^2=I\]
+        \[64=6\cdot10+4\ \Rightarrow\ A^{64}=(A^6)^{10}\cdot A^4=A^4=A^3\cdot A=-A=\begin{pmatrix}1 & 3\\ -1 & -2\end{pmatrix}\]
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1.3 ======================= -->
+<section class="unit" id="s3">
+  <div class="sec-head"><span class="num">1.3</span><h2><span data-l="va">Determinants</span><span data-l="es">Determinantes</span><span data-l="en">Determinants</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Determinants</span><span data-l="es">Determinantes</span><span data-l="en">Determinants</span></div>
+    <div class="bb">
+      <p><span data-l="va">Els <strong>determinants</strong> <span class="u-line">són nombres</span> associats a les matrius quadrades d'ordre \(n\) que es calculen de diferents formes segons siga l'ordre de la matriu.<br>Donada una matriu quadrada \(A\) d'ordre \(n\), el seu determinant l'escriurem:</span><span data-l="es">Los <strong>determinantes</strong> <span class="u-line">son números</span> asociados a las matrices cuadradas de orden \(n\) que se calculan de diferentes formas según sea el orden de la matriz.<br>Dada una matriz cuadrada \(A\) de orden \(n\), su determinante lo escribiremos:</span><span data-l="en"><strong>Determinants</strong> <span class="u-line">are numbers</span> associated with square matrices of order \(n\), computed in different ways depending on the order of the matrix.<br>Given a square matrix \(A\) of order \(n\), we write its determinant as:</span></p>
+      \[\boxed{\det(A)=|A|}\]
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Càlcul del determinant d'una matriu segons el seu ordre</span><span data-l="es">Cálculo del determinante de una matriz según su orden</span><span data-l="en">Computing a determinant according to its order</span></div>
+    <div class="bb">
+      <ol>
+        <li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(n=1\); \(A=(a_{11})\) <span data-l="va">i el determinant serà:</span><span data-l="es">y el determinante será:</span><span data-l="en">and the determinant is:</span> \(|A|=a_{11}\).</li>
+        <li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(n=2\); \(A=\begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\end{pmatrix}\) <span data-l="va">i el determinant serà:</span><span data-l="es">y el determinante será:</span><span data-l="en">and the determinant is:</span> \(|A|=a_{11}\cdot a_{22}-a_{12}\cdot a_{21}\)</li>
+        <li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(n=3\); \(A=\begin{pmatrix}a_{11} & a_{12} & a_{13}\\ a_{21} & a_{22} & a_{23}\\ a_{31} & a_{32} & a_{33}\end{pmatrix}\) <span data-l="va">en aquest cas utilitzarem l'anomenada <strong>regla de Sarrus</strong>:</span><span data-l="es">en este caso utilizaremos la llamada <strong>regla de Sarrus</strong>:</span><span data-l="en">in this case we use the so-called <strong>rule of Sarrus</strong>:</span>
+          \[\begin{vmatrix}a_{11} & a_{12} & a_{13}\\ a_{21} & a_{22} & a_{23}\\ a_{31} & a_{32} & a_{33}\end{vmatrix}=a_{11}a_{22}a_{33}+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}-a_{13}a_{22}a_{31}-a_{12}a_{21}a_{33}-a_{11}a_{23}a_{32}\]
+          <p><span data-l="va">La meitat dels sumands tenen <strong>signe +</strong>, i l'altra meitat, <strong>signe −</strong>. Aquests sis sumands es recorden fàcilment amb la regla mnemotècnica següent, anomenada regla de Sarrus:</span><span data-l="es">La mitad de los sumandos tienen <strong>signo +</strong>, y la otra mitad, <strong>signo −</strong>. Estos seis sumandos se recuerdan fácilmente con la regla mnemotécnica siguiente, llamada regla de Sarrus:</span><span data-l="en">Half of the terms have a <strong>+ sign</strong> and the other half a <strong>− sign</strong>. These six terms are easy to remember with the following mnemonic, called the rule of Sarrus:</span></p>
+          <div class="sarrus-fig" aria-hidden="true">
+            <svg viewBox="0 0 210 200">
+              <path d="M8 12V160M202 12V160" stroke="currentColor" stroke-width="2" fill="none"/>
+              <g stroke="var(--plus)" stroke-width="3.5" fill="none" stroke-linejoin="round" opacity=".85">
+                <path d="M35 30L105 85L175 140"/>
+                <path d="M105 30L175 85L35 140Z"/>
+                <path d="M175 30L35 85L105 140Z"/>
+              </g>
+              <g text-anchor="middle"><text x="35" y="35">a₁₁</text><text x="105" y="35">a₁₂</text><text x="175" y="35">a₁₃</text><text x="35" y="90">a₂₁</text><text x="105" y="90">a₂₂</text><text x="175" y="90">a₂₃</text><text x="35" y="145">a₃₁</text><text x="105" y="145">a₃₂</text><text x="175" y="145">a₃₃</text><text class="sgn" x="105" y="192" fill="var(--plus)" style="fill:var(--plus)">+</text></g>
+            </svg>
+            <svg viewBox="0 0 210 200">
+              <path d="M8 12V160M202 12V160" stroke="currentColor" stroke-width="2" fill="none"/>
+              <g stroke="var(--minus)" stroke-width="3.5" fill="none" stroke-linejoin="round" opacity=".85">
+                <path d="M175 30L105 85L35 140"/>
+                <path d="M105 30L35 85L175 140Z"/>
+                <path d="M35 30L175 85L105 140Z"/>
+              </g>
+              <g text-anchor="middle"><text x="35" y="35">a₁₁</text><text x="105" y="35">a₁₂</text><text x="175" y="35">a₁₃</text><text x="35" y="90">a₂₁</text><text x="105" y="90">a₂₂</text><text x="175" y="90">a₂₃</text><text x="35" y="145">a₃₁</text><text x="105" y="145">a₃₂</text><text x="175" y="145">a₃₃</text><text class="sgn" x="105" y="192" style="fill:var(--minus)">−</text></g>
+            </svg>
+          </div>
+          <div class="widget" id="w-sarrus">
+            <div class="wt">▦ <span data-l="va">Regla de Sarrus interactiva: canvia els nombres i tria un sumand</span><span data-l="es">Regla de Sarrus interactiva: cambia los números y elige un sumando</span><span data-l="en">Interactive Sarrus: change the numbers and pick a term</span></div>
+            <div class="wrow"><span class="lbl">\(|A|=\)</span><div class="mx det" data-role="in"></div></div>
+            <div class="terms"></div>
+            <div class="info" aria-live="polite"></div>
+          </div>
+        </li>
+        <li><span data-l="va">Si \(n&gt;3\), per calcular els determinants ho farem utilitzant els <strong>adjunts d'una matriu</strong>. Aquest mètode també el podem utilitzar per a matrius d'ordre menor, però els mètodes anteriors són més ràpids en la pràctica.<br>Primer veurem l'explicació teòrica i després amb un exemple comprovarem que no és tan complicat com sembla.</span><span data-l="es">Si \(n&gt;3\), para calcular los determinantes lo haremos utilizando los <strong>adjuntos de una matriz</strong>. Este método también lo podemos utilizar para matrices de orden menor, pero los métodos anteriores son más rápidos en la práctica.<br>Primero veremos la explicación teórica y después con un ejemplo comprobaremos que no es tan complicado como parece.</span><span data-l="en">If \(n&gt;3\), we compute determinants using the <strong>cofactors (adjuncts) of a matrix</strong>. This method can also be used for smaller matrices, but the previous methods are faster in practice.<br>First we will see the theory and then, with an example, we will check that it is not as complicated as it looks.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Menor complementari i adjunt</span><span data-l="es">Menor complementario y adjunto</span><span data-l="en">Minor and cofactor</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada \(A\) una matriu quadrada d'ordre \(n\), el <strong>menor complementari</strong> \(\alpha_{ij}\) de l'element \(a_{ij}\) és el determinant d'ordre \(n-1\) que resulta d'eliminar la fila \(i\) i la columna \(j\) de la matriu \(A\).<br>Anomenem <strong>adjunt</strong> de l'element \(a_{ij}\) \(A_{ij}=\alpha_{ij}\cdot(-1)^{i+j}\).<br>Amb aquestes definicions ja podem dir com podem calcular el determinant de la matriu \(A\):</span><span data-l="es">Dada \(A\) una matriz cuadrada de orden \(n\), el <strong>menor complementario</strong> \(\alpha_{ij}\) del elemento \(a_{ij}\) es el determinante de orden \(n-1\) que resulta de eliminar la fila \(i\) y la columna \(j\) de la matriz \(A\).<br>Llamamos <strong>adjunto</strong> del elemento \(a_{ij}\) a \(A_{ij}=\alpha_{ij}\cdot(-1)^{i+j}\).<br>Con estas definiciones ya podemos decir cómo calcular el determinante de la matriz \(A\):</span><span data-l="en">Given a square matrix \(A\) of order \(n\), the <strong>minor</strong> \(\alpha_{ij}\) of the element \(a_{ij}\) is the determinant of order \(n-1\) obtained by deleting row \(i\) and column \(j\) of \(A\).<br>The <strong>cofactor (adjunct)</strong> of \(a_{ij}\) is \(A_{ij}=\alpha_{ij}\cdot(-1)^{i+j}\).<br>With these definitions we can now say how to compute the determinant of \(A\):</span></p>
+      <p class="note"><span data-l="va">El valor d'un determinant és igual a la suma dels productes dels elements d'una fila o columna pels seus adjunts corresponents:</span><span data-l="es">El valor de un determinante es igual a la suma de los productos de los elementos de una fila o columna por sus adjuntos correspondientes:</span><span data-l="en">The value of a determinant equals the sum of the products of the elements of any row or column times their corresponding cofactors:</span></p>
+      \[\boxed{|A_n|=\sum_{k=1}^{n}a_{ik}\cdot A_{ik}=\sum_{k=1}^{n}a_{kj}\cdot A_{kj}}\]
+      <div class="widget" id="w-minor">
+        <div class="wt">⌖ <span data-l="va">Explorador d'adjunts: fes clic en un element (també pots canviar els nombres)</span><span data-l="es">Explorador de adjuntos: haz clic en un elemento (también puedes cambiar los números)</span><span data-l="en">Cofactor explorer: click an element (you can also change the numbers)</span></div>
+        <div class="wrow"><span class="lbl">\(A=\)</span><div class="mx" data-role="in"></div></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de càlcul de determinants</span><span data-l="es">Ejemplos de cálculo de determinantes</span><span data-l="en">Examples: computing determinants</span></div>
+    <div class="bb">
+      <p><span data-l="va">Vegem amb exemples concrets com apliquem els diferents mètodes per calcular els determinants:</span><span data-l="es">Veamos con ejemplos concretos cómo aplicamos los diferentes métodos para calcular los determinantes:</span><span data-l="en">Let's see with concrete examples how to apply the different methods:</span></p>
+      <ol class="ex-list">
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}-1 & 2\\ 3 & 1\end{pmatrix}\)<span data-l="va">, el seu determinant serà:</span><span data-l="es">, su determinante será:</span><span data-l="en">; its determinant is:</span> \(|A|=(-1)\cdot1-2\cdot3=-7\).</li>
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}2 & 1 & 3\\ 4 & -1 & 2\\ -3 & 4 & 2\end{pmatrix}\)<span data-l="va">; utilitzem la regla de Sarrus:</span><span data-l="es">; utilizamos la regla de Sarrus:</span><span data-l="en">; we use the rule of Sarrus:</span>
+          <div class="steps">
+            <div class="step">\[|A|=\begin{vmatrix}2 & 1 & 3\\ 4 & -1 & 2\\ -3 & 4 & 2\end{vmatrix}=2\cdot(-1)\cdot2+4\cdot4\cdot3+1\cdot2\cdot(-3)-[3\cdot(-1)\cdot(-3)+2\cdot4\cdot2+1\cdot4\cdot2]=\]</div>
+            <div class="step">\[=-4+48-6-[9+16+8]=38-33=\boxed{5}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Ara utilitzarem els adjunts d'una matriu per calcular el determinant, però ho farem en una matriu de 3x3 per no fer-ho molt llarg.</span><span data-l="es">Ahora utilizaremos los adjuntos de una matriz para calcular el determinante, pero lo haremos en una matriz de 3x3 para no hacerlo muy largo.</span><span data-l="en">Now we will use cofactors to compute the determinant, but on a 3×3 matrix so it doesn't get too long.</span><br>
+          <span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}1 & 2 & 3\\ 5 & 4 & 1\\ 0 & 4 & 2\end{pmatrix}\)<span data-l="va">, calculem el seu determinant (desenvolupem per la primera columna):</span><span data-l="es">, calculamos su determinante (desarrollamos por la primera columna):</span><span data-l="en">; we compute its determinant (expanding along the first column):</span>
+          <div class="steps">
+            <div class="step">\[|A|=\begin{vmatrix}1 & 2 & 3\\ 5 & 4 & 1\\ 0 & 4 & 2\end{vmatrix}=1\cdot A_{11}+5\cdot A_{21}+\cancel{0\cdot A_{31}}^{\,0}\]</div>
+            <div class="step">\[\alpha_{11}=\begin{vmatrix}4 & 1\\ 4 & 2\end{vmatrix}=8-4=4\ \rightarrow\ A_{11}=\alpha_{11}\cdot(-1)^{1+1}=4\cdot1=4\]</div>
+            <div class="step">\[\alpha_{21}=\begin{vmatrix}2 & 3\\ 4 & 2\end{vmatrix}=4-12=-8\ \rightarrow\ A_{21}=\alpha_{21}\cdot(-1)^{2+1}=(-8)\cdot(-1)=8\]</div>
+            <div class="step">\[|A|=1\cdot4+5\cdot8=4+40=\boxed{44}\]</div>
+          </div>
+          <p><span data-l="va">Com podem veure, sempre ens resultarà més senzill si desenvolupem per adjunts agafant una fila o columna que tinga zeros, ja que eixos termes s'anul·len.</span><span data-l="es">Como podemos ver, siempre nos resultará más sencillo si desarrollamos por adjuntos cogiendo una fila o columna que tenga ceros, ya que esos términos se anulan.</span><span data-l="en">As we can see, it is always easier to expand by cofactors along a row or column that contains zeros, because those terms vanish.</span></p>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Calcula el determinant de la matriu</span><span data-l="es">Calcula el determinante de la matriz</span><span data-l="en">Compute the determinant of the matrix</span> \(A=\begin{pmatrix}4 & 7 & -1\\ 2 & 5 & 0\\ 3 & -2 & 4\end{pmatrix}\)<span data-l="va">, utilitzant els adjunts i la regla de Sarrus.</span><span data-l="es">, utilizando los adjuntos y la regla de Sarrus.</span><span data-l="en">, using cofactors and the rule of Sarrus.</span></p>
+      <details class="sol"><summary><span data-l="va">Mostra la solució</span><span data-l="es">Mostrar la solución</span><span data-l="en">Show the solution</span></summary><div>
+        <p><strong>Sarrus:</strong></p>
+        \[|A|=4\cdot5\cdot4+7\cdot0\cdot3+(-1)\cdot2\cdot(-2)-[(-1)\cdot5\cdot3+7\cdot2\cdot4+4\cdot0\cdot(-2)]=84-41=43\]
+        <p><strong><span data-l="va">Adjunts (fila 2, que té un zero):</span><span data-l="es">Adjuntos (fila 2, que tiene un cero):</span><span data-l="en">Cofactors (row 2, which has a zero):</span></strong></p>
+        \[|A|=2\cdot(-1)^{2+1}\begin{vmatrix}7 & -1\\ -2 & 4\end{vmatrix}+5\cdot(-1)^{2+2}\begin{vmatrix}4 & -1\\ 3 & 4\end{vmatrix}+0=2\cdot(-26)+5\cdot19=\boxed{43}\]
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1.4 ======================= -->
+<section class="unit" id="s4">
+  <div class="sec-head"><span class="num">1.4</span><h2><span data-l="va">Propietats dels determinants</span><span data-l="es">Propiedades de los determinantes</span><span data-l="en">Properties of determinants</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Propietats dels determinants</span><span data-l="es">Propiedades de los determinantes</span><span data-l="en">Properties of determinants</span></div>
+    <div class="bb">
+      <ol>
+        <li><span data-l="va">Si a una línia d'un determinant se li suma o resta una combinació lineal de línies paral·leles, el valor del determinant no canvia.</span><span data-l="es">Si a una línea de un determinante se le suma o resta una combinación lineal de líneas paralelas, el valor del determinante no cambia.</span><span data-l="en">If a linear combination of parallel lines is added to or subtracted from a line of a determinant, its value does not change.</span></li>
+        <li><span data-l="va">Si en un determinant s'intercanvien les files per les columnes, el seu valor no varia:</span><span data-l="es">Si en un determinante se intercambian las filas por las columnas, su valor no varía:</span><span data-l="en">If the rows of a determinant are swapped for its columns, its value does not change:</span> \(|A|=|A^t|\)</li>
+        <li><span data-l="va">Si intercanviem entre si dues files paral·leles, el valor del determinant canvia de signe.</span><span data-l="es">Si intercambiamos entre sí dos filas paralelas, el valor del determinante cambia de signo.</span><span data-l="en">If we swap two parallel lines, the determinant changes sign.</span></li>
+        <li><span data-l="va">Si el determinant conté una fila formada per zeros, aleshores el seu valor és zero.</span><span data-l="es">Si el determinante contiene una fila formada por ceros, entonces su valor es cero.</span><span data-l="en">If the determinant contains a row of zeros, its value is zero.</span></li>
+        <li><span data-l="va">Si el determinant conté dues files (paral·leles) iguals o proporcionals, aleshores el valor del determinant és zero.</span><span data-l="es">Si el determinante contiene dos filas (paralelas) iguales o proporcionales, entonces el valor del determinante es cero.</span><span data-l="en">If the determinant contains two equal or proportional (parallel) lines, its value is zero.</span></li>
+        <li><span data-l="va">Si es multiplica un determinant per un nombre, aquest multiplica qualsevol de les seues línies, però sols una d'elles. I viceversa, si tots els elements d'una mateixa línia són múltiples d'un mateix nombre, el valor del determinant és múltiple d'aquest nombre.</span><span data-l="es">Si se multiplica un determinante por un número, este multiplica a cualquiera de sus líneas, pero solo a una de ellas. Y viceversa, si todos los elementos de una misma línea son múltiplos de un mismo número, el valor del determinante es múltiplo de dicho número.</span><span data-l="en">Multiplying a determinant by a number multiplies any one of its lines, but only one of them. Conversely, if all the elements of a line are multiples of the same number, the determinant is a multiple of that number.</span></li>
+        <li><span data-l="va">El determinant del producte de dues matrius és igual al producte dels determinants de cada matriu:</span><span data-l="es">El determinante del producto de dos matrices es igual al producto de los determinantes de cada matriz:</span><span data-l="en">The determinant of a product of two matrices equals the product of their determinants:</span> \(|A\cdot B|=|A|\cdot|B|\).</li>
+        <li><span data-l="va">El determinant de la potència d'una matriu és igual a la potència del determinant de la matriu:</span><span data-l="es">El determinante de la potencia de una matriz es igual a la potencia del determinante de la matriz:</span><span data-l="en">The determinant of a power of a matrix equals the power of its determinant:</span> \(|A^n|=|A|^n\).</li>
+        <li><span data-l="va">Si els elements d'una línia es descomponen en dos sumands, el determinant pot descompondre's en la suma de dos determinants en què els elements romanen iguals en ambdós, amb l'única excepció de la línia que es descompon en dos sumands, els quals estaran un en cada determinant de la suma.</span><span data-l="es">Si los elementos de una línea se descomponen en dos sumandos, el determinante puede descomponerse en la suma de dos determinantes en los que los elementos permanecen iguales en ambos, con la única excepción de la línea que se descompone en dos sumandos, los cuales estarán uno en cada determinante de la suma.</span><span data-l="en">If the elements of a line are split into two summands, the determinant can be split into the sum of two determinants whose elements are the same in both, except for that line, each summand going to one of the two determinants.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de les propietats</span><span data-l="es">Ejemplos de las propiedades</span><span data-l="en">Examples of the properties</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><strong><span data-l="va">Propietat 1</span><span data-l="es">Propiedad 1</span><span data-l="en">Property 1</span>:</strong>
+          <div class="steps">
+            <div class="step">\[\begin{vmatrix}2 & 1 & 1 & 1\\ 1 & -3 & 2 & -3\\ 1 & 2 & 0 & 1\\ 1 & 2 & -1 & 3\end{vmatrix}\underset{\substack{F_2'=F_2+2F_4\\ F_4'=F_4+F_1}}{=}\begin{vmatrix}2 & 1 & \color{#ff7a50}1 & 1\\ 3 & 1 & 0 & 3\\ 1 & 2 & 0 & 1\\ 3 & 3 & 0 & 4\end{vmatrix}=(-1)^{1+3}\cdot1\cdot\begin{vmatrix}3 & 1 & 3\\ 1 & 2 & 1\\ 3 & 3 & 4\end{vmatrix}=(-1)^{1+3}\cdot1\cdot5=\boxed{5}\]</div>
+            <div class="step">\[\begin{vmatrix}3 & 1 & 3\\ 1 & 2 & 1\\ 3 & 3 & 4\end{vmatrix}=24+9+3-(18+9+4)=36-31=5\]</div>
+          </div>
+        </li>
+        <li><strong><span data-l="va">Propietat 6</span><span data-l="es">Propiedad 6</span><span data-l="en">Property 6</span>:</strong>
+          \[\begin{vmatrix}15 & 3 & 15\\ 1 & 2 & 1\\ 2 & 6 & 4\end{vmatrix}=3\cdot\begin{vmatrix}5 & 1 & 5\\ 1 & 2 & 1\\ 2 & 6 & 4\end{vmatrix}=3\cdot2\begin{vmatrix}5 & 1 & 5\\ 1 & 2 & 1\\ 1 & 3 & 2\end{vmatrix}=6\cdot[20+15+1-(10+15+2)]=\boxed{54}\]</li>
+        <li><strong><span data-l="va">Propietat 9</span><span data-l="es">Propiedad 9</span><span data-l="en">Property 9</span>:</strong>
+          \[\begin{vmatrix}a+1 & a+2 & a+3\\ 1 & 2 & 2\\ 4 & 3 & 4\end{vmatrix}=\begin{vmatrix}a & a & a\\ 1 & 2 & 2\\ 4 & 3 & 4\end{vmatrix}+\begin{vmatrix}1 & 2 & 3\\ 1 & 2 & 2\\ 4 & 3 & 4\end{vmatrix}=\]
+          \[=[8a+3a+8a-(8a+6a+4a)]+[8+9+16-(24+6+8)]=\boxed{a-5}\]</li>
+        <li><strong><span data-l="va">Propietat 8</span><span data-l="es">Propiedad 8</span><span data-l="en">Property 8</span>:</strong> <span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{pmatrix}\)<span data-l="va">, comprovem si</span><span data-l="es">, comprobamos si</span><span data-l="en">; let's check whether</span> \(|A^4|=|A|^4\):
+          <div class="steps">
+            <div class="step">\[|A|=\begin{vmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{vmatrix}=1\cdot(6-4)=2\ \Rightarrow\ |A|^4=2^4=\boxed{16}\]</div>
+            <div class="step">\[A^2=\begin{pmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{pmatrix}\cdot\begin{pmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{pmatrix}=\begin{pmatrix}1 & 10 & 7\\ 0 & 13 & 10\\ 0 & 10 & 8\end{pmatrix}\]</div>
+            <div class="step">\[A^4=A^2\cdot A^2=\begin{pmatrix}1 & 10 & 7\\ 0 & 13 & 10\\ 0 & 10 & 8\end{pmatrix}\cdot\begin{pmatrix}1 & 10 & 7\\ 0 & 13 & 10\\ 0 & 10 & 8\end{pmatrix}=\begin{pmatrix}1 & 210 & 163\\ 0 & 269 & 210\\ 0 & 210 & 164\end{pmatrix}\]</div>
+            <div class="step"><p><span data-l="va">Aleshores:</span><span data-l="es">Entonces:</span><span data-l="en">Then:</span></p>\[|A^4|=\begin{vmatrix}1 & 210 & 163\\ 0 & 269 & 210\\ 0 & 210 & 164\end{vmatrix}=1\cdot(269\cdot164-210\cdot210)=\boxed{16}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Siga</span><span data-l="es">Sea</span><span data-l="en">Let</span> \(A=\begin{pmatrix}a & b & c\\ d & e & f\\ g & h & i\end{pmatrix}\)<span data-l="va">, tal que \(|A|=5\), calcular</span><span data-l="es">, tal que \(|A|=5\), calcular</span><span data-l="en">, such that \(|A|=5\); compute</span> \(|B|=\begin{vmatrix}-2d-2g & f+i & e+h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}\).
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Per la propietat 9 descomponem la primera fila:</span><span data-l="es">Por la propiedad 9 descomponemos la primera fila:</span><span data-l="en">By property 9 we split the first row:</span></p><span data-l="va"> \[|B|=\begin{vmatrix}-2d-2g & f+i & e+h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}=\begin{vmatrix}-2d & f & e\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}+\underbrace{\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}}_{0}=30+0=\boxed{30}\ \ \text{ja que:}\] </span><span data-l="es"> \[|B|=\begin{vmatrix}-2d-2g & f+i & e+h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}=\begin{vmatrix}-2d & f & e\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}+\underbrace{\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}}_{0}=30+0=\boxed{30}\ \ \text{ya que:}\] </span><span data-l="en"> \[|B|=\begin{vmatrix}-2d-2g & f+i & e+h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}=\begin{vmatrix}-2d & f & e\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}+\underbrace{\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}}_{0}=30+0=\boxed{30}\ \ \text{since:}\] </span></div>
+            <div class="step">\[\begin{vmatrix}-2d & f & e\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}\underset{(-1)\cdot C_1}{=}(-1)\cdot\begin{vmatrix}2d & f & e\\ 6a & 3c & 3b\\ -2g & -i & -h\end{vmatrix}\underset{(-1)\cdot F_3}{=}\begin{vmatrix}2d & f & e\\ 6a & 3c & 3b\\ 2g & i & h\end{vmatrix}\underset{2\cdot C_1}{=}2\cdot\begin{vmatrix}d & f & e\\ 3a & 3c & 3b\\ g & i & h\end{vmatrix}=\]</div>
+            <div class="step">\[\underset{3\cdot F_2}{=}2\cdot3\cdot\begin{vmatrix}d & f & e\\ a & c & b\\ g & i & h\end{vmatrix}\underset{C_2\Leftrightarrow C_3}{=}-6\cdot\begin{vmatrix}d & e & f\\ a & b & c\\ g & h & i\end{vmatrix}\underset{F_1\Leftrightarrow F_2}{=}6\cdot\begin{vmatrix}a & b & c\\ d & e & f\\ g & h & i\end{vmatrix}=6\cdot5=\boxed{30}\]</div>
+            <div class="step"><p><span data-l="va">i com:</span><span data-l="es">y como:</span><span data-l="en">and since:</span></p>\[\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}\underset{(-1)F_3}{=}(-1)\cdot\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ -2g & i & h\end{vmatrix}\underset{F_1=F_3}{=}(-1)\cdot0=0\]</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1.5 ======================= -->
+<section class="unit" id="s5">
+  <div class="sec-head"><span class="num">1.5</span><h2><span data-l="va">Rang d'una matriu</span><span data-l="es">Rango de una matriz</span><span data-l="en">Rank of a matrix</span></h2></div>
+  <p><span data-l="va">Abans de definir el rang d'una matriu necessitem introduir alguns conceptes nous.</span><span data-l="es">Antes de definir el rango de una matriz necesitamos introducir algunos conceptos nuevos.</span><span data-l="en">Before defining the rank of a matrix we need to introduce some new concepts.</span></p>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Matriu singular</span><span data-l="es">Matriz singular</span><span data-l="en">Singular matrix</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada una matriu quadrada \(A\) amb determinant igual a zero, direm que és una <strong>matriu singular</strong>:</span><span data-l="es">Dada una matriz cuadrada \(A\) con determinante igual a cero, diremos que es una <strong>matriz singular</strong>:</span><span data-l="en">A square matrix \(A\) whose determinant is zero is called a <strong>singular matrix</strong>:</span></p>
+      \[A\ \text{singular}\iff|A|=0\]
+    </div>
+  </div>
+  <div class="box def">
+    <div class="bh"><span data-l="va">Matriu regular</span><span data-l="es">Matriz regular</span><span data-l="en">Regular (non-singular) matrix</span></div>
+    <div class="bb">
+      <p><span data-l="va">Donada una matriu quadrada \(A\) amb determinant diferent de zero, direm que és una <strong>matriu regular</strong>:</span><span data-l="es">Dada una matriz cuadrada \(A\) con determinante distinto de cero, diremos que es una <strong>matriz regular</strong>:</span><span data-l="en">A square matrix \(A\) whose determinant is non-zero is called a <strong>regular (non-singular) matrix</strong>:</span></p>
+      \[A\ \text{regular}\iff|A|\neq0\]
+    </div>
+  </div>
+  <div class="box def">
+    <div class="bh"><span data-l="va">Vector fila i columna</span><span data-l="es">Vector fila y columna</span><span data-l="en">Row and column vectors</span></div>
+    <div class="bb">
+      <p><span data-l="va">Un <strong>vector fila</strong> d'una matriu \(A\) és qualsevol de les seues files.<br>Un <strong>vector columna</strong> d'una matriu \(A\) és qualsevol de les seues columnes.</span><span data-l="es">Un <strong>vector fila</strong> de una matriz \(A\) es cualquiera de sus filas.<br>Un <strong>vector columna</strong> de una matriz \(A\) es cualquiera de sus columnas.</span><span data-l="en">A <strong>row vector</strong> of a matrix \(A\) is any of its rows.<br>A <strong>column vector</strong> of a matrix \(A\) is any of its columns.</span></p>
+      <p><span data-l="va"><span class="u-line">Per exemple</span>: donada una matriu</span><span data-l="es"><span class="u-line">Por ejemplo</span>: dada una matriz</span><span data-l="en"><span class="u-line">For example</span>: given the matrix</span> \(A=\begin{pmatrix}1 & 3\\ 2 & 6\end{pmatrix}\)<span data-l="va">, direm que \((1,3)\) i \((2,6)\) són vectors fila de la matriu \(A\). I \((1,2)\) i \((3,6)\) són vectors columna de la mateixa matriu.</span><span data-l="es">, diremos que \((1,3)\) y \((2,6)\) son vectores fila de la matriz \(A\). Y \((1,2)\) y \((3,6)\) son vectores columna de la misma matriz.</span><span data-l="en">, \((1,3)\) and \((2,6)\) are row vectors of \(A\), and \((1,2)\) and \((3,6)\) are column vectors of the same matrix.</span></p>
+    </div>
+  </div>
+  <div class="box def">
+    <div class="bh"><span data-l="va">Dependència i independència lineal</span><span data-l="es">Dependencia e independencia lineal</span><span data-l="en">Linear dependence and independence</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va">Es diu que un vector \(\vec w\) és <strong>linealment dependent</strong> dels vectors \(\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n\) si \(\vec w\) és combinació lineal d'ells, és a dir:</span><span data-l="es">Se dice que un vector \(\vec w\) es <strong>linealmente dependiente</strong> de los vectores \(\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n\) si \(\vec w\) es combinación lineal de ellos, es decir:</span><span data-l="en">A vector \(\vec w\) is <strong>linearly dependent</strong> on the vectors \(\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n\) if \(\vec w\) is a linear combination of them, that is:</span>
+          \[\vec w=\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n,\quad /\ \lambda_i\in\mathbb{R}\ \ \forall i\in\mathbb{N}\]</li>
+        <li><span data-l="va">Es diu que un vector \(\vec w\) és <strong>linealment independent</strong> dels vectors \(\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n\) si \(\vec w\) no és combinació lineal d'ells, és a dir:</span><span data-l="es">Se dice que un vector \(\vec w\) es <strong>linealmente independiente</strong> de los vectores \(\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n\) si \(\vec w\) no es combinación lineal de ellos, es decir:</span><span data-l="en">A vector \(\vec w\) is <strong>linearly independent</strong> of the vectors \(\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n\) if \(\vec w\) is not a linear combination of them, that is:</span>
+          \[\vec w\neq\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n,\quad /\ \lambda_i\in\mathbb{R}\ \ \forall i\in\mathbb{N}\]</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples</span><span data-l="es">Ejemplos</span><span data-l="en">Examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><strong><span data-l="va">És (2,0,10) linealment independent de (1,1,4) i (1,2,3)?</span><span data-l="es">¿Es (2,0,10) linealmente independiente de (1,1,4) y (1,2,3)?</span><span data-l="en">Is (2,0,10) linearly independent of (1,1,4) and (1,2,3)?</span></strong><br>
+          <span data-l="va">Ens preguntem si existeixen nombres \(\lambda\) i \(\mu\) de manera que:</span><span data-l="es">Nos preguntamos si existen números \(\lambda\) y \(\mu\) de manera que:</span><span data-l="en">We ask whether there are numbers \(\lambda\) and \(\mu\) such that:</span> \((2,0,10)=\lambda(1,1,4)+\mu(1,2,3)\)
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Resolem aquest sistema:</span><span data-l="es">Resolvemos este sistema:</span><span data-l="en">We solve this system:</span> \(0=\lambda+2\mu\rightarrow\lambda=-2\mu\)</p></div>
+            <div class="step">\[2=\lambda+\mu\ \xrightarrow[\lambda=-2\mu]{}\ 2=-2\mu+\mu=-\mu\ \rightarrow\ \boxed{\mu=-2}\ \rightarrow\ \boxed{\lambda=4}\]</div>
+            <div class="step"><p>\(10=4\lambda+3\mu\longrightarrow10=4\cdot4+3\cdot(-2)=10\ \rightarrow\) <span data-l="va">el vector (2,0,10) és <strong>l.d.</strong> de (1,1,4) i (1,2,3).</span><span data-l="es">el vector (2,0,10) es <strong>l.d.</strong> de (1,1,4) y (1,2,3).</span><span data-l="en">the vector (2,0,10) is <strong>linearly dependent (l.d.)</strong> on (1,1,4) and (1,2,3).</span></p></div>
+          </div>
+        </li>
+        <li><strong><span data-l="va">És (0,3,7) linealment independent de (1,1,4) i (1,2,3)?</span><span data-l="es">¿Es (0,3,7) linealmente independiente de (1,1,4) y (1,2,3)?</span><span data-l="en">Is (0,3,7) linearly independent of (1,1,4) and (1,2,3)?</span></strong><br>
+          <span data-l="va">Ens preguntem si existeixen nombres \(\lambda\) i \(\mu\) de manera que:</span><span data-l="es">Nos preguntamos si existen números \(\lambda\) y \(\mu\) de manera que:</span><span data-l="en">We ask whether there are numbers \(\lambda\) and \(\mu\) such that:</span> \((0,3,7)=\lambda(1,1,4)+\mu(1,2,3)\)
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Resolem aquest sistema:</span><span data-l="es">Resolvemos este sistema:</span><span data-l="en">We solve this system:</span> \(0=\lambda+\mu\rightarrow\mu=-\lambda\)</p></div>
+            <div class="step">\[3=\lambda+2\mu\ \xrightarrow[\mu=-\lambda]{}\ 3=\lambda-2\lambda=-\lambda\ \rightarrow\ \boxed{\lambda=-3}\ \rightarrow\ \boxed{\mu=3}\]</div>
+            <div class="step"><p>\(7=4\lambda+3\mu\longrightarrow4\cdot(-3)+3\cdot3=-12+9=-3\neq7\ \rightarrow\) <span data-l="va">el vector (0,3,7) és <strong>l.i.</strong> de (1,1,4) i (1,2,3), ja que no podem trobar dos nombres \((\lambda,\mu)\) que formen eixa descomposició del vector.</span><span data-l="es">el vector (0,3,7) es <strong>l.i.</strong> de (1,1,4) y (1,2,3), ya que no podemos encontrar dos números \((\lambda,\mu)\) que formen esa descomposición del vector.</span><span data-l="en">the vector (0,3,7) is <strong>linearly independent (l.i.)</strong> of (1,1,4) and (1,2,3), since we cannot find two numbers \((\lambda,\mu)\) that give that decomposition of the vector.</span></p></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Conjunt de vectors linealment dependents i independents</span><span data-l="es">Conjunto de vectores linealmente dependientes e independientes</span><span data-l="en">Linearly dependent and independent sets of vectors</span></div>
+    <div class="bb">
+      <ol>
+        <li><span data-l="va">Un conjunt de vectors és <strong>linealment dependent</strong> si algun d'ells és dependent dels altres.</span><span data-l="es">Un conjunto de vectores es <strong>linealmente dependiente</strong> si alguno de ellos es dependiente de los demás.</span><span data-l="en">A set of vectors is <strong>linearly dependent</strong> if any one of them depends on the others.</span></li>
+        <li><span data-l="va">Un conjunt de vectors és <strong>linealment independent</strong> si cap d'ells és dependent dels altres.</span><span data-l="es">Un conjunto de vectores es <strong>linealmente independiente</strong> si ninguno de ellos es dependiente de los demás.</span><span data-l="en">A set of vectors is <strong>linearly independent</strong> if none of them depends on the others.</span></li>
+      </ol>
+      <p class="note"><span data-l="va"><span class="u-line">NOTA</span>: perquè els vectors \(\vec v_1,\vec v_2,\cdots,\vec v_n\) siguen linealment independents, l'expressió \(\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n=0\) ha de tindre una única solució \(\lambda_1=\lambda_2=\cdots=\lambda_n=0\).</span><span data-l="es"><span class="u-line">NOTA</span>: para que los vectores \(\vec v_1,\vec v_2,\cdots,\vec v_n\) sean linealmente independientes, la expresión \(\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n=0\) debe tener una única solución \(\lambda_1=\lambda_2=\cdots=\lambda_n=0\).</span><span data-l="en"><span class="u-line">NOTE</span>: for the vectors \(\vec v_1,\vec v_2,\cdots,\vec v_n\) to be linearly independent, the expression \(\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n=0\) must have the unique solution \(\lambda_1=\lambda_2=\cdots=\lambda_n=0\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples</span><span data-l="es">Ejemplos</span><span data-l="en">Examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><strong><span data-l="va">Els vectors \((1,1,4),(1,2,3)\) i \((0,3,7)\) són linealment independents (l.i.)?</span><span data-l="es">¿Los vectores \((1,1,4),(1,2,3)\) y \((0,3,7)\) son linealmente independientes (l.i.)?</span><span data-l="en">Are the vectors \((1,1,4),(1,2,3)\) and \((0,3,7)\) linearly independent (l.i.)?</span></strong>
+          \[\lambda_1(1,1,4)+\lambda_2(1,2,3)+\lambda_3(0,3,7)=(0,0,0)\]
+          <div class="steps">
+            <div class="step">\[\left.\begin{aligned}\lambda_1+\lambda_2&=0\\ \lambda_1+2\lambda_2+3\lambda_3&=0\\ 4\lambda_1+3\lambda_2+7\lambda_3&=0\end{aligned}\right\}\longrightarrow\left\{\begin{aligned}\lambda_1&=-\lambda_2\\ -\lambda_2+2\lambda_2+3\lambda_3&=0\\ -4\lambda_2+3\lambda_2+7\lambda_3&=0\end{aligned}\right.\longrightarrow\left\{\begin{aligned}\lambda_2+3\lambda_3&=0\\ -\lambda_2+7\lambda_3&=0\end{aligned}\right.\]</div>
+            <div class="step"><span data-l="va"> \[\xrightarrow[\text{sumem equacions}]{}\ 10\lambda_3=0\rightarrow\boxed{\lambda_3=0}\rightarrow\lambda_2+3\cdot0=0\rightarrow\boxed{\lambda_2=0}\rightarrow\boxed{\lambda_1=0}\] </span><span data-l="es"> \[\xrightarrow[\text{sumamos ecuaciones}]{}\ 10\lambda_3=0\rightarrow\boxed{\lambda_3=0}\rightarrow\lambda_2+3\cdot0=0\rightarrow\boxed{\lambda_2=0}\rightarrow\boxed{\lambda_1=0}\] </span><span data-l="en"> \[\xrightarrow[\text{adding the equations}]{}\ 10\lambda_3=0\rightarrow\boxed{\lambda_3=0}\rightarrow\lambda_2+3\cdot0=0\rightarrow\boxed{\lambda_2=0}\rightarrow\boxed{\lambda_1=0}\] </span></div>
+            <div class="step"><p><span data-l="va">Aleshores podem afirmar que els tres vectors són l.i.</span><span data-l="es">Entonces podemos afirmar que los tres vectores son l.i.</span><span data-l="en">So we can state that the three vectors are l.i.</span></p></div>
+          </div>
+        </li>
+        <li><strong><span data-l="va">Els vectors \((1,1,4),(1,2,3)\) i \((2,0,10)\) són linealment independents (l.i.)?</span><span data-l="es">¿Los vectores \((1,1,4),(1,2,3)\) y \((2,0,10)\) son linealmente independientes (l.i.)?</span><span data-l="en">Are the vectors \((1,1,4),(1,2,3)\) and \((2,0,10)\) linearly independent (l.i.)?</span></strong>
+          \[\lambda_1(1,1,4)+\lambda_2(1,2,3)+\lambda_3(2,0,10)=(0,0,0)\]
+          <div class="steps">
+            <div class="step">\[\left.\begin{aligned}\lambda_1+\lambda_2+2\lambda_3&=0\\ \lambda_1+2\lambda_2&=0\\ 4\lambda_1+3\lambda_2+10\lambda_3&=0\end{aligned}\right\}\rightarrow\left\{\begin{aligned}-2\lambda_2+\lambda_2+2\lambda_3&=0\\ \lambda_1&=-2\lambda_2\\ -8\lambda_2+3\lambda_2+10\lambda_3&=0\end{aligned}\right.\rightarrow\left\{\begin{aligned}-\lambda_2+2\lambda_3&=0\\ -5\lambda_2+10\lambda_3&=0\end{aligned}\right.\]</div>
+            <div class="step"><p><span data-l="va">Si resolem aquest sistema d'equacions veiem que és un SCI (la segona equació és la primera multiplicada per 5); com té més d'una solució, podem afirmar que els vectors són l.d.</span><span data-l="es">Si resolvemos este sistema de ecuaciones vemos que es un SCI (la segunda ecuación es la primera multiplicada por 5); como tiene más de una solución, podemos afirmar que los vectores son l.d.</span><span data-l="en">Solving this system we see that it is consistent with infinitely many solutions (the second equation is 5 times the first); since it has more than one solution, the vectors are l.d.</span></p></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <p><span data-l="va">Seguidament aplicarem aquests conceptes de vectors als determinants i les matrius, per tal d'introduir el rang d'una matriu. Aquest concepte veurem que està molt relacionat amb la dependència lineal entre els vectors que formen una matriu.</span><span data-l="es">A continuación aplicaremos estos conceptos de vectores a los determinantes y las matrices, para introducir el rango de una matriz. Veremos que este concepto está muy relacionado con la dependencia lineal entre los vectores que forman una matriz.</span><span data-l="en">Next we will apply these vector concepts to determinants and matrices in order to introduce the rank of a matrix. We will see that this concept is closely related to the linear dependence between the vectors that make up a matrix.</span></p>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Dependència o independència amb determinants</span><span data-l="es">Dependencia o independencia con determinantes</span><span data-l="en">Dependence or independence using determinants</span></div>
+    <div class="bb">
+      <p><span data-l="va">Amb tot el que hem vist abans podem afirmar que si un conjunt de vectors són l.d., podem expressar un d'ells com a combinació lineal dels altres:</span><span data-l="es">Con todo lo que hemos visto antes podemos afirmar que si un conjunto de vectores son l.d., podemos expresar uno de ellos como combinación lineal de los demás:</span><span data-l="en">From what we have seen, if a set of vectors is l.d., we can write one of them as a linear combination of the others:</span> \(\vec v_1=\lambda_2\cdot\vec v_2+\lambda_3\cdot\vec v_3+\cdots+\lambda_n\cdot\vec v_n\).<br><span data-l="va">Si pensem en un determinant format per vectors fila tenim:</span><span data-l="es">Si pensamos en un determinante formado por vectores fila tenemos:</span><span data-l="en">If we think of a determinant whose rows are these vectors, we get:</span></p>
+      \[\begin{vmatrix}\vec v_1\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}=\begin{vmatrix}\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}=\lambda_2\underbrace{\begin{vmatrix}\vec v_2\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}}_{0}+\cdots+\lambda_n\underbrace{\begin{vmatrix}\vec v_n\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}}_{0}=0\]
+      <p><span data-l="va">ja que si dues files són iguals el determinant val zero.<br>Aleshores podem afirmar que:</span><span data-l="es">ya que si dos filas son iguales el determinante vale cero.<br>Entonces podemos afirmar que:</span><span data-l="en">since a determinant with two equal rows is zero.<br>So we can state that:</span></p>
+      <ul>
+        <li><strong><span data-l="va">Si la matriu \(A\) és regular, \(|A|\neq0\), tots els seus vectors fila o columna seran independents.</span><span data-l="es">Si la matriz \(A\) es regular, \(|A|\neq0\), todos sus vectores fila o columna serán independientes.</span><span data-l="en">If \(A\) is regular, \(|A|\neq0\), all its row or column vectors are independent.</span></strong></li>
+        <li><strong><span data-l="va">Si la matriu \(A\) és singular, \(|A|=0\), tots els seus vectors fila o columna seran dependents.</span><span data-l="es">Si la matriz \(A\) es singular, \(|A|=0\), todos sus vectores fila o columna serán dependientes.</span><span data-l="en">If \(A\) is singular, \(|A|=0\), its row or column vectors are dependent.</span></strong></li>
+      </ul>
+      <p><span data-l="va">D'aquesta forma, per saber si un conjunt de vectors són l.i. o l.d. calcularem el determinant de la matriu formada pels vectors, que és més senzill que resoldre un sistema.</span><span data-l="es">De esta forma, para saber si un conjunto de vectores son l.i. o l.d. calcularemos el determinante de la matriz formada por los vectores, que es más sencillo que resolver un sistema.</span><span data-l="en">So, to find out whether a set of vectors is l.i. or l.d., we compute the determinant of the matrix formed by the vectors, which is easier than solving a system.</span></p>
+      <p><span data-l="va">Però el problema apareix si la matriu formada pels vectors no és una matriu quadrada; per exemple, si volem saber si els vectors següents són l.i. o l.d.:</span><span data-l="es">Pero el problema aparece si la matriz formada por los vectores no es una matriz cuadrada; por ejemplo, si queremos saber si los vectores siguientes son l.i. o l.d.:</span><span data-l="en">But a problem appears if the matrix formed by the vectors is not square; for example, if we want to know whether the following vectors are l.i. or l.d.:</span><br>– (2,1), (4,5) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> (1,3).<br>– (2,1,3,1), (4,1,2,3) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> (2,1,0,1).</p>
+      <p><span data-l="va">Per a resoldre aquest problema utilitzem els rangs de les matrius.</span><span data-l="es">Para resolver este problema utilizamos los rangos de las matrices.</span><span data-l="en">To solve this problem we use the rank of a matrix.</span></p>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Rang d'una matriu</span><span data-l="es">Rango de una matriz</span><span data-l="en">Rank of a matrix</span></div>
+    <div class="bb">
+      <p><span data-l="va">El <strong>rang d'una matriu</strong> \(A\) de qualsevol ordre és el nombre màxim de vectors fila, o de vectors columna, d'\(A\) que són linealment independents. Ho escriurem com <strong>rg(A)</strong>.</span><span data-l="es">El <strong>rango de una matriz</strong> \(A\) de cualquier orden es el número máximo de vectores fila, o de vectores columna, de \(A\) que son linealmente independientes. Lo escribiremos como <strong>rg(A)</strong>.</span><span data-l="en">The <strong>rank of a matrix</strong> \(A\) of any order is the maximum number of linearly independent row vectors (or column vectors) of \(A\). We write it as <strong>rg(A)</strong> (also rank(A)).</span></p>
+      <p class="note"><span data-l="va">El rang d'una matriu \(A\) coincideix amb l'ordre de la major submatriu quadrada el determinant de la qual és diferent de zero.</span><span data-l="es">El rango de una matriz \(A\) coincide con el orden de la mayor submatriz cuadrada cuyo determinante es distinto de cero.</span><span data-l="en">The rank of \(A\) equals the order of the largest square submatrix whose determinant is non-zero.</span></p>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Calculem el rang d'una matriu</span><span data-l="es">Calculamos el rango de una matriz</span><span data-l="en">How to compute the rank</span></div>
+    <div class="bb">
+      <ol>
+        <li><span data-l="va">Suprimir les línies dependents, és a dir, nul·les, repetides, múltiples o combinacions lineals evidents.</span><span data-l="es">Suprimir las líneas dependientes, es decir, nulas, repetidas, múltiplos o combinaciones lineales evidentes.</span><span data-l="en">Remove the dependent lines, i.e. zero, repeated, multiples or obvious linear combinations.</span></li>
+        <li><span data-l="va">Trobar el determinant de la matriu amb major dimensió possible en la matriu \(A\). Si és distint de zero direm que: <strong>rg(A) = dimensió del determinant</strong>.</span><span data-l="es">Hallar el determinante de la matriz con mayor dimensión posible en la matriz \(A\). Si es distinto de cero diremos que: <strong>rg(A) = dimensión del determinante</strong>.</span><span data-l="en">Find the determinant of the largest possible square submatrix of \(A\). If it is non-zero: <strong>rg(A) = size of that determinant</strong>.</span></li>
+        <li><span data-l="va">Si el determinant és zero, se n'ha de calcular, si és possible, un altre amb la mateixa dimensió. Si s'esgoten totes les possibilitats d'una determinada dimensió, es calculen els determinants de les submatrius d'una dimensió inferior.</span><span data-l="es">Si el determinante es cero, se debe calcular, si es posible, otro con la misma dimensión. Si se agotan todas las posibilidades de una determinada dimensión, se calculan los determinantes de las submatrices de una dimensión inferior.</span><span data-l="en">If the determinant is zero, compute another one of the same size if possible. If all the possibilities of a given size are exhausted, compute the determinants of the submatrices of the next size down.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples de càlcul del rang de matrius</span><span data-l="es">Ejemplos de cálculo del rango de matrices</span><span data-l="en">Examples: computing the rank</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Calculem el rang de la matriu següent:</span><span data-l="es">Calculamos el rango de la matriz siguiente:</span><span data-l="en">Let's compute the rank of the following matrix:</span> \(A=\begin{pmatrix}-1 & 3 & 0 & 1 & 2\\ 0 & 5 & 1 & 2 & 3\\ -3 & -1 & -2 & -1 & 0\\ 3 & 11 & 4 & 5 & 6\end{pmatrix}\)
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Comencem per destacar un menor d'ordre dos no nul (això es pot fer a ull). Procurem que siga tan senzill com siga possible, ja que formarà part de molts determinants d'ordre superior que haurem de calcular més avant.</span><span data-l="es">Empezamos por destacar un menor de orden dos no nulo (esto se puede hacer a ojo). Procuramos que sea tan sencillo como sea posible, ya que formará parte de muchos determinantes de orden superior que tendremos que calcular más adelante.</span><span data-l="en">We start by picking a non-zero minor of order two (this can be done by eye). We try to make it as simple as possible, since it will be part of many higher-order determinants we will compute later.</span></p>
+              \[A=\begin{pmatrix}\boxed{-1} & 3 & \boxed{0} & 1 & 2\\ \boxed{0} & 5 & \boxed{1} & 2 & 3\\ -3 & -1 & -2 & -1 & 0\\ 3 & 11 & 4 & 5 & 6\end{pmatrix}\qquad\begin{vmatrix}-1 & 0\\ 0 & 1\end{vmatrix}\neq0\]
+              <p><span data-l="va">El fet que aquest menor siga no nul ens assegura que les dues primeres files d'\(A\) són l.i.</span><span data-l="es">El hecho de que este menor sea no nulo nos asegura que las dos primeras filas de \(A\) son l.i.</span><span data-l="en">The fact that this minor is non-zero guarantees that the first two rows of \(A\) are l.i.</span></p></div>
+            <div class="step"><p><span data-l="va">Vegem si la tercera fila depèn linealment d'aquestes. Per a això, hi afegim els dos elements nous, \(-3\) i \(-2\), i calculem tots els menors d'ordre 3 en què intervinguen aquestes dues columnes, per si algun és diferent de zero:</span><span data-l="es">Veamos si la tercera fila depende linealmente de estas. Para ello, añadimos los dos elementos nuevos, \(-3\) y \(-2\), y calculamos todos los menores de orden 3 en los que intervengan estas dos columnas, por si alguno es distinto de cero:</span><span data-l="en">Let's see whether the third row depends linearly on these. To do so, we add the two new elements, \(-3\) and \(-2\), and compute all the order-3 minors that include these two columns, in case any of them is non-zero:</span></p>
+              \[\begin{vmatrix}\color{#e5484d}-1 & 3 & \color{#e5484d}0\\ \color{#e5484d}0 & 5 & \color{#e5484d}1\\ -3 & -1 & -2\end{vmatrix}=0\qquad\begin{vmatrix}\color{#e5484d}-1 & \color{#e5484d}0 & 1\\ \color{#e5484d}0 & \color{#e5484d}1 & 2\\ -3 & -2 & -1\end{vmatrix}=0\qquad\begin{vmatrix}\color{#e5484d}-1 & \color{#e5484d}0 & 2\\ \color{#e5484d}0 & \color{#e5484d}1 & 3\\ -3 & -2 & 0\end{vmatrix}=0\]
+              <p><span data-l="va">En ser zero tots aquests, es dedueix que <strong>la tercera fila és combinació lineal de les dues primeres.</strong></span><span data-l="es">Al ser cero todos ellos, se deduce que <strong>la tercera fila es combinación lineal de las dos primeras.</strong></span><span data-l="en">Since they are all zero, <strong>the third row is a linear combination of the first two.</strong></span></p>
+              <p><span data-l="va">(Si algun d'aquests tres menors fora no nul, la tercera fila seria l.i. de les dues primeres. Prendríem com a base aquest menor d'ordre 3 i ampliaríem les tres columnes amb els elements corresponents de la quarta fila. Obtindríem així tres columnes de quatre elements. Afegint-hi una altra columna, provaríem si algun dels menors d'ordre 4 era no nul.)</span><span data-l="es">(Si alguno de estos tres menores fuera no nulo, la tercera fila sería l.i. de las dos primeras. Tomaríamos como base ese menor de orden 3 y ampliaríamos las tres columnas con los elementos correspondientes de la cuarta fila. Obtendríamos así tres columnas de cuatro elementos. Añadiendo otra columna, probaríamos si alguno de los menores de orden 4 era no nulo.)</span><span data-l="en">(If any of these three minors were non-zero, the third row would be l.i. of the first two. We would take that order-3 minor as a base and extend its three columns with the corresponding elements of the fourth row, obtaining three columns of four elements. Adding another column, we would test whether any order-4 minor is non-zero.)</span></p></div>
+            <div class="step"><p><span data-l="va">Ara farem amb la quarta fila el mateix que hem fet amb la tercera. Els tres menors d'ordre 3 que així s'obtenen són zero. Per tant, <strong>la quarta fila és, també, combinació lineal de les dues primeres.</strong></span><span data-l="es">Ahora haremos con la cuarta fila lo mismo que hemos hecho con la tercera. Los tres menores de orden 3 que así se obtienen son cero. Por tanto, <strong>la cuarta fila es, también, combinación lineal de las dos primeras.</strong></span><span data-l="en">Now we do the same with the fourth row. The three order-3 minors obtained are zero. Therefore <strong>the fourth row is also a linear combination of the first two.</strong></span></p></div>
+            <div class="step"><p><span data-l="va">El rang de la matriu és dos (màxim ordre d'un menor no nul o, el que és el mateix, màxim nombre de files l.i.). Aleshores</span><span data-l="es">El rango de la matriz es dos (máximo orden de un menor no nulo o, lo que es lo mismo, máximo número de filas l.i.). Entonces</span><span data-l="en">The rank of the matrix is two (largest order of a non-zero minor or, equivalently, the maximum number of l.i. rows). So</span> \(\boxed{rg(A)=2}\).</p></div>
+          </div>
+        </li>
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}1 & 1 & 2\\ 1 & 2 & 0\\ 4 & 3 & 10\end{pmatrix}\)<span data-l="va">, calculem el rang:</span><span data-l="es">, calculamos el rango:</span><span data-l="en">; let's compute its rank:</span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Calculem el determinant:</span><span data-l="es">Calculamos el determinante:</span><span data-l="en">We compute the determinant:</span> \(|A|=\begin{vmatrix}1 & 1 & 2\\ 1 & 2 & 0\\ 4 & 3 & 10\end{vmatrix}=20+6+0-(16+0+10)=0\)<span data-l="va">, aleshores el rang no pot ser 3. Busquem un menor d'ordre 2x2 diferent de zero:</span><span data-l="es">, entonces el rango no puede ser 3. Buscamos un menor de orden 2x2 distinto de cero:</span><span data-l="en">, so the rank cannot be 3. We look for a non-zero 2×2 minor:</span></p></div>
+            <div class="step">\[\begin{vmatrix}1 & 1\\ 1 & 2\end{vmatrix}=2-1=1\neq0\rightarrow\boxed{rg(A)=2}\]<p><span data-l="va">Aleshores (1,1,2) i (1,2,0) són l.i., però (1,1,2), (1,2,0) i (4,3,10) són l.d.</span><span data-l="es">Entonces (1,1,2) y (1,2,0) son l.i., pero (1,1,2), (1,2,0) y (4,3,10) son l.d.</span><span data-l="en">So (1,1,2) and (1,2,0) are l.i., but (1,1,2), (1,2,0) and (4,3,10) are l.d.</span></p></div>
+          </div>
+        </li>
+        <li><span data-l="va">Estudiem el rang de la matriu:</span><span data-l="es">Estudiamos el rango de la matriz:</span><span data-l="en">Let's study the rank of the matrix:</span> \(B=\begin{pmatrix}1 & 1 & 0\\ 1 & 2 & 3\\ 4 & 3 & 7\end{pmatrix}\)
+          \[|B|=\begin{vmatrix}1 & 1 & 0\\ 1 & 2 & 3\\ 4 & 3 & 7\end{vmatrix}=14+0+12-(0+9+7)=10\neq0\rightarrow\boxed{rg(B)=3}\]
+          <p>\(\rightarrow\) <span data-l="va">els tres vectors són l.i.</span><span data-l="es">los tres vectores son l.i.</span><span data-l="en">the three vectors are l.i.</span></p></li>
+        <li><span data-l="va">Calculem el rang de la matriu:</span><span data-l="es">Calculamos el rango de la matriz:</span><span data-l="en">Let's compute the rank of the matrix:</span> \(A=\begin{pmatrix}1 & 3 & 1 & 2 & 4 & 0\\ 2 & 1 & -3 & 4 & 3 & 0\\ 3 & 0 & -6 & 6 & 3 & 0\\ 1 & 2 & 0 & 2 & 3 & 0\end{pmatrix}\)
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Si ens fixem, veiem que \(C_4=2\cdot C_1\), \(C_5=C_1+C_2\) i \(C_6\) és un vector nul; aleshores podem eliminar aquestes columnes per a estudiar el rang de la matriu \(A\), ja que sabem que són l.d. de les altres.</span><span data-l="es">Si nos fijamos, vemos que \(C_4=2\cdot C_1\), \(C_5=C_1+C_2\) y \(C_6\) es un vector nulo; entonces podemos eliminar estas columnas para estudiar el rango de la matriz \(A\), ya que sabemos que son l.d. de las demás.</span><span data-l="en">Looking closely, \(C_4=2\cdot C_1\), \(C_5=C_1+C_2\) and \(C_6\) is the zero vector; so we can remove these columns to study the rank of \(A\), since they are l.d. on the others.</span></p>
+              \[rg(A)=rg\begin{pmatrix}1 & 3 & 1\\ 2 & 1 & -3\\ 3 & 0 & -6\\ 1 & 2 & 0\end{pmatrix}\]<p><span data-l="va">Aleshores agafem menors d'ordre 3x3 per veure si n'hi ha algun diferent de zero:</span><span data-l="es">Entonces cogemos menores de orden 3x3 para ver si hay alguno distinto de cero:</span><span data-l="en">Then we take 3×3 minors to see whether any of them is non-zero:</span></p></div>
+            <div class="step">\[\begin{vmatrix}F_1\\ F_2\\ F_3\end{vmatrix}=\begin{vmatrix}1 & 3 & 1\\ 2 & 1 & -3\\ 3 & 0 & -6\end{vmatrix}=(-6+0-27)-(3-36)=-33+33=0\]
+              \[\begin{vmatrix}F_1\\ F_2\\ F_4\end{vmatrix}=\begin{vmatrix}1 & 3 & 1\\ 2 & 1 & -3\\ 1 & 2 & 0\end{vmatrix}=(0+4-9)-(1-6+0)=-5+5=0\]
+              \[\begin{vmatrix}F_2\\ F_3\\ F_4\end{vmatrix}=\begin{vmatrix}2 & 1 & -3\\ 3 & 0 & -6\\ 1 & 2 & 0\end{vmatrix}=(0-18-6)-(-24)=-24+24=0\]
+              \[\begin{vmatrix}F_1\\ F_3\\ F_4\end{vmatrix}=\begin{vmatrix}1 & 3 & 1\\ 3 & 0 & -6\\ 1 & 2 & 0\end{vmatrix}=(0+6-18)-(-12)=-12+12=0\]</div>
+            <div class="step"><p><span data-l="va">Com tots els menors d'ordre 3 són zero, el rang de la matriu \(A\) serà 2 com a màxim. Comprovem-ho:</span><span data-l="es">Como todos los menores de orden 3 son cero, el rango de la matriz \(A\) será 2 como máximo. Comprobémoslo:</span><span data-l="en">Since all the order-3 minors are zero, the rank of \(A\) is at most 2. Let's check it:</span></p>
+              \[\begin{vmatrix}1 & 3\\ 2 & 1\end{vmatrix}=1-6=-5\neq0\longrightarrow\boxed{rg(A)=2}\]</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Discussió de rangs en funció d'un paràmetre</span><span data-l="es">Discusión de rangos en función de un parámetro</span><span data-l="en">Discussing the rank in terms of a parameter</span></div>
+    <div class="bb">
+      <p><span data-l="va">Consisteix a esbrinar els diferents rangs que pot tindre una matriu segons els valors que prenen alguns dels seus elements, que venen expressats en forma de paràmetres:</span><span data-l="es">Consiste en averiguar los diferentes rangos que puede tener una matriz según los valores que toman algunos de sus elementos, que vienen expresados en forma de parámetros:</span><span data-l="en">It consists of finding the different ranks a matrix can have depending on the values taken by some of its elements, which are given as parameters:</span></p>
+      <ul>
+        <li><span data-l="va">Si la matriu és quadrada, es resol l'equació \(|A|=0\). Les solucions són els diferents casos que cal estudiar.</span><span data-l="es">Si la matriz es cuadrada, se resuelve la ecuación \(|A|=0\). Las soluciones son los diferentes casos que hay que estudiar.</span><span data-l="en">If the matrix is square, solve the equation \(|A|=0\). The solutions are the different cases to study.</span></li>
+        <li><span data-l="va">Si la matriu és rectangular, es resol l'equació \(|A'|=0\), on \(A'\) és una submatriu quadrada d'\(A\) de la major grandària possible. Les solucions són els casos que cal estudiar.<br>Tant se val la submatriu que triem: encara que no isquen els mateixos casos, arribarem a les mateixes conclusions.</span><span data-l="es">Si la matriz es rectangular, se resuelve la ecuación \(|A'|=0\), donde \(A'\) es una submatriz cuadrada de \(A\) del mayor tamaño posible. Las soluciones son los casos que hay que estudiar.<br>Da igual la submatriz que elijamos: aunque no salgan los mismos casos, llegaremos a las mismas conclusiones.</span><span data-l="en">If the matrix is rectangular, solve \(|A'|=0\), where \(A'\) is a square submatrix of \(A\) of the largest possible size. The solutions are the cases to study.<br>It doesn't matter which submatrix we choose: even if different cases come out, we will reach the same conclusions.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples d'estudi del rang de matrius amb paràmetres</span><span data-l="es">Ejemplos de estudio del rango de matrices con parámetros</span><span data-l="en">Examples: rank of matrices with parameters</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(A=\begin{pmatrix}a & 2\\ 2 & a\end{pmatrix}\rightarrow|A|=a^2-4=0\rightarrow a=\pm2\)<br>
+          <span data-l="va">Així, si</span><span data-l="es">Así, si</span><span data-l="en">So, if</span> \(\boxed{a=2\rightarrow rg(A)=1}\), <span data-l="va">si</span><span data-l="es">si</span><span data-l="en">if</span> \(\boxed{a=-2\rightarrow rg(A)=1}\) <span data-l="va">i si</span><span data-l="es">y si</span><span data-l="en">and if</span> \(\boxed{a\neq\pm2\rightarrow rg(A)=2}\)</li>
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(B=\begin{pmatrix}a & 2 & 2\\ 2 & a & 2\\ 2 & 2 & a\end{pmatrix}\)<span data-l="va">; com abans, calculem el determinant:</span><span data-l="es">; como antes, calculamos el determinante:</span><span data-l="en">; as before, we compute the determinant:</span>
+          <div class="steps">
+            <div class="step"><p>\(|B|=a^3+8+8-(4a+4a+4a)=a^3-12a+16=0\)<span data-l="va">; si resolem l'equació per Ruffini obtenim les solucions: \(a=2\) (arrel doble) i \(a=-4\). Estudiem els diferents casos:</span><span data-l="es">; si resolvemos la ecuación por Ruffini obtenemos las soluciones: \(a=2\) (raíz doble) y \(a=-4\). Estudiamos los diferentes casos:</span><span data-l="en">; solving the equation by Ruffini's rule (synthetic division) we get \(a=2\) (double root) and \(a=-4\). We study the different cases:</span></p></div>
+            <div class="step"><ul>
+              <li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(a=2\rightarrow\begin{pmatrix}2 & 2 & 2\\ 2 & 2 & 2\\ 2 & 2 & 2\end{pmatrix}\rightarrow\boxed{rg(B)=1}\)</li>
+              <li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(a=-4\rightarrow|B|=0\) <span data-l="va">estudiem un menor d'ordre 2:</span><span data-l="es">estudiamos un menor de orden 2:</span><span data-l="en">we study an order-2 minor:</span> \(\begin{vmatrix}-4 & 2\\ 2 & -4\end{vmatrix}=16-4=12\neq0\rightarrow\boxed{rg(B)=2}\)</li>
+              <li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(a\neq2\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(a\neq-4\rightarrow\boxed{rg(B)=3}\)</li>
+            </ul></div>
+          </div>
+        </li>
+        <li><span data-l="va">Siga la matriu</span><span data-l="es">Sea la matriz</span><span data-l="en">Let</span> \(C=\begin{pmatrix}a & 2 & 4\\ 1 & 1 & a\end{pmatrix}\)<span data-l="va">. Per estudiar el rang, agafem els diferents menors d'ordre 2:</span><span data-l="es">. Para estudiar el rango, cogemos los diferentes menores de orden 2:</span><span data-l="en">. To study the rank, we take the different order-2 minors:</span>
+          \[C_1'=\begin{pmatrix}a & 2\\ 1 & 1\end{pmatrix}\rightarrow|C_1'|=a-2=0\rightarrow a=2\]
+          \[C_2'=\begin{pmatrix}2 & 4\\ 1 & a\end{pmatrix}\rightarrow|C_2'|=2a-4=0\rightarrow a=2\]
+          \[C_3'=\begin{pmatrix}a & 4\\ 1 & a\end{pmatrix}\rightarrow|C_3'|=a^2-4=0\rightarrow a=\pm2\]
+          <p><span data-l="va">Aleshores:</span><span data-l="es">Entonces:</span><span data-l="en">Therefore:</span></p>
+          <ul><li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(\boxed{a=2\rightarrow rg(C)=1}\)</li><li><span data-l="va">Si</span><span data-l="es">Si</span><span data-l="en">If</span> \(\boxed{a\neq2\rightarrow rg(C)=2}\)</li></ul>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1.6 ======================= -->
+<section class="unit" id="s6">
+  <div class="sec-head"><span class="num">1.6</span><h2><span data-l="va">Matriu inversa</span><span data-l="es">Matriz inversa</span><span data-l="en">Inverse matrix</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Matriu inversa</span><span data-l="es">Matriz inversa</span><span data-l="en">Inverse matrix</span></div>
+    <div class="bb">
+      <p><span data-l="va">Siga \(A\) una matriu quadrada regular d'ordre \(n\) (\(|A_n|\neq0\)); s'anomena <strong>matriu inversa d'\(A\)</strong> una altra matriu, \(A^{-1}\), del mateix ordre, que verifica:</span><span data-l="es">Sea \(A\) una matriz cuadrada regular de orden \(n\) (\(|A_n|\neq0\)); se denomina <strong>matriz inversa de \(A\)</strong> a otra matriz, \(A^{-1}\), del mismo orden, que verifica:</span><span data-l="en">Let \(A\) be a regular square matrix of order \(n\) (\(|A_n|\neq0\)); the <strong>inverse of \(A\)</strong> is another matrix \(A^{-1}\) of the same order such that:</span></p>
+      \[\boxed{A\cdot A^{-1}=A^{-1}\cdot A=I_n}\]
+      <p><span data-l="va">Per tant, una matriu <span class="u-line">té inversa o és invertible si el seu determinant és diferent de zero</span>, és a dir, si és regular.</span><span data-l="es">Por tanto, una matriz <span class="u-line">tiene inversa o es invertible si su determinante es distinto de cero</span>, es decir, si es regular.</span><span data-l="en">Therefore a matrix <span class="u-line">has an inverse (is invertible) if its determinant is non-zero</span>, that is, if it is regular.</span></p>
+      <p><span data-l="va">A més, tenim una fórmula per poder calcular la inversa d'una matriu \(A\):</span><span data-l="es">Además, tenemos una fórmula para poder calcular la inversa de una matriz \(A\):</span><span data-l="en">We also have a formula to compute the inverse of a matrix \(A\):</span></p>
+      \[\boxed{A^{-1}=\frac{1}{|A|}\cdot\left(Adj(A)\right)^t}\]
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Formes de calcular la matriu inversa d'A</span><span data-l="es">Formas de calcular la matriz inversa de A</span><span data-l="en">Ways to compute the inverse of A</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><strong><span data-l="va">Utilitzant la definició:</span><span data-l="es">Utilizando la definición:</span><span data-l="en">Using the definition:</span></strong> \(A\cdot A^{-1}=A^{-1}\cdot A=I_n\)<br>
+          <span data-l="va">Vegem un exemple: donada la matriu</span><span data-l="es">Veamos un ejemplo: dada la matriz</span><span data-l="en">Example: given the matrix</span> \(A=\begin{pmatrix}1 & 2\\ 3 & 5\end{pmatrix}\)<span data-l="va">, calculem la seua inversa</span><span data-l="es">, calculamos su inversa</span><span data-l="en">, we compute its inverse</span> \(A^{-1}=\begin{pmatrix}a & b\\ c & d\end{pmatrix}\).
+          <div class="steps">
+            <div class="step">\[A\cdot A^{-1}=\begin{pmatrix}1 & 2\\ 3 & 5\end{pmatrix}\cdot\begin{pmatrix}a & b\\ c & d\end{pmatrix}=\begin{pmatrix}a+2c & b+2d\\ 3a+5c & 3b+5d\end{pmatrix}=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}\]</div>
+            <div class="step"><p><span data-l="va">Ara resolem el sistema de 4 equacions amb 4 incògnites:</span><span data-l="es">Ahora resolvemos el sistema de 4 ecuaciones con 4 incógnitas:</span><span data-l="en">Now we solve the system of 4 equations in 4 unknowns:</span></p>
+              \[\left.\begin{aligned}a+2c&=1\\ 3a+5c&=0\end{aligned}\right\}\rightarrow\left.\begin{aligned}-3a-6c&=-3\\ 3a+5c&=0\end{aligned}\right\}\rightarrow-c=-3\rightarrow\boxed{c=3}\rightarrow\boxed{a=-5}\]
+              \[\left.\begin{aligned}b+2d&=0\\ 3b+5d&=1\end{aligned}\right\}\rightarrow\left.\begin{aligned}-3b-6d&=0\\ 3b+5d&=1\end{aligned}\right\}\rightarrow-d=1\rightarrow\boxed{d=-1}\rightarrow\boxed{b=2}\]</div>
+            <div class="step"><p><span data-l="va">Aleshores:</span><span data-l="es">Entonces:</span><span data-l="en">So:</span></p>\[\boxed{A^{-1}=\begin{pmatrix}-5 & 2\\ 3 & -1\end{pmatrix}}\]</div>
+          </div>
+        </li>
+        <li><strong><span data-l="va">A partir de la fórmula:</span><span data-l="es">A partir de la fórmula:</span><span data-l="en">Using the formula:</span></strong> \(A^{-1}=\dfrac{1}{|A|}\cdot(Adj(A))^t\)<br>
+          <span data-l="va">Calculem la matriu inversa de</span><span data-l="es">Calculamos la matriz inversa de</span><span data-l="en">We compute the inverse of</span> \(A=\begin{pmatrix}3 & 1 & 2\\ 1 & 3 & 1\\ 2 & 4 & 2\end{pmatrix}\)
+          <div class="steps">
+            <div class="step">\[|A|=\begin{vmatrix}3 & 1 & 2\\ 1 & 3 & 1\\ 2 & 4 & 2\end{vmatrix}=(18+8+2)-(12+12+2)=28-26=2\]<p><span data-l="va">Ara calculem la matriu adjunta (Adj(A)):</span><span data-l="es">Ahora calculamos la matriz adjunta (Adj(A)):</span><span data-l="en">Now we compute the adjugate (cofactor) matrix Adj(A):</span></p></div>
+            <div class="step">\[A_{11}=\begin{vmatrix}3 & 1\\ 4 & 2\end{vmatrix}\cdot(-1)^{1+1}=2\quad A_{12}=\begin{vmatrix}1 & 1\\ 2 & 2\end{vmatrix}\cdot(-1)^{1+2}=0\quad A_{13}=\begin{vmatrix}1 & 3\\ 2 & 4\end{vmatrix}\cdot(-1)^{1+3}=-2\]
+              \[A_{21}=\begin{vmatrix}1 & 2\\ 4 & 2\end{vmatrix}\cdot(-1)^{2+1}=6\quad A_{22}=\begin{vmatrix}3 & 2\\ 2 & 2\end{vmatrix}\cdot(-1)^{2+2}=2\quad A_{23}=\begin{vmatrix}3 & 1\\ 2 & 4\end{vmatrix}\cdot(-1)^{2+3}=-10\]
+              \[A_{31}=\begin{vmatrix}1 & 2\\ 3 & 1\end{vmatrix}\cdot(-1)^{3+1}=-5\quad A_{32}=\begin{vmatrix}3 & 2\\ 1 & 1\end{vmatrix}\cdot(-1)^{3+2}=-1\quad A_{33}=\begin{vmatrix}3 & 1\\ 1 & 3\end{vmatrix}\cdot(-1)^{3+3}=8\]</div>
+            <div class="step"><p><span data-l="va">Aleshores tenim que:</span><span data-l="es">Entonces tenemos que:</span><span data-l="en">So we have:</span></p>\[(Adj(A))^t=\begin{pmatrix}2 & 0 & -2\\ 6 & 2 & -10\\ -5 & -1 & 8\end{pmatrix}^t=\begin{pmatrix}2 & 6 & -5\\ 0 & 2 & -1\\ -2 & -10 & 8\end{pmatrix}\]</div>
+            <div class="step"><p><span data-l="va">Aplicant la fórmula:</span><span data-l="es">Aplicando la fórmula:</span><span data-l="en">Applying the formula:</span></p>\[\boxed{A^{-1}=\frac12\begin{pmatrix}2 & 6 & -5\\ 0 & 2 & -1\\ -2 & -10 & 8\end{pmatrix}=\begin{pmatrix}1 & 3 & -5/2\\ 0 & 1 & -1/2\\ -1 & -5 & 4\end{pmatrix}}\]</div>
+          </div>
+        </li>
+        <li><strong><span data-l="va">Mitjançant el mètode de Gauss.</span><span data-l="es">Mediante el método de Gauss.</span><span data-l="en">Using Gauss's method (Gauss–Jordan).</span></strong><br>
+          <span data-l="va">Col·loquem la matriu \(A\) i a la dreta la matriu \(I\), formant una matriu \(n\times2n\). Realitzem les transformacions necessàries per a obtindre la matriu \(I\) en el lloc on estava \(A\), i la matriu que ens queda en el lloc d'\(I\) és la matriu \(A^{-1}\).</span><span data-l="es">Colocamos la matriz \(A\) y a su derecha la matriz \(I\), formando una matriz \(n\times2n\). Realizamos las transformaciones necesarias para obtener la matriz \(I\) en el lugar donde estaba \(A\), y la matriz que nos queda en el lugar de \(I\) es la matriz \(A^{-1}\).</span><span data-l="en">We place \(A\) with the identity \(I\) on its right, forming an \(n\times2n\) matrix. We perform row operations to turn \(A\) into \(I\); the matrix left where \(I\) was is \(A^{-1}\).</span><br>
+          <span data-l="va">Vegem un exemple. Calculem la matriu inversa de</span><span data-l="es">Veamos un ejemplo. Calculamos la matriz inversa de</span><span data-l="en">Example: we compute the inverse of</span> \(A=\begin{pmatrix}3 & 1 & 2\\ 1 & 3 & 1\\ 2 & 4 & 2\end{pmatrix}\)
+          <div class="steps">
+            <div class="step">\[\left(\begin{array}{ccc|ccc}3 & 1 & 2 & 1 & 0 & 0\\ 1 & 3 & 1 & 0 & 1 & 0\\ 2 & 4 & 2 & 0 & 0 & 1\end{array}\right)\xrightarrow[F_1\leftrightarrow F_2]{}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 3 & 1 & 2 & 1 & 0 & 0\\ 2 & 4 & 2 & 0 & 0 & 1\end{array}\right)\]</div>
+            <div class="step">\[\xrightarrow[F_2-3F_1]{F_3-2F_1}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & -8 & -1 & 1 & -3 & 0\\ 0 & -2 & 0 & 0 & -2 & 1\end{array}\right)\xrightarrow[F_2\leftrightarrow F_3]{}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & -2 & 0 & 0 & -2 & 1\\ 0 & -8 & -1 & 1 & -3 & 0\end{array}\right)\]</div>
+            <div class="step">\[\xrightarrow[F_3-4F_2]{}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & -2 & 0 & 0 & -2 & 1\\ 0 & 0 & -1 & 1 & 5 & -4\end{array}\right)\xrightarrow[F_2=(-1/2)F_2]{F_3=-F_3}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & 1 & 0 & 0 & 1 & -1/2\\ 0 & 0 & 1 & -1 & -5 & 4\end{array}\right)\]</div>
+            <div class="step">\[\xrightarrow[F_1=F_1-3F_2-F_3]{}\left(\begin{array}{ccc|ccc}1 & 0 & 0 & 1 & 3 & -5/2\\ 0 & 1 & 0 & 0 & 1 & -1/2\\ 0 & 0 & 1 & -1 & -5 & 4\end{array}\right)\]<p><span data-l="va">Aleshores:</span><span data-l="es">Entonces:</span><span data-l="en">So:</span></p>\[\boxed{A^{-1}=\begin{pmatrix}1 & 3 & -5/2\\ 0 & 1 & -1/2\\ -1 & -5 & 4\end{pmatrix}}\]</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Propietats de la matriu inversa</span><span data-l="es">Propiedades de la matriz inversa</span><span data-l="en">Properties of the inverse matrix</span></div>
+    <div class="bb">
+      <ul>
+        <li>\((A\cdot B)^{-1}=B^{-1}\cdot A^{-1}\)</li>
+        <li>\((A^{-1})^{-1}=A\)</li>
+        <li>\(|A^{-1}|=\dfrac{1}{|A|}\)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1.7 ======================= -->
+<section class="unit" id="s7">
+  <div class="sec-head"><span class="num">1.7</span><h2><span data-l="va">Equacions i sistemes matricials</span><span data-l="es">Ecuaciones y sistemas matriciales</span><span data-l="en">Matrix equations and systems</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Resolem equacions i sistemes matricials</span><span data-l="es">Resolvemos ecuaciones y sistemas matriciales</span><span data-l="en">Solving matrix equations and systems</span></div>
+    <div class="bb">
+      <p><span data-l="va">Són equacions o sistemes en els quals apareixen termes que són matrius. La idea és que els resoldrem igual que les equacions i sistemes amb nombres reals. Però <span class="u-line">cal recordar</span> que amb les matrius tenim certes restriccions:</span><span data-l="es">Son ecuaciones o sistemas en los que aparecen términos que son matrices. La idea es que los resolveremos igual que las ecuaciones y sistemas con números reales. Pero <span class="u-line">hay que recordar</span> que con las matrices tenemos ciertas restricciones:</span><span data-l="en">These are equations or systems containing terms that are matrices. The idea is to solve them just like equations and systems with real numbers. But <span class="u-line">remember</span> that matrices come with some restrictions:</span></p>
+      <ol>
+        <li><span data-l="va">No existeix la divisió de matrius. Per tant, utilitzarem la matriu inversa (sempre que existisca).</span><span data-l="es">No existe la división de matrices. Por tanto, utilizaremos la matriz inversa (siempre que exista).</span><span data-l="en">There is no matrix division. So we use the inverse matrix (whenever it exists).</span></li>
+        <li><span data-l="va">No es compleix la propietat commutativa per al producte de matrius.</span><span data-l="es">No se cumple la propiedad conmutativa para el producto de matrices.</span><span data-l="en">The matrix product is not commutative.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples d'equacions i sistemes</span><span data-l="es">Ejemplos de ecuaciones y sistemas</span><span data-l="en">Examples of equations and systems</span></div>
+    <div class="bb">
+      <ol class="ex-list alpha">
+        <li><span data-l="va">Donades les matrius</span><span data-l="es">Dadas las matrices</span><span data-l="en">Given the matrices</span> \(A=\begin{pmatrix}1 & 2\\ 3 & 5\end{pmatrix}\), \(B=\begin{pmatrix}3 & 4\\ 5 & 1\end{pmatrix}\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(C=\begin{pmatrix}0 & 2\\ 4 & 6\end{pmatrix}\)<span data-l="va">, resolem</span><span data-l="es">, resolvemos</span><span data-l="en">, solve</span> \(\boxed{AX-2B=3C}\):
+          <div class="steps">
+            <div class="step">\[AX=3C+2B\rightarrow A^{-1}\cdot A\cdot X=A^{-1}\cdot(3C+2B)\rightarrow X=A^{-1}(3C+2B)\]</div>
+            <div class="step">\[3C+2B=3\cdot\begin{pmatrix}0 & 2\\ 4 & 6\end{pmatrix}+2\cdot\begin{pmatrix}3 & 4\\ 5 & 1\end{pmatrix}=\begin{pmatrix}6 & 14\\ 22 & 20\end{pmatrix}\]</div>
+            <div class="step"><p><span data-l="va">Ara calcularem \(A^{-1}\): primer \(|A|=5-6=-1\rightarrow A\) és invertible.</span><span data-l="es">Ahora calcularemos \(A^{-1}\): primero \(|A|=5-6=-1\rightarrow A\) es invertible.</span><span data-l="en">Now we compute \(A^{-1}\): first \(|A|=5-6=-1\rightarrow A\) is invertible.</span></p>
+              \[A^{-1}=\frac{1}{-1}\cdot\begin{pmatrix}5 & -3\\ -2 & 1\end{pmatrix}^t=\begin{pmatrix}-5 & 2\\ 3 & -1\end{pmatrix}\]</div>
+            <div class="step">\[X=A^{-1}(3C+2B)=\begin{pmatrix}-5 & 2\\ 3 & -1\end{pmatrix}\cdot\begin{pmatrix}6 & 14\\ 22 & 20\end{pmatrix}=\begin{pmatrix}-30+44 & -70+40\\ 18-22 & 42-20\end{pmatrix}\]
+              \[\boxed{X=\begin{pmatrix}14 & -30\\ -4 & 22\end{pmatrix}}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Donades les matrius</span><span data-l="es">Dadas las matrices</span><span data-l="en">Given the matrices</span> \(A=\begin{pmatrix}4 & 2\\ 3 & 5\end{pmatrix}\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(B=\begin{pmatrix}3 & 4\\ 5 & 1\end{pmatrix}\)<span data-l="va">, resolem el sistema:</span><span data-l="es">, resolvemos el sistema:</span><span data-l="en">, solve the system:</span> \(\left\{\begin{aligned}2X+Y&=A\\ 4X-3Y&=B\end{aligned}\right.\)
+          <div class="steps">
+            <div class="step">\[\left.\begin{aligned}2X+Y&=A\\ 4X-3Y&=B\end{aligned}\right\}\xrightarrow[Y=A-2X]{}4X-3(A-2X)=B\rightarrow4X-3A+6X=B\]</div>
+            <div class="step">\[10X=B+3A\rightarrow X=\frac{B+3A}{10}\]
+              \[Y=A-2\left(\frac{B+3A}{10}\right)=\frac{5A}{5}-\frac{B}{5}-\frac{3A}{5}=\frac{2A-B}{5}\]</div>
+            <div class="step"><p><span data-l="va">Fem les operacions de matrius per a calcular \(X\) i \(Y\) i obtenim que:</span><span data-l="es">Hacemos las operaciones de matrices para calcular \(X\) e \(Y\) y obtenemos que:</span><span data-l="en">Carrying out the matrix operations to find \(X\) and \(Y\) we obtain:</span></p>
+              \[\boxed{X=\begin{pmatrix}3/2 & 1\\ 7/5 & 8/5\end{pmatrix};\ Y=\begin{pmatrix}1 & 0\\ 1/5 & 9/5\end{pmatrix}}\]</div>
+          </div>
+        </li>
+        <li><span data-l="va">Donada la matriu</span><span data-l="es">Dada la matriz</span><span data-l="en">Given the matrix</span> \(A=\begin{pmatrix}3 & 0\\ 1 & 3\end{pmatrix}\)<span data-l="va">, calculem la matriu \(X\) que verifica aquesta equació:</span><span data-l="es">, calculamos la matriz \(X\) que verifica esta ecuación:</span><span data-l="en">, find the matrix \(X\) that satisfies this equation:</span>
+          \[XA-2X=A\]
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Primer pas: aïllem \(X\) traient factor comú en el primer membre, tenint en compte que:</span><span data-l="es">Primer paso: despejamos \(X\) sacando factor común en el primer miembro, teniendo en cuenta que:</span><span data-l="en">First step: isolate \(X\) by factoring it out on the left-hand side, bearing in mind that:</span></p>
+              \[2X=2XI=2IX\rightarrow X(A-2I)=A\]</div>
+            <div class="step"><p><span data-l="va">Multipliquem els dos membres per \((A-2I)^{-1}\) per la dreta.<br>Per això, calculem</span><span data-l="es">Multiplicamos los dos miembros por \((A-2I)^{-1}\) por la derecha.<br>Para ello, calculamos</span><span data-l="en">We multiply both sides by \((A-2I)^{-1}\) on the right.<br>To do so, we compute</span> \((A-2I)=\begin{pmatrix}1 & 0\\ 1 & 1\end{pmatrix}\) <span data-l="va">i la seua inversa,</span><span data-l="es">y su inversa,</span><span data-l="en">and its inverse,</span> \((A-2I)^{-1}=\begin{pmatrix}1 & 0\\ 1 & 1\end{pmatrix}^{-1}=\begin{pmatrix}1 & 0\\ -1 & 1\end{pmatrix}\)</p></div>
+            <div class="step">\[X=A\cdot(A-2I)^{-1}\rightarrow X=\begin{pmatrix}3 & 0\\ 1 & 3\end{pmatrix}\cdot\begin{pmatrix}1 & 0\\ -1 & 1\end{pmatrix}=\boxed{\begin{pmatrix}3 & 0\\ -2 & 3\end{pmatrix}}\]</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LAB ======================= -->
+<section class="unit" id="lab">
+  <div class="sec-head"><span class="num">⚙</span><h2><span data-l="va">Laboratori de matrius</span><span data-l="es">Laboratorio de matrices</span><span data-l="en">Matrix lab</span></h2></div>
+  <p><span data-l="va">Escriu qualsevol matriu (admet enters, decimals i fraccions com <code>-5/2</code>) i comprova els teus resultats: determinant, rang, transposada i inversa. Ideal per a revisar els exercicis!</span><span data-l="es">Escribe cualquier matriz (admite enteros, decimales y fracciones como <code>-5/2</code>) y comprueba tus resultados: determinante, rango, traspuesta e inversa. ¡Ideal para revisar los ejercicios!</span><span data-l="en">Type any matrix (integers, decimals and fractions like <code>-5/2</code> are accepted) and check your results: determinant, rank, transpose and inverse. Ideal for checking your exercises!</span></p>
+  <div class="box lab">
+    <div class="bh">⚙ <span data-l="va">Calculadora</span><span data-l="es">Calculadora</span><span data-l="en">Calculator</span></div>
+    <div class="bb" id="w-lab">
+      <div class="wrow" style="margin:10px 0">
+        <label><span data-l="va">Files</span><span data-l="es">Filas</span><span data-l="en">Rows</span> <select data-role="r"></select></label>
+        <label><span data-l="va">Columnes</span><span data-l="es">Columnas</span><span data-l="en">Columns</span> <select data-role="c"></select></label>
+        <button class="btn" type="button" data-role="rand">🎲 <span data-l="va">Aleatòria</span><span data-l="es">Aleatoria</span><span data-l="en">Random</span></button>
+        <button class="btn" type="button" data-role="clear">⌫ <span data-l="va">Buida</span><span data-l="es">Vaciar</span><span data-l="en">Clear</span></button>
+      </div>
+      <div class="wrow"><span class="lbl">\(M=\)</span><div class="mx" data-role="in"></div></div>
+      <div class="lab-out"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section class="unit quiz-sec" id="quiz">
+  <div class="sec-head"><span class="num">?</span><h2><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></h2></div>
+  <p><span data-l="va">Respon i comprova a l'instant si ho has entés.</span><span data-l="es">Responde y comprueba al instante si lo has entendido.</span><span data-l="en">Answer and instantly check whether you've understood.</span></p>
+  <div class="quiz" id="quiz-box"></div>
+  <div class="score" id="quiz-score"></div>
+  <button class="btn" type="button" id="quiz-reset">↺ <span data-l="va">Torna a començar</span><span data-l="es">Volver a empezar</span><span data-l="en">Start again</span></button>
+</section>
+
+</article>
+</div>
+
+<footer class="foot">
+  <p><span data-l="va">Apunts de teoria · Unitat 1: Matrius i determinants · 2n Batxillerat MII</span><span data-l="es">Apuntes de teoría · Unidad 1: Matrices y determinantes · 2º Bachillerato MII</span><span data-l="en">Theory notes · Unit 1: Matrices and determinants · 2nd Baccalaureate, Maths II</span></p>
+  <p><a href="../../index.html">FentMates</a> · <span data-l="va">Fet amb ♥ per a l'alumnat</span><span data-l="es">Hecho con ♥ para el alumnado</span><span data-l="en">Made with ♥ for students</span></p>
+</footer>
+<button class="icon-btn to-top" type="button" id="to-top" aria-label="↑">↑</button>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var UNIT_KEY = "fm-2batx-u1-done";
+
+  /* ---------- textos de la interfície ---------- */
+  var UI = {
+    va: { next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
+      row: "fila", col: "columna", pickC: "Tria un element de la matriu resultat per veure com es calcula.",
+      pickTerm: "Tria un sumand (blau = signe +, roig = signe −) o mira el total:", total: "Total",
+      pickCell: "Fes clic en un element per veure el seu menor complementari i el seu adjunt.",
+      minor: "Menor complementari", cof: "Adjunt", expand: "Desenvolupant per la fila",
+      det: "Determinant", rank: "Rang", transp: "Transposada", inv: "Inversa", noInv: "No té inversa (|M| = 0).", notSq: "Només per a matrius quadrades.",
+      bad: "Revisa les dades: hi ha algun valor que no és un nombre.", sing: "singular", reg: "regular",
+      score: "Encerts", right: "Correcte!", wrong: "No és correcte.", theme: "Canvia entre mode clar i fosc", top: "Torna amunt" },
+    es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
+      row: "fila", col: "columna", pickC: "Elige un elemento de la matriz resultado para ver cómo se calcula.",
+      pickTerm: "Elige un sumando (azul = signo +, rojo = signo −) o mira el total:", total: "Total",
+      pickCell: "Haz clic en un elemento para ver su menor complementario y su adjunto.",
+      minor: "Menor complementario", cof: "Adjunto", expand: "Desarrollando por la fila",
+      det: "Determinante", rank: "Rango", transp: "Traspuesta", inv: "Inversa", noInv: "No tiene inversa (|M| = 0).", notSq: "Solo para matrices cuadradas.",
+      bad: "Revisa los datos: hay algún valor que no es un número.", sing: "singular", reg: "regular",
+      score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba" },
+    en: { next: "Next step", all: "Show all", reset: "Hide steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
+      row: "row", col: "column", pickC: "Pick an element of the result to see how it is computed.",
+      pickTerm: "Pick a term (blue = + sign, red = − sign) or look at the total:", total: "Total",
+      pickCell: "Click an element to see its minor and its cofactor.",
+      minor: "Minor", cof: "Cofactor", expand: "Expanding along row",
+      det: "Determinant", rank: "Rank", transp: "Transpose", inv: "Inverse", noInv: "Not invertible (|M| = 0).", notSq: "Square matrices only.",
+      bad: "Check the data: some value is not a number.", sing: "singular", reg: "regular",
+      score: "Correct", right: "Correct!", wrong: "Not quite.", theme: "Toggle light and dark mode", top: "Back to top" }
+  };
+  var lang = root.getAttribute("data-lang") || "va";
+  function u(k) { return (UI[lang] || UI.va)[k]; }
+  var refreshers = [];
+  function onLang(fn) { refreshers.push(fn); fn(); }
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function tex(s, display) { try { return window.katex.renderToString(s, { throwOnError: false, displayMode: !!display }); } catch (e) { return s; } }
+
+  /* ---------- fraccions exactes ---------- */
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a || 1; }
+  function Fr(n, d) { if (d === undefined) d = 1; if (d < 0) { n = -n; d = -d; } var g = gcd(n, d); this.n = n / g; this.d = d / g; }
+  Fr.prototype.add = function (o) { return new Fr(this.n * o.d + o.n * this.d, this.d * o.d); };
+  Fr.prototype.sub = function (o) { return new Fr(this.n * o.d - o.n * this.d, this.d * o.d); };
+  Fr.prototype.mul = function (o) { return new Fr(this.n * o.n, this.d * o.d); };
+  Fr.prototype.div = function (o) { return new Fr(this.n * o.d, this.d * o.n); };
+  Fr.prototype.zero = function () { return this.n === 0; };
+  Fr.prototype.tex = function () { if (this.d === 1) return String(this.n); return (this.n < 0 ? "-" : "") + "\\frac{" + Math.abs(this.n) + "}{" + this.d + "}"; };
+  Fr.prototype.txt = function () { return this.d === 1 ? String(this.n) : this.n + "/" + this.d; };
+  function parseFr(s) {
+    s = String(s).trim().replace(",", ".").replace("−", "-");
+    if (s === "") return new Fr(0);
+    var m = s.match(/^(-?\d+(?:\.\d+)?)(?:\/(-?\d+(?:\.\d+)?))?$/);
+    if (!m) return null;
+    function dec(x) { var p = x.split("."), k = p[1] ? p[1].length : 0, f = Math.pow(10, k); return new Fr(Math.round(parseFloat(x) * f), f); }
+    var a = dec(m[1]); if (!m[2]) return a;
+    var b = dec(m[2]); if (b.zero()) return null; return a.div(b);
+  }
+  function detFr(M) {
+    var n = M.length, A = M.map(function (r) { return r.slice(); }), d = new Fr(1);
+    for (var c = 0; c < n; c++) {
+      var p = -1; for (var r = c; r < n; r++) if (!A[r][c].zero()) { p = r; break; }
+      if (p < 0) return new Fr(0);
+      if (p !== c) { var t = A[p]; A[p] = A[c]; A[c] = t; d = d.mul(new Fr(-1)); }
+      d = d.mul(A[c][c]);
+      for (r = c + 1; r < n; r++) { var f = A[r][c].div(A[c][c]); for (var k = c; k < n; k++) A[r][k] = A[r][k].sub(f.mul(A[c][k])); }
+    }
+    return d;
+  }
+  function rankFr(M) {
+    var A = M.map(function (r) { return r.slice(); }), rows = A.length, cols = A[0].length, rk = 0;
+    for (var c = 0; c < cols && rk < rows; c++) {
+      var p = -1; for (var r = rk; r < rows; r++) if (!A[r][c].zero()) { p = r; break; }
+      if (p < 0) continue;
+      var t = A[p]; A[p] = A[rk]; A[rk] = t;
+      for (r = rk + 1; r < rows; r++) { var f = A[r][c].div(A[rk][c]); for (var k = c; k < cols; k++) A[r][k] = A[r][k].sub(f.mul(A[rk][k])); }
+      rk++;
+    }
+    return rk;
+  }
+  function invFr(M) {
+    var n = M.length, A = M.map(function (r, i) { return r.slice().concat(M.map(function (_, j) { return new Fr(i === j ? 1 : 0); })); });
+    for (var c = 0; c < n; c++) {
+      var p = -1; for (var r = c; r < n; r++) if (!A[r][c].zero()) { p = r; break; }
+      if (p < 0) return null;
+      var t = A[p]; A[p] = A[c]; A[c] = t;
+      var pv = A[c][c]; for (var k = 0; k < 2 * n; k++) A[c][k] = A[c][k].div(pv);
+      for (r = 0; r < n; r++) if (r !== c) { var f = A[r][c]; for (k = 0; k < 2 * n; k++) A[r][k] = A[r][k].sub(f.mul(A[c][k])); }
+    }
+    return A.map(function (r) { return r.slice(n); });
+  }
+  function texM(M, env) { return "\\begin{" + (env || "pmatrix") + "}" + M.map(function (r) { return r.map(function (x) { return x.tex ? x.tex() : x; }).join(" & "); }).join("\\\\") + "\\end{" + (env || "pmatrix") + "}"; }
+  function numM(s) { return s.split(";").map(function (r) { return r.split(",").map(Number); }); }
+  function par(x) { return x < 0 ? "(" + x + ")" : String(x); }
+
+  /* ---------- quadrícules de matrius ---------- */
+  function buildGrid(el, M, cls) {
+    el.innerHTML = ""; el.style.gridTemplateColumns = "repeat(" + M[0].length + ", auto)";
+    var cells = M.map(function (row, i) {
+      return row.map(function (v, j) {
+        var c = document.createElement("span"); c.className = "c" + (cls ? " " + cls : ""); c.textContent = String(v).replace("-", "−");
+        c.dataset.r = i; c.dataset.c = j; el.appendChild(c); return c;
+      });
+    });
+    return cells;
+  }
+  function buildInputs(el, rows, cols, vals) {
+    el.innerHTML = ""; el.style.gridTemplateColumns = "repeat(" + cols + ", auto)";
+    var ins = [];
+    for (var i = 0; i < rows; i++) { ins.push([]); for (var j = 0; j < cols; j++) {
+      var inp = document.createElement("input"); inp.type = "text"; inp.inputMode = "decimal"; inp.autocomplete = "off";
+      inp.value = vals && vals[i] && vals[i][j] != null ? vals[i][j] : "0"; inp.dataset.r = i; inp.dataset.c = j;
+      inp.setAttribute("aria-label", "a" + (i + 1) + (j + 1));
+      el.appendChild(inp); ins[i].push(inp);
+    } }
+    return ins;
+  }
+  function clearCls(cells, list) { cells.forEach(function (r) { r.forEach(function (c) { list.forEach(function (k) { c.classList.remove(k); }); }); }); }
+  function makeHot(c, fn) {
+    c.classList.add("hot"); c.tabIndex = 0;
+    c.addEventListener("mouseenter", fn); c.addEventListener("focus", fn); c.addEventListener("click", fn);
+  }
+
+  /* ---------- widget: element aij ---------- */
+  function wAij() {
+    var w = document.getElementById("w-aij"); if (!w) return;
+    var mx = w.querySelector(".mx"), info = w.querySelector(".info"), M = numM(mx.dataset.m);
+    var cells = buildGrid(mx, M), cur = [1, 2];
+    function show() {
+      var i = cur[0], j = cur[1]; clearCls(cells, ["on"]); cells[i][j].classList.add("on");
+      info.innerHTML = tex("a_{" + (i + 1) + (j + 1) + "}=" + M[i][j]) + " &nbsp;→&nbsp; " + u("row") + " <strong>" + (i + 1) + "</strong>, " + u("col") + " <strong>" + (j + 1) + "</strong>";
+    }
+    cells.forEach(function (r) { r.forEach(function (c) { makeHot(c, function () { cur = [+c.dataset.r, +c.dataset.c]; show(); }); }); });
+    onLang(show);
+  }
+
+  /* ---------- widget: transposada ---------- */
+  function wTransp() {
+    var w = document.getElementById("w-transp"); if (!w) return;
+    var M = numM("7,1,4,2;0,5,-1,3;6,2,0,5"), T = M[0].map(function (_, j) { return M.map(function (r) { return r[j]; }); });
+    var a = buildGrid(w.querySelector('[data-role="a"]'), M), t = buildGrid(w.querySelector('[data-role="t"]'), T);
+    a.forEach(function (r, i) { r.forEach(function (c) { c.classList.add("r" + (i + 1)); }); });
+    t.forEach(function (r) { r.forEach(function (c, j) { c.classList.add("r" + (j + 1)); }); });
+    function hl(i) { clearCls(a, ["on"]); clearCls(t, ["on"]); a[i].forEach(function (c) { c.classList.add("on"); }); t.forEach(function (r) { r[i].classList.add("on"); }); }
+    a.forEach(function (r, i) { r.forEach(function (c) { makeHot(c, function () { hl(i); }); }); });
+    t.forEach(function (r) { r.forEach(function (c, j) { makeHot(c, function () { hl(j); }); }); });
+  }
+
+  /* ---------- widget: producte ---------- */
+  function wProd() {
+    var w = document.getElementById("w-prod"); if (!w) return;
+    var A = numM("5,3,1;6,4,1"), B = numM("1,2;3,0;1,-1");
+    var C = A.map(function (r) { return B[0].map(function (_, j) { return r.reduce(function (s, x, k) { return s + x * B[k][j]; }, 0); }); });
+    var ga = buildGrid(w.querySelector('[data-role="a"]'), A), gb = buildGrid(w.querySelector('[data-role="b"]'), B), gc = buildGrid(w.querySelector('[data-role="c"]'), C);
+    var info = w.querySelector(".info"), cur = null;
+    function show() {
+      clearCls(ga, ["on"]); clearCls(gb, ["on2"]); clearCls(gc, ["on"]);
+      if (!cur) { info.textContent = u("pickC"); return; }
+      var i = cur[0], j = cur[1];
+      ga[i].forEach(function (c) { c.classList.add("on"); }); gb.forEach(function (r) { r[j].classList.add("on2"); }); gc[i][j].classList.add("on");
+      var terms = A[i].map(function (x, k) { return x + "\\cdot " + par(B[k][j]); }).join("+");
+      info.innerHTML = tex("c_{" + (i + 1) + (j + 1) + "}=\\underbrace{(" + A[i].join(",\\,") + ")}_{\\text{" + u("row") + " " + (i + 1) + "}}\\cdot\\underbrace{(" + B.map(function (r) { return r[j]; }).join(",\\,") + ")}_{\\text{" + u("col") + " " + (j + 1) + "}}=" + terms + "=" + C[i][j]);
+    }
+    gc.forEach(function (r) { r.forEach(function (c) { makeHot(c, function () { cur = [+c.dataset.r, +c.dataset.c]; show(); }); }); });
+    onLang(show);
+  }
+
+  /* ---------- widget: potències ---------- */
+  function wPow() {
+    var w = document.getElementById("w-pow"); if (!w) return;
+    var mats = { B: [[1, 1], [1, 1]], A: [[2, 3], [-1, -2]] }, k = "B";
+    var rng = w.querySelector("input"), nval = w.querySelector(".nval"), info = w.querySelector(".info");
+    function mul(X, Y) { return X.map(function (r) { return Y[0].map(function (_, j) { return r.reduce(function (s, x, q) { return s + x * Y[q][j]; }, 0); }); }); }
+    function show() {
+      var n = +rng.value, P = mats[k]; for (var i = 1; i < n; i++) P = mul(P, mats[k]);
+      nval.textContent = n;
+      var extra = "";
+      if (k === "A") extra = P[0][0] === 1 && P[0][1] === 0 && P[1][1] === 1 ? "=I" : "=A";
+      if (k === "B") extra = "=\\begin{pmatrix}2^{" + (n - 1) + "} & 2^{" + (n - 1) + "}\\\\ 2^{" + (n - 1) + "} & 2^{" + (n - 1) + "}\\end{pmatrix}";
+      info.innerHTML = tex(k + "^{" + n + "}=" + texM(P) + extra, true);
+    }
+    rng.addEventListener("input", show);
+    w.querySelectorAll(".seg button").forEach(function (b) {
+      b.addEventListener("click", function () { k = b.dataset.k; w.querySelectorAll(".seg button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); show(); });
+    });
+    show();
+  }
+
+  /* ---------- widget: Sarrus ---------- */
+  function wSarrus() {
+    var w = document.getElementById("w-sarrus"); if (!w) return;
+    var box = w.querySelector('[data-role="in"]'), info = w.querySelector(".info"), termsEl = w.querySelector(".terms");
+    var ins = buildInputs(box, 3, 3, [[2, 1, 3], [4, -1, 2], [-3, 4, 2]]);
+    var T = [
+      { s: 1, c: [[0, 0], [1, 1], [2, 2]] }, { s: 1, c: [[0, 1], [1, 2], [2, 0]] }, { s: 1, c: [[0, 2], [1, 0], [2, 1]] },
+      { s: -1, c: [[0, 2], [1, 1], [2, 0]] }, { s: -1, c: [[0, 1], [1, 0], [2, 2]] }, { s: -1, c: [[0, 0], [1, 2], [2, 1]] }
+    ], sel = null;
+    function vals() { return ins.map(function (r) { return r.map(function (x) { return parseFr(x.value); }); }); }
+    function render() {
+      var V = vals(), ok = V.every(function (r) { return r.every(Boolean); });
+      ins.forEach(function (r) { r.forEach(function (x) { x.classList.remove("sel"); x.style.background = ""; x.style.color = ""; }); });
+      termsEl.innerHTML = "";
+      if (!ok) { info.textContent = u("bad"); return; }
+      var total = new Fr(0), parts = [];
+      T.forEach(function (t, idx) {
+        var p = t.c.reduce(function (acc, rc) { return acc.mul(V[rc[0]][rc[1]]); }, new Fr(1));
+        var val = t.s > 0 ? p : p.mul(new Fr(-1)); total = total.add(val);
+        var b = document.createElement("button"); b.type = "button"; b.className = (t.s > 0 ? "p" : "m") + (sel === idx ? " act" : "");
+        b.innerHTML = (t.s > 0 ? "+ " : "− ") + t.c.map(function (rc) { var x = V[rc[0]][rc[1]], q = x.txt().replace("-", "−"); return x.n < 0 ? "(" + q + ")" : q; }).join("·");
+        b.addEventListener("mouseenter", function () { sel = idx; render(); });
+        b.addEventListener("click", function () { sel = idx; render(); });
+        termsEl.appendChild(b);
+        parts.push((t.s > 0 ? (idx ? "+" : "") : "-") + "(" + t.c.map(function (rc) { var x = V[rc[0]][rc[1]]; return x.n < 0 ? "(" + x.tex() + ")" : x.tex(); }).join("\\cdot ") + ")");
+      });
+      if (sel != null) {
+        var t = T[sel];
+        t.c.forEach(function (rc) { var x = ins[rc[0]][rc[1]]; x.style.background = t.s > 0 ? "var(--hl-c)" : "rgba(220,38,38,.14)"; x.style.color = t.s > 0 ? "var(--plus)" : "var(--minus)"; });
+      }
+      info.innerHTML = "<div>" + u("pickTerm") + "</div>" + tex("|A|=" + parts.join("") + "=\\boxed{" + total.tex() + "}", true);
+    }
+    ins.forEach(function (r) { r.forEach(function (x) { x.addEventListener("input", render); }); });
+    onLang(render);
+  }
+
+  /* ---------- widget: adjunts ---------- */
+  function wMinor() {
+    var w = document.getElementById("w-minor"); if (!w) return;
+    var box = w.querySelector('[data-role="in"]'), info = w.querySelector(".info");
+    var ins = buildInputs(box, 3, 3, [[1, 2, 3], [5, 4, 1], [0, 4, 2]]), cur = null;
+    function render() {
+      ins.forEach(function (r) { r.forEach(function (x) { x.classList.remove("sel", "off"); }); });
+      if (!cur) { info.textContent = u("pickCell"); return; }
+      var V = ins.map(function (r) { return r.map(function (x) { return parseFr(x.value); }); });
+      if (!V.every(function (r) { return r.every(Boolean); })) { info.textContent = u("bad"); return; }
+      var i = cur[0], j = cur[1];
+      ins.forEach(function (r, a) { r.forEach(function (x, b) { if (a === i && b === j) x.classList.add("sel"); else if (a === i || b === j) x.classList.add("off"); }); });
+      function minor(p, q) { return V.filter(function (_, a) { return a !== p; }).map(function (r) { return r.filter(function (_, b) { return b !== q; }); }); }
+      var m = minor(i, j), al = detFr(m), sg = (i + j) % 2 ? -1 : 1, cof = al.mul(new Fr(sg));
+      var line1 = "\\alpha_{" + (i + 1) + (j + 1) + "}=" + texM(m, "vmatrix") + "=" + al.tex() + "\\qquad A_{" + (i + 1) + (j + 1) + "}=(-1)^{" + (i + 1) + "+" + (j + 1) + "}\\cdot " + (al.n < 0 ? "(" + al.tex() + ")" : al.tex()) + "=" + cof.tex();
+      var sum = [], tot = new Fr(0);
+      for (var k = 0; k < 3; k++) { var c = detFr(minor(i, k)).mul(new Fr((i + k) % 2 ? -1 : 1)); tot = tot.add(V[i][k].mul(c)); sum.push((V[i][k].n < 0 ? "(" + V[i][k].tex() + ")" : V[i][k].tex()) + "\\cdot " + (c.n < 0 ? "(" + c.tex() + ")" : c.tex())); }
+      info.innerHTML = "<div><strong>" + u("minor") + " / " + u("cof") + "</strong></div>" + tex(line1, true) +
+        "<div><strong>" + u("expand") + " " + (i + 1) + ":</strong></div>" + tex("|A|=" + sum.join("+") + "=\\boxed{" + tot.tex() + "}", true);
+    }
+    ins.forEach(function (r) { r.forEach(function (x) {
+      x.addEventListener("focus", function () { cur = [+x.dataset.r, +x.dataset.c]; render(); });
+      x.addEventListener("input", render);
+    }); });
+    onLang(render);
+  }
+
+  /* ---------- widget: laboratori ---------- */
+  function wLab() {
+    var w = document.getElementById("w-lab"); if (!w) return;
+    var selR = w.querySelector('[data-role="r"]'), selC = w.querySelector('[data-role="c"]'), box = w.querySelector('[data-role="in"]'), out = w.querySelector(".lab-out");
+    for (var k = 1; k <= 5; k++) { selR.add(new Option(k, k)); selC.add(new Option(k, k)); }
+    selR.value = 3; selC.value = 3;
+    var ins = buildInputs(box, 3, 3, [[3, 1, 2], [1, 3, 1], [2, 4, 2]]);
+    function resize() {
+      var old = ins.map(function (r) { return r.map(function (x) { return x.value; }); });
+      ins = buildInputs(box, +selR.value, +selC.value, old); bind(); render();
+    }
+    function bind() { ins.forEach(function (r) { r.forEach(function (x) { x.addEventListener("input", render); }); }); }
+    function card(t, html) { return '<div class="card"><h4>' + t + "</h4>" + html + "</div>"; }
+    function render() {
+      var V = ins.map(function (r) { return r.map(function (x) { return parseFr(x.value); }); });
+      if (!V.every(function (r) { return r.every(Boolean); })) { out.innerHTML = card("⚠", u("bad")); return; }
+      var sq = V.length === V[0].length, h = "";
+      if (sq) { var d = detFr(V); h += card(u("det"), tex("|M|=" + d.tex(), true) + '<div style="font-size:.85rem;color:var(--muted)">M ' + (d.zero() ? u("sing") : u("reg")) + "</div>"); }
+      else h += card(u("det"), '<span style="color:var(--muted)">' + u("notSq") + "</span>");
+      h += card(u("rank"), tex("rg(M)=" + rankFr(V), true));
+      var T = V[0].map(function (_, j) { return V.map(function (r) { return r[j]; }); });
+      h += card(u("transp"), tex("M^t=" + texM(T), true));
+      if (sq) { var I = invFr(V); h += card(u("inv"), I ? tex("M^{-1}=" + texM(I), true) : '<span style="color:var(--muted)">' + u("noInv") + "</span>"); }
+      else h += card(u("inv"), '<span style="color:var(--muted)">' + u("notSq") + "</span>");
+      out.innerHTML = h;
+    }
+    selR.addEventListener("change", resize); selC.addEventListener("change", resize);
+    w.querySelector('[data-role="rand"]').addEventListener("click", function () { ins.forEach(function (r) { r.forEach(function (x) { x.value = Math.floor(Math.random() * 11) - 5; }); }); render(); });
+    w.querySelector('[data-role="clear"]').addEventListener("click", function () { ins.forEach(function (r) { r.forEach(function (x) { x.value = "0"; }); }); render(); });
+    bind(); onLang(render);
+  }
+
+  /* ---------- qüestionari ---------- */
+  var QUIZ = [
+    { q: { va: "Si $A$ és $2\\times3$ i $B$ és $3\\times4$, quin ordre té $A\\cdot B$?", es: "Si $A$ es $2\\times3$ y $B$ es $3\\times4$, ¿qué orden tiene $A\\cdot B$?", en: "If $A$ is $2\\times3$ and $B$ is $3\\times4$, what is the order of $A\\cdot B$?" },
+      o: [{ va: "$2\\times4$", es: "$2\\times4$", en: "$2\\times4$" }, { va: "$3\\times3$", es: "$3\\times3$", en: "$3\\times3$" }, { va: "$4\\times2$", es: "$4\\times2$", en: "$4\\times2$" }, { va: "No es poden multiplicar", es: "No se pueden multiplicar", en: "They cannot be multiplied" }], a: 0,
+      e: { va: "Columnes d'A (3) = files de B (3) ✓. El resultat té les files d'A i les columnes de B.", es: "Columnas de A (3) = filas de B (3) ✓. El resultado tiene las filas de A y las columnas de B.", en: "Columns of A (3) = rows of B (3) ✓. The result has the rows of A and the columns of B." } },
+    { q: { va: "Si $A\\cdot B=0$, aleshores segur que $A=0$ o $B=0$.", es: "Si $A\\cdot B=0$, entonces seguro que $A=0$ o $B=0$.", en: "If $A\\cdot B=0$, then $A=0$ or $B=0$ for sure." },
+      o: [{ va: "Vertader", es: "Verdadero", en: "True" }, { va: "Fals", es: "Falso", en: "False" }], a: 1,
+      e: { va: "És una de les «no propietats» del producte de matrius.", es: "Es una de las «no propiedades» del producto de matrices.", en: "It is one of the properties that do NOT hold for the matrix product." } },
+    { q: { va: "Què passa amb un determinant si intercanviem dues files?", es: "¿Qué le pasa a un determinante si intercambiamos dos filas?", en: "What happens to a determinant if we swap two rows?" },
+      o: [{ va: "No canvia", es: "No cambia", en: "It doesn't change" }, { va: "Canvia de signe", es: "Cambia de signo", en: "It changes sign" }, { va: "Val zero", es: "Vale cero", en: "It becomes zero" }], a: 1,
+      e: { va: "Propietat 3.", es: "Propiedad 3.", en: "Property 3." } },
+    { q: { va: "$A$ és $3\\times3$ i $|A|=5$. Quant val $|2A|$?", es: "$A$ es $3\\times3$ y $|A|=5$. ¿Cuánto vale $|2A|$?", en: "$A$ is $3\\times3$ and $|A|=5$. What is $|2A|$?" },
+      o: [{ va: "$10$", es: "$10$", en: "$10$" }, { va: "$30$", es: "$30$", en: "$30$" }, { va: "$40$", es: "$40$", en: "$40$" }], a: 2,
+      e: { va: "Multiplicar per 2 la matriu multiplica les 3 files per 2 (propietat 6): $2^3\\cdot5=40$.", es: "Multiplicar por 2 la matriz multiplica las 3 filas por 2 (propiedad 6): $2^3\\cdot5=40$.", en: "Multiplying the matrix by 2 multiplies all 3 rows by 2 (property 6): $2^3\\cdot5=40$." } },
+    { q: { va: "Quin és el rang de $\\begin{pmatrix}1&2\\\\2&4\\end{pmatrix}$?", es: "¿Cuál es el rango de $\\begin{pmatrix}1&2\\\\2&4\\end{pmatrix}$?", en: "What is the rank of $\\begin{pmatrix}1&2\\\\2&4\\end{pmatrix}$?" },
+      o: [{ va: "0", es: "0", en: "0" }, { va: "1", es: "1", en: "1" }, { va: "2", es: "2", en: "2" }], a: 1,
+      e: { va: "La segona fila és el doble de la primera: $|A|=0$, però hi ha elements no nuls.", es: "La segunda fila es el doble de la primera: $|A|=0$, pero hay elementos no nulos.", en: "The second row is twice the first: $|A|=0$, but there are non-zero elements." } },
+    { q: { va: "Una matriu quadrada té inversa si i només si…", es: "Una matriz cuadrada tiene inversa si y solo si…", en: "A square matrix has an inverse if and only if…" },
+      o: [{ va: "$|A|=0$", es: "$|A|=0$", en: "$|A|=0$" }, { va: "$|A|\\neq0$", es: "$|A|\\neq0$", en: "$|A|\\neq0$" }, { va: "és simètrica", es: "es simétrica", en: "it is symmetric" }], a: 1,
+      e: { va: "Ha de ser regular.", es: "Debe ser regular.", en: "It must be regular (non-singular)." } },
+    { q: { va: "Si $XA=B$ i $A$ és invertible, aleshores $X=$", es: "Si $XA=B$ y $A$ es invertible, entonces $X=$", en: "If $XA=B$ and $A$ is invertible, then $X=$" },
+      o: [{ va: "$A^{-1}B$", es: "$A^{-1}B$", en: "$A^{-1}B$" }, { va: "$BA^{-1}$", es: "$BA^{-1}$", en: "$BA^{-1}$" }, { va: "$B/A$", es: "$B/A$", en: "$B/A$" }], a: 1,
+      e: { va: "Multipliquem per $A^{-1}$ per la dreta (el producte no és commutatiu i no hi ha divisió).", es: "Multiplicamos por $A^{-1}$ por la derecha (el producto no es conmutativo y no existe la división).", en: "Multiply by $A^{-1}$ on the right (the product isn't commutative and there is no division)." } }
+  ];
+  var answers = {};
+  function rtex(s) { return s.replace(/\$([^$]+)\$/g, function (_, m) { return tex(m); }); }
+  function wQuiz() {
+    var box = document.getElementById("quiz-box"), score = document.getElementById("quiz-score");
+    if (!box) return;
+    function render() {
+      box.innerHTML = ""; var ok = 0, done = 0;
+      QUIZ.forEach(function (q, i) {
+        var d = document.createElement("div"); d.className = "q";
+        d.innerHTML = '<p class="qt">' + (i + 1) + ". " + rtex(q.q[lang]) + '</p><div class="opts"></div><div class="fb"></div>';
+        var opts = d.querySelector(".opts"), fb = d.querySelector(".fb");
+        q.o.forEach(function (o, j) {
+          var b = document.createElement("button"); b.type = "button"; b.innerHTML = rtex(o[lang]);
+          if (answers[i] != null) {
+            b.disabled = true;
+            if (j === q.a) b.classList.add("right"); else if (j === answers[i]) b.classList.add("wrong");
+          }
+          b.addEventListener("click", function () { answers[i] = j; render(); });
+          opts.appendChild(b);
+        });
+        if (answers[i] != null) { done++; if (answers[i] === q.a) ok++; fb.innerHTML = "<strong>" + (answers[i] === q.a ? "✓ " + u("right") : "✗ " + u("wrong")) + "</strong> " + rtex(q.e[lang]); }
+        box.appendChild(d);
+      });
+      score.textContent = done ? u("score") + ": " + ok + " / " + QUIZ.length : "";
+    }
+    document.getElementById("quiz-reset").addEventListener("click", function () { answers = {}; render(); });
+    onLang(render);
+  }
+
+  /* ---------- passos ---------- */
+  function wSteps() {
+    document.querySelectorAll(".steps").forEach(function (s) {
+      var steps = [].slice.call(s.children).filter(function (c) { return c.classList.contains("step"); });
+      if (steps.length < 2) return;
+      s.classList.add("js");
+      var shown = 1, ctl = document.createElement("div"); ctl.className = "steps-ctl";
+      var bn = document.createElement("button"), ba = document.createElement("button"), cnt = document.createElement("span");
+      bn.type = ba.type = "button"; bn.className = "btn primary"; ba.className = "btn"; cnt.className = "step-count";
+      ctl.appendChild(bn); ctl.appendChild(ba); ctl.appendChild(cnt); s.after(ctl);
+      function upd() {
+        steps.forEach(function (st, i) { st.classList.toggle("hidden", i >= shown); });
+        bn.textContent = u("next") + " →"; bn.disabled = shown >= steps.length;
+        ba.textContent = shown >= steps.length ? u("reset") : u("all");
+        cnt.textContent = u("step") + " " + shown + " " + u("of") + " " + steps.length;
+      }
+      bn.addEventListener("click", function () { if (shown < steps.length) { shown++; upd(); steps[shown - 1].scrollIntoView({ block: "nearest", behavior: "smooth" }); } });
+      ba.addEventListener("click", function () { shown = shown >= steps.length ? 1 : steps.length; upd(); });
+      onLang(upd);
+    });
+  }
+
+  /* ---------- índex, progrés i seccions estudiades ---------- */
+  function wNav() {
+    var links = [].slice.call(document.querySelectorAll("#toc-list a")), secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var bar = document.getElementById("progress"), top = document.getElementById("to-top");
+    function onScroll() {
+      var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + "%";
+      top.classList.toggle("show", h.scrollTop > 800);
+      var y = window.scrollY + 140, idx = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    top.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    var done = {}; try { done = JSON.parse(store(UNIT_KEY) || "{}") || {}; } catch (e) {}
+    var heads = document.querySelectorAll("section.unit[id^='s'] .sec-head");
+    heads.forEach(function (hd) {
+      var id = hd.parentNode.id, b = document.createElement("button"); b.type = "button"; b.className = "done-btn";
+      function upd() { b.setAttribute("aria-pressed", String(!!done[id])); b.textContent = (done[id] ? "✓ " + u("studied") : "○ " + u("mark")); }
+      b.addEventListener("click", function () { done[id] = !done[id]; store(UNIT_KEY, JSON.stringify(done)); upd(); meter(); });
+      hd.appendChild(b); onLang(upd);
+    });
+    function meter() {
+      var n = 0; links.forEach(function (a) { var id = a.getAttribute("href").slice(1); a.classList.toggle("done", !!done[id]); if (done[id]) n++; });
+      document.getElementById("meter").style.width = (n / 7 * 100) + "%"; document.getElementById("meter-n").textContent = n;
+    }
+    meter();
+    var d = document.getElementById("toc-d");
+    var mq = window.matchMedia("(max-width: 960px)");
+    d.open = !mq.matches;
+    if (mq.addEventListener) mq.addEventListener("change", function () { d.open = !mq.matches; });
+    links.forEach(function (a) { a.addEventListener("click", function () { if (window.matchMedia("(max-width: 960px)").matches) d.open = false; }); });
+  }
+
+  /* ---------- idioma i tema ---------- */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function wChrome() {
+    var tb = document.getElementById("theme-btn");
+    function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+    tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+    var btns = document.querySelectorAll("[data-setlang]");
+    function paintLang() { btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); }
+    btns.forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.setlang); }); });
+    onLang(function () { paintTheme(); paintLang(); });
+  }
+  var TITLES = { va: "Matrius i determinants · FentMates", es: "Matrices y determinantes · FentMates", en: "Matrices and determinants · FentMates" };
+  function setLang(l) {
+    if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }
+
+  function init() {
+    document.title = TITLES[lang];
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, {
+        delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }],
+        ignoredClasses: ["widget", "lab"], throwOnError: false
+      });
+    }
+    wChrome(); wSteps(); wNav(); wAij(); wTransp(); wProd(); wPow(); wSarrus(); wMinor(); wLab(); wQuiz();
+    /* les etiquetes dels widgets amb fórmules \(..\) es renderitzen a banda */
+    document.querySelectorAll(".widget .lbl, .widget label, .lab .lbl").forEach(function (el) { if (window.renderMathInElement) window.renderMathInElement(el, { delimiters: [{ left: "\\(", right: "\\)", display: false }] }); });
+  }
+  if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+})();
+</script>
+</body>
+</html>
