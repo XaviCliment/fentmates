@@ -426,8 +426,8 @@
       .sort(function (a, b) { return parseDay(b.date) - parseDay(a.date); });
   }
 
-  function challengeHTML(c, big) {
-    return '<article class="challenge' + (big ? " big" : "") + '">' +
+  function challengeHTML(c) {
+    return '<article class="challenge">' +
       '<div class="ch-meta"><span class="tag">' + esc(tx(c.level)) + "</span>" +
       '<span class="ch-date">' + esc(t("ch.week")) + " " + esc(fmtDate(c.date)) + "</span></div>" +
       "<h3>" + esc(tx(c.title)) + "</h3>" +
@@ -447,7 +447,7 @@
     var cus = window.CURIOSITIES || [];
 
     var home = el("challenge-home");
-    if (home) home.innerHTML = list.slice(0, 2).map(function (c, i) { return challengeHTML(c, i === 0); }).join("");
+    if (home) home.innerHTML = list.slice(0, 2).map(challengeHTML).join("");
     var cuHome = el("curiosity-home");
     if (cuHome && cus.length) {
       // dues curiositats que van canviant cada setmana
@@ -458,9 +458,9 @@
     }
 
     var cur = el("challenge-current");
-    if (cur) cur.innerHTML = list.length ? challengeHTML(list[0], true) : "";
+    if (cur) cur.innerHTML = list.length ? challengeHTML(list[0]) : "";
     var arch = el("challenge-archive");
-    if (arch) arch.innerHTML = list.slice(1).map(function (c) { return challengeHTML(c, false); }).join("");
+    if (arch) arch.innerHTML = list.slice(1).map(challengeHTML).join("");
     var archWrap = el("archive-wrap");
     if (archWrap) archWrap.hidden = list.length < 2;
     var cuList = el("curiosities-list");
