@@ -88,15 +88,19 @@ def attach_sol(items, sol):
             e["s"] = s
 
 
-CCSS = {"SUBJECT": "Matemàtiques Aplicades a les CCSS II", "COLOR": "#2bb3a3", "COURSE_URL": "2batx-ccss.html",
+CCSS = {"SUBJECT": "Matemàtiques Aplicades a les CCSS II", "COLOR": "#4e81bd", "COURSE_URL": "2batx-ccss.html",
         "COURSE": "2n Batxillerat CCSS", "RANGE": "1994–2026", "FIRST": "1994"}
 
 
 def write_pages(out, units, opts):
-    tpl = open(os.path.join(SP, "pau_template.html"), encoding="utf-8").read()
+    base = open(os.path.join(SP, "pau_template.html"), encoding="utf-8").read()
     for k, v in opts.items():
-        tpl = tpl.replace("{{%s}}" % k, v)
-    for fn, num, name, items in units:
+        if k != "COLOR":
+            base = base.replace("{{%s}}" % k, v)
+    # color del bloc de cada unitat (com al resum teòric): 5è element opcional
+    for unit in units:
+        fn, num, name, items = unit[:4]
+        tpl = base.replace("{{COLOR}}", unit[4] if len(unit) > 4 else opts["COLOR"])
         data = [{"conv": e["conv"], "y": e["y"], "m": e["m"], "h": e["h"], **({"s": e["s"]} if "s" in e else {})} for e in items]
         page = (tpl.replace("{{NUM}}", num).replace("{{NAME}}", name)
                    .replace("{{COUNT}}", str(len(items))).replace("{{KEY}}", fn.replace(".html", ""))
@@ -117,6 +121,6 @@ if __name__ == "__main__":
     units = [
         ("pau-u1-matrius.html", "1", "Matrius i determinants", [e for e in alg if e["k"] == "M"]),
         ("pau-u2-sistemes.html", "2", "Sistemes d'equacions lineals", [e for e in alg if e["k"] == "S"]),
-        ("pau-u3-programacio-lineal.html", "3", "Programació lineal", pl),
+        ("pau-u3-programacio-lineal.html", "3", "Programació lineal", pl, "#f79645"),
     ]
     write_pages(OUT, units, CCSS)

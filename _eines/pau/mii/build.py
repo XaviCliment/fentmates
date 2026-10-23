@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(HERE))
 from build_pau import parse, parse_sol, attach_sol, write_pages  # noqa: E402
 
 OUT = os.path.join(ROOT, "materials", "2batx-mii")
-MII = {"SUBJECT": "Matemàtiques II", "COLOR": "#1e6b47", "COURSE_URL": "2batx-mii.html",
+MII = {"SUBJECT": "Matemàtiques II", "COLOR": "#4e81bd", "COURSE_URL": "2batx-mii.html",
        "COURSE": "2n Batxillerat MII", "RANGE": "1997–2026", "FIRST": "1997"}
 
 alg = parse(os.path.join(HERE, "alg.txt"))
