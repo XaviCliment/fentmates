@@ -169,6 +169,17 @@ window.I18N = {
 
 /* ---------- Noves seccions: contacte, PAU, reptes, curiositats ---------- */
 Object.assign(window.I18N.va, {
+  "level.item1": "material",
+  "level.unit": "Unitat",
+  "level.wholecourse": "Tot el curs",
+  "level.allunits": "Tornar a totes les unitats",
+  "level.open": "Obri el material →",
+  "block.all": "Tot el curs",
+  "block.alg": "Àlgebra",
+  "block.pl": "Programació lineal",
+  "block.geo": "Geometria",
+  "block.an": "Anàlisi",
+  "block.pr": "Probabilitat",
   "footer.visits": "visites",
   "kind.calc": "Calculadora",
   "nav.courses": "Cursos",
@@ -222,6 +233,17 @@ Object.assign(window.I18N.va, {
 });
 
 Object.assign(window.I18N.es, {
+  "level.item1": "material",
+  "level.unit": "Unidad",
+  "level.wholecourse": "Todo el curso",
+  "level.allunits": "Volver a todas las unidades",
+  "level.open": "Abre el material →",
+  "block.all": "Todo el curso",
+  "block.alg": "Álgebra",
+  "block.pl": "Programación lineal",
+  "block.geo": "Geometría",
+  "block.an": "Análisis",
+  "block.pr": "Probabilidad",
   "footer.visits": "visitas",
   "kind.calc": "Calculadora",
   "nav.courses": "Cursos",
@@ -275,6 +297,17 @@ Object.assign(window.I18N.es, {
 });
 
 Object.assign(window.I18N.en, {
+  "level.item1": "material",
+  "level.unit": "Unit",
+  "level.wholecourse": "Whole course",
+  "level.allunits": "Back to all units",
+  "level.open": "Open →",
+  "block.all": "Whole course",
+  "block.alg": "Algebra",
+  "block.pl": "Linear programming",
+  "block.geo": "Geometry",
+  "block.an": "Calculus",
+  "block.pr": "Probability",
   "footer.visits": "visits",
   "kind.calc": "Calculator",
   "nav.courses": "Courses",

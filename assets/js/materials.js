@@ -17,6 +17,9 @@
    Una unitat pot portar num: "★" (o un altre símbol) per a seccions especials
    que no compten com a unitat numerada (p. ex. el Resum teòric).
    Un curs amb units: [] apareix com a "Pròximament".
+   Cursos amb cards: true -> les unitats es mostren com a targetes. Cada unitat porta
+   ill (dibuix: resum, matrius, sistemes, pl, geometria, derivades, integrals, probabilitat)
+   i block (color: all, alg, pl, geo, an, pr), com als blocs del resum teòric.
    Per afegir un curs nou: copia un bloc de LEVELS, canvia la clau
    i crea una pàgina .html com 3eso.html amb data-level="clau-nova".
    ========================================================== */
@@ -201,6 +204,7 @@ window.LEVELS = {
     color: "#1e6b47",
     symbol: "∂",
     stage: "batx",
+    cards: true,
     name: { va: "2n Batxillerat MII", es: "2º Bachillerato MII", en: "2nd Baccalaureate Maths II" },
     desc: {
       va: "Matrius, geometria a l'espai, anàlisi i probabilitat. Preparació de la PAU.",
@@ -210,12 +214,14 @@ window.LEVELS = {
     units: [
       {
         num: "★",
+        ill: "resum", block: "all",
         title: { va: "Resum Teòric", es: "Resumen Teórico", en: "Theory Summary" },
         items: [
           { type: "notes", title: { va: "Formulari-resum teòric de tot el curs (interactiu)", es: "Formulario-resumen teórico de todo el curso (interactivo)", en: "Whole-course theory summary and formula sheet (interactive)" }, desc: { va: "Àlgebra, geometria, anàlisi i probabilitat", es: "Álgebra, geometría, análisis y probabilidad", en: "Algebra, geometry, calculus and probability" }, url: "materials/2batx-mii/resum-teoric.html", date: "2026-10-23" }
         ]
       },
       {
+        ill: "matrius", block: "alg",
         title: { va: "Matrius i determinants", es: "Matrices y determinantes", en: "Matrices and determinants" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t1-matrius-determinants.html", date: "2026-10-23" },
@@ -224,6 +230,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "sistemes", block: "alg",
         title: { va: "Sistemes d'equacions lineals", es: "Sistemas de ecuaciones lineales", en: "Systems of linear equations" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t2-sistemes-equacions.html", date: "2026-10-23" },
@@ -236,6 +243,7 @@ window.LEVELS = {
 
   "2batx-ccss": {
     stage: "batx",
+    cards: true,
     color: "#2bb3a3",
     symbol: "∫",
     pau: true,
@@ -248,12 +256,14 @@ window.LEVELS = {
     units: [
       {
         num: "★",
+        ill: "resum", block: "all",
         title: { va: "Resum Teòric", es: "Resumen Teórico", en: "Theory Summary" },
         items: [
           { type: "notes", title: { va: "Formulari-resum teòric de tot el curs (interactiu)", es: "Formulario-resumen teórico de todo el curso (interactivo)", en: "Whole-course theory summary and formula sheet (interactive)" }, desc: { va: "Àlgebra, programació lineal, anàlisi i probabilitat", es: "Álgebra, programación lineal, análisis y probabilidad", en: "Algebra, linear programming, calculus and probability" }, url: "materials/2batx-ccss/resum-teoric.html", date: "2026-10-18" }
         ]
       },
       {
+        ill: "matrius", block: "alg",
         title: { va: "Matrius i determinants", es: "Matrices y determinantes", en: "Matrices and determinants" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t1-matrius-determinants.html", date: "2026-10-18" },
@@ -264,6 +274,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "sistemes", block: "alg",
         title: { va: "Sistemes d'equacions lineals", es: "Sistemas de ecuaciones lineales", en: "Systems of linear equations" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t2-sistemes-equacions.html", date: "2026-10-18" },
@@ -272,6 +283,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "pl", block: "pl",
         title: { va: "Programació lineal", es: "Programación lineal", en: "Linear programming" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t3-programacio-lineal.html", date: "2026-10-19" },
@@ -281,12 +293,14 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "derivades", block: "an",
         title: { va: "Derivades i aplicacions", es: "Derivadas y aplicaciones", en: "Derivatives and applications" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" }
         ]
       },
       {
+        ill: "probabilitat", block: "pr",
         title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },

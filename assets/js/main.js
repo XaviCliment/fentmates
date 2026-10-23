@@ -299,16 +299,18 @@
   function renderLevelPage() {
     var L = levelKey && LEVELS[levelKey];
     if (!L) return;
+    var unitIdx = L.cards ? currentUnit(L) : -1;
+    setUnitHero(L, unitIdx);
     document.documentElement.style.setProperty("--c", L.color);
     document.querySelectorAll("[data-level-name]").forEach(function (n) { n.textContent = tx(L.name); });
     var d = el("level-desc"); if (d) d.textContent = tx(L.desc);
 
     var soon = !L.units.length;
     var tb = document.querySelector(".toolbar");
-    if (tb) tb.hidden = soon;
+    if (tb) tb.hidden = soon || unitIdx >= 0;
 
     var cta = el("level-cta");
-    if (cta) cta.innerHTML = L.pau ? '<a class="pau-cta" href="pau.html">🎯 ' + esc(t("level.pau.cta")) + "</a>" : "";
+    if (cta) cta.innerHTML = L.pau && unitIdx < 0 ? '<a class="pau-cta" href="pau.html">🎯 ' + esc(t("level.pau.cta")) + "</a>" : "";
 
     var f = el("filters");
     if (f) {
@@ -331,6 +333,84 @@
     renderUnits(L);
   }
 
+  /* ---------- Cursos amb targetes (cards: true a materials.js) ---------- */
+  var BLOCKS = {
+    all: { c: "#e3a21a", c2: "#c98a0c" }, alg: { c: "#4e81bd", c2: "#3d6aa0" },
+    pl: { c: "#f79645", c2: "#dc7a29" }, geo: { c: "#f79645", c2: "#dc7a29" },
+    an: { c: "#7fa040", c2: "#6a8a33" }, pr: { c: "#8064a1", c2: "#684e88" }
+  };
+  function ill(group, key) {
+    var I = window.ILLUSTRATIONS;
+    return (I && I[group] && I[group][key]) || "";
+  }
+  function blockOf(u) { return BLOCKS[u.block] || BLOCKS.all; }
+  function unitNums(L) {
+    var n = 0;
+    return L.units.map(function (u) { return u.num || String(++n); });
+  }
+  function currentUnit(L) {
+    var m = location.hash.match(/^#u(\d+)$/);
+    var i = m ? +m[1] : -1;
+    return i >= 0 && i < L.units.length ? i : -1;
+  }
+  function countLabel(u) {
+    var k = visible(u.items).filter(function (it) { return it.url; }).length;
+    return k ? k + " " + t(k === 1 ? "level.item1" : "level.items") : t("level.soon");
+  }
+  function itemIll(it) {
+    var title = (tx(it.title) + " " + tx(it.desc)).toLowerCase();
+    if (it.type === "notes" && /resum|formulari|resumen|summary/.test(title)) return ill("items", "book");
+    if (it.type === "exercises") return ill("items", /pau/.test(title) ? "pau" : "worksheet");
+    return ill("items", it.type) || ill("items", "resource");
+  }
+
+  // capçalera de color quan s'està dins d'una unitat
+  var heroDefault = null;
+  function setUnitHero(L, idx) {
+    var hero = document.querySelector(".page-hero");
+    if (!hero) return;
+    if (heroDefault === null) heroDefault = hero.innerHTML;
+    if (idx < 0) {
+      if (hero.classList.contains("unit-hero")) { hero.classList.remove("unit-hero"); hero.innerHTML = heroDefault; hero.style.removeProperty("--c2"); }
+      return;
+    }
+    var u = L.units[idx], b = blockOf(u), num = unitNums(L)[idx];
+    hero.classList.add("unit-hero");
+    hero.style.setProperty("--c2", b.c2);
+    hero.innerHTML = '<div class="uh-ill" aria-hidden="true">' + ill("units", u.ill) + '</div><div class="container">' +
+      '<div class="breadcrumb"><a href="index.html">' + esc(t("nav.home")) + '</a> / <a href="#">' + esc(tx(L.name)) + "</a> / " + esc(tx(u.title)) + "</div>" +
+      '<span class="uh-num">' + esc(num === "★" ? t("level.wholecourse") : t("level.unit") + " " + num) + " · " + esc(t("block." + (u.block || "all"))) + "</span>" +
+      "<h1>" + esc(tx(u.title)) + "</h1><p>" + esc(countLabel(u)) + "</p></div>";
+  }
+
+  function renderCards(L, box) {
+    var nums = unitNums(L);
+    var idx = currentUnit(L);
+    if (idx < 0) {
+      box.innerHTML = '<div class="ucards">' + L.units.map(function (u, i) {
+        var b = blockOf(u);
+        return '<a class="ucard" href="#u' + i + '" style="--c2:' + b.c2 + '"><span class="ill" aria-hidden="true">' + ill("units", u.ill) + "</span>" +
+          '<span class="block">' + esc(t("block." + (u.block || "all"))) + "</span>" +
+          '<span class="content"><span class="num">' + esc(nums[i]) + "</span><span class=\"h\">" + esc(tx(u.title)) + '</span><span class="meta">' + esc(countLabel(u)) + "</span></span></a>";
+      }).join("") + "</div>";
+      return;
+    }
+    var u = L.units[idx], b = blockOf(u);
+    var items = visible(u.items);
+    box.innerHTML = '<div class="icards">' + (items.length ? items.map(function (it) {
+      var soon = !it.url;
+      var inner = '<span class="side"></span><span class="body"><span class="kind">' + esc(t("kind." + it.type)) + "</span>" +
+        '<span class="h">' + esc(tx(it.title)) + '</span><span class="d">' + esc(soon ? t("level.soon") : (tx(it.desc) || t("level.open"))) + "</span></span>" +
+        '<span class="ill" aria-hidden="true">' + itemIll(it) + "</span>";
+      if (soon) return '<div class="icard soon" style="--c:' + b.c + '">' + inner + "</div>";
+      var id = ytId(it.url);
+      var attrs = id ? ' data-yt="' + id + '"' : ' target="_blank" rel="noopener"';
+      return '<a class="icard" href="' + esc(it.url) + '"' + attrs + ' style="--c:' + b.c + '">' + inner + "</a>";
+    }).join("") : '<p class="empty">' + esc(t("level.soon")) + "</p>") + "</div>" +
+      '<a class="back-units" href="#">← ' + esc(t("level.allunits")) + "</a>";
+    typeset(box);
+  }
+
   function ytId(url) {
     var m = String(url || "").match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
     return m ? m[1] : null;
@@ -339,6 +419,7 @@
   function renderUnits(L) {
     var box = el("units");
     if (!box) return;
+    if (L.cards && L.units.length && ((!state.q && state.type === "all") || currentUnit(L) >= 0)) { renderCards(L, box); return; }
     var html = "";
     var openIds = {};
     box.querySelectorAll("details[open]").forEach(function (dd) { openIds[dd.dataset.i] = true; });
@@ -510,6 +591,13 @@
 
   renderAll();
   setupVideoModal();
+  // entrar i eixir d'una unitat (cursos amb targetes)
+  window.addEventListener("hashchange", function () {
+    var L = levelKey && LEVELS[levelKey];
+    if (!L || !L.cards) return;
+    renderLevelPage();
+    window.scrollTo(0, 0);
+  });
   setupMailMenu();
   setupReveal();
 })();

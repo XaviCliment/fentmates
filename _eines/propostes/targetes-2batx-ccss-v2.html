@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposta 2: unitats i materials en targetes · FentMates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<style>
+.proposal-bar { background: #fff6d6; color: #5a4300; border-bottom: 1px solid #f0d98a; font-size: .92rem; padding: 10px 16px; text-align: center; }
+.ill svg { display: block; width: 100%; height: 100%; }
+
+/* ===== Targetes d'unitat (opció B) ===== */
+.units-b { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 36px 0 80px; }
+.cb { position: relative; min-height: 210px; border-radius: 20px; overflow: hidden; color: #fff; cursor: pointer; text-decoration: none;
+  background: var(--c2); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; display: flex; }
+.cb:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -14px rgba(27,39,72,.45); }
+.cb .ill { position: absolute; inset: 0; color: #fff; opacity: .24; padding: 10px; }
+.cb .content { position: relative; margin-top: auto; padding: 18px 20px; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,.25)); }
+.cb .block { position: absolute; top: 14px; left: 16px; font: 700 .72rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); padding: 3px 10px; border-radius: 999px; }
+.cb .num { font: 800 2.6rem/1 "Outfit", sans-serif; }
+.cb h3 { margin: 6px 0 4px; font-size: 1.3rem; color: #fff; }
+.cb .meta { font-size: .88rem; opacity: .92; }
+
+/* ===== Capçalera d'unitat ===== */
+.unit-hero { position: relative; overflow: hidden; color: #fff; background: var(--c2); padding: 34px 0 40px; }
+.unit-hero .ill { position: absolute; right: 2%; top: 0; bottom: 0; width: min(520px, 55%); color: #fff; opacity: .2; padding: 16px; }
+.unit-hero .container { position: relative; }
+.unit-hero .crumb { font-size: .9rem; opacity: .9; }
+.unit-hero .crumb a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.5); cursor: pointer; }
+.unit-hero .num { font: 700 .8rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; opacity: .9; margin-top: 14px; display: block; }
+.unit-hero h1 { margin: 4px 0 6px; font-size: clamp(1.8rem, 4.5vw, 2.8rem); color: #fff; }
+.unit-hero p { margin: 0; opacity: .9; }
+
+/* ===== Materials (opció C) ===== */
+.items-c { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; padding: 30px 0 80px; }
+.cc { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+  overflow: hidden; text-decoration: none; color: inherit; transition: border-color .2s, transform .2s, box-shadow .2s; min-height: 124px; }
+a.cc:hover { border-color: var(--c); transform: translateY(-2px); box-shadow: var(--shadow); }
+.cc .side { width: 8px; background: var(--c); flex: none; }
+.cc .body { padding: 16px 18px; flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.cc .kind { font: 800 .76rem "Outfit", sans-serif; color: var(--c); letter-spacing: .06em; text-transform: uppercase; }
+.cc h3 { margin: 0; font-size: 1.1rem; }
+.cc .d { color: var(--muted); font-size: .88rem; margin-top: auto; }
+.cc .ill { width: 132px; flex: none; color: var(--c); background: color-mix(in srgb, var(--c) 11%, var(--surface)); padding: 14px; }
+.cc.soon { opacity: .55; }
+.cc.soon .d::before { content: "⏳ "; }
+.back { display: inline-flex; gap: 6px; align-items: center; margin-top: 4px; font-weight: 600; color: var(--muted); cursor: pointer; text-decoration: none; }
+.back:hover { color: var(--text); }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="proposal-bar">🔎 <b>Proposta de disseny 2</b> · Unitats amb el disseny B (colors dels blocs del resum teòric) i, dins de cada unitat, materials amb el disseny C · No forma part del web publicat</div>
+
+<!-- Vista del curs -->
+<div id="view-course">
+  <section class="page-hero"><div class="container">
+    <div class="breadcrumb">Inici / 2n Batxillerat CCSS</div>
+    <h1>2n Batxillerat CCSS</h1>
+    <p>Matrius, programació lineal, anàlisi i probabilitat. Preparació de la PAU.</p>
+  </div></section>
+  <main class="container"><div class="units-b" id="units"></div></main>
+</div>
+
+<!-- Vista d'una unitat -->
+<div id="view-unit" hidden>
+  <section class="unit-hero" id="unit-hero"></section>
+  <main class="container"><div class="items-c" id="items"></div>
+    <a class="back" id="back">← Tornar a totes les unitats</a>
+    <div style="height:60px"></div>
+  </main>
+</div>
+
+<script src="../../assets/js/materials.js"></script>
+<script>
+(function () {
+  "use strict";
+  /* ---------- Dibuixos de les unitats ---------- */
+  var U_ILL = {
+    resum: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M40 20 Q80 10 120 22 Q160 10 200 20 V104 Q160 94 120 106 Q80 94 40 104 Z"/><path d="M120 22 V106"/><g stroke-width="1.6" opacity=".7"><path d="M54 40h48M54 52h40M54 64h46M54 76h34M136 40h48M136 52h36M136 64h44M136 76h30"/></g><g fill="currentColor" stroke="none" font-family="Georgia,serif" font-style="italic"><text x="58" y="96" font-size="15">∑ ∫ √</text><text x="140" y="96" font-size="15">P(A) det</text></g></svg>',
+    matrius: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M70 16 H58 V104 H70"/><path d="M170 16 H182 V104 H170"/><g fill="currentColor" stroke="none" font-family="Outfit,sans-serif" font-weight="700" font-size="20" text-anchor="middle"><text x="88" y="40">2</text><text x="120" y="40">−1</text><text x="152" y="40">0</text><text x="88" y="70">3</text><text x="120" y="70">4</text><text x="152" y="70">1</text><text x="88" y="100">0</text><text x="120" y="100">5</text><text x="152" y="100">2</text></g><path d="M78 26 L162 92" stroke-width="2" opacity=".35"/><g font-family="Georgia,serif" font-style="italic" fill="currentColor" stroke="none" font-size="16" opacity=".8"><text x="196" y="40">A⁻¹</text><text x="14" y="70">|A|</text></g></svg>',
+    sistemes: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 106 L220 20"/><path d="M20 26 L220 96" opacity=".75"/><path d="M128 6 L128 114" opacity=".55"/><circle cx="128" cy="59.5" r="7" fill="currentColor"/><g fill="currentColor" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="13" opacity=".85"><text x="18" y="120">x + y + z = 6</text><text x="150" y="14">2x − y = 1</text></g></svg>',
+    pl: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 106 H226 M30 106 V6" stroke-width="2"/><path d="M30 106 L30 34 L92 22 L160 56 L180 106 Z" fill="currentColor" fill-opacity=".18"/><path d="M22 38 L120 18" opacity=".6"/><path d="M80 0 L200 66" opacity=".6"/><path d="M168 0 L190 120" opacity=".6"/><g fill="currentColor" stroke="none"><circle cx="30" cy="34" r="5"/><circle cx="92" cy="22" r="5"/><circle cx="160" cy="56" r="6.5"/><circle cx="180" cy="106" r="5"/></g><path d="M120 120 L232 50" stroke-dasharray="6 6" opacity=".8"/><text x="198" y="40" fill="currentColor" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="14">màx</text></svg>',
+    derivades: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M14 104 H226 M24 114 V8" stroke-width="1.8" opacity=".7"/><path d="M24 92 C60 92 70 20 110 22 S150 100 186 86 S214 50 226 40"/><path d="M60 22 L160 22" stroke-dasharray="5 5" opacity=".9"/><circle cx="110" cy="22" r="6" fill="currentColor"/><path d="M150 108 L222 38" opacity=".55"/><g fill="currentColor" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="15"><text x="118" y="44">f′(x) = 0</text></g></svg>',
+    probabilitat: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="20" cy="60" r="5" fill="currentColor"/><path d="M20 60 L80 26 M20 60 L80 94 M80 26 L130 12 M80 26 L130 40 M80 94 L130 80 M80 94 L130 108"/><g fill="currentColor" stroke="none"><circle cx="80" cy="26" r="4"/><circle cx="80" cy="94" r="4"/><circle cx="130" cy="12" r="3.5"/><circle cx="130" cy="40" r="3.5"/><circle cx="130" cy="80" r="3.5"/><circle cx="130" cy="108" r="3.5"/></g><g font-family="Georgia,serif" font-style="italic" font-size="11" fill="currentColor" stroke="none"><text x="38" y="36">0,6</text><text x="38" y="92">0,4</text></g><rect x="162" y="30" width="56" height="56" rx="12" transform="rotate(12 190 58)"/><g fill="currentColor" stroke="none" transform="rotate(12 190 58)"><circle cx="176" cy="44" r="4.5"/><circle cx="190" cy="58" r="4.5"/><circle cx="204" cy="72" r="4.5"/></g></svg>'
+  };
+  /* ---------- Dibuixos dels materials (segons el tipus) ---------- */
+  var I_ILL = {
+    book: U_ILL.resum,
+    notes: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="12" width="92" height="60" rx="6"/><path d="M6 80 H114 L106 72 H14 Z" fill="currentColor" fill-opacity=".15"/><path d="M24 60 C40 60 44 26 62 26 S84 52 96 30" stroke-width="2.6"/><path d="M24 64 H98 M24 64 V20" stroke-width="1.6" opacity=".6"/><circle cx="62" cy="26" r="4" fill="currentColor"/></svg>',
+    video: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="16" width="100" height="64" rx="10"/><path d="M50 34 L76 48 L50 62 Z" fill="currentColor"/><path d="M22 90 H98" stroke-width="2.4" opacity=".6"/><circle cx="46" cy="90" r="4" fill="currentColor"/></svg>',
+    pau: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M28 6 H76 L94 24 V94 H28 Z"/><path d="M76 6 V24 H94"/><g stroke-width="2" opacity=".7"><path d="M38 52 H84 M38 62 H78 M38 72 H82 M38 82 H70"/></g><text x="38" y="40" fill="currentColor" stroke="none" font-family="Outfit,sans-serif" font-weight="800" font-size="17">PAU</text><path d="M96 54 L112 38 L118 44 L102 60 L94 62 Z" stroke-width="2.4"/></svg>',
+    exam: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="8" width="64" height="86" rx="6"/><rect x="42" y="2" width="28" height="12" rx="4" fill="currentColor" fill-opacity=".2"/><g stroke-width="2.4"><path d="M34 34 l5 5 l9 -10 M56 36 H78"/><path d="M34 54 l5 5 l9 -10 M56 56 H78"/><path d="M34 74 l5 5 l9 -10 M56 76 H72"/></g><circle cx="96" cy="76" r="16" fill="currentColor" fill-opacity=".15"/><text x="96" y="82" text-anchor="middle" fill="currentColor" stroke="none" font-family="Outfit,sans-serif" font-weight="800" font-size="16">10</text></svg>',
+    calc: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="32" y="4" width="56" height="92" rx="9"/><rect x="40" y="13" width="40" height="20" rx="3" fill="currentColor" fill-opacity=".15"/><g fill="currentColor" stroke="none"><circle cx="46" cy="46" r="4"/><circle cx="60" cy="46" r="4"/><circle cx="74" cy="46" r="4"/><circle cx="46" cy="60" r="4"/><circle cx="60" cy="60" r="4"/><circle cx="74" cy="60" r="4"/><circle cx="46" cy="74" r="4"/><circle cx="60" cy="74" r="4"/><rect x="69" y="70" width="10" height="18" rx="4"/><circle cx="46" cy="86" r="4"/><circle cx="60" cy="86" r="4"/></g></svg>',
+    resource: '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="60" cy="50" r="38"/><path d="M76 34 L68 58 L44 66 L52 42 Z" fill="currentColor" fill-opacity=".2"/></svg>'
+  };
+  var KIND = { notes: "Apunts", exercises: "Exercicis", video: "Vídeo", resource: "Recurs", exam: "Examen", calc: "Calculadora" };
+  function itemIll(it) {
+    var t = ((it.title && (it.title.va || it.title)) || "").toLowerCase();
+    if (it.type === "notes" && /resum|formulari/.test(t)) return I_ILL.book;
+    if (it.type === "exercises" && /pau/.test(t)) return I_ILL.pau;
+    if (it.type === "exercises") return I_ILL.pau.replace(">PAU<", ">Σ<");
+    return I_ILL[it.type] || I_ILL.resource;
+  }
+
+  /* ---------- Colors dels blocs del resum teòric ---------- */
+  var STYLE = [
+    { key: "resum",        block: "Tot el curs",           c: "#e3a21a", c2: "#c98a0c" },
+    { key: "matrius",      block: "Àlgebra",               c: "#4e81bd", c2: "#3d6aa0" },
+    { key: "sistemes",     block: "Àlgebra",               c: "#4e81bd", c2: "#3d6aa0" },
+    { key: "pl",           block: "Programació lineal",    c: "#f79645", c2: "#dc7a29" },
+    { key: "derivades",    block: "Anàlisi",               c: "#7fa040", c2: "#6a8a33" },
+    { key: "probabilitat", block: "Probabilitat",          c: "#8064a1", c2: "#684e88" }
+  ];
+
+  var L = window.LEVELS["2batx-ccss"], n = 0;
+  var units = L.units.map(function (u, i) {
+    var st = STYLE[i] || STYLE[0];
+    return { i: i, num: u.num || String(++n), title: u.title.va || u.title, st: st,
+             items: (u.items || []).filter(function (it) { return !it.hidden; }) };
+  });
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function nmat(u) { var k = u.items.filter(function (it) { return it.url; }).length; return k === 0 ? "Pròximament" : k + (k === 1 ? " material" : " materials"); }
+  function tx(v) { return v ? (v.va || v) : ""; }
+
+  document.getElementById("units").innerHTML = units.map(function (u) {
+    return '<a class="cb" href="#u' + u.i + '" style="--c2:' + u.st.c2 + '"><div class="ill">' + U_ILL[u.st.key] + '</div><span class="block">' + u.st.block + '</span>' +
+      '<div class="content"><div class="num">' + u.num + "</div><h3>" + esc(u.title) + '</h3><div class="meta">' + nmat(u) + "</div></div></a>";
+  }).join("");
+
+  function showUnit(u) {
+    document.getElementById("unit-hero").style.cssText = "--c2:" + u.st.c2;
+    document.getElementById("unit-hero").innerHTML = '<div class="ill">' + U_ILL[u.st.key] + '</div><div class="container">' +
+      '<div class="crumb"><a href="#">2n Batxillerat CCSS</a> / ' + esc(u.title) + "</div>" +
+      '<span class="num">' + (u.num === "★" ? "Tot el curs" : "Unitat " + u.num) + " · " + u.st.block + "</span><h1>" + esc(u.title) + "</h1><p>" + nmat(u) + "</p></div>";
+    document.getElementById("items").innerHTML = u.items.map(function (it) {
+      var soon = !it.url, href = soon ? "" : (/^https?:/.test(it.url) ? it.url : "../../" + it.url);
+      var tag = soon ? "div" : "a";
+      return "<" + tag + ' class="cc' + (soon ? " soon" : "") + '"' + (soon ? "" : ' href="' + esc(href) + '" target="_blank" rel="noopener"') +
+        ' style="--c:' + u.st.c + '"><div class="side"></div><div class="body"><span class="kind">' + KIND[it.type] + "</span><h3>" + esc(tx(it.title)) +
+        '</h3><div class="d">' + (soon ? "Pròximament" : esc(tx(it.desc)) || "Obri el material →") + '</div></div><div class="ill">' + itemIll(it) + "</div></" + tag + ">";
+    }).join("") || "<p>Pròximament</p>";
+  }
+  function route() {
+    var m = location.hash.match(/^#u(\d+)$/);
+    var u = m && units[+m[1]];
+    document.getElementById("view-course").hidden = !!u;
+    document.getElementById("view-unit").hidden = !u;
+    if (u) showUnit(u);
+    window.scrollTo(0, 0);
+  }
+  document.getElementById("back").addEventListener("click", function () { location.hash = ""; });
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
