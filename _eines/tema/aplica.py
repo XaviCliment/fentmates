@@ -9,7 +9,7 @@ import glob
 import os
 import re
 
-VERSION = "20261024b"
+VERSION = "20261024c"
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TAG = ('<link rel="stylesheet" href="../../assets/css/fm-materials.css?v={v}">'
        '<script defer src="../../assets/js/fm-materials.js?v={v}"></script>')
