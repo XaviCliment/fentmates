@@ -308,6 +308,13 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "limits", block: "an",
+        title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t4-limits-continuitat.html", date: "2026-10-24" }
+        ]
+      },
+      {
         ill: "derivades", block: "an",
         title: { va: "Derivades i aplicacions", es: "Derivadas y aplicaciones", en: "Derivatives and applications" },
         items: [
