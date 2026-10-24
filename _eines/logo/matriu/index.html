@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo Matriu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&family=Space+Grotesk:wght@500;700&family=Sora:wght@600;700&family=Manrope:wght@700;800&family=DM+Serif+Display&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&family=STIX+Two+Text:ital,wght@1,500;1,600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #1b2748; --gold: #e9a919; --yellow: #ffc94d;
+          --bg: #f6f7fb; --border: #e1e5f0; --text: #1b2340; --muted: #5d6685; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 40px 16px 60px; }
+  h1 { font: 800 32px/1.1 Outfit, sans-serif; margin: 0 0 6px; }
+  h2 { font: 700 22px/1.2 Outfit, sans-serif; margin: 44px 0 6px; }
+  h2 + p { color: var(--muted); margin: 0 0 16px; max-width: 70ch; }
+  .lead { color: var(--muted); max-width: 70ch; margin: 0; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .card .p { display: grid; place-items: center; padding: 26px 22px; height: 150px; }
+  .card .p svg { max-width: 100%; max-height: 100%; }
+  .card .cap { padding: 10px 14px; border-top: 1px solid var(--border); font-size: 14px; }
+  .card .cap b { font-family: Outfit, sans-serif; }
+  .card .cap span { color: var(--muted); display: block; font-size: 13px; }
+  .light { --ink: var(--navy); --acc: var(--gold); background: #fff; }
+  .dark  { --ink: #e8ecf7; --acc: var(--yellow); background: #172036; }
+  .combo { background: #fff; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 18px; }
+  .combo header { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .combo header h3 { margin: 0; font: 700 19px/1.2 Outfit, sans-serif; }
+  .combo header p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1.6fr; }
+  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .row > div { display: grid; place-items: center; padding: 28px 20px; min-height: 170px; }
+  .row svg { max-width: 100%; }
+  .mark-lg svg { height: 96px; }
+  .lock svg { height: 64px; }
+  .sizes { display: flex; align-items: end; gap: 18px; padding: 14px 20px; border-top: 1px solid var(--border); }
+  .sizes small { color: var(--muted); margin-left: auto; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Logo Matriu · desenvolupament</h1>
+  <p class="lead">La proposta [F M] de la 5a ronda, amb altres tipus de lletra i un detall discret. Primer es prova cada cosa per separat i, al final, hi ha quatre combinacions completes.</p>
+
+  <h2>1 · Tipus de lletra</h2>
+  <p>Els mateixos claudàtors grocs amb les lletres en vuit tipus de lletra diferents.</p>
+  <div class="grid" id="fonts"></div>
+
+  <h2>2 · Detall discret</h2>
+  <p>Amb Space Grotesk, un sol element petit en groc que fa de picada d’ull matemàtica.</p>
+  <div class="grid" id="details"></div>
+
+  <h2>3 · Combinacions</h2>
+  <p>Quatre propostes completes, amb el símbol, el nom en el mateix tipus de lletra i les mides petites.</p>
+  <div id="combos"></div>
+</div>
+
+<script>
+// Lletres: alçada de majúscula objectiu CAP, línia base BASE. capRatio = alçada de majúscula / cos de la lletra.
+const CAP = 46, BASE = 73, TOP = 14, BOT = 86;
+const FONTS = {
+  outfit:  { name: "Outfit",          css: "Outfit",           weight: 700, style: "normal", cap: .70, ls: 1 },
+  grotesk: { name: "Space Grotesk",   css: "Space Grotesk",    weight: 700, style: "normal", cap: .70, ls: 0 },
+  sora:    { name: "Sora",            css: "Sora",             weight: 700, style: "normal", cap: .72, ls: 0 },
+  manrope: { name: "Manrope",         css: "Manrope",          weight: 800, style: "normal", cap: .72, ls: 1 },
+  mono:    { name: "IBM Plex Mono",   css: "IBM Plex Mono",    weight: 600, style: "normal", cap: .70, ls: 0 },
+  dmserif: { name: "DM Serif Display",css: "DM Serif Display", weight: 400, style: "normal", cap: .71, ls: 1 },
+  fraunces:{ name: "Fraunces cursiva",css: "Fraunces",         weight: 600, style: "italic", cap: .70, ls: 0 },
+  stix:    { name: "STIX Two cursiva (com LaTeX)", css: "STIX Two Text", weight: 500, style: "italic", cap: .66, ls: 2 },
+};
+
+// Claudàtors: [ ] gruixuts, [ ] fins o ( ) arrodonits
+function brackets(kind, l, r) {
+  if (kind === "round")
+    return `<path d="M${l + 9} ${TOP - 2}Q${l - 7} 50 ${l + 9} ${BOT + 2}M${r - 9} ${TOP - 2}Q${r + 7} 50 ${r - 9} ${BOT + 2}" fill="none" stroke="var(--acc)" stroke-width="5" stroke-linecap="round"/>`;
+  const w = kind === "thin" ? 3.5 : 6, a = kind === "thin" ? 8 : 9;
+  return `<path d="M${l + a} ${TOP}H${l}V${BOT}H${l + a}M${r - a} ${TOP}H${r}V${BOT}H${r - a}" fill="none" stroke="var(--acc)" stroke-width="${w}" stroke-linecap="square"/>`;
+}
+
+// Detall: text petit en groc fora del claudàtor dret (exponent o subíndex), o un element entre les lletres
+const DETAILS = {
+  none: { name: "Sense detall", desc: "Només els claudàtors." },
+  T:    { name: "Transposta [FM]ᵀ", desc: "Un exponent T: la matriu transposta. Discret i molt d’àlgebra.", sup: "T" },
+  inv:  { name: "Inversa [FM]⁻¹", desc: "La matriu inversa: «desfer» un problema per entendre’l.", sup: "−1" },
+  dim:  { name: "Dimensió 1×2", desc: "La mida de la matriu, en petit, com en una pissarra.", sub: "1×2" },
+  sq:   { name: "Al quadrat [FM]²", desc: "Recupera l’exponent de la proposta FM².", sup: "2" },
+  dots: { name: "Punts suspensius", desc: "Tres punts després de la M, com una matriu que continua.", dots: true },
+};
+
+function mark(fontKey, bracketKind, detailKey, { word = false } = {}) {
+  const f = FONTS[fontKey], d = DETAILS[detailKey];
+  const size = CAP / f.cap;
+  const id = "m" + Math.random().toString(36).slice(2);
+  const fontAttr = `font-family="'${f.css}'" font-weight="${f.weight}" font-style="${f.style}"`;
+  // Primer es pinta amb una amplada provisional; fit() recol·loca claudàtors i viewBox quan la lletra s'ha carregat.
+  return `<svg xmlns="http://www.w3.org/2000/svg" data-fit='${JSON.stringify({ fontKey, bracketKind, detailKey, word })}' id="${id}" viewBox="0 0 140 100">
+    <text class="fm" x="70" y="${BASE}" text-anchor="middle" ${fontAttr} font-size="${size.toFixed(1)}" letter-spacing="${f.ls}" fill="var(--ink)">F${f.style === "italic" ? " " : " "}M</text>
+  </svg>`;
+}
+
+function fit(svg) {
+  const { fontKey, bracketKind, detailKey, word } = JSON.parse(svg.dataset.fit);
+  const f = FONTS[fontKey], d = DETAILS[detailKey];
+  const text = svg.querySelector("text.fm");
+  const w = text.getComputedTextLength();
+  const pad = (bracketKind === "round" ? 16 : 14) + (d.dots ? 16 : 0);
+  const l = 70 - w / 2 - pad, r = 70 + w / 2 + pad + (f.style === "italic" ? 3 : 0);
+  let extra = "", right = r + 4;
+  const small = `font-family="'${f.css}'" font-weight="${f.weight}" font-style="${f.style}" fill="var(--acc)"`;
+  if (d.sup) { extra += `<text x="${r + 4}" y="${TOP + 14}" ${small} font-size="17">${d.sup}</text>`; right = r + 6 + d.sup.length * 10; }
+  if (d.sub) { extra += `<text x="${r + 4}" y="${BOT + 4}" ${small} font-size="13">${d.sub}</text>`; right = r + 6 + d.sub.length * 8; }
+  if (d.dots) extra += [6, 12, 18].map(x => `<circle cx="${70 + w / 2 + x}" cy="${BASE - 2}" r="2.2" fill="var(--acc)"/>`).join("");
+  const left = l - 6;
+  if (word) {
+    extra += `<text x="${right + 18}" y="${BASE - 1}" font-family="'${f.css}'" font-weight="${f.weight}" font-style="${f.style}" font-size="${(36 / f.cap).toFixed(1)}" fill="var(--ink)">Fent<tspan fill="var(--acc)">Mates</tspan></text>`;
+  }
+  svg.insertAdjacentHTML("afterbegin", brackets(bracketKind, l, r));
+  svg.insertAdjacentHTML("beforeend", extra);
+  const bb = svg.getBBox();
+  svg.setAttribute("viewBox", `${Math.min(left, bb.x - 4)} 6 ${Math.max(bb.x + bb.width + 4, right) - Math.min(left, bb.x - 4)} 88`);
+}
+
+const card = (inner, title, desc) => `<div class="card"><div class="p light">${inner}</div><div class="cap"><b>${title}</b><span>${desc}</span></div></div>`;
+
+document.getElementById("fonts").innerHTML = Object.entries(FONTS).map(([k, f]) =>
+  card(mark(k, f.style === "italic" || k === "dmserif" ? "thin" : "square", "none"), f.name,
+       { outfit: "La de la web: continuïtat total.", grotesk: "Geomètrica amb caràcter, moderna i tècnica.",
+         sora: "Ampla i neta, molt actual.", manrope: "Arrodonida i amable.", mono: "Monoespaiada, com codi o una calculadora.",
+         dmserif: "Serif de contrast alt: elegant, editorial.", fraunces: "Serif suau en cursiva: elegant i càlida.",
+         stix: "La cursiva de les fórmules: sembla escrita en LaTeX." }[k])).join("");
+
+document.getElementById("details").innerHTML = Object.entries(DETAILS).map(([k, d]) =>
+  card(mark("grotesk", "square", k), d.name, d.desc)).join("");
+
+const COMBOS = [
+  { font: "grotesk", br: "square", det: "T",   title: "A · Moderna",  desc: "Space Grotesk, claudàtors gruixuts i la T de transposta. Tècnica i amb caràcter." },
+  { font: "stix",    br: "thin",   det: "inv", title: "B · LaTeX",    desc: "Cursiva matemàtica, claudàtors fins i l’exponent −1. Sembla treta d’uns apunts de Batxillerat." },
+  { font: "fraunces",br: "thin",   det: "dim", title: "C · Elegant",  desc: "Fraunces cursiva, claudàtors fins i la dimensió 1×2 en petit. La més editorial." },
+  { font: "sora",    br: "round",  det: "sq",  title: "D · Amable",   desc: "Sora amb parèntesis arrodonits i el quadrat. La més propera per a l’ESO." },
+];
+document.getElementById("combos").innerHTML = COMBOS.map(c => `
+  <section class="combo">
+    <header><h3>${c.title}</h3><p>${c.desc}</p></header>
+    <div class="row">
+      <div class="light mark-lg">${mark(c.font, c.br, c.det)}</div>
+      <div class="dark mark-lg">${mark(c.font, c.br, c.det)}</div>
+      <div class="light lock">${mark(c.font, c.br, c.det, { word: true })}</div>
+    </div>
+    <div class="sizes light">${[48, 32, 20].map(h => mark(c.font, c.br, c.det).replace("<svg ", `<svg height="${h}" `)).join("")}<small>48 · 32 · 20 px</small></div>
+  </section>`).join("");
+
+document.fonts.ready.then(() => document.querySelectorAll("svg[data-fit]").forEach(fit));
+</script>
+</body>
+</html>

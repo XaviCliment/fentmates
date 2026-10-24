@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FentMates · logos 4a ronda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1b2748; --navy-2: #24375f; --coral: #ff7a50; --teal: #2bb3a3; --yellow: #ffc94d; --gold: #e9a919;
+    --bg: #f6f7fb; --surface: #fff; --border: #e1e5f0; --text: #1b2340; --muted: #5d6685;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 Inter, system-ui, sans-serif; }
+  header { max-width: 1160px; margin: 0 auto; padding: 40px 16px 8px; }
+  h1 { font: 800 32px/1.1 Outfit, sans-serif; margin: 0 0 6px; }
+  header p { color: var(--muted); margin: 0; max-width: 60ch; }
+  main { max-width: 1160px; margin: 0 auto; padding: 24px 16px 60px; display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .panels { display: grid; grid-template-columns: 1fr 1fr; }
+  .panel { aspect-ratio: 1; display: grid; place-items: center; padding: 18%; }
+  .panel svg { width: 100%; height: 100%; }
+  .light { --ink: var(--navy); --ink2: var(--navy-2); --acc: var(--gold); --paper: #fff; background: #fff; }
+  .dark  { --ink: #e8ecf7; --ink2: #b9c3de; --acc: var(--yellow); --paper: #172036; background: #172036; }
+  .info { padding: 16px 18px 18px; border-top: 1px solid var(--border); display: grid; gap: 12px; }
+  .info h2 { margin: 0; font: 700 19px/1.2 Outfit, sans-serif; }
+  .info h2 span { color: var(--muted); font-weight: 600; margin-right: 6px; }
+  .info p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .lockup { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: var(--bg); }
+  .lockup svg { height: 38px; width: auto; flex: none; }
+  .word { font: 800 26px/1 Outfit, sans-serif; letter-spacing: -0.01em; color: var(--navy); }
+  .word b { color: var(--gold); font-weight: 800; }
+  .sizes { display: flex; align-items: end; gap: 14px; }
+  .sizes svg { flex: none; }
+  .sizes small { color: var(--muted); font-size: 12px; margin-left: auto; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { font: 600 13px Inter, sans-serif; border: 1px solid var(--border); background: #fff; color: var(--text); padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+  button:hover { border-color: var(--navy); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Logos FentMates · idees noves</h1>
+  <p>Sis idees noves amb la F i la M, cadascuna amb un objecte de classe de mates diferent. Cada targeta mostra la marca sobre fons clar i fosc, a mides petites i al costat del nom. Els botons descarreguen l’SVG per a fitxes i apunts.</p>
+</header>
+<main id="grid"></main>
+
+<script>
+const C = { ink: "#1b2748", ink2: "#24375f", paper: "#ffffff", coral: "#ff7a50", teal: "#2bb3a3", yellow: "#ffc94d" };
+
+// Each mark: viewBox + inner markup. var(--ink)/var(--ink2)/var(--paper) follow the background.
+const marks = [
+  {
+    name: "π + ✓", vb: "4 4 112 92",
+    desc: "La M és una π amb un tic de «correcte» a dins. La barra de dalt de la π fa també de braç de la F.",
+    svg: `<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="10" stroke="var(--ink)">
+      <path d="M14 20H106M24 20V82M24 50H44M64 20V82M94 20V68Q94 82 106 80"/></g>
+      <path d="M70 44L78 56L90 30" fill="none" stroke="var(--acc)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`
+  },
+  {
+    name: "Angles", vb: "4 4 104 92",
+    desc: "Lletres de geometria: el cantó de la F porta la marca d’angle recte i la V de la M, l’arc d’un angle.",
+    svg: `<g fill="none" stroke="var(--ink)" stroke-width="10" stroke-linejoin="miter" stroke-linecap="square">
+      <path d="M18 86V16H48M18 48H40M62 86V16L79 56L96 16V86"/></g>
+      <g fill="none" stroke="var(--acc)" stroke-width="3.5">
+        <path d="M23 35H35V21"/><path d="M69.6 34A24 24 0 0 0 88.4 34"/></g>`
+  },
+  {
+    name: "Geoplà", vb: "0 0 120 100",
+    desc: "Gomes elàstiques tibades entre els claus d’un geoplà, com a classe de geometria.",
+    svg: (() => {
+      const X = i => 12 + 16 * i, Y = j => 14 + 18 * j;
+      let pegs = "";
+      for (let i = 0; i < 7; i++) for (let j = 0; j < 5; j++)
+        pegs += `<circle cx="${X(i)}" cy="${Y(j)}" r="2.6" fill="var(--ink)" opacity=".22"/>`;
+      const band = (pts, c) => `<polyline points="${pts.map(([i, j]) => X(i) + "," + Y(j)).join(" ")}" fill="none" stroke="${c}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>`;
+      const used = [[0,4],[0,0],[2,0],[0,2],[1,2],[4,4],[4,0],[5,2],[6,0],[6,4]];
+      return pegs + band([[0,4],[0,0],[2,0]], "var(--acc)") + band([[0,2],[1,2]], "var(--acc)")
+        + band([[4,4],[4,0],[5,2],[6,0],[6,4]], "var(--ink)")
+        + used.map(([i, j]) => `<circle cx="${X(i)}" cy="${Y(j)}" r="3.4" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/>`).join("");
+    })()
+  },
+  {
+    name: "Venn", vb: "4 12 112 76",
+    desc: "Dos conjunts: la F i la M, amb la intersecció en groc. F ∩ M = el que fem a classe.",
+    svg: `<defs><clipPath id="venn-l"><circle cx="44" cy="50" r="33"/></clipPath></defs>
+      <circle cx="76" cy="50" r="33" fill="var(--acc)" clip-path="url(#venn-l)"/>
+      <g fill="none" stroke="var(--ink)">
+        <circle cx="44" cy="50" r="33" stroke-width="4"/><circle cx="76" cy="50" r="33" stroke-width="4"/>
+        <path d="M24 66V34H40M24 50H36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M82 66V34L89 50L96 34V66" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>`
+  },
+  {
+    name: "Calculadora", vb: "6 6 116 88",
+    desc: "Pantalla de segments de calculadora: la F en 7 segments, la M en 14 i el punt decimal en groc.",
+    svg: (() => {
+      const t = 7, g = 1.6;
+      const H = (x1, x2, y) => `${x1 + g},${y} ${x1 + g + t / 2},${y - t / 2} ${x2 - g - t / 2},${y - t / 2} ${x2 - g},${y} ${x2 - g - t / 2},${y + t / 2} ${x1 + g + t / 2},${y + t / 2}`;
+      const V = (x, y1, y2) => `${x},${y1 + g} ${x + t / 2},${y1 + g + t / 2} ${x + t / 2},${y2 - g - t / 2} ${x},${y2 - g} ${x - t / 2},${y2 - g - t / 2} ${x - t / 2},${y1 + g + t / 2}`;
+      const cell = (L, R, lit, extra = false) => {
+        const T = 14, Mi = 50, B = 86, C = (L + R) / 2;
+        const seg = { a: H(L, R, T), b: V(R, T, Mi), c: V(R, Mi, B), d: H(L, R, B), e: V(L, Mi, B), f: V(L, T, Mi) };
+        if (extra) Object.assign(seg, { g1: H(L, C, Mi), g2: H(C, R, Mi), i: V(C, T, Mi), l: V(C, Mi, B) });
+        else seg.g = H(L, R, Mi);
+        let s = Object.entries(seg).map(([k, p]) =>
+          `<polygon points="${p}" fill="var(--ink)" opacity="${lit.includes(k) ? 1 : .06}"/>`).join("");
+        if (extra) {
+          const diag = (x1, y1, x2, y2, on) => `<path d="M${x1} ${y1}L${x2} ${y2}" stroke="var(--ink)" stroke-width="${t - 1}" stroke-linecap="round" opacity="${on ? 1 : .06}"/>`;
+          s += diag(L + 7, T + 7, C - 4, Mi - 8, true) + diag(R - 7, T + 7, C + 4, Mi - 8, true)
+             + diag(L + 7, B - 7, C - 4, Mi + 8, false) + diag(R - 7, B - 7, C + 4, Mi + 8, false);
+        }
+        return s;
+      };
+      return cell(14, 48, ["a", "f", "g", "e"]) + cell(62, 106, ["b", "c", "e", "f"], true)
+        + `<circle cx="115" cy="86" r="4.2" fill="var(--acc)"/>`;
+    })()
+  },
+  {
+    name: "Segell", vb: "0 0 100 100",
+    desc: "Un segell amb les marques d’un transportador i un arc de 90° en groc. Per posar-lo a les fitxes com un tampó.",
+    svg: (() => {
+      let ticks = "";
+      for (let a = 0; a < 360; a += 10) {
+        const r1 = a % 30 ? 40 : 36.5, rad = a * Math.PI / 180;
+        ticks += `<path d="M${(50 + r1 * Math.cos(rad)).toFixed(2)} ${(50 + r1 * Math.sin(rad)).toFixed(2)}L${(50 + 43 * Math.cos(rad)).toFixed(2)} ${(50 + 43 * Math.sin(rad)).toFixed(2)}"/>`;
+      }
+      return `<circle cx="50" cy="50" r="46" fill="none" stroke="var(--ink)" stroke-width="2.4"/>
+        <g stroke="var(--ink)" stroke-width="1.3" opacity=".55">${ticks}</g>
+        <path d="M50 4A46 46 0 0 1 96 50" fill="none" stroke="var(--acc)" stroke-width="5" stroke-linecap="round"/>
+        <g fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M29 66V34H45M29 50H41"/><path d="M53 66V34L62 52L71 34V66"/></g>`;
+    })()
+  }
+];
+
+const svgEl = (m, attrs = "") => `<svg viewBox="${m.vb}" ${attrs} xmlns="http://www.w3.org/2000/svg">${m.svg}</svg>`;
+
+function download(m, i, theme) {
+  const vars = theme === "dark" ? { ink: "#e8ecf7", ink2: "#b9c3de", paper: "#172036", acc: "#ffc94d" } : { ...C, acc: "#e9a919" };
+  const s = svgEl(m).replaceAll("var(--ink2)", vars.ink2).replaceAll("var(--ink)", vars.ink).replaceAll("var(--paper)", vars.paper).replaceAll("var(--acc)", vars.acc);
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([s], { type: "image/svg+xml" }));
+  a.download = `logo-fentmates-r4-${i + 1}-${theme}.svg`;
+  a.click();
+}
+
+document.getElementById("grid").innerHTML = marks.map((m, i) => `
+  <article class="card">
+    <div class="panels">
+      <div class="panel light">${svgEl(m)}</div>
+      <div class="panel dark">${svgEl(m)}</div>
+    </div>
+    <div class="info">
+      <h2><span>${i + 1}</span>${m.name}</h2>
+      <p>${m.desc}</p>
+      <div class="lockup light">${svgEl(m)}<span class="word">Fent<b>Mates</b></span></div>
+      <div class="sizes light">${svgEl(m, 'height="48"')}${svgEl(m, 'height="32"')}${svgEl(m, 'height="16"')}<small>48 · 32 · 16 px</small></div>
+      <div class="row">
+        <button onclick="download(marks[${i}], ${i}, 'light')">SVG clar</button>
+        <button onclick="download(marks[${i}], ${i}, 'dark')">SVG fosc</button>
+      </div>
+    </div>
+  </article>`).join("");
+</script>
+</body>
+</html>

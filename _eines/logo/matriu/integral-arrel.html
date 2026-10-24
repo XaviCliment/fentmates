@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo ∫√</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #1b2748; --gold: #e9a919; --yellow: #ffc94d;
+          --bg: #f6f7fb; --border: #e1e5f0; --text: #1b2340; --muted: #5d6685; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 40px 16px 60px; }
+  h1 { font: 800 32px/1.1 Outfit, sans-serif; margin: 0 0 6px; }
+  .lead { color: var(--muted); max-width: 72ch; margin: 0 0 28px; }
+  .light { --ink: var(--navy); --acc: var(--gold); background: #fff; }
+  .dark  { --ink: #e8ecf7; --acc: var(--yellow); background: #172036; }
+  .combo { background: #fff; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 18px; }
+  .combo header { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .combo h3 { margin: 0; font: 700 19px/1.2 Outfit, sans-serif; }
+  .combo header p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; max-width: 80ch; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1.6fr; }
+  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .row > div { display: grid; place-items: center; padding: 28px 20px; min-height: 180px; }
+  .row svg { max-width: 100%; }
+  .big svg { height: 104px; }
+  .lock svg { height: 66px; }
+  .sizes { display: flex; align-items: end; gap: 18px; padding: 14px 20px; border-top: 1px solid var(--border); }
+  .sizes small { color: var(--muted); margin-left: auto; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Format D · ∫ i √</h1>
+  <p class="lead">El format D (Sora, parèntesis arrodonits i el quadrat) amb la F convertida en una integral i la M en una arrel quadrada. Tots els traços tenen el mateix gruix, els extrems arrodonits i els cantons suaus, i la integral no porta punts als extrems.</p>
+  <div id="combos"></div>
+</div>
+
+<script>
+const SW = 8.5;                           // gruix del traç (el de Sora Bold a aquesta mida)
+const TOP = 18, BASE = 82;
+
+// Integral suau: ganxo de baix, pal inclinat i ganxo de dalt, sense punts als extrems.
+const integral = x =>
+  `M${x - 11} 78C${x - 9} 86 ${x - 2} 87 ${x + 1} 77` +
+  `L${x + 10} 23C${x + 13} 13 ${x + 20} 13 ${x + 22} 21`;
+const bar = x => `M${x - 2} 50H${x + 15}`;
+
+// Arrel amb forma de M: pal esquerre, vall arrodonida, branca llarga i barra de l'arrel cap a la dreta.
+const rootM = x =>
+  `M${x} ${BASE}V${TOP + 6}L${x + 13} 60Q${x + 17} 69 ${x + 21} 60L${x + 32} ${TOP}H${x + 52}`;
+// La mateixa arrel amb una pota curta al final de la barra: la quarta pota de la M, a mitges.
+const rootLeg = x => rootM(x) + `V${TOP + 22}`;
+
+function mark(v, { word = false } = {}) {
+  const ix = 40, rx = 78;
+  const paths = [integral(ix), v.root(rx)].join("");
+  let s = `<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="${SW}">`;
+  if (v.bar) s += `<path d="${bar(ix)}" stroke="var(--acc)"/>`;
+  s += `<path d="${paths}" stroke="var(--ink)"/></g>`;
+  // Parèntesis arrodonits del format D
+  const l = 14, r = 144;
+  s += `<path d="M${l + 9} 12Q${l - 7} 50 ${l + 9} 88M${r - 9} 12Q${r + 7} 50 ${r - 9} 88" fill="none" stroke="var(--acc)" stroke-width="5" stroke-linecap="round"/>`;
+  if (v.sq) s += `<path d="M${r + 5} 20A6 6 0 0 1 ${r + 17} 20C${r + 17} 25 ${r + 10} 28 ${r + 5} 34H${r + 18}" fill="none" stroke="var(--acc)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+  let w = r + (v.sq ? 24 : 6);
+  if (word) {
+    s += `<text class="w" x="${w + 18}" y="66" font-family="Sora" font-weight="700" font-size="44" letter-spacing="-.5" fill="var(--ink)">Fent<tspan fill="var(--acc)">Mates</tspan></text>`;
+    w += 18 + 236;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 4 ${w - 2} 92"${word ? ' data-word="1"' : ""}>${s}</svg>`;
+}
+
+const VARIANTS = [
+  { title: "1 · ∫ i √ amb pota", root: rootLeg, bar: false, sq: true,
+    desc: "La integral sense barra. L’arrel comença amb el pal esquerre de la M, baixa a la vall i puja; la barra de l’arrel acaba amb una pota curta que completa la M." },
+  { title: "2 · Amb la barra de la f", root: rootLeg, bar: true, sq: true,
+    desc: "La mateixa, amb una barra groga petita a la integral perquè es llegisca també com una f: ∫ i f alhora." },
+  { title: "3 · Arrel sense pota", root: rootM, bar: false, sq: true,
+    desc: "L’arrel pura, sense la pota final: més arrel i menys M." },
+  { title: "4 · Sense el quadrat", root: rootLeg, bar: false, sq: false,
+    desc: "La 1 sense l’exponent: només parèntesis, integral i arrel. Més neta." },
+];
+
+document.getElementById("combos").innerHTML = VARIANTS.map(v => `
+  <section class="combo">
+    <header><h3>${v.title}</h3><p>${v.desc}</p></header>
+    <div class="row">
+      <div class="light big">${mark(v)}</div>
+      <div class="dark big">${mark(v)}</div>
+      <div class="light lock">${mark(v, { word: true })}</div>
+    </div>
+    <div class="sizes light">${[48, 32, 20].map(h => mark(v).replace("<svg ", `<svg height="${h}" `)).join("")}<small>48 · 32 · 20 px</small></div>
+  </section>`).join("");
+
+// Ajusta l'amplada del logo amb nom quan Sora s'ha carregat
+document.fonts.ready.then(() => document.querySelectorAll("svg[data-word]").forEach(svg => {
+  const b = svg.getBBox();
+  svg.setAttribute("viewBox", `4 4 ${b.x + b.width + 2} 92`);
+}));
+</script>
+</body>
+</html>

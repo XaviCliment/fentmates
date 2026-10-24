@@ -577,15 +577,18 @@
     dirB.forEach(function (b) { b.addEventListener("click", function () { st.s = +b.dataset.k; draw(); }); });
     rng.addEventListener("input", draw);
     function draw() {
-      var P = PRE[st.i], f = F(P.e), n = +rng.value, x = st.s * Math.pow(10, n), y = f(x);
-      nv.textContent = n;
+      var P = PRE[st.i], f = F(P.e), t = +rng.value, n = Math.round(t), x = st.s * Math.pow(10, t), y = f(x);
+      nv.textContent = numTxt(+x.toPrecision(3));
       dirB.forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.k === st.s)); });
       var rows = "";
       for (var k = 0; k <= 6; k++) { var xk = st.s * Math.pow(10, k); rows += "<tr><td" + (k === n ? ' class="hl"' : "") + ">" + tex(numTex(xk)) + "</td><td" + (k === n ? ' class="hl"' : "") + ">" + tex(numTex(f(xk))) + "</td></tr>"; }
-      tb.innerHTML = '<table class="data sm"><thead><tr><th>x</th><th>' + tex("f(x)=" + texOf(P.e)) + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + '</th><th>' + tex("f(x)=" + texOf(P.e)) + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
       var r = limSide(f, st.s * Infinity, 1);
-      info.innerHTML = tex("\\lim_{x\\to" + (st.s > 0 ? "+" : "-") + "\\infty}" + texOf(P.e) + "=" + limTex(r)) + (r.k === "osc" ? " (" + u("osc") + ")" : "");
-      plot(svg, { v: P.v, ha: P.ha, curves: [{ f: f }], mark: [{ x: x, y: y }], guides: [{ y: Math.abs(x) > P.v[1] ? y : undefined }] });
+      info.innerHTML = tex("\\lim_{x\\to" + (st.s > 0 ? "+" : "-") + "\\infty}" + texOf(P.e) + "=" + limTex(r)) + (r.k === "osc" ? " (" + u("osc") + ")" : "") +
+        "<br>" + tex("f(" + numTex(+x.toPrecision(3)) + ")=" + numTex(y));
+      // el punt es mou dins de la finestra; quan arriba a la vora, la finestra s'eixampla per seguir-lo
+      var edge = st.s > 0 ? P.v[1] : -P.v[0], k2 = Math.max(1, Math.abs(x) * 1.15 / edge);
+      plot(svg, { v: [P.v[0] * k2, P.v[1] * k2, P.v[2], P.v[3]], ha: P.ha, curves: [{ f: f }], mark: [{ x: x, y: y }], guides: [{ x: x, y: y }] });
     }
     onLang(draw);
   }
@@ -640,7 +643,7 @@
     function draw() {
       var a = L[+sf.value], b = L[+sg.value], X = [10, 50, 100, 200, 500];
       var rows = X.map(function (x) { var fa = a.f(x), gb = b.f(x); return "<tr><td>" + x + "</td><td>" + tex(numTex(fa)) + "</td><td>" + tex(numTex(gb)) + "</td><td>" + tex(numTex(fa / gb)) + "</td></tr>"; }).join("");
-      tb.innerHTML = '<table class="data sm"><thead><tr><th>x</th><th>' + tex("f(x)=" + a.t) + "</th><th>" + tex("g(x)=" + b.t) + "</th><th>" + tex("f/g") + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + '</th><th>' + tex("f(x)=" + a.t) + "</th><th>" + tex("g(x)=" + b.t) + "</th><th>" + tex("f/g") + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
       var c = a === b ? 0 : a.r !== b.r ? a.r - b.r : a.p - b.p, msg;
       if (a === b) msg = u("ident");
       else msg = c > 0 ? u("fFaster") : c < 0 ? u("gFaster") : u("sameOrd");
@@ -669,7 +672,7 @@
         var x = P.s * Math.pow(10, k), y = Math.pow(fb(x), fe(x)), c = k === n ? ' class="hl"' : "";
         rows += "<tr><td" + c + ">" + tex(numTex(x)) + "</td><td" + c + ">" + tex(numTex(y)) + "</td></tr>";
       }
-      tb.innerHTML = '<table class="data sm"><thead><tr><th>x</th><th>' + tex(ft) + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + '</th><th>' + tex(ft) + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
       info.innerHTML = tex("\\lim_{x\\to" + (P.s > 0 ? "+" : "-") + "\\infty}" + ft + "=" + P.t) + " &nbsp;(" + u("target") + " ≈ " + numTxt(P.v) + ")";
     }
     onLang(draw);
@@ -688,19 +691,23 @@
     presetBtns($(w, "presets"), PRE.length, "pSide", function (i) { st = i; draw(); });
     rng.addEventListener("input", draw);
     function draw() {
-      var P = PRE[st], M = pwMake(P.d), f = M.f, a = P.a, n = +rng.value, h = Math.pow(10, -n); nv.textContent = n;
+      var P = PRE[st], M = pwMake(P.d), f = M.f, a = P.a, t = +rng.value, n = Math.round(t), h = Math.pow(10, -t);
+      nv.textContent = numTxt(+h.toPrecision(2));
       var rows = "";
       for (var k = 0; k <= 6; k++) {
         var hk = Math.pow(10, -k), c = k === n ? ' class="hl"' : "";
         rows += "<tr><td" + c + ">" + tex(numTex(hk)) + "</td><td" + c + ">" + tex(numTex(f(a - hk))) + "</td><td" + c + ">" + tex(numTex(f(a + hk))) + "</td></tr>";
       }
-      tb.innerHTML = '<table class="data sm"><thead><tr><th>h</th><th>' + tex("f(" + numTex(a) + "-h)") + "</th><th>" + tex("f(" + numTex(a) + "+h)") + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("h") + '</th><th>' + tex("f(" + numTex(a) + "-h)") + "</th><th>" + tex("f(" + numTex(a) + "+h)") + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
       var L = limSide(f, a, -1), R = limSide(f, a, 1), ft = M.n > 1 ? pwTex(P.d) : "f(x)=" + texOf(P.d.p[0]);
       var concl = sameLim(L, R) ? tex("\\lim_{x\\to" + a + "}f(x)=" + limTex(L)) : tex("\\nexists\\lim_{x\\to" + a + "}f(x)");
       info.innerHTML = "<p>" + tex(ft) + "</p><p>" + tex("\\lim_{x\\to" + a + "^-}f(x)=" + limTex(L) + ",\\quad\\lim_{x\\to" + a + "^+}f(x)=" + limTex(R)) + "</p><p><strong>" + concl + "</strong></p>";
-      var dr = pwDraw(M, P.v), pts = dr.pts;
+      // els punts a ± h s'acosten a a i, alhora, la finestra fa zoom al voltant de a
+      var W0 = Math.min(a - P.v[0], P.v[1] - a), W = Math.min(W0, Math.max(3 * h, W0 * Math.sqrt(h))), v = P.v;
+      if (W < W0) { var yy = autoY([f], a - W, a + W); v = [a - W, a + W, Math.max(yy[0], P.v[2] * 50), Math.min(yy[1], P.v[3] * 50)]; }
+      var dr = pwDraw(M, v), pts = dr.pts;
       if (P.hole) pts.push({ x: a, y: L.v, o: true });
-      plot(svg, { v: P.v, va: P.va, curves: dr.curves, pts: pts, guides: [{ x: a }], mark: [{ x: a - h, y: f(a - h), col: "var(--plus)" }, { x: a + h, y: f(a + h), col: "var(--minus)" }] });
+      plot(svg, { v: v, va: P.va, curves: dr.curves, pts: pts, guides: [{ x: a }], mark: [{ x: a - h, y: f(a - h), col: "var(--plus)" }, { x: a + h, y: f(a + h), col: "var(--minus)" }] });
     }
     onLang(draw);
   }
@@ -942,7 +949,7 @@
       var ft = texOf(fi.value), at = isFinite(a) ? numTex(a) : a > 0 ? "+\\infty" : "-\\infty", rows = "", h;
       if (isFinite(a)) {
         for (var k = 1; k <= 6; k++) { var hk = Math.pow(10, -k); rows += "<tr><td>" + tex(numTex(a - hk)) + "</td><td>" + tex(numTex(f(a - hk))) + "</td><td>" + tex(numTex(a + hk)) + "</td><td>" + tex(numTex(f(a + hk))) + "</td></tr>"; }
-        tb.innerHTML = '<table class="data sm"><thead><tr><th>x</th><th>f(x)</th><th>x</th><th>f(x)</th></tr></thead><tbody>' + rows + "</tbody></table>";
+        tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + '</th><th>' + tex("f(x)") + '</th><th>' + tex("x") + '</th><th>' + tex("f(x)") + '</th></tr></thead><tbody>' + rows + "</tbody></table>";
         var L = limSide(f, a, -1), R = limSide(f, a, 1), fa = f(a);
         h = "<p>" + tex("f(x)=" + ft) + "</p><p>" + tex("\\lim_{x\\to" + at + "^-}f(x)=" + limTex(L) + ",\\quad\\lim_{x\\to" + at + "^+}f(x)=" + limTex(R)) + "</p>";
         h += "<p><strong>" + u("est") + ":</strong> " + (sameLim(L, R) ? tex("\\lim_{x\\to" + at + "}f(x)=" + limTex(L)) : tex("\\nexists\\lim_{x\\to" + at + "}f(x)")) + "</p>";
@@ -954,7 +961,7 @@
         plot(svg, { v: [a - d, a + d, vy[0], vy[1]], curves: [{ f: f }], guides: [{ x: a }], pts: pts, va: (L.k === "inf" || R.k === "inf") ? [a] : [] });
       } else {
         for (var j = 1; j <= 7; j++) { var x = (a > 0 ? 1 : -1) * Math.pow(10, j); rows += "<tr><td>" + tex(numTex(x)) + "</td><td>" + tex(numTex(f(x))) + "</td></tr>"; }
-        tb.innerHTML = '<table class="data sm"><thead><tr><th>x</th><th>f(x)</th></tr></thead><tbody>' + rows + "</tbody></table>";
+        tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + '</th><th>' + tex("f(x)") + '</th></tr></thead><tbody>' + rows + "</tbody></table>";
         var r = limSide(f, a, 1);
         h = "<p>" + tex("f(x)=" + ft) + "</p><p><strong>" + u("est") + ":</strong> " + tex("\\lim_{x\\to" + at + "}f(x)=" + limTex(r)) + (r.k === "osc" ? " (" + u("osc") + ")" : "") + "</p>";
         var x0 = a > 0 ? -2 : -20, x1 = a > 0 ? 20 : 2, yy = autoY([f], x0, x1);
