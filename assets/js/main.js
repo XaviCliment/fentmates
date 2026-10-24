@@ -511,22 +511,24 @@
         (P.confirmed ? "" : " · " + t("pau.date.note"));
     }
 
-    var ex = el("pau-exams");
-    if (ex) {
+    var link = function (url, key, icon) {
+      return url
+        ? '<a class="pill" href="' + esc(url) + '" target="_blank" rel="noopener">' + ICONS[icon] + esc(t(key)) + "</a>"
+        : '<span class="pill soon" title="' + esc(t("level.soon")) + '">' + ICONS[icon] + esc(t(key)) + "</span>";
+    };
+    var renderExams = function (ex, list) {
+      if (!ex || !list) return;
       var years = {};
-      P.exams.forEach(function (e) { (years[e.year] = years[e.year] || []).push(e); });
-      var link = function (url, key, icon) {
-        return url
-          ? '<a class="pill" href="' + esc(url) + '" target="_blank" rel="noopener">' + ICONS[icon] + esc(t(key)) + "</a>"
-          : '<span class="pill soon" title="' + esc(t("level.soon")) + '">' + ICONS[icon] + esc(t(key)) + "</span>";
-      };
+      list.forEach(function (e) { (years[e.year] = years[e.year] || []).push(e); });
       ex.innerHTML = Object.keys(years).sort(function (a, b) { return b - a; }).map(function (y) {
         return '<div class="year-card"><h3>' + y + "</h3>" + years[y].map(function (e) {
           return '<div class="conv"><span class="conv-name">' + esc(t("pau." + e.conv)) + "</span>" +
             '<span class="conv-links">' + link(e.exam, "pau.exam", "notes") + link(e.criteria, "pau.criteria", "exam") + "</span></div>";
         }).join("") + "</div>";
       }).join("");
-    }
+    };
+    renderExams(el("pau-exams"), P.exams);
+    renderExams(el("pau-exams-mii"), P.examsMII);
   }
 
   /* ---------- Reptes i curiositats ---------- */
