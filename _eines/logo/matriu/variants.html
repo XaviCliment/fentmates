@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo (∮M)² · variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #1b2748; --gold: #e9a919; --yellow: #ffc94d;
+          --bg: #f6f7fb; --border: #e1e5f0; --text: #1b2340; --muted: #5d6685; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 40px 16px 60px; }
+  h1 { font: 800 32px/1.1 Outfit, sans-serif; margin: 0 0 6px; }
+  h2 { font: 700 22px/1.2 Outfit, sans-serif; margin: 40px 0 4px; }
+  h2 + p, .lead { color: var(--muted); margin: 0 0 14px; max-width: 74ch; }
+  .light { --ink: var(--navy); --acc: var(--gold); background: #fff; }
+  .dark  { --ink: #e8ecf7; --acc: var(--yellow); background: #172036; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .card { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: #fff; }
+  .card .p { height: 120px; display: grid; place-items: center; padding: 16px; }
+  .card .p svg { max-width: 100%; max-height: 100%; }
+  .card .cap { padding: 8px 12px; border-top: 1px solid var(--border); font-size: 13px; }
+  .card .cap b { font-family: Outfit, sans-serif; font-size: 14px; display: block; }
+  .card .cap span { color: var(--muted); }
+  .combo { background: #fff; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 18px; }
+  .combo header { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .combo h3 { margin: 0; font: 700 19px/1.2 Outfit, sans-serif; }
+  .combo header p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; max-width: 80ch; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1.6fr; }
+  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .row > div { display: grid; place-items: center; padding: 26px 20px; min-height: 170px; }
+  .row svg { max-width: 100%; }
+  .big svg { height: 100px; } .lock svg { height: 62px; }
+  .sizes { display: flex; align-items: end; gap: 18px; padding: 14px 20px; border-top: 1px solid var(--border); }
+  .sizes small { color: var(--muted); margin-left: auto; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>(∮M)² · variants</h1>
+  <p class="lead">La proposta 1: integral tancada i M geomètrica, dins dels parèntesis grocs i amb el quadrat. A cada apartat només canvia una cosa respecte d’aquesta base, que és sempre la primera targeta. Al final hi ha cinc combinacions completes.</p>
+  <div id="out"></div>
+</div>
+
+<script>
+const BASE_Y = 82, TOP = 18, IX = 40, MX = 76;
+const BASE = { paren: "round", exp: "2", sub: null, ring: "ink", ringR: 9, vy: 62, slant: false, mw: 48,
+               sw: 8.5, intColor: "ink", mColor: "ink", tile: false, dx: false };
+
+const integral = x => `M${x - 11} 78C${x - 9} 86 ${x - 2} 87 ${x + 1} 77L${x + 10} 23C${x + 13} 13 ${x + 20} 13 ${x + 22} 21`;
+const SLANT = 9.5;                                    // inclinació del pal de la integral, en graus
+
+function mark(opt, { word = false } = {}) {
+  const o = { ...BASE, ...opt };
+  const col = c => `var(--${c})`;
+  const stroke = `fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="${o.sw}"`;
+  const mPath = `M${MX} ${BASE_Y}V${TOP}L${MX + o.mw / 2} ${o.vy}L${MX + o.mw} ${TOP}V${BASE_Y}`;
+  const mRight = MX + o.mw;
+  let s = `<path d="${integral(IX)}" ${stroke} stroke="${col(o.intColor)}"/>`;
+  s += `<path d="${mPath}" ${stroke} stroke="${col(o.mColor)}"${o.slant ? ` transform="translate(0 50) skewX(-${SLANT}) translate(0 -50)"` : ""}/>`;
+  // el cercle de la integral tancada
+  const cx = IX + 5.5;
+  if (o.ring === "dot") s += `<circle cx="${cx}" cy="50" r="6.5" fill="var(--acc)"/>`;
+  else s += `<circle cx="${cx}" cy="50" r="${o.ringR}" fill="none" stroke="${col(o.ring)}" stroke-width="${o.sw * .6}"/>`;
+  if (o.sub === "C") s += `<path d="M${IX + 25} 82.5A5.5 5.5 0 1 0 ${IX + 25} 91.5" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round"/>`;
+  if (o.dx) s += `<text x="${mRight + 14}" y="${BASE_Y}" font-family="Sora" font-weight="600" font-size="22" fill="var(--acc)">dx</text>`;
+  // envoltori
+  const l = 14, r = (o.dx ? mRight + 44 : mRight) + 16;
+  const acc = `fill="none" stroke="var(--acc)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
+  if (o.paren === "round") s += `<path d="M${l + 9} 12Q${l - 7} 50 ${l + 9} 88M${r - 9} 12Q${r + 7} 50 ${r - 9} 88" ${acc}/>`;
+  if (o.paren === "square") s += `<path d="M${l + 9} 12H${l}V88H${l + 9}M${r - 9} 12H${r}V88H${r - 9}" ${acc}/>`;
+  if (o.paren === "bars") s += `<path d="M${l + 2} 12V88M${r - 2} 12V88" ${acc}/>`;
+  if (o.paren === "circle") s = `<circle cx="${(l + r) / 2}" cy="50" r="${(r - l) / 2 + 2}" fill="none" stroke="var(--acc)" stroke-width="4"/>` + s;
+  // exponent
+  const ex = o.paren === "none" ? r - 8 : o.paren === "circle" ? r + 7 : r + 5;
+  const sup = `fill="none" stroke="var(--acc)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"`;
+  if (o.exp === "2") s += `<path d="M${ex} 20A6 6 0 0 1 ${ex + 12} 20C${ex + 12} 25 ${ex + 5} 28 ${ex} 34H${ex + 13}" ${sup}/>`;
+  if (o.exp === "n") s += `<path d="M${ex} 34V22M${ex} 26A5.5 5.5 0 0 1 ${ex + 11} 26V34" ${sup}/>`;
+  if (o.exp === "inf") s += `<path d="M${ex + 9} 26C${ex + 13} 21 ${ex + 19} 21 ${ex + 19} 26C${ex + 19} 31 ${ex + 13} 31 ${ex + 9} 26C${ex + 5} 21 ${ex - 1} 21 ${ex - 1} 26C${ex - 1} 31 ${ex + 5} 31 ${ex + 9} 26Z" ${sup}/>`;
+  if (o.exp === "prime") s += `<path d="M${ex + 6} 16L${ex + 2} 30" ${sup}/>`;
+  if (o.tile) s = `<rect x="2" y="-12" width="${r + 6}" height="124" rx="30" fill="#1b2748"/><g style="--ink:#e8ecf7;--acc:#ffc94d">${s}</g>`;
+  if (word) s += `<text x="${r + 34}" y="66" font-family="Sora" font-weight="700" font-size="44" letter-spacing="-.5" fill="var(--ink)">Fent<tspan fill="var(--acc)">Mates</tspan></text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" class="fit">${s}</svg>`;
+}
+
+const SECTIONS = [
+  ["Envoltori", "Què tanca la integral i la M.", [
+    [{}, "Parèntesis", "La base."], [{ paren: "square" }, "Claudàtors", "Com una matriu."],
+    [{ paren: "bars" }, "Barres", "Com un valor absolut o un determinant."], [{ paren: "circle" }, "Cercle", "Un segell rodó."],
+    [{ paren: "none", exp: "none" }, "Res", "Només integral i M."], [{ paren: "none", exp: "none", tile: true }, "Tessel·la", "Peça blava, per a favicon o avatar."]]],
+  ["Exponent i índex", "El detall petit en groc.", [
+    [{}, "Al quadrat", "La base."], [{ exp: "none" }, "Sense exponent", "Més net."],
+    [{ exp: "n" }, "A la n", "Potència qualsevol: per a tots els nivells."], [{ exp: "inf" }, "A l’infinit", "Sense límit."],
+    [{ exp: "prime" }, "Prima", "Com una derivada: (∮M)′."], [{ exp: "none", sub: "C" }, "Índex C", "La corba de la integral tancada, ∮꜀."],
+    [{ exp: "none", dx: true }, "Amb dx", "La integral completa: (∮M dx)."]]],
+  ["La M", "La forma de la M al costat de la integral.", [
+    [{}, "Base", "Vall a mitja altura."], [{ vy: 82 }, "Vall fins a baix", "Més punxeguda, més ampla de dins."],
+    [{ vy: 50 }, "Vall alta", "Més compacta."], [{ slant: true }, "Inclinada", "Amb la mateixa inclinació que la integral."],
+    [{ mw: 40 }, "Més estreta", "Més aire entre els parèntesis."]]],
+  ["El cercle", "El cercle que tanca la integral.", [
+    [{}, "Blau", "La base."], [{ ring: "acc" }, "Groc", "El color passa al cercle."],
+    [{ ring: "dot" }, "Punt groc", "Un punt ple en lloc d’un cercle."], [{ ringR: 12 }, "Més gran", "Més visible a mida petita."]]],
+  ["Gruix i color", "Tot el traç més fi o més gruixut, i altres repartiments del color.", [
+    [{ sw: 6.5 }, "Fi", "Més elegant."], [{}, "Normal", "La base."], [{ sw: 10.5 }, "Gruixut", "Més present a mida petita."],
+    [{ intColor: "acc" }, "Integral groga", "La integral destaca sobre la M."], [{ mColor: "acc" }, "M groga", "La M destaca, com «Mates»."]]],
+];
+
+const COMBOS = [
+  ["A · La base", "Integral tancada, M geomètrica, parèntesis i quadrat.", {}],
+  ["B · Matriu", "Claudàtors i cercle groc: el groc emmarca i tanca la integral.", { paren: "square", ring: "acc" }],
+  ["C · Inclinada", "La M amb la mateixa inclinació que la integral, sense exponent. Es llegeix com una paraula.", { slant: true, exp: "none" }],
+  ["D · Amb dx", "La integral completa (∮M dx): la més matemàtica de totes.", { exp: "none", dx: true }],
+  ["E · Tessel·la", "Peça blava per a favicon, perfil o portada de les fitxes.", { paren: "none", exp: "none", tile: true, ring: "acc" }],
+];
+
+const card = (o, t, d) => `<div class="card"><div class="p light">${mark(o)}</div><div class="cap"><b>${t}</b><span>${d}</span></div></div>`;
+document.getElementById("out").innerHTML =
+  SECTIONS.map(([t, d, items], i) => `<h2>${i + 1} · ${t}</h2><p>${d}</p><div class="grid">${items.map(x => card(...x)).join("")}</div>`).join("") +
+  `<h2>${SECTIONS.length + 1} · Combinacions</h2><p>Cinc maneres de combinar el que hi ha a dalt, amb el nom i a mides petites.</p>` +
+  COMBOS.map(([t, d, o]) => `<section class="combo"><header><h3>${t}</h3><p>${d}</p></header>
+    <div class="row"><div class="light big">${mark(o)}</div><div class="dark big">${mark(o)}</div><div class="light lock">${mark(o, { word: true })}</div></div>
+    <div class="sizes light">${[48, 32, 20].map(h => mark(o).replace("<svg ", `<svg height="${h}" `)).join("")}<small>48 · 32 · 20 px</small></div></section>`).join("");
+
+// viewBox ajustat al dibuix (després de carregar Sora, pel nom)
+document.fonts.ready.then(() => document.querySelectorAll("svg.fit").forEach(svg => {
+  const b = svg.getBBox(), p = 4;
+  svg.setAttribute("viewBox", `${b.x - p} ${Math.min(b.y, 4) - p} ${b.width + 2 * p} ${Math.max(b.y + b.height, 96) - Math.min(b.y, 4) + 2 * p}`);
+}));
+</script>
+</body>
+</html>

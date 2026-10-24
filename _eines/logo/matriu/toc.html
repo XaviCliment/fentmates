@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo [∫Σ]² · un toc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #1b2748; --gold: #e9a919; --yellow: #ffc94d;
+          --bg: #f6f7fb; --border: #e1e5f0; --text: #1b2340; --muted: #5d6685; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 40px 16px 60px; }
+  h1 { font: 800 32px/1.1 Outfit, sans-serif; margin: 0 0 6px; }
+  h2 { font: 700 22px/1.2 Outfit, sans-serif; margin: 40px 0 4px; }
+  h2 + p, .lead { color: var(--muted); margin: 0 0 14px; max-width: 74ch; }
+  .light { --ink: var(--navy); --acc: var(--gold); --coral: #ff7a50; --teal: #2bb3a3; --grid: #c9d1e6; background: #fff; }
+  .dark  { --ink: #e8ecf7; --acc: var(--yellow); --coral: #ff8a64; --teal: #3cc7b6; --grid: #33405f; background: #172036; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: #fff; }
+  .card .pp { display: grid; grid-template-columns: 1fr 1fr; }
+  .card .p { height: 130px; display: grid; place-items: center; padding: 14px; }
+  .card .p svg { max-width: 100%; max-height: 100%; }
+  .card .cap { padding: 10px 14px; border-top: 1px solid var(--border); font-size: 13.5px; }
+  .card .cap b { font-family: Outfit, sans-serif; font-size: 15px; display: block; }
+  .card .cap span { color: var(--muted); }
+  .combo { background: #fff; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 18px; }
+  .combo header { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .combo h3 { margin: 0; font: 700 19px/1.2 Outfit, sans-serif; }
+  .combo header p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; max-width: 80ch; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1.6fr; }
+  @media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+  .row > div { display: grid; place-items: center; padding: 26px 20px; min-height: 180px; }
+  .row svg { max-width: 100%; }
+  .big svg { height: 110px; } .lock svg { height: 66px; }
+  .sizes { display: flex; align-items: end; gap: 18px; padding: 14px 20px; border-top: 1px solid var(--border); }
+  .sizes small { color: var(--muted); margin-left: auto; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>[∫Σ]² · buscant el toc</h1>
+  <p class="lead">La B (claudàtors, integral i sigma, al quadrat) és neta però una mica sosa. Cada targeta li afegeix una sola cosa per donar-li vida; al final, tres combinacions que en sumen dues o tres.</p>
+  <div id="out"></div>
+</div>
+
+<script>
+const TOP = 18, BOT = 82, IX = 40, SX = 76, SW = 8.5;
+const integral = `M${IX - 11} 78C${IX - 9} 86 ${IX - 2} 87 ${IX + 1} 77L${IX + 10} 23C${IX + 13} 13 ${IX + 20} 13 ${IX + 22} 21`;
+const sigma = (tk = 0) => `M${SX + 40} ${TOP + tk}V${TOP}H${SX}L${SX + 22} 50L${SX} ${BOT}H${SX + 40}V${BOT - tk}`;
+let uid = 0;
+
+function mark(o = {}, { word = false } = {}) {
+  const id = "g" + uid++;
+  const sw = o.heavy ? 10.5 : SW;
+  const lim = !!o.limits;
+  const y0 = lim ? 0 : 12, y1 = lim ? 102 : 88;          // els límits necessiten més alçada dins dels claudàtors
+  const l = 14, r = SX + 40 + (lim ? 22 : 16);
+  const line = `fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="${sw}"`;
+  const iCol = o.grad ? `url(#${id})` : `var(--${o.iCol || "ink"})`;
+  const sCol = o.grad ? `url(#${id})` : `var(--${o.sCol || "ink"})`;
+  let s = "";
+  if (o.grad) s += `<defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${IX - 12}" y1="${BOT}" x2="${SX + 40}" y2="${TOP}">
+      <stop offset="0" stop-color="#ff7a50"/><stop offset="1" stop-color="var(--acc)"/></linearGradient></defs>`;
+  if (o.paper) s += `<defs><pattern id="p${id}" width="8" height="8" patternUnits="userSpaceOnUse" x="${l}" y="${y0}">
+      <path d="M8 0H0V8" fill="none" stroke="var(--grid)" stroke-width=".7"/></pattern></defs>
+      <rect x="${l}" y="${y0}" width="${r - l}" height="${y1 - y0}" fill="url(#p${id})"/>`;
+  if (o.shadow) s += `<g transform="translate(4 4)" opacity=".9"><path d="${integral}" ${line} stroke="var(--coral)"/><path d="${sigma(o.ticks)}" ${line} stroke="var(--coral)"/></g>`;
+  s += `<path d="${integral}" ${line} stroke="${iCol}"/><path d="${sigma(o.ticks)}" ${line} stroke="${sCol}"/>`;
+  const bw = o.heavy ? 7 : 5;
+  s += `<path d="M${l + 9} ${y0}H${l}V${y1}H${l + 9}M${r - 9} ${y0}H${r}V${y1}H${r - 9}" fill="none" stroke="var(--acc)" stroke-width="${bw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if (lim) {
+    const t = `font-family="Sora" font-weight="600" font-size="14" fill="var(--${o.limCol || "acc"})"`;
+    s += `<text x="${IX + 25}" y="15" ${t}>b</text><text x="${IX - 12}" y="99" ${t}>a</text>`;
+    s += `<text x="${SX + 20}" y="11" ${t} text-anchor="middle">n</text><text x="${SX + 20}" y="99" ${t} text-anchor="middle">k=1</text>`;
+  }
+  // exponent (quadrat, o «!» de factorial)
+  const ex = r + 10, sup = `fill="none" stroke="var(--acc)" stroke-width="${o.heavy ? 4.4 : 3.6}" stroke-linecap="round" stroke-linejoin="round"`;
+  if (o.bang) s += `<path d="M${ex + 3} ${y0 + 4}V${y0 + 18}" ${sup}/><circle cx="${ex + 3}" cy="${y0 + 26}" r="2.6" fill="var(--acc)"/>`;
+  else s += `<path d="M${ex} ${y0 + 8}A6 6 0 0 1 ${ex + 12} ${y0 + 8}C${ex + 12} ${y0 + 13} ${ex + 5} ${y0 + 16} ${ex} ${y0 + 22}H${ex + 13}" ${sup}/>`;
+  if (o.tile) s = `<rect x="0" y="${y0 - 16}" width="${ex + 30}" height="${y1 - y0 + 32}" rx="30" fill="#1b2748"/><g style="--ink:#e8ecf7;--acc:#ffc94d;--coral:#ff8a64;--grid:#33405f">${s}</g>`;
+  if (word) s += `<text x="${ex + (o.tile ? 48 : 34)}" y="66" font-family="Sora" font-weight="700" font-size="44" letter-spacing="-.5" fill="var(--ink)">Fent<tspan fill="var(--acc)">Mates</tspan></text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 100" class="fit">${s}</svg>`;
+}
+
+const TOUCHES = [
+  [{}, "B, tal com està", "El punt de partida."],
+  [{ limits: true }, "Límits", "∫ de a a b i Σ de k = 1 a n, en petit i en groc. Ara és una fórmula de veritat."],
+  [{ iCol: "coral" }, "Integral coral", "Un tercer color de la web només per a la integral: més calor."],
+  [{ iCol: "coral", sCol: "teal" }, "Integral coral, sigma turquesa", "Cada símbol amb el seu color; els claudàtors, grocs."],
+  [{ grad: true }, "Degradat", "Integral i sigma amb un degradat de coral a groc."],
+  [{ shadow: true }, "Ombra desplaçada", "Una còpia en coral, desplaçada, com una impressió en risografia."],
+  [{ paper: true }, "Paper quadriculat", "Quadrícula suau dins de la matriu, com un full de llibreta."],
+  [{ heavy: true }, "Més gruix", "Traç i claudàtors més forts: més presència a mida petita."],
+  [{ bang: true }, "Factorial", "En lloc del quadrat, un «!» que recupera la idea FM!."],
+  [{ tile: true }, "Peça blava", "Tot dins d’una peça blava arrodonida, com una icona d’app."],
+];
+
+const COMBOS = [
+  ["1 · Fórmula en color", "Límits i integral coral: es llegeix com una fórmula i té calor.", { limits: true, iCol: "coral" }],
+  ["2 · Risografia", "Ombra coral desplaçada, més gruix i el factorial: la més fresca.", { shadow: true, heavy: true, bang: true }],
+  ["3 · Llibreta", "Paper quadriculat, límits i la peça blava: com una pàgina d’apunts.", { paper: true, limits: true, tile: true }],
+];
+
+const card = (o, t, d) => `<div class="card"><div class="pp"><div class="p light">${mark(o)}</div><div class="p dark">${mark(o)}</div></div><div class="cap"><b>${t}</b><span>${d}</span></div></div>`;
+document.getElementById("out").innerHTML =
+  `<h2>1 · Un sol canvi</h2><p>Cada targeta és la B més una cosa, sobre fons clar i fosc.</p><div class="grid">${TOUCHES.map(x => card(...x)).join("")}</div>` +
+  `<h2>2 · Combinacions</h2><p>Tres maneres de sumar-ne dues o tres, amb el nom i a mides petites.</p>` +
+  COMBOS.map(([t, d, o]) => `<section class="combo"><header><h3>${t}</h3><p>${d}</p></header>
+    <div class="row"><div class="light big">${mark(o)}</div><div class="dark big">${mark(o)}</div><div class="light lock">${mark(o, { word: true })}</div></div>
+    <div class="sizes light">${[48, 32, 20].map(h => mark(o).replace("<svg ", `<svg height="${h}" `)).join("")}<small>48 · 32 · 20 px</small></div></section>`).join("");
+
+document.fonts.ready.then(() => document.querySelectorAll("svg.fit").forEach(svg => {
+  const b = svg.getBBox(), p = 4;
+  svg.setAttribute("viewBox", `${b.x - p} ${b.y - p} ${b.width + 2 * p} ${b.height + 2 * p}`);
+}));
+</script>
+</body>
+</html>
