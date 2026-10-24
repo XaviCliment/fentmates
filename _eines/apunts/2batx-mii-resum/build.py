@@ -121,3 +121,10 @@ rep('\n    { b: "pr", q: { va: "$P(A)=0.5$', "\n" + QA.rstrip() + '\n    { b: "p
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 open(OUT, "w", encoding="utf-8").write(s)
 print("OK", OUT, len(s), "bytes,", nsec, "apartats")
+
+# FentMates: enllaça el tema comú (logo i colors del bloc) a les pàgines generades
+import runpy as _runpy, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while _os.path.basename(_d) != "_eines":
+    _d = _os.path.dirname(_d)
+_runpy.run_path(_os.path.join(_d, "tema", "aplica.py"), run_name="__main__")

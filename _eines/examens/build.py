@@ -43,3 +43,10 @@ text = MARK.sub(expand, text)
 text = text.replace("/*BASE_CSS*/", open(os.path.join(HERE, "base.css"), encoding="utf-8").read())
 open(out, "w", encoding="utf-8").write(text + script)
 print("ok", out, len(text + script))
+
+# FentMates: enllaça el tema comú (logo i colors del bloc) a les pàgines generades
+import runpy as _runpy, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while _os.path.basename(_d) != "_eines":
+    _d = _os.path.dirname(_d)
+_runpy.run_path(_os.path.join(_d, "tema", "aplica.py"), run_name="__main__")

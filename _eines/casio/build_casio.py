@@ -88,3 +88,10 @@ for g in GUIDES:
     path = os.path.join(ROOT, g["file"])
     open(path, "w", encoding="utf-8").write(page(g))
     print(g["file"], len(g["sections"]), "apartats")
+
+# FentMates: enllaça el tema comú (logo i colors del bloc) a les pàgines generades
+import runpy as _runpy, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while _os.path.basename(_d) != "_eines":
+    _d = _os.path.dirname(_d)
+_runpy.run_path(_os.path.join(_d, "tema", "aplica.py"), run_name="__main__")

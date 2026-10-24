@@ -18,8 +18,8 @@
    que no compten com a unitat numerada (p. ex. el Resum teòric).
    Un curs amb units: [] apareix com a "Pròximament".
    Cursos amb cards: true -> les unitats es mostren com a targetes. Cada unitat porta
-   ill (dibuix: resum, matrius, sistemes, pl, geometria, derivades, integrals, probabilitat)
-   i block (color: all, alg, pl, geo, an, pr), com als blocs del resum teòric.
+   ill (dibuix: vegeu assets/js/illustrations.js, p. ex. naturals, fraccions, matrius, pl…)
+   i block (color: all, ari, alg, pl, geo, an, pr), com als blocs del resum teòric.
    Per afegir un curs nou: copia un bloc de LEVELS, canvia la clau
    i crea una pàgina .html com 3eso.html amb data-level="clau-nova".
    ========================================================== */
@@ -36,6 +36,7 @@ window.LEVELS = {
     color: "#e6b84a",
     symbol: "½",
     stage: "eso",
+    cards: true,
     name: { va: "1r ESO", es: "1º ESO", en: "1st ESO (Year 7)" },
     desc: {
       va: "Nombres naturals i enters, fraccions, proporcionalitat i geometria plana.",
@@ -44,6 +45,7 @@ window.LEVELS = {
     },
     units: [
       {
+        ill: "naturals", block: "ari",
         title: { va: "Nombres naturals", es: "Números naturales", en: "Natural numbers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t1-nombres-naturals.html", date: "2026-10-21" },
@@ -52,6 +54,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "divisibilitat", block: "ari",
         title: { va: "Divisibilitat", es: "Divisibilidad", en: "Divisibility" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t2-divisibilitat.html", date: "2026-10-21" },
@@ -60,6 +63,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "enters", block: "ari",
         title: { va: "Nombres enters", es: "Números enteros", en: "Integers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t3-nombres-enters.html", date: "2026-10-22" },
@@ -68,6 +72,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "fraccions", block: "ari",
         title: { va: "Fraccions", es: "Fracciones", en: "Fractions" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t4-fraccions.html", date: "2026-10-22" },
@@ -82,6 +87,7 @@ window.LEVELS = {
     color: "#3b82f6",
     symbol: "%",
     stage: "eso",
+    cards: true,
     name: { va: "2n ESO", es: "2º ESO", en: "2nd ESO (Year 8)" },
     desc: {
       va: "Fraccions i decimals, percentatges, àlgebra inicial, equacions i geometria.",
@@ -93,6 +99,7 @@ window.LEVELS = {
 
   "3eso": {
     stage: "eso",
+    cards: true,
     color: "#ff7a50",
     symbol: "x²",
     name: { va: "3r ESO", es: "3º ESO", en: "3rd ESO (Year 9)" },
@@ -103,6 +110,7 @@ window.LEVELS = {
     },
     units: [
       {
+        ill: "racionals", block: "ari",
         title: { va: "Nombres racionals", es: "Números racionales", en: "Rational numbers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t1-nombres-racionals.html", date: "2026-10-18" },
@@ -112,6 +120,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "reals", block: "ari",
         title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t2-nombres-reals.html", date: "2026-10-18" },
@@ -122,6 +131,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "proporcionalitat", block: "ari",
         title: { va: "Proporcionalitat i percentatges", es: "Proporcionalidad y porcentajes", en: "Proportionality and percentages" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t3-proporcionalitat-percentatges.html", date: "2026-10-20" },
@@ -130,6 +140,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "polinomis", block: "alg",
         title: { va: "Polinomis", es: "Polinomios", en: "Polynomials" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
@@ -138,6 +149,7 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "equacions", block: "alg",
         title: { va: "Equacions i sistemes", es: "Ecuaciones y sistemas", en: "Equations and systems" },
         items: [
           { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
@@ -152,6 +164,7 @@ window.LEVELS = {
     color: "#a78bfa",
     symbol: "Δ",
     stage: "eso",
+    cards: true,
     name: { va: "4t ESO Matemàtiques A", es: "4º ESO Matemáticas A", en: "4th ESO Maths A" },
     desc: {
       va: "Matemàtiques aplicades: nombres, àlgebra, funcions, estadística i probabilitat.",
@@ -165,6 +178,7 @@ window.LEVELS = {
     color: "#6d28d9",
     symbol: "√",
     stage: "eso",
+    cards: true,
     name: { va: "4t ESO Matemàtiques B", es: "4º ESO Matemáticas B", en: "4th ESO Maths B" },
     desc: {
       va: "Radicals i logaritmes, àlgebra, trigonometria, geometria analítica i funcions.",

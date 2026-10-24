@@ -124,3 +124,6 @@ if __name__ == "__main__":
         ("pau-u3-programacio-lineal.html", "3", "Programació lineal", pl, "#f79645"),
     ]
     write_pages(OUT, units, CCSS)
+    # FentMates: enllaça el tema comú (logo i colors del bloc) a les pàgines generades
+    import runpy
+    runpy.run_path(os.path.join(SP, "..", "tema", "aplica.py"), run_name="__main__")

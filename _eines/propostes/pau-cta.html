@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposta: banner Racó PAU · FentMates</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; font-family: Inter, sans-serif; background: #f3f5fa; color: #1b2340; }
+.bar { background: #fff6d6; color: #5a4300; border-bottom: 1px solid #f0d98a; font-size: .92rem; padding: 10px 16px; text-align: center; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px 60px; }
+.label { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 22px 0 10px; }
+.label .letter { font: 800 1rem Outfit, sans-serif; color: #fff; background: #3d6aa0; border-radius: 10px; padding: 4px 12px; }
+.label h2 { margin: 0; font: 700 1.3rem Outfit, sans-serif; }
+.label p { margin: 0; color: #5b6480; flex-basis: 100%; }
+iframe { width: 100%; height: 330px; border: 1px solid #e1e5f0; border-radius: 14px; background: #fff; }
+</style>
+</head>
+<body>
+<div class="bar">🔎 <b>Propostes per al banner «Prepares la PAU?»</b> de les pàgines de 2n Batxillerat · Cada vista és la pàgina real amb l'estil aplicat · No publicat</div>
+<div class="wrap" id="props"></div>
+<script>
+var P = [
+  { t: "Actual", d: "Degradat blau marí fosc. Contrasta molt amb les targetes de colors.", css: "" },
+  { t: "Blau clar del banner", d: "Fons blau molt suau, vora esquerra i text en el blau del banner (#3d6aa0). Discret i coherent amb el menú.",
+    css: ".pau-cta{background:#eaf1fa;color:#3d6aa0;border-left:6px solid #3d6aa0;box-shadow:none}" +
+         ":root[data-theme=dark] .pau-cta{background:#1d2a45;color:#a9c4e6}" },
+  { t: "Groc natilla", d: "Fons groc pàl·lid amb vora groga, com el «Mates» del logo. Càlid i sense competir amb els blocs.",
+    css: ".pau-cta{background:#fff6d6;color:#5a4300;border:1px solid #f0d98a;border-left:6px solid #e9a919;box-shadow:none}" +
+         ":root[data-theme=dark] .pau-cta{background:#2e2715;color:#ffd166;border-color:#5a4a1e}" },
+  { t: "Targeta blanca amb accent", d: "Mateix estil que les targetes del curs (fons blanc, vora fina) amb una franja groga a l'esquerra. La més neutra.",
+    css: ".pau-cta{background:var(--surface);color:var(--text);border:1px solid var(--border);border-left:6px solid #e9a919}" },
+  { t: "Blau del banner, pla", d: "Color sòlid del banner (#3d6aa0) en compte del marí. Segueix destacant, però és el mateix blau del menú i el compte enrere.",
+    css: ".pau-cta{background:#3d6aa0;box-shadow:none}" }
+];
+document.getElementById("props").innerHTML = P.map(function (p, i) {
+  return '<div class="label"><span class="letter">' + (i ? String.fromCharCode(64 + i) : "0") + "</span><h2>" + p.t + "</h2><p>" + p.d + "</p></div>" +
+    '<iframe data-i="' + i + '" src="../../2batx-ccss.html"></iframe>';
+}).join("");
+document.querySelectorAll("iframe").forEach(function (f) {
+  f.addEventListener("load", function () {
+    var d = f.contentDocument, s = d.createElement("style");
+    s.textContent = P[+f.dataset.i].css;
+    d.head.appendChild(s);
+    var c = d.querySelector(".pau-cta") || d.getElementById("pau-cta");
+    setTimeout(function () { var e = d.querySelector(".pau-cta"); if (e) f.contentWindow.scrollTo(0, e.getBoundingClientRect().top + f.contentWindow.scrollY - 120); }, 400);
+  });
+});
+</script>
+</body>
+</html>

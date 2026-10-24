@@ -340,7 +340,7 @@
 
   /* ---------- Cursos amb targetes (cards: true a materials.js) ---------- */
   var BLOCKS = {
-    all: { c: "#e3a21a", c2: "#c98a0c" }, alg: { c: "#4e81bd", c2: "#3d6aa0" },
+    all: { c: "#e3a21a", c2: "#c98a0c" }, ari: { c: "#e6b84a", c2: "#c99a2e" }, alg: { c: "#4e81bd", c2: "#3d6aa0" },
     pl: { c: "#f79645", c2: "#dc7a29" }, geo: { c: "#f79645", c2: "#dc7a29" },
     an: { c: "#7fa040", c2: "#6a8a33" }, pr: { c: "#8064a1", c2: "#684e88" }
   };
@@ -388,6 +388,17 @@
       "<h1>" + esc(tx(u.title)) + "</h1><p>" + esc(countLabel(u)) + "</p></div>";
   }
 
+  function icardHTML(it, b) {
+      var soon = !it.url;
+      var inner = '<span class="side"></span><span class="body"><span class="kind">' + esc(t("kind." + it.type)) + "</span>" +
+        '<span class="h">' + esc(tx(it.title)) + '</span><span class="d">' + esc(soon ? t("level.soon") : (tx(it.desc) || t("level.open"))) + "</span></span>" +
+        '<span class="ill" aria-hidden="true">' + itemIll(it) + "</span>";
+      if (soon) return '<div class="icard soon" style="--c:' + b.c + '">' + inner + "</div>";
+      var id = ytId(it.url);
+      var attrs = id ? ' data-yt="' + id + '"' : ' target="_blank" rel="noopener"';
+      return '<a class="icard" href="' + esc(it.url) + '"' + attrs + ' style="--c:' + b.c + '">' + inner + "</a>";
+  }
+
   function renderCards(L, box) {
     var nums = unitNums(L);
     var idx = currentUnit(L);
@@ -402,15 +413,7 @@
     }
     var u = L.units[idx], b = blockOf(u);
     var items = visible(u.items);
-    box.innerHTML = '<div class="icards">' + (items.length ? items.map(function (it) {
-      var soon = !it.url;
-      var inner = '<span class="side"></span><span class="body"><span class="kind">' + esc(t("kind." + it.type)) + "</span>" +
-        '<span class="h">' + esc(tx(it.title)) + '</span><span class="d">' + esc(soon ? t("level.soon") : (tx(it.desc) || t("level.open"))) + "</span></span>" +
-        '<span class="ill" aria-hidden="true">' + itemIll(it) + "</span>";
-      if (soon) return '<div class="icard soon" style="--c:' + b.c + '">' + inner + "</div>";
-      var id = ytId(it.url);
-      var attrs = id ? ' data-yt="' + id + '"' : ' target="_blank" rel="noopener"';
-      return '<a class="icard" href="' + esc(it.url) + '"' + attrs + ' style="--c:' + b.c + '">' + inner + "</a>";
+    box.innerHTML = '<div class="icards">' + (items.length ? items.map(function (it) { return icardHTML(it, b);
     }).join("") : '<p class="empty">' + esc(t("level.soon")) + "</p>") + "</div>" +
       '<a class="back-units" href="#">← ' + esc(t("level.allunits")) + "</a>";
     typeset(box);
@@ -421,10 +424,30 @@
     return m ? m[1] : null;
   }
 
+  // resultats del cercador o dels filtres en cursos amb targetes: agrupats per unitat
+  function renderFiltered(L, box) {
+    var nums = unitNums(L), html = "";
+    L.units.forEach(function (u, ui) {
+      var utitle = tx(u.title);
+      var items = visible(u.items).filter(function (it) {
+        if (state.type !== "all" && it.type !== state.type) return false;
+        if (!state.q) return true;
+        return (utitle + " " + tx(it.title) + " " + tx(it.desc)).toLowerCase().indexOf(state.q) >= 0;
+      });
+      if (!items.length) return;
+      var b = blockOf(u);
+      html += '<a class="fgroup" href="#u' + ui + '" style="--c:' + b.c2 + '"><span class="fnum">' + esc(nums[ui]) + "</span>" + esc(utitle) + "</a>" +
+        '<div class="icards">' + items.map(function (it) { return icardHTML(it, b); }).join("") + "</div>";
+    });
+    box.innerHTML = html || '<p class="empty">' + esc(t("level.empty")) + "</p>";
+    typeset(box);
+  }
+
   function renderUnits(L) {
     var box = el("units");
     if (!box) return;
     if (L.cards && L.units.length && ((!state.q && state.type === "all") || currentUnit(L) >= 0)) { renderCards(L, box); return; }
+    if (L.cards && L.units.length) { renderFiltered(L, box); return; }
     var html = "";
     var openIds = {};
     box.querySelectorAll("details[open]").forEach(function (dd) { openIds[dd.dataset.i] = true; });

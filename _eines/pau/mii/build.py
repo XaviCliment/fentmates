@@ -50,3 +50,10 @@ for fn in ("t1-matrius-determinants.html", "t2-sistemes-equacions.html",
     assert "CCSS" not in s and "Social Sciences" not in s, fn
     open(os.path.join(OUT, fn), "w", encoding="utf-8").write(s)
     print(fn, "copiat")
+
+# FentMates: enllaça el tema comú (logo i colors del bloc) a les pàgines generades
+import runpy as _runpy, os as _os
+_d = _os.path.dirname(_os.path.abspath(__file__))
+while _os.path.basename(_d) != "_eines":
+    _d = _os.path.dirname(_d)
+_runpy.run_path(_os.path.join(_d, "tema", "aplica.py"), run_name="__main__")

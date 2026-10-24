@@ -169,6 +169,7 @@ window.I18N = {
 
 /* ---------- Noves seccions: contacte, PAU, reptes, curiositats ---------- */
 Object.assign(window.I18N.va, {
+  "block.ari": "Aritmètica",
   "level.item1": "material",
   "level.unit": "Unitat",
   "level.wholecourse": "Tot el curs",
@@ -233,6 +234,7 @@ Object.assign(window.I18N.va, {
 });
 
 Object.assign(window.I18N.es, {
+  "block.ari": "Aritmética",
   "level.item1": "material",
   "level.unit": "Unidad",
   "level.wholecourse": "Todo el curso",
@@ -297,6 +299,7 @@ Object.assign(window.I18N.es, {
 });
 
 Object.assign(window.I18N.en, {
+  "block.ari": "Arithmetic",
   "level.item1": "material",
   "level.unit": "Unit",
   "level.wholecourse": "Whole course",
