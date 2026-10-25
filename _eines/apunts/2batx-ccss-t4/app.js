@@ -517,6 +517,8 @@
     inf2: function () { return { v: [-6, 4, -2, 6], curves: [{ f: F("2^x-1") }], ha: [-1] }; },
     inf3: function () { return { v: [-6, 6, -6, 6], curves: [{ f: F("x^3/10-x") }] }; },
     inf4: function () { return { v: [-10, 10, -2, 2], curves: [{ f: F("sin(x)") }] }; },
+    inf5: function () { return { v: [-4, 10, -1, 4], curves: [{ f: F("sqrt(x-2)"), a: 2 }], pts: [{ x: 2, y: 0 }] }; },
+    inf6: function () { return { v: [-5, 5, -1, 4], curves: [{ f: F("sqrt(9-x^2)"), a: -3, b: 3 }], pts: [{ x: -3, y: 0 }, { x: 3, y: 0 }] }; },
     pf: function () { return { v: [-6, 6, -2, 4], curves: [{ f: F("(3x^2-2)/(x^2+2)") }], ha: [3] }; },
     pg: function () { return { v: [-6, 3, -5, 3], curves: [{ f: F("2-e^x") }], ha: [2] }; },
     ph: function () { return { v: [-6, 6, -6, 6], curves: [{ f: F("-x^3/8+x") }] }; },

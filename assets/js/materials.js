@@ -312,8 +312,8 @@ window.LEVELS = {
         title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t4-limits-continuitat.html", date: "2026-10-24" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 37 exercicis, 22 de la PAU d'altres comunitats", es: "PDF · 37 ejercicios, 22 de la PAU de otras comunidades", en: "PDF · 37 exercises, 22 from other regions' PAU exams" }, url: "materials/2batx-ccss/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-24" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 37 exercicis", es: "PDF · Soluciones de los 37 ejercicios", en: "PDF · Solutions to all 37 exercises" }, url: "materials/2batx-ccss/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-24" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 49 exercicis, 22 de la PAU d'altres comunitats", es: "PDF · 49 ejercicios, 22 de la PAU de otras comunidades", en: "PDF · 49 exercises, 22 from other regions' PAU exams" }, url: "materials/2batx-ccss/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-24" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 49 exercicis", es: "PDF · Soluciones de los 49 ejercicios", en: "PDF · Solutions to all 49 exercises" }, url: "materials/2batx-ccss/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-24" }
         ]
       },
       {

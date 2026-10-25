@@ -1,185 +1,160 @@
 #!/usr/bin/env python3
-"""Genera el logo de FentMates («Cinta FM!») en SVG, PDF i PNG.
+"""Genera el logo definitiu de FentMates, [∫·Σ]ᵀ, en SVG, PDF i PNG.
 
 Ús:  python3 _eines/logo/genera.py
 
-Tota la geometria surt de la paràbola y = x²/4 dibuixada sobre una quadrícula
-d'unitat U = 4 (unitats SVG), amb l'origen al vèrtex V = (64, 52):
-  · la V de la M és l'arc de paràbola entre P0(-6, 9) i P2(6, 9)
-    (Bézier quadràtica amb punt de control C(0, -9));
-  · el braç groc de la F passa pel focus F(0, 1) de la paràbola;
-  · la M acaba en «!»: M! (factorial).
-Els PDF (per a LaTeX) i els PNG es fan amb Chrome headless, que incrusta la
-lletra Outfit; els SVG amb text la demanen a Google Fonts i, si no la troben,
-fan servir una lletra semblant.
+La marca: una integral suau i una sigma majúscula dins d'una matriu (claudàtors
+grocs), amb un punt de producte entre totes dues i la T de matriu transposada.
+El nom «FentMates» és Sora Bold convertida en traços (no depén de cap lletra
+instal·lada); per extraure'ls fa servir opentype.js dins de Chrome headless, de
+manera que cal Chrome i connexió a internet.
+
+Ix a svg/, pdf/ (per a LaTeX) i png/ (fons transparent):
+  marca-<color>           només el símbol
+  horitzontal-<color>     símbol + nom
+  vertical-<color>        símbol damunt del nom
+  web-<color>             símbol + nom + fentmates.org
+Colors: clar (blau i groc), fosc (per a fons blau), coral i turquesa (els
+accents de les fitxes), blau (una sola tinta) i blanc.
 """
 import json
 import pathlib
 import subprocess
 import tempfile
+import urllib.request
 
 DIR = pathlib.Path(__file__).resolve().parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-FONTS = "https://fonts.googleapis.com/css2?family=Outfit:wght@800&display=swap"
+OPENTYPE = "https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"
 
-NAVY, WHITE, GOLD = "#1b2748", "#ffffff", "#e9a919"
-CORAL, PINK, LILAC, YELLOW, TEAL = "#ff7a50", "#ff8fb1", "#8b7cf6", "#ffc94d", "#2bb3a3"
+# tinta, accent i color secundari (per a fentmates.org)
+COLORS = {
+    "clar":     ("#1b2748", "#e9a919", "#5d6685"),
+    "fosc":     ("#e8ecf7", "#ffc94d", "#a1abc8"),
+    "coral":    ("#1b2748", "#e8603a", "#5d6685"),
+    "turquesa": ("#1b2748", "#1f9e90", "#5d6685"),
+    "blau":     ("#1b2748", "#1b2748", "#1b2748"),
+    "blanc":    ("#ffffff", "#ffffff", "#ffffff"),
+}
 
-U, VX, VY = 4, 64, 52                      # unitat de quadrícula i vèrtex
-
-
-def P(x, y):
-    """Punt en coordenades matemàtiques (origen al vèrtex, y cap amunt) → SVG."""
-    return VX + U * x, VY - U * y
-
-
-def fmt(*pts):
-    return " ".join(f"{a:g} {b:g}" for a, b in pts)
-
-
-STROKE = 3 * U
-R = 3 * U                                   # radi del cantó de la F
-STEM_X, TOP_Y, BASE_Y = -11, 9, -8
-P0, C, P2 = P(-6, 9), P(0, -9), P(6, 9)
-FOCUS = P(0, 1)
-RIBBON = (f"M{fmt(P(STEM_X, BASE_Y))}V{P(0, TOP_Y - 3)[1]:g}"
-          f"A{R} {R} 0 0 1 {fmt(P(STEM_X + 3, TOP_Y))}H{P0[0]:g}"
-          f"Q{fmt(C, P2)}V{P(0, -3)[1]:g}")
-ARM = f"M{fmt(P(STEM_X, 1))}H{P(-6, 0)[0]:g}"
-DOT = (*P(6, BASE_Y), 1.5 * U)
-VIEWBOX = (6, 2, 96, 96)
-
-assert P0 == (40, 16) and P2 == (88, 16) and FOCUS == (64, 48)
-# la Bézier quadràtica passa pel vèrtex: punt mitjà = (P0 + 2C + P2) / 4
-assert ((P0[1] + 2 * C[1] + P2[1]) / 4, (P0[0] + 2 * C[0] + P2[0]) / 4) == (VY, VX)
-
-GRAD = (f'<linearGradient id="fm-cinta" gradientUnits="userSpaceOnUse" '
-        f'x1="{P(STEM_X, BASE_Y)[0]:g}" y1="{P(0, BASE_Y)[1]:g}" x2="{P2[0]:g}" y2="{P2[1]:g}">'
-        f'<stop offset="0" stop-color="{CORAL}"/><stop offset=".55" stop-color="{PINK}"/>'
-        f'<stop offset="1" stop-color="{LILAC}"/></linearGradient>')
+# ---------- la marca (unitats SVG; claudàtors de y = 12 a 88) ----------
+MARK_VB = (10, 4, 148, 88)
+INTEGRAL = "M29 78C31 86 38 87 41 77L50 23C53 13 60 13 62 21"
+SIGMA = "M116 27V18H76L98 50L76 82H116V73"            # amb remats a les puntes
+BRACKETS = "M23 12H14V88H23M123 12H132V88H123"
+TRANSPOSE = "M142 7H155M148.5 7V21"
+DOT = (65.5, 50, 5.5)
 
 
-def mark(mono=None, focus=False):
-    """Marca sola (sense <svg>). mono: color únic, o None per a la versió en color."""
-    ribbon, arm, dot = ("url(#fm-cinta)", YELLOW, TEAL) if mono is None else (mono,) * 3
-    s = "" if mono else f"<defs>{GRAD}</defs>"
-    s += (f'<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="{STROKE}">'
-          f'<path d="{ARM}" stroke="{arm}"/><path d="{RIBBON}" stroke="{ribbon}"/></g>'
-          f'<circle cx="{DOT[0]:g}" cy="{DOT[1]:g}" r="{DOT[2]:g}" fill="{dot}"/>')
-    if focus:
-        s += f'<circle cx="{FOCUS[0]:g}" cy="{FOCUS[1]:g}" r="3.4" fill="{mono or TEAL}"/>'
-    return s
+def mark(ink, acc):
+    return (f'<g fill="none" stroke-linecap="round" stroke-linejoin="round">'
+            f'<path d="{INTEGRAL}" stroke="{ink}" stroke-width="8.5"/>'
+            f'<path d="{SIGMA}" stroke="{ink}" stroke-width="8.5"/>'
+            f'<path d="{BRACKETS}" stroke="{acc}" stroke-width="5"/>'
+            f'<path d="{TRANSPOSE}" stroke="{acc}" stroke-width="3.6"/></g>'
+            f'<circle cx="{DOT[0]}" cy="{DOT[1]}" r="{DOT[2]}" fill="{acc}"/>')
 
 
-def svg(inner, vb, extra=""):
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{fmt(vb[:2], vb[2:])}" '
-            f'width="{vb[2]:g}" height="{vb[3]:g}">{extra}{inner}</svg>\n')
+def svg(inner, vb):
+    x, y, w, h = vb
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{x:g} {y:g} {w:g} {h:g}" '
+            f'width="{w:g}" height="{h:g}">{inner}</svg>\n')
 
 
-def tile():
-    """Marca sobre una tessel·la blava arrodonida (favicon, avatar)."""
-    x, y, w, h = VIEWBOX
-    pad = 14
-    return svg(f'<rect x="{x - pad}" y="{y - pad}" width="{w + 2 * pad}" height="{h + 2 * pad}" '
-               f'rx="{(w + 2 * pad) * .24:g}" fill="{NAVY}"/>' + mark(),
-               (x - pad, y - pad, w + 2 * pad, h + 2 * pad))
-
-
-# ---------- paraula «FentMates» ----------
-WORD_SIZE = 50
-WORD_STYLE = (f'<style>@import url("{FONTS.replace("&", "&amp;")}");'
-              '.fm-word{font-family:Outfit,"Avenir Next","Helvetica Neue",Arial,sans-serif;'
-              f'font-weight:800;font-size:{WORD_SIZE}px;letter-spacing:-.5px}}</style>')
-
-
+# ---------- el nom, en traços ----------
 def chrome(*args):
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars",
-                    "--virtual-time-budget=6000", *args],
-                   check=True, capture_output=True, text=True)
+    return subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars",
+                           "--virtual-time-budget=10000", *args],
+                          check=True, capture_output=True, text=True).stdout
 
 
-def measure_word():
-    """Amplada i caixa de la paraula amb Outfit, mesurades a Chrome."""
+def ttf_url(weight):
+    css = urllib.request.urlopen(f"https://fonts.googleapis.com/css2?family=Sora:wght@{weight}").read().decode()
+    return css.split("url(")[1].split(")")[0]
+
+
+def glyphs():
+    """Traços de «Fent», «Mates» (amb l'interlletratge t–M) i «fentmates.org» a cos 100, línia base 0."""
     with tempfile.TemporaryDirectory() as tmp:
-        page = pathlib.Path(tmp, "mesura.html")
-        page.write_text(
-            f'<link href="{FONTS}" rel="stylesheet"><body>'
-            f'<svg width="600" height="200">{WORD_STYLE}<text id="t" class="fm-word" x="0" y="100">'
-            'Fent<tspan>Mates</tspan></text></svg><pre id="o"></pre><script>'
-            'document.fonts.load("800 50px Outfit").then(()=>{const b=document.getElementById("t").getBBox();'
-            'const ok=document.fonts.check("800 50px Outfit");'
-            'document.getElementById("o").textContent=JSON.stringify({x:b.x,y:b.y,w:b.width,h:b.height,ok})})'
-            '</script>')
-        out = subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--virtual-time-budget=6000",
-                              "--dump-dom", page.as_uri()], check=True, capture_output=True, text=True).stdout
-    data = json.loads(out.split('<pre id="o">')[1].split("</pre>")[0])
-    assert data["ok"], "No s'ha pogut carregar Outfit"
-    return data
+        page = pathlib.Path(tmp, "g.html")
+        page.write_text(f'''<script src="{OPENTYPE}"></script><pre id="o"></pre><script>
+const load = u => new Promise((ok, ko) => opentype.load(u, (e, f) => e ? ko(e) : ok(f)));
+Promise.all([load("{ttf_url(700)}"), load("{ttf_url(600)}")]).then(([b, s]) => {{
+  const S = 100, k = b.getKerningValue(b.charToGlyph("t"), b.charToGlyph("M")) * S / b.unitsPerEm;
+  const fent = b.getPath("Fent", 0, 0, S), xm = b.getAdvanceWidth("Fent", S) + k;
+  const mates = b.getPath("Mates", xm, 0, S), web = s.getPath("fentmates.org", 0, 0, S);
+  const box = p => p.getBoundingBox();
+  document.getElementById("o").textContent = JSON.stringify({{
+    cap: b.tables.os2.sCapHeight / b.unitsPerEm * S,
+    fent: fent.toPathData(2), mates: mates.toPathData(2), word: [box(fent).x1, box(mates).x2],
+    web: web.toPathData(2), webbox: [box(web).x1, box(web).x2], webx: s.tables.os2.sxHeight / s.unitsPerEm * S }});
+}}).catch(e => document.getElementById("o").textContent = "ERR " + e);
+</script>''')
+        out = chrome("--dump-dom", page.as_uri())
+    data = out.split('<pre id="o">')[1].split("</pre>")[0]
+    assert not data.startswith("ERR") and data, f"No s'han pogut llegir les lletres: {data}"
+    return json.loads(data)
 
 
-def word(x, baseline, fent, mates, length, anchor="start", size=WORD_SIZE):
-    # textLength: si no hi ha Outfit, la lletra de recanvi s'ajusta a la mateixa amplada
-    return (f'<text class="fm-word" x="{x:g}" y="{baseline:g}" text-anchor="{anchor}" fill="{fent}" '
-            f'textLength="{length:.1f}" lengthAdjust="spacingAndGlyphs" '
-            f'font-size="{size:g}" style="font-size:{size:g}px">'
-            f'Fent<tspan fill="{mates}">Mates</tspan></text>')
+def word(g, x, baseline, size, ink, acc):
+    """«FentMates» amb el costat esquerre de la F a x i la línia base a baseline."""
+    k = size / 100
+    t = f'transform="translate({x - g["word"][0] * k:.2f} {baseline:g}) scale({k:.4f})"'
+    return f'<g {t}><path d="{g["fent"]}" fill="{ink}"/><path d="{g["mates"]}" fill="{acc}"/></g>'
 
 
-def lockups(m):
-    """Horitzontal i vertical, per a fons clar, fosc i en un sol color."""
-    vx, vy, vw, vh = VIEWBOX
-    asc, desc = 100 - m["y"], m["y"] + m["h"] - 100     # mesurats sobre la línia base
-    gap = 16
+def word_width(g, size):
+    return (g["word"][1] - g["word"][0]) * size / 100
+
+
+def lockups(g, ink, acc, muted):
+    mx, my, mw, mh = MARK_VB
     out = {}
-    themes = {"": (NAVY, GOLD, None), "-fosc": ("#e8ecf7", YELLOW, None), "-negre": (NAVY, NAVY, NAVY)}
-    for suf, (fent, mates, mono) in themes.items():
-        # horitzontal: la paraula centrada verticalment amb la marca (altura de majúscula ≈ 0,7 em)
-        base = vy + vh / 2 + 0.7 * WORD_SIZE / 2
-        tx = vx + vw + gap
-        out[f"horitzontal{suf}"] = svg(mark(mono) + word(tx, base, fent, mates, m["w"]),
-                                       (vx, vy, vw + gap + m["w"] + 4, vh), WORD_STYLE)
-        # vertical: marca damunt, paraula a sota centrada i 1,5 vegades més ampla que la marca
-        k = 1.5 * vw / m["w"]
-        w = 1.5 * vw + 8
-        cx = vx + vw / 2
-        base = vy + vh + 8 + k * asc
-        out[f"vertical{suf}"] = svg(mark(mono) + word(cx, base, fent, mates, k * m["w"], "middle", k * WORD_SIZE),
-                                    (cx - w / 2, vy, w, vh + 8 + k * (asc + desc) + 4), WORD_STYLE)
+    # horitzontal: alçada de majúscula = 36, centrada amb els claudàtors (y = 50)
+    size = 36 / g["cap"] * 100
+    x0 = mx + mw + 24
+    out["horitzontal"] = svg(mark(ink, acc) + word(g, x0, 50 + 18, size, ink, acc),
+                             (mx, my, x0 + word_width(g, size) + 2 - mx, mh))
+    # web: el nom una mica més amunt i fentmates.org davall
+    k = 17 / 100
+    web = (f'<g transform="translate({x0 - g["webbox"][0] * k + 1:.2f} 86) scale({k})">'
+           f'<path d="{g["web"]}" fill="{muted}"/></g>')
+    out["web"] = svg(mark(ink, acc) + word(g, x0, 50 + 8, size, ink, acc) + web,
+                     (mx, my, x0 + word_width(g, size) + 2 - mx, mh))
+    # vertical: el nom 1,6 vegades més ample que la marca, centrat davall
+    size = 1.6 * mw / (g["word"][1] - g["word"][0]) * 100
+    cx, cap = mx + mw / 2, g["cap"] * size / 100
+    w = word_width(g, size)
+    out["vertical"] = svg(mark(ink, acc) + word(g, cx - w / 2, my + mh + 14 + cap, size, ink, acc),
+                          (cx - w / 2 - 2, my, w + 4, mh + 14 + cap + 12))
     return out
 
 
-def render(name, svgtext, scale):
-    """Escriu PDF (mida en punts = viewBox) i PNG transparent (viewBox × scale)."""
-    vb = [float(v) for v in svgtext.split('viewBox="')[1].split('"')[0].split()]
-    w, h = vb[2], vb[3]
+# ---------- PDF i PNG ----------
+def render(name, text, scale):
+    w, h = (float(v) for v in text.split('viewBox="')[1].split('"')[0].split()[2:])
+    body = text.replace(f'width="{w:g}" height="{h:g}"', 'width="100%" height="100%"', 1)
+    css = "html,body{margin:0;height:100%;background:transparent}svg{display:block}"
     with tempfile.TemporaryDirectory() as tmp:
         page = pathlib.Path(tmp, "p.html")
-        body = svgtext.replace(f'width="{w:g}" height="{h:g}"', 'width="100%" height="100%"', 1)
-        css = "html,body{margin:0;height:100%;background:transparent}svg{display:block}"
-        html = f'<!doctype html><link href="{FONTS}" rel="stylesheet"><style>%s{css}</style>{body}'
-        page.write_text(html.replace("%s", f"@page{{size:{w:g}pt {h:g}pt;margin:0}}", 1))
+        page.write_text(f"<!doctype html><style>@page{{size:{w:g}pt {h:g}pt;margin:0}}{css}</style>{body}")
         chrome("--no-pdf-header-footer", f"--print-to-pdf={DIR / 'pdf' / (name + '.pdf')}", page.as_uri())
-        page.write_text(html.replace("%s", "", 1))
-        chrome("--default-background-color=00000000",
-               f"--window-size={round(w * scale)},{round(h * scale)}",
+        page.write_text(f"<!doctype html><style>{css}</style>{body}")
+        chrome("--default-background-color=00000000", f"--window-size={round(w * scale)},{round(h * scale)}",
                f"--screenshot={DIR / 'png' / (name + '.png')}", page.as_uri())
 
 
 def main():
     for d in ("svg", "pdf", "png"):
         (DIR / d).mkdir(exist_ok=True)
-    files = {
-        "logo": svg(mark(), VIEWBOX),
-        "logo-focus": svg(mark(focus=True), VIEWBOX),
-        "logo-negre": svg(mark(NAVY), VIEWBOX),
-        "logo-blanc": svg(mark(WHITE), VIEWBOX),
-        "logo-tessela": tile(),
-        **lockups(measure_word()),
-    }
-    for name, text in files.items():
-        (DIR / "svg" / f"{name}.svg").write_text(text)
-        render(name, text, 1024 / 96 if name.startswith("logo") else 6)
-        print("✓", name)
+    g = glyphs()
+    for color, (ink, acc, muted) in COLORS.items():
+        files = {"marca": svg(mark(ink, acc), MARK_VB), **lockups(g, ink, acc, muted)}
+        for kind, text in files.items():
+            name = f"{kind}-{color}"
+            (DIR / "svg" / f"{name}.svg").write_text(text)
+            render(name, text, 1200 / float(text.split('width="')[1].split('"')[0]))
+            print("✓", name)
 
 
 if __name__ == "__main__":

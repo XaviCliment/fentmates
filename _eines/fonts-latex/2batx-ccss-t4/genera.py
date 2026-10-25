@@ -16,10 +16,29 @@ def m(s): return '$' + s + '$'
 def dm(s): return r'\[' + s + r'\]'
 PI, MI = r'+\infty', r'-\infty'
 
+# ---------- gràfiques ----------
+def img(f, w='5.2cm'): return r'\includegraphics[width=%s]{%s}' % (w, f)
+def tzg(x0, x1, y0, y1, body, sc=0.42):
+    g = r'\draw[muted!30,very thin] (%s,%s) grid (%s,%s);' % (x0, y0, x1, y1)
+    g += r'\draw[-latex,thick] (%s,0)--(%s,0);\draw[-latex,thick] (0,%s)--(0,%s);' % (x0, x1 + 0.4, y0, y1 + 0.4)
+    return r'\begin{tikzpicture}[scale=%s,baseline=(current bounding box.center)]\begin{scope}%s\clip (%s,%s) rectangle (%s,%s);%s\end{scope}\end{tikzpicture}' % (sc, g, x0, y0, x1, y1, body)
+CV = r'\draw[accent,line width=1.5pt,smooth,samples=90,domain=%s] plot (\x,{%s});'
+def dot(x, y, o=False): return (r'\filldraw[fill=white,draw=accent,line width=1.1pt] (%s,%s) circle (0.17);' if o else r'\fill[accent] (%s,%s) circle (0.17);') % (x, y)
+def tk(x, y, t, pos='below'): return r'\node[%s,font=\scriptsize] at (%s,%s) {$%s$};' % (pos, x, y, t)
+G_LN = tzg(-1, 5, -3, 2, CV % ('0.05:5', 'ln(\\x)') + tk(1, 0, '1') + tk(0, 1, '1', 'left'))
+G_SQ = tzg(-4, 5, -1, 3, CV % ('-3:5', 'sqrt(\\x+3)') + dot(-3, 0) + tk(-3, 0, '-3') + tk(1, 0, '1'))
+G_SC = tzg(-3, 3, -1, 3, r'\draw[accent,line width=1.5pt] (2,0) arc (0:180:2);' + dot(-2, 0) + dot(2, 0) + tk(-2, 0, '-2') + tk(2, 0, '2'))
+G_SALT = tzg(-4, 4, -3, 4, CV % ('-3.46:0', '\\x*\\x/2-2') + CV % ('0:4', '1+1/(\\x+1)') + r'\draw[teal,dashed] (-4,1)--(4,1);' + dot(0, -2, True) + dot(0, 2) + tk(1, 0, '1') + tk(0, 1, '1', 'left'), sc=0.5)
+
 S = []  # [(títol, [(estrelles, enunciat, solució)])]
 
 # =====================================================================
 S.append(("Límits a l'infinit", [
+ (1, r"\label{ex:g1}Observa les gràfiques de les funcions $f$ i $g$ i calcula, per a cadascuna, el límit quan $x\to+\infty$ i quan $x\to-\infty$." + tasks(2, [r'$f(x)$:\par' + img('grafica1.jpg'), r'$g(x)$:\par' + img('grafica2.jpg')])
+     + recorda(r"Per a $x\to+\infty$ mira el \textbf{final dret} de la gràfica; per a $x\to-\infty$, el \textbf{final esquerre}. Les rectes discontínues són asímptotes."),
+     tasks(2, [r'$\displaystyle\lim_{x\to+\infty}f(x)=\res{+\infty}$, \ $\displaystyle\lim_{x\to-\infty}f(x)=\res{0}$', r'$\displaystyle\lim_{x\to+\infty}g(x)=\res{2}$, \ $\displaystyle\lim_{x\to-\infty}g(x)=\res{2}$ \ (asímptota $y=2$)'])),
+ (2, r"Llig a cada gràfica el límit quan $x\to+\infty$ i quan $x\to-\infty$. Fixa't bé en el domini de cada funció:" + tasks(3, ['a)\\par' + G_LN, 'b)\\par' + G_SQ, 'c)\\par' + G_SC]).replace('\\task a)\\par', '\\task ').replace('\\task b)\\par', '\\task ').replace('\\task c)\\par', '\\task '),
+     tasks(1, [r"Domini $(0,+\infty)$: \ $\displaystyle\lim_{x\to+\infty}=\res{+\infty}$; \ $\res{\nexists}\displaystyle\lim_{x\to-\infty}$ (la funció no està definida per a $x\leq0$).", r"Domini $[-3,+\infty)$: \ $\displaystyle\lim_{x\to+\infty}=\res{+\infty}$; \ $\res{\nexists}\displaystyle\lim_{x\to-\infty}$.", r"Domini $[-2,2]$: no arriba a cap infinit, $\res{\nexists}$ cap dels dos límits."])),
  (1, r"Calcula els límits següents:" + tasks(4, [m(L(PI, r'(3x^4-2x+7)')), m(L(MI, r'(-x^3+4x^2)')), m(L(MI, r'(2x^5-x^2)')), m(L(PI, r'(5-2x^2)'))])
      + recorda(r"El límit d'un polinomi quan $x\to\pm\infty$ és el del seu \textbf{terme de major grau}. Compte amb el signe: $(-\infty)^{\text{parell}}=+\infty$ i $(-\infty)^{\text{senar}}=-\infty$."),
      tasks(4, [r'$\lim 3x^4=\res{+\infty}$', r'$\lim(-x^3)=\res{+\infty}$', r'$\lim 2x^5=\res{-\infty}$', r'$\lim(-2x^2)=\res{-\infty}$'])),
@@ -30,6 +49,8 @@ S.append(("Límits a l'infinit", [
      tasks(3, [r'$\lim\frac{3x}{2x}=\res{\frac32}$', r'$\lim\frac{x^{3/2}}{x}=\lim\sqrt x=\res{+\infty}$', r'$\lim\frac{2x}{x}=\res{2}$', r'$3^{-\infty}+1=\res{1}$', r'$0{,}4^{-\infty}=\res{+\infty}$', r'$\left(\tfrac52\right)^{-\infty}=\res{0}$'])),
  (3, r"Calcula $%s$ i $%s$. Per què no donen el mateix?" % (L(PI, r'\dfrac{6x+1}{\sqrt{4x^2+3}}'), L(MI, r'\dfrac{6x+1}{\sqrt{4x^2+3}}')),
      r"$\sqrt{4x^2+3}\approx\sqrt{4x^2}=2|x|$. \ Quan $x\to+\infty$, $|x|=x$: \ $\lim\frac{6x}{2x}=\res{3}$. \ Quan $x\to-\infty$, $|x|=-x$: \ $\lim\frac{6x}{-2x}=\res{-3}$. L'arrel sempre és positiva, mentre que el numerador canvia de signe."),
+ (3, r"\textbf{Repàs.} Calcula els límits següents. Compte amb el signe de $x$ quan $x\to-\infty$ i amb el domini de cada funció:" + tasks(2, [m(L(MI, r'\dfrac{\sqrt{x^4+1}}{2x^2-1}')), m(L(MI, r'\dfrac{\sqrt{x^2-5x+3}}{3x-2}')), m(L(MI, r'\left(\sqrt{x+1}-\sqrt{x+2}\right)')), m(L(MI, r'\dfrac{\sqrt{x^3-5x+3}}{x^2-2x}'))]),
+     tasks(2, [r'$\lim\frac{x^2}{2x^2}=\res{\frac12}$', r'$\sqrt{x^2}=|x|=-x$: \ $\lim\frac{-x}{3x}=\res{-\frac13}$', r'Només està definida per a $x\geq-1$: \ $\res{\nexists}$', r'Si $x\to-\infty$, $x^3-5x+3<0$: l\'arrel no existeix, $\res{\nexists}$'.replace("l\\'", "l’")])),
 ]))
 
 S.append(("Comparació d'infinits", [
@@ -60,9 +81,17 @@ S.append(("Indeterminacions", [
      r"$\displaystyle\lim_{x\to+\infty}\left(\frac{90x-45}{x+8}+27\right)=90+27=117$: \ el benefici s'acosta a \rest{117\,000\,€}."),
  (3, r"\pau{Catalunya, PAU setembre 2018} Se sap que la funció $f(x)=\dfrac{ax+b}{cx+1}$ passa pel punt $(2,-5)$ i que les rectes $x=1$ i $y=2$ són, respectivament, la seua asímptota vertical i horitzontal. Calcula $a$, $b$ i $c$.",
      r"Asímptota vertical $x=1$: el denominador s'anul·la en 1, $c+1=0\Rightarrow c=-1$. \ Horitzontal: $\displaystyle\lim_{x\to\pm\infty}\frac{ax+b}{cx+1}=\frac ac=2\Rightarrow a=-2$. \ Punt: $\frac{-4+b}{-2+1}=-5\Rightarrow b=9$. \ $\res{a=-2,\ b=9,\ c=-1}$: \ $f(x)=\frac{-2x+9}{1-x}$."),
+ (2, r"\textbf{Repàs.} Calcula els límits següents quan $x\to-\infty$. Abans de res, comprova si de veritat hi ha una indeterminació:" + tasks(2, [m(L(MI, r'\left(\dfrac{x^2}{x-3}-\dfrac{x^2}{5-x}\right)')), m(L(MI, r'\left(\dfrac{3x^2}{x+1}-\dfrac{x^3}{x^2+1}\right)')), m(L(MI, r'\left(\sqrt{x^2+x}-\sqrt{x^2+1}\right)')), m(L(MI, r'\left(2x-\sqrt{x^2+x}\right)'))]),
+     tasks(1, [r'$(-\infty)-(+\infty)=\res{-\infty}$: no hi ha indeterminació.', r'$(-\infty)-(-\infty)$, IND. \ $\dfrac{3x^2(x^2+1)-x^3(x+1)}{(x+1)(x^2+1)}=\dfrac{2x^4-x^3+3x^2}{x^3+x^2+x+1}\to\lim 2x=\res{-\infty}$', r'Conjugat: $\dfrac{x-1}{\sqrt{x^2+x}+\sqrt{x^2+1}}\to\dfrac{x}{2|x|}=\dfrac{x}{-2x}=\res{-\frac12}$', r'$(-\infty)-(+\infty)=\res{-\infty}$: no hi ha indeterminació.'])),
+ (2, r"\textbf{Repàs.} Calcula:" + tasks(3, [m(L(MI, r'\left(\dfrac{3x+4}{2x+5}\right)^{x-1}')), m(L(MI, r'\left(\dfrac{2x+1}{2x-1}\right)^{x-1}')), m(L(MI, r'\left(\dfrac{x^2+1}{x^2-1}\right)^{\frac{x^2-4}{x-1}}'))]),
+     tasks(1, [r'La base tendeix a $\frac32\neq1$: \ $\left(\frac32\right)^{-\infty}=\res{0}$', r'$1^{-\infty}$: \ $\frac{2x+1}{2x-1}-1=\frac{2}{2x-1}$; \ $\lim\frac{2(x-1)}{2x-1}=1\Rightarrow\res{e}$', r'$1^{-\infty}$: \ $\frac{x^2+1}{x^2-1}-1=\frac{2}{x^2-1}$; \ $\lim\frac{2(x^2-4)}{(x^2-1)(x-1)}=0\Rightarrow e^0=\res{1}$'])),
 ]))
 
 S.append(("Límits en un punt i indeterminació 0/0", [
+ (1, r"Torna a les gràfiques de $f$ i $g$ de l'exercici \ref{ex:g1} i calcula els límits següents, estudiant els límits laterals quan calga:" + tasks(3, [m(L('-1', 'f(x)')), m(L('1', 'f(x)')), m(L('0', 'f(x)')), m(L('-2', 'g(x)')), m(L('2', 'g(x)')), m(L('0', 'g(x)'))]),
+     tasks(2, [r'$\lim_{x\to-1^-}f=+\infty$, \ $\lim_{x\to-1^+}f=-\infty$: \ $\res{\nexists}$', r'$\lim_{x\to1^-}f=\lim_{x\to1^+}f=+\infty$: \ $\res{+\infty}$', r'$\res{0}$', r'$\lim_{x\to-2^-}g=+\infty$, \ $\lim_{x\to-2^+}g=-\infty$: \ $\res{\nexists}$', r'$\lim_{x\to2^-}g=-\infty$, \ $\lim_{x\to2^+}g=+\infty$: \ $\res{\nexists}$', r'$\res{0}$'])),
+ (1, r"\label{ex:g4}Donada la gràfica de la funció $f(x)$, calcula $\displaystyle\lim_{x\to+\infty}f(x)$, $\displaystyle\lim_{x\to-\infty}f(x)$ i $\displaystyle\lim_{x\to0}f(x)$.\par\smallskip{\centering " + G_SALT + r"\par}",
+     r"$\displaystyle\lim_{x\to+\infty}f(x)=\res{1}$, \ $\displaystyle\lim_{x\to-\infty}f(x)=\res{+\infty}$. \ $\lim_{x\to0^-}f=-2$ i $\lim_{x\to0^+}f=2$: \ $\res{\nexists}\displaystyle\lim_{x\to0}f(x)$."),
  (1, r"Calcula els límits següents. Quan siga necessari, estudia els límits laterals:" + tasks(3, [m(L('2', r'(x^3-2x+1)')), m(L('-1', r'\dfrac{x^2+3}{x-1}')), m(L('3', r'\dfrac{2x}{x-3}')), m(L('0', r'\dfrac{x-1}{x^2}')), m(L('4^+', r'\sqrt{x-4}')), m(L('1', r'\dfrac{x+1}{(x-1)^3}'))])
      + recorda(r"Si en substituir ix $\frac{k}{0}$ amb $k\neq0$, el límit és infinit: estudiem el signe per l'esquerra i per la dreta."),
      tasks(3, [r'$8-4+1=\res{5}$', r'$\frac{4}{-2}=\res{-2}$', r'$\frac60$: \ $\res{-\infty}$ per l’esquerra, $\res{+\infty}$ per la dreta: $\nexists$', r'$\frac{-1}{0^+}$: \ $\res{-\infty}$ pels dos costats', r'$\sqrt{0^+}=\res{0}$', r'$\frac20$: \ $\res{-\infty}$ per l’esquerra, $\res{+\infty}$ per la dreta: $\nexists$'])),
@@ -71,9 +100,13 @@ S.append(("Límits en un punt i indeterminació 0/0", [
  (2, r"Resol les indeterminacions $\frac00$ factoritzant:" + tasks(3, [m(L('3', r'\dfrac{x^2-5x+6}{x^2-9}')), m(L('2', r'\dfrac{x^3-8}{x-2}')), m(L('1', r'\dfrac{x^3-x^2-x+1}{x^2-1}')), m(L('1', r'\dfrac{x^4-1}{x^2-x}')), m(L('-3', r'\dfrac{x^2+3x}{x^2+6x+9}')), m(L('4', r'\dfrac{\sqrt{x+5}-3}{x-4}'))])
      + recorda(r"Si $P(a)=Q(a)=0$, tots dos són divisibles per $(x-a)$: factoritzem (Ruffini, identitats notables, factor comú), simplifiquem i tornem a substituir."),
      tasks(2, [r'$\frac{(x-2)(x-3)}{(x+3)(x-3)}=\frac{x-2}{x+3}\to\res{\frac16}$', r'$\frac{(x-2)(x^2+2x+4)}{x-2}\to\res{12}$', r'$\frac{(x-1)^2(x+1)}{(x-1)(x+1)}=x-1\to\res{0}$', r'$\frac{(x-1)(x+1)(x^2+1)}{x(x-1)}\to\frac{2\cdot2}{1}=\res{4}$', r'$\frac{x(x+3)}{(x+3)^2}=\frac{x}{x+3}\to\frac{-3}{0}$: \ $\res{+\infty}$ per l’esquerra i $\res{-\infty}$ per la dreta, $\nexists$', r'$\frac{(x+5)-9}{(x-4)(\sqrt{x+5}+3)}=\frac{1}{\sqrt{x+5}+3}\to\res{\frac16}$'])),
+ (2, r"\textbf{Repàs.} Calcula els límits següents:" + tasks(3, [m(L('3', r'\dfrac{x-3}{x^3-5x^2+3x+9}')), m(L('2', r'\left(\dfrac{2}{x-2}-\dfrac{x+1}{x^2-2x}\right)')), m(L('2', r'\dfrac{x^2+x-6}{x^2-x-1}')), m(L('2', r'\left(\dfrac{x+2}{2x}\right)^{\frac{x^2-4}{x-1}}')), m(L('-1', r'\dfrac{x^3-2x^2+2x+5}{x^2-6x-7}')), m(L('2', r'\dfrac{2x^2+x-10}{x^3-3x^2+4}'))]),
+     tasks(2, [r'$\frac00$: \ $\frac{x-3}{(x-3)^2(x+1)}=\frac{1}{(x-3)(x+1)}\to\frac10$: \ $\res{-\infty}$ per l’esquerra, $\res{+\infty}$ per la dreta, $\nexists$', r'$\frac{2x-(x+1)}{x(x-2)}=\frac{x-1}{x(x-2)}\to\frac10$: \ $\res{-\infty}$ per l’esquerra, $\res{+\infty}$ per la dreta, $\nexists$', r'$\frac{0}{1}=\res{0}$ \ (no hi ha indeterminació)', r'$1^{0}=\res{1}$ \ (no hi ha indeterminació)', r'Ruffini: $\frac{(x+1)(x^2-3x+5)}{(x+1)(x-7)}\to\frac{9}{-8}=\res{-\frac98}$', r'$\frac{(x-2)(2x+5)}{(x-2)^2(x+1)}=\frac{2x+5}{(x-2)(x+1)}\to\frac90$: \ $\res{-\infty}$ per l’esquerra, $\res{+\infty}$ per la dreta, $\nexists$'])),
 ]))
 
 S.append(("Continuïtat en un punt. Funcions racionals", [
+ (1, r"Torna a la gràfica de $f$ de l'exercici \ref{ex:g1}. Existeix $\displaystyle\lim_{x\to1}f(x)$? Per què la funció no és contínua en $x=1$? I la funció de l'exercici \ref{ex:g4}, és contínua en $x=0$? Justifica les respostes.",
+     r"$\lim_{x\to1^-}f=\lim_{x\to1^+}f=+\infty$: el límit és $+\infty$ (no és un nombre) i $\nexists f(1)$: \rest{discontinuïtat asimptòtica}. \ A l'exercici \ref{ex:g4}: $f(0)=2$, laterals $-2$ i $2$: \rest{salt finit} en $x=0$."),
  (1, r"Estudia la continuïtat de cada funció en el punt indicat i, si és discontínua, digues de quin tipus és:" + tasks(2, [r'$f(x)=\dfrac{x^2-4}{x+2}$ \ en $x=-2$', r'$g(x)=\dfrac{3}{x-4}$ \ en $x=4$', r'$h(x)=\begin{cases}x^2+1&\text{si }x<0\\x+1&\text{si }x\geq0\end{cases}$ \ en $x=0$', r'$k(x)=\begin{cases}2x&\text{si }x\leq1\\x^2+3&\text{si }x>1\end{cases}$ \ en $x=1$'])
      + recorda(r"$f$ és contínua en $a$ si: \ 1) $\exists f(a)$; \ 2) $\exists\lim_{x\to a}f(x)$; \ 3) $\lim_{x\to a}f(x)=f(a)$. Tipus: evitable, de salt finit, de salt infinit i asimptòtica."),
      tasks(2, [r'$\nexists f(-2)$, $\lim(x-2)=-4$: \ \rest{evitable}', r'Laterals $-\infty$ i $+\infty$: \ \rest{asimptòtica}', r'$h(0)=1$, laterals $1$ i $1$: \ \rest{contínua}', r'$k(1)=2$, laterals $2$ i $4$: \ \rest{salt finit}'])),
@@ -101,6 +134,8 @@ S.append(("Continuïtat de funcions a trossos", [
      r"Trossos: el primer, continu en $x<-1$; el segon, polinòmic; el tercer, $4x^2-7x=x(4x-7)>0$ si $x>4$: continu. \ $x=-1$: $\lim_{x\to-1^-}\frac{3}{x+1}=-\infty$, $\lim_{x\to-1^+}=-1-4-2-10=-17=f(-1)$: \ salt infinit. \ $x=4$: $f(4)=64-64+8-10=-2$, $\lim_{x\to4^+}=\sqrt{36}-8=-2$: contínua. \ \rest{Contínua en $\mathbb R-\{-1\}$}."),
  (3, r"\pau{Madrid, EvAU juny 2019} Analitza la continuïtat de la funció en tot el seu domini segons els valors de $k$:" + dm(pw((r'e^x+k', r'x\leq0'), (r'1-x^2', r'0<x\leq3'), (r'\dfrac{1}{x-3}', 'x>3'))),
      r"$x=0$: $f(0)=\lim_{x\to0^-}f=1+k$, \ $\lim_{x\to0^+}(1-x^2)=1$: contínua només si $k=0$. \ $x=3$: $f(3)=-8$, \ $\lim_{x\to3^+}\frac{1}{x-3}=+\infty$: sempre discontínua (salt infinit). \ \rest{Si $k=0$, contínua en $\mathbb R-\{3\}$; si $k\neq0$, contínua en $\mathbb R-\{0,3\}$}."),
+ (2, r"\textbf{Repàs.} Estudia la continuïtat de les funcions següents en el seu domini:" + tasks(2, ['$' + pw((r'1', 'x<0'), (r'x+1', r'0<x<1'), (r'x^2-2x', r'1\leq x')) + '$', '$' + pw((r'3x-x^2', r'x\leq3'), (r'x-3', r'3<x<6'), (r'0', r'x\geq6'), name='g(x)') + '$']),
+     tasks(1, [r"$f$: \ $x=0$: $\nexists f(0)$ i els laterals valen $1$ i $1$: \rest{evitable}. \ $x=1$: $f(1)=-1$, $\lim_{x\to1^-}f=2$: \rest{salt finit}. Contínua en $\mathbb R-\{0,1\}$.", r"$g$: \ $x=3$: $g(3)=0$, $\lim_{x\to3^+}g=0$: contínua. \ $x=6$: $\lim_{x\to6^-}g=3$, $g(6)=0$: \rest{salt finit}. Contínua en $\mathbb R-\{6\}$."])),
 ]))
 
 S.append(("Funcions a trossos amb paràmetres", [
@@ -123,6 +158,10 @@ S.append(("Funcions a trossos amb paràmetres", [
      r"$x=-1$: $a-2-1=1-5\Rightarrow a-3=-4\Rightarrow a=-1$. \ $x=3$: $f(3)=4=\frac{b+3}{7}\Rightarrow b=25$. \ $\res{a=-1,\ b=25}$ \ ($3x-2=0$ en $x=\frac23$, fora de $x>3$)."),
  (3, r"\pau{Cantàbria, EBAU juliol 2019} Determina els valors de $a$ i $b$ per als quals la funció és contínua en $x=-2$ i en $x=0$:" + dm(pw((r'-6x+3', r'-4<x<-2'), (r'x^2+ax+5', r'-2\leq x<0'), (r'\dfrac{x+15}{x+b}', r'0\leq x<3'))),
      r"$x=-2$: $15=4-2a+5\Rightarrow a=-3$. \ $x=0$: $5=\frac{15}{b}\Rightarrow b=3$. \ $\res{a=-3,\ b=3}$ \ (amb $b=3$ el denominador $x+3$ no s'anul·la en $[0,3)$)."),
+ (2, r"\textbf{Repàs.} Donada la funció" + dm(pw((r'-\dfrac{1}{x^2}', 'x<1'), (r'x^2+ax', r'x\geq1'))) + tasks(1, ["Calcula el valor de $a$ perquè la funció siga contínua en $x=1$.", "Per al valor de $a$ obtingut, estudia la continuïtat de la funció en el seu domini."]),
+     tasks(1, [r"$\lim_{x\to1^-}\left(-\frac{1}{x^2}\right)=-1$, \ $f(1)=1+a$ \ $\Rightarrow\res{a=-2}$.", r"El primer tros no està definit en $x=0$: $\lim_{x\to0}\left(-\frac{1}{x^2}\right)=-\infty$ pels dos costats, \rest{asimptòtica}. Contínua en $\mathbb R-\{0\}$."])),
+ (3, r"\textbf{Repàs.} Calcula els valors dels paràmetres $a$ i $b$ perquè les funcions següents siguen contínues en el seu domini:" + tasks(2, ['$' + pw((r'\dfrac{1}{x^2}+a', r'x\leq-1'), (r'3x^2+4', r'-1<x<1'), (r'-x^2+b', r'x\geq1')) + '$', '$' + pw((r'-2x+a', r'x\leq-2'), (r'x^2-5', r'-2<x<1'), (r'bx+3', r'1\leq x'), name='g(x)') + '$']),
+     tasks(1, [r"$f$: \ $x=-1$: $1+a=7\Rightarrow a=6$; \ $x=1$: $7=-1+b\Rightarrow b=8$. \ $\res{a=6,\ b=8}$ ($x=0$ no és de $x\leq-1$).", r"$g$: \ $x=-2$: $4+a=-1\Rightarrow a=-5$; \ $x=1$: $-4=b+3\Rightarrow b=-7$. \ $\res{a=-5,\ b=-7}$."])),
 ]))
 
 # ---------- comprovacions numèriques ----------
@@ -141,6 +180,12 @@ def ok(f, a, exp, side=1, tol=2e-3):
     return abs(r - exp) <= tol * (1 + abs(exp))
 I, E, sq, e = math.inf, math.e, math.sqrt, math.exp
 CHK = [
+ (lambda x: sq(x**4+1)/(2*x*x-1), -I, .5), (lambda x: sq(x*x-5*x+3)/(3*x-2), -I, -1/3),
+ (lambda x: x*x/(x-3)-x*x/(5-x), -I, -I), (lambda x: 3*x*x/(x+1)-x**3/(x*x+1), -I, -I), (lambda x: sq(x*x+x)-sq(x*x+1), -I, -.5), (lambda x: 2*x-sq(x*x+x), -I, -I),
+ (lambda x: ((3*x+4)/(2*x+5))**(x-1), -I, 0), (lambda x: ((2*x+1)/(2*x-1))**(x-1), -I, E), (lambda x: ((x*x+1)/(x*x-1))**((x*x-4)/(x-1)), -I, 1),
+ (lambda x: (x-3)/(x**3-5*x*x+3*x+9), 3, -I, -1), (lambda x: (x-3)/(x**3-5*x*x+3*x+9), 3, I, 1), (lambda x: 2/(x-2)-(x+1)/(x*x-2*x), 2, -I, -1), (lambda x: 2/(x-2)-(x+1)/(x*x-2*x), 2, I, 1),
+ (lambda x: (x*x+x-6)/(x*x-x-1), 2, 0), (lambda x: ((x+2)/(2*x))**((x*x-4)/(x-1)), 2, 1), (lambda x: (x**3-2*x*x+2*x+5)/(x*x-6*x-7), -1, -9/8),
+ (lambda x: (2*x*x+x-10)/(x**3-3*x*x+4), 2, -I, -1), (lambda x: (2*x*x+x-10)/(x**3-3*x*x+4), 2, I, 1), (lambda x: -1/x**2, 0, -I, -1), (lambda x: -1/x**2, 0, -I, 1),
  (lambda x: (2*x**3-x)/(5*x**3+4), I, .4), (lambda x: (4*x**4-x)/(3*x**2+1), -I, I), (lambda x: (1-3*x**2)/(x+2), -I, I), (lambda x: (7*x-2)/(3-x), I, -7),
  (lambda x: sq(9*x*x+1)/(2*x-5), I, 1.5), (lambda x: (8*x**3-1)**(1/3)/x, I, 2), (lambda x: (6*x+1)/sq(4*x*x+3), I, 3), (lambda x: (6*x+1)/sq(4*x*x+3), -I, -3),
  (lambda x: (2**x+x**4)/(3*2**x), 900, 1/3), (lambda x: (3**x+2**x)/(3**x-x*x), 600, 1),
@@ -162,6 +207,7 @@ for c in CHK:
 P = [(-3 + 1, 1 - 1 - 2), (1 / (0 - 1), -1), (-2, 2**2 - 5*2 + 4), (-4*2 + 4, 4 - 8), (-4*-2 + 4, 4 + 8), (8 - 9, 4 - 5), (2*-1 + 3, -1 + 2), (2*1 + 2, 4),
      (-2*.3 + 1, (-2 + 4) / 5), (-1*1 + 2*-1 - 1, 1 - 5), (9 - 5, (25 + 3) / 7), (-6*-2 + 3, 4 - 2*-3 + 5), (5, 15 / 3), (4, (0 + 4) / 1),
      (2*2 - 4, -4 + 12 - 8), (64 - 64 + 8 - 10, sq(64 - 28) - 8), (20 - 20 + 32, 45 / 9 + 27)]
+P += [(-1, 1 - 2), (1 + 6, 3 + 4), (3 + 4, -1 + 8), (4 - 5, 4 - 5), (1 - 5, -7 + 3), (0 + 1, 1), (2, -1), (9 - 9, 0), (3, 0)][:5]
 for l, r in P: assert abs(l - r) < 1e-12, (l, r)
 assert abs((-2*2 + 9) / (-1*2 + 1) + 5) < 1e-12  # Catalunya 2018: passa per (2, -5)
 
@@ -175,6 +221,8 @@ pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
 # a Batxillerat no posem estrelles de dificultat
 pre = pre.replace(r'{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }', r'{\color{navy}\bfseries\theexer.}\ \ }')
 assert 'estrelles{#1}}' not in pre
+pre = pre.replace(r'\stepcounter{exer}', r'\refstepcounter{exer}')
+assert 'refstepcounter{exer}' in pre
 pre += r'''
 % quadre de recordatori (només a la fitxa d'exercicis)
 \newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
