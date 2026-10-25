@@ -320,18 +320,13 @@ def build(sol):
     if sol: out.append('\\newcommand{\\res}[1]{\\boxed{#1}}\n')
     else: out.append('\\newcommand{\\res}[1]{#1}\n')
     out.append(r'''
+\input{../comu/fentmates.tex}
+\fmcurs{1eso}
+
 \begin{document}
 \thispagestyle{primera}
 
-\begin{minipage}[c]{0.25\textwidth}\includegraphics[width=\linewidth]{logo-gva.png}\end{minipage}%
-\begin{minipage}[c]{0.5\textwidth}\centering
-  {\color{navy}\Large\bfseries ''' + ('Solucions de la fitxa de la unitat 4:' if sol else "Fitxa d'exercicis de la unitat 4:") + r'''\\[2pt] Fraccions}\\[5pt]
-  {\color{accent}\large\bfseries 1r d'ESO}
-\end{minipage}%
-\begin{minipage}[c]{0.25\textwidth}\hfill\includegraphics[width=0.85\linewidth]{logo-vermellar.png}\end{minipage}
-
-\vspace{6pt}
-{\color{navy}\hrule height 1.2pt}
+\capcalera{Matemàtiques}{1r ESO}{''' + ('Solucions de la fitxa · Unitat 4' if sol else "Fitxa d'exercicis · Unitat 4") + r'''}{Fraccions}
 ''')
     if not sol:
         out.append(r'''\vspace{10pt}

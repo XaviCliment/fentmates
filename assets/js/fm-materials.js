@@ -4,7 +4,9 @@
    - Detecta el bloc de la unitat a partir del nom del fitxer.
    - Posa el color del bloc al banner dels apunts i als números
      i títols de les seccions (vegeu fm-materials.css).
-   - Canvia el logo de dalt: «Fent» + «Mates» en groc i un
+   - Apunts i exàmens: barra de dalt i banner blaus amb el logo
+     [∫·Σ]ᵀ (assets/img/logo/) i detalls del color del curs.
+   - La resta (calculadora, PAU): «Fent» + «Mates» en groc i un
      adhesiu del banner de l'inici amb el color del bloc.
    Les pàgines l'enllacen amb _eines/tema/aplica.py.
    ========================================================== */
@@ -19,6 +21,12 @@
     pr:  { c: "#8064a1", c2: "#684e88", icon: "dice" },
     all: { c: "#e3a21a", c2: "#c98a0c", icon: "bulb" }
   };
+  // color de cada curs, igual que LEVELS a materials.js
+  var COURSES = {
+    "1eso": "#e6b84a", "2eso": "#3b82f6", "3eso": "#ff7a50", "4eso-a": "#a78bfa", "4eso-b": "#6d28d9",
+    "1batx-mi": "#9b1c1c", "1batx-ccss": "#ef6b6b", "2batx-mii": "#1e6b47", "2batx-ccss": "#2bb3a3"
+  };
+  var LOGO_DIR = ((document.currentScript && document.currentScript.src) || "").replace(/js\/fm-materials\.js.*$/, "img/logo/");
   var ICON = {
     pi: '<text x="0" y="14" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="44" stroke="none" fill="#fff">π</text>',
     sum: '<text x="0" y="14" text-anchor="middle" font-family="Georgia,serif" font-size="44" stroke="none" fill="#fff">∑</text>',
@@ -55,6 +63,8 @@
   if (/resum-teoric/.test(location.pathname)) root.setAttribute("data-fm-resum", "");
   var kind = (location.pathname.match(/\/(casio|pau)-/) || [])[1] || "notes";
   root.setAttribute("data-fm-kind", kind);
+  var course = (location.pathname.match(/materials\/([^/]+)\//) || [])[1];
+  root.style.setProperty("--fm-curs", COURSES[course] || "#e9a919");
 
   function logo() {
     return '<svg class="fm-logo" viewBox="-62 -62 124 124" aria-hidden="true"><rect x="-62" y="-62" width="124" height="124" rx="30" fill="' + b.c + '"/>' +
@@ -64,7 +74,9 @@
     document.querySelectorAll("a.brand").forEach(function (a) {
       if (a.dataset.fm) return;
       a.dataset.fm = "1";
-      a.innerHTML = logo() + '<span class="fm-name">Fent<b>Mates</b></span>';
+      a.innerHTML = kind === "notes"
+        ? '<img class="fm-logo-h" src="' + LOGO_DIR + 'horitzontal-fosc.svg" alt="FentMates">'
+        : logo() + '<span class="fm-name">Fent<b>Mates</b></span>';
     });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", brand);

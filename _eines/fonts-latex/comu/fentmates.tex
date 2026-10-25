@@ -1,0 +1,70 @@
+% =====================================================================
+% Capçalera FentMates de les fitxes: un color per a cada curs.
+% Els colors són els de la pàgina inicial (LEVELS a assets/js/materials.js);
+% el logo ve de _eines/logo/pdf/ (python3 _eines/logo/genera.py).
+%
+% Ús, al final del preàmbul de la unitat:
+%   \input{../comu/fentmates.tex}
+%   \fmcurs{1eso}
+% i, al començament del document:
+%   \capcalera{Matemàtiques}{1r ESO}{Fitxa d'exercicis · Unitat 2}{Divisibilitat}
+% Opcional abans de \input: \def\fmneed{14} (espai mínim abans de cada secció).
+% =====================================================================
+\makeatletter
+\def\fm@logodir{../../logo/pdf}
+\providecommand{\fmneed}{10}
+\def\fm@cursnom{}
+
+% clau del curs, color i color del text damunt del color
+\newcommand{\fm@curs}[3]{\@namedef{fm@color@#1}{#2}\@namedef{fm@text@#1}{#3}}
+\fm@curs{1eso}{E6B84A}{navy}
+\fm@curs{2eso}{3B82F6}{white}
+\fm@curs{3eso}{FF7A50}{white}
+\fm@curs{4eso-a}{A78BFA}{white}
+\fm@curs{4eso-b}{6D28D9}{white}
+\fm@curs{1batx-mi}{9B1C1C}{white}
+\fm@curs{1batx-ccss}{EF6B6B}{white}
+\fm@curs{2batx-mii}{1E6B47}{white}
+\fm@curs{2batx-ccss}{2BB3A3}{white}
+
+\newcommand{\fmcurs}[1]{%
+  \@ifundefined{fm@color@#1}{\PackageError{fentmates}{Curs desconegut: #1}{}}{}%
+  \edef\fm@tmp{\noexpand\definecolor{curs}{HTML}{\@nameuse{fm@color@#1}}%
+               \noexpand\colorlet{curstext}{\@nameuse{fm@text@#1}}}\fm@tmp
+  \colorlet{cursfosc}{curs!72!black}%
+  \def\fm@logo{\fm@logodir/vertical-#1.pdf}%
+  \def\fm@marca{\fm@logodir/marca-#1.pdf}}
+
+% ---------- capçalera de la primera pàgina ----------
+% #1 matèria (petit), #2 curs, #3 tipus de document i unitat, #4 títol
+\newcommand{\capcalera}[4]{%
+  \gdef\fm@cursnom{#2}%
+  \par\noindent
+  \begin{tcolorbox}[colback=curs,colframe=curs,boxrule=0pt,arc=2.2mm,width=3.5cm,height=2.15cm,
+      valign=center,left=3mm,right=2mm,top=1mm,bottom=1mm,nobeforeafter,box align=center]
+    \color{curstext}{\footnotesize #1}\par\vspace{1pt}{\fontsize{19}{21}\selectfont\bfseries #2\par}%
+  \end{tcolorbox}\hspace{5mm}%
+  \begin{minipage}[c]{\dimexpr\linewidth-3.5cm-5mm-2.9cm\relax}
+    {\color{cursfosc}\small\bfseries\MakeUppercase{#3}}\par\vspace{2pt}
+    {\color{navy}\fontsize{20}{23}\selectfont\bfseries #4\par}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{2.6cm}\raggedleft\includegraphics[width=2.6cm]{\fm@logo}\end{minipage}\par
+  \vspace{2pt}}
+
+% ---------- barres de secció del color del curs ----------
+\renewcommand{\seccio}[2]{\par\needspace{\fmneed\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=curs,colframe=curs,coltext=curstext,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+% ---------- capçalera i peu de les pàgines ----------
+% primera pàgina: logos institucionals al peu
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\raisebox{-0.32\height}{\includegraphics[height=0.78cm]{logo-gva.png}}\hspace{5mm}%
+    \raisebox{-0.32\height}{\includegraphics[height=0.78cm]{logo-vermellar.png}}}
+  \fancyfoot[R]{\scriptsize\color{muted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ CC BY-NC-SA 4.0 · fentmates.org\qquad\small\thepage}}
+% la resta: el símbol a l'esquerra i el curs a la dreta, amb el títol al centre com abans
+\fancyhead[L]{\raisebox{-0.3\height}{\includegraphics[height=0.62cm]{\fm@marca}}}
+\fancyhead[R]{\small\bfseries\color{cursfosc}\fm@cursnom}
+\renewcommand{\headrule}{\color{curs!45}\hrule height \headrulewidth}
+\makeatother

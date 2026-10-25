@@ -16,14 +16,18 @@ Ix a svg/, pdf/ (per a LaTeX) i png/ (fons transparent):
   web-<color>             símbol + nom + fentmates.org
 Colors: clar (blau i groc), fosc (per a fons blau), coral i turquesa (els
 accents de les fitxes), blau (una sola tinta) i blanc.
+A més, marca-<curs> i vertical-<curs> amb l'accent del color de cada curs, el
+mateix de la pàgina inicial (LEVELS a assets/js/materials.js), per a les fitxes.
 """
 import json
+import shutil
 import pathlib
 import subprocess
 import tempfile
 import urllib.request
 
 DIR = pathlib.Path(__file__).resolve().parent
+WEB = DIR.parent.parent / "assets" / "img" / "logo"     # els que fa servir la web
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 OPENTYPE = "https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"
 
@@ -35,6 +39,12 @@ COLORS = {
     "turquesa": ("#1b2748", "#1f9e90", "#5d6685"),
     "blau":     ("#1b2748", "#1b2748", "#1b2748"),
     "blanc":    ("#ffffff", "#ffffff", "#ffffff"),
+}
+
+# color de cada curs, igual que a assets/js/materials.js
+COURSES = {
+    "1eso": "#e6b84a", "2eso": "#3b82f6", "3eso": "#ff7a50", "4eso-a": "#a78bfa", "4eso-b": "#6d28d9",
+    "1batx-mi": "#9b1c1c", "1batx-ccss": "#ef6b6b", "2batx-mii": "#1e6b47", "2batx-ccss": "#2bb3a3",
 }
 
 # ---------- la marca (unitats SVG; claudàtors de y = 12 a 88) ----------
@@ -148,13 +158,20 @@ def main():
     for d in ("svg", "pdf", "png"):
         (DIR / d).mkdir(exist_ok=True)
     g = glyphs()
+    files = {}
     for color, (ink, acc, muted) in COLORS.items():
-        files = {"marca": svg(mark(ink, acc), MARK_VB), **lockups(g, ink, acc, muted)}
-        for kind, text in files.items():
-            name = f"{kind}-{color}"
-            (DIR / "svg" / f"{name}.svg").write_text(text)
-            render(name, text, 1200 / float(text.split('width="')[1].split('"')[0]))
-            print("✓", name)
+        files.update({f"marca-{color}": svg(mark(ink, acc), MARK_VB),
+                      **{f"{k}-{color}": v for k, v in lockups(g, ink, acc, muted).items()}})
+    for course, acc in COURSES.items():
+        files.update({f"marca-{course}": svg(mark("#1b2748", acc), MARK_VB),
+                      f"vertical-{course}": lockups(g, "#1b2748", acc, "#5d6685")["vertical"]})
+    for name, text in files.items():
+        (DIR / "svg" / f"{name}.svg").write_text(text)
+        render(name, text, 1200 / float(text.split('width="')[1].split('"')[0]))
+        print("✓", name)
+    WEB.mkdir(exist_ok=True)
+    for name in ("horitzontal-fosc", "marca-blanc"):
+        shutil.copy(DIR / "svg" / f"{name}.svg", WEB)
 
 
 if __name__ == "__main__":

@@ -318,9 +318,11 @@ window.LEVELS = {
       },
       {
         ill: "derivades", block: "an",
-        title: { va: "Derivades i aplicacions", es: "Derivadas y aplicaciones", en: "Derivatives and applications" },
+        title: { va: "Càlcul de derivades. Derivabilitat d'una funció", es: "Cálculo de derivadas. Derivabilidad de una función", en: "Computing derivatives. Differentiability" },
         items: [
-          { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t5-derivades.html", date: "2026-10-25" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 48 exercicis, 28 enunciats de la PAU d'altres comunitats", es: "PDF · 48 ejercicios, 28 enunciados de la PAU de otras comunidades", en: "PDF · 48 exercises, 28 items from other regions' PAU exams" }, url: "materials/2batx-ccss/t5-fitxa-exercicis.pdf", download: true, date: "2026-10-25" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 48 exercicis", es: "PDF · Soluciones de los 48 ejercicios", en: "PDF · Solutions to all 48 exercises" }, url: "materials/2batx-ccss/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-25" }
         ]
       },
       {

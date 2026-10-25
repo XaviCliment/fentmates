@@ -1,0 +1,343 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 5: Càlcul de derivades. Derivabilitat d'una funció 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={derivades, taxa de variació mitjana, definició de derivada, recta tangent, regles de derivació, regla de la cadena, derivades laterals, derivabilitat, funcions a trossos, paràmetres, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 5: Càlcul de derivades · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Fitxa d'exercicis · Unitat 5}{Càlcul de derivades. Derivabilitat d'una funció}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Els exercicis marcats amb {\color{teal}\bfseries\faUniversity\ PAU} són de les proves d'accés a la universitat d'altres comunitats autònomes (traduïts al valencià). Resol-los al quadern mostrant tots els passos i simplifica les derivades.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Taxa de variació mitjana i interpretació de la derivada}
+
+\ex{1} Calcula la taxa de variació mitjana de $f(x)=x^2-4x+1$ en els intervals següents:\begin{tasks}(3)
+  \task $[0,2]$
+  \task $[1,4]$
+  \task $[2,5]$
+\end{tasks}\recorda{$\text{TVM}[a,b]=\dfrac{f(b)-f(a)}{b-a}$: és el pendent de la recta secant que passa per $(a,f(a))$ i $(b,f(b))$.}
+
+\ex{1} Calcula la TVM de $g(x)=\sqrt x$ en $[1,4]$ i en $[4,9]$. En quin dels dos intervals creix més ràpidament la funció?
+
+\ex{2} \label{ex:cost}El cost, en euros, de fabricar $x$ unitats d'un producte és $C(x)=0{,}01x^2+5x+200$. Calcula la TVM del cost entre 100 i 200 unitats i entre 200 i 300 unitats. Què signifiquen aquests valors?
+
+\ex{1} Respon les preguntes següents:\begin{tasks}(1)
+  \task Sabem que $f(3)=2$ i $f'(3)=-4$. Escriu l'equació de la recta tangent a la gràfica de $f$ en $x=3$.
+  \task La recta tangent a $g$ en $x=1$ és $y=-2x+7$. Quant valen $g(1)$ i $g'(1)$?
+  \task Si $f'(a)=0$, com és la recta tangent en $x=a$?
+\end{tasks}\recorda{$f'(a)$ és el pendent de la recta tangent en $x=a$. Recta tangent: $y-f(a)=f'(a)\,(x-a)$.}
+
+
+% =====================================================
+\seccio{2}{Derivada d'una funció per definició}
+
+\ex{2} Calcula, aplicant la definició de derivada:\begin{tasks}(2)
+  \task $f'(1)$ si $f(x)=3x^2-x$
+  \task $f'(-1)$ si $f(x)=x^3-2x$
+  \task $f'(3)$ si $f(x)=\dfrac{2}{x-1}$
+  \task $f'(4)$ si $f(x)=\sqrt{2x+1}$
+\end{tasks}\recorda{$f'(a)=\displaystyle\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$. Simplifica $f(a+h)-f(a)$ fins que aparega el factor $h$; amb arrels, multiplica pel conjugat.}
+
+\ex{2} \pau{Navarra, EvAU extraordinària 2023} Considera la funció $g(x)=-x^2+4x+3$. Calcula la derivada de $g(x)$ en el punt $x=1$ aplicant la definició de derivada.
+
+\ex{2} Calcula la funció derivada aplicant la definició:\begin{tasks}(3)
+  \task $f(x)=x^2-3x+2$
+  \task $f(x)=\dfrac{1}{x+2}$
+  \task $f(x)=\sqrt x$
+\end{tasks}
+
+\ex{2} Calcula per definició la derivada de $f(x)=x^2$ en $x=3$ i escriu l'equació de la recta tangent a la gràfica en aquest punt.
+
+
+% =====================================================
+\seccio{3}{Propietats de la derivada: suma, producte i quocient}
+
+\ex{1} Deriva aquestes funcions polinòmiques:\begin{tasks}(2)
+  \task $f(x)=5x^4-3x^3+2x-8$
+  \task $f(x)=\dfrac{x^5}{5}-\dfrac{2x^3}{3}+x$
+  \task $f(x)=\dfrac{3x^2-2x+1}{4}$
+  \task $f(x)=-x^6+\dfrac x2-7$
+\end{tasks}\recorda{$(k)'=0$, \ $(x^n)'=n\,x^{n-1}$, \ $(f\pm g)'=f'\pm g'$, \ $(k\cdot f)'=k\cdot f'$.}
+
+\ex{1} Deriva aplicant la regla del producte i simplifica:\begin{tasks}(3)
+  \task $f(x)=(2x-1)(x^2+3)$
+  \task $f(x)=(x^3+x)(1-x^2)$
+  \task $f(x)=x^2(x-1)(x+1)$
+\end{tasks}\recorda{$(f\cdot g)'=f'\cdot g+f\cdot g'$. \ Compte: $(f\cdot g)'\neq f'\cdot g'$.}
+
+\ex{2} Deriva aplicant la regla del quocient i simplifica:\begin{tasks}(2)
+  \task $f(x)=\dfrac{x+3}{x-2}$
+  \task $f(x)=\dfrac{2x^2}{x+1}$
+  \task $f(x)=\dfrac{x^2-1}{x^2+1}$
+  \task $f(x)=\dfrac{3}{x^2-4}$
+\end{tasks}\recorda{$\left(\dfrac fg\right)'=\dfrac{f'\cdot g-f\cdot g'}{g^2}$. Simplifica el numerador, però deixa el denominador sense desenvolupar.}
+
+\ex{1} Donada $f(x)=x^4-2x^3+5x$, calcula $f'(x)$, $f''(x)$ i $f''(1)$.
+
+\ex{2} El cost de fabricar $x$ unitats és $C(x)=0{,}01x^2+5x+200$ euros (exercici \ref{ex:cost}). Calcula el cost marginal $C'(x)$ i $C'(100)$. Què significa? Compara-ho amb la TVM de l'exercici \ref{ex:cost}.
+
+
+% =====================================================
+\seccio{4}{Derivades de les funcions elementals}
+
+\ex{1} Escriu com a potència i deriva:\begin{tasks}(3)
+  \task $f(x)=\sqrt{x^3}$
+  \task $f(x)=\dfrac{1}{x^2}$
+  \task $f(x)=\sqrt[3]{x}$
+  \task $f(x)=\dfrac{6}{\sqrt x}$
+  \task $f(x)=x^2\sqrt x$
+  \task $f(x)=\dfrac{2}{3x^3}$
+\end{tasks}\recorda{$\sqrt[n]{x^m}=x^{m/n}$ i $\dfrac{1}{x^n}=x^{-n}$. La regla $(x^n)'=n\,x^{n-1}$ val per a qualsevol exponent.}
+
+\ex{1} Deriva aquestes funcions exponencials i logarítmiques:\begin{tasks}(3)
+  \task $f(x)=2e^x-3\ln x$
+  \task $f(x)=4^x$
+  \task $f(x)=\log_3x$
+  \task $f(x)=x\,e^x$
+  \task $f(x)=\dfrac{e^x}{x}$
+  \task $f(x)=x^2\ln x$
+\end{tasks}\recorda{$(e^x)'=e^x$, \ $(a^x)'=a^x\ln a$, \ $(\ln x)'=\dfrac1x$, \ $(\log_ax)'=\dfrac{1}{x\ln a}$.}
+
+\ex{2} Deriva aquestes funcions trigonomètriques:\begin{tasks}(3)
+  \task $f(x)=3\sin x-2\cos x$
+  \task $f(x)=x\sin x$
+  \task $f(x)=\tan x-x$
+  \task $f(x)=\sin x\cos x$
+  \task $f(x)=\arctan x-x$
+  \task $f(x)=x\arcsin x$
+\end{tasks}\recorda{$(\sin x)'=\cos x$, \ $(\cos x)'=-\sin x$, \ $(\tan x)'=1+\tan^2x$, \ $(\arcsin x)'=\frac{1}{\sqrt{1-x^2}}$, \ $(\arctan x)'=\frac{1}{1+x^2}$.}
+
+
+% =====================================================
+\seccio{5}{Regla de la cadena}
+
+\ex{2} Deriva aquestes potències i arrels de funcions:\begin{tasks}(2)
+  \task $f(x)=(3x^2-1)^4$
+  \task $f(x)=\sqrt{x^2-2x}$
+  \task $f(x)=\dfrac{1}{(x^2+1)^3}$
+  \task $f(x)=\sqrt[3]{2x+5}$
+\end{tasks}\recorda{Regla de la cadena: $[f(g(x))]'=f'(g(x))\cdot g'(x)$. Per exemple, $[g^n]'=n\,g^{n-1}\cdot g'$ i $\left[\sqrt g\right]'=\dfrac{g'}{2\sqrt g}$.}
+
+\ex{2} Deriva aquestes funcions compostes exponencials i logarítmiques:\begin{tasks}(3)
+  \task $f(x)=e^{3x-1}$
+  \task $f(x)=2^{x^2}$
+  \task $f(x)=\ln(x^2-3x)$
+  \task $f(x)=\log(5x)$
+  \task $f(x)=\ln\sqrt x$
+  \task $f(x)=e^{\sqrt x}$
+\end{tasks}\recorda{$\left[e^{g}\right]'=e^{g}\cdot g'$, \ $\left[a^{g}\right]'=a^{g}\cdot g'\cdot\ln a$, \ $\left[\ln g\right]'=\dfrac{g'}{g}$. Abans de derivar un logaritme, aplica'n les propietats si simplifiquen.}
+
+\ex{2} Deriva aquestes funcions trigonomètriques compostes:\begin{tasks}(3)
+  \task $f(x)=\sin(5x+1)$
+  \task $f(x)=\cos(x^2)$
+  \task $f(x)=\tan(3x)$
+  \task $f(x)=\sin^3x$
+  \task $f(x)=\arctan(2x)$
+  \task $f(x)=\arcsin(x^2)$
+\end{tasks}
+
+\ex{2} Deriva i simplifica (hi ha més d'una regla en cada funció):\begin{tasks}(2)
+  \task $f(x)=x\,e^{-x^2}$
+  \task $f(x)=\ln\dfrac{x+1}{x^2+1}$
+  \task $f(x)=(x-1)^2(x+2)^3$
+  \task $f(x)=\dfrac{e^x}{e^x+1}$
+\end{tasks}
+
+\ex{2} \pau{Múrcia, EBAU setembre 2020} Calcula les derivades de les funcions següents:\begin{tasks}(2)
+  \task $f(x)=(x^2-2)\ln x$
+  \task $f(x)=e^{4x^3+2}$
+\end{tasks}
+
+\ex{2} \pau{Múrcia, EBAU juny 2018} Troba les derivades de les funcions següents:\begin{tasks}(2)
+  \task $g(x)=x^2\ln(x^2)$
+  \task $h(x)=e^{-3x+x^2}$
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2021} Calcula la derivada de les funcions següents:\begin{tasks}(2)
+  \task $f(x)=\ln\left(\dfrac{x-1}{x+1}\right)$
+  \task $g(x)=x^3\cdot e^{2x^2}$
+\end{tasks}
+
+\ex{2} \pau{Andalusia, ordinària (suplent) 2025} Calcula la derivada de les funcions següents:\begin{tasks}(2)
+  \task $g(x)=\ln\left(\dfrac{x^2-1}{x^2+1}\right)$
+  \task $h(x)=(2x-1)\,e^{x^2-x}$
+\end{tasks}
+
+\ex{3} \pau{Andalusia, PEvAU ordinària 2024} Calcula la derivada de les funcions següents:\begin{tasks}(2)
+  \task $f(x)=(x^2+2)^3\cdot e^{-2x}$
+  \task $g(x)=\dfrac{\ln(1-x^3)}{(1-2x^2)^2}$
+\end{tasks}
+
+\ex{2} \pau{Múrcia, EBAU setembre 2018} Donada la funció $f(x)=5x^3e^{2x}+\dfrac{1}{x^2+1}$:\begin{tasks}(1)
+  \task Calcula $f'(0)$.
+  \task Troba l'equació de la recta tangent a la gràfica de la funció en el punt $(0,1)$.
+\end{tasks}
+
+\ex{2} Troba l'equació de la recta tangent a la gràfica de cada funció en el punt indicat:\begin{tasks}(1)
+  \task \pau{Múrcia, EBAU juliol 2020} $f(x)=\dfrac{1}{x+1}$ en $x=1$.
+  \task \pau{Navarra, EvAU ordinària 2023} $f(x)=\sqrt{5+x^2}$ en $x=-2$.
+  \task \pau{Navarra, EvAU ordinària 2022} $f(x)=\dfrac{x}{x^2-4}$ en $x=1$.
+\end{tasks}
+
+\ex{3} \pau{Balears, PBAU extraordinària 2021} Considera la funció $f(x)=\dfrac3x+8$.\begin{tasks}(1)
+  \task Troba els punts de la gràfica en els quals la recta tangent és paral·lela a la recta $3x+4y+5=0$.
+  \task Calcula les equacions de les rectes tangents en els punts trobats en l'apartat anterior.
+\end{tasks}
+
+\ex{2} Troba els paràmetres en cada cas:\begin{tasks}(1)
+  \task \pau{Madrid, EvAU extraordinària 2022} $a$ i $b$ perquè $f(x)=ax+\dfrac bx$ verifique $f(2)=4$ i $f'(2)=0$.
+  \task \pau{Múrcia, EBAU setembre 2017} $a$ i $b$ perquè $f(x)=\dfrac{ax+b}{x^2+1}$ complisca $f(0)=1$ i $f'(0)=1$.
+  \task \pau{Múrcia, EBAU setembre 2018} $a$ i $b$ perquè $f(x)=x^3\ln(2x+5)+ax+b$ complisca $f(0)=2$ i $f'(0)=1$.
+  \task \pau{Andalusia, PEvAU ordinària 2024} $a$ i $b$ perquè siga horitzontal la recta tangent a la gràfica de $h(x)=x^3+ax^2+3x+b$ en el punt $P(1,2)$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Continuïtat i derivabilitat. Derivades laterals}
+
+\ex{2} Calcula les derivades laterals en el punt indicat i digues si la funció hi és derivable:\begin{tasks}(2)
+  \task $f(x)=|x+1|$ en $x=-1$
+  \task $f(x)=|x^2-9|$ en $x=3$
+  \task $f(x)=x\,|x-1|$ en $x=1$
+  \task $f(x)=\sqrt[3]{x^2}$ en $x=0$
+\end{tasks}\recorda{$f'(a^-)=\displaystyle\lim_{h\to0^-}\frac{f(a+h)-f(a)}{h}$ i $f'(a^+)=\displaystyle\lim_{h\to0^+}\frac{f(a+h)-f(a)}{h}$. \ $f$ és derivable en $a$ si les dues existeixen, són finites i coincideixen. Un valor absolut s'escriu primer a trossos.}
+
+\ex{1} Raona si són vertaderes o falses les afirmacions següents. Si són falses, posa'n un contraexemple:\begin{tasks}(1)
+  \task Si $f$ és contínua en $x=a$, aleshores és derivable en $x=a$.
+  \task Si $f$ no és contínua en $x=a$, aleshores no és derivable en $x=a$.
+  \task Si $f$ no és derivable en $x=a$, aleshores no és contínua en $x=a$.
+  \task Si en una funció a trossos les derivades dels dos trossos valen el mateix en el punt de canvi $a$, la funció és derivable en $a$.
+\end{tasks}\recorda{Derivable $\Rightarrow$ contínua. El recíproc no és cert.}
+
+\ex{2} Observa la gràfica de la funció $f$ i indica en quins punts no és contínua i en quins no és derivable. Justifica-ho. (En $x=0$ la recta i la corba s'uneixen sense fer punxa.)
+
+\begin{center}\begin{tikzpicture}[scale=0.62,baseline=(current bounding box.center)]\begin{scope}\draw[muted!30,very thin] (-4,-1) grid (5,4);\draw[-latex,thick] (-4,0)--(5.4,0);\draw[-latex,thick] (0,-1)--(0,4.4);\clip (-4,-1) rectangle (5,4);\draw[accent,line width=1.5pt] (-4,1)--(-2,3)--(0,1);\draw[accent,line width=1.5pt,smooth,samples=60,domain=0:2] plot (\x,{1-\x+\x*\x/2});\draw[accent,line width=1.5pt] (2,3)--(5,3);\filldraw[fill=white,draw=accent,line width=1.1pt] (2,1) circle (0.13);\fill[accent] (2,3) circle (0.13);\node[below,font=\scriptsize] at (-2,0) {$-2$};\node[below,font=\scriptsize] at (2,0) {$2$};\node[below,font=\scriptsize] at (1,0) {$1$};\node[left,font=\scriptsize] at (0,1) {$1$};\node[left,font=\scriptsize] at (0,3) {$3$};\end{scope}\end{tikzpicture}\end{center}
+
+
+% =====================================================
+\seccio{7}{Derivabilitat de funcions a trossos}
+
+\ex{2} Estudia la continuïtat i la derivabilitat de les funcions següents:\begin{tasks}(2)
+  \task $f(x)=\begin{cases}e^x&\text{si }x<0\\[3pt]x+1&\text{si }x\geq0\end{cases}$
+  \task $g(x)=\begin{cases}3-x^2&\text{si }x<1\\[3pt]\dfrac2x&\text{si }x\geq1\end{cases}$
+\end{tasks}\recorda{1) Continuïtat en el punt de canvi (si no és contínua, no és derivable). 2) Derivem cada tros \textbf{sense l'igual}. 3) Comparem $f'(a^-)$ i $f'(a^+)$.}
+
+\ex{2} \pau{Andalusia, PEvAU extraordinària 2024} Considera la funció\[f(x)=\begin{cases}-x^2+4x+3&\text{si }x<4\\[3pt]2x-5&\text{si }x\geq4\end{cases}\]Estudia'n la continuïtat i la derivabilitat.
+
+\ex{2} \pau{Andalusia, ordinària (suplent) 2025} Considera la funció\[f(x)=\begin{cases}10+\dfrac{5x}{2}&\text{si }x\leq-2\\[3pt]x^2+1&\text{si }-2<x<2\\[3pt]10-\dfrac{5x}{2}&\text{si }x\geq2\end{cases}\]Estudia la continuïtat i la derivabilitat de $f$ en el punt d'abscissa $x=-2$.
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2024} La velocitat del vent, en km/h, prevista per a cert dia en una zona de Sierra Nevada ve donada per la funció\[v(t)=\begin{cases}t^2-8t+60&\text{si }0\leq t\leq10\\[3pt]-t^2+32t-140&\text{si }10<t\leq24\end{cases}\]on $t$ és el temps en hores. Comprova que la funció $v$ és contínua i derivable.
+
+\ex{2} \pau{Navarra, EvAU ordinària 2024} Sigui la funció\[f(x)=\begin{cases}-x^2-4x&\text{si }x<-1\\[3pt]4-x&\text{si }-1\leq x<1\\[3pt]x^2-6x+8&\text{si }x\geq1\end{cases}\]\begin{tasks}(1)
+  \task Estudia la continuïtat de $f(x)$, classificant-ne els punts de discontinuïtat.
+  \task Estudia la derivabilitat de $f(x)$.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU extraordinària 2021} Considera la funció\[f(x)=\begin{cases}2^{x+1}&\text{si }x<0\\[3pt]x^2-2x&\text{si }x\geq0\end{cases}\]Estudia la continuïtat i la derivabilitat de la funció $f$ en el seu domini.
+
+\ex{3} \pau{Andalusia, PEvAU extraordinària 2021} El nombre de diagnosticats per PCR a Andalusia, en milers de persones, s'aproxima per la funció\[f(t)=\begin{cases}-t^2+2t-0{,}3&\text{si }0{,}2\leq t\leq1{,}8\\[3pt]0{,}1t-0{,}12&\text{si }1{,}8<t\leq5\\[3pt]-0{,}5t^2+8{,}3t-28{,}62&\text{si }5<t\leq10\end{cases}\]on $t$ és el temps en mesos. Estudia la continuïtat i la derivabilitat de la funció $f$ en el seu domini.
+
+\ex{3} Escriu a trossos i estudia la derivabilitat de $f(x)=|x-1|+|x+1|$ i de $g(x)=|x^2-4x|$.
+
+
+% =====================================================
+\seccio{8}{Funcions a trossos amb paràmetres}
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2022} Considera la funció\[f(x)=\begin{cases}6x-3&\text{si }x\leq1\\[3pt]ax^2+bx+2&\text{si }x>1\end{cases}\]amb $a$ i $b$ nombres reals. Determina els valors de $a$ i $b$ perquè $f$ siga contínua i derivable en tot el seu domini.\recorda{En el punt de canvi plantegem dues equacions: continuïtat ($\lim_{x\to a^-}f=\lim_{x\to a^+}f=f(a)$) i derivabilitat ($f'(a^-)=f'(a^+)$).}
+
+\ex{2} \pau{Andalusia, PEvAU extraordinària 2020} Considera la funció\[f(x)=\begin{cases}2+\dfrac{a}{x-1}&\text{si }x<0\\[3pt]a+be^x&\text{si }x\geq0\end{cases}\]Calcula els valors de $a$ i $b$ perquè la funció siga contínua i derivable en el seu domini.
+
+\ex{2} \pau{Balears, PBAU ordinària 2022} Considerem la funció a trossos\[f(x)=\begin{cases}x^2-3x+2&\text{si }x<0\\[3pt]x^2+ax+2&\text{si }x\geq0\end{cases}\]Calcula els valors de $a$ perquè $f(x)$ siga contínua i derivable.
+
+\ex{2} \pau{Balears, PBAU ordinària 2021} Considera la funció a trossos\[f(x)=\begin{cases}x^2-3x+2&\text{si }x<0\\[3pt]e^{ax}+1&\text{si }x\geq0\end{cases}\]Calcula els valors de $a$ perquè $f$ siga contínua i derivable.
+
+\ex{2} \pau{Balears, PBAU extraordinària 2021} Considera la funció definida a trossos\[f(x)=\begin{cases}-4x+a&\text{si }x\leq-2\\[3pt]x^2-5&\text{si }-2<x<1\\[3pt]-7x+3&\text{si }x\geq1\end{cases}\]\begin{tasks}(1)
+  \task Calcula els valors de $a$ perquè $f(x)$ siga contínua.
+  \task És $f(x)$ derivable per a $a=1$?
+\end{tasks}
+
+\ex{3} \pau{Aragó, EvAU ordinària 2022} Sent $a$, $b$ paràmetres reals, es considera la funció\[f(x)=\begin{cases}x^2+2\sqrt3&\text{si }x\leq0\\[3pt]\sqrt{ax+b}&\text{si }0<x\leq3\\[3pt]\dfrac72-\dfrac x6&\text{si }x>3\end{cases}\]\begin{tasks}(1)
+  \task Determina el valor dels paràmetres perquè $f(x)$ siga contínua.
+  \task Per a aquests valors, analitza si $f(x)$ és derivable en $x=0$ i en $x=3$.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, ordinària (suplent) 2025} El nivell de concentració d'un alumne durant un examen de 5 hores ve donat per la funció\[f(t)=\begin{cases}-t^2+2t+10&\text{si }0\leq t\leq2{,}5\\[3pt]t^2+at+b&\text{si }2{,}5<t\leq5\end{cases}\]on $t$ és el temps en hores i $a$ i $b$ són nombres reals. Amb quin nivell de concentració comença l'alumne l'examen? Determina els valors de $a$ i $b$ perquè la funció siga contínua i derivable en $t=2{,}5$.
+
+\ex{2} Troba els paràmetres perquè cada funció siga derivable en $\mathbb R$:\begin{tasks}(2)
+  \task $f(x)=\begin{cases}ax^2+bx+1&\text{si }x\leq2\\[3pt]3x-3&\text{si }x>2\end{cases}$
+  \task $g(x)=\begin{cases}e^{2x}&\text{si }x\leq0\\[3pt]x^2+ax+b&\text{si }x>0\end{cases}$
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb la calculadora de derivades dels apunts interactius.\end{center}
+
+\end{document}

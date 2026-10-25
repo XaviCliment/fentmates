@@ -238,18 +238,13 @@ def build(sol):
     assert 'Unitat 4' in p and 'unitat 4' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
 \begin{document}
 \thispagestyle{primera}
 
-\begin{minipage}[c]{0.25\textwidth}\includegraphics[width=\linewidth]{logo-gva.png}\end{minipage}%
-\begin{minipage}[c]{0.5\textwidth}\centering
-  {\color{navy}\Large\bfseries ''' + ('Solucions de la fitxa de la unitat 4:' if sol else "Fitxa d'exercicis de la unitat 4:") + r'''\\[2pt] Límits i continuïtat}\\[5pt]
-  {\color{accent}\large\bfseries 2n de Batxillerat CCSS}
-\end{minipage}%
-\begin{minipage}[c]{0.25\textwidth}\hfill\includegraphics[width=0.85\linewidth]{logo-vermellar.png}\end{minipage}
-
-\vspace{6pt}
-{\color{navy}\hrule height 1.2pt}
+\capcalera{Matemàtiques CCSS}{2n Batx}{''' + ('Solucions de la fitxa · Unitat 4' if sol else "Fitxa d'exercicis · Unitat 4") + r'''}{Límits i continuïtat}
 ''')
     if not sol:
         out.append('\\vspace{10pt}\nNom i cognoms: \\rule{8.4cm}{0.4pt}\\hfill Grup: \\rule{1.6cm}{0.4pt}\\hfill Data: \\rule{2.2cm}{0.4pt}\n')
