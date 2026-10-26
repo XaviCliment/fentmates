@@ -164,6 +164,36 @@ S.append(("Funcions a trossos amb paràmetres", [
      tasks(1, [r"$f$: \ $x=-1$: $1+a=7\Rightarrow a=6$; \ $x=1$: $7=-1+b\Rightarrow b=8$. \ $\res{a=6,\ b=8}$ ($x=0$ no és de $x\leq-1$).", r"$g$: \ $x=-2$: $4+a=-1\Rightarrow a=-5$; \ $x=1$: $-4=b+3\Rightarrow b=-7$. \ $\res{a=-5,\ b=-7}$."])),
 ]))
 
+S.append(("Asímptotes", [
+ (1, r"Calcula les asímptotes verticals i horitzontals de les funcions següents. En cada asímptota vertical, estudia els límits laterals:" + tasks(3, [m(r'f(x)=\dfrac{3x+2}{x-1}'), m(r'f(x)=\dfrac{4}{x^2-16}'), m(r'f(x)=\dfrac{2x^2}{x^2+3}'), m(r'f(x)=\dfrac{x+1}{(x-2)^2}'), m(r'f(x)=\dfrac{1-x^2}{x^2+x-2}'), m(r'f(x)=\dfrac{x^2-9}{x+3}')])
+     + recorda(r"AV $x=a$: si $\lim_{x\to a^\pm}f(x)=\pm\infty$ (en una racional, on el límit dona $\frac{k}{0}$, $k\neq0$; si dona $\frac00$, simplifiquem). AH $y=b$: si $\lim_{x\to\pm\infty}f(x)=b$."),
+     tasks(1, [r"AV $\res{x=1}$ ($\lim_{x\to1^-}f=-\infty$, $\lim_{x\to1^+}f=+\infty$); \ AH $\res{y=3}$.",
+               r"AV $\res{x=-4}$ ($+\infty$ per l’esquerra, $-\infty$ per la dreta) i $\res{x=4}$ ($-\infty$ per l’esquerra, $+\infty$ per la dreta); \ AH $\res{y=0}$.",
+               r"Cap AV ($x^2+3\neq0$); \ AH $\res{y=2}$.",
+               r"AV $\res{x=2}$ ($\frac{3}{0^+}$: $+\infty$ pels dos costats); \ AH $\res{y=0}$.",
+               r"$x^2+x-2=(x-1)(x+2)$. En $x=1$: $\frac00$, $\frac{-(x-1)(x+1)}{(x-1)(x+2)}=\frac{-(x+1)}{x+2}\to-\frac23$: no hi ha AV. \ AV $\res{x=-2}$ ($\frac{-3}{0}$: $-\infty$ per l’esquerra, $+\infty$ per la dreta); \ AH $\res{y=-1}$.",
+               r"$\frac{(x+3)(x-3)}{x+3}=x-3$: en $x=-3$ hi ha un forat, \rest{no té AV}. Graus $2>1$: \rest{no té AH} (la gràfica és la recta $y=x-3$ sense el punt $(-3,-6)$)."])),
+ (2, r"Calcula les asímptotes horitzontals de les funcions següents, quan $x\to+\infty$ i quan $x\to-\infty$:" + tasks(3, [m(r'f(x)=3^x+2'), m(r'f(x)=4-e^{-x}'), m(r'f(x)=\dfrac{6\cdot2^x}{2^x+1}')]),
+     tasks(1, [r"$\lim_{x\to-\infty}(3^x+2)=0+2$: \ AH $\res{y=2}$ per l’esquerra; per la dreta $+\infty$, no n’hi ha.",
+               r"$\lim_{x\to+\infty}(4-e^{-x})=4-0$: \ AH $\res{y=4}$ per la dreta; per l’esquerra $-\infty$, no n’hi ha.",
+               r"$x\to+\infty$: $\lim\frac{6\cdot2^x}{2^x}=6$, \ AH $\res{y=6}$. \ $x\to-\infty$: $2^x\to0$, $\frac{0}{0+1}=0$, \ AH $\res{y=0}$. Té una AH diferent per cada costat."])),
+ (2, r"Calcula les asímptotes obliqües pel mètode del quocient i també les verticals. Estudia la posició de la gràfica respecte de l'asímptota obliqua:" + tasks(2, [m(r'f(x)=\dfrac{x^2+2}{x-1}'), m(r'f(x)=\dfrac{3x^2-x}{x+2}'), m(r'f(x)=\dfrac{x^3+2}{x^2}'), m(r'f(x)=\dfrac{-x^2+4x}{x-3}')])
+     + recorda(r"Si grau $P=$ grau $Q+1$, dividim: $P(x)=Q(x)\cdot C(x)+R(x)\Rightarrow f(x)=C(x)+\dfrac{R(x)}{Q(x)}$. L'asímptota obliqua és $y=C(x)$ i el signe de $\frac{R(x)}{Q(x)}$ ens diu si la gràfica queda per damunt o per davall."),
+     tasks(1, [r"$x^2+2=(x-1)(x+1)+3$: \ AO $\res{y=x+1}$, \ AV $\res{x=1}$. \ $\frac{3}{x-1}>0$ si $x\to+\infty$ (per damunt) i $<0$ si $x\to-\infty$ (per davall).",
+               r"$3x^2-x=(x+2)(3x-7)+14$: \ AO $\res{y=3x-7}$, \ AV $\res{x=-2}$. \ $\frac{14}{x+2}$: per damunt quan $x\to+\infty$ i per davall quan $x\to-\infty$.",
+               r"$f(x)=x+\frac{2}{x^2}$: \ AO $\res{y=x}$, \ AV $\res{x=0}$ ($+\infty$ pels dos costats). \ $\frac{2}{x^2}>0$: sempre per damunt.",
+               r"$-x^2+4x=(x-3)(-x+1)+3$: \ AO $\res{y=-x+1}$, \ AV $\res{x=3}$. \ $\frac{3}{x-3}$: per damunt quan $x\to+\infty$ i per davall quan $x\to-\infty$."])),
+ (2, r"Calcula totes les asímptotes de les funcions següents:" + tasks(3, [m(r'f(x)=\dfrac{x^2-x}{x^2-1}'), m(r'f(x)=\dfrac{x^3}{x^2-4}'), m(r'f(x)=\dfrac{x^3+1}{x-1}')]),
+     tasks(1, [r"$\frac{x(x-1)}{(x-1)(x+1)}$: en $x=1$, $\frac x{x+1}\to\frac12$ (forat, no és AV). \ AV $\res{x=-1}$; \ AH $\res{y=1}$.",
+               r"AV $\res{x=-2}$ i $\res{x=2}$; \ $x^3=(x^2-4)\cdot x+4x$: \ AO $\res{y=x}$.",
+               r"AV $\res{x=1}$. Graus 3 i 1: el quocient $x^2+x+1$ és de grau 2, \rest{no té AH ni AO}."])),
+ (3, r"Donada la funció $f(x)=\dfrac{ax^2+1}{x+b}$:" + tasks(1, [r"Calcula $a$ i $b$ perquè $f$ tinga una asímptota vertical en $x=-2$ i una asímptota obliqua de pendent $3$.", r"Per a aquests valors, quina és l'equació de l'asímptota obliqua?"]),
+     tasks(1, [r"AV en $x=-2$: el denominador s'anul·la en $-2$ $\Rightarrow\res{b=2}$ (el numerador $4a+1\neq0$). \ El quocient de $(ax^2+1):(x+2)$ comença per $ax$: pendent $\res{a=3}$.",
+               r"$3x^2+1=(x+2)(3x-6)+13$: \ AO $\res{y=3x-6}$."])),
+ (2, r"Les vendes d'un nou producte, en milers d'unitats, $t$ mesos després del llançament vénen donades per $V(t)=\dfrac{50t}{t+4}$, amb $t\geq0$." + tasks(1, [r"Calcula les vendes als 6 mesos.", r"Calcula $\displaystyle\lim_{t\to+\infty}V(t)$. Quina asímptota té la funció? Interpreta-la en el context del problema."]),
+     tasks(1, [r"$V(6)=\frac{300}{10}=\res{30}$ milers d’unitats.", r"$\displaystyle\lim_{t\to+\infty}\frac{50t}{t+4}=\res{50}$: AH $y=50$. A llarg termini les vendes s’acosten a \rest{50\,000 unitats}, sense arribar-hi."])),
+]))
+
 # ---------- comprovacions numèriques ----------
 def lim(f, a, side=1):
     """Estimació: a pot ser ±inf; es queda amb el valor més estable."""
@@ -199,6 +229,16 @@ CHK = [
  (lambda x: (x*x+x-2)/(x*x-4*x+3), 1, -1.5), (lambda x: (x*x-x-12)/(x*x-2*x-15), -3, 7/8), (lambda x: (2*x+4)/(x*x+5*x+6), -2, 2),
  (lambda x: (2*x+4)/(x*x+5*x+6), -3, -I, -1), (lambda x: (2*x+4)/(x*x+5*x+6), -3, I, 1), (lambda x: (x*x+4*x+3)/(2*x-2), 1, -I, -1),
  (lambda x: 1/(4-x*x), 2, I, -1), (lambda x: (3*x*x-2*x)/(x+2), 2, 2, 1), (lambda x: x**3+2*e(x), 0, 2, -1), (lambda x: 3/(x+1), -1, -I, -1),
+ # asímptotes
+ (lambda x: (3*x+2)/(x-1), 1, -I, -1), (lambda x: (3*x+2)/(x-1), 1, I), (lambda x: (3*x+2)/(x-1), I, 3),
+ (lambda x: 4/(x*x-16), -4, I, -1), (lambda x: 4/(x*x-16), -4, -I), (lambda x: 4/(x*x-16), 4, -I, -1), (lambda x: 4/(x*x-16), 4, I), (lambda x: 4/(x*x-16), I, 0),
+ (lambda x: 2*x*x/(x*x+3), I, 2), (lambda x: (x+1)/(x-2)**2, 2, I, -1), (lambda x: (x+1)/(x-2)**2, 2, I), (lambda x: (x+1)/(x-2)**2, I, 0),
+ (lambda x: (1-x*x)/(x*x+x-2), 1, -2/3), (lambda x: (1-x*x)/(x*x+x-2), -2, -I, -1), (lambda x: (1-x*x)/(x*x+x-2), -2, I), (lambda x: (1-x*x)/(x*x+x-2), I, -1),
+ (lambda x: (x*x-9)/(x+3), -3, -6), (lambda x: 3**x+2, -I, 2), (lambda x: 4-e(-x), I, 4), (lambda x: 6*2**x/(2**x+1), 900, 6), (lambda x: 6*2**x/(2**x+1), -900, 0),
+ (lambda x: (x*x+2)/(x-1)-(x+1), I, 0), (lambda x: (3*x*x-x)/(x+2)-(3*x-7), I, 0), (lambda x: (x**3+2)/x**2-x, I, 0), (lambda x: (-x*x+4*x)/(x-3)-(-x+1), I, 0),
+ (lambda x: (3*x*x-x)/(x+2), -2, -I, -1), (lambda x: (x**3+2)/x**2, 0, I, -1), (lambda x: (-x*x+4*x)/(x-3), 3, I),
+ (lambda x: (x*x-x)/(x*x-1), 1, .5), (lambda x: (x*x-x)/(x*x-1), I, 1), (lambda x: (x*x-x)/(x*x-1), -1, I, -1), (lambda x: x**3/(x*x-4)-x, I, 0),
+ (lambda x: (3*x*x+1)/(x+2)-(3*x-6), I, 0), (lambda t: 50*t/(t+4), I, 50),
 ]
 for c in CHK:
     f, a, exp = c[:3]; side = c[3] if len(c) > 3 else 1
@@ -210,11 +250,16 @@ P = [(-3 + 1, 1 - 1 - 2), (1 / (0 - 1), -1), (-2, 2**2 - 5*2 + 4), (-4*2 + 4, 4 
 P += [(-1, 1 - 2), (1 + 6, 3 + 4), (3 + 4, -1 + 8), (4 - 5, 4 - 5), (1 - 5, -7 + 3), (0 + 1, 1), (2, -1), (9 - 9, 0), (3, 0)][:5]
 for l, r in P: assert abs(l - r) < 1e-12, (l, r)
 assert abs((-2*2 + 9) / (-1*2 + 1) + 5) < 1e-12  # Catalunya 2018: passa per (2, -5)
+# asímptotes obliqües: P = Q·C + R en uns quants valors de x
+for x in (-3, 0.5, 2, 7):
+    for P, Q, C, R in [(x*x+2, x-1, x+1, 3), (3*x*x-x, x+2, 3*x-7, 14), (-x*x+4*x, x-3, -x+1, 3), (x**3, x*x-4, x, 4*x), (3*x*x+1, x+2, 3*x-6, 13), (x**3+1, x-1, x*x+x+1, 2)]:
+        assert abs(P - (Q*C + R)) < 1e-9, (x, P, Q, C, R)
+assert abs(50*6/10 - 30) < 1e-12
 
 # =====================================================================
 pre = open(os.path.join(HERE, 'preamble.tex'), encoding='utf-8').read()
 pre = pre.split('% ---------- recta real ----------')[0]
-KW = "pdfkeywords={límits, límits a l'infinit, comparació d'infinits, indeterminacions, límits laterals, continuïtat, funcions a trossos, paràmetres, PAU}"
+KW = "pdfkeywords={límits, límits a l'infinit, comparació d'infinits, indeterminacions, límits laterals, continuïtat, funcions a trossos, paràmetres, asímptotes, PAU}"
 pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda mm: KW, pre)
 pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques Aplicades a les Ciències Socials II}')
 pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')

@@ -27,9 +27,9 @@
       sNames: ["Domini", "Punts de tall", "Simetria", "Asímptotes", "Monotonia i extrems", "Gràfica"],
       many: "Hi ha molts punts crítics: mostrem l'estudi en la finestra", piece: "Tros", atCut: "En", contAll: "És contínua en tot el domini.",
       latL: "límit per l'esquerra", latR: "límit per la dreta", val: "valor", noExtPw: "No té extrems relatius.",
-      pDom: ["Polinòmica", "(x + 1)/(x² − 4)", "1/(x² + 1)", "e^(1/x)", "ln(x − 3)", "ln(x² − 4)", "x / ln x"],
-      pCut: ["x³ − 4x", "x² − 2x − 3", "(x² − 1)/(x + 2)", "eˣ − 2", "ln(x + 1)", "x²·eˣ"],
-      pSym: ["x⁴ − 3x²", "x³ − 3x", "x/(x² + 1)", "x²/(x² − 1)", "e^(−x²)", "eˣ", "x² + x"],
+      pDom: ["Polinòmica", "(x + 1)/(x² − 4)", "1/(x² + 1)", "e^(1/x)", "ln(x − 3)", "ln(x² − 4)", "x / ln x", "√(6 − 2x)", "√(x² − 9)", "x/√(4 − x²)"],
+      pCut: ["x³ − 4x", "x² − 2x − 3", "(x² − 1)/(x + 2)", "eˣ − 2", "ln(x + 1)", "x²·eˣ", "√(x² − 4)", "√(x + 3) − x − 1"],
+      pSym: ["x⁴ − 3x²", "x³ − 3x", "x/(x² + 1)", "x²/(x² − 1)", "e^(−x²)", "eˣ", "x² + x", "√(9 − x²)", "x·√(x² + 1)", "√(x + 2)"],
       pAsy: ["(2x + 1)/(x − 3)", "x/(x² − 1)", "3x²/(x² + 1)", "2 − e⁻ˣ", "ln(x + 2)", "(x² + 1)/x"],
       pObl: ["(x² + 3)/(x − 1)", "x²/(x + 1)", "(2x² − x + 1)/x", "x³/(x² − 1)", "(x³ + 1)/x", "(3x² + 1)/(x² − 4)"],
       pMx: ["x³ − 6x² + 9x", "x⁴ − 2x²", "x²/(x² − 4)", "(x² + 3)/(x − 1)", "x·eˣ", "ln x / x"],
@@ -56,9 +56,9 @@
       sNames: ["Dominio", "Puntos de corte", "Simetría", "Asíntotas", "Monotonía y extremos", "Gráfica"],
       many: "Hay muchos puntos críticos: mostramos el estudio en la ventana", piece: "Trozo", atCut: "En", contAll: "Es continua en todo el dominio.",
       latL: "límite por la izquierda", latR: "límite por la derecha", val: "valor", noExtPw: "No tiene extremos relativos.",
-      pDom: ["Polinómica", "(x + 1)/(x² − 4)", "1/(x² + 1)", "e^(1/x)", "ln(x − 3)", "ln(x² − 4)", "x / ln x"],
-      pCut: ["x³ − 4x", "x² − 2x − 3", "(x² − 1)/(x + 2)", "eˣ − 2", "ln(x + 1)", "x²·eˣ"],
-      pSym: ["x⁴ − 3x²", "x³ − 3x", "x/(x² + 1)", "x²/(x² − 1)", "e^(−x²)", "eˣ", "x² + x"],
+      pDom: ["Polinómica", "(x + 1)/(x² − 4)", "1/(x² + 1)", "e^(1/x)", "ln(x − 3)", "ln(x² − 4)", "x / ln x", "√(6 − 2x)", "√(x² − 9)", "x/√(4 − x²)"],
+      pCut: ["x³ − 4x", "x² − 2x − 3", "(x² − 1)/(x + 2)", "eˣ − 2", "ln(x + 1)", "x²·eˣ", "√(x² − 4)", "√(x + 3) − x − 1"],
+      pSym: ["x⁴ − 3x²", "x³ − 3x", "x/(x² + 1)", "x²/(x² − 1)", "e^(−x²)", "eˣ", "x² + x", "√(9 − x²)", "x·√(x² + 1)", "√(x + 2)"],
       pAsy: ["(2x + 1)/(x − 3)", "x/(x² − 1)", "3x²/(x² + 1)", "2 − e⁻ˣ", "ln(x + 2)", "(x² + 1)/x"],
       pObl: ["(x² + 3)/(x − 1)", "x²/(x + 1)", "(2x² − x + 1)/x", "x³/(x² − 1)", "(x³ + 1)/x", "(3x² + 1)/(x² − 4)"],
       pMx: ["x³ − 6x² + 9x", "x⁴ − 2x²", "x²/(x² − 4)", "(x² + 3)/(x − 1)", "x·eˣ", "ln x / x"],
@@ -85,9 +85,9 @@
       sNames: ["Domain", "Intercepts", "Symmetry", "Asymptotes", "Monotonicity and extrema", "Graph"],
       many: "There are many critical points: the study is shown for the window", piece: "Piece", atCut: "At", contAll: "It is continuous on its whole domain.",
       latL: "left-hand limit", latR: "right-hand limit", val: "value", noExtPw: "It has no relative extrema.",
-      pDom: ["Polynomial", "(x + 1)/(x² − 4)", "1/(x² + 1)", "e^(1/x)", "ln(x − 3)", "ln(x² − 4)", "x / ln x"],
-      pCut: ["x³ − 4x", "x² − 2x − 3", "(x² − 1)/(x + 2)", "eˣ − 2", "ln(x + 1)", "x²·eˣ"],
-      pSym: ["x⁴ − 3x²", "x³ − 3x", "x/(x² + 1)", "x²/(x² − 1)", "e^(−x²)", "eˣ", "x² + x"],
+      pDom: ["Polynomial", "(x + 1)/(x² − 4)", "1/(x² + 1)", "e^(1/x)", "ln(x − 3)", "ln(x² − 4)", "x / ln x", "√(6 − 2x)", "√(x² − 9)", "x/√(4 − x²)"],
+      pCut: ["x³ − 4x", "x² − 2x − 3", "(x² − 1)/(x + 2)", "eˣ − 2", "ln(x + 1)", "x²·eˣ", "√(x² − 4)", "√(x + 3) − x − 1"],
+      pSym: ["x⁴ − 3x²", "x³ − 3x", "x/(x² + 1)", "x²/(x² − 1)", "e^(−x²)", "eˣ", "x² + x", "√(9 − x²)", "x·√(x² + 1)", "√(x + 2)"],
       pAsy: ["(2x + 1)/(x − 3)", "x/(x² − 1)", "3x²/(x² + 1)", "2 − e⁻ˣ", "ln(x + 2)", "(x² + 1)/x"],
       pObl: ["(x² + 3)/(x − 1)", "x²/(x + 1)", "(2x² − x + 1)/x", "x³/(x² − 1)", "(x³ + 1)/x", "(3x² + 1)/(x² − 4)"],
       pMx: ["x³ − 6x² + 9x", "x⁴ − 2x²", "x²/(x² − 4)", "(x² + 3)/(x − 1)", "x·eˣ", "ln x / x"],
@@ -180,6 +180,16 @@
     if (!P[P.length - 1].bInf) out.push({ a: P[P.length - 1].b, b: 1e9 });
     return out;
   }
+  // zeros de g, també els de la vora del domini (com en sqrt(x^2-4) per a x=±2), on roots() no veu canvi de signe
+  function zerosOf(g) {
+    var r = roots(g, -XL, XL);
+    domainOf(g, []).iv.forEach(function (o) {
+      [o.aInf || !o.ai ? NaN : o.a, o.bInf || !o.bi ? NaN : o.b].forEach(function (p) {
+        if (isFinite(p) && Math.abs(g(p)) < 1e-7 && !r.some(function (q) { return Math.abs(q - p) < 1e-6 * (1 + Math.abs(p)); })) r.push(p);
+      });
+    });
+    return r.sort(function (p, q) { return p - q; });
+  }
   // explicació: on s'anul·len els denominadors i on són positius els arguments dels logaritmes
   function signSet(g, test) {
     return domTex(domainOf(function (x) { var v = g(x); return test(v) ? 1 : NaN; }, []));
@@ -187,7 +197,7 @@
   function domWhy(n) {
     var C = condsOf(n), h = [];
     C.den.forEach(function (d) {
-      var g = compile(d), r = roots(g, -XL, XL);
+      var g = compile(d), r = zerosOf(g);
       if (strip(d).t === "n" || strip(d).t === "c") return;
       h.push("<li>" + u("den") + " " + tex(T(d)) + ": " + (r.length ? u("denZ") + " " + tex("x=" + r.map(nn).join(",\\ x=")) : u("denNo")) + "</li>");
     });
@@ -205,7 +215,7 @@
   /* ---------- punts de tall, simetria i asímptotes ---------- */
   function cutsOf(f, Dm) {
     var y0 = inDom(Dm, 0) ? f(0) : NaN;
-    var xs = roots(f, -XL, XL).filter(function (x) { return inDom(Dm, x) && Math.abs(f(x)) < 1e-7; });
+    var xs = zerosOf(f).filter(function (x) { return inDom(Dm, x) && Math.abs(f(x)) < 1e-7; });
     return { oy: isFinite(y0) ? (Math.abs(y0) < 1e-12 ? 0 : y0) : null, ox: xs };
   }
   function cutsHtml(C) {
@@ -447,7 +457,7 @@
     onLang(go);
   }
   function wDom() {
-    fnWidget("w-dom", ["x^3-2x", "(x+1)/(x^2-4)", "1/(x^2+1)", "e^(1/x)", "ln(x-3)", "ln(x^2-4)", "x/ln(x)"], "pDom", function (w, n) {
+    fnWidget("w-dom", ["x^3-2x", "(x+1)/(x^2-4)", "1/(x^2+1)", "e^(1/x)", "ln(x-3)", "ln(x^2-4)", "x/ln(x)", "sqrt(6-2x)", "sqrt(x^2-9)", "x/sqrt(4-x^2)"], "pDom", function (w, n) {
       var f = compile(n), Dm = domainOf(f, condsOf(n).den.map(compile)), v = viewOf(f, Dm.ex.concat(Dm.iv.map(function (o) { return o.aInf ? NaN : o.a; })).concat(Dm.iv.map(function (o) { return o.bInf ? NaN : o.b; })), [], [-6, 6]);
       w.querySelector(".info").innerHTML = "<p>" + tex("f(x)=" + T(n)) + "</p>" + domWhy(n) + "<p><strong>" + u("dom") + ":</strong> " + (Dm.iv.length ? tex("\\mathrm{Dom}\\,f=" + domTex(Dm)) : u("empty")) + "</p>";
       plot(w.querySelector("svg.lp-svg"), { v: v, band: domBands(Dm), curves: [{ f: f }], va: Dm.ex.filter(function (p) { return !isFinite(f(p - 1e-6)) || Math.abs(f(p - 1e-6)) > 1e4; }), pts: Dm.iv.reduce(function (a, o) {
@@ -455,7 +465,7 @@
     });
   }
   function wCut() {
-    fnWidget("w-cut", ["x^3-4x", "x^2-2x-3", "(x^2-1)/(x+2)", "e^x-2", "ln(x+1)", "x^2*e^x"], "pCut", function (w, n) {
+    fnWidget("w-cut", ["x^3-4x", "x^2-2x-3", "(x^2-1)/(x+2)", "e^x-2", "ln(x+1)", "x^2*e^x", "sqrt(x^2-4)", "sqrt(x+3)-x-1"], "pCut", function (w, n) {
       var f = compile(n), Dm = domainOf(f, condsOf(n).den.map(compile)), C = cutsOf(f, Dm);
       var xs = C.ox.slice(), ys = [0]; if (C.oy !== null) { xs.push(0); ys.push(C.oy); }
       w.querySelector(".info").innerHTML = "<p>" + tex("f(x)=" + T(n)) + "</p>" + cutsHtml(C);
@@ -464,7 +474,7 @@
     });
   }
   function wSym() {
-    fnWidget("w-sym", ["x^4-3x^2", "x^3-3x", "x/(x^2+1)", "x^2/(x^2-1)", "e^(-x^2)", "e^x", "x^2+x"], "pSym", function (w, n) {
+    fnWidget("w-sym", ["x^4-3x^2", "x^3-3x", "x/(x^2+1)", "x^2/(x^2-1)", "e^(-x^2)", "e^x", "x^2+x", "sqrt(9-x^2)", "x*sqrt(x^2+1)", "sqrt(x+2)"], "pSym", function (w, n) {
       var f = compile(n), s = symOf(f), rows = "";
       [1, 2, 3].forEach(function (x) {
         var a = f(x), b = f(-x);

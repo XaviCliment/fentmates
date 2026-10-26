@@ -93,6 +93,16 @@ S.append(("Domini i punts de tall amb els eixos", [
      tasks(2, [r"$x(x-3)(x+2)=0$: $\res{(-2,0),\ (0,0),\ (3,0)}$; OY: $(0,0)$", r"$(x^2-1)(x^2-4)=0$: $\res{(\pm1,0),\ (\pm2,0)}$; OY: $\res{(0,4)}$",
                r"OX: $\res{(-2,0),\ (2,0)}$; OY: $\res{(0,-4)}$", r"OX: $\res{(-2,0)}$; OY: $\res{(0,2)}$",
                r"OX: $e^x=e\Rightarrow\res{(1,0)}$; OY: $\res{(0,1-e)}$", r"OX: $2x-1=1\Rightarrow\res{(1,0)}$; OY: no, perquè el domini és $\left(\frac12,+\infty\right)$"])),
+ (2, r"Calcula el domini de les funcions radicals següents:" + tasks(3, [fx(r'\sqrt{3x-6}'), fx(r'\sqrt{10-2x}'), fx(r'\sqrt{x^2-16}'), fx(r'\sqrt{x^2-4x+3}'), fx(r'\dfrac{x}{\sqrt{x+5}}'), fx(r'\sqrt[3]{x^2-7}')])
+     + recorda(r"Arrel d'índex parell: el radicand ha de ser $\geq0$ (els extrems on val 0 sí que hi entren); si l'arrel és al denominador, ha de ser $>0$. Arrel d'índex senar: el domini del radicand."),
+     tasks(2, [r"$3x-6\geq0\Rightarrow x\geq2$: $\res{[2,+\infty)}$", r"$10-2x\geq0\Rightarrow x\leq5$: $\res{(-\infty,5]}$", r"$\res{(-\infty,-4]\cup[4,+\infty)}$",
+               r"$(x-1)(x-3)\geq0$: $\res{(-\infty,1]\cup[3,+\infty)}$", r"$x+5>0$ (denominador): $\res{(-5,+\infty)}$", r"Índex senar: $\res{\mathbb R}$"])),
+ (2, r"Troba els punts de tall amb els eixos de les funcions radicals següents. Recorda calcular primer el domini:" + tasks(2, [fx(r'\sqrt{x^2-9}'), fx(r'\sqrt{x+5}-3'), fx(r'\sqrt{16-x^2}'), fx(r'\sqrt{x+1}-x+1')])
+     + recorda(r"$\sqrt{g(x)}=0\iff g(x)=0$. Si hi ha més termes, aïllem l'arrel i elevem al quadrat; després \textbf{comprovem} les solucions, perquè en elevar al quadrat poden aparéixer solucions falses."),
+     tasks(1, [r"Domini $(-\infty,-3]\cup[3,+\infty)$. OX: $x^2-9=0\Rightarrow\res{(-3,0),\ (3,0)}$. OY: $0$ no és del domini, \rest{no talla}.",
+               r"Domini $[-5,+\infty)$. OX: $\sqrt{x+5}=3\Rightarrow x+5=9\Rightarrow\res{(4,0)}$. OY: $f(0)=\sqrt5-3$, $\res{\left(0,\sqrt5-3\right)}$.",
+               r"Domini $[-4,4]$. OX: $\res{(-4,0),\ (4,0)}$. OY: $\res{(0,4)}$.",
+               r"Domini $[-1,+\infty)$. OX: $\sqrt{x+1}=x-1\Rightarrow x+1=x^2-2x+1\Rightarrow x^2-3x=0\Rightarrow x=0,\ x=3$. Comprovem: $x=3$: $2-3+1=0$ \checkmark; \ $x=0$: $1+1=2\neq0$ (falsa). Només $\res{(3,0)}$. OY: $\res{(0,2)}$."])),
  (2, r"Calcula $a$ perquè la gràfica de $f(x)=x^2+ax+4$ talle l'eix OX en $x=1$. Quin és l'altre punt de tall amb OX? I el tall amb OY?",
      r"$f(1)=5+a=0\Rightarrow\res{a=-5}$. \ $x^2-5x+4=(x-1)(x-4)$: l'altre tall és $\res{(4,0)}$. OY: $\res{(0,4)}$."),
 ]))
@@ -112,6 +122,9 @@ S.append(("Simetries", [
  (1, r"Estudia si les funcions següents són parelles, senars o cap de les dues coses:" + tasks(4, [fx(r'x^4-x^2'), fx(r'x^3+2x'), fx(r'x^3+x^2'), fx(r'\dfrac{x^2}{x^2+1}'), fx(r'\dfrac{x}{x^2-4}'), fx(r'e^{-x^2}+1'), fx(r'\ln(x^2+1)'), fx(r'\dfrac{x+1}{x}')])
      + recorda(r"Parella: $f(-x)=f(x)$ (simètrica respecte de l'eix OY). Senar: $f(-x)=-f(x)$ (simètrica respecte de l'origen)."),
      tasks(4, [r"\rest{parella}", r"\rest{senar}", r"\rest{cap}", r"\rest{parella}", r"\rest{senar}", r"\rest{parella}", r"\rest{parella}", r"\rest{cap}: $f(-x)=\frac{x-1}{x}$"])),
+ (2, r"Estudia la simetria de les funcions radicals següents. Abans, comprova si el domini és simètric:" + tasks(4, [fx(r'\sqrt{x^2+9}'), fx(r'x\sqrt{4-x^2}'), fx(r'\sqrt{x+4}'), fx(r'\dfrac{x^3}{\sqrt{x^2+1}}')]),
+     tasks(2, [r"Domini $\mathbb R$, $f(-x)=\sqrt{x^2+9}=f(x)$: \rest{parella}", r"Domini $[-2,2]$, $f(-x)=-x\sqrt{4-x^2}=-f(x)$: \rest{senar}",
+               r"Domini $[-4,+\infty)$, no simètric: \rest{cap}", r"Domini $\mathbb R$, $f(-x)=\frac{-x^3}{\sqrt{x^2+1}}=-f(x)$: \rest{senar}"])),
  (2, r"La gràfica següent mostra una funció $f$ només per a $0\leq x\leq4$. Completa-la en $[-4,4]$ en cada cas:" + tasks(2, [r"si $f$ és parella;", r"si $f$ és senar."]) + cen(G_HALF),
      r"Parella: reflectim respecte de l'eix OY. Senar: girem 180° al voltant de l'origen." + cen(G_EVEN, G_ODD)),
 ]))
@@ -262,13 +275,16 @@ CHK = [  # (valor de l'esquerra, valor de la dreta)
  (2**2 - 4, 0), (2**-1, 0.5), (ln(e(-2)) + 2, 0), (nd(lambda x: x * e(-x), 1), 0), (1 - ln(1), 1), (ln(5 - 4), 0),
  (1 + 1, 2 / 1), (2 / 2, 1), (nd(lambda x: (x + 8)**2 / (2 * x), 8), 0), ((16)**2 / 16, 16), (nd(lambda t: 10 * t * e(-t / 2), 2), 0), ((60 * 0 + 20) / 2, 10),
  (nd(lambda t: (60*t + 20) / (t + 2), 3), 100 / 25), (2 * 4 + 3, 11),
+ # radicals: talls
+ (sq(3*3 - 9), 0), (sq(4 + 5) - 3, 0), (sq(16 - 16), 0), (sq(3 + 1) - 3 + 1, 0), (sq(0 + 1) - 0 + 1, 2), (sq(16 - 0), 4), (sq(0 + 1) + 1, 2),
+ (1*1 - 4*1 + 3, 0), (3*3 - 4*3 + 3, 0), (sq(9 + 0) - sq(9 + 0), 0), (-1 * sq(4 - 1) + 1 * sq(4 - 1), 0),
 ]
 for l, r in CHK: assert abs(l - r) < 1e-5 * (1 + abs(r)), (l, r)
 
 # =====================================================================
 pre = open(os.path.join(HERE, 'preamble.tex'), encoding='utf-8').read()
 pre = pre.split('% ---------- recta real ----------')[0]
-KW = "pdfkeywords={representació gràfica, domini, punts de tall, simetria, asímptotes, asímptota obliqua, monotonia, màxims, mínims, funcions racionals, exponencials, logarítmiques, a trossos}"
+KW = "pdfkeywords={representació gràfica, domini, punts de tall, simetria, funcions radicals, asímptotes, asímptota obliqua, monotonia, màxims, mínims, funcions racionals, exponencials, logarítmiques, a trossos}"
 pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda mm: KW, pre)
 pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques Aplicades a les Ciències Socials II}')
 pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')

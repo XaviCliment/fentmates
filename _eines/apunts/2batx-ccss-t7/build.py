@@ -6,7 +6,7 @@ import os, re, sys
 # (fraccions, polinomis, lector d'expressions, límits numèrics, gràfiques i funcions a trossos), la derivació simbòlica
 # de _eines/apunts/2batx-ccss-t5/app.js i l'estudi de la monotonia i els extrems de _eines/apunts/2batx-ccss-t6/app.js
 # (de «nombres i rectes» fins a «figures estàtiques»), amb els extra.css de les tres unitats.
-# Al nucli de les gràfiques li afegim zones ombrejades (fora del domini) i asímptotes obliqües.
+# Al nucli de les gràfiques li afegim zones ombrejades (fora del domini).
 # El contingut és a contingut.html, el JavaScript propi a app.js i l'estil propi a extra.css.
 # Les convencions ⟪va‖es‖en⟫, ⟦va‖es‖en⟧ i \SI són les mateixes que a la unitat 4.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -72,14 +72,14 @@ for a, b in [('var NAMES = ["sqrt", "exp", "abs", "log", "sin", "cos", "ln", "pi
              ("var FUNCS = { sqrt: 1, exp: 1, abs: 1, log: 1, sin: 1, cos: 1, ln: 1 };",
               "var FUNCS = { sqrt: 1, exp: 1, abs: 1, log: 1, sin: 1, cos: 1, tan: 1, arcsin: 1, arccos: 1, arctan: 1, ln: 1 };"),
              ("var FN = { sqrt: Math.sqrt, exp: Math.exp, abs: Math.abs, log: Math.log10, ln: Math.log, sin: Math.sin, cos: Math.cos };",
-              "var FN = { sqrt: Math.sqrt, exp: Math.exp, abs: Math.abs, log: Math.log10, ln: Math.log, sin: Math.sin, cos: Math.cos, tan: Math.tan, arcsin: Math.asin, arccos: Math.acos, arctan: Math.atan };"),
+              "var FN = { sqrt: Math.sqrt, exp: Math.exp, abs: Math.abs, log: function (v) { return v > 0 ? Math.log10(v) : NaN; }, ln: function (v) { return v > 0 ? Math.log(v) : NaN; }, sin: Math.sin, cos: Math.cos, tan: Math.tan, arcsin: Math.asin, arccos: Math.acos, arctan: Math.atan };"),
+             # (ln 0 no existeix: si no, x/ln(x) valdria 0 en x = 0 i el 0 entraria al domini)
              # e^{1} s'escriu e
              ('if (r && Math.abs(r.n) <= 40) return "e^{" + r.tex() + "}";',
               'if (r && Math.abs(r.n) <= 40) return r.n === 1 && r.d === 1 ? "e" : "e^{" + r.tex() + "}";'),
-             # zones ombrejades (cfg.band) i asímptotes obliqües (cfg.oa) a les gràfiques
+             # zones ombrejades (cfg.band) a les gràfiques (les asímptotes obliqües, cfg.oa, ja són al nucli de la unitat 4)
              ("    (cfg.ha || []).forEach(function (y) {",
               "    (cfg.band || []).forEach(function (q) { var a = Math.max(q.a, x0), b = Math.min(q.b, x1); if (b > a) body += '<rect class=\"' + (q.cls || \"nodom\") + '\" x=\"' + X(a) + '\" y=\"' + MT + '\" width=\"' + (X(b) - X(a)).toFixed(2) + '\" height=\"' + (H - MT - MB) + '\"/>'; });\n"
-              "    (cfg.oa || []).forEach(function (q) { body += '<line class=\"asy\" x1=\"' + X(x0) + '\" y1=\"' + Y(q.m * x0 + q.n) + '\" x2=\"' + X(x1) + '\" y2=\"' + Y(q.m * x1 + q.n) + '\"/>'; });\n"
               "    (cfg.ha || []).forEach(function (y) {")]:
     assert core.count(a) == 1, a
     core = core.replace(a, b)

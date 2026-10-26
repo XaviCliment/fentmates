@@ -314,8 +314,8 @@ window.LEVELS = {
         title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t4-limits-continuitat.html", date: "2026-10-24" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 49 exercicis, 22 de la PAU d'altres comunitats", es: "PDF · 49 ejercicios, 22 de la PAU de otras comunidades", en: "PDF · 49 exercises, 22 from other regions' PAU exams" }, url: "materials/2batx-ccss/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-24" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 49 exercicis", es: "PDF · Soluciones de los 49 ejercicios", en: "PDF · Solutions to all 49 exercises" }, url: "materials/2batx-ccss/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-24" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 55 exercicis, 22 de la PAU d'altres comunitats", es: "PDF · 55 ejercicios, 22 de la PAU de otras comunidades", en: "PDF · 55 exercises, 22 from other regions' PAU exams" }, url: "materials/2batx-ccss/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-24" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 55 exercicis", es: "PDF · Soluciones de los 55 ejercicios", en: "PDF · Solutions to all 55 exercises" }, url: "materials/2batx-ccss/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-24" }
         ]
       },
       {
@@ -341,8 +341,8 @@ window.LEVELS = {
         title: { va: "Representació gràfica de funcions", es: "Representación gráfica de funciones", en: "Graphing functions" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t7-representacio-funcions.html", date: "2026-10-26" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 35 exercicis amb gràfiques a les solucions", es: "PDF · 35 ejercicios con gráficas en las soluciones", en: "PDF · 35 exercises with graphs in the solutions" }, url: "materials/2batx-ccss/t7-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 35 exercicis", es: "PDF · Soluciones de los 35 ejercicios", en: "PDF · Solutions to all 35 exercises" }, url: "materials/2batx-ccss/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 38 exercicis amb gràfiques a les solucions", es: "PDF · 38 ejercicios con gráficas en las soluciones", en: "PDF · 38 exercises with graphs in the solutions" }, url: "materials/2batx-ccss/t7-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 38 exercicis", es: "PDF · Soluciones de los 38 ejercicios", en: "PDF · Solutions to all 38 exercises" }, url: "materials/2batx-ccss/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" }
         ]
       },
       {

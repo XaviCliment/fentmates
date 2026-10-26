@@ -11,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/2batx-ccss/t4-limits-continuitat.html")
-NSEC = 9
+NSEC = 10
 
 def read(name): return open(os.path.join(HERE, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'

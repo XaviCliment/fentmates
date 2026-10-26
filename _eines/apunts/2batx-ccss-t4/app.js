@@ -410,6 +410,7 @@
     var body = "";
     (cfg.ha || []).forEach(function (y) { body += '<line class="asy" x1="' + ML + '" y1="' + Y(y) + '" x2="' + (W - MR) + '" y2="' + Y(y) + '"/>'; });
     (cfg.va || []).forEach(function (x) { body += '<line class="asy" x1="' + X(x) + '" y1="' + MT + '" x2="' + X(x) + '" y2="' + (H - MB) + '"/>'; });
+    (cfg.oa || []).forEach(function (q) { body += '<line class="asy" x1="' + X(x0) + '" y1="' + Y(q.m * x0 + q.n) + '" x2="' + X(x1) + '" y2="' + Y(q.m * x1 + q.n) + '"/>'; });
     (cfg.guides || []).forEach(function (q) {
       if (q.x !== undefined) body += '<line class="gd" x1="' + X(q.x) + '" y1="' + MT + '" x2="' + X(q.x) + '" y2="' + (H - MB) + '"/>';
       if (q.y !== undefined && isFinite(q.y)) body += '<line class="gd" x1="' + ML + '" y1="' + Y(q.y) + '" x2="' + (W - MR) + '" y2="' + Y(q.y) + '"/>';
@@ -531,6 +532,9 @@
     tsi: function () { return { v: [-1, 3, -2, 5], va: [1], curves: [{ f: F("1/(2(1-x))"), b: 1 }, { f: F("x-2"), a: 1 }], pts: [{ x: 1, y: -1 }], labels: [{ x: 1.12, y: -1.7, t: "a", anchor: "start" }] }; },
     tas: function () { return { v: [-1, 3, -5, 5], va: [1], curves: [{ f: F("1/(x-1)") }], labels: [{ x: 1.12, y: -4.6, t: "a", anchor: "start" }] }; },
     rat1: function () { return { v: [-3, 5, -6, 6], va: [2], ha: [1], curves: [{ f: F("(x^2-1)/(x^2-3x+2)") }], pts: [{ x: 1, y: -2, o: true }] }; },
+    asV: function () { return { v: [-5, 5, -6, 6], va: [-2, 2], ha: [0], curves: [{ f: F("(x+1)/(x^2-4)") }] }; },
+    asH: function () { return { v: [-8, 8, -1.5, 4.5], ha: [3], curves: [{ f: F("(3x^2-1)/(x^2+2)") }] }; },
+    asO: function () { return { v: [-6, 8, -8, 12], va: [1], oa: [{ m: 1, n: 1 }], curves: [{ f: F("(x^2+3)/(x-1)") }] }; },
     pau30: function () { var def = PW.pau30, P = pwMake(def), v = [-3.5, 3.5, -1, 5], d = pwDraw(P, v); return { v: v, curves: d.curves, pts: d.pts }; }
   };
   function wFigs() {
@@ -1006,6 +1010,13 @@
     { q: { va: "Perquè $f(x)=\\begin{cases}x+a&x\\lt2\\\\x^2&x\\geq2\\end{cases}$ siga contínua, $a$ ha de valer…", es: "Para que $f(x)=\\begin{cases}x+a&x\\lt2\\\\x^2&x\\geq2\\end{cases}$ sea continua, $a$ debe valer…", en: "For $f(x)=\\begin{cases}x+a&x\\lt2\\\\x^2&x\\geq2\\end{cases}$ to be continuous, $a$ must be…" },
       o: [{ va: "$2$", es: "$2$", en: "$2$" }, { va: "$4$", es: "$4$", en: "$4$" }, { va: "$0$", es: "$0$", en: "$0$" }], a: 0,
       e: { va: "Igualem els laterals en $x=2$: $2+a=4\\Rightarrow a=2$.", es: "Igualamos los laterales en $x=2$: $2+a=4\\Rightarrow a=2$.", en: "Equate the one-sided limits at $x=2$: $2+a=4\\Rightarrow a=2$." } }
+,
+    { q: { va: "La funció $f(x)=\\dfrac{x+2}{x^2-9}$ té asímptotes verticals…", es: "La función $f(x)=\\dfrac{x+2}{x^2-9}$ tiene asíntotas verticales…", en: "The function $f(x)=\\dfrac{x+2}{x^2-9}$ has vertical asymptotes…" },
+      o: [{ va: "$x=-3$ i $x=3$", es: "$x=-3$ y $x=3$", en: "$x=-3$ and $x=3$" }, { va: "$x=-2$", es: "$x=-2$", en: "$x=-2$" }, { va: "no en té", es: "no tiene", en: "none" }], a: 0,
+      e: { va: "El denominador s'anul·la en $x=\\pm3$ i el numerador no: $\\frac{k}{0}$.", es: "El denominador se anula en $x=\\pm3$ y el numerador no: $\\frac{k}{0}$.", en: "The denominator vanishes at $x=\\pm3$ and the numerator does not: $\\frac{k}{0}$." } },
+    { q: { va: "L'asímptota obliqua de $f(x)=\\dfrac{x^2+1}{x}$ és…", es: "La asíntota oblicua de $f(x)=\\dfrac{x^2+1}{x}$ es…", en: "The oblique asymptote of $f(x)=\\dfrac{x^2+1}{x}$ is…" },
+      o: [{ va: "$y=x+1$", es: "$y=x+1$", en: "$y=x+1$" }, { va: "$y=1$", es: "$y=1$", en: "$y=1$" }, { va: "$y=x$", es: "$y=x$", en: "$y=x$" }], a: 2,
+      e: { va: "$f(x)=x+\\frac1x$: el quocient és $x$.", es: "$f(x)=x+\\frac1x$: el cociente es $x$.", en: "$f(x)=x+\\frac1x$: the quotient is $x$." } }
   ];
   /*@@GENERIC@@*/
   var TITLES = { va: "Límits i continuïtat · FentMates", es: "Límites y continuidad · FentMates", en: "Limits and continuity · FentMates" };
