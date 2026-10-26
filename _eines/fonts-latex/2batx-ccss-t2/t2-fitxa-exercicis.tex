@@ -1,0 +1,378 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 2: Sistemes d'equacions lineals. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={sistemes d'equacions lineals, mètode de Gauss, mètode matricial, regla de Cramer, teorema de Rouché-Frobenius, sistemes homogenis, discussió de sistemes, paràmetres, problemes, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 2: Sistemes d'equacions lineals · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Fitxa d'exercicis · Unitat 2}{Sistemes d'equacions lineals}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Els exercicis marcats amb {\color{teal}\bfseries\faUniversity\ PAU} són de les proves d'accés a la universitat d'altres comunitats autònomes (traduïts al valencià). Resol-los al quadern justificant cada pas: indica sempre el mètode que fas servir i, en els problemes, què representa cada incògnita.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Sistemes d'equacions lineals. Mètode de Gauss}
+
+\ex{1} Comprova quines de les ternes següents són solució del sistema \ $\left\{\begin{aligned}2x-y+z&=5\\x+y-z&=-2\\3x+2z&=7\end{aligned}\right.$\begin{tasks}(3)
+  \task $(1,-1,2)$
+  \task $(2,1,2)$
+  \task $(0,1,3)$
+\end{tasks}\recorda{Una terna $(x,y,z)$ és solució si, en substituir-la, es compleixen \textbf{totes} les equacions alhora.}
+
+\ex{1} Classifica els sistemes següents i interpreta'ls geomètricament (cada equació és una recta del pla):\begin{tasks}(3)
+  \task $\left\{\begin{aligned}x+y&=3\\2x-y&=0\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-2y&=1\\-2x+4y&=-2\end{aligned}\right.$
+  \task $\left\{\begin{aligned}3x+y&=2\\6x+2y&=5\end{aligned}\right.$
+\end{tasks}\recorda{SCD: les rectes es tallen en un punt. \ SCI: són la mateixa recta. \ SI: són paral·leles.}
+
+\ex{2} Afegeix una equació al sistema \ $\left\{\begin{aligned}x+y+z&=3\\2x-y+z&=2\end{aligned}\right.$ \ de manera que el sistema resultant siga:\begin{tasks}(3)
+  \task compatible indeterminat
+  \task incompatible
+  \task compatible determinat
+\end{tasks}\recorda{Una equació que és combinació lineal de les altres no aporta informació; una amb els mateixos coeficients i un altre terme independent les contradiu.}
+
+\ex{1} Resol pel mètode de Gauss:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}x+y+z&=6\\2x-y+3z&=9\\x+2y-z&=2\end{aligned}\right.$
+  \task $\left\{\begin{aligned}2x+y-z&=1\\x-y+2z&=5\\3x+2y+z&=10\end{aligned}\right.$
+\end{tasks}\recorda{Fes zeros davall de la diagonal amb operacions entre files de la matriu ampliada i després resol de baix cap amunt.}
+
+\ex{2} Classifica i resol, quan siga possible, pel mètode de Gauss:\begin{tasks}(3)
+  \task $\left\{\begin{aligned}x-y+2z&=1\\2x+y-z&=3\\4x-y+3z&=5\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-y+2z&=1\\2x+y-z&=3\\4x-y+3z&=6\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-2y+z&=3\\-2x+4y-2z&=-6\\3x-6y+3z&=9\end{aligned}\right.$
+\end{tasks}\recorda{Una fila $(0\ 0\ 0\,|\,0)$ es pot suprimir; una fila $(0\ 0\ 0\,|\,d)$ amb $d\neq0$ vol dir que el sistema és incompatible. En un SCI hi ha tants paràmetres com incògnites \emph{sobren}.}
+
+\ex{2} \pau{Navarra, EvAU extraordinària 2023} Classifica el sistema següent en funció del nombre de solucions i resol-lo utilitzant el mètode de Gauss:\[\left\{\begin{aligned}x+y+3z&=1\\4x+3y+5z&=5\\2x+y-z&=3\end{aligned}\right.\]
+
+
+% =====================================================
+\seccio{2}{Expressió matricial. Mètode matricial}
+
+\ex{1} Escriu en forma matricial $A\cdot X=B$ i dona la matriu de coeficients $A$ i la matriu ampliada $A^*$:\[\left\{\begin{aligned}3x-2z&=1\\x+4y&=0\\-y+z&=5\end{aligned}\right.\]
+
+\ex{1} Escriu el sistema d'equacions que correspon a l'equació matricial \ $\begin{pmatrix}1 & 2 & 0\\-1 & 0 & 3\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}4\\ 1\end{pmatrix}$. \ Quantes equacions i quantes incògnites té?
+
+\ex{2} Resol pel mètode matricial (amb la matriu inversa):\begin{tasks}(2)
+  \task $\left\{\begin{aligned}3x+2y&=7\\x+y&=3\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+z&=3\\x+y&=3\\y+z&=4\end{aligned}\right.$
+\end{tasks}\recorda{Si $|A|\neq0$: \ $A\cdot X=B\Rightarrow X=A^{-1}\cdot B$, \ amb $A^{-1}=\dfrac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t$. Multipliquem per $A^{-1}$ per l'\textbf{esquerra}.}
+
+\ex{2} \pau{Galícia, ABAU extraordinària 2023} Expressa en forma matricial el sistema d'equacions següent i resol-lo:\[\left\{\begin{aligned}2x+y+z&=2\\2y-z&=-1\\x+y&=1\end{aligned}\right.\]
+
+\ex{2} \pau{País Basc, PAU extraordinària 2025} Considera el sistema d'equacions lineals\[\left\{\begin{aligned}3x-2y-2z&=3\\x-z&=1\\2y-z&=0\end{aligned}\right.\]\begin{tasks}(1)
+  \task Expressa'l mitjançant una equació matricial.
+  \task La matriu dels coeficients té inversa? Raona la resposta.
+  \task Resol el sistema d'equacions lineals.
+\end{tasks}
+
+\ex{3} Considera el sistema \ $\left\{\begin{aligned}x+ky&=1\\ y+z&=2\\ kx+z&=3\end{aligned}\right.$\begin{tasks}(1)
+  \task Comprova que es pot resoldre pel mètode matricial per a qualsevol valor de $k$.
+  \task Resol-lo pel mètode matricial per a $k=1$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Regla de Cramer}
+
+\ex{1} Resol aplicant la regla de Cramer:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}2x-3y&=-4\\5x+y&=7\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=2\\2x-y+z&=5\\x+2y-z&=-3\end{aligned}\right.$
+\end{tasks}\recorda{Si el sistema és quadrat i $|A|\neq0$, cada incògnita és un quocient de determinants: al numerador, la columna de la incògnita se substitueix per la dels termes independents.}
+
+\ex{2} \pau{Castella i Lleó, PAU ordinària 2025} Donat el sistema \ $\left\{\begin{aligned}ax+2y+z&=1\\ x+by+2z&=4\\ 3x+y+bz&=5\end{aligned}\right.$, \ resol-lo per a $a=1$ i $b=-2$.
+
+\ex{2} Justifica que el sistema següent és de Cramer i calcula, \textbf{només}, el valor de $z$. Comprova després el resultat calculant també $x$ i $y$.\[\left\{\begin{aligned}x-y+2z&=0\\3x+y-z&=2\\2x+3y+z&=4\end{aligned}\right.\]
+
+\ex{3} Resol aplicant la regla de Cramer el sistema compatible indeterminat \ $\left\{\begin{aligned}x+2y-z&=3\\2x-y+3z&=1\end{aligned}\right.$ \ (passa $z$ al segon membre).
+
+
+% =====================================================
+\seccio{4}{Teorema de Rouché-Frobenius}
+
+\ex{1} \label{ex:rf}Classifica els sistemes següents aplicant el teorema de Rouché-Frobenius (no cal resoldre'ls):\begin{tasks}(3)
+  \task $\left\{\begin{aligned}x+2y&=5\\3x-y&=1\\2x+y&=4\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+2y&=5\\3x-y&=1\\x+y&=2\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y-z&=2\\2x-y+z&=1\\5x-y+z&=4\end{aligned}\right.$
+\end{tasks}\recorda{$\operatorname{rg}(A)\neq\operatorname{rg}(A^*)$: SI. \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)=n$: SCD. \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)<n$: SCI ($n$ = nombre d'incògnites).}
+
+\ex{2} \pau{Múrcia, PAU ordinària 2025} Discuteix i resol, si és possible, el sistema lineal següent:\[\left\{\begin{aligned}3x+2y-z&=3\\x-y+2z&=4\\2x+3y-z&=3\end{aligned}\right.\]
+
+\ex{2} Classifica el sistema següent i, si és compatible, resol-lo:\[\left\{\begin{aligned}x+y+z&=3\\x-y+z&=1\\2x+y-z&=2\\3x+y+z&=5\end{aligned}\right.\]
+
+\ex{2} Raona si són certes o falses les afirmacions següents:\begin{tasks}(1)
+  \task Un sistema de 3 equacions i 2 incògnites no pot ser compatible determinat.
+  \task Si un sistema de 3 equacions i 3 incògnites té $|A|\neq0$, sempre és compatible determinat.
+  \task Si $\operatorname{rg}(A)=2$ i $\operatorname{rg}(A^*)=3$, el sistema té dues solucions.
+  \task Un sistema de 2 equacions i 3 incògnites pot ser compatible determinat.
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Sistemes homogenis}
+
+\ex{1} Classifica i resol els sistemes homogenis següents:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}x+2y-z&=0\\2x-y+z&=0\\3x+y+z&=0\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-y+z&=0\\2x+y-z&=0\\x+2y-2z&=0\end{aligned}\right.$
+\end{tasks}\recorda{Un sistema homogeni sempre és compatible (té la solució trivial $x=y=z=0$). Té més solucions si i només si $\operatorname{rg}(A)<n$; si és quadrat, quan $|A|=0$.}
+
+\ex{2} Troba el valor de $k$ perquè el sistema \ $\left\{\begin{aligned}x+y-z&=0\\ 2x-y+kz&=0\\ x+2y+z&=0\end{aligned}\right.$ \ tinga solucions diferents de la trivial i resol-lo per a aquest valor.
+
+\ex{1} Per què el sistema \ $\left\{\begin{aligned}2x-y+z&=0\\x+3y-2z&=0\end{aligned}\right.$ \ té infinites solucions sense calcular cap determinant? Resol-lo.
+
+
+% =====================================================
+\seccio{6}{Discussió de sistemes amb paràmetres}
+
+\ex{2} \pau{Astúries, PAU extraordinària 2025} Donat el sistema d'equacions \ $\left\{\begin{aligned}x-y&=-m\\ 10x+(10+m)y&=150\end{aligned}\right.$, \ amb incògnites $x$ i $y$:\begin{tasks}(1)
+  \task Per a quins valors del paràmetre $m$ té el sistema una única solució?
+  \task Si el sistema fóra \ $\left\{\begin{aligned}x-y&=-\lambda\\ 10x+(10+m)y&=150\end{aligned}\right.$, \ troba el valor de $m$ i un valor de $\lambda$ per als quals el sistema tinga infinites solucions, i calcula'n una.
+\end{tasks}\recorda{Calcula $|A|$ i busca els valors que l'anul·len (valors crítics); estudia cada valor crític a banda amb Rouché-Frobenius.}
+
+\ex{2} \pau{Astúries, EBAU extraordinària 2024} Siguen les matrius $A=\begin{pmatrix}2 & 1\\-1 & m\end{pmatrix}$, $B=\begin{pmatrix}1 & m\\-1 & 1\end{pmatrix}$, $C=\begin{pmatrix}0 & 2m\\-2m & -1\end{pmatrix}$, $D=\begin{pmatrix}x\\ y\end{pmatrix}$ i $E=\begin{pmatrix}1\\ 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Si $(A\cdot B-C)\cdot D=E$, planteja un sistema de dues equacions i dues incògnites ($x$ i $y$) en funció del paràmetre $m$.
+  \task Per a quins valors de $m$ té solució el sistema? Si en té, és sempre única? Resol el sistema per a $m=-1$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU extraordinària 2022} Considera el sistema d'equacions lineals dependent del paràmetre $a\in\mathbb{R}$:\[\left\{\begin{aligned}x+ay+z&=2\\ x-az&=0\\ x+y+z&=2\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix la compatibilitat del sistema per als diferents valors de $a$.
+  \task Resol el sistema per a $a=0$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU extraordinària 2024} Considera el sistema d'equacions lineals dependent del paràmetre $a\in\mathbb{R}$:\[\left\{\begin{aligned}2x+y+3z&=2\\ 3x+y+z&=0\\ 8x+ay+5z&=2\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix el sistema per als diferents valors de $a$.
+  \task Resol el sistema d'equacions per a $a=3$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU ordinària 2024} Considera el sistema d'equacions lineals dependent del paràmetre $a\in\mathbb{R}$:\[\left\{\begin{aligned}2x+y+z&=a\\ x+ay+z&=a+1\\ x+y+az&=2\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix el sistema en funció dels valors del paràmetre $a$.
+  \task Resol el sistema d'equacions per a $a=1$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, PAU extraordinària 2025} Es considera el sistema d'equacions dependent del paràmetre real $a$:\[\left\{\begin{aligned}x+y+z&=2\\ 2x-y+z&=3\\ (a+1)x+az&=5\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix el sistema en funció dels valors del paràmetre real $a$.
+  \task Resol el sistema per a $a=2$.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, PAU extraordinària 2025} Considera el sistema d'equacions següent, on $a$ és un nombre real desconegut:\[\left\{\begin{aligned}x-y+z&=1\\ 2x-y+z&=a\\ 3x+2y-az&=4\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix el sistema d'equacions segons els valors de $a$.
+  \task Resol el sistema per a $a=1$.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, EBAU ordinària 2023} Discuteix el sistema lineal d'equacions en funció dels valors del paràmetre $a$ i resol-lo per a $a=0$:\[\left\{\begin{aligned}ax+y+z&=1\\ 2x+y+z&=1\\ x+ay+z&=2\end{aligned}\right.\]
+
+\ex{3} \pau{Madrid, EvAU extraordinària 2023} Considera el sistema d'equacions lineals dependent del paràmetre real $a$:\[\left\{\begin{aligned}ax+y+2z&=1\\ x+ay+2z&=a\\ x+2y+az&=1\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix el sistema en funció dels valors del paràmetre $a$.
+  \task Resol el sistema d'equacions per a $a=0$.
+\end{tasks}
+
+\ex{3} \pau{Castella i Lleó, PAU ordinària 2025} Donat el sistema amb els paràmetres $a$ i $b$:\[\left\{\begin{aligned}ax+2y+z&=1\\ x+by+2z&=4\\ 3x+y+bz&=5\end{aligned}\right.\]\begin{tasks}(1)
+  \task Si $b=-1$, classifica el sistema en funció dels diferents valors del paràmetre $a$.
+  \task Si $a=3$, classifica el sistema en funció dels diferents valors del paràmetre $b$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemes de plantejament}
+
+\ex{1} \pau{Canàries, EBAU ordinària 2022} Una empresa dedicada a activitats i esports aquàtics ha venut en un dia un total de 45 sessions entre pàdel surf, caiac i moto aquàtica. Els preus per sessió i persona d'aquestes activitats són 40 €, 20 € i 60 €, respectivament, i l'empresa ha recaptat un total de 1\,700 € aquell dia. A més, per cada persona que tria caiac n'hi ha tres que trien pàdel surf.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions corresponent.
+  \task Quantes persones van a cada activitat?
+\end{tasks}\recorda{Defineix bé les incògnites (què representa cada lletra), tradueix cada frase en una equació i, al final, comprova que la solució té sentit en el context (nombres naturals, preus positius\dots).}
+
+\ex{2} \pau{Canàries, EBAU ordinària 2023} En un barri viuen 875 persones classificades en tres grups: xiquets i joves, adults i jubilats. La quarta part dels adults és igual al doble de la cinquena part dels xiquets i joves, i per cada 9 jubilats n'hi ha 26 de la resta.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions corresponent.
+  \task Explicant els passos del mètode emprat, resol el sistema plantejat.
+  \task Quantes persones hi ha en cada grup?
+\end{tasks}
+
+\ex{1} \pau{Canàries, EBAU extraordinària 2024} En una botiga d'electrònica es venen telèfons mòbils, tauletes i ordinadors portàtils. Un mòbil costa 300 €, una tauleta 400 € i un portàtil 800 €. En una setmana s'han ingressat 28\,000 € en vendes d'aquests aparells. S'han venut el doble de mòbils que de tauletes i, per cada dues tauletes, s'ha venut un portàtil.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions corresponent.
+  \task Quants aparells de cada tipus s'han venut?
+\end{tasks}
+
+\ex{2} \pau{Canàries, EBAU ordinària 2024} Una jugadora d'escacs ha aconseguit premis en 51 dels tornejos en què ha participat al llarg de la seua vida. Els tornejos han sigut locals, nacionals i internacionals. El nombre de tornejos locals en què ha jugat ha sigut el doble dels nacionals; a més, per cada cinc tornejos nacionals ha participat en dos d'internacionals. Els tornejos en què ha aconseguit premi representen un 30\,\% de tots els tornejos en què ha participat.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions corresponent.
+  \task En quants tornejos de cada classe ha participat aquesta jugadora?
+\end{tasks}
+
+\ex{2} \pau{Cantàbria, EBAU extraordinària 2022} Un dia de platja, la Fabiola s'acosta al xiringuito i compra 3 gelats, 2 granissats i 2 orxates, i paga un total de 20 €. En comprovar el tiquet s'adona que li han cobrat un gelat i una orxata de més. Després de reclamar, el venedor li torna 5 €. A més, per compensar l'error, li ofereix endur-se en promoció un gelat i un granissat per 2 €, la qual cosa suposa un descompte del 50\,\% respecte dels preus originals.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que permet calcular el preu (sense descompte) d'un gelat, un granissat i una orxata.
+  \task Resol-lo.
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, EBAU ordinària 2023} En un magatzem de construcció venen sacs de ciment de 25 kg, 50 kg i 100 kg. Cert dia es va vendre un total de 180 sacs per un import de 29\,200 €. Se sap que el preu del kg de ciment és de 4 € i que aquell dia es van vendre el doble de sacs de 25 kg que la suma dels sacs de 50 kg i dels de 100 kg.\begin{tasks}(1)
+  \task Planteja un sistema d'equacions que permeta calcular quants sacs de cada grandària es van vendre aquell dia.
+  \task Resol-lo.
+\end{tasks}
+
+\ex{2} \pau{Cantàbria, EBAU extraordinària 2024} Una organització encarregada d'un esdeveniment esportiu té un pressupost de 500 € per a adquirir material promocional: banderes, samarretes i gorres. Els preus per unitat són de 5, 6 i 2 euros, respectivament. La quantitat de samarretes ha de ser la meitat de la de gorres, i la suma de banderes i samarretes ha de ser 70.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que permet calcular les unitats que s'han de comprar de cada article si es vol esgotar el pressupost.
+  \task Analitza la compatibilitat del sistema.
+  \task Resol-lo.
+\end{tasks}
+
+\ex{2} \pau{Cantàbria, EBAU ordinària 2024} Una empresa de jardineria necessita adquirir 300 kg de terra, 200 kg de pedres decoratives i 100 kg de llavors. En comparar preus entre dos proveïdors, A i B, obté aquestes ofertes: el proveïdor A li ofereix un preu total de 13\,000 €; el proveïdor B, que fa descomptes per renovació d'inventari, redueix el preu de la terra a un terç del que ofereix A, el de les pedres a la meitat i el de les llavors a una cinquena part, i resulta un estalvi de 8\,800 € respecte del preu total d'A. A més, per al proveïdor A, el preu per kg de les llavors és el doble de la suma dels preus per kg de la terra i de les pedres.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que permet calcular el preu per kilogram de la terra, les pedres i les llavors en el proveïdor A.
+  \task Analitza la compatibilitat del sistema.
+  \task Resol-lo.
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, EBAU ordinària 2023} Comprem tres entrades per a tres activitats: una per al teatre, una altra per a un partit de bàsquet i una altra per a un concert. Després de descomptar-nos el 10\,\% del preu total, hem pagat 117 euros per totes les entrades. Sabem que el preu de l'entrada del concert és el doble que el de l'entrada del teatre i que l'entrada del concert és 20 euros més cara que la del partit de bàsquet. Determina el preu de l'entrada de cada activitat.
+
+\ex{1} \pau{Castella-la Manxa, EvAU extraordinària 2022} El nombre total de premis Goya rebuts al llarg de la carrera per tres dones (Isabel, Carmen i Enma) és de 15. Si augmentem en un premi la quantitat que ha rebut Isabel, obtenim el triple dels premis guanyats per Enma, i els que ha rebut Enma equivalen a les tres quartes parts dels que ha rebut Carmen.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que ens permet esbrinar quants premis Goya ha rebut cada una.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, EvAU extraordinària 2022} Un concessionari d'automòbils té en oferta tres models de cotxe: un esportiu, un familiar i un monovolum. El mes passat es van vendre 10 esportius, 6 familiars i 3 monovolums i es van obtenir 851\,000 euros. L'esportiu val 2\,000 euros més que el familiar. Per 5 esportius venuts s'obtenen 13\,000 euros més que si es venen 6 monovolums.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que ens permet esbrinar el preu de cadascun dels tres models.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, EvAU ordinària 2022} La capsa de bombons que compre costa 51 euros i conté 12 bombons de xocolata negra, 6 de xocolata amb llet i 6 de xocolata blanca. Cada bombó de xocolata negra costa un euro més que els de xocolata amb llet, i aquests costen 50 cèntims menys que els de xocolata blanca.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que ens permet esbrinar quant costa cada tipus de bombó.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, EvAU extraordinària 2023} Una cooperativa manxega que distribueix tres tipus de vi, blanc, rosat i negre, ha rebut una comanda de 50 botelles. Se sap que el doble de botelles de vi blanc, d'una banda, excedeix en una unitat les de vi rosat i, d'una altra, coincideix amb el quíntuple del nombre de botelles de vi negre.\begin{tasks}(1)
+  \task Planteja un sistema d'equacions per esbrinar quantes botelles de vi blanc, rosat i negre es van demanar.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, EvAU ordinària 2023} La discografia d'un grup de rock llegendari es reedita en tres discos (I, II i III) i les vendes totals arriben a 70\,000 unitats. Sabem que del disc III se'n van vendre tantes unitats com dels altres dos junts, i que la diferència entre les unitats venudes del III i les del II equival al triple de la diferència entre les venudes del II i les del I.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions per calcular quantes unitats de cada disc es van vendre.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, EvAU extraordinària 2024} Dels nadons inscrits el mes de maig a Castella-la Manxa, 72 es diuen Alba, Pablo o David. Sabem que el nombre de nadons anomenats David coincideix amb la diferència entre els que es diuen Pablo i les que es diuen Alba. A més, s'hi han inscrit tantes xiquetes amb el nom d'Alba com la suma dels inscrits com a David i un terç dels inscrits com a Pablo.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que permet esbrinar quants nadons s'han inscrit amb cada nom.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, EvAU ordinària 2024} A la fase nacional de l'Olimpíada Matemàtica Espanyola es reparteixen 36 medalles d'or, de plata i de bronze. El nombre de medalles de bronze triplica el de medalles d'or i, si dues de les medalles de plata passaren a la categoria de bronze, aleshores la quantitat de medalles de bronze duplicaria la de plata.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions per calcular quantes medalles de cada tipus es reparteixen.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{3} \pau{Castella-la Manxa, EvAU ordinària 2024} En una classe se celebren eleccions a delegada i s'hi presenten dues candidates, Inés i Nerea. Se sap que quatre vegades el nombre de vots de Nerea menys tres vegades el nombre de vots d'Inés excedeix en un vot el nombre de vots nuls. Si dividim el nombre de vots d'Inés entre el de Nerea, obtenim quocient 1 i residu 7 ($D=d\cdot c+r$). El 5\,\% del total de vots emesos és nul.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions per calcular el nombre de vots nuls i els que van rebre Inés i Nerea.
+  \task Resol raonadament el sistema plantejat.
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, PAU extraordinària 2025} Al Parador de Turisme d'Almagro es van allotjar ahir 25 hostes procedents d'Itàlia, Portugal i el Japó. La despesa total al Parador va ser de 3\,610 €: 140 € per cada hoste italià, 130 € per cada portugués i 160 € per cada japonés. El registre mostra que el nombre de portuguesos és la quarta part de la suma dels hostes dels altres dos països.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions per calcular quants hostes hi ha de cada país.
+  \task Calcula el nombre d'hostes de cadascun dels països.
+\end{tasks}
+
+\ex{2} \pau{Catalunya, PAU extraordinària 2022} En Martí explica a en Marcel que l'altre dia, quan va agafar l'autocar per anar de Barcelona a Tarragona, l'autocar es va avariar just a la meitat del trajecte. Des d'aquell punt va anar a peu fins a la població més pròxima, de manera que va recórrer a peu una vintena part del trajecte total. Allí va agafar un taxi fins a Tarragona, i diu que va recórrer 5 km més en autocar que en taxi.\begin{tasks}(1)
+  \task Planteja i resol un sistema d'equacions per calcular quants quilòmetres va recórrer en autocar, a peu i en taxi.
+  \task Si l'autocar anava a 100 km/h, en Martí va caminar a 5 km/h i el taxi anava a 90 km/h, quant de temps va tardar a fer tot el trajecte?
+\end{tasks}
+
+\ex{3} \pau{Catalunya, PAU ordinària 2023} Una empresa distribueix dos tipus de paquets a les farmàcies, A i B. El paquet A conté 5 termòmetres digitals d'infrarojos, 30 mascaretes i 10 tests ràpids d'antígens. El paquet B conté 1 termòmetre, 15 mascaretes i 20 tests. El paquet A costa 550 € i el B, 200 €. El preu de cada producte és el mateix en els dos tipus de paquet.\begin{tasks}(1)
+  \task Amb aquestes dades, és possible trobar el preu d'un termòmetre, el d'una mascareta i el d'un test d'antígens? Justifica la resposta plantejant i classificant un sistema d'equacions. Resol el sistema deixant la solució en funció del preu del test d'antígens.
+  \task Si un test d'antígens costa 4 €, quin serà el preu d'una mascareta? I el d'un termòmetre?
+\end{tasks}
+
+\ex{1} \pau{Madrid, EvAU extraordinària 2024} En una botiga de música hi ha 70 instruments de tres tipus: guitarres, pianos i violins. Se sap que la quantitat de pianos més la de violins és igual a la de guitarres. Si tinguérem el mateix nombre de violins, però el doble de pianos i quatre vegades el de guitarres, el total d'instruments de la botiga seria de 180. Planteja un sistema d'equacions i determina el nombre d'instruments de cada tipus.
+
+\ex{1} \pau{Madrid, EvAU ordinària 2024} Un equip de bàsquet regional ha venut tres tipus d'entrades per al darrer partit: generals a 10 €, d'estudiant a 8 € i infantils a 5 €. L'equip ha venut 600 entrades i ha ingressat 4\,900 €. A més, ha venut el doble d'entrades generals que d'infantils. Planteja el sistema d'equacions i resol-lo per calcular el nombre d'entrades venudes de cada tipus.
+
+\ex{2} \pau{Navarra, PAU ordinària 2025} Una empresa envasa pastes en capses de 250 g, 500 g i 1 kg. Cert dia es van envasar 65 capses en total, 5 capses més de grandària petita (250 g) que de mitjana (500 g). Sabent que el kilo de pastes costa 24 euros i que l'import total de les pastes envasades aquell dia és de 720 euros, quantes capses de cada tipus s'hi han envasat?\begin{tasks}(1)
+  \task Planteja el sistema d'equacions lineals.
+  \task Resol el sistema. Interpreta la solució en el context del problema.
+\end{tasks}
+
+\ex{1} \pau{País Basc, PAU extraordinària 2025} El caixer automàtic d'un banc només disposa de bitllets de 10, 20 i 50 euros. Hem tret 290 euros i el caixer ens ha donat exactament 8 bitllets. A més, el nombre de bitllets de 10 euros és el doble que el de 20 euros.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions lineals associat a aquest problema.
+  \task Resol el sistema d'equacions lineals.
+\end{tasks}
+
+\ex{2} \pau{País Basc, PAU ordinària 2025} Una botiga té llandes de conserva de tomaca de tres fabricants: A, B i C. El fabricant A envasa la tomaca en llandes de 250 g, el B en llandes de 500 g i el C en llandes d'1 kg. Aquestes llandes es venen a 1 €, 1{,}80 € i 3{,}30 €, respectivament. Comprem 20 llandes que pesen en total 10 kg i valen 35{,}60 €. Volem saber quantes llandes hem comprat de cada fabricant.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que resol el problema.
+  \task Resol el problema.
+\end{tasks}
+
+\ex{3} \pau{Astúries, PAU ordinària 2025} En una atracció hi ha dos tipus de passis, el VIP i el normal, de preus $x$ i $y$ euros, respectivament. Un grup de persones va pagar 90 € per un passi VIP i tres de normals, mentre que un altre grup va pagar $15m$ € per dos passis VIP i $m$ passis normals. Per determinar el preu de cada passi s'utilitza el sistema\[\left\{\begin{aligned}x+3y&=90\\ 2x+my&=15m\end{aligned}\right.\]\begin{tasks}(1)
+  \task Si $m=15$, quin va ser el preu de cada tipus de passi?
+  \task Dona un valor de $m$ per al qual el sistema tinga solució, però aquesta solució no tinga sentit en el context del problema. Justifica la resposta.
+  \task Per a quin valor de $m$ el sistema no té solució? Justifica la resposta.
+\end{tasks}
+
+\ex{3} \pau{Astúries, EBAU extraordinària 2023} En una festa es van beure $m$ copes de vi negre per cada una de vi blanc. Cada copa (de vi negre o blanc) conté 0{,}15 litres i en total es van beure $3m$ litres de vi.\begin{tasks}(1)
+  \task Planteja un sistema de dues equacions en funció del paràmetre $m$ en què les incògnites $x$ i $y$ siguen el nombre de copes de vi negre i de vi blanc, respectivament.
+  \task Per a quins valors de $m$ té solució el sistema anterior? Si en té, és sempre única? Quantes copes de cada tipus es van beure si en total es van consumir 9 litres de vi?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb el resolutor de sistemes dels apunts interactius.\end{center}
+
+\end{document}
