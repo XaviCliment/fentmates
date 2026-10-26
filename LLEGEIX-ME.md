@@ -128,7 +128,7 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1`, `1eso-t2`, `1eso-t3` i `1eso-t4` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t5` i `2batx-ccss-t6` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
@@ -146,6 +146,13 @@ python3 _eines/apunts/1eso-t4/build.py
 ```
 
 `_eines/apunts/relabel.py` fa que cada exercici dels quadres «Practica» comence per a) i ajusta les solucions.
+
+Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
+`2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
+
+```
+python3 _eines/apunts/2batx-ccss-t6/build.py
+```
 
 ## Treballar des de casa i des de l'institut
 

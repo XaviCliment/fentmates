@@ -328,6 +328,15 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "aplicacions", block: "an",
+        title: { va: "Aplicacions de la derivada", es: "Aplicaciones de la derivada", en: "Applications of the derivative" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t6-aplicacions-derivada.html", date: "2026-10-26" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis, 42 de la PAU d'altres comunitats", es: "PDF · 54 ejercicios, 42 de la PAU de otras comunidades", en: "PDF · 54 exercises, 42 from other regions' PAU exams" }, url: "materials/2batx-ccss/t6-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/2batx-ccss/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" }
+        ]
+      },
+      {
         ill: "probabilitat", block: "pr",
         title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
         items: [
