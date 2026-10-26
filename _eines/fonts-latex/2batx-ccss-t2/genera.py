@@ -70,6 +70,7 @@ def tr(M): return [list(r) for r in zip(*M)]
 def inv(M): d = det(M); return [[c / d for c in r] for r in tr(adjm(M))]
 def subcol(R, j): return [r[:j] + [r[-1]] + r[j + 1:-1] for r in R]
 def cramer(R): return det(coef(R)), [det(subcol(R, j)) for j in range(len(R[0]) - 1)]
+def mult(A, X): return [sum(fr(a) * fr(x) for a, x in zip(r, X)) for r in A]
 def satisfies(R, s): return all(sum(fr(c) * fr(x) for c, x in zip(r[:-1], s)) == fr(r[-1]) for r in R)
 
 # ---------- passos del mètode de Gauss (amb aritmètica exacta) ----------
@@ -148,7 +149,7 @@ S.append(("Sistemes d'equacions lineals. Mètode de Gauss", [
      + recorda(r"Fes zeros davall de la diagonal amb operacions entre files de la matriu ampliada i després resol de baix cap amunt."),
      tasks(1, [G(R4a, (1, 2, 3), 'SCD') + r"$-5z=-15\Rightarrow z=3$; \ $y-6=-4\Rightarrow y=2$; \ $x=6-2-3$: \ $\res{x=1;\ y=2;\ z=3}$",
                G(R4b, (1, 2, 3), 'SCD') + r"$10z=30\Rightarrow z=3$; \ $3y-15=-9\Rightarrow y=2$; \ $x=5+2-6$: \ $\res{x=1;\ y=2;\ z=3}$"])),
- (2, r"Classifica i resol, quan siga possible, pel mètode de Gauss:" + tasks(3, [m(sy(R5a)), m(sy(R5b)), m(sy(R5c))])
+ (2, r"Discuteix i resol, quan siga possible, pel mètode de Gauss:" + tasks(3, [m(sy(R5a)), m(sy(R5b)), m(sy(R5c))])
      + recorda(r"Una fila $(0\ 0\ 0\,|\,0)$ es pot suprimir; una fila $(0\ 0\ 0\,|\,d)$ amb $d\neq0$ vol dir que el sistema és incompatible. En un SCI hi ha tants paràmetres com incògnites \emph{sobren}."),
      tasks(1, [G(R5a) + r"\rest{SCI}. Fem $z=\lambda$: $3y=1+5\lambda$, \ $x=1+y-2\lambda$: \ $\res{x=\tfrac{4-\lambda}{3};\ y=\tfrac{1+5\lambda}{3};\ z=\lambda}$",
                G(R5b, cls='SI') + r"L'última fila diu $0=1$: \ \rest{SI}, no té solució.",
@@ -158,8 +159,11 @@ S.append(("Sistemes d'equacions lineals. Mètode de Gauss", [
 ]))
 
 # =====================================================================
-R7a = [[3, 0, -2, 1], [1, 4, 0, 0], [0, -1, 1, 5]]
+R7a = [[2, 0, -1, 1], [1, 1, 0, 0], [0, 1, 1, 2]]
+ck('det', coef(R7a), 1); ck('sol', R7a, (3, -3, 5)); assert mult(inv(coef(R7a)), [1, 0, 2]) == [3, -3, 5]
 M7b, B7b = [[1, 2, 0], [-1, 0, 3]], [4, 1]
+R7b = [r + [b] for r, b in zip(M7b, B7b)]
+ck('cls', R7b, 'SCI'); ck('sol', R7b, lambda l: (-1 + 3 * l, (5 - 3 * l) / 2, l))
 A8a, B8a = [[3, 2], [1, 1]], [7, 3]
 A8b, B8b = [[1, 0, 1], [1, 1, 0], [0, 1, 1]], [3, 3, 4]
 INV8a, INV8b = [[1, -2], [-1, 3]], [[F(1, 2), F(1, 2), F(-1, 2)], [F(-1, 2), F(1, 2), F(1, 2)], [F(1, 2), F(-1, 2), F(1, 2)]]
@@ -174,15 +178,15 @@ A11 = [[1, 1, 0], [0, 1, 1], [1, 0, 1]]
 INV11 = [[F(1, 2), F(-1, 2), F(1, 2)], [F(1, 2), F(1, 2), F(-1, 2)], [F(-1, 2), F(1, 2), F(1, 2)]]
 ck('inv', A11, INV11); ck('sol', [r + [b] for r, b in zip(A11, [1, 2, 3])], (1, 0, 2))
 for k in range(-5, 6): ck('det', [[1, k, 0], [0, 1, 1], [k, 0, 1]], 1 + k * k)
-def mult(A, X): return [sum(fr(a) * fr(x) for a, x in zip(r, X)) for r in A]
 S.append(("Expressió matricial. Mètode matricial", [
- (1, r"Escriu en forma matricial $A\cdot X=B$ i dona la matriu de coeficients $A$ i la matriu ampliada $A^*$:" + dm(sy(R7a)),
-     dm(pm(coef(R7a)) + r'\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}1\\ 0\\ 5\end{pmatrix};\qquad \res{A=' + pm(coef(R7a)) + r'},\quad \res{A^*=' + amp(R7a) + '}')
-     + r"Compte amb les incògnites que no apareixen: el seu coeficient és 0."),
- (1, r"Escriu el sistema d'equacions que correspon a l'equació matricial \ $" + pm(M7b) + r"\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}4\\ 1\end{pmatrix}$. \ Quantes equacions i quantes incògnites té?",
-     r"$\res{" + sy([r + [b] for r, b in zip(M7b, B7b)]) + r"}$ \ \ Té \rest{2 equacions i 3 incògnites} (el producte d'una matriu $2\times3$ per una $3\times1$ és $2\times1$)."),
- (2, r"Resol pel mètode matricial (amb la matriu inversa):" + tasks(2, [m(sy([r + [b] for r, b in zip(A8a, B8a)], 'xy')), m(sy([r + [b] for r, b in zip(A8b, B8b)]))])
-     + recorda(r"Si $|A|\neq0$: \ $A\cdot X=B\Rightarrow X=A^{-1}\cdot B$, \ amb $A^{-1}=\dfrac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t$. Multipliquem per $A^{-1}$ per l'\textbf{esquerra}."),
+ (2, r"Escriu en forma matricial $A\cdot X=B$ i resol-lo utilitzant la inversa de la matriu $A$:" + dm(sy(R7a))
+     + recorda(r"Si $|A|\neq0$: \ $A\cdot X=B\Rightarrow X=A^{-1}\cdot B$, \ amb $A^{-1}=\dfrac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t$. Multipliquem per $A^{-1}$ per l'\textbf{esquerra}. Compte amb les incògnites que no apareixen: el seu coeficient és 0."),
+     dm(pm(coef(R7a)) + r'\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}1\\ 0\\ 2\end{pmatrix}')
+     + r"$|A|=" + vm(coef(R7a)) + r"=1\neq0$, per tant $A$ té inversa:" + dm(r'\mathrm{Adj}(A)=' + pm(adjm(coef(R7a))) + r',\qquad A^{-1}=\frac{1}{1}\big(\mathrm{Adj}(A)\big)^t=' + pm(inv(coef(R7a))))
+     + dm(r'X=A^{-1}\cdot B=' + pm(inv(coef(R7a))) + r'\begin{pmatrix}1\\ 0\\ 2\end{pmatrix}=\begin{pmatrix}3\\ -3\\ 5\end{pmatrix}\ \Rightarrow\ \boxed{x=3;\ y=-3;\ z=5}')),
+ (1, r"Escriu el sistema d'equacions que correspon a l'equació matricial \ $" + pm(M7b) + r"\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}4\\ 1\end{pmatrix}$. \ Quantes equacions i quantes incògnites té? De quin tipus de sistema es pot tractar (SCD, SCI o SI)? Justifica la resposta.",
+     r"$\res{" + sy([r + [b] for r, b in zip(M7b, B7b)]) + r"}$ \ \ Té \rest{2 equacions i 3 incògnites} (el producte d'una matriu $2\times3$ per una $3\times1$ és $2\times1$).\par No pot ser SCD: amb 2 equacions i 3 incògnites, en esglaonar sempre sobra almenys una incògnita. Les files de $A$ no són proporcionals i, amb $F_2'=F_2+F_1$, queda $2y+3z=5$: no apareix cap fila del tipus $0=d\neq0$. Per tant, és \rest{SCI}, amb un paràmetre: \ $x=-1+3\lambda;\ y=\tfrac{5-3\lambda}{2};\ z=\lambda$."),
+ (2, r"Resol pel mètode matricial (amb la matriu inversa):" + tasks(2, [m(sy([r + [b] for r, b in zip(A8a, B8a)], 'xy')), m(sy([r + [b] for r, b in zip(A8b, B8b)]))]),
      tasks(1, [r"$|A|=1$, \ $A^{-1}=" + pm(INV8a) + r"$, \ $X=" + pm(INV8a) + r"\begin{pmatrix}7\\ 3\end{pmatrix}=\begin{pmatrix}1\\ 2\end{pmatrix}$: \ $\res{x=1;\ y=2}$",
                r"$|A|=2$, \ $A^{-1}=\frac12" + pm([[1, 1, -1], [-1, 1, 1], [1, -1, 1]]) + r"$, \ $X=\frac12" + pm([[1, 1, -1], [-1, 1, 1], [1, -1, 1]]) + r"\begin{pmatrix}3\\ 3\\ 4\end{pmatrix}=\frac12\begin{pmatrix}2\\ 4\\ 4\end{pmatrix}$: \ $\res{x=1;\ y=2;\ z=2}$"])),
  (2, r"\pau{Galícia, ABAU extraordinària 2023} Expressa en forma matricial el sistema d'equacions següent i resol-lo:" + dm(sy(RGAL)),
@@ -228,6 +232,26 @@ S.append(("Regla de Cramer", [
 ]))
 
 # =====================================================================
+R20a = [[1, 2, -1, 0], [2, -1, 1, 0], [3, 1, 1, 0]]
+R20b = [[1, -1, 1, 0], [2, 1, -1, 0], [1, 2, -2, 0]]
+ck('det', coef(R20a), -5); ck('cls', R20a, 'SCD'); ck('det', coef(R20b), 0); ck('cls', R20b, 'SCI'); ck('sol', R20b, lambda l: (0, l, l))
+for k in range(-10, 4): ck('det', [[1, 1, -1], [2, -1, k], [1, 2, 1]], -k - 8)
+R21 = [[1, 1, -1, 0], [2, -1, -8, 0], [1, 2, 1, 0]]
+ck('cls', R21, 'SCI'); ck('sol', R21, lambda l: (3 * l, -2 * l, l))
+R22 = [[2, -1, 1, 0], [1, 3, -2, 0]]
+ck('sol', R22, lambda l: (-l, 5 * l, 7 * l)); ck('cls', R22, 'SCI')
+S.append(("Sistemes homogenis", [
+ (1, r"Classifica i resol els sistemes homogenis següents:" + tasks(2, [m(sy(R20a)), m(sy(R20b))])
+     + recorda(r"Un sistema homogeni sempre és compatible (té la solució trivial $x=y=z=0$). Té més solucions si i només si $\operatorname{rg}(A)<n$; si és quadrat, quan $|A|=0$."),
+     tasks(1, [r"$|A|=" + vm(coef(R20a)) + r"=-5\neq0$: \ \rest{SCD}, només la solució trivial \ $\res{x=y=z=0}$.",
+               r"$|A|=0$ i $\begin{vmatrix}1&-1\\ 2&1\end{vmatrix}=3\neq0$: \ $\operatorname{rg}(A)=2<3$, \ \rest{SCI}. Sumant les dues primeres, $3x=0$; i de la 1a, $y=z$: \ $\res{x=0;\ y=\lambda;\ z=\lambda}$"])),
+ (2, r"Troba el valor de $k$ perquè el sistema \ $\left\{\begin{aligned}x+y-z&=0\\ 2x-y+kz&=0\\ x+2y+z&=0\end{aligned}\right.$ \ tinga solucions diferents de la trivial i resol-lo per a aquest valor.",
+     r"$|A|=\begin{vmatrix}1&1&-1\\ 2&-1&k\\ 1&2&1\end{vmatrix}=-k-8=0\Rightarrow\res{k=-8}$. Per a $k=-8$ és SCI: de la 1a, $z=x+y$; a la 3a, $2x+3y=0$." + dm(r'\boxed{x=3\lambda;\ \ y=-2\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}')),
+ (1, r"Per què el sistema \ $" + sy(R22) + r"$ \ té infinites solucions sense calcular cap determinant? Resol-lo.",
+     r"És homogeni (compatible) i $\operatorname{rg}(A)\leq2<3$ incògnites: \rest{SCI}. Passant $z$ al segon membre: $2x-y=-z$, $x+3y=2z$ \ $\Rightarrow x=-\frac z7,\ y=\frac{5z}{7}$. Amb $z=7\lambda$: \ $\res{x=-\lambda;\ y=5\lambda;\ z=7\lambda}$"),
+]))
+
+# =====================================================================
 R16a = [[1, 2, 5], [3, -1, 1], [2, 1, 4]]
 R16b = [[1, 2, 5], [3, -1, 1], [1, 1, 2]]
 R16c = [[1, 1, -1, 2], [2, -1, 1, 1], [5, -1, 1, 4]]
@@ -259,26 +283,6 @@ S.append(("Teorema de Rouché-Frobenius", [
                r"\rest{Falsa}: $\operatorname{rg}(A)\leq2<3$, així que, si és compatible, és indeterminat."])),
 ]))
 S[-1][1][0] = (S[-1][1][0][0], r"\label{ex:rf}" + S[-1][1][0][1], S[-1][1][0][2])
-
-# =====================================================================
-R20a = [[1, 2, -1, 0], [2, -1, 1, 0], [3, 1, 1, 0]]
-R20b = [[1, -1, 1, 0], [2, 1, -1, 0], [1, 2, -2, 0]]
-ck('det', coef(R20a), -5); ck('cls', R20a, 'SCD'); ck('det', coef(R20b), 0); ck('cls', R20b, 'SCI'); ck('sol', R20b, lambda l: (0, l, l))
-for k in range(-10, 4): ck('det', [[1, 1, -1], [2, -1, k], [1, 2, 1]], -k - 8)
-R21 = [[1, 1, -1, 0], [2, -1, -8, 0], [1, 2, 1, 0]]
-ck('cls', R21, 'SCI'); ck('sol', R21, lambda l: (3 * l, -2 * l, l))
-R22 = [[2, -1, 1, 0], [1, 3, -2, 0]]
-ck('sol', R22, lambda l: (-l, 5 * l, 7 * l)); ck('cls', R22, 'SCI')
-S.append(("Sistemes homogenis", [
- (1, r"Classifica i resol els sistemes homogenis següents:" + tasks(2, [m(sy(R20a)), m(sy(R20b))])
-     + recorda(r"Un sistema homogeni sempre és compatible (té la solució trivial $x=y=z=0$). Té més solucions si i només si $\operatorname{rg}(A)<n$; si és quadrat, quan $|A|=0$."),
-     tasks(1, [r"$|A|=" + vm(coef(R20a)) + r"=-5\neq0$: \ \rest{SCD}, només la solució trivial \ $\res{x=y=z=0}$.",
-               r"$|A|=0$ i $\begin{vmatrix}1&-1\\ 2&1\end{vmatrix}=3\neq0$: \ $\operatorname{rg}(A)=2<3$, \ \rest{SCI}. Sumant les dues primeres, $3x=0$; i de la 1a, $y=z$: \ $\res{x=0;\ y=\lambda;\ z=\lambda}$"])),
- (2, r"Troba el valor de $k$ perquè el sistema \ $\left\{\begin{aligned}x+y-z&=0\\ 2x-y+kz&=0\\ x+2y+z&=0\end{aligned}\right.$ \ tinga solucions diferents de la trivial i resol-lo per a aquest valor.",
-     r"$|A|=\begin{vmatrix}1&1&-1\\ 2&-1&k\\ 1&2&1\end{vmatrix}=-k-8=0\Rightarrow\res{k=-8}$. Per a $k=-8$ és SCI: de la 1a, $z=x+y$; a la 3a, $2x+3y=0$." + dm(r'\boxed{x=3\lambda;\ \ y=-2\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}')),
- (1, r"Per què el sistema \ $" + sy(R22) + r"$ \ té infinites solucions sense calcular cap determinant? Resol-lo.",
-     r"És homogeni (compatible) i $\operatorname{rg}(A)\leq2<3$ incògnites: \rest{SCI}. Passant $z$ al segon membre: $2x-y=-z$, $x+3y=2z$ \ $\Rightarrow x=-\frac z7,\ y=\frac{5z}{7}$. Amb $z=7\lambda$: \ $\res{x=-\lambda;\ y=5\lambda;\ z=7\lambda}$"),
-]))
 
 # =====================================================================
 def par(fun, crit, test, name):
