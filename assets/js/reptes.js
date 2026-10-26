@@ -14,10 +14,25 @@
 
 window.CHALLENGES = [
   {
+    date: "2026-10-26",
+    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
+    title: { va: "Un cor incansable", es: "Un corazón incansable", en: "A tireless heart" },
+    hideSolution: true,
+    statement: {
+      va: "El cor d'una persona batega, de mitjana, unes 70 vegades per minut. Quantes vegades haurà bategat el teu cor quan complisques 80 anys? Fes el càlcul en notació científica i dona el resultat amb dues xifres decimals.",
+      es: "El corazón de una persona late, de media, unas 70 veces por minuto. ¿Cuántas veces habrá latido tu corazón cuando cumplas 80 años? Haz el cálculo en notación científica y da el resultado con dos cifras decimales.",
+      en: "A person's heart beats, on average, about 70 times a minute. How many times will your heart have beaten by the time you turn 80? Do the calculation in scientific notation and give the result to two decimal places."
+    },
+    solution: {
+      va: "Multipliquem batecs per minut, minuts per hora, hores per dia, dies per any i anys: $70 \\cdot 60 \\cdot 24 \\cdot 365 \\cdot 80 = (7 \\cdot 10) \\cdot (6 \\cdot 10) \\cdot (2{,}4 \\cdot 10) \\cdot (3{,}65 \\cdot 10^2) \\cdot (8 \\cdot 10)$. Agrupem els nombres i les potències de 10: $(7 \\cdot 6 \\cdot 2{,}4 \\cdot 3{,}65 \\cdot 8) \\cdot 10^{1+1+1+2+1} = 2943{,}36 \\cdot 10^6 \\approx \\mathbf{2{,}94 \\cdot 10^9}$ batecs. Quasi tres mil milions!",
+      es: "Multiplicamos latidos por minuto, minutos por hora, horas por día, días por año y años: $70 \\cdot 60 \\cdot 24 \\cdot 365 \\cdot 80 = (7 \\cdot 10) \\cdot (6 \\cdot 10) \\cdot (2{,}4 \\cdot 10) \\cdot (3{,}65 \\cdot 10^2) \\cdot (8 \\cdot 10)$. Agrupamos los números y las potencias de 10: $(7 \\cdot 6 \\cdot 2{,}4 \\cdot 3{,}65 \\cdot 8) \\cdot 10^{1+1+1+2+1} = 2943{,}36 \\cdot 10^6 \\approx \\mathbf{2{,}94 \\cdot 10^9}$ latidos. ¡Casi tres mil millones!",
+      en: "Multiply beats per minute, minutes per hour, hours per day, days per year and years: $70 \\cdot 60 \\cdot 24 \\cdot 365 \\cdot 80 = (7 \\cdot 10) \\cdot (6 \\cdot 10) \\cdot (2.4 \\cdot 10) \\cdot (3.65 \\cdot 10^2) \\cdot (8 \\cdot 10)$. Group the numbers and the powers of 10: $(7 \\cdot 6 \\cdot 2.4 \\cdot 3.65 \\cdot 8) \\cdot 10^{1+1+1+2+1} = 2943.36 \\cdot 10^6 \\approx \\mathbf{2.94 \\cdot 10^9}$ beats. Almost three billion!"
+    }
+  },
+  {
     date: "2026-10-19",
     level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
     title: { va: "Duel de potències", es: "Duelo de potencias", en: "Battle of powers" },
-    hideSolution: true,
     statement: {
       va: "Quin nombre és més gran, $2^{300}$ o $3^{200}$? Tots dos tenen prop de cent xifres, així que la calculadora no t'ajudarà: cal trobar una manera de comparar-los.",
       es: "¿Qué número es mayor, $2^{300}$ o $3^{200}$? Ambos tienen cerca de cien cifras, así que la calculadora no te ayudará: hay que encontrar una forma de compararlos.",
@@ -87,3 +102,25 @@ window.CURIOSITIES = [
     }
   }
 ];
+
+/* Reptes guardats per a més endavant (traure'ls del comentari i posar-los dins de CHALLENGES amb la data).
+
+   Per a quan donem identitats notables (3r ESO, unitat 4):
+
+  {
+    date: "AAAA-MM-DD",
+    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
+    title: { va: "Quadrats gegants", es: "Cuadrados gigantes", en: "Giant squares" },
+    hideSolution: true,
+    statement: {
+      va: "Calcula $2026^2 - 2025^2$ sense calculadora i sense fer cap quadrat. Hi ha una identitat notable que ho resol en una línia.",
+      es: "Calcula $2026^2 - 2025^2$ sin calculadora y sin hacer ningún cuadrado. Hay una identidad notable que lo resuelve en una línea.",
+      en: "Work out $2026^2 - 2025^2$ without a calculator and without squaring anything. There is a special product that solves it in one line."
+    },
+    solution: {
+      va: "Usem la suma per diferència: $a^2 - b^2 = (a+b)(a-b)$. Aleshores $2026^2 - 2025^2 = (2026 + 2025)(2026 - 2025) = 4051 \\cdot 1 = \\mathbf{4051}$. Fixa't: la diferència entre els quadrats de dos nombres consecutius sempre és la seua suma.",
+      es: "Usamos la suma por diferencia: $a^2 - b^2 = (a+b)(a-b)$. Entonces $2026^2 - 2025^2 = (2026 + 2025)(2026 - 2025) = 4051 \\cdot 1 = \\mathbf{4051}$. Fíjate: la diferencia entre los cuadrados de dos números consecutivos siempre es su suma.",
+      en: "Use the difference of two squares: $a^2 - b^2 = (a+b)(a-b)$. Then $2026^2 - 2025^2 = (2026 + 2025)(2026 - 2025) = 4051 \\cdot 1 = \\mathbf{4051}$. Notice: the difference between the squares of two consecutive numbers is always their sum."
+    }
+  }
+*/

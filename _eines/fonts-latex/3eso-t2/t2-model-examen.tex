@@ -1,0 +1,184 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Model d'examen de la unitat 2: Nombres reals. 3r d'ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={nombres reals, potències, radicals, notació científica, intervals}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=2pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Model d'examen · Unitat 2: Nombres reals · 3r d'ESO}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\stepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+% ---------- recta real ----------
+\newcommand{\rectabuida}{\begin{tikzpicture}[x=0.42cm,baseline=0]
+  \draw[-latex,muted] (-6.7,0)--(6.8,0);
+  \foreach \i in {-6,...,6}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}
+  \end{tikzpicture}}
+% \rectaint{x1}{x2}{estil esquerra}{estil dreta}: estil = ple, buit, inf
+\newcommand{\extrem}[2]{\ifx#2p\fill[accent] (#1,0) circle (0.13);\else\ifx#2b\filldraw[fill=white,draw=accent,line width=1.2pt] (#1,0) circle (0.13);\fi\fi}
+\newcommand{\rectaint}[4]{\begin{tikzpicture}[x=0.42cm,baseline=0]
+  \draw[-latex,muted] (-6.7,0)--(6.8,0);
+  \foreach \i in {-6,...,6}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}
+  \draw[accent,line width=3pt] (#1,0)--(#2,0);
+  \ifx#3i\fill[accent] (#1-0.25,0)--(#1+0.15,0.2)--(#1+0.15,-0.2)--cycle;\else\extrem{#1}{#3}\fi
+  \ifx#4i\fill[accent] (#2+0.25,0)--(#2-0.15,0.2)--(#2-0.15,-0.2)--cycle;\else\extrem{#2}{#4}\fi
+  \end{tikzpicture}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\input{../comu/fentmates.tex}
+\fmcurs{3eso}
+
+
+% ---------- preguntes de l'examen: número, enunciat i puntuació ----------
+\newcounter{preg}
+\newcommand{\pregunta}[2]{\par\needspace{5\baselineskip}\bigskip\stepcounter{preg}\noindent
+  \parbox[t]{\dimexpr\linewidth-2.6cm\relax}{\hangindent=1.4em\hangafter=1\leavevmode{\color{navy}\bfseries\thepreg.}\ \ #2}\hfill{\small\bfseries\color{cursfosc}(#1)}\par}
+\newcommand{\pt}[1]{{\scriptsize\color{muted}(#1)}}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques}{3r ESO}{Model d'examen · Unitat 2}{Nombres reals}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small
+\begin{minipage}[c]{0.78\linewidth}
+Durada: 55 minuts. \textbf{No es pot fer servir la calculadora.}\\[2pt]
+Escriu tots els passos: un resultat sense justificar no puntua. Respon en un full a part, excepte les preguntes 7 i 8, que pots completar en aquest full. La puntuació de cada pregunta apareix a la dreta.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.18\linewidth}\centering
+{\footnotesize\bfseries Qualificació}\\[3pt]
+\fcolorbox{curs}{white}{\rule{0pt}{1.1cm}\rule{1.9cm}{0pt}}
+\end{minipage}
+\end{tcolorbox}
+
+% =====================================================
+\pregunta{1 punt}{Calcula:}
+\begin{tasks}(4)
+  \task $(-2)^{5}$
+  \task $-2^{4}$
+  \task $\left(-\dfrac13\right)^{3}$
+  \task $(-1)^{48}$
+\end{tasks}
+
+\pregunta{1,5 punts}{Aplica les propietats de les potències i calcula:}
+\begin{tasks}(3)
+  \task $5^{7}\cdot5^{-3}:5^{2}$ \pt{0,5}
+  \task $\left(2^{-3}\right)^{2}\cdot2^{8}$ \pt{0,5}
+  \task $\dfrac{12^{3}\cdot9^{-1}}{8\cdot6^{2}}$ \pt{0,5}
+\end{tasks}
+
+\pregunta{1 punt}{Calcula i dona el resultat en forma de fracció:}
+\begin{tasks}(2)
+  \task $2^{-2}+\left(\dfrac13\right)^{-1}$ \pt{0,5}
+  \task $\left(\dfrac25\right)^{-2}-5^{0}$ \pt{0,5}
+\end{tasks}
+
+\pregunta{1 punt}{Notació científica:}
+\begin{tasks}(1)
+  \task Escriu en notació científica: \ $0,000\,38$\ \ i\ \ $52\,300\,000$. \pt{0,5}
+  \task Escriu en forma decimal: \ $6,07\cdot10^{5}$\ \ i\ \ $1,2\cdot10^{-3}$. \pt{0,5}
+\end{tasks}
+
+\pregunta{1 punt}{Radicals:}
+\begin{tasks}(1)
+  \task Extreu tots els factors possibles: \ $\sqrt{300}$\ \ i\ \ $\sqrt[3]{2^{5}\cdot3^{4}}$. \pt{0,5}
+  \task Introdueix els factors dins del radical: \ $4\sqrt{3}$\ \ i\ \ $2\sqrt[3]{5}$. \pt{0,5}
+\end{tasks}
+
+\pregunta{1,5 punts}{Opera i simplifica:}
+\begin{tasks}(2)
+  \task $\sqrt{75}-2\sqrt{12}+\sqrt{27}$ \pt{0,5}
+  \task $\sqrt[3]{54}+\sqrt[3]{16}-\sqrt[3]{250}$ \pt{0,5}
+  \task $3\sqrt{6}\cdot2\sqrt{15}$ \pt{0,25}
+  \task $\sqrt{200}:\sqrt{8}$ \pt{0,25}
+\end{tasks}
+
+\pregunta{1 punt}{Completa la taula. \pt{0,25 cada fila}}
+\smallskip
+{\renewcommand{\arraystretch}{1.6}\centering
+\begin{tabular}{|C{0.6cm}|C{2.9cm}|C{3.2cm}|C{6.4cm}|}
+\hline
+\rowcolor{soft} & \textbf{Interval} & \textbf{Desigualtat} & \textbf{Representació} \\ \hline
+a) & $[-3,\ 2)$ & & \rectabuida \\ \hline
+b) & & $x>1$ & \rectabuida \\ \hline
+c) & $(-\infty,\ 4]$ & & \rectabuida \\ \hline
+d) & & & \rectaint{-2}{5}{b}{p} \\ \hline
+\end{tabular}\par}
+
+\pregunta{1 punt}{Siguen els intervals $A=[-4,\ 1]$ i $B=(-1,\ 3)$. Representa'ls en les rectes i calcula $A\cup B$ i $A\cap B$.}
+\smallskip
+{\centering
+\begin{tabular}{@{}l@{\ \ }l@{}}
+$A$ & \rectabuida \\[14pt]
+$B$ & \rectabuida
+\end{tabular}\par}
+\medskip
+$A\cup B=$ \rule{4cm}{0.4pt} \pt{0,5}\hspace{1.5cm} $A\cap B=$ \rule{4cm}{0.4pt} \pt{0,5}
+
+\pregunta{1 punt}{Indica el conjunt numèric més xicotet ($\mathbb{N}$, $\mathbb{Z}$, $\mathbb{Q}$ o $\mathbb{I}$) al qual pertany cada nombre. Justifica-ho breument. \pt{0,125 cada un}}
+\begin{tasks}(4)
+  \task $-\sqrt{36}$
+  \task $\dfrac73$
+  \task $\sqrt{12}$
+  \task $0,2\overline{7}$
+  \task $\pi-1$
+  \task $\dfrac{16}{4}$
+  \task $\sqrt[3]{-27}$
+  \task $1,121\,121\,112\ldots$
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Bona sort! Repassa les respostes abans d'entregar l'examen.\end{center}
+
+\end{document}
