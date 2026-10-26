@@ -337,6 +337,15 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "grafiques", block: "an",
+        title: { va: "Representació gràfica de funcions", es: "Representación gráfica de funciones", en: "Graphing functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t7-representacio-funcions.html", date: "2026-10-26" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 35 exercicis amb gràfiques a les solucions", es: "PDF · 35 ejercicios con gráficas en las soluciones", en: "PDF · 35 exercises with graphs in the solutions" }, url: "materials/2batx-ccss/t7-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 35 exercicis", es: "PDF · Soluciones de los 35 ejercicios", en: "PDF · Solutions to all 35 exercises" }, url: "materials/2batx-ccss/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" }
+        ]
+      },
+      {
         ill: "probabilitat", block: "pr",
         title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
         items: [

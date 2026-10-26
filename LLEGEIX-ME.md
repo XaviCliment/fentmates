@@ -128,7 +128,7 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t5` i `2batx-ccss-t6` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t5`, `2batx-ccss-t6` i `2batx-ccss-t7` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
@@ -152,6 +152,13 @@ Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2
 
 ```
 python3 _eines/apunts/2batx-ccss-t6/build.py
+```
+
+La unitat 7 (Representació gràfica de funcions, carpeta `2batx-ccss-t7`) reaprofita també l'estudi de la monotonia
+de la unitat 6. A la fitxa, `genera.py` calcula i dibuixa ell mateix les gràfiques de les solucions:
+
+```
+python3 _eines/apunts/2batx-ccss-t7/build.py
 ```
 
 ## Treballar des de casa i des de l'institut
