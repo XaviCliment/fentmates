@@ -1,0 +1,334 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 1: Matrius i determinants. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={matrius, operacions amb matrius, potències de matrius, determinants, regla de Sarrus, adjunts, propietats dels determinants, rang, matriu inversa, equacions matricials, sistemes matricials}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 1: Matrius i determinants · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Solucions de la fitxa · Unitat 1}{Matrius i determinants}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Els passos intermedis (les operacions de Gauss, la fila o columna per la qual desenvolupes un determinant\ldots) poden ser diferents dels teus i ser igualment correctes; el que ha de coincidir és el resultat. Pots comprovar determinants, rangs i inverses amb el laboratori de matrius dels apunts interactius.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Matrius. Definicions i tipus}
+
+\ex{1} \begin{tasks}(1)
+  \task $A=\begin{pmatrix}1 & 0 & -1 & -2\\3 & 2 & 1 & 0\\5 & 4 & 3 & 2\end{pmatrix}$, \ \ $\res{a_{23}=1}$, \ $\res{a_{32}=4}$
+  \task $B=\begin{pmatrix}2 & 3 & 4\\0 & 4 & 5\\0 & 0 & 6\end{pmatrix}$: \ és \rest{triangular superior} (tots els elements davall de la diagonal principal són 0).
+  \task $C=\begin{pmatrix}1 & -1 & 1\\-2 & 2 & -2\end{pmatrix}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task Matriu \rest{fila} ($1\times3$).
+  \task Matriu \rest{columna} ($3\times1$).
+  \task \rest{Diagonal} (i també simètrica i triangular).
+  \task \rest{Escalar}: diagonal amb tots els elements iguals ($3I_2$).
+  \task \rest{Triangular superior}.
+  \task \rest{Simètrica}: $A^t=A$.
+  \task \rest{Antisimètrica}: $A^t=-A$ (diagonal de zeros).
+  \task \rest{Nul·la} d'ordre 2.
+\end{tasks}
+
+\ex{1} Dues matrius són iguals si ho són element a element: \ $x+y=5$, \ $x-y=1$, \ $z-1=2$, \ $2t+1=3$\par $\Rightarrow$ \ $\res{x=3;\ y=2;\ z=3;\ t=1}$
+
+\ex{2} \begin{tasks}(1)
+  \task Cal $a_{ij}=a_{ji}$: \ $a+1=2$, \ $b=5$, \ $c-1=3$: \ $\res{a=1;\ b=5;\ c=4}$
+  \task Cal $b_{ij}=-b_{ji}$ (i diagonal nul·la): \ $x=-3$, \ $y=0$, \ $z=1$: \ $\res{x=-3;\ y=0;\ z=1}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $V=\begin{pmatrix}12 & 8\\5 & 10\\9 & 4\end{pmatrix}$, d'ordre \rest{$3\times2$}.
+  \task $v_{32}=4$: \rest{bicicletes de muntanya venudes per B3}.
+  \task $V^t=\begin{pmatrix}12 & 5 & 9\\8 & 10 & 4\end{pmatrix}$: la 1a fila són les vendes d'urbanes de cada botiga i la 2a, les de muntanya.
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Operacions amb matrius}
+
+\ex{1} \begin{tasks}(2)
+  \task $A+B=\begin{pmatrix}3 & -1 & 4\\-1 & 4 & 1\end{pmatrix}$
+  \task $2A-3B=\begin{pmatrix}1 & -2 & -12\\8 & 3 & -13\end{pmatrix}$
+  \task $A^t-B^t=(A-B)^t=\begin{pmatrix}1 & 3\\-1 & 2\\-4 & -5\end{pmatrix}$
+  \task $C\cdot A=\begin{pmatrix}2 & 6 & -4\\-1 & 4 & -2\end{pmatrix}$
+  \task $A\cdot B^t=\begin{pmatrix}2 & -5\\-7 & -5\end{pmatrix}$
+  \task $C^2-I=\begin{pmatrix}-2 & 2\\-1 & -1\end{pmatrix}-\begin{pmatrix}1 & 0\\0 & 1\end{pmatrix}=\begin{pmatrix}-3 & 2\\-1 & -2\end{pmatrix}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(4)
+  \task $\res{2\times3}$
+  \task \rest{No}
+  \task $\res{2\times2}$
+  \task $\res{3\times3}$
+  \task $\res{3\times2}$
+  \task $\res{3\times2}$
+  \task $\res{2\times3}$
+  \task \rest{No} ($A$ no és quadrada)
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $A\cdot B=\begin{pmatrix}4 & -3\\-2 & 5\end{pmatrix}$, \ \ $B\cdot A=\begin{pmatrix}3 & -1\\-4 & 6\end{pmatrix}$: \ $AB\neq BA$, el producte de matrius \rest{no és commutatiu}.
+  \task $(A+B)^2=\begin{pmatrix}16 & -6\\-10 & 24\end{pmatrix}$, \ \ $A^2+2AB+B^2=\begin{pmatrix}17 & -8\\-8 & 23\end{pmatrix}$.\par Són diferents perquè $(A+B)^2=A^2+AB+BA+B^2$, i $AB+BA\neq2AB$ quan $AB\neq BA$.
+\end{tasks}
+
+\ex{1} $A\cdot B=\begin{pmatrix}4 & 1 & 6\\-2 & -2 & 1\\1 & -3 & 6\end{pmatrix}$, \qquad $B\cdot A=\begin{pmatrix}1 & 1 & 4\\1 & 2 & 1\\1 & 9 & 5\end{pmatrix}$
+
+\ex{1} $F\cdot C=\begin{pmatrix}1\end{pmatrix}$ \ (ordre $1\times1$, un nombre), \qquad $C\cdot F=\begin{pmatrix}3 & 6 & -3\\0 & 0 & 0\\2 & 4 & -2\end{pmatrix}$ \ (ordre $3\times3$).
+
+\ex{2} $A^2=\begin{pmatrix}1 & 2\\0 & 1\end{pmatrix}$, \ $A^3=\begin{pmatrix}1 & 3\\0 & 1\end{pmatrix}$, \ $A^4=\begin{pmatrix}1 & 4\\0 & 1\end{pmatrix}$ \ $\Rightarrow$ \ $\res{A^n=\begin{pmatrix}1 & n\\ 0 & 1\end{pmatrix}}$, \ \ $A^{20}=\begin{pmatrix}1 & 20\\0 & 1\end{pmatrix}$
+
+\ex{2} $B^2=\begin{pmatrix}0 & 0 & 1\\1 & 0 & 0\\0 & 1 & 0\end{pmatrix}$, \ $B^3=I$. Les potències es repeteixen cada 3: com que $100=3\cdot33+1$, \ $B^{100}=(B^3)^{33}\cdot B=\res{B}$
+
+\ex{2} $C^2=\begin{pmatrix}0 & 0 & 3\\0 & 0 & 0\\0 & 0 & 0\end{pmatrix}$, \ $C^3=O$ \ $\Rightarrow$ \ $\res{C^n=O\ \text{per a}\ n\geq3}$.\par Com que $I$ commuta amb $C$: \ $(I+C)^2=I+2C+C^2=\begin{pmatrix}1 & 2 & 7\\0 & 1 & 6\\0 & 0 & 1\end{pmatrix}$
+
+\ex{3} Amb $X=\begin{pmatrix}a & b\\ c & d\end{pmatrix}$: \ $AX=\begin{pmatrix}a+c & b+d\\ c & d\end{pmatrix}$, \ $XA=\begin{pmatrix}a & a+b\\ c & c+d\end{pmatrix}$.\par Igualant: $a+c=a\Rightarrow c=0$; \ $b+d=a+b\Rightarrow d=a$. \ \ $\res{X=\begin{pmatrix}a & b\\ 0 & a\end{pmatrix},\ a,b\in\mathbb{R}}$
+
+\ex{2} $A^2=\begin{pmatrix}a^2 & a+b\\ 0 & b^2\end{pmatrix}$: \ $a^2=4$, \ $b^2=1$, \ $a+b=3$. Les úniques combinacions de $a=\pm2$, $b=\pm1$ amb suma 3 són \ $\res{a=2;\ b=1}$
+
+\ex{2} $A^2=\begin{pmatrix}1 & 0\\0 & 1\end{pmatrix}=I$. \ $A^{51}=(A^2)^{25}\cdot A=\res{A}$; \ \ $A^{100}=(A^2)^{50}=\res{I}$
+
+\ex{2} $A^2=\begin{pmatrix}2 & -2 & -4\\-1 & 3 & 4\\1 & -2 & -3\end{pmatrix}=A$. Aleshores $A^3=A^2\cdot A=A\cdot A=A$, i així successivament: \ $\res{A^n=A}$ per a tot $n\geq1$.
+
+
+% =====================================================
+\seccio{3}{Determinants}
+
+\ex{1} \begin{tasks}(4)
+  \task $22$
+  \task $-11$
+  \task $30$
+  \task $x^2-(x^2-1)=\res{1}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $\begin{vmatrix}1 & 2 & 3\\0 & -1 & 4\\2 & 1 & 0\end{vmatrix}=(0+16+0)-(-6+4+0)=18$
+  \task $\begin{vmatrix}2 & -1 & 1\\3 & 0 & 2\\1 & 4 & -1\end{vmatrix}=(0-2+12)-(0+16+3)=-9$
+  \task $\begin{vmatrix}1 & 1 & 1\\2 & 3 & 4\\4 & 9 & 16\end{vmatrix}=(48+16+18)-(12+36+32)=2$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $A_{12}=-\begin{vmatrix}0 & 0\\1 & -2\end{vmatrix}=0$, \ \ $A_{22}=+\begin{vmatrix}2 & 3\\1 & -2\end{vmatrix}=-7$, \ \ $A_{31}=+\begin{vmatrix}-1 & 3\\4 & 0\end{vmatrix}=-12$
+  \task Per la 2a fila (només hi ha un element no nul): \ $|A|=4\cdot A_{22}=4\cdot(-7)=\res{-28}$
+\end{tasks}
+
+\ex{3} La 4a columna només té un element no nul, $a_{34}=1$, amb signe $(-1)^{3+4}=-1$:\[|M|=-1\cdot\begin{vmatrix}2 & 0 & 1\\1 & 3 & 0\\1 & 0 & 1\end{vmatrix}=(6+0+0)-(3+0+0)=3\ \Rightarrow\ \boxed{|M|=-3}\]
+
+\ex{2} \begin{tasks}(1)
+  \task $x(x+1)-6=x^2+x-6=0$: \ $\res{x=2;\ x=-3}$
+  \task Per Sarrus: $x^2+0+1-(0+0+2)=x^2-1=3$: \ $\res{x=2;\ x=-2}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $(m+1)(m-1)-3=m^2-4=0$: \ $\res{m=2;\ m=-2}$
+  \task $m+2+2m-(m^2+1+4)=-m^2+3m-3$. El discriminant és $9-12<0$: \rest{no s'anul·la mai}, per a cap valor de $m$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Propietats dels determinants}
+
+\ex{2} \begin{tasks}(2)
+  \task Canviem $F_1$ i $F_2$: \ $\res{-5}$
+  \task $F_2$ multiplicada per 2: \ $\res{10}$
+  \task És el de la transposada: \ $\res{5}$
+  \task A $F_2$ li sumem $3F_1$: \ $\res{5}$
+  \task $|-A|=(-1)^3\cdot5=\res{-5}$
+  \task $|2A|=2^3\cdot5=\res{40}$
+  \task $2F_3-F_1$: el factor 2 multiplica i restar $F_1$ no canvia res: \ $\res{10}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(3)
+  \task $2\cdot(-3)=\res{-6}$
+  \task $3^3\cdot2=\res{54}$
+  \task $\res{\tfrac12}$
+  \task $2\cdot(-3)=\res{-6}$
+  \task $\dfrac{2^2}{-3}=\res{-\tfrac43}$
+  \task $(-2)^3\cdot(-3)=\res{24}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $F_3-F_2=F_2-F_1=(3\ 3\ 3)$, és a dir, $F_3=2F_2-F_1$: les files són \rest{linealment dependents}.
+  \task $F_2=3F_1$: \rest{dues files proporcionals}.
+  \task Sumant $C_2$ a $C_3$, la tercera columna queda $(a+b+c)$ en totes les files: és proporcional a $C_1$, i el determinant \rest{val 0}.
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task Restant a cada fila l'anterior ($F_4-F_3$, $F_3-F_2$, $F_2-F_1$) queda triangular: \ $\begin{vmatrix}1 & 1 & 1 & 1\\ 0 & 1 & 1 & 1\\ 0 & 0 & 1 & 1\\ 0 & 0 & 0 & 1\end{vmatrix}=\res{1}$
+  \task Sumant totes les columnes a la primera i traient factor comú $x+2$:\ \ $(x+2)\begin{vmatrix}1 & 1 & 1\\ 1 & x & 1\\ 1 & 1 & x\end{vmatrix}=(x+2)\begin{vmatrix}1 & 1 & 1\\ 0 & x-1 & 0\\ 0 & 0 & x-1\end{vmatrix}=\res{(x+2)(x-1)^2}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A^t=-A\Rightarrow|A|=|A^t|=|-A|=(-1)^3|A|=-|A|\Rightarrow2|A|=0\Rightarrow\res{|A|=0}$
+  \task $|A\cdot A^t|=|A|\cdot|A^t|=|A|^2=|I|=1\Rightarrow\res{|A|=\pm1}$
+  \task $|A|^2=|A^2|=|A|\Rightarrow|A|\big(|A|-1\big)=0\Rightarrow\res{|A|=0\ \text{o}\ |A|=1}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Rang d'una matriu}
+
+\ex{1} \begin{tasks}(1)
+  \task Totes les files són proporcionals a $(1\ 2\ 3)$: \ $\res{\operatorname{rg}(A)=1}$
+  \task \[A=\begin{pmatrix}1 & -1 & 2 & 0\\2 & 1 & 0 & 3\\3 & 0 & 2 & 3\end{pmatrix}\xrightarrow[F_3'=F_3-3F_1]{F_2'=F_2-2F_1}\begin{pmatrix}1 & -1 & 2 & 0\\0 & 3 & -4 & 3\\0 & 3 & -4 & 3\end{pmatrix}\]\[\xrightarrow{F_3''=F_3'-F_2'}\begin{pmatrix}1 & -1 & 2 & 0\\0 & 3 & -4 & 3\\0 & 0 & 0 & 0\end{pmatrix}\]Queden dues files no nul·les: \ $\res{\operatorname{rg}(B)=2}$ \ (de fet, $F_3=F_1+F_2$).
+  \task \[C=\begin{pmatrix}1 & 2 & 1\\0 & 1 & 3\\2 & 1 & 0\\1 & 0 & 2\end{pmatrix}\xrightarrow[F_4'=F_4-F_1]{F_3'=F_3-2F_1}\begin{pmatrix}1 & 2 & 1\\0 & 1 & 3\\0 & -3 & -2\\0 & -2 & 1\end{pmatrix}\]\[\xrightarrow[F_4''=F_4'+2F_2]{F_3''=F_3'+3F_2}\begin{pmatrix}1 & 2 & 1\\0 & 1 & 3\\0 & 0 & 7\\0 & 0 & 7\end{pmatrix}\]\[\xrightarrow{F_4'''=F_4''-F_3''}\begin{pmatrix}1 & 2 & 1\\0 & 1 & 3\\0 & 0 & 7\\0 & 0 & 0\end{pmatrix}\]Queden tres files no nul·les: \ $\res{\operatorname{rg}(C)=3}$
+\end{tasks}
+
+\ex{2} $\begin{vmatrix}1 & 2\\2 & 1\end{vmatrix}=-3\neq0\Rightarrow\operatorname{rg}(A)\geq2$. Orlem aquest menor amb la 3a fila i amb les columnes 3a i 4a:\[\begin{vmatrix}1 & 2 & 0\\2 & 1 & 3\\3 & 3 & 3\end{vmatrix}=0,\qquad \begin{vmatrix}1 & 2 & 1\\2 & 1 & -1\\3 & 3 & 0\end{vmatrix}=0\]Tots dos són nuls: \ $\res{\operatorname{rg}(A)=2}$
+
+\ex{3} $|A|=k+k+k-k^3-1-1=-k^3+3k-2=-(k-1)^2(k+2)$, que s'anul·la si $k=1$ o $k=-2$.\begin{tasks}(1)
+  \task Si $k\neq1$ i $k\neq-2$: \ $|A|\neq0$, \ $\res{\operatorname{rg}(A)=3}$
+  \task Si $k=1$: totes les files són $(1\ 1\ 1)$: \ $\res{\operatorname{rg}(A)=1}$
+  \task Si $k=-2$: $|A|=0$ i $\begin{vmatrix}1 & 1\\ 1 & -2\end{vmatrix}=-3\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+\end{tasks}
+
+\ex{3} \[B\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\begin{pmatrix}1 & 2 & -1 & 3\\ 0 & -3 & a+2 & -5\\ 0 & -3 & 4 & -5\end{pmatrix}\xrightarrow{F_3''=F_3'-F_2'}\begin{pmatrix}1 & 2 & -1 & 3\\ 0 & -3 & a+2 & -5\\ 0 & 0 & 2-a & 0\end{pmatrix}\]Si $\res{a=2}$, la 3a fila és nul·la: \ $\operatorname{rg}(B)=2$. \ Si $\res{a\neq2}$: \ $\operatorname{rg}(B)=3$.
+
+
+% =====================================================
+\seccio{6}{Matriu inversa}
+
+\ex{1} \begin{tasks}(1)
+  \task $\begin{pmatrix}2 & 1\\ 5 & 3\end{pmatrix}\begin{pmatrix}x & y\\ z & t\end{pmatrix}=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}$: \ $\left\{\begin{aligned}2x+z&=1\\ 5x+3z&=0\end{aligned}\right.$ \ i \ $\left\{\begin{aligned}2y+t&=0\\ 5y+3t&=1\end{aligned}\right.$ \ $\Rightarrow$ \ $\res{A^{-1}=\begin{pmatrix}3 & -1\\-5 & 2\end{pmatrix}}$
+  \task $\left\{\begin{aligned}x+2z&=1\\ 2x+4z&=0\end{aligned}\right.$ és incompatible (la 2a equació seria $2=0$): \ \rest{$B$ no té inversa} \ ($|B|=0$).
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $|A|=2$: \ $A^{-1}=\frac{1}{2}\begin{pmatrix}2 & -3\\-2 & 4\end{pmatrix}=\res{\begin{pmatrix}1 & -\tfrac{3}{2}\\-1 & 2\end{pmatrix}}$
+  \task $|A|=-1$: \ $A^{-1}=\frac{1}{-1}\begin{pmatrix}-5 & -2\\-3 & -1\end{pmatrix}=\res{\begin{pmatrix}5 & 2\\3 & 1\end{pmatrix}}$
+  \task $|C|=12-12=0$: \ \rest{no té inversa}.
+\end{tasks}
+
+\ex{2} \label{ex:inv3}\begin{tasks}(1)
+  \task $|A|=1\neq0$, per tant $A$ té inversa:\[\mathrm{Adj}(A)=\begin{pmatrix}3 & 0 & -2\\-6 & 1 & 4\\-1 & 0 & 1\end{pmatrix},\qquad A^{-1}=\frac{1}{1}\big(\mathrm{Adj}(A)\big)^t=\begin{pmatrix}3 & -6 & -1\\0 & 1 & 0\\-2 & 4 & 1\end{pmatrix}\]
+  \task $|B|=5\neq0$, per tant $B$ té inversa:\[\mathrm{Adj}(B)=\begin{pmatrix}1 & 3 & -1\\-1 & 2 & 1\\3 & -6 & 2\end{pmatrix},\qquad B^{-1}=\frac{1}{5}\big(\mathrm{Adj}(B)\big)^t=\frac{1}{5}\begin{pmatrix}1 & -1 & 3\\3 & 2 & -6\\-1 & 1 & 2\end{pmatrix}\]
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $|M|=-k^2-0+0-(-4k)-3-0=-k^2+4k-3=-(k-1)(k-3)$: \ té inversa si \ $\res{k\neq1\ \text{i}\ k\neq3}$
+  \task $|M|=1\neq0$, per tant $M$ té inversa:\[\mathrm{Adj}(M)=\begin{pmatrix}-7 & 12 & -8\\-1 & 2 & -1\\2 & -3 & 2\end{pmatrix},\qquad M^{-1}=\frac{1}{1}\big(\mathrm{Adj}(M)\big)^t=\begin{pmatrix}-7 & -1 & 2\\12 & 2 & -3\\-8 & -1 & 2\end{pmatrix}\]
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A^2=\begin{pmatrix}4 & 3\\0 & 1\end{pmatrix}$, \ $A^2-3A+2I=\begin{pmatrix}4 & 3\\0 & 1\end{pmatrix}-\begin{pmatrix}6 & 3\\0 & 3\end{pmatrix}+\begin{pmatrix}2 & 0\\0 & 2\end{pmatrix}=O$
+  \task $A^2-3A=-2I\Rightarrow A(A-3I)=-2I\Rightarrow A\cdot\dfrac{3I-A}{2}=I$: \ $\res{A^{-1}=\dfrac12(3I-A)=\begin{pmatrix}\tfrac{1}{2} & -\tfrac{1}{2}\\0 & 1\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} $A\cdot B=\begin{pmatrix}4 & 3\\5 & 4\end{pmatrix}$, \ $(A\cdot B)^{-1}=\res{\begin{pmatrix}4 & -3\\-5 & 4\end{pmatrix}}$.\par $A^{-1}=\begin{pmatrix}3 & -2\\-1 & 1\end{pmatrix}$, \ $B^{-1}=\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}$: \ $B^{-1}A^{-1}=\begin{pmatrix}4 & -3\\-5 & 4\end{pmatrix}$ \ (coincideix), \ \ $A^{-1}B^{-1}=\begin{pmatrix}5 & -7\\-2 & 3\end{pmatrix}$ \ (no coincideix).
+
+
+% =====================================================
+\seccio{7}{Equacions i sistemes matricials}
+
+\ex{2} $|A|=1$, \ $A^{-1}=\begin{pmatrix}3 & -1\\-5 & 2\end{pmatrix}$.\begin{tasks}(1)
+  \task $X=A^{-1}\cdot B=\begin{pmatrix}3 & -1\\-5 & 2\end{pmatrix}\begin{pmatrix}1 & 0\\2 & -1\end{pmatrix}=\res{\begin{pmatrix}1 & 1\\-1 & -2\end{pmatrix}}$
+  \task $X=B\cdot A^{-1}=\begin{pmatrix}1 & 0\\2 & -1\end{pmatrix}\begin{pmatrix}3 & -1\\-5 & 2\end{pmatrix}=\res{\begin{pmatrix}3 & -1\\11 & -4\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} $AX=C-B\Rightarrow X=A^{-1}(C-B)$, \ amb $A^{-1}=\begin{pmatrix}3 & -2\\-1 & 1\end{pmatrix}$:\[X=\begin{pmatrix}3 & -2\\-1 & 1\end{pmatrix}\begin{pmatrix}2 & 4\\3 & 8\end{pmatrix}=\boxed{\begin{pmatrix}0 & -4\\1 & 4\end{pmatrix}}\]
+
+\ex{3} Traiem factor comú $X$ per l'\textbf{esquerra}: \ $X(A-2I)=B\Rightarrow X=B(A-2I)^{-1}$.\[A-2I=\begin{pmatrix}2 & 1\\3 & 1\end{pmatrix},\quad |A-2I|=-1,\quad (A-2I)^{-1}=\begin{pmatrix}-1 & 1\\3 & -2\end{pmatrix}\]\[X=\begin{pmatrix}1 & 2\\0 & -1\end{pmatrix}\begin{pmatrix}-1 & 1\\3 & -2\end{pmatrix}=\boxed{\begin{pmatrix}5 & -3\\-3 & 2\end{pmatrix}}\]
+
+\ex{3} $X=A^{-1}\cdot C\cdot B^{-1}$ \ (primer per $A^{-1}$ per l'esquerra i després per $B^{-1}$ per la dreta):\[X=\begin{pmatrix}1 & -1\\0 & 1\end{pmatrix}\begin{pmatrix}3 & 2\\1 & 1\end{pmatrix}\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}=\begin{pmatrix}2 & 1\\1 & 1\end{pmatrix}\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}=\boxed{\begin{pmatrix}1 & 0\\0 & 1\end{pmatrix}}\]
+
+\ex{2} $X=A^{-1}\cdot B=\begin{pmatrix}3 & -6 & -1\\0 & 1 & 0\\-2 & 4 & 1\end{pmatrix}\begin{pmatrix}1 & 0\\2 & 1\\3 & -1\end{pmatrix}=\res{\begin{pmatrix}-12 & -5\\2 & 1\\9 & 3\end{pmatrix}}$
+
+\ex{2} Sumant les dues equacions: \ $3X=\begin{pmatrix}3 & 0\\-3 & 6\end{pmatrix}\Rightarrow\res{X=\begin{pmatrix}1 & 0\\-1 & 2\end{pmatrix}}$; \ \ $Y=X-\begin{pmatrix}0 & -1\\-3 & 4\end{pmatrix}=\res{\begin{pmatrix}1 & 1\\2 & -2\end{pmatrix}}$
+
+\ex{2} Multiplicant la 2a per 2 i sumant: \ $5X=\begin{pmatrix}10 & -5\\0 & 5\end{pmatrix}\Rightarrow\res{X=\begin{pmatrix}2 & -1\\0 & 1\end{pmatrix}}$; \ \ $Y=\begin{pmatrix}3 & 0\\3 & 1\end{pmatrix}-X=\res{\begin{pmatrix}1 & 1\\3 & 0\end{pmatrix}}$
+
+\ex{3} $|A|=1$, \ $A^{-1}=\begin{pmatrix}-1 & 1\\-2 & 1\end{pmatrix}$, \ $A^t+I=\begin{pmatrix}2 & 2\\-1 & 0\end{pmatrix}$:\[X=A^{-1}(A^t+I)=\begin{pmatrix}-1 & 1\\-2 & 1\end{pmatrix}\begin{pmatrix}2 & 2\\-1 & 0\end{pmatrix}=\boxed{\begin{pmatrix}-3 & -2\\-5 & -4\end{pmatrix}}\]
+
+
+% =====================================================
+\seccio{8}{Problemes d'aplicació}
+
+\ex{2} \begin{tasks}(1)
+  \task $P\cdot C=\begin{pmatrix}205 & 1400\\265 & 1750\end{pmatrix}$: \ la 1a columna són les \rest{hores setmanals} de cada fàbrica (205 i 265) i la 2a, el \rest{cost setmanal de material} (1400 € i 1750 €).
+  \task $C\cdot P$ es pot calcular ($3\times2$ per $2\times3$), però \rest{no té sentit}: multiplicaria dades de fàbriques per dades d'hores i euros.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $V+W=\begin{pmatrix}22 & 25 & 10\\17 & 38 & 10\\22 & 24 & 12\end{pmatrix}$: \rest{unitats venudes} per cada botiga en els dos mesos.
+  \task $(V+W)\cdot p=\begin{pmatrix}1660\\1770\\1740\end{pmatrix}$: \rest{ingressos} de B1, B2 i B3 al gener i al febrer (en euros).
+  \task $1{,}1\cdot p=\begin{pmatrix}33\\22\\55\end{pmatrix}$ (en euros).
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A=\begin{pmatrix}0 & 1 & 1 & 1\\1 & 0 & 1 & 0\\0 & 1 & 0 & 1\\1 & 0 & 0 & 0\end{pmatrix}$
+  \task $A^2=\begin{pmatrix}2 & 1 & 1 & 1\\0 & 2 & 1 & 2\\2 & 0 & 1 & 0\\0 & 1 & 1 & 1\end{pmatrix}$: l'element $(i,j)$ és el nombre de trajectes de $i$ a $j$ amb \rest{exactament una escala}.
+  \task $(A^2)_{43}=1$: \rest{una} (P$\to$V$\to$B). \ $(A^2)_{11}=2$: \rest{dues} (V$\to$M$\to$V i V$\to$P$\to$V).
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $T=\begin{pmatrix}0{,}9 & 0{,}2\\0{,}1 & 0{,}8\end{pmatrix}$
+  \task $T\cdot\begin{pmatrix}5000\\3000\end{pmatrix}=\begin{pmatrix}5100\\2900\end{pmatrix}$; \ \ $T\cdot\begin{pmatrix}5100\\2900\end{pmatrix}=\begin{pmatrix}5170\\2830\end{pmatrix}$: \rest{5100 i 2900} d'ací a un any i \rest{5170 i 2830} d'ací a dos.
+  \task $0{,}9\cdot\tfrac{16000}{3}+0{,}2\cdot\tfrac{8000}{3}=\tfrac{14400+1600}{3}=\tfrac{16000}{3}$ \ i \ $0{,}1\cdot\tfrac{16000}{3}+0{,}8\cdot\tfrac{8000}{3}=\tfrac{1600+6400}{3}=\tfrac{8000}{3}$: \ \rest{es manté}.
+\end{tasks}
+
+
+\end{document}

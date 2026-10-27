@@ -1,0 +1,334 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 1: Matrius i determinants. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={matrius, operacions amb matrius, potències de matrius, determinants, regla de Sarrus, adjunts, propietats dels determinants, rang, matriu inversa, equacions matricials, sistemes matricials}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 1: Matrius i determinants · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Fitxa d'exercicis · Unitat 1}{Matrius i determinants}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern mostrant tots els passos. Abans de multiplicar dues matrius, comprova que els ordres ho permeten, i recorda que el producte de matrius \textbf{no} és commutatiu: en les equacions matricials, fixa't bé per quin costat multipliques per la inversa.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Matrius. Definicions i tipus}
+
+\ex{1} Escriu les matrius següents:\begin{tasks}(1)
+  \task $A=(a_{ij})$, d'ordre $3\times4$, amb $a_{ij}=2i-j$. Quin és l'element $a_{23}$? I l'element $a_{32}$?
+  \task $B=(b_{ij})$, quadrada d'ordre 3, amb $b_{ij}=i+j$ si $i\leq j$ \ i \ $b_{ij}=0$ si $i>j$. De quin tipus és?
+  \task $C=(c_{ij})$, d'ordre $2\times3$, amb $c_{ij}=(-1)^{i+j}\cdot i$.
+\end{tasks}\recorda{$a_{ij}$ és l'element que ocupa la fila $i$ i la columna $j$. Una matriu d'ordre $n\times m$ té $n$ files i $m$ columnes.}
+
+\ex{1} Indica de quin tipus és cadascuna de les matrius següents (fila, columna, quadrada, nul·la, diagonal, escalar, triangular, simètrica, antisimètrica):\begin{tasks}(4)
+  \task $\begin{pmatrix}1 & -2 & 5\end{pmatrix}$
+  \task $\begin{pmatrix}3\\0\\-1\end{pmatrix}$
+  \task $\begin{pmatrix}2 & 0 & 0\\0 & -1 & 0\\0 & 0 & 4\end{pmatrix}$
+  \task $\begin{pmatrix}3 & 0\\0 & 3\end{pmatrix}$
+  \task $\begin{pmatrix}1 & 4 & -2\\0 & 3 & 5\\0 & 0 & -1\end{pmatrix}$
+  \task $\begin{pmatrix}2 & -1 & 3\\-1 & 0 & 5\\3 & 5 & 4\end{pmatrix}$
+  \task $\begin{pmatrix}0 & 2 & -3\\-2 & 0 & 1\\3 & -1 & 0\end{pmatrix}$
+  \task $\begin{pmatrix}0 & 0\\0 & 0\end{pmatrix}$
+\end{tasks}
+
+\ex{1} Calcula $x$, $y$, $z$ i $t$ perquè es complisca la igualtat \ $\begin{pmatrix}x+y & 2\\ 3 & x-y\end{pmatrix}=\begin{pmatrix}5 & z-1\\ 2t+1 & 1\end{pmatrix}$.
+
+\ex{2} Troba els valors de les lletres perquè:\begin{tasks}(1)
+  \task $A=\begin{pmatrix}1 & a+1 & 3\\ 2 & 0 & b\\ c-1 & 5 & 4\end{pmatrix}$ \ siga simètrica.
+  \task $B=\begin{pmatrix}0 & x & -2\\ 3 & y & z\\ 2 & -1 & 0\end{pmatrix}$ \ siga antisimètrica.
+\end{tasks}
+
+\ex{1} Una cadena té tres botigues de bicicletes, B1, B2 i B3. Al gener, B1 va vendre 12 bicicletes urbanes i 8 de muntanya; B2, 5 urbanes i 10 de muntanya, i B3, 9 urbanes i 4 de muntanya.\begin{tasks}(1)
+  \task Escriu la matriu $V$ de vendes (una fila per botiga i una columna per tipus). Quin n'és l'ordre?
+  \task Què significa l'element $v_{32}$?
+  \task Escriu $V^t$. Quina informació dona cada fila de $V^t$?
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Operacions amb matrius}
+
+\ex{1} Donades les matrius \ $A=\begin{pmatrix}2 & -1 & 0\\1 & 3 & -2\end{pmatrix}$, \ $B=\begin{pmatrix}1 & 0 & 4\\-2 & 1 & 3\end{pmatrix}$ \ i \ $C=\begin{pmatrix}0 & 2\\-1 & 1\end{pmatrix}$, \ calcula:\begin{tasks}(3)
+  \task $A+B$
+  \task $2A-3B$
+  \task $A^t-B^t$
+  \task $C\cdot A$
+  \task $A\cdot B^t$
+  \task $C^2-I$
+\end{tasks}\recorda{Per a sumar cal que les matrius tinguen el mateix ordre. El producte $A\cdot B$ només existeix si el nombre de \textbf{columnes} de $A$ és igual al nombre de \textbf{files} de $B$: \ $(n\times m)\cdot(m\times p)=n\times p$.}
+
+\ex{1} Les matrius $A$, $B$, $C$ i $D$ tenen ordres $2\times3$, $3\times3$, $3\times2$ i $2\times2$, respectivament. Indica quins d'aquests productes es poden fer i, si es poden fer, quin ordre té el resultat:\begin{tasks}(4)
+  \task $A\cdot B$
+  \task $B\cdot A$
+  \task $A\cdot C$
+  \task $C\cdot A$
+  \task $B\cdot C$
+  \task $C\cdot D$
+  \task $D\cdot A$
+  \task $A^2$
+\end{tasks}
+
+\ex{1} Siguen \ $A=\begin{pmatrix}1 & 2\\3 & -1\end{pmatrix}$ \ i \ $B=\begin{pmatrix}0 & 1\\2 & -2\end{pmatrix}$.\begin{tasks}(1)
+  \task Calcula $A\cdot B$ i $B\cdot A$. És commutatiu el producte de matrius?
+  \task Calcula $(A+B)^2$ i $A^2+2AB+B^2$. Per què no coincideixen?
+\end{tasks}
+
+\ex{1} Calcula $A\cdot B$ i $B\cdot A$ per a \ $A=\begin{pmatrix}1 & 0 & 2\\-1 & 1 & 0\\0 & 3 & 1\end{pmatrix}$ \ i \ $B=\begin{pmatrix}2 & 1 & 0\\0 & -1 & 1\\1 & 0 & 3\end{pmatrix}$.
+
+\ex{1} Siguen la matriu fila $F=\begin{pmatrix}1 & 2 & -1\end{pmatrix}$ i la matriu columna $C=\begin{pmatrix}3\\0\\2\end{pmatrix}$. Calcula $F\cdot C$ i $C\cdot F$.
+
+\ex{2} Donada \ $A=\begin{pmatrix}1 & 1\\0 & 1\end{pmatrix}$, calcula $A^2$, $A^3$ i $A^4$. Dedueix l'expressió de $A^n$ i calcula $A^{20}$.\recorda{Per a calcular potències altes, calcula'n unes quantes, busca la regularitat i generalitza-la.}
+
+\ex{2} Donada \ $B=\begin{pmatrix}0 & 1 & 0\\0 & 0 & 1\\1 & 0 & 0\end{pmatrix}$, calcula $B^2$ i $B^3$. Quant val $B^{100}$?
+
+\ex{2} Siga \ $C=\begin{pmatrix}0 & 1 & 2\\0 & 0 & 3\\0 & 0 & 0\end{pmatrix}$. Calcula $C^2$ i $C^3$. Quant val $C^n$ per a $n\geq3$? Calcula també $(I+C)^2$.
+
+\ex{3} Troba totes les matrius $X$ d'ordre 2 que commuten amb \ $A=\begin{pmatrix}1 & 1\\0 & 1\end{pmatrix}$, és a dir, que compleixen $A\cdot X=X\cdot A$.
+
+\ex{2} Calcula $a$ i $b$ perquè la matriu \ $A=\begin{pmatrix}a & 1\\ 0 & b\end{pmatrix}$ \ complisca \ $A^2=\begin{pmatrix}4 & 3\\ 0 & 1\end{pmatrix}$.
+
+\ex{2} Comprova que la matriu \ $A=\begin{pmatrix}2 & -1\\3 & -2\end{pmatrix}$ \ compleix $A^2=I$ i calcula $A^{51}$ i $A^{100}$.
+
+\ex{2} Una matriu quadrada és \emph{idempotent} si $A^2=A$. Comprova que \ $A=\begin{pmatrix}2 & -2 & -4\\-1 & 3 & 4\\1 & -2 & -3\end{pmatrix}$ \ és idempotent i calcula $A^n$.
+
+
+% =====================================================
+\seccio{3}{Determinants}
+
+\ex{1} Calcula els determinants d'ordre 2 següents:\begin{tasks}(4)
+  \task $\begin{vmatrix}3 & -2\\5 & 4\end{vmatrix}$
+  \task $\begin{vmatrix}-1 & 7\\2 & -3\end{vmatrix}$
+  \task $\begin{vmatrix}0 & 5\\-6 & 9\end{vmatrix}$
+  \task $\begin{vmatrix}x & x+1\\ x-1 & x\end{vmatrix}$
+\end{tasks}\recorda{$\begin{vmatrix}a & b\\ c & d\end{vmatrix}=ad-bc$. \ Només tenen determinant les matrius quadrades.}
+
+\ex{1} Calcula, amb la regla de Sarrus:\begin{tasks}(3)
+  \task $\begin{vmatrix}1 & 2 & 3\\0 & -1 & 4\\2 & 1 & 0\end{vmatrix}$
+  \task $\begin{vmatrix}2 & -1 & 1\\3 & 0 & 2\\1 & 4 & -1\end{vmatrix}$
+  \task $\begin{vmatrix}1 & 1 & 1\\2 & 3 & 4\\4 & 9 & 16\end{vmatrix}$
+\end{tasks}\recorda{Sarrus: sumem els productes de la diagonal principal i de les dues ``paral·leles'' i restem els de la diagonal secundària i les seues ``paral·leles''.}
+
+\ex{2} Donada la matriu \ $A=\begin{pmatrix}2 & -1 & 3\\0 & 4 & 0\\1 & 5 & -2\end{pmatrix}$:\begin{tasks}(1)
+  \task Calcula els adjunts $A_{12}$, $A_{22}$ i $A_{31}$.
+  \task Calcula $|A|$ desenvolupant per la fila que et resulte més còmoda.
+\end{tasks}\recorda{L'adjunt de l'element $a_{ij}$ és $A_{ij}=(-1)^{i+j}\cdot\alpha_{ij}$, on $\alpha_{ij}$ és el menor que s'obté en suprimir la fila $i$ i la columna $j$.}
+
+\ex{3} Calcula el determinant d'ordre 4 \ $\begin{vmatrix}2 & 0 & 1 & 0\\1 & 3 & 0 & 0\\0 & 1 & 2 & 1\\1 & 0 & 1 & 0\end{vmatrix}$ \ desenvolupant per la columna que tinga més zeros.
+
+\ex{2} Resol les equacions següents:\begin{tasks}(2)
+  \task $\begin{vmatrix}x & 3\\ 2 & x+1\end{vmatrix}=0$
+  \task $\begin{vmatrix}x & 2 & 1\\ 1 & x & 0\\ 0 & 1 & 1\end{vmatrix}=3$
+\end{tasks}
+
+\ex{2} Estudia per a quins valors de $m$ s'anul·len els determinants següents:\begin{tasks}(2)
+  \task $\begin{vmatrix}m+1 & 3\\ 1 & m-1\end{vmatrix}$
+  \task $\begin{vmatrix}1 & 2 & m\\ 2 & m & 1\\ 1 & 1 & 1\end{vmatrix}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Propietats dels determinants}
+
+\ex{2} Sabent que \ $\begin{vmatrix}a & b & c\\ d & e & f\\ g & h & i\end{vmatrix}=5$, \ calcula, sense desenvolupar-los:\begin{tasks}(2)
+  \task $\begin{vmatrix}d & e & f\\ a & b & c\\ g & h & i\end{vmatrix}$
+  \task $\begin{vmatrix}a & b & c\\ 2d & 2e & 2f\\ g & h & i\end{vmatrix}$
+  \task $\begin{vmatrix}a & d & g\\ b & e & h\\ c & f & i\end{vmatrix}$
+  \task $\begin{vmatrix}a & b & c\\ d+3a & e+3b & f+3c\\ g & h & i\end{vmatrix}$
+  \task $\begin{vmatrix}-a & -b & -c\\ -d & -e & -f\\ -g & -h & -i\end{vmatrix}$
+  \task $\begin{vmatrix}2a & 2b & 2c\\ 2d & 2e & 2f\\ 2g & 2h & 2i\end{vmatrix}$
+  \task $\begin{vmatrix}a & b & c\\ d & e & f\\ 2g-a & 2h-b & 2i-c\end{vmatrix}$
+\end{tasks}\recorda{Canviar dues files de lloc canvia el signe; multiplicar una fila per $k$ multiplica el determinant per $k$; sumar a una fila una combinació lineal de les altres no el canvia; $|A^t|=|A|$; \ $|k\cdot A_n|=k^n|A|$.}
+
+\ex{2} Siguen $A$ i $B$ dues matrius quadrades d'ordre 3 amb $|A|=2$ i $|B|=-3$. Calcula:\begin{tasks}(3)
+  \task $|A\cdot B|$
+  \task $|3A|$
+  \task $|A^{-1}|$
+  \task $|A^t\cdot B|$
+  \task $|A^2\cdot B^{-1}|$
+  \task $|-2B|$
+\end{tasks}\recorda{$|A\cdot B|=|A|\cdot|B|$, \ \ $|A^{-1}|=\dfrac{1}{|A|}$, \ \ $|A^t|=|A|$, \ \ $|k\cdot A_n|=k^n|A|$.}
+
+\ex{2} Justifica, sense desenvolupar-los, que els determinants següents valen zero:\begin{tasks}(3)
+  \task $\begin{vmatrix}1 & 2 & 3\\ 4 & 5 & 6\\ 7 & 8 & 9\end{vmatrix}$
+  \task $\begin{vmatrix}2 & -1 & 4\\ 6 & -3 & 12\\ 1 & 5 & 0\end{vmatrix}$
+  \task $\begin{vmatrix}1 & a & b+c\\ 1 & b & a+c\\ 1 & c & a+b\end{vmatrix}$
+\end{tasks}
+
+\ex{3} Calcula aplicant les propietats (fes zeros abans de desenvolupar):\begin{tasks}(2)
+  \task $\begin{vmatrix}1 & 1 & 1 & 1\\1 & 2 & 2 & 2\\1 & 2 & 3 & 3\\1 & 2 & 3 & 4\end{vmatrix}$
+  \task $\begin{vmatrix}x & 1 & 1\\ 1 & x & 1\\ 1 & 1 & x\end{vmatrix}$ \ (factoritza el resultat)
+\end{tasks}
+
+\ex{3} Raona les afirmacions següents:\begin{tasks}(1)
+  \task Si $A$ és una matriu antisimètrica d'ordre 3, aleshores $|A|=0$.
+  \task Si $A$ és quadrada i $A\cdot A^t=I$, aleshores $|A|=1$ o $|A|=-1$.
+  \task Si $A$ és idempotent ($A^2=A$), aleshores $|A|$ només pot valdre 0 o 1.
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Rang d'una matriu}
+
+\ex{1} Calcula pel mètode de Gauss el rang de les matrius següents:\begin{tasks}(3)
+  \task $\begin{pmatrix}2 & 4 & 6\\1 & 2 & 3\\3 & 6 & 9\end{pmatrix}$
+  \task $\begin{pmatrix}1 & -1 & 2 & 0\\2 & 1 & 0 & 3\\3 & 0 & 2 & 3\end{pmatrix}$
+  \task $\begin{pmatrix}1 & 2 & 1\\0 & 1 & 3\\2 & 1 & 0\\1 & 0 & 2\end{pmatrix}$
+\end{tasks}\recorda{El rang és el nombre de files (o columnes) linealment independents. Per Gauss: esglaonem la matriu i comptem les files que no són nul·les.}
+
+\ex{2} Calcula el rang de \ $A=\begin{pmatrix}1 & 2 & 0 & 1\\2 & 1 & 3 & -1\\3 & 3 & 3 & 0\end{pmatrix}$ \ utilitzant menors (determinants).\recorda{El rang és l'ordre del menor no nul més gran. Si un menor d'ordre $k$ és no nul, n'hi ha prou d'\emph{orlar-lo} (afegir-li una fila i una columna) per a buscar-ne un d'ordre $k+1$.}
+
+\ex{3} Estudia el rang de la matriu \ $A=\begin{pmatrix}1 & 1 & k\\ 1 & k & 1\\ k & 1 & 1\end{pmatrix}$ \ segons els valors de $k$.
+
+\ex{3} Estudia el rang de la matriu \ $B=\begin{pmatrix}1 & 2 & -1 & 3\\ 2 & 1 & a & 1\\ 1 & -1 & 3 & -2\end{pmatrix}$ \ segons els valors de $a$.
+
+
+% =====================================================
+\seccio{6}{Matriu inversa}
+
+\ex{1} Calcula, a partir de la definició ($A\cdot A^{-1}=I$, plantejant un sistema), la inversa de les matrius següents, si existeix:\begin{tasks}(2)
+  \task $A=\begin{pmatrix}2 & 1\\5 & 3\end{pmatrix}$
+  \task $B=\begin{pmatrix}1 & 2\\2 & 4\end{pmatrix}$
+\end{tasks}\recorda{Una matriu quadrada té inversa si i només si el seu determinant és diferent de zero (matriu \emph{regular}).}
+
+\ex{1} Calcula la inversa de les matrius següents pel mètode dels adjunts, si existeix, i comprova el resultat:\begin{tasks}(3)
+  \task $\begin{pmatrix}4 & 3\\2 & 2\end{pmatrix}$
+  \task $\begin{pmatrix}-1 & 2\\3 & -5\end{pmatrix}$
+  \task $\begin{pmatrix}6 & 4\\3 & 2\end{pmatrix}$
+\end{tasks}\recorda{$A^{-1}=\dfrac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t$. \ Per a ordre 2: \ $\begin{pmatrix}a & b\\ c & d\end{pmatrix}^{-1}=\dfrac{1}{ad-bc}\begin{pmatrix}d & -b\\ -c & a\end{pmatrix}$.}
+
+\ex{2} \label{ex:inv3}Calcula la inversa de les matrius següents:\begin{tasks}(2)
+  \task $A=\begin{pmatrix}1 & 2 & 1\\0 & 1 & 0\\2 & 0 & 3\end{pmatrix}$
+  \task $B=\begin{pmatrix}2 & 1 & 0\\0 & 1 & 3\\1 & 0 & 1\end{pmatrix}$
+\end{tasks}
+
+\ex{2} Donada la matriu \ $M=\begin{pmatrix}1 & 0 & -1\\ 0 & k & 3\\ 4 & 1 & -k\end{pmatrix}$:\begin{tasks}(1)
+  \task Per a quins valors de $k$ té inversa?
+  \task Calcula $M^{-1}$ per a $k=2$.
+\end{tasks}
+
+\ex{3} Siga \ $A=\begin{pmatrix}2 & 1\\0 & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Comprova que $A^2-3A+2I=O$.
+  \task Utilitza aquesta igualtat per a calcular $A^{-1}$ sense determinants.
+\end{tasks}
+
+\ex{2} Donades \ $A=\begin{pmatrix}1 & 2\\1 & 3\end{pmatrix}$ \ i \ $B=\begin{pmatrix}2 & 1\\1 & 1\end{pmatrix}$, calcula $(A\cdot B)^{-1}$ i comprova que coincideix amb $B^{-1}\cdot A^{-1}$, però no amb $A^{-1}\cdot B^{-1}$.
+
+
+% =====================================================
+\seccio{7}{Equacions i sistemes matricials}
+
+\ex{2} Donades \ $A=\begin{pmatrix}2 & 1\\5 & 3\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & 0\\2 & -1\end{pmatrix}$, resol les equacions matricials:\begin{tasks}(2)
+  \task $A\cdot X=B$
+  \task $X\cdot A=B$
+\end{tasks}\recorda{Aïllem $X$ igual que en una equació numèrica, però \textbf{no podem dividir}: multipliquem per la inversa pel mateix costat on està la matriu. \ $AX=B\Rightarrow X=A^{-1}B$; \ \ $XA=B\Rightarrow X=BA^{-1}$.}
+
+\ex{2} Resol l'equació $A\cdot X+B=C$, essent \ $A=\begin{pmatrix}1 & 2\\1 & 3\end{pmatrix}$, \ $B=\begin{pmatrix}1 & 0\\2 & 1\end{pmatrix}$ \ i \ $C=\begin{pmatrix}3 & 4\\5 & 9\end{pmatrix}$.
+
+\ex{3} Resol l'equació $X\cdot A-2X=B$, essent \ $A=\begin{pmatrix}4 & 1\\3 & 3\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & 2\\0 & -1\end{pmatrix}$.
+
+\ex{3} Resol l'equació $A\cdot X\cdot B=C$, essent \ $A=\begin{pmatrix}1 & 1\\0 & 1\end{pmatrix}$, \ $B=\begin{pmatrix}2 & 1\\1 & 1\end{pmatrix}$ \ i \ $C=\begin{pmatrix}3 & 2\\1 & 1\end{pmatrix}$.
+
+\ex{2} Troba la matriu $X$ que compleix $A\cdot X=B$, essent \ $A=\begin{pmatrix}1 & 2 & 1\\0 & 1 & 0\\2 & 0 & 3\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & 0\\2 & 1\\3 & -1\end{pmatrix}$. \ (La inversa de $A$ la tens a l'exercici \ref{ex:inv3}.)
+
+\ex{2} Resol el sistema matricial \ $\left\{\begin{aligned}2X+Y&=\begin{pmatrix}3 & 1\\0 & 2\end{pmatrix}\\ X-Y&=\begin{pmatrix}0 & -1\\-3 & 4\end{pmatrix}\end{aligned}\right.$\recorda{Els sistemes matricials es resolen per reducció o substitució, com els numèrics.}
+
+\ex{2} Resol el sistema matricial \ $\left\{\begin{aligned}3X-2Y&=\begin{pmatrix}4 & -5\\-6 & 3\end{pmatrix}\\ X+Y&=\begin{pmatrix}3 & 0\\3 & 1\end{pmatrix}\end{aligned}\right.$
+
+\ex{3} Donada \ $A=\begin{pmatrix}1 & -1\\2 & -1\end{pmatrix}$, troba la matriu $X$ tal que \ $A\cdot X=A^t+I$.
+
+
+% =====================================================
+\seccio{8}{Problemes d'aplicació}
+
+\ex{2} Una empresa fabrica tres models de mobles (A, B i C) en dues fàbriques. La matriu $P$ dona les unitats fabricades cada setmana (files: fàbriques F1 i F2; columnes: models A, B i C) i la matriu $C$, les hores de treball i el cost de material (en euros) de cada unitat (files: models A, B i C):\[P=\begin{pmatrix}40 & 25 & 10\\30 & 35 & 20\end{pmatrix}\qquad C=\begin{pmatrix}2 & 15\\3 & 20\\5 & 30\end{pmatrix}\]\begin{tasks}(1)
+  \task Calcula $P\cdot C$ i explica què significa cada element.
+  \task Té sentit calcular $C\cdot P$?
+\end{tasks}\recorda{Per a multiplicar, les columnes de la primera matriu i les files de la segona han de referir-se a la \textbf{mateixa} cosa (ací, els models).}
+
+\ex{2} Tres botigues (B1, B2 i B3) venen pantalons, camises i jaquetes. Les matrius $V$ i $W$ arrepleguen les unitats venudes al gener i al febrer (files: botigues; columnes: pantalons, camises, jaquetes), i $p$ és la matriu columna dels preus: 30 €, 20 € i 50 €.\[V=\begin{pmatrix}10 & 15 & 4\\8 & 20 & 6\\12 & 10 & 5\end{pmatrix}\qquad W=\begin{pmatrix}12 & 10 & 6\\9 & 18 & 4\\10 & 14 & 7\end{pmatrix}\qquad p=\begin{pmatrix}30\\20\\50\end{pmatrix}\]\begin{tasks}(1)
+  \task Calcula $V+W$. Què representa?
+  \task Calcula $(V+W)\cdot p$ i interpreta'l.
+  \task Si al març tots els preus pugen un 10\,\%, quina matriu dona els nous preus?
+\end{tasks}
+
+\ex{3} Una companyia aèria uneix València (V), Madrid (M), Barcelona (B) i Palma (P) amb aquests vols directes: de V a M, B i P; de M a V i B; de B a M i P, i de P a V.\begin{tasks}(1)
+  \task Escriu la matriu $A$ en què $a_{ij}=1$ si hi ha vol directe de la ciutat $i$ a la ciutat $j$, i $a_{ij}=0$ si no n'hi ha (ordre: V, M, B, P).
+  \task Calcula $A^2$. Què indiquen els seus elements?
+  \task De quantes maneres es pot anar de Palma a Barcelona fent exactament una escala? I eixir de València i tornar-hi fent una escala?
+\end{tasks}
+
+\ex{3} Una comarca té dues zones, la costa (C) i l'interior (I). Cada any, el 10\,\% dels habitants de la costa es trasllada a l'interior, i el 20\,\% dels de l'interior es trasllada a la costa; la resta es queda on és. Ara hi ha 5000 habitants a la costa i 3000 a l'interior.\begin{tasks}(1)
+  \task Escriu la matriu $T$ tal que $\begin{pmatrix}C_{n+1}\\ I_{n+1}\end{pmatrix}=T\cdot\begin{pmatrix}C_n\\ I_n\end{pmatrix}$.
+  \task Quants habitants hi haurà a cada zona d'ací a un any? I d'ací a dos anys?
+  \task Comprova que, si hi haguera $\tfrac{16000}{3}$ habitants a la costa i $\tfrac{8000}{3}$ a l'interior, la distribució no canviaria.
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb el laboratori de matrius dels apunts interactius.\end{center}
+
+\end{document}
