@@ -534,6 +534,9 @@ pre = pre.replace(r'{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ 
 assert 'estrelles{#1}}' not in pre
 pre = pre.replace(r'\stepcounter{exer}', r'\refstepcounter{exer}')
 assert 'refstepcounter{exer}' in pre
+# que el títol d'una secció no quede sol al final del full
+pre = pre.replace(r'\needspace{10\baselineskip}\bigskip', r'\needspace{16\baselineskip}\bigskip')
+assert '16\\baselineskip' in pre
 pre += r'''
 % quadre de recordatori (només a la fitxa d'exercicis)
 \newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
@@ -553,6 +556,7 @@ def build(sol):
     assert 'Unitat 9' in p and 'unitat 9' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
+\def\fmneed{16}% que el títol d'una secció no quede sol al final del full
 \input{../comu/fentmates.tex}
 \fmcurs{2batx-ccss}
 

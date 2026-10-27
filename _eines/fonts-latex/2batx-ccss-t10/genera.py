@@ -344,6 +344,7 @@ def build(sol):
     assert 'Unitat 10' in p and 'unitat 10' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
+\def\fmneed{16}% que el títol d'una secció no quede sol al final del full
 \input{../comu/fentmates.tex}
 \fmcurs{2batx-ccss}
 
