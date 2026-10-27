@@ -1,0 +1,297 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 8: Integrals. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={integrals, primitiva, integral indefinida, integrals immediates, integral definida, regla de Barrow, àrees, àrea entre dues corbes}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 8: Integrals · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Fitxa d'exercicis · Unitat 8}{\raggedright Integrals}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern mostrant tots els passos. A la PAU de Ciències Socials les integrals són de polinomis: integra terme a terme, aplica la regla de Barrow amb compte amb els signes i, en els problemes d'àrees, busca sempre primer els punts de tall i fes un esbós del recinte. No oblides la constant $C$ en les integrals indefinides ni les unitats ($\text{u}^2$) en les àrees.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Primitives i integral indefinida}
+
+\ex{1} Comprova, derivant, si $F$ és una primitiva de $f$ en cada cas:\begin{tasks}(2)
+  \task $F(x)=x^3-5x+2$, \ $f(x)=3x^2-5$
+  \task $F(x)=(x^2-1)^2$, \ $f(x)=4x^3-4x$
+  \task $F(x)=\dfrac{x^2}{2}+\dfrac1x$, \ $f(x)=x+\dfrac{1}{x^2}$
+  \task $F(x)=\dfrac{(2x+3)^3}{6}$, \ $f(x)=(2x+3)^2$
+\end{tasks}\recorda{$F$ és una primitiva de $f$ si $F'(x)=f(x)$.}
+
+\ex{1} Escriu tres primitives diferents de $f(x)=3x^2-4$. Quina relació hi ha entre les seues gràfiques?
+
+\ex{2} Digues si les afirmacions següents són vertaderes o falses. Justifica-ho.\begin{tasks}(1)
+  \task Si $F$ i $G$ són dues primitives de la mateixa funció $f$, aleshores $F-G$ és constant.
+  \task $\displaystyle\int f(x)\cdot g(x)\,dx=\int f(x)\,dx\cdot\int g(x)\,dx$.
+  \task $\displaystyle\int 5f(x)\,dx=5\int f(x)\,dx$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Integrals immediates}
+
+\ex{1} Calcula les integrals de polinomis següents:\begin{tasks}(3)
+  \task $\displaystyle\int (4x^3-6x^2+2x-5)\,dx$
+  \task $\displaystyle\int (x^2+3x-1)\,dx$
+  \task $\displaystyle\int (5x^4-x)\,dx$
+  \task $\displaystyle\int \left(2-\frac x3\right)\,dx$
+  \task $\displaystyle\int \left(\frac{x^3}{2}-\frac{2x^2}{3}+1\right)\,dx$
+  \task $\displaystyle\int (6x^5+4x^3)\,dx$
+  \task $\displaystyle\int 7\,dx$
+  \task $\displaystyle\int (0{,}5x-1{,}2)\,dx$
+  \task $\displaystyle\int (-3x^2+8x)\,dx$
+\end{tasks}\recorda{Integrem terme a terme: $\displaystyle\int a\,x^n\,dx=a\,\frac{x^{n+1}}{n+1}+C$ i $\displaystyle\int k\,dx=kx+C$. No oblides la constant $C$.}
+
+\ex{1} Desenvolupa primer i després integra:\begin{tasks}(3)
+  \task $\displaystyle\int x(x+4)\,dx$
+  \task $\displaystyle\int (x-3)^2\,dx$
+  \task $\displaystyle\int (x+1)(x-1)\,dx$
+  \task $\displaystyle\int (2x-1)(x+2)\,dx$
+  \task $\displaystyle\int x^2(3x-2)\,dx$
+  \task $\displaystyle\int \frac{x^3-2x^2}{x}\,dx$
+\end{tasks}\recorda{No hi ha cap regla per a integrar un producte o un quocient: si són polinomis, primer els desenvolupem (o simplifiquem).}
+
+\ex{2} Calcula aquestes integrals immediates (escriu les arrels i les fraccions com a potències):\begin{tasks}(2)
+  \task $\displaystyle\int \frac{1}{x^3}\,dx$
+  \task $\displaystyle\int \sqrt[3]{x}\,dx$
+  \task $\displaystyle\int \left(\frac2x+3e^x\right)\,dx$
+  \task $\displaystyle\int \left(x+\frac{1}{\sqrt x}\right)\,dx$
+\end{tasks}\recorda{$\displaystyle\int x^n\,dx=\frac{x^{n+1}}{n+1}+C$ també val per a $n$ negatiu o fraccionari (si $n\neq-1$). A més, $\displaystyle\int\frac1x\,dx=\ln|x|+C$ i $\displaystyle\int e^x\,dx=e^x+C$.}
+
+
+% =====================================================
+\seccio{3}{Integrals quasi immediates}
+
+\ex{2} Calcula les integrals següents ajustant constants:\begin{tasks}(2)
+  \task $\displaystyle\int (5x+2)^3\,dx$
+  \task $\displaystyle\int 3x^2(x^3-1)^4\,dx$
+  \task $\displaystyle\int x(x^2+5)^2\,dx$
+  \task $\displaystyle\int \frac{4x+2}{x^2+x+1}\,dx$
+  \task $\displaystyle\int \frac{1}{2x-5}\,dx$
+  \task $\displaystyle\int e^{-2x}\,dx$
+  \task $\displaystyle\int (2x+1)\,e^{x^2+x}\,dx$
+  \task $\displaystyle\int x^3e^{x^4}\,dx$
+\end{tasks}\recorda{$\displaystyle\int u'\,u^n\,dx=\frac{u^{n+1}}{n+1}+C$, \ $\displaystyle\int\frac{u'}{u}\,dx=\ln|u|+C$, \ $\displaystyle\int u'\,e^{u}\,dx=e^{u}+C$. Si falta un factor constant, multipliquem i dividim per ell.}
+
+\ex{2} Calcula $\displaystyle\int(x+2)^2\,dx$ de dues maneres: com a integral quasi immediata i desenvolupant el quadrat. Ixen el mateix resultat? Explica-ho.
+
+
+% =====================================================
+\seccio{4}{Primitives que compleixen una condició}
+
+\ex{1} Troba la primitiva de $f(x)=6x^2-4x+1$ que compleix $F(1)=3$.
+
+\ex{1} Troba la primitiva de $f(x)=x^2-1$ la gràfica de la qual passa pel punt $(3,\,4)$.
+
+\ex{2} El pendent de la recta tangent a la gràfica d'una funció $f$ en cada punt $x$ és $3x^2-2x$, i la gràfica passa pel punt $(1,\,2)$. Troba $f$.
+
+\ex{2} D'una funció $f$ sabem que $f''(x)=6x-2$, que $f'(1)=3$ i que $f(0)=1$. Troba $f$.
+
+\ex{2} El cost marginal de fabricar $x$ unitats d'un producte és $C'(x)=0{,}6x+20$ euros per unitat, i els costos fixos són de 500 €.\begin{tasks}(1)
+  \task Troba la funció de cost total $C(x)$.
+  \task Quant costa fabricar 50 unitats?
+\end{tasks}\recorda{El cost total és una primitiva del cost marginal. Els costos fixos són el cost quan no es fabrica res: $C(0)$.}
+
+\ex{2} La velocitat de creixement d'una població, en milers d'habitants per any, és $P'(t)=0{,}3t^2+2t$, on $t$ són els anys transcorreguts des de l'any 2020. En el 2020 la població era de 50 mil habitants.\begin{tasks}(1)
+  \task Troba la funció $P(t)$ que dona la població.
+  \task Quina població hi haurà en el 2025?
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{La integral definida. Regla de Barrow}
+
+\ex{1} Calcula aquestes integrals definides fent un dibuix i fent servir àrees de figures conegudes:\begin{tasks}(4)
+  \task $\displaystyle\int_{0}^{5} 4\,dx$
+  \task $\displaystyle\int_{-2}^{2} (x+2)\,dx$
+  \task $\displaystyle\int_{0}^{3} (-2x)\,dx$
+  \task $\displaystyle\int_{-1}^{3} x\,dx$
+\end{tasks}\recorda{Si $f\geq0$, $\int_a^b f$ és l'àrea; les parts per davall de l'eix compten amb signe negatiu.}
+
+\ex{1} Calcula aplicant la regla de Barrow:\begin{tasks}(3)
+  \task $\displaystyle\int_{0}^{3} (x^2+1)\,dx$
+  \task $\displaystyle\int_{1}^{2} (6x^2-2x)\,dx$
+  \task $\displaystyle\int_{-1}^{2} (3x^2-2x+1)\,dx$
+  \task $\displaystyle\int_{-2}^{0} (x^3+2x)\,dx$
+  \task $\displaystyle\int_{0}^{1} (x^4-x)\,dx$
+  \task $\displaystyle\int_{1}^{4} \left(2-\frac x2\right)\,dx$
+  \task $\displaystyle\int_{-1}^{1} (x^5-x^3+4)\,dx$
+  \task $\displaystyle\int_{0}^{2} (x-1)(x+3)\,dx$
+  \task $\displaystyle\int_{1}^{2} (x+1)^2\,dx$
+\end{tasks}\recorda{$\displaystyle\int_a^b f(x)\,dx=\Big[F(x)\Big]_a^b=F(b)-F(a)$. Compte amb els parèntesis quan $F(a)$ és negatiu.}
+
+\ex{2} Calcula:\begin{tasks}(4)
+  \task $\displaystyle\int_{1}^{e} \frac2x\,dx$
+  \task $\displaystyle\int_{0}^{\ln2} e^x\,dx$
+  \task $\displaystyle\int_{1}^{4} \frac{1}{\sqrt x}\,dx$
+  \task $\displaystyle\int_{1}^{2} \frac{1}{x^2}\,dx$
+\end{tasks}
+
+\ex{1} Sabem que $\displaystyle\int_0^3 f(x)\,dx=4$, $\displaystyle\int_3^5 f(x)\,dx=-1$ i $\displaystyle\int_0^5 g(x)\,dx=2$. Calcula:\begin{tasks}(3)
+  \task $\displaystyle\int_{0}^{5} f(x)\,dx$
+  \task $\displaystyle\int_{5}^{0} \big(2f(x)-g(x)\big)\,dx$
+  \task $\displaystyle\int_{3}^{3} f(x)\,dx$
+\end{tasks}
+
+\ex{2} Calcula el valor de $a>0$ perquè $\displaystyle\int_0^a(2x+1)\,dx=6$.
+
+\ex{2} Calcula $k$ perquè $\displaystyle\int_1^3(kx-1)\,dx=10$.
+
+\ex{3} Troba $a$ i $b$ perquè la funció $f(x)=ax^2+b$ complisca $f(1)=2$ i $\displaystyle\int_0^1 f(x)\,dx=1$.
+
+\ex{2} Aproxima $\displaystyle\int_0^2x^2\,dx$ amb 4 rectangles de la mateixa amplària, prenent com a altura el valor de la funció a l'extrem dret de cada tros. Compara-ho amb el valor exacte.
+
+
+% =====================================================
+\seccio{6}{Àrea entre una corba i l'eix OX}
+
+\ex{2} Calcula l'àrea del recinte limitat per la gràfica de cada funció i l'eix OX. Fes-ne un esbós.\begin{tasks}(3)
+  \task $f(x)=x^2-9$
+  \task $f(x)=-x^2+2x+3$
+  \task $f(x)=x^2-5x+4$
+  \task $f(x)=x^3-9x$
+  \task $f(x)=x^3-3x^2+2x$
+  \task $f(x)=x^4-x^2$
+\end{tasks}\recorda{Primer busquem els talls amb l'eix OX ($f(x)=0$); són els límits d'integració. Si n'hi ha més de dos, integrem cada tros per separat i sumem els valors absoluts.}
+
+\ex{2} Calcula l'àrea de la regió limitada per la gràfica de $f$, l'eix OX i les rectes indicades:\begin{tasks}(2)
+  \task $f(x)=x^2+1$, \ $x=0$, \ $x=3$
+  \task $f(x)=4-x^2$, \ $x=0$, \ $x=3$
+  \task $f(x)=x^2-4x$, \ $x=-1$, \ $x=1$
+  \task $f(x)=x^3-x$, \ $x=0$, \ $x=2$
+  \task $f(x)=x^2-2x-3$, \ $x=0$, \ $x=4$
+  \task $f(x)=2x-4$, \ $x=0$, \ $x=5$
+\end{tasks}\recorda{Ara els límits són $a$ i $b$, però hem de mirar si $f$ talla l'eix OX \textbf{dins} de l'interval: aquests talls divideixen la integral en trossos. Els talls de fora no compten.}
+
+\ex{1} Un alumne diu que l'àrea limitada per $f(x)=x^3$, l'eix OX i les rectes $x=-2$ i $x=2$ és 0, perquè $\displaystyle\int_{-2}^{2}x^3\,dx=0$. Té raó? Calcula l'àrea correctament.
+
+\ex{2} Considera la funció $f(x)=x^2-4x+3$.\begin{tasks}(1)
+  \task Representa-la gràficament.
+  \task Calcula l'àrea del recinte limitat per la gràfica de $f$ i l'eix OX.
+  \task Calcula l'àrea del recinte limitat per la gràfica de $f$ i els dos eixos de coordenades.
+\end{tasks}
+
+\ex{3} Calcula $a>0$ perquè l'àrea del recinte limitat per la paràbola $f(x)=a^2-x^2$ i l'eix OX siga 36.
+
+\ex{2} Calcula $k>0$ perquè l'àrea de la regió limitada per $f(x)=x^2$, l'eix OX i la recta $x=k$ siga 9.
+
+
+% =====================================================
+\seccio{7}{Àrea entre dues corbes}
+
+\ex{2} Calcula l'àrea del recinte tancat per les gràfiques de les funcions:\begin{tasks}(2)
+  \task $f(x)=x^2$ \ i \ $g(x)=2x$
+  \task $f(x)=x^2-2$ \ i \ $g(x)=x$
+  \task $f(x)=-x^2+6x$ \ i \ $g(x)=x^2-2x$
+  \task $f(x)=x^3$ \ i \ $g(x)=x^2$
+  \task $f(x)=x^3-2x$ \ i \ $g(x)=2x$
+  \task $f(x)=4-x^2$ \ i \ $g(x)=x^2-4$
+\end{tasks}\recorda{Resolem $f(x)=g(x)$ per trobar els punts de tall, que són els límits. Integrem $f-g$ en cada tros i sumem els valors absoluts (o integrem «la de dalt menys la de baix»).}
+
+\ex{2} Calcula l'àrea de la regió limitada per les gràfiques de $f$ i $g$ i les rectes indicades:\begin{tasks}(2)
+  \task $f(x)=x^2+1$, \ $g(x)=-x^2-1$, \ $x=-1$, \ $x=2$
+  \task $f(x)=x^2$, \ $g(x)=x$, \ $x=-1$, \ $x=1$
+  \task $f(x)=x^2-4$, \ $g(x)=-x+2$, \ $x=0$, \ $x=3$
+  \task $f(x)=x^3$, \ $g(x)=x$, \ $x=0$, \ $x=2$
+\end{tasks}
+
+\ex{3} Calcula l'àrea de la regió limitada per la paràbola $y=x^2$, la recta tangent a la paràbola en $x=1$ i l'eix OY.
+
+\ex{2} Considera les funcions $f(x)=-x^2+5x$ i $g(x)=x$.\begin{tasks}(1)
+  \task Representa-les en els mateixos eixos.
+  \task Calcula l'àrea del recinte tancat per les dues gràfiques.
+\end{tasks}
+
+\ex{3} Calcula $m>0$ perquè l'àrea del recinte limitat per la paràbola $y=x^2$ i la recta $y=mx$ siga 36.
+
+
+% =====================================================
+\seccio{8}{Problemes d'aplicació}
+
+\ex{2} La funció de demanda d'un producte és $p(x)=100-x^2$, on $p$ és el preu (en euros) i $x$ la quantitat demandada (en milers d'unitats). El preu de mercat és de 64 €.\begin{tasks}(1)
+  \task Quina quantitat es demana a aquest preu?
+  \task L'\textbf{excedent del consumidor} és l'àrea compresa entre la corba de demanda i la recta $p=64$, des de $x=0$ fins a la quantitat demandada. Calcula'l.
+\end{tasks}
+
+\ex{2} El benefici marginal d'una empresa (en milers d'euros) quan ven $x$ tones és $B'(x)=40-2x$. Si no ven res, té unes pèrdues de 100 mil euros.\begin{tasks}(1)
+  \task Troba la funció de benefici $B(x)$.
+  \task Quantes tones ha de vendre per obtindre el benefici màxim? Quin és aquest benefici?
+  \task Quant augmenta el benefici si passa de vendre 5 tones a vendre'n 10? (Calcula-ho amb una integral definida.)
+\end{tasks}
+
+\ex{3} Un pou de petroli produeix, $t$ anys després d'obrir-lo, a un ritme de $r(t)=12-\frac{3}{4}t^2$ milers de barrils per any.\begin{tasks}(1)
+  \task Quan deixarà de produir?
+  \task Quants barrils produirà en total, des que s'obri fins que es tanque?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb la calculadora d'integrals i àrees dels apunts interactius.\end{center}
+
+\end{document}

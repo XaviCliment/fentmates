@@ -128,7 +128,7 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t5`, `2batx-ccss-t6` i `2batx-ccss-t7` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7` i `2batx-ccss-t8` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
@@ -159,6 +159,14 @@ de la unitat 6. A la fitxa, `genera.py` calcula i dibuixa ell mateix les gràfiq
 
 ```
 python3 _eines/apunts/2batx-ccss-t7/build.py
+```
+
+La unitat 8 (Integrals, carpeta `2batx-ccss-t8`) només reaprofita el nucli de la unitat 4, al qual afegeix l'ombrejat
+d'àrees a les gràfiques. Els ginys treballen amb polinomis de manera exacta (fraccions), com a la PAU de CCSS. A la fitxa,
+`genera.py` comprova totes les integrals i àrees amb fraccions exactes i dibuixa els recintes de les solucions:
+
+```
+python3 _eines/apunts/2batx-ccss-t8/build.py
 ```
 
 ## Treballar des de casa i des de l'institut

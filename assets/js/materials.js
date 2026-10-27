@@ -350,6 +350,15 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "integrals", block: "an",
+        title: { va: "Integrals", es: "Integrales", en: "Integrals" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t8-integrals.html", date: "2026-10-27" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis amb gràfiques a les solucions", es: "PDF · 36 ejercicios con gráficas en las soluciones", en: "PDF · 36 exercises with graphs in the solutions" }, url: "materials/2batx-ccss/t8-fitxa-exercicis.pdf", download: true, date: "2026-10-27" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/2batx-ccss/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-27" }
+        ]
+      },
+      {
         ill: "probabilitat", block: "pr",
         title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
         items: [
