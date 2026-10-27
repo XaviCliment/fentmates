@@ -533,6 +533,8 @@ pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
 pre = pre.replace(r'{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }', r'{\color{navy}\bfseries\theexer.}\ \ }')
 assert 'estrelles{#1}}' not in pre
 pre = pre.replace(r'\stepcounter{exer}', r'\refstepcounter{exer}')
+# el primer exercici de cada secció no fa salt de pàgina: així no queda separat del títol
+pre += r'\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }' + '\n'
 assert 'refstepcounter{exer}' in pre
 # que el títol d'una secció no quede sol al final del full
 pre = pre.replace(r'\needspace{10\baselineskip}\bigskip', r'\needspace{16\baselineskip}\bigskip')
@@ -556,7 +558,7 @@ def build(sol):
     assert 'Unitat 9' in p and 'unitat 9' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
-\def\fmneed{16}% que el títol d'una secció no quede sol al final del full
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
 \input{../comu/fentmates.tex}
 \fmcurs{2batx-ccss}
 
@@ -578,9 +580,9 @@ def build(sol):
     n = 0
     for i, (title, exs) in enumerate(S, 1):
         out.append('\n%% =====================================================\n\\seccio{%d}{%s}\n\n' % (i, title))
-        for st_, q, s in exs:
+        for j, (st_, q, s) in enumerate(exs):
             n += 1
-            out.append('\\ex{%d} %s\n\n' % (st_, s if sol else q))
+            out.append('\\%s{%d} %s\n\n' % ('exf' if j == 0 else 'ex', st_, s if sol else q))
     if not sol:
         out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\\end{center}\n')
     out.append('\n\\end{document}\n')

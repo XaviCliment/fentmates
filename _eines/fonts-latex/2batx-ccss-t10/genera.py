@@ -132,7 +132,7 @@ S.append(("La distribució binomial amb la taula de la PAU", [
      r"Bloc $n=5$, columna $p=0{,}25$:" + tasks(2, [r"$" + B(r4(b5[0])) + "$", r"$0{,}2373+0{,}3955=" + B(r4(pmf(5, .25, 0)) + r4(pmf(5, .25, 1))) + "$", r"$0{,}0146+0{,}0010=" + B(r4(pmf(5, .25, 4)) + r4(pmf(5, .25, 5))) + "$", r"$1-0{,}2373=" + B(1 - r4(pmf(5, .25, 0))) + "$"])),
  (1, r"Siga $X\sim B\left(9,\frac13\right)$. Calcula amb la taula $P(X\leq2)$ i $P(X\geq3)$.",
      r"Bloc $n=9$, columna $p=1/3$: \ $P(X\leq2)=0{,}0260+0{,}1171+0{,}2341=" + B(r4(pmf(9, 1/3, 0)) + r4(pmf(9, 1/3, 1)) + r4(pmf(9, 1/3, 2))) + r"$; \ $P(X\geq3)=1-0{,}3772=" + B(1 - (r4(pmf(9, 1/3, 0)) + r4(pmf(9, 1/3, 1)) + r4(pmf(9, 1/3, 2)))) + "$."),
- (2, r"El 80\,\% dels clients d'una botiga està satisfet amb l'atenció rebuda. Es trien 7 clients a l'atzar. Calcula, amb la taula de la PAU, la probabilitat que:" + tasks(3, [r"n'estiguen satisfets exactament 6;", r"n'estiguen satisfets almenys 6;", r"n'estiguen satisfets com a molt 5."]),
+ (2, r"El 80\,\% dels clients d'una botiga està satisfet amb l'atenció rebuda. Es trien 7 clients a l'atzar. Calcula, amb la taula de la PAU, la probabilitat que:" + tasks(1, [r"n'estiguen satisfets exactament 6;", r"n'estiguen satisfets almenys 6;", r"n'estiguen satisfets com a molt 5."]),
      r"$X\sim B(7;\ 0{,}8)$ no és a la taula ($p>0{,}5$). Comptem els no satisfets: $Y=7-X\sim B(7;\ 0{,}2)$." + tasks(1, [r"$P(X=6)=P(Y=1)=" + B(r4(b7[0])) + "$", r"$P(X\geq6)=P(Y\leq1)=0{,}2097+0{,}3670=" + B(r4(pmf(7, .2, 0)) + r4(pmf(7, .2, 1))) + "$",
       r"$P(X\leq5)=1-P(X\geq6)=" + B(1 - r4(pmf(7, .2, 0)) - r4(pmf(7, .2, 1))) + "$"])),
  (2, r"Germina el 90\,\% de les llavors d'una marca. Es planten 8 llavors. Calcula, amb la taula, la probabilitat que germinen totes, que germinen almenys 7 i que en germinen exactament 7.",
@@ -328,6 +328,8 @@ pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
 pre = pre.replace(r'{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }', r'{\color{navy}\bfseries\theexer.}\ \ }')
 assert 'estrelles{#1}}' not in pre
 pre = pre.replace(r'\stepcounter{exer}', r'\refstepcounter{exer}')
+# el primer exercici de cada secció no fa salt de pàgina: així no queda separat del títol
+pre += r'\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }' + '\n'
 pre = pre.replace(r'\needspace{10\baselineskip}\bigskip', r'\needspace{16\baselineskip}\bigskip')
 assert '16\\baselineskip' in pre
 pre += r'''
@@ -344,7 +346,7 @@ def build(sol):
     assert 'Unitat 10' in p and 'unitat 10' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
-\def\fmneed{16}% que el títol d'una secció no quede sol al final del full
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
 \input{../comu/fentmates.tex}
 \fmcurs{2batx-ccss}
 
@@ -366,9 +368,9 @@ def build(sol):
     n = 0
     for i, (title, exs) in enumerate(S, 1):
         out.append('\n%% =====================================================\n\\seccio{%d}{%s}\n\n' % (i, title))
-        for st_, q_, s in exs:
+        for j, (st_, q_, s) in enumerate(exs):
             n += 1
-            out.append('\\ex{%d} %s\n\n' % (st_, s if sol else q_))
+            out.append('\\%s{%d} %s\n\n' % ('exf' if j == 0 else 'ex', st_, s if sol else q_))
     if not sol:
         out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ Ànim! Comprova els teus resultats amb la calculadora de probabilitats dels apunts interactius.\\end{center}\n')
     out.append('\n\\end{document}\n')
