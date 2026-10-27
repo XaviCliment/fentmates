@@ -128,7 +128,7 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t1`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7` i `2batx-ccss-t8` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t1`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7`, `2batx-ccss-t8`, `2batx-ccss-t9` i `2batx-ccss-t10` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
@@ -167,6 +167,33 @@ d'àrees a les gràfiques. Els ginys treballen amb polinomis de manera exacta (f
 
 ```
 python3 _eines/apunts/2batx-ccss-t8/build.py
+```
+
+La unitat 9 (Probabilitat, carpeta `2batx-ccss-t9`) no necessita el nucli de gràfiques: els diagrames de Venn, els arbres,
+la taula de contingència i la calculadora de dos successos (que resol les quatre regions del diagrama de Venn amb fraccions
+exactes) són a `app.js`. El contingut està repartit en `contingut-1.html`, `contingut-2.html` i `contingut-3.html`, que
+`build.py` ajunta per ordre. A la fitxa, `genera.py` calcula totes les probabilitats amb fraccions (o comptant l'espai
+mostral) i les compara amb les solucions oficials dels exercicis de la PAU:
+
+```
+python3 _eines/apunts/2batx-ccss-t9/build.py
+```
+
+La unitat 10 (Distribució binomial i normal, carpeta `2batx-ccss-t10`) reaprofita l'estil de les unitats 4 i 9. `build.py`
+calcula i insereix les taules de la binomial i de la normal $N(0,1)$ que s'adjunten a l'examen de la PAU valenciana (des del
+curs 2025-26); els ginys llegeixen els valors d'aquestes taules, de manera que els resultats coincideixen amb la taula:
+
+```
+python3 _eines/apunts/2batx-ccss-t10/build.py
+```
+
+Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
+conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
+els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i
+comprovades). No toca les pàgines PAU de les unitats 1-3:
+
+```
+python3 _eines/pau/pr/build.py
 ```
 
 ## Treballar des de casa i des de l'institut

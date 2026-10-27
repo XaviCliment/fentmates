@@ -364,8 +364,20 @@ window.LEVELS = {
         ill: "probabilitat", block: "pr",
         title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
         items: [
-          { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
-          { type: "exam", title: { va: "Exàmens PAU anteriors", es: "Exámenes PAU anteriores", en: "Past entrance exams" }, url: "" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t9-probabilitat.html", date: "2026-10-27" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 76 exercicis, 50 de la PAU d'altres comunitats", es: "PDF · 76 ejercicios, 50 de la PAU de otras comunidades", en: "PDF · 76 exercises, 50 from other regions' PAU exams" }, url: "materials/2batx-ccss/t9-fitxa-exercicis.pdf", download: true, date: "2026-10-27" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 76 exercicis", es: "PDF · Soluciones de los 76 ejercicios", en: "PDF · Solutions to all 76 exercises" }, url: "materials/2batx-ccss/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-27" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "100 exercicis resolts de la PAU valenciana (2000–2026)", es: "100 ejercicios resueltos de la PAU valenciana (2000–2026)", en: "100 solved past Valencian PAU exercises (2000–2026)" }, url: "materials/2batx-ccss/pau-u9-probabilitat.html", date: "2026-10-27" }
+        ]
+      },
+      {
+        ill: "normal", block: "pr",
+        title: { va: "Distribució binomial i normal", es: "Distribución binomial y normal", en: "Binomial and normal distributions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t10-binomial-normal.html", date: "2026-10-27" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 53 exercicis, 37 de la PAU d'altres comunitats", es: "PDF · 53 ejercicios, 37 de la PAU de otras comunidades", en: "PDF · 53 exercises, 37 from other regions' PAU exams" }, url: "materials/2batx-ccss/t10-fitxa-exercicis.pdf", download: true, date: "2026-10-27" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 53 exercicis", es: "PDF · Soluciones de los 53 ejercicios", en: "PDF · Solutions to all 53 exercises" }, url: "materials/2batx-ccss/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-27" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "5 exercicis resolts de la PAU valenciana (2000–2026)", es: "5 ejercicios resueltos de la PAU valenciana (2000–2026)", en: "5 solved past Valencian PAU exercises (2000–2026)" }, url: "materials/2batx-ccss/pau-u10-binomial-normal.html", date: "2026-10-27" }
         ]
       }
     ]

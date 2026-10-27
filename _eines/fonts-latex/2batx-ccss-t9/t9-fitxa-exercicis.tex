@@ -1,0 +1,546 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 9: Probabilitat. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={probabilitat, espai mostral, successos, regla de Laplace, probabilitat condicionada, independència, taules de contingència, diagrames d'arbre, extraccions, probabilitat total, teorema de Bayes, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 9: Probabilitat · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+% successos contraris i probabilitat condicionada
+\newcommand{\co}[1]{\overline{#1}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Fitxa d'exercicis · Unitat 9}{\raggedright Probabilitat}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern mostrant tots els passos. Defineix sempre els successos amb lletres i escriu les dades amb la notació de probabilitats ($P(A)$, $P(A\cap B)$, $P(A\,|\,B)$\dots). Fes un diagrama de Venn, una taula de contingència o un diagrama d'arbre quan t'ajude. Els 50 exercicis marcats amb \textcolor{teal}{\faUniversity\ PAU} són de les proves d'accés a la universitat d'altres comunitats autònomes.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Espai mostral i operacions amb successos}
+
+\ex{1} Escriu l'espai mostral dels experiments següents i digues quants elements té:\begin{tasks}(1)
+  \task Llançar una moneda i un dau.
+  \task Anotar, per ordre de naixement, si cadascun dels tres fills d'una família és xic ($X$) o xica ($Y$).
+  \task Traure, una darrere l'altra i sense reemplaçament, dues boles d'una urna que en té una de roja ($R$), una de blava ($B$) i una de verda ($V$).
+  \task Llançar un dau fins que isca un 6 i anotar el nombre de tirades que han calgut.
+\end{tasks}
+
+\ex{1} Llancem un dau i considerem els successos $A=$«eixir un nombre menor que 4», $B=$«eixir parell» i $C=$«eixir 5 o 6». Calcula:\begin{tasks}(4)
+  \task $A\cup B$
+  \task $A\cap B$
+  \task $\co A$
+  \task $\co B$
+  \task $A-B$
+  \task $B\cap C$
+  \task $\co A\cap\co B$
+  \task $\overline{A\cup C}$
+\end{tasks}Quins parells d'aquests successos són incompatibles?
+
+\ex{1} Siguen $M=$«un alumne aprova Matemàtiques» i $N=$«aprova Anglés». Expressa amb operacions entre $M$ i $N$ els successos següents:\begin{tasks}(2)
+  \task Aprova les dues.
+  \task No n'aprova cap.
+  \task Aprova només Matemàtiques.
+  \task Aprova com a molt una.
+  \task Aprova almenys una.
+  \task Aprova exactament una.
+  \task Suspén alguna de les dues.
+\end{tasks}\recorda{«almenys un» és la unió; «tots dos», la intersecció; «cap» és $\co M\cap\co N=\overline{M\cup N}$ (De Morgan).}
+
+\ex{1} En l'espai mostral $E=\{1,2,3,4,5,6,7,8\}$ considerem $A=\{1,2,3,4\}$ i $B=\{2,4,6,8\}$. Comprova les dues lleis de De Morgan.
+
+\ex{2} Siguen $A$, $B$ i $C$ tres successos d'un mateix experiment. Expressa amb operacions:\begin{tasks}(2)
+  \task Ocorre només $A$.
+  \task Ocorre almenys un dels tres.
+  \task No n'ocorre cap.
+  \task N'ocorre exactament un.
+  \task Ocorren tots tres.
+  \task N'ocorren almenys dos.
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Probabilitat. Regla de Laplace}
+
+\ex{1} Una urna conté 4 boles roges, 5 de blaves i 3 de verdes. Traiem una bola a l'atzar. Calcula la probabilitat que:\begin{tasks}(4)
+  \task siga roja;
+  \task no siga verda;
+  \task siga roja o blava;
+  \task siga groga.
+\end{tasks}
+
+\ex{1} Traiem una carta d'una baralla espanyola de 40 cartes (quatre pals de deu cartes: de l'1 al 7, sota, cavall i rei). Calcula la probabilitat de traure:\begin{tasks}(2)
+  \task un or;
+  \task una figura (sota, cavall o rei);
+  \task un or o una figura;
+  \task una carta que no siga ni or ni figura;
+  \task un as que no siga d'ors.
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, EBAU ordinària 2020} Es llança una moneda tres vegades. Calcula la probabilitat d'obtindre almenys una creu.
+
+\ex{1} \pau{Castella i Lleó, EBAU extraordinària 2024} Una botiga d'animals fa un sorteig amb paperetes de tres xifres. El número premiat s'obté traient a l'atzar cada xifra, per separat i amb reemplaçament, d'una bossa amb boles del 0 al 9. Calcula la probabilitat que el número premiat acabe en 55.
+
+\ex{1} Llancem dos daus. Calcula la probabilitat que:\begin{tasks}(2)
+  \task la suma siga 9;
+  \task la suma siga com a molt 4;
+  \task el producte siga 12;
+  \task els dos resultats siguen parells;
+  \task la diferència entre els dos resultats siga almenys 3.
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, PBAU juliol 2018} Un dau està carregat de manera que la probabilitat d'obtindre un 6 és $\frac12$ i les probabilitats d'obtindre cadascuna de les altres cares són iguals a $p$. Es llança aquest dau; calcula la probabilitat de cada un dels successos següents:\begin{tasks}(2)
+  \task S'obté un dos.
+  \task No s'obté un tres.
+  \task S'obté un nombre parell.
+  \task S'obté un nombre senar.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2023} Tenim una moneda trucada en què la probabilitat d'obtindre cara és el doble que la d'obtindre creu.\begin{tasks}(1)
+  \task Calcula la probabilitat d'obtindre cara en llançar la moneda.
+  \task Calcula la probabilitat d'obtindre una cara i una creu, sense importar l'ordre, en llançar dues vegades la moneda.
+  \task Calcula la probabilitat d'obtindre almenys una cara en llançar dues vegades la moneda.
+\end{tasks}
+
+\ex{1} Triem a l'atzar un nombre de l'1 al 100. Calcula la probabilitat que siga múltiple de 3 o de 5.
+
+\ex{1} Llancem tres monedes. Calcula la probabilitat d'obtindre exactament dues cares i la d'obtindre més cares que creus.
+
+\ex{2} Raona si les afirmacions següents són vertaderes o falses:\begin{tasks}(1)
+  \task Si llancem dos daus i sumem, la probabilitat de cada suma és $\frac1{11}$, perquè hi ha 11 sumes possibles.
+  \task Si una moneda equilibrada ha eixit cara cinc vegades seguides, és més probable que la sisena vegada isca creu.
+  \task Pot ser que $P(A)=1{,}2$ si $A$ és un succés molt probable.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Fórmules de la probabilitat}
+
+\ex{1} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}45$, $P(B)=0{,}3$ i $P(A\cup B)=0{,}6$. Calcula:\begin{tasks}(3)
+  \task $P(A\cap B)$
+  \task $P(\co A\cap\co B)$
+  \task $P(A\cap\co B)$
+  \task $P(\co A\cup\co B)$
+  \task $P(\text{només un dels dos})$
+\end{tasks}\recorda{$P(A\cup B)=P(A)+P(B)-P(A\cap B)$; \ $P(\co A)=1-P(A)$; \ $P(A\cap\co B)=P(A)-P(A\cap B)$; \ De Morgan: $\co A\cap\co B=\overline{A\cup B}$ i $\co A\cup\co B=\overline{A\cap B}$.}
+
+\ex{1} \pau{Madrid, EvAU juliol 2018} Siguen $A$ i $B$ dos successos d'un experiment aleatori tals que $P(A)=0{,}4$, $P(B)=0{,}6$ i $P(A\cup B)=0{,}8$. Calcula $P(\co A\cap B)$ i $P(\co A\cup\co B)$.
+
+\ex{1} De dos successos se sap que $P(\co A)=0{,}7$, $P(\co B)=0{,}4$ i $P(\co A\cup\co B)=0{,}9$. Calcula $P(A)$, $P(B)$, $P(A\cap B)$, $P(A\cup B)$ i $P(\co A\cap\co B)$.
+
+\ex{1} Els successos $A$ i $B$ són incompatibles, amb $P(A)=0{,}35$ i $P(B)=0{,}4$. Calcula $P(A\cup B)$, $P(\co A\cap\co B)$, $P(A\cap\co B)$ i $P(\co A\cup\co B)$.
+
+\ex{2} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}6$ i $P(B)=0{,}7$.\begin{tasks}(1)
+  \task Poden ser incompatibles?
+  \task Entre quins valors pot estar $P(A\cap B)$?
+  \task I $P(A\cup B)$?
+\end{tasks}
+
+\ex{2} Tres successos $A$, $B$ i $C$ tenen probabilitat $0{,}4$ cadascun; les interseccions de dos en dos tenen probabilitat $0{,}15$ i $P(A\cap B\cap C)=0{,}05$. Calcula la probabilitat que n'ocórrega almenys un i que no n'ocórrega cap.
+
+
+% =====================================================
+\seccio{4}{Càlcul de probabilitats coneixent l'espai mostral i sense conéixer-lo}
+
+\ex{1} Llancem dos daus i considerem els successos $A=$«la suma és parella» i $B=$«almenys un dels daus és un 6». Calcula $P(A)$, $P(B)$ i $P(A\cap B)$ per recompte i, amb la fórmula, $P(A\cup B)$. Comprova el resultat comptant els casos de $A\cup B$.
+
+\ex{1} Traiem a l'atzar una targeta d'una caixa amb targetes numerades de l'1 al 30. Siguen $A=$«el nombre és parell» i $B=$«el nombre és múltiple de 3». Calcula, aplicant les fórmules, la probabilitat que siga parell o múltiple de 3, que complisca només una de les dues condicions i que no en complisca cap.
+
+\ex{1} \pau{Galícia, ABAU extraordinària 2024} En una enquesta, el 80\,\% dels entrevistats diu que llig o escolta música, el 35\,\% fa les dues coses i el 60\,\% no llig. Calcula les probabilitats que una persona triada a l'atzar:\begin{tasks}(1)
+  \task escolte música i no llija;
+  \task llija i no escolte música;
+  \task faça només una de les dues coses.
+\end{tasks}
+
+\ex{1} \pau{Andalusia, PEvAU ordinària 2022} En el seu temps lliure, el 65\,\% dels estudiants d'un centre juga a videojocs, el 45\,\% llig llibres i el 15\,\% no fa cap de les dues coses. Triem un estudiant a l'atzar. Calcula la probabilitat que:\begin{tasks}(1)
+  \task jugue a videojocs o llija llibres;
+  \task jugue a videojocs i no llija llibres.
+\end{tasks}
+
+\ex{1} En una ciutat, el 55\,\% dels habitants llig la premsa, el 40\,\% veu les notícies a la televisió i el 25\,\% no fa cap de les dues coses. Construeix la taula de contingència i calcula la probabilitat que un habitant triat a l'atzar:\begin{tasks}(2)
+  \task faça les dues coses;
+  \task només llija la premsa;
+  \task faça només una de les dues;
+  \task llija la premsa o no veja la televisió.
+\end{tasks}
+
+\ex{1} En un grup de 30 persones, 18 parlen anglés, 12 francés i 6 no parlen cap dels dos idiomes. Triem una persona a l'atzar. Calcula la probabilitat que parle els dos idiomes, que en parle només un i que parle francés però no anglés.
+
+
+% =====================================================
+\seccio{5}{Probabilitat condicionada}
+
+\ex{1} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}5$, $P(B)=0{,}4$ i $P(A\cap B)=0{,}1$. Calcula:\begin{tasks}(3)
+  \task $P(A\cond B)$
+  \task $P(B\cond A)$
+  \task $P(A\cond\co B)$
+  \task $P(\co A\cond\co B)$
+  \task $P(B\cond\co A)$
+  \task $P(\co B\cond A)$
+\end{tasks}\recorda{$P(A\cond B)=\dfrac{P(A\cap B)}{P(B)}$. El succés que va darrere de la barra és la condició: va al denominador.}
+
+\ex{2} \pau{Madrid, EvAU juliol 2019} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}3$, $P(B\cond A)=0{,}4$ i $P(B\cond\co A)=0{,}6$. Calcula:\begin{tasks}(2)
+  \task $P(A\cond B)$
+  \task $P(\co A\cond\co B)$
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, PBAU setembre 2017} Siguen $A$ i $B$ dos successos amb probabilitats $0{,}4$ i $0{,}6$, respectivament. Se sap que, donat $B$, la probabilitat que ocórrega $A$ és $0{,}3$.\begin{tasks}(1)
+  \task Quina és la probabilitat que ocórreguen tots dos successos alhora?
+  \task Quina és la probabilitat que ocórrega algun dels dos?
+  \task Quina és la probabilitat que no n'ocórrega cap?
+\end{tasks}
+
+\ex{1} \pau{Andalusia, PEvAU juny 2017} El 90\,\% dels alumnes d'un centre està interessat per les xarxes socials, el 60\,\% per les seues notes i el 55\,\% per les dues coses. Es tria un alumne a l'atzar.\begin{tasks}(1)
+  \task Quina és la probabilitat que estiga interessat per alguna de les dues coses?
+  \task Calcula la probabilitat que estiga interessat per les notes, sabent que no està interessat per les xarxes socials.
+  \task Calcula la probabilitat que no estiga interessat per cap de les dues coses.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2020} A 120 estudiants se'ls ha recomanat la lectura de dos llibres: 46 han llegit el primer, 34 el segon i 16 tots dos. Es tria un estudiant a l'atzar. Calcula la probabilitat que:\begin{tasks}(1)
+  \task haja llegit algun dels dos llibres;
+  \task no n'haja llegit cap;
+  \task només haja llegit el primer;
+  \task haja llegit el primer, si se sap que no ha llegit el segon.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2021} De les compres fetes en les últimes rebaixes, el 55\,\% van ser de productes electrònics i el 72\,\% es van fer per Internet; de les compres fetes per Internet, el 64\,\% van ser de productes electrònics. Es tria una compra a l'atzar. Calcula la probabilitat que:\begin{tasks}(1)
+  \task haja sigut de productes electrònics i feta per Internet;
+  \task s'haja fet per Internet o haja sigut de productes electrònics;
+  \task no s'haja fet per Internet, sabent que no va ser de productes electrònics.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, PAU extraordinària 2025} En una enquesta a 100 estudiants de segon de Batxillerat, 30 volen estudiar Veterinària, 25 Economia, 20 Química, 15 Biologia i 10 Matemàtiques. D'ells, 10, 12, 13, 8 i 6 són dones, respectivament. Ningú no es pot matricular en més d'un grau. Triem un estudiant a l'atzar. Calcula la probabilitat que:\begin{tasks}(2)
+  \task siga dona;
+  \task siga home i vulga estudiar Veterinària;
+  \task vulga estudiar Química o Veterinària;
+  \task no vulga estudiar ni Biologia ni Matemàtiques;
+  \task vulga estudiar Química, sabent que és dona;
+  \task vulga estudiar Economia, sabent que és home.
+\end{tasks}
+
+\ex{2} De dos successos se sap que $P(A)=0{,}6$, $P(B\cond A)=0{,}5$ i $P(B\cond\co A)=0{,}25$. Calcula $P(A\cap B)$, $P(B)$, $P(A\cond B)$ i $P(A\cup B)$.
+
+
+% =====================================================
+\seccio{6}{Independència de successos}
+
+\ex{1} Els successos $A$ i $B$ són independents, amb $P(A)=0{,}3$ i $P(B)=0{,}5$. Calcula $P(A\cap B)$, $P(A\cup B)$, $P(\co A\cap\co B)$, $P(A\cond B)$ i $P(A\cap\co B)$.\recorda{$A$ i $B$ són independents si $P(A\cap B)=P(A)\cdot P(B)$. Aleshores també ho són $A$ i $\co B$, $\co A$ i $B$, i $\co A$ i $\co B$.}
+
+\ex{2} Se sap que $P(A)=0{,}4$ i $P(A\cup B)=0{,}7$. Calcula $P(B)$ si:\begin{tasks}(2)
+  \task $A$ i $B$ són incompatibles;
+  \task $A$ i $B$ són independents.
+\end{tasks}
+
+\ex{1} \pau{Madrid, EvAU extraordinària 2021} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}5$, $P(B)=0{,}8$ i $P(A\cup B)=0{,}9$.\begin{tasks}(1)
+  \task Estudia si els successos $A$ i $B$ són independents.
+  \task Calcula $P(A\cond\co B)$.
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, EvAU setembre 2017} D'un estudi sobre accidents de trànsit es va deduir que el 29\,\% dels conductors superaven els límits d'alcohol en sang, el 14\,\% tenien presència de drogues en sang i el 37\,\% superaven els límits d'alcohol o tenien presència de drogues (o totes dues coses).\begin{tasks}(1)
+  \task Calcula la probabilitat que, en un accident, el conductor supere els límits d'alcohol i tinga presència de drogues en sang.
+  \task Raona si són independents els successos «superar els límits d'alcohol» i «presència de drogues en sang».
+\end{tasks}
+
+\ex{2} \pau{Galícia, ABAU ordinària 2020} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}4$, $P(B)=0{,}7$ i $P(B\cond A)=0{,}75$. Calcula:\begin{tasks}(4)
+  \task $P(A\cap B)$
+  \task $P(A\cup\co B)$
+  \task $P(A\cap\co B)$
+  \task Són independents?
+\end{tasks}
+
+\ex{1} \pau{Andalusia, PEvAU setembre 2018} En una localitat, el 25\,\% dels habitants va periòdicament al dentista, el 10\,\% es fa una analítica i el 8\,\% fa les dues coses.\begin{tasks}(1)
+  \task Raona si els successos «anar al dentista» i «fer-se una analítica» són independents.
+  \task Quin percentatge d'habitants ni es fa una analítica ni va al dentista?
+  \task Si triem a l'atzar un habitant d'entre els que van al dentista, quina és la probabilitat que es faça una analítica?
+\end{tasks}
+
+\ex{1} \pau{La Rioja, EBAU ordinària 2020} En una classe hi ha 24 estudiants: 12 han aprovat anglés, 16 han aprovat matemàtiques i 4 han suspés les dues assignatures.\begin{tasks}(1)
+  \task Quina és la probabilitat que un alumne triat a l'atzar haja aprovat matemàtiques i suspés anglés?
+  \task Quina és la probabilitat que haja aprovat les dues assignatures?
+  \task Són independents els successos «aprovar matemàtiques» i «aprovar anglés»?
+\end{tasks}
+
+\ex{2} \pau{Galícia, ABAU ordinària 2024} S'estima que en una població el 20\,\% pateix obesitat i que l'11\,\% pateix obesitat i és hipertens. A més, el 27,5\,\% dels hipertensos pateix obesitat.\begin{tasks}(1)
+  \task Quin percentatge de la població pateix obesitat o és hipertens?
+  \task Són independents els successos «patir obesitat» i «ser hipertens»?
+  \task Calcula la probabilitat que un individu que no pateix obesitat siga hipertens.
+\end{tasks}
+
+\ex{2} \pau{Galícia, ABAU setembre 2017} El 60\,\% dels individus d'una població estan vacunats contra una malaltia. Durant una epidèmia, el 20\,\% va contraure la malaltia i el 3\,\% està vacunat i la va contraure.\begin{tasks}(1)
+  \task Calcula el percentatge d'individus que han contret la malaltia entre els que no estan vacunats.
+  \task Calcula el percentatge de vacunats entre els que van contraure la malaltia. Justifica si els successos «estar vacunat» i «contraure la malaltia» són dependents o independents.
+\end{tasks}
+
+\ex{2} \pau{Madrid, PAU ordinària 2025} De tres successos $A$, $B$ i $C$ se sap que $A$ i $C$ són disjunts (incompatibles), $A$ i $B$ són independents, $P(A)=0{,}25$, $P(B)=0{,}2$ i $P(B\cap C)=0{,}05$.\begin{tasks}(1)
+  \task Calcula la probabilitat que ocórrega almenys un dels successos $A$ o $B$.
+  \task Calcula $P(\co B\cup\co C)$.
+  \task Poden ser independents els successos $A$ i $C$?
+\end{tasks}
+
+\ex{1} \pau{País Basc, EAU extraordinària 2022} La Deiene i la Kattalin són jugadores de bàsquet. La Deiene encistella 2 de cada 5 tirs i la Kattalin 3 de cada 7. Si totes dues tiren a cistella una sola vegada, calcula la probabilitat que:\begin{tasks}(2)
+  \task totes dues encistellen;
+  \task no n'encistelle cap;
+  \task només encistelle la Deiene;
+  \task n'encistelle almenys una.
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, PBAU extraordinària 2023} Tirem dos daus no trucats i considerem els successos $A=$«en el primer dau ha eixit un 1», $B=$«en el segon dau ha eixit un 1» i $C=$«la suma dels dos daus és 3».\begin{tasks}(1)
+  \task Calcula $P(A)$.
+  \task Calcula $P(A\cup B)$.
+  \task Són independents els successos $C$ i $A\cup B$?
+\end{tasks}
+
+\ex{2} Raona si les afirmacions següents són vertaderes o falses:\begin{tasks}(1)
+  \task Dos successos incompatibles (amb probabilitats no nul·les) són independents.
+  \task Si $A$ i $B$ són independents, aleshores $\co A$ i $\co B$ també ho són.
+  \task Si $P(A\cond B)=P(A)$, aleshores $P(B\cond A)=P(B)$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Experiments compostos. Extraccions amb i sense reemplaçament}
+
+\ex{1} Una urna conté 4 boles roges i 6 de blaves. Traiem tres boles. Calcula la probabilitat que les tres siguen roges i la probabilitat que n'hi haja exactament dues de roges:\begin{tasks}(2)
+  \task amb reemplaçament;
+  \task sense reemplaçament.
+\end{tasks}\recorda{en un diagrama d'arbre, multipliquem les probabilitats al llarg de cada camí i sumem els camins que formen el succés. Sense reemplaçament, la composició de l'urna canvia en cada extracció.}
+
+\ex{1} \pau{Aragó, EvAU extraordinària 2020} En una bossa tenim 8 boles: 3 blanques, 1 roja i 4 negres. Traiem dues boles sense reemplaçament. Calcula:\begin{tasks}(1)
+  \task La probabilitat que les dues siguen blanques.
+  \task La probabilitat que almenys una siga blanca.
+  \task La probabilitat que les dues siguen del mateix color.
+  \task La probabilitat que siguen blanques, si se sap que les dues són del mateix color.
+\end{tasks}
+
+\ex{1} \pau{País Basc, EAU juny 2018} En una urna hi ha 15 boles blanques i 5 de negres. Calcula:\begin{tasks}(1)
+  \task Si traiem una bola a l'atzar, la probabilitat que siga blanca.
+  \task Si en traiem dues a l'atzar, la probabilitat que totes dues siguen blanques.
+  \task Si traiem una bola i després una altra, i la primera és negra, la probabilitat que la segona també siga negra.
+  \task Si traiem una bola i després una altra, la probabilitat que siguen de color diferent.
+\end{tasks}
+
+\ex{1} \pau{Navarra, EvAU setembre 2017} Una caixa conté dotze bolígrafs, quatre dels quals són defectuosos. Se'n trauen tres de manera successiva i sense tornar-los a la caixa.\begin{tasks}(1)
+  \task Calcula la probabilitat que cap dels tres bolígrafs tinga defectes.
+  \task Calcula la probabilitat que almenys un dels tres siga defectuós.
+  \task Calcula la probabilitat que només un siga defectuós.
+\end{tasks}
+
+\ex{2} \pau{Aragó, EvAU juny 2017} En una urna hi ha 2 boles blanques, 4 de negres i 5 de roges. Se'n trauen dues, una darrere l'altra, sense reemplaçament. Calcula:\begin{tasks}(1)
+  \task La probabilitat que les dues siguen roges.
+  \task La probabilitat que siguen de color diferent.
+  \task La probabilitat que la segona bola siga roja.
+  \task Si $A$ és el succés «la primera bola és roja» i $B$ el succés «les dues boles són del mateix color», són independents $A$ i $B$?
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU extraordinària 2023} Una caixa conté 3 fitxes verdes, 2 de blaves i 4 de roges. Un joc consisteix a fer dues extraccions sense reemplaçament: qui trau dues fitxes blaves guanya el primer premi; qui en trau dues de verdes, el segon premi; i qui trau una blava i una d'un altre color, el tercer premi.\begin{tasks}(1)
+  \task Calcula la probabilitat que un jugador aconseguisca el primer o el segon premi.
+  \task Calcula la probabilitat que un jugador guanye el tercer premi.
+  \task Sabent que un jugador ha obtingut premi, quina és la probabilitat que haja guanyat el tercer?
+\end{tasks}
+
+\ex{2} \pau{La Rioja, EBAU ordinària 2023} Un bombo de loteria té deu boles numerades del 0 al 9. Fem dues extraccions consecutives sense reemplaçar la primera bola. Considerem els successos $A=$«la primera bola és 0», $B=$«la primera bola és 5» i $C=$«la segona bola és més gran que la primera». Calcula $P(A)$, $P(B)$, $P(C)$, $P(A\cond C)$ i $P(B\cond C)$.
+
+\ex{2} \pau{País Basc, EAU extraordinària 2022} Es van a sortejar 4 viatges a Nova York entre 40 persones amb una baralla de 40 cartes: es reparteix una carta a cada persona i les que reben un rei guanyen un viatge.\begin{tasks}(1)
+  \task Calcula la probabilitat que guanye un viatge la primera persona que rep la carta.
+  \task Calcula la probabilitat que guanye un viatge la segona persona que rep la carta.
+  \task Calcula la probabilitat que cap de les dues primeres persones guanye un viatge.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, EBAU juny 2017} Una urna conté tres boles numerades de l'1 al 3. Se'n trauen successivament les tres boles.\begin{tasks}(1)
+  \task Calcula la probabilitat que les dues últimes boles extretes siguen senars.
+  \task Determina si són independents els successos $S_1=$«ix el nombre parell abans que algun dels senars» i $S_2=$«els dos nombres senars ixen consecutivament».
+\end{tasks}
+
+\ex{2} \pau{Aragó, EvAU setembre 2019} Una empresa té 64 treballadors repartits en tres departaments. S'ha estudiat si saben anglés o no:
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|ccc|c}
+ & $\text{Admin.}$ & $\text{Producció}$ & $\text{Vendes}$ & \textbf{Total}\\\hline
+$\text{Sap anglés}$ & $12$ & $30$ & $6$ & $48$\\
+$\text{No en sap}$ & $4$ & $11$ & $1$ & $16$\\
+\hline
+\textbf{Total} & $16$ & $41$ & $7$ & $64$\\
+\end{tabular}}\end{center}
+\begin{tasks}(1)
+  \task Triem a l'atzar un treballador. Quina és la probabilitat que sàpia anglés?
+  \task Triem a l'atzar un treballador d'entre els que saben anglés. Quina és la probabilitat que siga del departament de Vendes?
+  \task Siguen $A=$«el treballador és d'Administració» i $B=$«el treballador sap anglés». Són independents?
+  \task Triem a l'atzar tres treballadors (sense reemplaçament). Quina és la probabilitat que siguen del mateix departament?
+\end{tasks}
+
+
+% =====================================================
+\seccio{8}{Probabilitat total i teorema de Bayes}
+
+\ex{1} \pau{Aragó, EvAU ordinària 2023} En una facultat d'Economia s'ofereix una assignatura en tres grups, G1, G2 i G3, que representen el 40\,\%, el 35\,\% i el 25\,\% dels estudiants, respectivament. Supera l'assignatura el 80\,\% del grup G1, el 60\,\% del G2 i el 92\,\% del G3. Calcula la probabilitat que, en triar un estudiant a l'atzar:\begin{tasks}(1)
+  \task haja superat l'assignatura i siga del grup G3;
+  \task no haja superat l'assignatura;
+  \task haja superat l'assignatura;
+  \task ni haja superat l'assignatura ni siga del grup G1;
+  \task siga del grup G3, si ha superat l'assignatura.
+\end{tasks}\recorda{probabilitat total: $P(S)=P(G_1)P(S\cond G_1)+P(G_2)P(S\cond G_2)+P(G_3)P(S\cond G_3)$. Bayes: $P(G_i\cond S)=\dfrac{P(G_i)P(S\cond G_i)}{P(S)}$.}
+
+\ex{1} \pau{Andalusia, PEvAU setembre 2018} Un hotel té tres rentadores industrials, $L_1$, $L_2$ i $L_3$. $L_1$ fa el 50\,\% de les rentades, $L_2$ el 30\,\% i $L_3$ la resta. $L_1$ produeix un 5\,\% de rentades defectuoses, $L_2$ un 15\,\% i $L_3$ un 20\,\%. Es tria a l'atzar una rentada.\begin{tasks}(1)
+  \task Calcula la probabilitat que no siga defectuosa.
+  \task Calcula la probabilitat que l'haja feta $L_1$, sabent que ha sigut defectuosa.
+\end{tasks}
+
+\ex{1} \pau{Galícia, ABAU setembre 2018} En una empresa, el 30\,\% dels empleats són dones i el 70\,\% restant, homes. De les dones, el 80\,\% té contracte indefinit, mentre que dels homes només el 70\,\% en té.\begin{tasks}(1)
+  \task Calcula el percentatge de persones de l'empresa que tenen contracte indefinit.
+  \task Si un empleat té contracte indefinit, quina és la probabilitat que siga dona?
+  \task Són independents els successos «ser home» i «tenir contracte indefinit»?
+\end{tasks}
+
+\ex{1} \pau{Galícia, ABAU juny 2018} El 30\,\% dels estudiants de secundària d'un institut juga a bàsquet. Entre els que juguen a bàsquet, el 40\,\% juga també a tenis; entre els que no juguen a bàsquet, una quarta part juga a tenis. Triem un estudiant a l'atzar.\begin{tasks}(1)
+  \task Quina és la probabilitat que practique tots dos esports?
+  \task Quina és la probabilitat que jugue a tenis?
+  \task Són independents els successos «jugar a tenis» i «jugar a bàsquet»?
+\end{tasks}
+
+\ex{1} \pau{Andalusia, PEvAU extraordinària 2020} Una empresa fabrica bombetes LED i halògenes. El 5\,\% de les LED i el 2\,\% de les halògenes ixen defectuoses. Es tria a l'atzar una bombeta d'una caixa que conté 40 bombetes LED i 10 d'halògenes.\begin{tasks}(1)
+  \task Calcula la probabilitat que la bombeta triada no siga defectuosa.
+  \task Calcula la probabilitat que la bombeta siga LED, sabent que és defectuosa.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU ordinària 2023} En una base de dades de correus electrònics s'ha observat que el 20\,\% dels correus rebuts són brossa (\emph{spam}). A més, la paraula «lottery» apareix en el 40\,\% dels correus brossa i en el 0,6\,\% dels que no ho són.\begin{tasks}(1)
+  \task Calcula la probabilitat que un correu triat a l'atzar en què apareix la paraula «lottery» siga brossa.
+  \task Calcula la probabilitat que un correu triat a l'atzar en què no apareix la paraula «lottery» no siga brossa.
+  \task Si un correu s'etiqueta com a brossa quan apareix la paraula «lottery» i com a no brossa quan no apareix, calcula la probabilitat que un correu s'etiquete incorrectament.
+\end{tasks}
+
+\ex{2} \pau{Navarra, EvAU extraordinària 2022} Es considera que el 4\,\% dels esportistes federats consumeix alguna substància no permesa. Una nova prova de detecció identifica correctament el consum en el 92\,\% dels casos, però si un esportista no en consumeix, la prova dona positiu en el 10\,\% dels casos. Es tria un esportista a l'atzar. Calcula (amb 4 decimals):\begin{tasks}(1)
+  \task La probabilitat que obtinga un resultat positiu.
+  \task La probabilitat que siga consumidor i la prova done negatiu.
+  \task La probabilitat que no siga consumidor, sabent que la prova ha donat negatiu.
+\end{tasks}
+
+\ex{2} \pau{Galícia, ABAU extraordinària 2023} En una urna A hi ha 8 boles verdes i 6 de roges, i en una urna B, 4 de verdes i 5 de roges. Es llança un dau: si ix un nombre menor que 3 es trau una bola de l'urna A, i si no, de l'urna B.\begin{tasks}(1)
+  \task Calcula la probabilitat que la bola extreta siga roja.
+  \task Sabent que s'ha extret una bola verda, quina és la probabilitat que siga de l'urna A?
+  \task Són independents els successos «traure bola roja» i «la bola és de l'urna A»?
+\end{tasks}
+
+\ex{2} \pau{Canàries, EBAU extraordinària 2022} Tenim tres urnes iguals: la primera té 6 boles blanques i 4 de negres, la segona 5 de blanques i 2 de negres, i la tercera 4 de blanques i 7 de negres.\begin{tasks}(1)
+  \task Es trau una bola d'una urna triada a l'atzar. Fes un diagrama amb les probabilitats dels resultats possibles.
+  \task Calcula la probabilitat de traure una bola negra.
+  \task S'ha extret una bola i és blanca. Calcula la probabilitat que siga de la primera urna.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, EBAU extraordinària 2021} Hi ha tres caixes: la primera conté 4 boles blaves i 6 de blanques; la segona, una bola blava i 5 de blanques; la tercera, 3 de blaves i 5 de blanques. Agafem una bola a l'atzar d'una de les caixes, també triada a l'atzar.\begin{tasks}(1)
+  \task Calcula la probabilitat que la bola siga blava.
+  \task Si la bola és blanca, calcula la probabilitat que siga de la primera caixa.
+\end{tasks}
+
+\ex{1} \pau{Navarra, EvAU setembre 2018} Dos estudiants construeixen un dau amb 5 cares roges i una de blava, posen 7 boles verdes i 3 de negres en una caixa A, i 6 de negres i 2 de verdes en una caixa B. Llancen el dau: si ix roig, traguen una bola de la caixa A, i si ix blau, de la B.\begin{tasks}(1)
+  \task Calcula la probabilitat que la bola siga verda.
+  \task Calcula la probabilitat que la cara del dau siga blava, sabent que la bola no és verda.
+\end{tasks}
+
+\ex{1} \pau{Aragó, EvAU extraordinària 2024} A Espanya, el 30\,\% de la població té menys de 30 anys, el 50\,\% entre 30 i 65 anys, i el 20\,\% més de 65. Un estudi afirma que té telèfon mòbil el 70\,\% dels menors de 30 anys, el 95\,\% dels que tenen entre 30 i 65, i el 50\,\% dels majors de 65.\begin{tasks}(1)
+  \task Es tria una persona a l'atzar. Calcula la probabilitat que tinga més de 65 anys i tinga mòbil.
+  \task Quina és la probabilitat que una persona triada a l'atzar tinga mòbil?
+  \task Triem una persona a l'atzar i té mòbil. Quina és la probabilitat que tinga més de 65 anys?
+  \task Triem una persona de cada grup d'edat. Quina és la probabilitat que totes tres tinguen mòbil? (Es pot suposar independència.)
+\end{tasks}
+
+\ex{1} \pau{Galícia, ABAU setembre 2018} En una població, de cada 200 consumidors d'una beguda isotònica, 60 consumeixen la marca A, 50 la marca B i la resta, la C. A més, són joves el 30\,\% dels consumidors d'A, el 20\,\% dels de B i el 40\,\% dels de C.\begin{tasks}(1)
+  \task Si se selecciona a l'atzar un consumidor, quina és la probabilitat que siga jove?
+  \task Si s'ha seleccionat un jove, troba la probabilitat que consumisca la marca B.
+  \task Són independents els successos «ser jove» i «consumir la marca A»?
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU extraordinària 2022} En una regió hi ha tres universitats, A, B i C. Dels estudiants que van acabar l'any passat, el 60\,\% procedien de la A, el 30\,\% de la B i la resta de la C. La probabilitat que un estudiant de la A no trobe treball a la regió és 0,4, i per a un de la B, 0,5.\begin{tasks}(1)
+  \task Si la probabilitat que un estudiant no trobe treball a la regió és 0,395, determina la probabilitat que un estudiant de la universitat C sí que en trobe.
+  \task Calcula la probabilitat que un estudiant que no ha trobat treball a la regió procedisca de la universitat A o de la B.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, PEvAU extraordinària 2020} Una urna conté 6 boles roges i 4 de blaves. Es trau una bola a l'atzar i es reemplaça per sis boles de l'altre color. A continuació, es trau una segona bola.\begin{tasks}(1)
+  \task Calcula la probabilitat que la segona bola siga roja.
+  \task Si sabem que la segona bola és blava, quina és la probabilitat que la primera també ho haja sigut?
+\end{tasks}
+
+\ex{2} \pau{País Basc, EAU ordinària 2024} L'Asier té una urna amb 4 boles verdes i 2 de roges. Llança una moneda: si ix cara, trau una bola de l'urna, i si ix creu, en trau dues sense reemplaçament.\begin{tasks}(1)
+  \task Quina és la probabilitat que l'Asier haja tret dues boles roges?
+  \task Calcula la probabilitat que no haja tret cap bola roja.
+  \task Calcula la probabilitat que haja tret almenys una bola verda.
+  \task Calcula la probabilitat que haja eixit cara, sabent que almenys una bola és verda.
+\end{tasks}
+
+\ex{2} \pau{País Basc, EAU extraordinària 2024} En una caixa hi ha una bola roja i una de blava. Es trau una bola i, abans de traure'n una segona, es torna a la caixa la primera bola extreta i se n'afigen dues més del mateix color. A continuació es trau una segona bola.\begin{tasks}(1)
+  \task Calcula la probabilitat que la segona bola siga roja si la primera ha sigut blava.
+  \task Calcula la probabilitat que la segona bola siga blava.
+  \task Si la segona bola ha sigut blava, quina és la probabilitat que la primera haja sigut roja?
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU ordinària 2022} D'una baralla de pòquer de 52 cartes (13 de cada pal: diamants, cors, piques i trèvols) s'elimina una carta a l'atzar, sense mirar-la. Després es tria a l'atzar una carta de les que queden i s'observa.\begin{tasks}(1)
+  \task Calcula la probabilitat que la carta observada siga de diamants.
+  \task Si la carta observada no és de diamants, calcula la probabilitat que la carta eliminada tampoc no ho fóra.
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\end{center}
+
+\end{document}

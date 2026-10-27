@@ -1,0 +1,1560 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distribució binomial i normal · FentMates</title>
+<meta name="description" content="Apunts interactius de la Unitat 10 (Distribució binomial i normal) de 2n de Batxillerat CCSS, en valencià, castellà i anglés.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+/* Idioma i tema abans de pintar (comparteix preferències amb la web) */
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --def: #1d4f73; --def-bg: #eef4f9; --prop: #3b4252; --prop-bg: #f3f4f7;
+  --ex: #a3203a; --ex-bg: #fbf0f2; --pr: #b7791f; --pr-bg: #fff8e8;
+  --hl-a: rgba(255, 122, 80, .22); --hl-b: rgba(43, 179, 163, .25); --hl-c: rgba(59, 130, 246, .2);
+  --plus: #2563eb; --minus: #dc2626; --ok: #15803d; --bad: #c2410c;
+  --radius: 16px; --header-h: 60px;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+  --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+  --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+    --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+    --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+  }
+}
+
+/* idiomes */
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Outfit", "Inter", system-ui, sans-serif; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 .5em; }
+a { color: inherit; }
+p { margin: .6em 0; }
+strong { font-weight: 650; }
+.katex { font-size: 1.08em; }
+.katex-display { margin: .9em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* capçalera */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .in { max-width: 1240px; margin: 0 auto; height: 100%; padding: 0 16px; display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.15rem; }
+.brand .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+.crumb { color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { text-decoration: none; } .crumb a:hover { color: var(--accent); }
+.spacer { flex: 1; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn svg { width: 18px; height: 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .1s; }
+html[data-embed="1"] .brand, html[data-embed="1"] .crumb { display: none; }
+
+/* portada */
+.hero { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; position: relative; overflow: hidden; }
+.hero::after { content: "|A|"; position: absolute; right: -10px; bottom: -60px; font: 800 15rem/1 "Outfit", sans-serif; color: rgba(255,255,255,.05); pointer-events: none; }
+.hero .in { max-width: 1240px; margin: 0 auto; padding: 44px 16px 40px; position: relative; z-index: 1; }
+.hero .kicker { display: inline-block; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 999px; font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 14px 0 8px; }
+.hero h1 .u { color: var(--yellow); }
+.hero p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: .82rem; padding: 4px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); }
+html[data-embed="1"] .hero .in { padding: 28px 16px 26px; }
+
+/* disposició */
+.layout { max-width: 1240px; margin: 0 auto; padding: 28px 16px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+.toc { position: sticky; top: calc(var(--header-h) + 18px); align-self: start; max-height: calc(100vh - var(--header-h) - 36px); overflow: auto; }
+.toc details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 10px 10px; }
+.toc summary { list-style: none; font: 700 .78rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 8px; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 10px; text-decoration: none; font-size: .9rem; color: var(--muted); line-height: 1.35; }
+.toc a:hover { background: var(--surface-2); color: var(--text); }
+.toc a.active { background: var(--surface-2); color: var(--text); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.toc a .n { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2em; color: var(--accent); }
+.toc a .ck { margin-left: auto; color: var(--ok); visibility: hidden; }
+.toc a.done .ck { visibility: visible; }
+.toc .meter { margin: 10px 8px 4px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.toc .meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.toc .meter-l { font-size: .78rem; color: var(--muted); padding: 2px 8px 0; }
+article { min-width: 0; max-width: 860px; }
+
+/* seccions */
+section.unit { margin-bottom: 56px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.sec-head .num { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 800 1.05rem "Outfit", sans-serif; }
+:root[data-theme="dark"] .sec-head .num { background: var(--accent); }
+.sec-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); flex: 1; min-width: 200px; }
+.done-btn { border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.done-btn[aria-pressed="true"] { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+h3.sub { font-size: 1.2rem; margin: 30px 0 10px; }
+
+/* caixes */
+.box { border-radius: var(--radius); margin: 18px 0; border: 1.5px solid; overflow: hidden; }
+.box > .bh { padding: 9px 18px; font: 700 1rem "Outfit", sans-serif; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+.box > .bb { padding: 6px 20px 14px; }
+.box .tag { font: 700 .68rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.box.def { border-color: var(--def); background: var(--def-bg); }
+.box.def > .bh { background: var(--def); color: #fff; }
+.box.prop { border-color: var(--prop); background: var(--prop-bg); }
+.box.prop > .bh { background: var(--prop); color: var(--bg); justify-content: center; text-transform: uppercase; font-size: .95rem; letter-spacing: .04em; }
+.box.ex { border-color: var(--ex); background: var(--ex-bg); }
+.box.ex > .bh { color: var(--ex); border-bottom: 1px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.box.pr { border-color: var(--pr); background: var(--pr-bg); }
+.box.pr > .bh { color: var(--pr); }
+.box.lab { border-color: var(--accent-2); background: var(--surface); box-shadow: var(--shadow); }
+.box.lab > .bh { background: linear-gradient(90deg, var(--accent-2), #3fc7b6); color: #fff; }
+:root[data-theme="dark"] .box.def > .bh, :root[data-theme="dark"] .box.prop > .bh { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .box.def > .bh, :root:not([data-theme="light"]) .box.prop > .bh { color: #0f1526; } }
+.box ul, .box ol { padding-left: 1.4em; }
+.box li { margin: .45em 0; }
+ol.alpha { list-style: lower-alpha; }
+.key { background: color-mix(in srgb, var(--yellow) 35%, transparent); padding: 0 4px; border-radius: 4px; }
+.u-line { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.note { border-left: 4px solid var(--accent); background: var(--surface); padding: 10px 16px; border-radius: 0 12px 12px 0; margin: 14px 0; }
+.ex-list > li { margin: 1.1em 0; }
+.ex-list > li::marker { font-weight: 700; color: var(--ex); }
+
+/* passos */
+.steps > .step { transition: opacity .3s, transform .3s; }
+.steps.js > .step.hidden { display: none; }
+.steps-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 14px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.step-count { font-size: .8rem; color: var(--muted); align-self: center; }
+
+/* solucions */
+details.sol { margin: 12px 0 4px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--pr); }
+details.sol > summary { cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--pr); list-style: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol > div { padding: 0 16px 12px; }
+
+/* taula COVID */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; }
+table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: .9rem; background: var(--surface); border-radius: 12px; overflow: hidden; }
+table.data th, table.data td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+table.data thead th, table.data tbody th { background: color-mix(in srgb, var(--yellow) 70%, var(--surface)); color: #1b2340; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+table.data tbody tr:hover td { background: var(--hl-a); }
+
+/* matrius interactives */
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--shadow); }
+.widget .wt { font: 700 .75rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-2); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+.wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.mx { display: inline-grid; gap: 2px 4px; padding: 6px 12px; position: relative; font-variant-numeric: tabular-nums; }
+.mx::before, .mx::after { content: ""; position: absolute; top: 0; bottom: 0; width: 9px; border: 2px solid var(--text); }
+.mx::before { left: 0; border-right: 0; border-radius: 10px 0 0 10px; }
+.mx::after { right: 0; border-left: 0; border-radius: 0 10px 10px 0; }
+.mx.det::before, .mx.det::after { width: 0; border-radius: 0; border-width: 0 0 0 2px; }
+.mx.det::after { border-width: 0 2px 0 0; }
+.mx .c { min-width: 2.3em; height: 2.1em; display: grid; place-items: center; border-radius: 8px; transition: background .15s, opacity .15s, color .15s; cursor: default; font-size: .98rem; }
+.mx .c.hot { cursor: pointer; }
+.mx .c.hot:hover { background: var(--surface-2); }
+.mx .c.on { background: var(--hl-a); font-weight: 700; }
+.mx .c.on2 { background: var(--hl-b); font-weight: 700; }
+.mx .c.off { opacity: .25; text-decoration: line-through; }
+.mx .c.plus { background: var(--hl-c); color: var(--plus); font-weight: 700; }
+.mx .c.minus { background: rgba(220, 38, 38, .14); color: var(--minus); font-weight: 700; }
+.mx .c.r1 { color: var(--r1); } .mx .c.r2 { color: var(--r2); } .mx .c.r3 { color: var(--r3); } .mx .c.r4 { color: var(--r4); }
+.mx .c.r1, .mx .c.r2, .mx .c.r3, .mx .c.r4 { font-weight: 700; }
+.mx input { width: 3.1em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.mx input.sel { outline: 2px solid var(--accent); background: var(--hl-a); }
+.mx input.off { opacity: .3; }
+.op { font: 600 1.25rem "Outfit", sans-serif; color: var(--muted); }
+.lbl { font: 700 1.05rem "Outfit", sans-serif; }
+.info { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 2.8em; font-size: .95rem; overflow-x: auto; }
+.terms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.terms button { font: 600 .82rem "Inter", sans-serif; border-radius: 999px; padding: 5px 11px; cursor: pointer; border: 1.5px solid; background: var(--surface); }
+.terms button.p { color: var(--plus); border-color: var(--plus); }
+.terms button.m { color: var(--minus); border-color: var(--minus); }
+.terms button.act.p { background: var(--plus); color: #fff; } .terms button.act.m { background: var(--minus); color: #fff; }
+input[type="range"] { accent-color: var(--accent); width: 180px; }
+select { font: 500 .9rem "Inter", sans-serif; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 .82rem "Inter", sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.lab-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.lab-out .card { background: var(--surface-2); border-radius: 12px; padding: 10px 14px; overflow-x: auto; }
+.lab-out .card h4 { margin: 0 0 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-family: "Inter", sans-serif; }
+
+/* SVG Sarrus */
+.sarrus-fig { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 10px 0; }
+.sarrus-fig svg { width: 210px; height: auto; }
+.sarrus-fig text { font: italic 600 15px "Times New Roman", serif; fill: var(--text); }
+.sarrus-fig text.sgn { font: 700 28px "Inter", sans-serif; font-style: normal; }
+
+/* qüestionari */
+.quiz .q { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 12px 0; }
+.quiz .q p.qt { font-weight: 600; margin: 0 0 8px; }
+.quiz .opts { display: grid; gap: 6px; }
+.quiz .opts button { text-align: left; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; padding: 8px 12px; font: 500 .95rem "Inter", sans-serif; cursor: pointer; }
+.quiz .opts button:hover:not([disabled]) { border-color: var(--accent); }
+.quiz .opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg)); }
+.quiz .opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg)); }
+.quiz .fb { font-size: .9rem; margin-top: 8px; color: var(--muted); }
+.score { font: 700 1.1rem "Outfit", sans-serif; margin-top: 12px; }
+
+footer.foot { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; text-align: center; padding: 24px 16px 40px; }
+html[data-embed="1"] footer.foot { display: none; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; box-shadow: var(--shadow); }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
+  .toc { position: static; max-height: none; }
+  .toc summary { cursor: pointer; }
+  .toc summary::after { content: "▾"; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .box > .bb { padding: 4px 14px 12px; }
+  .crumb { display: none; }
+  .widget { padding: 12px; }
+  .mx .c { min-width: 2em; }
+}
+@media print {
+  .topbar, .toc, .steps-ctl, .done-btn, .to-top, .widget, .quiz-sec, footer.foot { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .steps.js > .step.hidden { display: block; }
+  details.sol { display: none; }
+  .hero { background: none; color: #000; } .hero p, .hero .chips span { color: #333; }
+  .box { break-inside: avoid; }
+}
+
+/* unitat 4: límits i continuïtat */
+.hero::after { content: "lím"; font-size: 12rem; bottom: -40px; }
+figure.lfig { margin: 16px auto; max-width: 460px; }
+figure.lfig.sm { max-width: 300px; margin: 8px auto; }
+figure.lfig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.lp-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.lp-svg .g { stroke: var(--border); stroke-width: 1; }
+.lp-svg .ax { stroke: var(--muted); stroke-width: 1.5; }
+.lp-svg .asy { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 6 5; fill: none; }
+.lp-svg text { font: 600 10.5px "Inter", sans-serif; fill: var(--muted); }
+.lp-svg text.vl { fill: var(--text); font-size: 12px; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+.lp-svg .cv { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.lp-svg .gd { stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 4; }
+.lp-svg circle.open { fill: var(--bg); stroke-width: 2.2; }
+.lp-svg circle.mk { stroke: var(--bg); stroke-width: 2; }
+.two figure.lfig { margin: 8px auto; }
+.fig4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 12px 0; }
+.fig4 figure { margin: 0; }
+.fig4 .ttl { font: 700 .95rem "Outfit", sans-serif; text-align: center; margin: 4px 0 2px; }
+.badge { display: inline-block; font: 700 .78rem "Inter", sans-serif; padding: 3px 10px; border-radius: 999px; color: #fff; letter-spacing: .02em; vertical-align: middle; }
+.badge.ok { background: #15803d; } .badge.ev { background: #2563eb; } .badge.sf { background: #c2410c; } .badge.si { background: #7c3aed; } .badge.as { background: #a3203a; }
+.lw-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .lw-wrap { grid-template-columns: 1fr; } }
+.tin { height: 2.2em; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 8px; min-width: 0; }
+.tin.w { width: 100%; max-width: 320px; }
+.tin.s { width: 4.2em; text-align: center; }
+.tin.bad { outline: 2px solid var(--bad); }
+.wctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 8px 0; font-size: .92rem; }
+.wctl label { display: inline-flex; align-items: center; gap: 6px; }
+.pcs { display: grid; gap: 6px; margin: 8px 0; }
+.pc { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: .9rem; }
+.pc .tin.w { max-width: 210px; flex: 1 1 150px; }
+.pc .tin.s { width: 3.6em; }
+.pc .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+.vtbl { overflow-x: auto; margin-top: 8px; }
+table.data.sm { min-width: 0; font-variant-numeric: tabular-nums; }
+table.data td.hl { background: var(--hl-b); font-weight: 700; }
+table.data.rf td { min-width: 3.2em; }
+.verdict { margin-top: 8px; font-weight: 600; }
+.msg-ok { color: var(--ok); font-weight: 700; }
+.msg-bad { color: var(--bad); font-weight: 700; }
+.hier { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 14px 0; font-size: 1.05rem; }
+.hier .lv { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 14px; text-align: center; line-height: 1.3; }
+.hier .lv small { display: block; font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.hier .lt { color: var(--accent); font: 800 1.3rem "Outfit", sans-serif; }
+table.data.ops td, table.data.ops th { font-size: .95rem; }
+table.data.ops td.ind { background: color-mix(in srgb, var(--bad) 14%, var(--surface)); font-weight: 700; color: var(--bad); }
+.indet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; }
+.indet > span { background: color-mix(in srgb, var(--bad) 12%, var(--surface)); border: 1.5px solid color-mix(in srgb, var(--bad) 50%, transparent); border-radius: 10px; padding: 4px 12px; }
+.pau { display: inline-block; font: 700 .72rem "Inter", sans-serif; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: var(--navy); color: #fff; margin-right: 6px; vertical-align: 2px; }
+:root[data-theme="dark"] .pau { background: var(--accent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pau { background: var(--accent); } }
+.rf { border-collapse: collapse; margin: 6px 0; font-variant-numeric: tabular-nums; }
+.rf td { padding: 3px 10px; text-align: center; }
+.rf tr:first-child td:first-child { border-right: 2px solid var(--text); }
+.rf tr:nth-child(2) td { border-bottom: 2px solid var(--text); }
+.rf tr td:first-child { border-right: 2px solid var(--text); }
+.rf .rz { color: var(--ok); font-weight: 700; }
+table.data th .katex, .widget .wt .katex { text-transform: none; }
+.kv-tbl td:first-child { white-space: nowrap; }
+input[type="range"].wide { width: min(320px, 100%); }
+
+/* unitat 9: probabilitat (s'afegeix després de l'extra.css de la unitat 4) */
+.hero::after { content: "P(A)"; font-size: 11rem; bottom: -40px; right: 10px; font-style: italic; }
+.pr-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.pr-svg text { font: 600 13px "Inter", sans-serif; fill: var(--text); }
+.pr-svg text.sm { font-size: 11px; fill: var(--muted); }
+.pr-svg text.pb { font-size: 12px; fill: var(--accent-2); font-weight: 700; }
+.pr-svg .omega { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+.pr-svg .set { fill: none; stroke: var(--text); stroke-width: 1.8; }
+.pr-svg .reg { fill: var(--accent); fill-opacity: 0; transition: fill-opacity .2s; }
+.pr-svg .reg.on { fill-opacity: .55; }
+.pr-svg .hit { cursor: pointer; }
+.pr-svg .br { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.pr-svg .br.on { stroke: var(--accent); stroke-width: 3; }
+.pr-svg .nd { fill: var(--surface); stroke: var(--border); stroke-width: 1.2; }
+.pr-svg .nd.on { stroke: var(--accent); stroke-width: 2.2; }
+.pr-svg circle.ball { stroke: var(--bg); stroke-width: 1.5; }
+.pr-svg .cell { fill: var(--surface); stroke: var(--border); }
+.pr-svg .cell.on { fill: var(--accent); fill-opacity: .45; }
+.venn-fig { max-width: 300px; margin: 8px auto; }
+.venn-fig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.venn6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.venn6 figure { margin: 0; }
+.venn6 figcaption { text-align: center; font-size: .9rem; margin-top: 2px; }
+.ops-btns { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.ops-btns .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.big-p { font: 700 1.15rem "Outfit", sans-serif; }
+table.data.ct td, table.data.ct th { font-variant-numeric: tabular-nums; }
+table.data.ct td.on { background: var(--hl-a); font-weight: 700; }
+table.data.ct td.on2 { background: var(--hl-b); font-weight: 700; }
+table.data.ct td.tot, table.data.ct th.tot { font-weight: 700; }
+table.data.ct input { width: 4.6em; text-align: center; }
+.sim-bar { display: flex; height: 26px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 6px 0; }
+.sim-bar > span { display: grid; place-items: center; color: #fff; font: 700 .78rem "Inter", sans-serif; min-width: 0; transition: width .25s; }
+.ballrow { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; min-height: 22px; }
+.ballrow i { width: 18px; height: 18px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+.kvs { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; align-items: baseline; }
+.kvs > :nth-child(odd) { color: var(--muted); }
+.dat-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+.dat-row select { height: 2.2em; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 6px; font: 500 .9rem "Inter", sans-serif; }
+.info h4 { margin: 10px 0 2px; font: 700 .8rem "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.info h4:first-child { margin-top: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--muted); margin-top: 6px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 5px; }
+.chk { display: inline-block; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+.chk.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.chk.no { background: color-mix(in srgb, var(--bad) 14%, transparent); color: var(--bad); }
+.info .katex-display { margin: 4px 0; }
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .cmp { grid-template-columns: 1fr; } }
+.cmp > div { border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; background: var(--surface); }
+.cmp h4 { margin: 0 0 4px; font: 700 .95rem "Outfit", sans-serif; }
+.seg-ctl { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.seg-ctl .btn.on, .steps-ctl .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+@media (max-width: 560px) {
+  table.data.ct th, table.data.ct td { padding: 6px 4px; }
+  table.data.ct input { width: 3.4em; padding: 0 2px; }
+}
+
+/* unitat 10: distribució binomial i normal (s'afegeix després dels extra.css de les unitats 4 i 9) */
+.hero::after { content: "N(μ,σ)"; font-size: 9rem; bottom: -30px; right: 10px; font-style: italic; }
+.ptab-wrap { overflow: auto; max-height: 460px; border: 1px solid var(--border); border-radius: 12px; margin: 10px 0; }
+table.data.ptab { min-width: 0; width: auto; margin: 0; font-size: .8rem; font-variant-numeric: tabular-nums; border-radius: 0; overflow: visible; border-collapse: separate; border-spacing: 0; }
+table.data.ptab th, table.data.ptab td { padding: 3px 7px; }
+table.data.ptab thead tr:last-child th { position: sticky; top: 0; z-index: 2; }
+#tbin thead tr:first-child th { padding: 2px 7px; }
+table.data.ptab tbody th { font-size: .8rem; text-transform: none; letter-spacing: 0; }
+table.data.ptab tbody { border-top: 2px solid var(--muted); }
+table.data.ptab td.col { background: color-mix(in srgb, var(--accent-2) 12%, var(--surface)); }
+table.data.ptab td.on { background: var(--accent); color: #fff; font-weight: 700; }
+table.data.ptab td.on2 { background: color-mix(in srgb, var(--accent) 35%, var(--surface)); font-weight: 700; }
+table.data.ptab tr.row th, table.data.ptab th.hd { background: var(--accent-2); color: #fff; }
+.tab-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 6px 0; }
+.tab-head .f { font-size: 1.05rem; }
+.dist-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.dist-svg .ax { stroke: var(--muted); stroke-width: 1.3; }
+.dist-svg .gr { stroke: var(--border); stroke-width: 1; }
+.dist-svg text { font: 600 10.5px "Inter", sans-serif; fill: var(--muted); }
+.dist-svg text.vl { fill: var(--text); font-size: 12px; }
+.dist-svg .bar { fill: var(--border); }
+.dist-svg .bar.on { fill: var(--accent); }
+.dist-svg .cv { fill: none; stroke: var(--accent-2); stroke-width: 2.4; }
+.dist-svg .cv2 { fill: none; stroke: var(--r3); stroke-width: 2; stroke-dasharray: 6 4; }
+.dist-svg .area { fill: var(--accent); fill-opacity: .35; }
+.formula-big { font-size: 1.1rem; }
+.steps-list { margin: 4px 0; padding-left: 1.2em; }
+.steps-list li { margin: 5px 0; }
+.mini-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 12px 0; }
+.mini-figs figure { margin: 0; }
+.mini-figs figcaption { text-align: center; font-size: .88rem; margin-top: 4px; }
+
+/* FentMates: 80% de l'ample en ordinador (marc i text) */
+@media (min-width: 1101px) {
+  .topbar .in, .hero .in, .layout { max-width: 80vw; }
+  article { max-width: none; }
+  .slide > .in, .overview .in { max-width: 80vw; }
+}
+</style>
+<link rel="stylesheet" href="../../assets/css/fm-materials.css?v=20261027u10"><script defer src="../../assets/js/fm-materials.js?v=20261027u10"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../2batx-ccss.html"><span data-l="va">2n Batxillerat CCSS</span><span data-l="es">2º Bachillerato CCSS</span><span data-l="en">2nd Baccalaureate (Social Sciences)</span></a> / <span data-l="va">Unitat 10</span><span data-l="es">Unidad 10</span><span data-l="en">Unit 10</span></span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker"><span data-l="va">Apunts de teoria · 2n Batxillerat CCSS II</span><span data-l="es">Apuntes de teoría · 2º Bachillerato CCSS II</span><span data-l="en">Theory notes · 2nd Baccalaureate, Social Sciences II</span></span>
+    <h1><span class="u"><span data-l="va">Unitat 10</span><span data-l="es">Unidad 10</span><span data-l="en">Unit 10</span></span> · <span data-l="va">Distribució binomial i normal</span><span data-l="es">Distribución binomial y normal</span><span data-l="en">Binomial and normal distributions</span></h1>
+    <p><span data-l="va">Teoria, exemples resolts pas a pas i eines interactives: variables aleatòries discretes i contínues, la distribució binomial (amb la fórmula i amb la taula de la PAU), la distribució normal, la normal típica \(N(0,1)\) i la seua taula, la tipificació, els problemes inversos i l'aproximació de la binomial per la normal. Inclou les dues taules que s'adjunten a l'examen de la PAU valenciana, perquè t'acostumes a fer-les servir.</span><span data-l="es">Teoría, ejemplos resueltos paso a paso y herramientas interactivas: variables aleatorias discretas y continuas, la distribución binomial (con la fórmula y con la tabla de la PAU), la distribución normal, la normal tipificada \(N(0,1)\) y su tabla, la tipificación, los problemas inversos y la aproximación de la binomial por la normal. Incluye las dos tablas que se adjuntan al examen de la PAU valenciana, para que te acostumbres a usarlas.</span><span data-l="en">Theory, step-by-step worked examples and interactive tools: discrete and continuous random variables, the binomial distribution (with the formula and with the PAU table), the normal distribution, the standard normal \(N(0,1)\) and its table, standardisation, inverse problems and the normal approximation to the binomial. It includes the two tables attached to the Valencian PAU exam, so you get used to them.</span></p>
+    <div class="chips"><span><span data-l="va">8 apartats</span><span data-l="es">8 apartados</span><span data-l="en">8 sections</span></span><span><span data-l="va">Taules de la PAU</span><span data-l="es">Tablas de la PAU</span><span data-l="en">PAU tables</span></span><span><span data-l="va">7 eines interactives</span><span data-l="es">7 herramientas interactivas</span><span data-l="en">7 interactive tools</span></span><span><span data-l="va">Autoavaluació final</span><span data-l="es">Autoevaluación final</span><span data-l="en">Final self-check</span></span></div>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="toc" aria-label="Índex">
+    <details open id="toc-d">
+      <summary><span data-l="va">Índex</span><span data-l="es">Índice</span><span data-l="en">Contents</span></summary>
+      <ol id="toc-list">
+        <li><a href="#s1"><span class="n">10.1</span><span data-l="va">Variables aleatòries discretes</span><span data-l="es">Variables aleatorias discretas</span><span data-l="en">Discrete random variables</span><span class="ck">✓</span></a></li>
+        <li><a href="#s2"><span class="n">10.2</span><span data-l="va">La distribució binomial</span><span data-l="es">La distribución binomial</span><span data-l="en">The binomial distribution</span><span class="ck">✓</span></a></li>
+        <li><a href="#s3"><span class="n">10.3</span><span data-l="va">La taula de la binomial</span><span data-l="es">La tabla de la binomial</span><span data-l="en">The binomial table</span><span class="ck">✓</span></a></li>
+        <li><a href="#s4"><span class="n">10.4</span><span data-l="va">Variables contínues</span><span data-l="es">Variables continuas</span><span data-l="en">Continuous variables</span><span class="ck">✓</span></a></li>
+        <li><a href="#s5"><span class="n">10.5</span><span data-l="va">La distribució normal</span><span data-l="es">La distribución normal</span><span data-l="en">The normal distribution</span><span class="ck">✓</span></a></li>
+        <li><a href="#s6"><span class="n">10.6</span><span data-l="va">La normal típica i la seua taula</span><span data-l="es">La normal tipificada y su tabla</span><span data-l="en">The standard normal and its table</span><span class="ck">✓</span></a></li>
+        <li><a href="#s7"><span class="n">10.7</span><span data-l="va">Tipificació. Problemes</span><span data-l="es">Tipificación. Problemas</span><span data-l="en">Standardisation. Problems</span><span class="ck">✓</span></a></li>
+        <li><a href="#s8"><span class="n">10.8</span><span data-l="va">Aproximació de la binomial per la normal</span><span data-l="es">Aproximación de la binomial por la normal</span><span data-l="en">Normal approximation to the binomial</span><span class="ck">✓</span></a></li>
+        <li><a href="#lab"><span class="n">⚙</span><span data-l="va">Calculadora de probabilitats</span><span data-l="es">Calculadora de probabilidades</span><span data-l="en">Probability calculator</span></a></li>
+        <li><a href="#quiz"><span class="n">?</span><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></a></li>
+      </ol>
+      <div class="meter"><i id="meter"></i></div>
+      <div class="meter-l"><span id="meter-n">0</span>/8 <span data-l="va">apartats estudiats</span><span data-l="es">apartados estudiados</span><span data-l="en">sections studied</span></div>
+    </details>
+  </nav>
+
+<article>
+
+<!-- ======================= 10.1 ======================= -->
+<section class="unit" id="s1">
+  <div class="sec-head"><span class="num">10.1</span><h2><span data-l="va">Variables aleatòries discretes</span><span data-l="es">Variables aleatorias discretas</span><span data-l="en">Discrete random variables</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Variable aleatòria</span><span data-l="es">Variable aleatoria</span><span data-l="en">Random variable</span></div>
+    <div class="bb">
+      <p><span data-l="va">Una <strong>variable aleatòria</strong> \(X\) assigna un nombre a cada resultat d'un experiment aleatori. Per exemple, en llançar tres monedes, \(X=\)«nombre de cares» pren els valors 0, 1, 2 i 3.</span><span data-l="es">Una <strong>variable aleatoria</strong> \(X\) asigna un número a cada resultado de un experimento aleatorio. Por ejemplo, al lanzar tres monedas, \(X=\)«número de caras» toma los valores 0, 1, 2 y 3.</span><span data-l="en">A <strong>random variable</strong> \(X\) assigns a number to each outcome of a random experiment. For example, when tossing three coins, \(X=\)“number of heads” takes the values 0, 1, 2 and 3.</span></p>
+      <ul>
+        <li><span data-l="va">És <strong>discreta</strong> si pren valors aïllats (que es poden comptar): nombre de cares, de clients, de peces defectuoses…</span><span data-l="es">Es <strong>discreta</strong> si toma valores aislados (que se pueden contar): número de caras, de clientes, de piezas defectuosas…</span><span data-l="en">It is <strong>discrete</strong> if it takes separate (countable) values: number of heads, of customers, of faulty parts…</span></li>
+        <li><span data-l="va">És <strong>contínua</strong> si pot prendre qualsevol valor d'un interval: altura, pes, temps, nota…</span><span data-l="es">Es <strong>continua</strong> si puede tomar cualquier valor de un intervalo: altura, peso, tiempo, nota…</span><span data-l="en">It is <strong>continuous</strong> if it can take any value in an interval: height, weight, time, mark…</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Funció de probabilitat, mitjana i desviació típica</span><span data-l="es">Función de probabilidad, media y desviación típica</span><span data-l="en">Probability function, mean and standard deviation</span></div>
+    <div class="bb">
+      <p><span data-l="va">La <strong>funció de probabilitat</strong> d'una variable discreta dona \(p_i=P(X=x_i)\) per a cada valor. Es compleix \(p_i\geq0\) i \(\sum p_i=1\). La <strong>mitjana</strong> (o esperança) i la <strong>variància</strong> són:</span><span data-l="es">La <strong>función de probabilidad</strong> de una variable discreta da \(p_i=P(X=x_i)\) para cada valor. Se cumple \(p_i\geq0\) y \(\sum p_i=1\). La <strong>media</strong> (o esperanza) y la <strong>varianza</strong> son:</span><span data-l="en">The <strong>probability function</strong> of a discrete variable gives \(p_i=P(X=x_i)\) for each value. We have \(p_i\geq0\) and \(\sum p_i=1\). The <strong>mean</strong> (expected value) and <strong>variance</strong> are:</span></p>
+      \[\mu=E(X)=\sum x_i\,p_i\qquad\qquad\sigma^2=\sum x_i^2\,p_i-\mu^2\qquad\qquad\sigma=\sqrt{\sigma^2}\]
+      <p><span data-l="va">La mitjana és el valor que esperem obtindre «de mitjana» si repetim l'experiment moltes vegades; la desviació típica mesura com de dispersos estan els valors.</span><span data-l="es">La media es el valor que esperamos obtener «de media» si repetimos el experimento muchas veces; la desviación típica mide cómo de dispersos están los valores.</span><span data-l="en">The mean is the value we expect “on average” if we repeat the experiment many times; the standard deviation measures how spread out the values are.</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple resolt</span><span data-l="es">Ejemplo resuelto</span><span data-l="en">Worked example</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Llancem tres monedes i \(X=\)«nombre de cares». Troba la funció de probabilitat, la mitjana i la desviació típica.</span><span data-l="es">Lanzamos tres monedas y \(X=\)«número de caras». Halla la función de probabilidad, la media y la desviación típica.</span><span data-l="en">We toss three coins and \(X=\)“number of heads”. Find its probability function, mean and standard deviation.</span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Dels 8 resultats equiprobables, n'hi ha 1, 3, 3 i 1 amb 0, 1, 2 i 3 cares:</span><span data-l="es">De los 8 resultados equiprobables, hay 1, 3, 3 y 1 con 0, 1, 2 y 3 caras:</span><span data-l="en">Of the 8 equally likely outcomes, 1, 3, 3 and 1 have 0, 1, 2 and 3 heads:</span></p>
+              <div class="tbl-wrap"><table class="data sm" style="max-width:380px;margin:auto"><tbody><tr><th>\(x_i\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr><tr><th>\(p_i\)</th><td>\(\frac18\)</td><td>\(\frac38\)</td><td>\(\frac38\)</td><td>\(\frac18\)</td></tr></tbody></table></div></div>
+            <div class="step"><p>\(\mu=0\cdot\frac18+1\cdot\frac38+2\cdot\frac38+3\cdot\frac18=\frac{12}{8}=1{,}5\) <span data-l="va">cares</span><span data-l="es">caras</span><span data-l="en">heads</span></p></div>
+            <div class="step"><p>\(\sigma^2=0+\frac38+4\cdot\frac38+9\cdot\frac18-1{,}5^2=3-2{,}25=0{,}75\Rightarrow\sigma=\sqrt{0{,}75}\approx0{,}866\)</p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.2 ======================= -->
+<section class="unit" id="s2">
+  <div class="sec-head"><span class="num">10.2</span><h2><span data-l="va">La distribució binomial</span><span data-l="es">La distribución binomial</span><span data-l="en">The binomial distribution</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Quan és binomial?</span><span data-l="es">¿Cuándo es binomial?</span><span data-l="en">When is it binomial?</span></div>
+    <div class="bb">
+      <p><span data-l="va">Una variable \(X\) segueix una <strong>distribució binomial</strong> \(B(n,p)\) quan compta el <strong>nombre d'èxits</strong> en un experiment que compleix:</span><span data-l="es">Una variable \(X\) sigue una <strong>distribución binomial</strong> \(B(n,p)\) cuando cuenta el <strong>número de éxitos</strong> en un experimento que cumple:</span><span data-l="en">A variable \(X\) follows a <strong>binomial distribution</strong> \(B(n,p)\) when it counts the <strong>number of successes</strong> in an experiment such that:</span></p>
+      <ol>
+        <li><span data-l="va">Es repeteix una mateixa prova \(n\) vegades.</span><span data-l="es">Se repite una misma prueba \(n\) veces.</span><span data-l="en">The same trial is repeated \(n\) times.</span></li>
+        <li><span data-l="va">Cada prova només té dos resultats: <strong>èxit</strong> (\(A\)) o <strong>fracàs</strong> (\(\overline A\)).</span><span data-l="es">Cada prueba solo tiene dos resultados: <strong>éxito</strong> (\(A\)) o <strong>fracaso</strong> (\(\overline A\)).</span><span data-l="en">Each trial has only two outcomes: <strong>success</strong> (\(A\)) or <strong>failure</strong> (\(\overline A\)).</span></li>
+        <li><span data-l="va">La probabilitat d'èxit, \(p=P(A)\), és la mateixa en totes les proves (la de fracàs és \(q=1-p\)).</span><span data-l="es">La probabilidad de éxito, \(p=P(A)\), es la misma en todas las pruebas (la de fracaso es \(q=1-p\)).</span><span data-l="en">The probability of success, \(p=P(A)\), is the same in every trial (failure has \(q=1-p\)).</span></li>
+        <li><span data-l="va">Les proves són <strong>independents</strong> (per exemple, extraccions <strong>amb</strong> reemplaçament, o d'una població molt gran).</span><span data-l="es">Las pruebas son <strong>independientes</strong> (por ejemplo, extracciones <strong>con</strong> reemplazamiento, o de una población muy grande).</span><span data-l="en">The trials are <strong>independent</strong> (e.g. draws <strong>with</strong> replacement, or from a very large population).</span></li>
+      </ol>
+      <p class="note"><span data-l="va">Exemples: nombre de cares en 10 llançaments, nombre de peces defectuoses en una mostra de 20 (si el 3 % ho són), nombre d'encerts en un test contestat a l'atzar… Compte: les extraccions <strong>sense</strong> reemplaçament d'una urna xicoteta <strong>no</strong> són binomials (la \(p\) canvia).</span><span data-l="es">Ejemplos: número de caras en 10 lanzamientos, número de piezas defectuosas en una muestra de 20 (si el 3 % lo son), número de aciertos en un test contestado al azar… Cuidado: las extracciones <strong>sin</strong> reemplazamiento de una urna pequeña <strong>no</strong> son binomiales (la \(p\) cambia).</span><span data-l="en">Examples: number of heads in 10 tosses, number of faulty parts in a sample of 20 (if 3% are faulty), number of right answers in a test answered at random… Careful: draws <strong>without</strong> replacement from a small urn are <strong>not</strong> binomial (\(p\) changes).</span></p>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Fórmula de la binomial</span><span data-l="es">Fórmula de la binomial</span><span data-l="en">Binomial formula</span></div>
+    <div class="bb">
+      \[P(X=k)=\binom{n}{k}\,p^k\,q^{\,n-k},\qquad k=0,1,\dots,n\qquad\qquad\binom nk=\frac{n!}{k!\,(n-k)!}\]
+      <p><span data-l="va">El <strong>nombre combinatori</strong> \(\binom nk\) («\(n\) sobre \(k\)») compta de quantes maneres es poden col·locar els \(k\) èxits entre les \(n\) proves; \(p^kq^{n-k}\) és la probabilitat de cada una d'aquestes maneres. Recorda: \(\binom n0=\binom nn=1\), \(\binom n1=n\), \(\binom nk=\binom n{n-k}\). A la calculadora: tecla <strong>nCr</strong>.</span><span data-l="es">El <strong>número combinatorio</strong> \(\binom nk\) («\(n\) sobre \(k\)») cuenta de cuántas maneras se pueden colocar los \(k\) éxitos entre las \(n\) pruebas; \(p^kq^{n-k}\) es la probabilidad de cada una de esas maneras. Recuerda: \(\binom n0=\binom nn=1\), \(\binom n1=n\), \(\binom nk=\binom n{n-k}\). En la calculadora: tecla <strong>nCr</strong>.</span><span data-l="en">The <strong>binomial coefficient</strong> \(\binom nk\) (“\(n\) choose \(k\)”) counts in how many ways the \(k\) successes can be placed among the \(n\) trials; \(p^kq^{n-k}\) is the probability of each of those ways. Remember: \(\binom n0=\binom nn=1\), \(\binom n1=n\), \(\binom nk=\binom n{n-k}\). On the calculator: the <strong>nCr</strong> key.</span></p>
+      \[\mu=n\,p\qquad\qquad\sigma=\sqrt{n\,p\,q}\]
+      <p><span data-l="va">Per a probabilitats acumulades sumem: \(P(X\leq k)=P(X=0)+\dots+P(X=k)\). I quan «almenys un» o «més de…» tinga molts termes, fem servir el contrari: \(P(X\geq1)=1-P(X=0)\).</span><span data-l="es">Para probabilidades acumuladas sumamos: \(P(X\leq k)=P(X=0)+\dots+P(X=k)\). Y cuando «al menos uno» o «más de…» tenga muchos términos, usamos el contrario: \(P(X\geq1)=1-P(X=0)\).</span><span data-l="en">For cumulative probabilities we add: \(P(X\leq k)=P(X=0)+\dots+P(X=k)\). And when “at least one” or “more than…” has many terms, use the complement: \(P(X\geq1)=1-P(X=0)\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples resolts</span><span data-l="es">Ejemplos resueltos</span><span data-l="en">Worked examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Un test té 10 preguntes amb 4 opcions cada una. Un alumne contesta totes a l'atzar. Probabilitat que n'encerte exactament 3, i que n'encerte almenys 1.</span><span data-l="es">Un test tiene 10 preguntas con 4 opciones cada una. Un alumno contesta todas al azar. Probabilidad de que acierte exactamente 3, y de que acierte al menos 1.</span><span data-l="en">A test has 10 questions with 4 options each. A student answers all of them at random. Probability of exactly 3 right, and of at least 1 right.</span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">\(X=\)«nombre d'encerts» és \(B(10;\,0{,}25)\): 10 proves independents amb \(p=\frac14\) d'encert.</span><span data-l="es">\(X=\)«número de aciertos» es \(B(10;\,0{,}25)\): 10 pruebas independientes con \(p=\frac14\) de acierto.</span><span data-l="en">\(X=\)“number of right answers” is \(B(10;\,0.25)\): 10 independent trials with \(p=\frac14\).</span></p></div>
+            <div class="step"><p>\(P(X=3)=\binom{10}{3}\,0{,}25^3\,0{,}75^7=120\cdot0{,}015625\cdot0{,}1335\approx0{,}2503\)</p></div>
+            <div class="step"><p>\(P(X\geq1)=1-P(X=0)=1-0{,}75^{10}\approx1-0{,}0563=0{,}9437\)</p></div>
+            <div class="step"><p><span data-l="va">Mitjana: \(\mu=10\cdot0{,}25=2{,}5\) encerts; \(\sigma=\sqrt{10\cdot0{,}25\cdot0{,}75}\approx1{,}37\).</span><span data-l="es">Media: \(\mu=10\cdot0{,}25=2{,}5\) aciertos; \(\sigma=\sqrt{10\cdot0{,}25\cdot0{,}75}\approx1{,}37\).</span><span data-l="en">Mean: \(\mu=10\cdot0.25=2.5\) right answers; \(\sigma=\sqrt{10\cdot0.25\cdot0.75}\approx1.37\).</span></p></div>
+          </div></li>
+        <li><span data-l="va">Un 48 % dels habitants d'una ciutat són homes. Triem 4 persones amb reemplaçament i \(X\) compta els homes. Quina distribució segueix \(X\)? Calcula \(P(X=2)\).</span><span data-l="es">Un 48 % de los habitantes de una ciudad son hombres. Elegimos 4 personas con reemplazamiento y \(X\) cuenta los hombres. ¿Qué distribución sigue \(X\)? Calcula \(P(X=2)\).</span><span data-l="en">48% of a city's inhabitants are men. We choose 4 people with replacement and \(X\) counts the men. What is the distribution of \(X\)? Find \(P(X=2)\).</span> <span class="pau"><span data-l="va">PAU Aragó 2024</span><span data-l="es">PAU Aragón 2024</span><span data-l="en">PAU Aragon 2024</span></span>
+          <div class="steps">
+            <div class="step"><p>\(X\sim B(4;\,0{,}48)\); \(\ P(X=2)=\binom42\,0{,}48^2\,0{,}52^2=6\cdot0{,}2304\cdot0{,}2704\approx0{,}3738\)</p></div>
+          </div></li>
+      </ol>
+      <div class="widget" id="w-bin">
+        <div class="wt">◉ <span data-l="va">La distribució binomial: tria \(n\), \(p\) i el succés, i mira les barres i el càlcul pas a pas</span><span data-l="es">La distribución binomial: elige \(n\), \(p\) y el suceso, y mira las barras y el cálculo paso a paso</span><span data-l="en">The binomial distribution: choose \(n\), \(p\) and the event, and see the bars and the step-by-step calculation</span></div>
+        <div class="wctl"><label>\(n=\) <input class="tin s" type="number" min="1" max="60" data-role="n" value="10"></label><label>\(p=\) <input class="tin s" type="text" data-role="p" value="0.25" autocomplete="off"></label>
+          <select data-role="ev"></select><label>\(k=\) <input class="tin s" type="number" min="0" data-role="a" value="3"></label><label data-role="blab">\(k_2=\) <input class="tin s" type="number" min="0" data-role="b" value="5"></label></div>
+        <div class="lw-wrap">
+          <div class="info" aria-live="polite"></div>
+          <div><svg class="dist-svg" viewBox="0 0 340 220" role="img" aria-label="Binomial"></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">Llancem un dau 6 vegades. Probabilitat d'obtindre exactament dos sisos.</span><span data-l="es">Lanzamos un dado 6 veces. Probabilidad de obtener exactamente dos seises.</span><span data-l="en">We roll a die 6 times. Probability of exactly two sixes.</span></li>
+        <li><span data-l="va">El 62 % dels votants va votar un candidat. Triem 3 votants amb reemplaçament. Probabilitat que almenys un l'haja votat.</span><span data-l="es">El 62 % de los votantes votó a un candidato. Elegimos 3 votantes con reemplazamiento. Probabilidad de que al menos uno lo haya votado.</span><span data-l="en">62% of voters voted for a candidate. We choose 3 voters with replacement. Probability that at least one voted for them.</span> <span class="pau">PAU</span></li>
+        <li><span data-l="va">Una màquina fa un 5 % de peces defectuoses. En una caixa de 20 peces, quantes defectuoses esperem? Probabilitat que no n'hi haja cap.</span><span data-l="es">Una máquina hace un 5 % de piezas defectuosas. En una caja de 20 piezas, ¿cuántas defectuosas esperamos? Probabilidad de que no haya ninguna.</span><span data-l="en">A machine makes 5% faulty parts. In a box of 20, how many faulty parts do we expect? Probability that there are none.</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(B(6,\frac16)\): \(\binom62\left(\frac16\right)^2\left(\frac56\right)^4=15\cdot\frac{625}{46656}\approx0{,}2009\)</li>
+          <li>\(B(3;\,0{,}62)\): \(1-0{,}38^3=1-0{,}054872\approx0{,}9451\)</li>
+          <li>\(\mu=20\cdot0{,}05=1\); \(\ P(X=0)=0{,}95^{20}\approx0{,}3585\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.3 ======================= -->
+<section class="unit" id="s3">
+  <div class="sec-head"><span class="num">10.3</span><h2><span data-l="va">La taula de la binomial de la PAU</span><span data-l="es">La tabla de la binomial de la PAU</span><span data-l="en">The PAU binomial table</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Com es llig la taula</span><span data-l="es">Cómo se lee la tabla</span><span data-l="en">How to read the table</span></div>
+    <div class="bb">
+      <p><span data-l="va">A la PAU valenciana s'adjunta aquesta taula. Dona directament \(P(X=x)\) per a \(n=2,\dots,9\) i els valors de \(p\) de la capçalera. Busquem el bloc de la \(n\), la fila de la \(x\) i la columna de la \(p\).</span><span data-l="es">En la PAU valenciana se adjunta esta tabla. Da directamente \(P(X=x)\) para \(n=2,\dots,9\) y los valores de \(p\) de la cabecera. Buscamos el bloque de la \(n\), la fila de la \(x\) y la columna de la \(p\).</span><span data-l="en">The Valencian PAU attaches this table. It gives \(P(X=x)\) directly for \(n=2,\dots,9\) and the values of \(p\) in the header. Find the block for \(n\), the row for \(x\) and the column for \(p\).</span></p>
+      <ul>
+        <li><span data-l="va"><strong>Probabilitats acumulades</strong>: sumem diverses caselles de la mateixa columna, o fem el contrari.</span><span data-l="es"><strong>Probabilidades acumuladas</strong>: sumamos varias casillas de la misma columna, o hacemos el contrario.</span><span data-l="en"><strong>Cumulative probabilities</strong>: add several cells of the same column, or use the complement.</span></li>
+        <li><span data-l="va"><strong>Si \(p\gt0{,}5\)</strong> (no és a la taula): comptem els fracassos. Si \(X\sim B(n,p)\), aleshores \(Y=n-X\sim B(n,q)\) amb \(q=1-p\lt0{,}5\), i \(P(X=k)=P(Y=n-k)\).</span><span data-l="es"><strong>Si \(p\gt0{,}5\)</strong> (no está en la tabla): contamos los fracasos. Si \(X\sim B(n,p)\), entonces \(Y=n-X\sim B(n,q)\) con \(q=1-p\lt0{,}5\), y \(P(X=k)=P(Y=n-k)\).</span><span data-l="en"><strong>If \(p\gt0.5\)</strong> (not in the table): count failures. If \(X\sim B(n,p)\), then \(Y=n-X\sim B(n,q)\) with \(q=1-p\lt0.5\), and \(P(X=k)=P(Y=n-k)\).</span></li>
+        <li><span data-l="va"><strong>Si \(n\) o \(p\) no són a la taula</strong> (\(n\geq10\), \(p=0{,}62\)…): fem servir la fórmula; i si \(n\) és gran, l'aproximació per la normal (apartat 10.8).</span><span data-l="es"><strong>Si \(n\) o \(p\) no están en la tabla</strong> (\(n\geq10\), \(p=0{,}62\)…): usamos la fórmula; y si \(n\) es grande, la aproximación por la normal (apartado 10.8).</span><span data-l="en"><strong>If \(n\) or \(p\) are not in the table</strong> (\(n\geq10\), \(p=0.62\)…): use the formula; and if \(n\) is large, the normal approximation (section 10.8).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box lab">
+    <div class="bh">⚙ <span data-l="va">Taula de la distribució binomial (PAU)</span><span data-l="es">Tabla de la distribución binomial (PAU)</span><span data-l="en">Binomial distribution table (PAU)</span></div>
+    <div class="bb" id="w-tbin">
+      <p class="formula-big" style="text-align:center">\(P[X=x]=\binom nx\,p^x(1-p)^{n-x}\)</p>
+      <div class="tab-head">
+        <label>\(n=\) <select data-role="n"></select></label>
+        <label>\(p=\) <select data-role="p"></select></label>
+        <select data-role="ev"></select>
+        <label>\(k=\) <select data-role="k"></select></label>
+      </div>
+      <div class="info" aria-live="polite"></div>
+      <div class="ptab-wrap" data-role="wrap"><table class="data ptab" id="tbin"><thead><tr><th rowspan="2">n</th><th rowspan="2">x</th><th colspan="13">p</th></tr><tr><th data-j="0">0,01</th><th data-j="1">0,05</th><th data-j="2">0,10</th><th data-j="3">0,15</th><th data-j="4">0,20</th><th data-j="5">0,25</th><th data-j="6">0,30</th><th data-j="7">1/3</th><th data-j="8">0,35</th><th data-j="9">0,40</th><th data-j="10">0,45</th><th data-j="11">0,49</th><th data-j="12">0,50</th></tr></thead><tbody><tr data-n="2" data-x="0"><th rowspan="3" class="tn">2</th><th class="tx">0</th><td data-j="0">0,9801</td><td data-j="1">0,9025</td><td data-j="2">0,8100</td><td data-j="3">0,7225</td><td data-j="4">0,6400</td><td data-j="5">0,5625</td><td data-j="6">0,4900</td><td data-j="7">0,4444</td><td data-j="8">0,4225</td><td data-j="9">0,3600</td><td data-j="10">0,3025</td><td data-j="11">0,2601</td><td data-j="12">0,2500</td></tr><tr data-n="2" data-x="1"><th class="tx">1</th><td data-j="0">0,0198</td><td data-j="1">0,0950</td><td data-j="2">0,1800</td><td data-j="3">0,2550</td><td data-j="4">0,3200</td><td data-j="5">0,3750</td><td data-j="6">0,4200</td><td data-j="7">0,4444</td><td data-j="8">0,4550</td><td data-j="9">0,4800</td><td data-j="10">0,4950</td><td data-j="11">0,4998</td><td data-j="12">0,5000</td></tr><tr data-n="2" data-x="2"><th class="tx">2</th><td data-j="0">0,0001</td><td data-j="1">0,0025</td><td data-j="2">0,0100</td><td data-j="3">0,0225</td><td data-j="4">0,0400</td><td data-j="5">0,0625</td><td data-j="6">0,0900</td><td data-j="7">0,1111</td><td data-j="8">0,1225</td><td data-j="9">0,1600</td><td data-j="10">0,2025</td><td data-j="11">0,2401</td><td data-j="12">0,2500</td></tr></tbody><tbody><tr data-n="3" data-x="0"><th rowspan="4" class="tn">3</th><th class="tx">0</th><td data-j="0">0,9703</td><td data-j="1">0,8574</td><td data-j="2">0,7290</td><td data-j="3">0,6141</td><td data-j="4">0,5120</td><td data-j="5">0,4219</td><td data-j="6">0,3430</td><td data-j="7">0,2963</td><td data-j="8">0,2746</td><td data-j="9">0,2160</td><td data-j="10">0,1664</td><td data-j="11">0,1327</td><td data-j="12">0,1250</td></tr><tr data-n="3" data-x="1"><th class="tx">1</th><td data-j="0">0,0294</td><td data-j="1">0,1354</td><td data-j="2">0,2430</td><td data-j="3">0,3251</td><td data-j="4">0,3840</td><td data-j="5">0,4219</td><td data-j="6">0,4410</td><td data-j="7">0,4444</td><td data-j="8">0,4436</td><td data-j="9">0,4320</td><td data-j="10">0,4084</td><td data-j="11">0,3823</td><td data-j="12">0,3750</td></tr><tr data-n="3" data-x="2"><th class="tx">2</th><td data-j="0">0,0003</td><td data-j="1">0,0071</td><td data-j="2">0,0270</td><td data-j="3">0,0574</td><td data-j="4">0,0960</td><td data-j="5">0,1406</td><td data-j="6">0,1890</td><td data-j="7">0,2222</td><td data-j="8">0,2389</td><td data-j="9">0,2880</td><td data-j="10">0,3341</td><td data-j="11">0,3674</td><td data-j="12">0,3750</td></tr><tr data-n="3" data-x="3"><th class="tx">3</th><td data-j="0">0,0000</td><td data-j="1">0,0001</td><td data-j="2">0,0010</td><td data-j="3">0,0034</td><td data-j="4">0,0080</td><td data-j="5">0,0156</td><td data-j="6">0,0270</td><td data-j="7">0,0370</td><td data-j="8">0,0429</td><td data-j="9">0,0640</td><td data-j="10">0,0911</td><td data-j="11">0,1176</td><td data-j="12">0,1250</td></tr></tbody><tbody><tr data-n="4" data-x="0"><th rowspan="5" class="tn">4</th><th class="tx">0</th><td data-j="0">0,9606</td><td data-j="1">0,8145</td><td data-j="2">0,6561</td><td data-j="3">0,5220</td><td data-j="4">0,4096</td><td data-j="5">0,3164</td><td data-j="6">0,2401</td><td data-j="7">0,1975</td><td data-j="8">0,1785</td><td data-j="9">0,1296</td><td data-j="10">0,0915</td><td data-j="11">0,0677</td><td data-j="12">0,0625</td></tr><tr data-n="4" data-x="1"><th class="tx">1</th><td data-j="0">0,0388</td><td data-j="1">0,1715</td><td data-j="2">0,2916</td><td data-j="3">0,3685</td><td data-j="4">0,4096</td><td data-j="5">0,4219</td><td data-j="6">0,4116</td><td data-j="7">0,3951</td><td data-j="8">0,3845</td><td data-j="9">0,3456</td><td data-j="10">0,2995</td><td data-j="11">0,2600</td><td data-j="12">0,2500</td></tr><tr data-n="4" data-x="2"><th class="tx">2</th><td data-j="0">0,0006</td><td data-j="1">0,0135</td><td data-j="2">0,0486</td><td data-j="3">0,0975</td><td data-j="4">0,1536</td><td data-j="5">0,2109</td><td data-j="6">0,2646</td><td data-j="7">0,2963</td><td data-j="8">0,3105</td><td data-j="9">0,3456</td><td data-j="10">0,3675</td><td data-j="11">0,3747</td><td data-j="12">0,3750</td></tr><tr data-n="4" data-x="3"><th class="tx">3</th><td data-j="0">0,0000</td><td data-j="1">0,0005</td><td data-j="2">0,0036</td><td data-j="3">0,0115</td><td data-j="4">0,0256</td><td data-j="5">0,0469</td><td data-j="6">0,0756</td><td data-j="7">0,0988</td><td data-j="8">0,1115</td><td data-j="9">0,1536</td><td data-j="10">0,2005</td><td data-j="11">0,2400</td><td data-j="12">0,2500</td></tr><tr data-n="4" data-x="4"><th class="tx">4</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0001</td><td data-j="3">0,0005</td><td data-j="4">0,0016</td><td data-j="5">0,0039</td><td data-j="6">0,0081</td><td data-j="7">0,0123</td><td data-j="8">0,0150</td><td data-j="9">0,0256</td><td data-j="10">0,0410</td><td data-j="11">0,0576</td><td data-j="12">0,0625</td></tr></tbody><tbody><tr data-n="5" data-x="0"><th rowspan="6" class="tn">5</th><th class="tx">0</th><td data-j="0">0,9510</td><td data-j="1">0,7738</td><td data-j="2">0,5905</td><td data-j="3">0,4437</td><td data-j="4">0,3277</td><td data-j="5">0,2373</td><td data-j="6">0,1681</td><td data-j="7">0,1317</td><td data-j="8">0,1160</td><td data-j="9">0,0778</td><td data-j="10">0,0503</td><td data-j="11">0,0345</td><td data-j="12">0,0312</td></tr><tr data-n="5" data-x="1"><th class="tx">1</th><td data-j="0">0,0480</td><td data-j="1">0,2036</td><td data-j="2">0,3281</td><td data-j="3">0,3915</td><td data-j="4">0,4096</td><td data-j="5">0,3955</td><td data-j="6">0,3601</td><td data-j="7">0,3292</td><td data-j="8">0,3124</td><td data-j="9">0,2592</td><td data-j="10">0,2059</td><td data-j="11">0,1657</td><td data-j="12">0,1562</td></tr><tr data-n="5" data-x="2"><th class="tx">2</th><td data-j="0">0,0010</td><td data-j="1">0,0214</td><td data-j="2">0,0729</td><td data-j="3">0,1382</td><td data-j="4">0,2048</td><td data-j="5">0,2637</td><td data-j="6">0,3087</td><td data-j="7">0,3292</td><td data-j="8">0,3364</td><td data-j="9">0,3456</td><td data-j="10">0,3369</td><td data-j="11">0,3185</td><td data-j="12">0,3125</td></tr><tr data-n="5" data-x="3"><th class="tx">3</th><td data-j="0">0,0000</td><td data-j="1">0,0011</td><td data-j="2">0,0081</td><td data-j="3">0,0244</td><td data-j="4">0,0512</td><td data-j="5">0,0879</td><td data-j="6">0,1323</td><td data-j="7">0,1646</td><td data-j="8">0,1811</td><td data-j="9">0,2304</td><td data-j="10">0,2757</td><td data-j="11">0,3060</td><td data-j="12">0,3125</td></tr><tr data-n="5" data-x="4"><th class="tx">4</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0005</td><td data-j="3">0,0022</td><td data-j="4">0,0064</td><td data-j="5">0,0146</td><td data-j="6">0,0283</td><td data-j="7">0,0412</td><td data-j="8">0,0488</td><td data-j="9">0,0768</td><td data-j="10">0,1128</td><td data-j="11">0,1470</td><td data-j="12">0,1562</td></tr><tr data-n="5" data-x="5"><th class="tx">5</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0001</td><td data-j="4">0,0003</td><td data-j="5">0,0010</td><td data-j="6">0,0024</td><td data-j="7">0,0041</td><td data-j="8">0,0053</td><td data-j="9">0,0102</td><td data-j="10">0,0185</td><td data-j="11">0,0282</td><td data-j="12">0,0312</td></tr></tbody><tbody><tr data-n="6" data-x="0"><th rowspan="7" class="tn">6</th><th class="tx">0</th><td data-j="0">0,9415</td><td data-j="1">0,7351</td><td data-j="2">0,5314</td><td data-j="3">0,3771</td><td data-j="4">0,2621</td><td data-j="5">0,1780</td><td data-j="6">0,1176</td><td data-j="7">0,0878</td><td data-j="8">0,0754</td><td data-j="9">0,0467</td><td data-j="10">0,0277</td><td data-j="11">0,0176</td><td data-j="12">0,0156</td></tr><tr data-n="6" data-x="1"><th class="tx">1</th><td data-j="0">0,0571</td><td data-j="1">0,2321</td><td data-j="2">0,3543</td><td data-j="3">0,3993</td><td data-j="4">0,3932</td><td data-j="5">0,3560</td><td data-j="6">0,3025</td><td data-j="7">0,2634</td><td data-j="8">0,2437</td><td data-j="9">0,1866</td><td data-j="10">0,1359</td><td data-j="11">0,1014</td><td data-j="12">0,0938</td></tr><tr data-n="6" data-x="2"><th class="tx">2</th><td data-j="0">0,0014</td><td data-j="1">0,0305</td><td data-j="2">0,0984</td><td data-j="3">0,1762</td><td data-j="4">0,2458</td><td data-j="5">0,2966</td><td data-j="6">0,3241</td><td data-j="7">0,3292</td><td data-j="8">0,3280</td><td data-j="9">0,3110</td><td data-j="10">0,2780</td><td data-j="11">0,2436</td><td data-j="12">0,2344</td></tr><tr data-n="6" data-x="3"><th class="tx">3</th><td data-j="0">0,0000</td><td data-j="1">0,0021</td><td data-j="2">0,0146</td><td data-j="3">0,0415</td><td data-j="4">0,0819</td><td data-j="5">0,1318</td><td data-j="6">0,1852</td><td data-j="7">0,2195</td><td data-j="8">0,2355</td><td data-j="9">0,2765</td><td data-j="10">0,3032</td><td data-j="11">0,3121</td><td data-j="12">0,3125</td></tr><tr data-n="6" data-x="4"><th class="tx">4</th><td data-j="0">0,0000</td><td data-j="1">0,0001</td><td data-j="2">0,0012</td><td data-j="3">0,0055</td><td data-j="4">0,0154</td><td data-j="5">0,0330</td><td data-j="6">0,0595</td><td data-j="7">0,0823</td><td data-j="8">0,0951</td><td data-j="9">0,1382</td><td data-j="10">0,1861</td><td data-j="11">0,2249</td><td data-j="12">0,2344</td></tr><tr data-n="6" data-x="5"><th class="tx">5</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0001</td><td data-j="3">0,0004</td><td data-j="4">0,0015</td><td data-j="5">0,0044</td><td data-j="6">0,0102</td><td data-j="7">0,0165</td><td data-j="8">0,0205</td><td data-j="9">0,0369</td><td data-j="10">0,0609</td><td data-j="11">0,0864</td><td data-j="12">0,0938</td></tr><tr data-n="6" data-x="6"><th class="tx">6</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0001</td><td data-j="5">0,0002</td><td data-j="6">0,0007</td><td data-j="7">0,0014</td><td data-j="8">0,0018</td><td data-j="9">0,0041</td><td data-j="10">0,0083</td><td data-j="11">0,0138</td><td data-j="12">0,0156</td></tr></tbody><tbody><tr data-n="7" data-x="0"><th rowspan="8" class="tn">7</th><th class="tx">0</th><td data-j="0">0,9321</td><td data-j="1">0,6983</td><td data-j="2">0,4783</td><td data-j="3">0,3206</td><td data-j="4">0,2097</td><td data-j="5">0,1335</td><td data-j="6">0,0824</td><td data-j="7">0,0585</td><td data-j="8">0,0490</td><td data-j="9">0,0280</td><td data-j="10">0,0152</td><td data-j="11">0,0090</td><td data-j="12">0,0078</td></tr><tr data-n="7" data-x="1"><th class="tx">1</th><td data-j="0">0,0659</td><td data-j="1">0,2573</td><td data-j="2">0,3720</td><td data-j="3">0,3960</td><td data-j="4">0,3670</td><td data-j="5">0,3115</td><td data-j="6">0,2471</td><td data-j="7">0,2048</td><td data-j="8">0,1848</td><td data-j="9">0,1306</td><td data-j="10">0,0872</td><td data-j="11">0,0604</td><td data-j="12">0,0547</td></tr><tr data-n="7" data-x="2"><th class="tx">2</th><td data-j="0">0,0020</td><td data-j="1">0,0406</td><td data-j="2">0,1240</td><td data-j="3">0,2097</td><td data-j="4">0,2753</td><td data-j="5">0,3115</td><td data-j="6">0,3177</td><td data-j="7">0,3073</td><td data-j="8">0,2985</td><td data-j="9">0,2613</td><td data-j="10">0,2140</td><td data-j="11">0,1740</td><td data-j="12">0,1641</td></tr><tr data-n="7" data-x="3"><th class="tx">3</th><td data-j="0">0,0000</td><td data-j="1">0,0036</td><td data-j="2">0,0230</td><td data-j="3">0,0617</td><td data-j="4">0,1147</td><td data-j="5">0,1730</td><td data-j="6">0,2269</td><td data-j="7">0,2561</td><td data-j="8">0,2679</td><td data-j="9">0,2903</td><td data-j="10">0,2918</td><td data-j="11">0,2786</td><td data-j="12">0,2734</td></tr><tr data-n="7" data-x="4"><th class="tx">4</th><td data-j="0">0,0000</td><td data-j="1">0,0002</td><td data-j="2">0,0026</td><td data-j="3">0,0109</td><td data-j="4">0,0287</td><td data-j="5">0,0577</td><td data-j="6">0,0972</td><td data-j="7">0,1280</td><td data-j="8">0,1442</td><td data-j="9">0,1935</td><td data-j="10">0,2388</td><td data-j="11">0,2676</td><td data-j="12">0,2734</td></tr><tr data-n="7" data-x="5"><th class="tx">5</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0002</td><td data-j="3">0,0012</td><td data-j="4">0,0043</td><td data-j="5">0,0115</td><td data-j="6">0,0250</td><td data-j="7">0,0384</td><td data-j="8">0,0466</td><td data-j="9">0,0774</td><td data-j="10">0,1172</td><td data-j="11">0,1543</td><td data-j="12">0,1641</td></tr><tr data-n="7" data-x="6"><th class="tx">6</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0001</td><td data-j="4">0,0004</td><td data-j="5">0,0013</td><td data-j="6">0,0036</td><td data-j="7">0,0064</td><td data-j="8">0,0084</td><td data-j="9">0,0172</td><td data-j="10">0,0320</td><td data-j="11">0,0494</td><td data-j="12">0,0547</td></tr><tr data-n="7" data-x="7"><th class="tx">7</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0000</td><td data-j="5">0,0001</td><td data-j="6">0,0002</td><td data-j="7">0,0005</td><td data-j="8">0,0006</td><td data-j="9">0,0016</td><td data-j="10">0,0037</td><td data-j="11">0,0068</td><td data-j="12">0,0078</td></tr></tbody><tbody><tr data-n="8" data-x="0"><th rowspan="9" class="tn">8</th><th class="tx">0</th><td data-j="0">0,9227</td><td data-j="1">0,6634</td><td data-j="2">0,4305</td><td data-j="3">0,2725</td><td data-j="4">0,1678</td><td data-j="5">0,1001</td><td data-j="6">0,0576</td><td data-j="7">0,0390</td><td data-j="8">0,0319</td><td data-j="9">0,0168</td><td data-j="10">0,0084</td><td data-j="11">0,0046</td><td data-j="12">0,0039</td></tr><tr data-n="8" data-x="1"><th class="tx">1</th><td data-j="0">0,0746</td><td data-j="1">0,2793</td><td data-j="2">0,3826</td><td data-j="3">0,3847</td><td data-j="4">0,3355</td><td data-j="5">0,2670</td><td data-j="6">0,1977</td><td data-j="7">0,1561</td><td data-j="8">0,1373</td><td data-j="9">0,0896</td><td data-j="10">0,0548</td><td data-j="11">0,0352</td><td data-j="12">0,0312</td></tr><tr data-n="8" data-x="2"><th class="tx">2</th><td data-j="0">0,0026</td><td data-j="1">0,0515</td><td data-j="2">0,1488</td><td data-j="3">0,2376</td><td data-j="4">0,2936</td><td data-j="5">0,3115</td><td data-j="6">0,2965</td><td data-j="7">0,2731</td><td data-j="8">0,2587</td><td data-j="9">0,2090</td><td data-j="10">0,1569</td><td data-j="11">0,1183</td><td data-j="12">0,1094</td></tr><tr data-n="8" data-x="3"><th class="tx">3</th><td data-j="0">0,0001</td><td data-j="1">0,0054</td><td data-j="2">0,0331</td><td data-j="3">0,0839</td><td data-j="4">0,1468</td><td data-j="5">0,2076</td><td data-j="6">0,2541</td><td data-j="7">0,2731</td><td data-j="8">0,2786</td><td data-j="9">0,2787</td><td data-j="10">0,2568</td><td data-j="11">0,2273</td><td data-j="12">0,2188</td></tr><tr data-n="8" data-x="4"><th class="tx">4</th><td data-j="0">0,0000</td><td data-j="1">0,0004</td><td data-j="2">0,0046</td><td data-j="3">0,0185</td><td data-j="4">0,0459</td><td data-j="5">0,0865</td><td data-j="6">0,1361</td><td data-j="7">0,1707</td><td data-j="8">0,1875</td><td data-j="9">0,2322</td><td data-j="10">0,2627</td><td data-j="11">0,2730</td><td data-j="12">0,2734</td></tr><tr data-n="8" data-x="5"><th class="tx">5</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0004</td><td data-j="3">0,0026</td><td data-j="4">0,0092</td><td data-j="5">0,0231</td><td data-j="6">0,0467</td><td data-j="7">0,0683</td><td data-j="8">0,0808</td><td data-j="9">0,1239</td><td data-j="10">0,1719</td><td data-j="11">0,2098</td><td data-j="12">0,2188</td></tr><tr data-n="8" data-x="6"><th class="tx">6</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0002</td><td data-j="4">0,0011</td><td data-j="5">0,0038</td><td data-j="6">0,0100</td><td data-j="7">0,0171</td><td data-j="8">0,0217</td><td data-j="9">0,0413</td><td data-j="10">0,0703</td><td data-j="11">0,1008</td><td data-j="12">0,1094</td></tr><tr data-n="8" data-x="7"><th class="tx">7</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0001</td><td data-j="5">0,0004</td><td data-j="6">0,0012</td><td data-j="7">0,0024</td><td data-j="8">0,0033</td><td data-j="9">0,0079</td><td data-j="10">0,0164</td><td data-j="11">0,0277</td><td data-j="12">0,0312</td></tr><tr data-n="8" data-x="8"><th class="tx">8</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0000</td><td data-j="5">0,0000</td><td data-j="6">0,0001</td><td data-j="7">0,0002</td><td data-j="8">0,0002</td><td data-j="9">0,0007</td><td data-j="10">0,0017</td><td data-j="11">0,0033</td><td data-j="12">0,0039</td></tr></tbody><tbody><tr data-n="9" data-x="0"><th rowspan="10" class="tn">9</th><th class="tx">0</th><td data-j="0">0,9135</td><td data-j="1">0,6302</td><td data-j="2">0,3874</td><td data-j="3">0,2316</td><td data-j="4">0,1342</td><td data-j="5">0,0751</td><td data-j="6">0,0404</td><td data-j="7">0,0260</td><td data-j="8">0,0207</td><td data-j="9">0,0101</td><td data-j="10">0,0046</td><td data-j="11">0,0023</td><td data-j="12">0,0020</td></tr><tr data-n="9" data-x="1"><th class="tx">1</th><td data-j="0">0,0830</td><td data-j="1">0,2985</td><td data-j="2">0,3874</td><td data-j="3">0,3679</td><td data-j="4">0,3020</td><td data-j="5">0,2253</td><td data-j="6">0,1556</td><td data-j="7">0,1171</td><td data-j="8">0,1004</td><td data-j="9">0,0605</td><td data-j="10">0,0339</td><td data-j="11">0,0202</td><td data-j="12">0,0176</td></tr><tr data-n="9" data-x="2"><th class="tx">2</th><td data-j="0">0,0034</td><td data-j="1">0,0629</td><td data-j="2">0,1722</td><td data-j="3">0,2597</td><td data-j="4">0,3020</td><td data-j="5">0,3003</td><td data-j="6">0,2668</td><td data-j="7">0,2341</td><td data-j="8">0,2162</td><td data-j="9">0,1612</td><td data-j="10">0,1110</td><td data-j="11">0,0776</td><td data-j="12">0,0703</td></tr><tr data-n="9" data-x="3"><th class="tx">3</th><td data-j="0">0,0001</td><td data-j="1">0,0077</td><td data-j="2">0,0446</td><td data-j="3">0,1069</td><td data-j="4">0,1762</td><td data-j="5">0,2336</td><td data-j="6">0,2668</td><td data-j="7">0,2731</td><td data-j="8">0,2716</td><td data-j="9">0,2508</td><td data-j="10">0,2119</td><td data-j="11">0,1739</td><td data-j="12">0,1641</td></tr><tr data-n="9" data-x="4"><th class="tx">4</th><td data-j="0">0,0000</td><td data-j="1">0,0006</td><td data-j="2">0,0074</td><td data-j="3">0,0283</td><td data-j="4">0,0661</td><td data-j="5">0,1168</td><td data-j="6">0,1715</td><td data-j="7">0,2048</td><td data-j="8">0,2194</td><td data-j="9">0,2508</td><td data-j="10">0,2600</td><td data-j="11">0,2506</td><td data-j="12">0,2461</td></tr><tr data-n="9" data-x="5"><th class="tx">5</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0008</td><td data-j="3">0,0050</td><td data-j="4">0,0165</td><td data-j="5">0,0389</td><td data-j="6">0,0735</td><td data-j="7">0,1024</td><td data-j="8">0,1181</td><td data-j="9">0,1672</td><td data-j="10">0,2128</td><td data-j="11">0,2408</td><td data-j="12">0,2461</td></tr><tr data-n="9" data-x="6"><th class="tx">6</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0001</td><td data-j="3">0,0006</td><td data-j="4">0,0028</td><td data-j="5">0,0087</td><td data-j="6">0,0210</td><td data-j="7">0,0341</td><td data-j="8">0,0424</td><td data-j="9">0,0743</td><td data-j="10">0,1160</td><td data-j="11">0,1542</td><td data-j="12">0,1641</td></tr><tr data-n="9" data-x="7"><th class="tx">7</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0003</td><td data-j="5">0,0012</td><td data-j="6">0,0039</td><td data-j="7">0,0073</td><td data-j="8">0,0098</td><td data-j="9">0,0212</td><td data-j="10">0,0407</td><td data-j="11">0,0635</td><td data-j="12">0,0703</td></tr><tr data-n="9" data-x="8"><th class="tx">8</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0000</td><td data-j="5">0,0001</td><td data-j="6">0,0004</td><td data-j="7">0,0009</td><td data-j="8">0,0013</td><td data-j="9">0,0035</td><td data-j="10">0,0083</td><td data-j="11">0,0153</td><td data-j="12">0,0176</td></tr><tr data-n="9" data-x="9"><th class="tx">9</th><td data-j="0">0,0000</td><td data-j="1">0,0000</td><td data-j="2">0,0000</td><td data-j="3">0,0000</td><td data-j="4">0,0000</td><td data-j="5">0,0000</td><td data-j="6">0,0000</td><td data-j="7">0,0001</td><td data-j="8">0,0001</td><td data-j="9">0,0003</td><td data-j="10">0,0008</td><td data-j="11">0,0016</td><td data-j="12">0,0020</td></tr></tbody></table></div>
+      <p style="font-size:.85rem;color:var(--muted)"><span data-l="va">Fes clic en qualsevol casella per veure què vol dir. Amb els selectors, la taula marca les caselles que cal sumar. També pots triar \(p\gt0{,}5\) per veure com es fa el canvi a \(q=1-p\).</span><span data-l="es">Haz clic en cualquier casilla para ver qué significa. Con los selectores, la tabla marca las casillas que hay que sumar. También puedes elegir \(p\gt0{,}5\) para ver cómo se hace el cambio a \(q=1-p\).</span><span data-l="en">Click any cell to see what it means. With the selectors, the table marks the cells you must add. You can also choose \(p\gt0.5\) to see how to switch to \(q=1-p\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples resolts amb la taula</span><span data-l="es">Ejemplos resueltos con la tabla</span><span data-l="en">Worked examples with the table</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Un 20 % dels clients d'una botiga paga amb el mòbil. Triem 8 clients. Probabilitat que com a molt 2 paguen amb el mòbil.</span><span data-l="es">Un 20 % de los clientes de una tienda paga con el móvil. Elegimos 8 clientes. Probabilidad de que como mucho 2 paguen con el móvil.</span><span data-l="en">20% of a shop's customers pay by phone. We choose 8 customers. Probability that at most 2 pay by phone.</span>
+          <div class="steps">
+            <div class="step"><p>\(X\sim B(8;\,0{,}20)\). <span data-l="va">Columna \(p=0{,}20\), bloc \(n=8\):</span><span data-l="es">Columna \(p=0{,}20\), bloque \(n=8\):</span><span data-l="en">Column \(p=0.20\), block \(n=8\):</span></p></div>
+            <div class="step"><p>\(P(X\leq2)=P(0)+P(1)+P(2)=0{,}1678+0{,}3355+0{,}2936=0{,}7969\)</p></div>
+          </div></li>
+        <li><span data-l="va">El 70 % dels alumnes aprova. Triem 6 alumnes. Probabilitat que n'aproven exactament 5, i que n'aproven almenys 5.</span><span data-l="es">El 70 % de los alumnos aprueba. Elegimos 6 alumnos. Probabilidad de que aprueben exactamente 5, y de que aprueben al menos 5.</span><span data-l="en">70% of students pass. We choose 6 students. Probability that exactly 5 pass, and that at least 5 pass.</span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">\(p=0{,}7\) no és a la taula. Comptem els suspesos: \(Y\sim B(6;\,0{,}30)\), i «aproven 5» és «suspén 1».</span><span data-l="es">\(p=0{,}7\) no está en la tabla. Contamos los suspensos: \(Y\sim B(6;\,0{,}30)\), y «aprueban 5» es «suspende 1».</span><span data-l="en">\(p=0.7\) is not in the table. Count failures: \(Y\sim B(6;\,0.30)\); “5 pass” means “1 fails”.</span></p></div>
+            <div class="step"><p>\(P(X=5)=P(Y=1)=0{,}3025\)</p></div>
+            <div class="step"><p>\(P(X\geq5)=P(Y\leq1)=P(Y=0)+P(Y=1)=0{,}1176+0{,}3025=0{,}4201\)</p></div>
+          </div></li>
+        <li><span data-l="va">El 87 % dels joves compra per Internet. En una enquesta a 10 joves, probabilitat que exactament 2 no hi compren.</span><span data-l="es">El 87 % de los jóvenes compra por Internet. En una encuesta a 10 jóvenes, probabilidad de que exactamente 2 no compren.</span><span data-l="en">87% of young people shop online. In a survey of 10, probability that exactly 2 don't.</span> <span class="pau"><span data-l="va">PAU Castella i Lleó 2026 (adaptat)</span><span data-l="es">PAU Castilla y León 2026 (adaptado)</span><span data-l="en">PAU Castilla y León 2026 (adapted)</span></span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">\(X=\)«no compren» \(\sim B(10;\,0{,}13)\): ni \(n=10\) ni \(p=0{,}13\) són a la taula. Fórmula:</span><span data-l="es">\(X=\)«no compran» \(\sim B(10;\,0{,}13)\): ni \(n=10\) ni \(p=0{,}13\) están en la tabla. Fórmula:</span><span data-l="en">\(X=\)“don't shop online” \(\sim B(10;\,0.13)\): neither \(n=10\) nor \(p=0.13\) is in the table. Formula:</span></p></div>
+            <div class="step"><p>\(P(X=2)=\binom{10}2\,0{,}13^2\,0{,}87^8=45\cdot0{,}0169\cdot0{,}3282\approx0{,}2496\)</p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.4 ======================= -->
+<section class="unit" id="s4">
+  <div class="sec-head"><span class="num">10.4</span><h2><span data-l="va">Variables aleatòries contínues</span><span data-l="es">Variables aleatorias continuas</span><span data-l="en">Continuous random variables</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Funció de densitat</span><span data-l="es">Función de densidad</span><span data-l="en">Density function</span></div>
+    <div class="bb">
+      <div class="two">
+        <div>
+          <p><span data-l="va">Una variable contínua pot prendre infinits valors, i la probabilitat de cada valor concret és 0. En comptes de barres, la descriu una <strong>funció de densitat</strong> \(f(x)\geq0\), amb àrea total davall de la corba igual a 1.</span><span data-l="es">Una variable continua puede tomar infinitos valores, y la probabilidad de cada valor concreto es 0. En lugar de barras, la describe una <strong>función de densidad</strong> \(f(x)\geq0\), con área total bajo la curva igual a 1.</span><span data-l="en">A continuous variable can take infinitely many values, and each single value has probability 0. Instead of bars it is described by a <strong>density function</strong> \(f(x)\geq0\) with total area under the curve equal to 1.</span></p>
+          <span data-l="va">\[P(a\leq X\leq b)=\text{àrea davall de }f\text{ entre }a\text{ i }b=\int_a^b f(x)\,dx\]</span><span data-l="es">\[P(a\leq X\leq b)=\text{área bajo }f\text{ entre }a\text{ y }b=\int_a^b f(x)\,dx\]</span><span data-l="en">\[P(a\leq X\leq b)=\text{area under }f\text{ between }a\text{ and }b=\int_a^b f(x)\,dx\]</span>
+          <p class="note"><span data-l="va">Com que \(P(X=a)=0\), en una variable contínua <strong>és igual</strong> posar \(\lt\) o \(\leq\): \(P(X\lt a)=P(X\leq a)\). En la binomial (discreta), en canvi, <strong>no</strong> és el mateix!</span><span data-l="es">Como \(P(X=a)=0\), en una variable continua <strong>da igual</strong> poner \(\lt\) o \(\leq\): \(P(X\lt a)=P(X\leq a)\). En la binomial (discreta), en cambio, ¡<strong>no</strong> es lo mismo!</span><span data-l="en">Since \(P(X=a)=0\), for a continuous variable \(\lt\) and \(\leq\) <strong>give the same</strong>: \(P(X\lt a)=P(X\leq a)\). For the binomial (discrete), however, they are <strong>not</strong> the same!</span></p>
+        </div>
+        <figure class="lfig"><svg class="dist-svg" data-nf="dens" viewBox="0 0 300 180" role="img" aria-label="Densitat"></svg><figcaption><span data-l="va">La probabilitat és l'àrea ombrejada</span><span data-l="es">La probabilidad es el área sombreada</span><span data-l="en">The probability is the shaded area</span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.5 ======================= -->
+<section class="unit" id="s5">
+  <div class="sec-head"><span class="num">10.5</span><h2><span data-l="va">La distribució normal \(N(\mu,\sigma)\)</span><span data-l="es">La distribución normal \(N(\mu,\sigma)\)</span><span data-l="en">The normal distribution \(N(\mu,\sigma)\)</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">La campana de Gauss</span><span data-l="es">La campana de Gauss</span><span data-l="en">The Gaussian bell curve</span></div>
+    <div class="bb">
+      <p><span data-l="va">Moltes variables reals (altures, pesos, notes, temps, errors de mesura…) segueixen una <strong>distribució normal</strong> de mitjana \(\mu\) i desviació típica \(\sigma\), \(X\sim N(\mu,\sigma)\). La seua densitat és la <strong>campana de Gauss</strong>:</span><span data-l="es">Muchas variables reales (alturas, pesos, notas, tiempos, errores de medida…) siguen una <strong>distribución normal</strong> de media \(\mu\) y desviación típica \(\sigma\), \(X\sim N(\mu,\sigma)\). Su densidad es la <strong>campana de Gauss</strong>:</span><span data-l="en">Many real variables (heights, weights, marks, times, measurement errors…) follow a <strong>normal distribution</strong> with mean \(\mu\) and standard deviation \(\sigma\), \(X\sim N(\mu,\sigma)\). Its density is the <strong>Gaussian bell curve</strong>:</span></p>
+      \[f(x)=\frac{1}{\sigma\sqrt{2\pi}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}\]
+      <ul>
+        <li><span data-l="va">És <strong>simètrica</strong> respecte de \(x=\mu\), on té el màxim: \(P(X\leq\mu)=P(X\geq\mu)=0{,}5\).</span><span data-l="es">Es <strong>simétrica</strong> respecto de \(x=\mu\), donde tiene el máximo: \(P(X\leq\mu)=P(X\geq\mu)=0{,}5\).</span><span data-l="en">It is <strong>symmetric</strong> about \(x=\mu\), where it has its maximum: \(P(X\leq\mu)=P(X\geq\mu)=0.5\).</span></li>
+        <li><span data-l="va">\(\mu\) indica on està centrada; \(\sigma\), com d'ampla és: com més gran \(\sigma\), més baixa i ampla.</span><span data-l="es">\(\mu\) indica dónde está centrada; \(\sigma\), cómo de ancha es: cuanto mayor \(\sigma\), más baja y ancha.</span><span data-l="en">\(\mu\) says where it is centred; \(\sigma\), how wide it is: the larger \(\sigma\), the lower and wider.</span></li>
+        <li><span data-l="va">Regla 68–95–99,7: entre \(\mu\pm\sigma\) hi ha aproximadament el 68 % dels valors; entre \(\mu\pm2\sigma\), el 95 %; entre \(\mu\pm3\sigma\), el 99,7 %.</span><span data-l="es">Regla 68–95–99,7: entre \(\mu\pm\sigma\) hay aproximadamente el 68 % de los valores; entre \(\mu\pm2\sigma\), el 95 %; entre \(\mu\pm3\sigma\), el 99,7 %.</span><span data-l="en">68–95–99.7 rule: about 68% of values lie within \(\mu\pm\sigma\); 95% within \(\mu\pm2\sigma\); 99.7% within \(\mu\pm3\sigma\).</span></li>
+      </ul>
+      <p class="note"><span data-l="va">No integrarem mai la funció de densitat (no té primitiva elemental): les probabilitats es calculen amb la <strong>taula de la normal típica</strong>.</span><span data-l="es">Nunca integraremos la función de densidad (no tiene primitiva elemental): las probabilidades se calculan con la <strong>tabla de la normal tipificada</strong>.</span><span data-l="en">We never integrate the density (it has no elementary antiderivative): probabilities are found with the <strong>standard normal table</strong>.</span></p>
+      <div class="widget" id="w-norm">
+        <div class="wt">◉ <span data-l="va">La campana de Gauss: canvia \(\mu\) i \(\sigma\), i també l'interval \([a,b]\), i mira com canvia l'àrea (la probabilitat)</span><span data-l="es">La campana de Gauss: cambia \(\mu\) y \(\sigma\), y también el intervalo \([a,b]\), y mira cómo cambia el área (la probabilidad)</span><span data-l="en">The bell curve: change \(\mu\) and \(\sigma\), and the interval \([a,b]\), and see how the area (the probability) changes</span></div>
+        <div class="wctl"><label>\(\mu=\) <input type="range" class="wide" data-role="m" min="-5" max="5" step="0.5" value="0"> <b data-role="mv"></b></label><label>\(\sigma=\) <input type="range" class="wide" data-role="s" min="0.5" max="3" step="0.1" value="1"> <b data-role="sv"></b></label></div>
+        <div class="wctl"><label>\(a=\) <input class="tin s" type="text" data-role="a" value="-1" autocomplete="off"></label><label>\(b=\) <input class="tin s" type="text" data-role="b" value="1" autocomplete="off"></label><span class="seg-ctl" data-role="presets"></span></div>
+        <div class="lw-wrap">
+          <div class="info" aria-live="polite"></div>
+          <div><svg class="dist-svg" viewBox="0 0 340 210" role="img" aria-label="Normal"></svg>
+            <div class="legend"><span><i style="background:var(--accent-2)"></i>\(N(\mu,\sigma)\)</span><span><i style="background:var(--r3)"></i>\(N(0,1)\)</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.6 ======================= -->
+<section class="unit" id="s6">
+  <div class="sec-head"><span class="num">10.6</span><h2><span data-l="va">La normal típica \(N(0,1)\) i la seua taula</span><span data-l="es">La normal tipificada \(N(0,1)\) y su tabla</span><span data-l="en">The standard normal \(N(0,1)\) and its table</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Com es llig la taula de la PAU</span><span data-l="es">Cómo se lee la tabla de la PAU</span><span data-l="en">How to read the PAU table</span></div>
+    <div class="bb">
+      <p><span data-l="va">La <strong>normal típica</strong> és \(Z\sim N(0,1)\). La taula de la PAU dona \(F(z)=P(Z\leq z)\), l'àrea a l'<strong>esquerra</strong> de \(z\), per a \(z\) entre 0,00 i 3,99. La fila dona les unitats i les dècimes de \(z\) i la columna, les centèsimes. Per exemple, \(P(Z\leq1{,}25)\): fila 1,2 i columna 0,05 \(\to0{,}8944\).</span><span data-l="es">La <strong>normal tipificada</strong> es \(Z\sim N(0,1)\). La tabla de la PAU da \(F(z)=P(Z\leq z)\), el área a la <strong>izquierda</strong> de \(z\), para \(z\) entre 0,00 y 3,99. La fila da las unidades y las décimas de \(z\) y la columna, las centésimas. Por ejemplo, \(P(Z\leq1{,}25)\): fila 1,2 y columna 0,05 \(\to0{,}8944\).</span><span data-l="en">The <strong>standard normal</strong> is \(Z\sim N(0,1)\). The PAU table gives \(F(z)=P(Z\leq z)\), the area to the <strong>left</strong> of \(z\), for \(z\) from 0.00 to 3.99. The row gives the units and tenths of \(z\) and the column the hundredths. For example, \(P(Z\leq1.25)\): row 1.2, column 0.05 \(\to0.8944\).</span></p>
+      <p><span data-l="va">Amb la simetria i el contrari es calcula tot:</span><span data-l="es">Con la simetría y el contrario se calcula todo:</span><span data-l="en">Symmetry and complements do the rest:</span></p>
+      <div class="mini-figs">
+        <figure><svg class="dist-svg" data-nf="le" viewBox="0 0 200 110"></svg><figcaption>\(P(Z\leq z)\): <span data-l="va">taula</span><span data-l="es">tabla</span><span data-l="en">table</span></figcaption></figure>
+        <figure><svg class="dist-svg" data-nf="ge" viewBox="0 0 200 110"></svg><figcaption>\(P(Z\geq z)=1-P(Z\leq z)\)</figcaption></figure>
+        <figure><svg class="dist-svg" data-nf="neg" viewBox="0 0 200 110"></svg><figcaption>\(P(Z\leq -z)=1-P(Z\leq z)\)</figcaption></figure>
+        <figure><svg class="dist-svg" data-nf="ngt" viewBox="0 0 200 110"></svg><figcaption>\(P(Z\geq -z)=P(Z\leq z)\)</figcaption></figure>
+        <figure><svg class="dist-svg" data-nf="ab" viewBox="0 0 200 110"></svg><figcaption>\(P(a\leq Z\leq b)=P(Z\leq b)-P(Z\leq a)\)</figcaption></figure>
+        <figure><svg class="dist-svg" data-nf="sym" viewBox="0 0 200 110"></svg><figcaption>\(P(-z\leq Z\leq z)=2P(Z\leq z)-1\)</figcaption></figure>
+      </div>
+      <p class="note"><span data-l="va"><span class="u-line">Problema invers</span>: si ens donen la probabilitat i volem \(z\), la busquem <strong>dins</strong> de la taula i llegim la fila i la columna (si no hi és exacta, prenem la més pròxima). Si la probabilitat és menor que 0,5, \(z\) és negatiu: busquem \(1-p\) i canviem el signe.</span><span data-l="es"><span class="u-line">Problema inverso</span>: si nos dan la probabilidad y queremos \(z\), la buscamos <strong>dentro</strong> de la tabla y leemos la fila y la columna (si no está exacta, tomamos la más próxima). Si la probabilidad es menor que 0,5, \(z\) es negativo: buscamos \(1-p\) y cambiamos el signo.</span><span data-l="en"><span class="u-line">Inverse problem</span>: if we are given the probability and want \(z\), we look for it <strong>inside</strong> the table and read the row and column (if it is not exact, take the closest). If the probability is less than 0.5, \(z\) is negative: look for \(1-p\) and change the sign.</span></p>
+    </div>
+  </div>
+
+  <div class="box lab">
+    <div class="bh">⚙ <span data-l="va">Taula de la distribució normal \(N(0,1)\) (PAU)</span><span data-l="es">Tabla de la distribución normal \(N(0,1)\) (PAU)</span><span data-l="en">Normal distribution table \(N(0,1)\) (PAU)</span></div>
+    <div class="bb" id="w-tz">
+      <p class="formula-big" style="text-align:center">\(F(z)=P(Z\leq z)\)</p>
+      <div class="tab-head">
+        <select data-role="ev"></select>
+        <label data-role="la">\(z=\) <input class="tin s" type="text" data-role="a" value="1.25" autocomplete="off"></label>
+        <label data-role="lb">\(z_2=\) <input class="tin s" type="text" data-role="b" value="2" autocomplete="off"></label>
+      </div>
+      <div class="lw-wrap">
+        <div class="info" aria-live="polite"></div>
+        <div><svg class="dist-svg" viewBox="0 0 340 170" role="img" aria-label="N(0,1)"></svg></div>
+      </div>
+      <div class="ptab-wrap" data-role="wrap"><table class="data ptab" id="tnorm"><thead><tr><th>z</th><th data-c="0">0,00</th><th data-c="1">0,01</th><th data-c="2">0,02</th><th data-c="3">0,03</th><th data-c="4">0,04</th><th data-c="5">0,05</th><th data-c="6">0,06</th><th data-c="7">0,07</th><th data-c="8">0,08</th><th data-c="9">0,09</th></tr></thead><tbody><tr data-r="0"><th>0,0</th><td data-c="0">0,5000</td><td data-c="1">0,5040</td><td data-c="2">0,5080</td><td data-c="3">0,5120</td><td data-c="4">0,5160</td><td data-c="5">0,5199</td><td data-c="6">0,5239</td><td data-c="7">0,5279</td><td data-c="8">0,5319</td><td data-c="9">0,5359</td></tr><tr data-r="1"><th>0,1</th><td data-c="0">0,5398</td><td data-c="1">0,5438</td><td data-c="2">0,5478</td><td data-c="3">0,5517</td><td data-c="4">0,5557</td><td data-c="5">0,5596</td><td data-c="6">0,5636</td><td data-c="7">0,5675</td><td data-c="8">0,5714</td><td data-c="9">0,5753</td></tr><tr data-r="2"><th>0,2</th><td data-c="0">0,5793</td><td data-c="1">0,5832</td><td data-c="2">0,5871</td><td data-c="3">0,5910</td><td data-c="4">0,5948</td><td data-c="5">0,5987</td><td data-c="6">0,6026</td><td data-c="7">0,6064</td><td data-c="8">0,6103</td><td data-c="9">0,6141</td></tr><tr data-r="3"><th>0,3</th><td data-c="0">0,6179</td><td data-c="1">0,6217</td><td data-c="2">0,6255</td><td data-c="3">0,6293</td><td data-c="4">0,6331</td><td data-c="5">0,6368</td><td data-c="6">0,6406</td><td data-c="7">0,6443</td><td data-c="8">0,6480</td><td data-c="9">0,6517</td></tr><tr data-r="4"><th>0,4</th><td data-c="0">0,6554</td><td data-c="1">0,6591</td><td data-c="2">0,6628</td><td data-c="3">0,6664</td><td data-c="4">0,6700</td><td data-c="5">0,6736</td><td data-c="6">0,6772</td><td data-c="7">0,6808</td><td data-c="8">0,6844</td><td data-c="9">0,6879</td></tr><tr data-r="5"><th>0,5</th><td data-c="0">0,6915</td><td data-c="1">0,6950</td><td data-c="2">0,6985</td><td data-c="3">0,7019</td><td data-c="4">0,7054</td><td data-c="5">0,7088</td><td data-c="6">0,7123</td><td data-c="7">0,7157</td><td data-c="8">0,7190</td><td data-c="9">0,7224</td></tr><tr data-r="6"><th>0,6</th><td data-c="0">0,7257</td><td data-c="1">0,7291</td><td data-c="2">0,7324</td><td data-c="3">0,7357</td><td data-c="4">0,7389</td><td data-c="5">0,7422</td><td data-c="6">0,7454</td><td data-c="7">0,7486</td><td data-c="8">0,7517</td><td data-c="9">0,7549</td></tr><tr data-r="7"><th>0,7</th><td data-c="0">0,7580</td><td data-c="1">0,7611</td><td data-c="2">0,7642</td><td data-c="3">0,7673</td><td data-c="4">0,7704</td><td data-c="5">0,7734</td><td data-c="6">0,7764</td><td data-c="7">0,7794</td><td data-c="8">0,7823</td><td data-c="9">0,7852</td></tr><tr data-r="8"><th>0,8</th><td data-c="0">0,7881</td><td data-c="1">0,7910</td><td data-c="2">0,7939</td><td data-c="3">0,7967</td><td data-c="4">0,7995</td><td data-c="5">0,8023</td><td data-c="6">0,8051</td><td data-c="7">0,8078</td><td data-c="8">0,8106</td><td data-c="9">0,8133</td></tr><tr data-r="9"><th>0,9</th><td data-c="0">0,8159</td><td data-c="1">0,8186</td><td data-c="2">0,8212</td><td data-c="3">0,8238</td><td data-c="4">0,8264</td><td data-c="5">0,8289</td><td data-c="6">0,8315</td><td data-c="7">0,8340</td><td data-c="8">0,8365</td><td data-c="9">0,8389</td></tr><tr data-r="10"><th>1,0</th><td data-c="0">0,8413</td><td data-c="1">0,8438</td><td data-c="2">0,8461</td><td data-c="3">0,8485</td><td data-c="4">0,8508</td><td data-c="5">0,8531</td><td data-c="6">0,8554</td><td data-c="7">0,8577</td><td data-c="8">0,8599</td><td data-c="9">0,8621</td></tr><tr data-r="11"><th>1,1</th><td data-c="0">0,8643</td><td data-c="1">0,8665</td><td data-c="2">0,8686</td><td data-c="3">0,8708</td><td data-c="4">0,8729</td><td data-c="5">0,8749</td><td data-c="6">0,8770</td><td data-c="7">0,8790</td><td data-c="8">0,8810</td><td data-c="9">0,8830</td></tr><tr data-r="12"><th>1,2</th><td data-c="0">0,8849</td><td data-c="1">0,8869</td><td data-c="2">0,8888</td><td data-c="3">0,8907</td><td data-c="4">0,8925</td><td data-c="5">0,8944</td><td data-c="6">0,8962</td><td data-c="7">0,8980</td><td data-c="8">0,8997</td><td data-c="9">0,9015</td></tr><tr data-r="13"><th>1,3</th><td data-c="0">0,9032</td><td data-c="1">0,9049</td><td data-c="2">0,9066</td><td data-c="3">0,9082</td><td data-c="4">0,9099</td><td data-c="5">0,9115</td><td data-c="6">0,9131</td><td data-c="7">0,9147</td><td data-c="8">0,9162</td><td data-c="9">0,9177</td></tr><tr data-r="14"><th>1,4</th><td data-c="0">0,9192</td><td data-c="1">0,9207</td><td data-c="2">0,9222</td><td data-c="3">0,9236</td><td data-c="4">0,9251</td><td data-c="5">0,9265</td><td data-c="6">0,9279</td><td data-c="7">0,9292</td><td data-c="8">0,9306</td><td data-c="9">0,9319</td></tr><tr data-r="15"><th>1,5</th><td data-c="0">0,9332</td><td data-c="1">0,9345</td><td data-c="2">0,9357</td><td data-c="3">0,9370</td><td data-c="4">0,9382</td><td data-c="5">0,9394</td><td data-c="6">0,9406</td><td data-c="7">0,9418</td><td data-c="8">0,9429</td><td data-c="9">0,9441</td></tr><tr data-r="16"><th>1,6</th><td data-c="0">0,9452</td><td data-c="1">0,9463</td><td data-c="2">0,9474</td><td data-c="3">0,9484</td><td data-c="4">0,9495</td><td data-c="5">0,9505</td><td data-c="6">0,9515</td><td data-c="7">0,9525</td><td data-c="8">0,9535</td><td data-c="9">0,9545</td></tr><tr data-r="17"><th>1,7</th><td data-c="0">0,9554</td><td data-c="1">0,9564</td><td data-c="2">0,9573</td><td data-c="3">0,9582</td><td data-c="4">0,9591</td><td data-c="5">0,9599</td><td data-c="6">0,9608</td><td data-c="7">0,9616</td><td data-c="8">0,9625</td><td data-c="9">0,9633</td></tr><tr data-r="18"><th>1,8</th><td data-c="0">0,9641</td><td data-c="1">0,9649</td><td data-c="2">0,9656</td><td data-c="3">0,9664</td><td data-c="4">0,9671</td><td data-c="5">0,9678</td><td data-c="6">0,9686</td><td data-c="7">0,9693</td><td data-c="8">0,9699</td><td data-c="9">0,9706</td></tr><tr data-r="19"><th>1,9</th><td data-c="0">0,9713</td><td data-c="1">0,9719</td><td data-c="2">0,9726</td><td data-c="3">0,9732</td><td data-c="4">0,9738</td><td data-c="5">0,9744</td><td data-c="6">0,9750</td><td data-c="7">0,9756</td><td data-c="8">0,9761</td><td data-c="9">0,9767</td></tr><tr data-r="20"><th>2,0</th><td data-c="0">0,9772</td><td data-c="1">0,9778</td><td data-c="2">0,9783</td><td data-c="3">0,9788</td><td data-c="4">0,9793</td><td data-c="5">0,9798</td><td data-c="6">0,9803</td><td data-c="7">0,9808</td><td data-c="8">0,9812</td><td data-c="9">0,9817</td></tr><tr data-r="21"><th>2,1</th><td data-c="0">0,9821</td><td data-c="1">0,9826</td><td data-c="2">0,9830</td><td data-c="3">0,9834</td><td data-c="4">0,9838</td><td data-c="5">0,9842</td><td data-c="6">0,9846</td><td data-c="7">0,9850</td><td data-c="8">0,9854</td><td data-c="9">0,9857</td></tr><tr data-r="22"><th>2,2</th><td data-c="0">0,9861</td><td data-c="1">0,9864</td><td data-c="2">0,9868</td><td data-c="3">0,9871</td><td data-c="4">0,9875</td><td data-c="5">0,9878</td><td data-c="6">0,9881</td><td data-c="7">0,9884</td><td data-c="8">0,9887</td><td data-c="9">0,9890</td></tr><tr data-r="23"><th>2,3</th><td data-c="0">0,9893</td><td data-c="1">0,9896</td><td data-c="2">0,9898</td><td data-c="3">0,9901</td><td data-c="4">0,9904</td><td data-c="5">0,9906</td><td data-c="6">0,9909</td><td data-c="7">0,9911</td><td data-c="8">0,9913</td><td data-c="9">0,9916</td></tr><tr data-r="24"><th>2,4</th><td data-c="0">0,9918</td><td data-c="1">0,9920</td><td data-c="2">0,9922</td><td data-c="3">0,9925</td><td data-c="4">0,9927</td><td data-c="5">0,9929</td><td data-c="6">0,9931</td><td data-c="7">0,9932</td><td data-c="8">0,9934</td><td data-c="9">0,9936</td></tr><tr data-r="25"><th>2,5</th><td data-c="0">0,9938</td><td data-c="1">0,9940</td><td data-c="2">0,9941</td><td data-c="3">0,9943</td><td data-c="4">0,9945</td><td data-c="5">0,9946</td><td data-c="6">0,9948</td><td data-c="7">0,9949</td><td data-c="8">0,9951</td><td data-c="9">0,9952</td></tr><tr data-r="26"><th>2,6</th><td data-c="0">0,9953</td><td data-c="1">0,9955</td><td data-c="2">0,9956</td><td data-c="3">0,9957</td><td data-c="4">0,9959</td><td data-c="5">0,9960</td><td data-c="6">0,9961</td><td data-c="7">0,9962</td><td data-c="8">0,9963</td><td data-c="9">0,9964</td></tr><tr data-r="27"><th>2,7</th><td data-c="0">0,9965</td><td data-c="1">0,9966</td><td data-c="2">0,9967</td><td data-c="3">0,9968</td><td data-c="4">0,9969</td><td data-c="5">0,9970</td><td data-c="6">0,9971</td><td data-c="7">0,9972</td><td data-c="8">0,9973</td><td data-c="9">0,9974</td></tr><tr data-r="28"><th>2,8</th><td data-c="0">0,9974</td><td data-c="1">0,9975</td><td data-c="2">0,9976</td><td data-c="3">0,9977</td><td data-c="4">0,9977</td><td data-c="5">0,9978</td><td data-c="6">0,9979</td><td data-c="7">0,9979</td><td data-c="8">0,9980</td><td data-c="9">0,9981</td></tr><tr data-r="29"><th>2,9</th><td data-c="0">0,9981</td><td data-c="1">0,9982</td><td data-c="2">0,9982</td><td data-c="3">0,9983</td><td data-c="4">0,9984</td><td data-c="5">0,9984</td><td data-c="6">0,9985</td><td data-c="7">0,9985</td><td data-c="8">0,9986</td><td data-c="9">0,9986</td></tr><tr data-r="30"><th>3,0</th><td data-c="0">0,9987</td><td data-c="1">0,9987</td><td data-c="2">0,9987</td><td data-c="3">0,9988</td><td data-c="4">0,9988</td><td data-c="5">0,9989</td><td data-c="6">0,9989</td><td data-c="7">0,9989</td><td data-c="8">0,9990</td><td data-c="9">0,9990</td></tr><tr data-r="31"><th>3,1</th><td data-c="0">0,9990</td><td data-c="1">0,9991</td><td data-c="2">0,9991</td><td data-c="3">0,9991</td><td data-c="4">0,9992</td><td data-c="5">0,9992</td><td data-c="6">0,9992</td><td data-c="7">0,9992</td><td data-c="8">0,9993</td><td data-c="9">0,9993</td></tr><tr data-r="32"><th>3,2</th><td data-c="0">0,9993</td><td data-c="1">0,9993</td><td data-c="2">0,9994</td><td data-c="3">0,9994</td><td data-c="4">0,9994</td><td data-c="5">0,9994</td><td data-c="6">0,9994</td><td data-c="7">0,9995</td><td data-c="8">0,9995</td><td data-c="9">0,9995</td></tr><tr data-r="33"><th>3,3</th><td data-c="0">0,9995</td><td data-c="1">0,9995</td><td data-c="2">0,9995</td><td data-c="3">0,9996</td><td data-c="4">0,9996</td><td data-c="5">0,9996</td><td data-c="6">0,9996</td><td data-c="7">0,9996</td><td data-c="8">0,9996</td><td data-c="9">0,9997</td></tr><tr data-r="34"><th>3,4</th><td data-c="0">0,9997</td><td data-c="1">0,9997</td><td data-c="2">0,9997</td><td data-c="3">0,9997</td><td data-c="4">0,9997</td><td data-c="5">0,9997</td><td data-c="6">0,9997</td><td data-c="7">0,9997</td><td data-c="8">0,9997</td><td data-c="9">0,9998</td></tr><tr data-r="35"><th>3,5</th><td data-c="0">0,9998</td><td data-c="1">0,9998</td><td data-c="2">0,9998</td><td data-c="3">0,9998</td><td data-c="4">0,9998</td><td data-c="5">0,9998</td><td data-c="6">0,9998</td><td data-c="7">0,9998</td><td data-c="8">0,9998</td><td data-c="9">0,9998</td></tr><tr data-r="36"><th>3,6</th><td data-c="0">0,9998</td><td data-c="1">0,9998</td><td data-c="2">0,9999</td><td data-c="3">0,9999</td><td data-c="4">0,9999</td><td data-c="5">0,9999</td><td data-c="6">0,9999</td><td data-c="7">0,9999</td><td data-c="8">0,9999</td><td data-c="9">0,9999</td></tr><tr data-r="37"><th>3,7</th><td data-c="0">0,9999</td><td data-c="1">0,9999</td><td data-c="2">0,9999</td><td data-c="3">0,9999</td><td data-c="4">0,9999</td><td data-c="5">0,9999</td><td data-c="6">0,9999</td><td data-c="7">0,9999</td><td data-c="8">0,9999</td><td data-c="9">0,9999</td></tr><tr data-r="38"><th>3,8</th><td data-c="0">0,9999</td><td data-c="1">0,9999</td><td data-c="2">0,9999</td><td data-c="3">0,9999</td><td data-c="4">0,9999</td><td data-c="5">0,9999</td><td data-c="6">0,9999</td><td data-c="7">0,9999</td><td data-c="8">0,9999</td><td data-c="9">0,9999</td></tr><tr data-r="39"><th>3,9</th><td data-c="0">1,0000</td><td data-c="1">1,0000</td><td data-c="2">1,0000</td><td data-c="3">1,0000</td><td data-c="4">1,0000</td><td data-c="5">1,0000</td><td data-c="6">1,0000</td><td data-c="7">1,0000</td><td data-c="8">1,0000</td><td data-c="9">1,0000</td></tr></tbody></table></div>
+      <p style="font-size:.85rem;color:var(--muted)"><span data-l="va">Escriu \(z\) amb dos decimals (com fem a la PAU). La taula marca la casella que cal llegir. En el problema invers, escriu la probabilitat i la taula marca el valor més pròxim.</span><span data-l="es">Escribe \(z\) con dos decimales (como hacemos en la PAU). La tabla marca la casilla que hay que leer. En el problema inverso, escribe la probabilidad y la tabla marca el valor más próximo.</span><span data-l="en">Type \(z\) with two decimals (as in the PAU). The table marks the cell to read. For the inverse problem, type the probability and the table marks the closest value.</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples resolts</span><span data-l="es">Ejemplos resueltos</span><span data-l="en">Worked examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Si \(Z\sim N(0,1)\), calcula \(P(Z\gt1{,}25)\), \(P(Z\lt-0{,}84)\) i \(P(-1\lt Z\lt2)\).</span><span data-l="es">Si \(Z\sim N(0,1)\), calcula \(P(Z\gt1{,}25)\), \(P(Z\lt-0{,}84)\) y \(P(-1\lt Z\lt2)\).</span><span data-l="en">If \(Z\sim N(0,1)\), find \(P(Z\gt1.25)\), \(P(Z\lt-0.84)\) and \(P(-1\lt Z\lt2)\).</span>
+          <div class="steps">
+            <div class="step"><p>\(P(Z\gt1{,}25)=1-P(Z\leq1{,}25)=1-0{,}8944=0{,}1056\)</p></div>
+            <div class="step"><p><span data-l="va">Per simetria:</span><span data-l="es">Por simetría:</span><span data-l="en">By symmetry:</span> \(P(Z\lt-0{,}84)=P(Z\gt0{,}84)=1-0{,}7995=0{,}2005\)</p></div>
+            <div class="step"><p>\(P(-1\lt Z\lt2)=P(Z\lt2)-P(Z\lt-1)=0{,}9772-(1-0{,}8413)=0{,}8185\)</p></div>
+          </div></li>
+        <li><span data-l="va">Troba \(k\) tal que \(P(Z\leq k)=0{,}9\) i \(c\) tal que \(P(Z\geq c)=0{,}95\).</span><span data-l="es">Halla \(k\) tal que \(P(Z\leq k)=0{,}9\) y \(c\) tal que \(P(Z\geq c)=0{,}95\).</span><span data-l="en">Find \(k\) with \(P(Z\leq k)=0.9\) and \(c\) with \(P(Z\geq c)=0.95\).</span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Dins de la taula, el valor més pròxim a 0,9 és 0,8997 (fila 1,2, columna 0,08): \(k\approx1{,}28\).</span><span data-l="es">Dentro de la tabla, el valor más próximo a 0,9 es 0,8997 (fila 1,2, columna 0,08): \(k\approx1{,}28\).</span><span data-l="en">Inside the table, the value closest to 0.9 is 0.8997 (row 1.2, column 0.08): \(k\approx1.28\).</span></p></div>
+            <div class="step"><p><span data-l="va">\(P(Z\geq c)=0{,}95\gt0{,}5\): \(c\) és negatiu i, per simetria, \(P(Z\leq-c)=0{,}95\). A la taula, 0,9495 (1,64) i 0,9505 (1,65) estan igual de prop: \(-c\approx1{,}645\Rightarrow c\approx-1{,}645\).</span><span data-l="es">\(P(Z\geq c)=0{,}95\gt0{,}5\): \(c\) es negativo y, por simetría, \(P(Z\leq-c)=0{,}95\). En la tabla, 0,9495 (1,64) y 0,9505 (1,65) están igual de cerca: \(-c\approx1{,}645\Rightarrow c\approx-1{,}645\).</span><span data-l="en">\(P(Z\geq c)=0.95\gt0.5\): \(c\) is negative and, by symmetry, \(P(Z\leq-c)=0.95\). In the table, 0.9495 (1.64) and 0.9505 (1.65) are equally close: \(-c\approx1.645\Rightarrow c\approx-1.645\).</span></p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li>\(P(Z\leq2{,}17)\), \(\ P(Z\geq0{,}5)\), \(\ P(Z\leq-1{,}5)\), \(\ P(0{,}5\leq Z\leq1{,}5)\), \(\ P(-1{,}96\leq Z\leq1{,}96)\)</li>
+        <li><span data-l="va">Troba \(k\) si \(P(Z\leq k)=0{,}975\); \(P(Z\geq k)=0{,}1\); \(P(Z\leq k)=0{,}2\).</span><span data-l="es">Halla \(k\) si \(P(Z\leq k)=0{,}975\); \(P(Z\geq k)=0{,}1\); \(P(Z\leq k)=0{,}2\).</span><span data-l="en">Find \(k\) if \(P(Z\leq k)=0.975\); \(P(Z\geq k)=0.1\); \(P(Z\leq k)=0.2\).</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(0{,}9850\); \(\ 1-0{,}6915=0{,}3085\); \(\ 1-0{,}9332=0{,}0668\); \(\ 0{,}9332-0{,}6915=0{,}2417\); \(\ 2\cdot0{,}9750-1=0{,}95\)</li>
+          <li>\(k=1{,}96\); \(\ P(Z\leq k)=0{,}9\Rightarrow k\approx1{,}28\); \(\ P(Z\leq-k)=0{,}8\Rightarrow-k\approx0{,}84\Rightarrow k\approx-0{,}84\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.7 ======================= -->
+<section class="unit" id="s7">
+  <div class="sec-head"><span class="num">10.7</span><h2><span data-l="va">Tipificació. Problemes amb la normal</span><span data-l="es">Tipificación. Problemas con la normal</span><span data-l="en">Standardisation. Normal problems</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Tipificació</span><span data-l="es">Tipificación</span><span data-l="en">Standardisation</span></div>
+    <div class="bb">
+      <p><span data-l="va">Si \(X\sim N(\mu,\sigma)\), la variable \(Z=\dfrac{X-\mu}{\sigma}\) segueix una \(N(0,1)\). Per tant:</span><span data-l="es">Si \(X\sim N(\mu,\sigma)\), la variable \(Z=\dfrac{X-\mu}{\sigma}\) sigue una \(N(0,1)\). Por tanto:</span><span data-l="en">If \(X\sim N(\mu,\sigma)\), then \(Z=\dfrac{X-\mu}{\sigma}\) follows \(N(0,1)\). Therefore:</span></p>
+      \[P(X\leq a)=P\!\left(Z\leq\frac{a-\mu}{\sigma}\right)\qquad\qquad P(a\leq X\leq b)=P\!\left(\frac{a-\mu}{\sigma}\leq Z\leq\frac{b-\mu}{\sigma}\right)\]
+      <p><span data-l="va">El valor \(z=\frac{a-\mu}{\sigma}\) diu a quantes desviacions típiques està \(a\) de la mitjana. A la PAU arredonim \(z\) a dues decimals per a poder fer servir la taula.</span><span data-l="es">El valor \(z=\frac{a-\mu}{\sigma}\) dice a cuántas desviaciones típicas está \(a\) de la media. En la PAU redondeamos \(z\) a dos decimales para poder usar la tabla.</span><span data-l="en">The value \(z=\frac{a-\mu}{\sigma}\) says how many standard deviations \(a\) is from the mean. In the PAU we round \(z\) to two decimals to use the table.</span></p>
+      <p class="note"><span data-l="va"><span class="u-line">Tipus de problemes</span>: (1) <strong>directes</strong>: ens donen \(a\) i volem la probabilitat; (2) <strong>«quantes persones…»</strong>: multipliquem la probabilitat pel total; (3) <strong>inversos</strong>: ens donen la probabilitat i volem el valor \(a\) (\(a=\mu+z\sigma\)), o bé \(\mu\) o \(\sigma\).</span><span data-l="es"><span class="u-line">Tipos de problemas</span>: (1) <strong>directos</strong>: nos dan \(a\) y queremos la probabilidad; (2) <strong>«cuántas personas…»</strong>: multiplicamos la probabilidad por el total; (3) <strong>inversos</strong>: nos dan la probabilidad y queremos el valor \(a\) (\(a=\mu+z\sigma\)), o bien \(\mu\) o \(\sigma\).</span><span data-l="en"><span class="u-line">Types of problems</span>: (1) <strong>direct</strong>: given \(a\), find the probability; (2) <strong>“how many people…”</strong>: multiply the probability by the total; (3) <strong>inverse</strong>: given the probability, find the value \(a\) (\(a=\mu+z\sigma\)), or \(\mu\) or \(\sigma\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples resolts</span><span data-l="es">Ejemplos resueltos</span><span data-l="en">Worked examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">El coeficient intel·lectual d'una població de 1200 persones segueix una \(N(100,14)\). Quantes persones tenen un CI entre 108 i 116? I major de 120?</span><span data-l="es">El coeficiente intelectual de una población de 1200 personas sigue una \(N(100,14)\). ¿Cuántas personas tienen un CI entre 108 y 116? ¿Y mayor de 120?</span><span data-l="en">The IQ of a population of 1200 people follows \(N(100,14)\). How many have an IQ between 108 and 116? And above 120?</span> <span class="pau"><span data-l="va">PAU C. Valenciana 2001</span><span data-l="es">PAU C. Valenciana 2001</span><span data-l="en">PAU Valencia 2001</span></span>
+          <div class="steps">
+            <div class="step"><p>\(P(108\leq X\leq116)=P\!\left(\frac{108-100}{14}\leq Z\leq\frac{116-100}{14}\right)=P(0{,}57\leq Z\leq1{,}14)=0{,}8729-0{,}7157=0{,}1572\)</p></div>
+            <div class="step"><p>\(1200\cdot0{,}1572\approx188{,}6\to\) <span data-l="va">unes 189 persones.</span><span data-l="es">unas 189 personas.</span><span data-l="en">about 189 people.</span></p></div>
+            <div class="step"><p>\(P(X\gt120)=P(Z\gt1{,}43)=1-0{,}9236=0{,}0764\Rightarrow1200\cdot0{,}0764\approx92\) <span data-l="va">persones.</span><span data-l="es">personas.</span><span data-l="en">people.</span></p></div>
+          </div></li>
+        <li><span data-l="va">El temps que tarden els alumnes a fer un examen segueix una \(N(60,10)\) (minuts). Quant de temps cal donar perquè l'acabe el 96 % dels alumnes?</span><span data-l="es">El tiempo que tardan los alumnos en hacer un examen sigue una \(N(60,10)\) (minutos). ¿Cuánto tiempo hay que dar para que lo acabe el 96 % de los alumnos?</span><span data-l="en">The time students take on an exam follows \(N(60,10)\) (minutes). How much time should be given so that 96% finish?</span> <span class="pau"><span data-l="va">PAU País Basc 2020</span><span data-l="es">PAU País Vasco 2020</span><span data-l="en">PAU Basque Country 2020</span></span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">Busquem \(t\) amb \(P(X\leq t)=0{,}96\). A la taula, el més pròxim a 0,96 és 0,9599 (\(z=1{,}75\)).</span><span data-l="es">Buscamos \(t\) con \(P(X\leq t)=0{,}96\). En la tabla, el más próximo a 0,96 es 0,9599 (\(z=1{,}75\)).</span><span data-l="en">We want \(t\) with \(P(X\leq t)=0.96\). In the table, the closest to 0.96 is 0.9599 (\(z=1.75\)).</span></p></div>
+            <div class="step"><p>\(\frac{t-60}{10}=1{,}75\Rightarrow t=60+1{,}75\cdot10=77{,}5\) <span data-l="va">minuts.</span><span data-l="es">minutos.</span><span data-l="en">minutes.</span></p></div>
+          </div></li>
+        <li><span data-l="va">La nota d'un examen segueix una normal de mitjana 5,8. El 35 % dels alumnes en trau més de 6,8. Calcula la desviació típica.</span><span data-l="es">La nota de un examen sigue una normal de media 5,8. El 35 % de los alumnos saca más de 6,8. Calcula la desviación típica.</span><span data-l="en">Exam marks are normal with mean 5.8. 35% of students score above 6.8. Find the standard deviation.</span> <span class="pau"><span data-l="va">PAU País Basc 2024</span><span data-l="es">PAU País Vasco 2024</span><span data-l="en">PAU Basque Country 2024</span></span>
+          <div class="steps">
+            <div class="step"><p>\(P(X\gt6{,}8)=0{,}35\Rightarrow P\!\left(Z\leq\frac{1}{\sigma}\right)=0{,}65\). <span data-l="va">A la taula, 0,6517 (\(z=0{,}39\)) és el més pròxim.</span><span data-l="es">En la tabla, 0,6517 (\(z=0{,}39\)) es el más próximo.</span><span data-l="en">In the table, 0.6517 (\(z=0.39\)) is the closest.</span></p></div>
+            <div class="step"><p>\(\frac{1}{\sigma}=0{,}39\Rightarrow\sigma=\frac{1}{0{,}39}\approx2{,}56\) <span data-l="va">punts.</span><span data-l="es">puntos.</span><span data-l="en">points.</span></p></div>
+          </div></li>
+      </ol>
+      <div class="widget" id="w-tip">
+        <div class="wt">◉ <span data-l="va">Tipificació pas a pas: tria la normal, el tipus de problema i les dades</span><span data-l="es">Tipificación paso a paso: elige la normal, el tipo de problema y los datos</span><span data-l="en">Standardisation step by step: choose the normal, the type of problem and the data</span></div>
+        <div class="steps-ctl" data-role="presets"></div>
+        <div class="wctl"><label>\(\mu=\) <input class="tin s" type="text" data-role="m" value="100" autocomplete="off"></label><label>\(\sigma=\) <input class="tin s" type="text" data-role="s" value="14" autocomplete="off"></label><select data-role="ev"></select><label data-role="la">\(a=\) <input class="tin s" type="text" data-role="a" value="108" autocomplete="off"></label><label data-role="lb">\(b=\) <input class="tin s" type="text" data-role="b" value="116" autocomplete="off"></label></div>
+        <div class="lw-wrap">
+          <div class="info" aria-live="polite"></div>
+          <div><svg class="dist-svg" viewBox="0 0 340 190" role="img" aria-label="Normal"></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">El pes de les persones d'un col·legi segueix una \(N(70,15)\) (kg). Probabilitat que una persona pese més de 80 kg, i entre 60 i 120 kg.</span><span data-l="es">El peso de las personas de un colegio sigue una \(N(70,15)\) (kg). Probabilidad de que una persona pese más de 80 kg, y entre 60 y 120 kg.</span><span data-l="en">Weights in a residence follow \(N(70,15)\) (kg). Probability that a person weighs over 80 kg, and between 60 and 120 kg.</span> <span class="pau">PAU</span></li>
+        <li><span data-l="va">El pes de les truites d'una piscifactoria segueix una \(N(250,50)\) (g). Quin pes mínim cal exigir perquè només el 40 % siga apte per a la venda?</span><span data-l="es">El peso de las truchas de una piscifactoría sigue una \(N(250,50)\) (g). ¿Qué peso mínimo hay que exigir para que solo el 40 % sea apto para la venta?</span><span data-l="en">Trout weights follow \(N(250,50)\) (g). What minimum weight should be required so that only 40% can be sold?</span> <span class="pau">PAU</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(P(Z\gt0{,}67)=1-0{,}7486=0{,}2514\); \(\ P(-0{,}67\leq Z\leq3{,}33)=0{,}9996-0{,}2514=0{,}7482\)</li>
+          <li>\(P(X\geq k)=0{,}4\Rightarrow P(Z\leq z)=0{,}6\Rightarrow z\approx0{,}25\) (0,5987); \(\ k=250+0{,}25\cdot50=262{,}5\) g</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.8 ======================= -->
+<section class="unit" id="s8">
+  <div class="sec-head"><span class="num">10.8</span><h2><span data-l="va">Aproximació de la binomial per la normal</span><span data-l="es">Aproximación de la binomial por la normal</span><span data-l="en">Normal approximation to the binomial</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Teorema de De Moivre-Laplace</span><span data-l="es">Teorema de De Moivre-Laplace</span><span data-l="en">De Moivre–Laplace theorem</span></div>
+    <div class="bb">
+      <p><span data-l="va">Quan \(n\) és gran, calcular la binomial amb la fórmula és molt pesat (\(P(X\geq40)\) amb \(n=100\) tindria 61 termes!). Si \(np\geq5\) i \(nq\geq5\), la binomial s'assembla molt a una normal amb la mateixa mitjana i desviació típica:</span><span data-l="es">Cuando \(n\) es grande, calcular la binomial con la fórmula es muy pesado (¡\(P(X\geq40)\) con \(n=100\) tendría 61 términos!). Si \(np\geq5\) y \(nq\geq5\), la binomial se parece mucho a una normal con la misma media y desviación típica:</span><span data-l="en">When \(n\) is large, the binomial formula is very laborious (\(P(X\geq40)\) with \(n=100\) would have 61 terms!). If \(np\geq5\) and \(nq\geq5\), the binomial is very close to a normal with the same mean and standard deviation:</span></p>
+      \[X\sim B(n,p)\ \approx\ X'\sim N\!\left(np,\ \sqrt{npq}\right)\]
+      <p><span data-l="va"><strong>Correcció de continuïtat</strong>: cada valor enter \(k\) de la binomial és una barra que va de \(k-0{,}5\) a \(k+0{,}5\). Per això:</span><span data-l="es"><strong>Corrección de continuidad</strong>: cada valor entero \(k\) de la binomial es una barra que va de \(k-0{,}5\) a \(k+0{,}5\). Por eso:</span><span data-l="en"><strong>Continuity correction</strong>: each integer value \(k\) of the binomial is a bar from \(k-0.5\) to \(k+0.5\). Hence:</span></p>
+      <div class="tbl-wrap"><table class="data sm" style="max-width:520px;margin:auto">
+        <thead><tr><th><span data-l="va">Binomial</span><span data-l="es">Binomial</span><span data-l="en">Binomial</span></th><th><span data-l="va">Normal</span><span data-l="es">Normal</span><span data-l="en">Normal</span></th></tr></thead>
+        <tbody>
+          <tr><td>\(P(X=k)\)</td><td>\(P(k-0{,}5\leq X'\leq k+0{,}5)\)</td></tr>
+          <tr><td>\(P(X\leq k)\)</td><td>\(P(X'\leq k+0{,}5)\)</td></tr>
+          <tr><td>\(P(X\lt k)=P(X\leq k-1)\)</td><td>\(P(X'\leq k-0{,}5)\)</td></tr>
+          <tr><td>\(P(X\geq k)\)</td><td>\(P(X'\geq k-0{,}5)\)</td></tr>
+          <tr><td>\(P(X\gt k)=P(X\geq k+1)\)</td><td>\(P(X'\geq k+0{,}5)\)</td></tr>
+          <tr><td>\(P(a\leq X\leq b)\)</td><td>\(P(a-0{,}5\leq X'\leq b+0{,}5)\)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note"><span data-l="va">Truc per a no equivocar-se: escriu primer els enters que <strong>sí</strong> que entren (per exemple, «més de 499 i com a molt 580» són 500, …, 580) i després allarga mig punt cap a cada costat: \(499{,}5\leq X'\leq580{,}5\).</span><span data-l="es">Truco para no equivocarse: escribe primero los enteros que <strong>sí</strong> entran (por ejemplo, «más de 499 y como mucho 580» son 500, …, 580) y después alarga medio punto hacia cada lado: \(499{,}5\leq X'\leq580{,}5\).</span><span data-l="en">Tip: first write the integers that <strong>are</strong> included (e.g. “more than 499 and at most 580” are 500, …, 580) and then extend half a unit on each side: \(499.5\leq X'\leq580.5\).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples resolts</span><span data-l="es">Ejemplos resueltos</span><span data-l="en">Worked examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Un creador de vídeos talentós aconsegueix que un vídeo es faça viral amb probabilitat 0,5. Probabilitat que, dels pròxims 100 vídeos, almenys 40 es facen virals.</span><span data-l="es">Un creador de vídeos con talento consigue que un vídeo se haga viral con probabilidad 0,5. Probabilidad de que, de los próximos 100 vídeos, al menos 40 se hagan virales.</span><span data-l="en">A talented creator makes a video go viral with probability 0.5. Probability that at least 40 of the next 100 videos go viral.</span> <span class="pau"><span data-l="va">PAU C. Valenciana 2026</span><span data-l="es">PAU C. Valenciana 2026</span><span data-l="en">PAU Valencia 2026</span></span>
+          <div class="steps">
+            <div class="step"><p>\(X\sim B(100;\,0{,}5)\): \(np=nq=50\geq5\). \(\mu=50\), \(\sigma=\sqrt{100\cdot0{,}5\cdot0{,}5}=5\Rightarrow X'\sim N(50,5)\).</p></div>
+            <div class="step"><p>\(P(X\geq40)\approx P(X'\geq39{,}5)=P\!\left(Z\geq\frac{39{,}5-50}{5}\right)=P(Z\geq-2{,}1)=P(Z\leq2{,}1)=0{,}9821\)</p></div>
+          </div></li>
+        <li><span data-l="va">Una asseguradora té 2500 cotxes assegurats i cada un té accident en un any amb probabilitat 0,1. Probabilitat que almenys 270 tinguen accident.</span><span data-l="es">Una aseguradora tiene 2500 coches asegurados y cada uno tiene un accidente en un año con probabilidad 0,1. Probabilidad de que al menos 270 tengan accidente.</span><span data-l="en">An insurer covers 2500 cars and each has an accident in a year with probability 0.1. Probability that at least 270 have an accident.</span> <span class="pau"><span data-l="va">PAU Canàries 2022</span><span data-l="es">PAU Canarias 2022</span><span data-l="en">PAU Canary Is. 2022</span></span>
+          <div class="steps">
+            <div class="step"><p>\(X\sim B(2500;\,0{,}1)\approx N(250,\ \sqrt{225}=15)\)</p></div>
+            <div class="step"><p>\(P(X\geq270)\approx P(X'\geq269{,}5)=P(Z\geq1{,}3)=1-0{,}9032=0{,}0968\)</p></div>
+          </div></li>
+      </ol>
+      <div class="widget" id="w-aprox">
+        <div class="wt">◉ <span data-l="va">Binomial i normal: compara les barres de la binomial amb la campana, i la probabilitat exacta amb l'aproximada</span><span data-l="es">Binomial y normal: compara las barras de la binomial con la campana, y la probabilidad exacta con la aproximada</span><span data-l="en">Binomial vs normal: compare the binomial bars with the bell curve, and the exact probability with the approximation</span></div>
+        <div class="wctl"><label>\(n=\) <input type="range" class="wide" data-role="n" min="5" max="200" step="1" value="40"> <b data-role="nv"></b></label><label>\(p=\) <input type="range" class="wide" data-role="p" min="0.05" max="0.95" step="0.05" value="0.3"> <b data-role="pv"></b></label></div>
+        <div class="wctl"><select data-role="ev"></select><label>\(k=\) <input class="tin s" type="number" data-role="a" value="10"></label><label data-role="lb">\(k_2=\) <input class="tin s" type="number" data-role="b" value="15"></label></div>
+        <div class="lw-wrap">
+          <div class="info" aria-live="polite"></div>
+          <div><svg class="dist-svg" viewBox="0 0 340 210" role="img" aria-label="Aproximació"></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">Un experiment té èxit amb probabilitat 0,4 i es fa 1350 vegades. Probabilitat que tinga èxit més de 499 vegades i com a molt 580.</span><span data-l="es">Un experimento tiene éxito con probabilidad 0,4 y se hace 1350 veces. Probabilidad de que tenga éxito más de 499 veces y como mucho 580.</span><span data-l="en">An experiment succeeds with probability 0.4 and is repeated 1350 times. Probability of more than 499 and at most 580 successes.</span> <span class="pau">PAU</span></li>
+        <li><span data-l="va">Llancem una moneda equilibrada 400 vegades. Probabilitat d'obtindre menys de 190 cares.</span><span data-l="es">Lanzamos una moneda equilibrada 400 veces. Probabilidad de obtener menos de 190 caras.</span><span data-l="en">A fair coin is tossed 400 times. Probability of fewer than 190 heads.</span> <span class="pau">PAU</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(\mu=540\), \(\sigma=\sqrt{324}=18\): \(P(499{,}5\leq X'\leq580{,}5)=P(-2{,}25\leq Z\leq2{,}25)=2\cdot0{,}9878-1=0{,}9756\)</li>
+          <li>\(\mu=200\), \(\sigma=10\): \(P(X\leq189)\approx P(X'\leq189{,}5)=P(Z\leq-1{,}05)=1-0{,}8531=0{,}1469\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LAB ======================= -->
+<section class="unit" id="lab">
+  <div class="sec-head"><span class="num">⚙</span><h2><span data-l="va">Calculadora de probabilitats</span><span data-l="es">Calculadora de probabilidades</span><span data-l="en">Probability calculator</span></h2></div>
+  <p><span data-l="va">Comprova els teus resultats: tria la distribució (binomial o normal), escriu els paràmetres i el succés, i obtindràs la probabilitat amb tots els passos. Per a la binomial amb \(n\) gran, també dona l'aproximació per la normal.</span><span data-l="es">Comprueba tus resultados: elige la distribución (binomial o normal), escribe los parámetros y el suceso, y obtendrás la probabilidad con todos los pasos. Para la binomial con \(n\) grande, también da la aproximación por la normal.</span><span data-l="en">Check your answers: choose the distribution (binomial or normal), type the parameters and the event, and get the probability with every step. For the binomial with large \(n\), it also gives the normal approximation.</span></p>
+  <div class="box lab">
+    <div class="bh">⚙ <span data-l="va">Binomial i normal</span><span data-l="es">Binomial y normal</span><span data-l="en">Binomial and normal</span></div>
+    <div class="bb" id="w-lab">
+      <div class="wctl" style="margin-top:12px"><span class="seg-ctl" data-role="dist"></span></div>
+      <div class="wctl"><label data-role="l1">\(n=\) <input class="tin s" type="text" data-role="x1" value="20" autocomplete="off"></label><label data-role="l2">\(p=\) <input class="tin s" type="text" data-role="x2" value="0.3" autocomplete="off"></label><select data-role="ev"></select><label>\(a=\) <input class="tin s" type="text" data-role="a" value="5" autocomplete="off"></label><label data-role="lb">\(b=\) <input class="tin s" type="text" data-role="b" value="8" autocomplete="off"></label></div>
+      <div class="lw-wrap">
+        <div class="info" data-role="out" aria-live="polite"></div>
+        <div><svg class="dist-svg" viewBox="0 0 340 200" role="img" aria-label="Distribució"></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section class="unit quiz-sec" id="quiz">
+  <div class="sec-head"><span class="num">?</span><h2><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></h2></div>
+  <p><span data-l="va">Respon i comprova a l'instant si ho has entés. Fes servir les taules de dalt quan calga.</span><span data-l="es">Responde y comprueba al instante si lo has entendido. Usa las tablas de arriba cuando haga falta.</span><span data-l="en">Answer and instantly check whether you've understood. Use the tables above when needed.</span></p>
+  <div class="quiz" id="quiz-box"></div>
+  <div class="score" id="quiz-score"></div>
+  <button class="btn" type="button" id="quiz-reset">↺ <span data-l="va">Torna a començar</span><span data-l="es">Volver a empezar</span><span data-l="en">Start again</span></button>
+</section>
+
+</article>
+</div>
+
+<footer class="foot">
+  <p><span data-l="va">Apunts de teoria · Unitat 10: Distribució binomial i normal · 2n Batxillerat CCSS II</span><span data-l="es">Apuntes de teoría · Unidad 10: Distribución binomial y normal · 2º Bachillerato CCSS II</span><span data-l="en">Theory notes · Unit 10: Binomial and normal distributions · 2nd Baccalaureate, Social Sciences II</span></p>
+  <p><a href="../../index.html">FentMates</a> · <span data-l="va">Fet amb ♥ per a l'alumnat</span><span data-l="es">Hecho con ♥ para el alumnado</span><span data-l="en">Made with ♥ for students</span></p>
+</footer>
+<button class="icon-btn to-top" type="button" id="to-top" aria-label="↑">↑</button>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var UNIT_KEY = "fm-2batx-u10-done";
+
+  /* ---------- textos de la interfície ---------- */
+  var UI = {
+    va: { next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
+      score: "Encerts", right: "Correcte!", wrong: "No és correcte.", theme: "Canvia entre mode clar i fosc", top: "Torna amunt" },
+    es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
+      score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba" },
+    en: { next: "Next step", all: "Show all", reset: "Hide the steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
+      score: "Correct", right: "Correct!", wrong: "Not quite.", theme: "Switch between light and dark mode", top: "Back to top" }
+  };
+  var lang = root.getAttribute("data-lang") || "va";
+  function u(k) { return (UI[lang] || UI.va)[k]; }
+  function t3(va, es, en) { return lang === "es" ? es : lang === "en" ? en : va; }
+  var refreshers = [];
+  function onLang(fn) { refreshers.push(fn); fn(); }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function tex(s, display) { try { return window.katex.renderToString(s, { throwOnError: false, displayMode: !!display }); } catch (e) { return s; } }
+  function $(w, r) { return w.querySelector('[data-role="' + r + '"]'); }
+  function presetBtns(box, labels, onPick) {
+    var bs = [];
+    labels().forEach(function (_, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn";
+      b.addEventListener("click", function () { bs.forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); onPick(i); });
+      box.appendChild(b); bs.push(b);
+    });
+    onLang(function () { var L = labels(); bs.forEach(function (b, i) { b.innerHTML = L[i]; }); });
+    return bs;
+  }
+  function fillSelect(sel, items) {
+    var v = sel.value; sel.innerHTML = "";
+    items.forEach(function (it) { var o = document.createElement("option"); o.value = it[0]; o.textContent = it[1]; sel.appendChild(o); });
+    if (v && items.some(function (it) { return String(it[0]) === v; })) sel.value = v;
+  }
+
+  /* ---------- nombres ---------- */
+  function decS(x, k) { var s = String(+(+x).toFixed(k == null ? 4 : k)); return lang === "en" ? s : s.replace(".", ","); }
+  function td(x, k) { return decS(x, k).replace(",", "{,}"); }
+  function f4(x) { var s = (+x).toFixed(4); return lang === "en" ? s : s.replace(".", "{,}"); }
+  function num(s) { s = String(s == null ? "" : s).trim().replace(",", "."); if (!s) return NaN; if (/%$/.test(s)) return parseFloat(s) / 100; if (s.indexOf("/") > 0) { var q = s.split("/"); return parseFloat(q[0]) / parseFloat(q[1]); } return /^-?\d*\.?\d+$/.test(s) ? parseFloat(s) : NaN; }
+  function r2(z) { return Math.round(z * 100 + (z >= 0 ? 1e-9 : -1e-9)) / 100; }
+  function comb(n, k) { if (k < 0 || k > n) return 0; k = Math.min(k, n - k); var c = 1; for (var i = 1; i <= k; i++) c = c * (n - k + i) / i; return Math.round(c); }
+  function pmf(n, p, k) { if (k < 0 || k > n) return 0; return comb(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k); }
+
+  /* ---------- taules de la PAU (es llegeixen de la pàgina) ---------- */
+  var NT = [], BT = {}, PJ = [];
+  function readTables() {
+    document.querySelectorAll("#tnorm tbody tr").forEach(function (tr) {
+      NT[+tr.getAttribute("data-r")] = [].map.call(tr.querySelectorAll("td"), function (c) { return +c.textContent.replace(",", "."); });
+    });
+    PJ = [].map.call(document.querySelectorAll("#tbin thead tr:nth-child(2) th"), function (th) { var t = th.textContent.trim(); return { l: t, p: t === "1/3" ? 1 / 3 : +t.replace(",", ".") }; });
+    document.querySelectorAll("#tbin tbody tr").forEach(function (tr) {
+      var n = +tr.getAttribute("data-n"), x = +tr.getAttribute("data-x");
+      (BT[n] = BT[n] || [])[x] = [].map.call(tr.querySelectorAll("td"), function (c) { return +c.textContent.replace(",", "."); });
+    });
+  }
+  // P(Z <= z) amb la taula (z arredonit a dues decimals)
+  function F(z) {
+    z = r2(z);
+    if (z < 0) return +(1 - F(-z)).toFixed(4);
+    if (z >= 4) return 1;
+    var r = Math.floor(z * 10 + 1e-9), c = Math.round(z * 100) - r * 10;
+    return NT[r] ? NT[r][c] : 1;
+  }
+  function cell(z) { z = Math.abs(r2(z)); if (z >= 4) return null; var r = Math.floor(z * 10 + 1e-9); return [r, Math.round(z * 100) - r * 10]; }
+  // valor de z de la taula més pròxim a una probabilitat p > 0,5
+  function invF(p) {
+    var best = null;
+    for (var r = 0; r < 40; r++) for (var c = 0; c < 10; c++) {
+      var d = Math.abs(NT[r][c] - p);
+      if (!best || d < best.d - 1e-12) best = { d: d, r: r, c: c, v: NT[r][c], z: r / 10 + c / 100, tie: false };
+      else if (Math.abs(d - best.d) < 1e-12 && NT[r][c] !== best.v) best.tie = { r: r, c: c, v: NT[r][c], z: r / 10 + c / 100 };
+    }
+    return best;
+  }
+  function zinv(p) {
+    // z amb P(Z <= z) = p (pren el valor de la taula més pròxim; si n'hi ha dos d'igual de pròxims, la mitjana)
+    var neg = p < 0.5, b = invF(neg ? 1 - p : p), z = b.tie ? (b.z + b.tie.z) / 2 : b.z;
+    return { z: neg ? -z : z, b: b, neg: neg, pp: neg ? 1 - p : p };
+  }
+
+  /* ---------- dibuixos ---------- */
+  function dens(x, m, s) { return Math.exp(-(x - m) * (x - m) / (2 * s * s)) / (s * Math.sqrt(2 * Math.PI)); }
+  function vb(svg) { var v = svg.getAttribute("viewBox").split(" ").map(Number); return { W: v[2], H: v[3] }; }
+  // corba normal amb regions ombrejades: o = {m, s, x0, x1, shade: [[a, b]], ticks: [...], cmp: true, ymax}
+  function normPlot(svg, o) {
+    var d = vb(svg), W = d.W, H = d.H, L = 14, R = W - 10, T = 10, B = H - 22;
+    var x0 = o.x0, x1 = o.x1, ym = o.ymax || dens(o.m, o.m, o.s) * 1.08;
+    if (o.cmp) ym = Math.max(ym, dens(0, 0, 1) * 1.08);
+    function X(x) { return L + (R - L) * (x - x0) / (x1 - x0); }
+    function Y(y) { return B - (B - T) * y / ym; }
+    var h = '<line class="ax" x1="' + L + '" x2="' + R + '" y1="' + B + '" y2="' + B + '"/>';
+    function path(m, s, a, b) { var pts = [], N = 160; for (var i = 0; i <= N; i++) { var x = a + (b - a) * i / N; pts.push(X(x).toFixed(1) + "," + Y(dens(x, m, s)).toFixed(1)); } return pts; }
+    (o.shade || []).forEach(function (ab) {
+      var a = Math.max(ab[0], x0), b = Math.min(ab[1], x1); if (!(b > a)) return;
+      h += '<polygon class="area" points="' + X(a).toFixed(1) + "," + B + " " + path(o.m, o.s, a, b).join(" ") + " " + X(b).toFixed(1) + "," + B + '"/>';
+    });
+    if (o.cmp) h += '<polyline class="cv2" points="' + path(0, 1, x0, x1).join(" ") + '"/>';
+    h += '<polyline class="cv" points="' + path(o.m, o.s, x0, x1).join(" ") + '"/>';
+    (o.ticks || []).forEach(function (t) {
+      if (t[0] < x0 || t[0] > x1) return;
+      h += '<line class="ax" x1="' + X(t[0]) + '" x2="' + X(t[0]) + '" y1="' + B + '" y2="' + (B + 4) + '"/><text x="' + X(t[0]) + '" y="' + (B + 15) + '" text-anchor="middle"' + (t[2] ? ' class="vl"' : "") + ">" + t[1] + "</text>";
+    });
+    (o.lines || []).forEach(function (x) { if (x >= x0 && x <= x1) h += '<line x1="' + X(x) + '" x2="' + X(x) + '" y1="' + T + '" y2="' + B + '" style="stroke:var(--accent);stroke-width:1.4;stroke-dasharray:4 4"/>'; });
+    if (o.label) h += '<text x="' + (W - 12) + '" y="' + (T + 12) + '" text-anchor="end" class="vl">' + o.label + "</text>";
+    svg.innerHTML = h;
+  }
+  // barres de la binomial (i, opcionalment, la normal aproximada)
+  function barsPlot(svg, n, p, sel, ov) {
+    var d = vb(svg), W = d.W, H = d.H, L = 14, R = W - 10, T = 12, B = H - 22, ps = [], ym = 0, k;
+    var m = n * p, s = Math.sqrt(n * p * (1 - p)), lo = 0, hi = n;
+    if (n > 30) { lo = Math.max(0, Math.floor(m - 4.5 * s)); hi = Math.min(n, Math.ceil(m + 4.5 * s)); }
+    for (k = lo; k <= hi; k++) { ps[k] = pmf(n, p, k); ym = Math.max(ym, ps[k]); }
+    if (ov) ym = Math.max(ym, dens(m, m, s));
+    ym *= 1.1;
+    var x0 = lo - 0.6, x1 = hi + 0.6;
+    function X(x) { return L + (R - L) * (x - x0) / (x1 - x0); }
+    function Y(y) { return B - (B - T) * y / ym; }
+    var h = '<line class="ax" x1="' + L + '" x2="' + R + '" y1="' + B + '" y2="' + B + '"/>', bw = Math.max(1, (X(1) - X(0)) * 0.8);
+    if (ov && ov.shade) {
+      var a = Math.max(ov.shade[0], x0), b = Math.min(ov.shade[1], x1), pts = [];
+      if (b > a) { for (var i = 0; i <= 120; i++) { var x = a + (b - a) * i / 120; pts.push(X(x).toFixed(1) + "," + Y(dens(x, m, s)).toFixed(1)); }
+        h += '<polygon class="area" points="' + X(a).toFixed(1) + "," + B + " " + pts.join(" ") + " " + X(b).toFixed(1) + "," + B + '"/>'; }
+    }
+    for (k = lo; k <= hi; k++) h += '<rect class="bar' + (sel(k) ? " on" : "") + '" x="' + (X(k) - bw / 2).toFixed(1) + '" y="' + Y(ps[k]).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (B - Y(ps[k])).toFixed(1) + '"' + (ov ? ' style="opacity:.75"' : "") + "/>";
+    if (ov) { var q = []; for (var j = 0; j <= 200; j++) { var xx = x0 + (x1 - x0) * j / 200; q.push(X(xx).toFixed(1) + "," + Y(dens(xx, m, s)).toFixed(1)); } h += '<polyline class="cv" points="' + q.join(" ") + '"/>'; }
+    var st = Math.max(1, Math.ceil((hi - lo) / 10));
+    for (k = lo; k <= hi; k++) if ((k - lo) % st === 0) h += '<text x="' + X(k) + '" y="' + (B + 14) + '" text-anchor="middle">' + k + "</text>";
+    svg.innerHTML = h;
+  }
+
+  /* ---------- figures estàtiques de la normal ---------- */
+  function wFigs() {
+    var Z = [-3.4, 3.4], t = function (x, l) { return [x, l, true]; };
+    var FIG = {
+      dens: function () { return { m: 0, s: 1, x0: -3.4, x1: 3.4, shade: [[-0.4, 1.3]], ticks: [t(-0.4, "a"), t(1.3, "b")], label: "y = f(x)" }; },
+      le: function () { return { m: 0, s: 1, x0: Z[0], x1: Z[1], shade: [[-9, 0.8]], ticks: [t(0, "0"), t(0.8, "z")] }; },
+      ge: function () { return { m: 0, s: 1, x0: Z[0], x1: Z[1], shade: [[0.8, 9]], ticks: [t(0, "0"), t(0.8, "z")] }; },
+      neg: function () { return { m: 0, s: 1, x0: Z[0], x1: Z[1], shade: [[-9, -0.8]], ticks: [t(-0.8, "−z"), t(0, "0")] }; },
+      ngt: function () { return { m: 0, s: 1, x0: Z[0], x1: Z[1], shade: [[-0.8, 9]], ticks: [t(-0.8, "−z"), t(0, "0")] }; },
+      ab: function () { return { m: 0, s: 1, x0: Z[0], x1: Z[1], shade: [[-0.6, 1.4]], ticks: [t(-0.6, "a"), t(1.4, "b")] }; },
+      sym: function () { return { m: 0, s: 1, x0: Z[0], x1: Z[1], shade: [[-1.2, 1.2]], ticks: [t(-1.2, "−z"), t(1.2, "z")] }; }
+    };
+    document.querySelectorAll("svg[data-nf]").forEach(function (svg) { var f = FIG[svg.getAttribute("data-nf")]; if (f) normPlot(svg, f()); });
+  }
+
+  /* ---------- càlculs amb la binomial ---------- */
+  var BEV = [["eq", "P(X = k)"], ["le", "P(X ≤ k)"], ["lt", "P(X < k)"], ["ge", "P(X ≥ k)"], ["gt", "P(X > k)"], ["ab", "P(k ≤ X ≤ k₂)"]];
+  function bset(ev, a, b) {
+    return function (k) { return ev === "eq" ? k === a : ev === "le" ? k <= a : ev === "lt" ? k < a : ev === "ge" ? k >= a : ev === "gt" ? k > a : k >= a && k <= b; };
+  }
+  function bEvTex(ev, a, b) { return ev === "eq" ? "P(X=" + a + ")" : ev === "le" ? "P(X\\leq " + a + ")" : ev === "lt" ? "P(X\\lt " + a + ")" : ev === "ge" ? "P(X\\geq " + a + ")" : ev === "gt" ? "P(X\\gt " + a + ")" : "P(" + a + "\\leq X\\leq " + b + ")"; }
+  function binCalc(n, p, ev, a, b) {
+    var f = bset(ev, a, b), ks = [], co = [], k, P = 0, Pc = 0;
+    for (k = 0; k <= n; k++) { var v = pmf(n, p, k); if (f(k)) { ks.push(k); P += v; } else { co.push(k); Pc += v; } }
+    var pt = td(p, 4), qt = td(1 - p, 4), h = "<p>" + tex("X\\sim B(" + n + ";\\," + pt + ")") + "</p>";
+    function term(k) { return "\\tbinom{" + n + "}{" + k + "}" + pt + "^{" + k + "}" + qt + "^{" + (n - k) + "}"; }
+    var useC = co.length < ks.length && co.length <= 4;
+    var set = useC ? co : ks;
+    if (set.length === 1) h += "<p>" + tex((useC ? "1-P(X=" + set[0] + ")=1-" : "P(X=" + set[0] + ")=") + term(set[0])) + "</p>";
+    if (set.length <= 6) {
+      h += "<p>" + tex(bEvTex(ev, a, b) + "=" + (useC ? "1-[" : "") + set.map(function (k) { return "P(" + k + ")"; }).join("+") + (useC ? "]" : "")) + "</p>";
+      if (set.length > 1) h += "<p>" + tex("=" + (useC ? "1-(" : "") + set.map(function (k) { return f4(pmf(n, p, k)); }).join("+") + (useC ? ")" : "")) + "</p>";
+    } else h += "<p>" + t3("Cal sumar ", "Hay que sumar ", "We need to add ") + set.length + t3(" termes: és un bon cas per a l'aproximació normal (10.8).", " términos: es un buen caso para la aproximación normal (10.8).", " terms: a good case for the normal approximation (10.8).") + "</p>";
+    h += '<p class="big-p">' + tex(bEvTex(ev, a, b) + "\\approx " + f4(P)) + "</p>";
+    h += "<p style='font-size:.88rem;color:var(--muted)'>" + tex("\\mu=np=" + td(n * p, 3) + ",\\ \\ \\sigma=\\sqrt{npq}\\approx " + td(Math.sqrt(n * p * (1 - p)), 3)) + "</p>";
+    return { P: P, h: h, f: f };
+  }
+  function inTable(n, p) {
+    if (n < 2 || n > 9) return null;
+    for (var j = 0; j < PJ.length; j++) { if (Math.abs(PJ[j].p - p) < 1e-9) return { j: j, sw: false }; if (Math.abs(PJ[j].p - (1 - p)) < 1e-9) return { j: j, sw: true }; }
+    return null;
+  }
+
+  /* ---------- widget: binomial ---------- */
+  function wBin() {
+    var w = document.getElementById("w-bin"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info"), ev = $(w, "ev");
+    fillSelect(ev, BEV); ev.value = "eq";
+    ["n", "p", "a", "b"].forEach(function (r) { $(w, r).addEventListener("input", draw); }); ev.addEventListener("change", draw);
+    function draw() {
+      var n = Math.round(num($(w, "n").value)), p = num($(w, "p").value), a = Math.round(num($(w, "a").value)), b = Math.round(num($(w, "b").value)), e = ev.value;
+      $(w, "blab").style.display = e === "ab" ? "" : "none";
+      if (!(n >= 1 && n <= 60) || !(p > 0 && p < 1) || isNaN(a) || (e === "ab" && isNaN(b))) { info.innerHTML = "<p class='chk no'>" + t3("Escriu 1 ≤ n ≤ 60 i 0 < p < 1.", "Escribe 1 ≤ n ≤ 60 y 0 < p < 1.", "Type 1 ≤ n ≤ 60 and 0 < p < 1.") + "</p>"; return; }
+      var r = binCalc(n, p, e, a, b), tb = inTable(n, p);
+      info.innerHTML = r.h + (tb ? "<p style='font-size:.88rem'>" + (tb.sw ? t3("Amb la taula: compta els fracassos, ", "Con la tabla: cuenta los fracasos, ", "With the table: count failures, ") + tex("B(" + n + ";\\," + td(1 - p, 4) + ")") : t3("També es pot fer amb la taula de la PAU (10.3).", "También se puede hacer con la tabla de la PAU (10.3).", "You can also use the PAU table (10.3).")) + "</p>" : "");
+      barsPlot(svg, n, p, r.f);
+    }
+    onLang(function () { fillSelect(ev, BEV); draw(); });
+  }
+
+  /* ---------- widget: taula de la binomial ---------- */
+  function wTbin() {
+    var w = document.getElementById("w-tbin"); if (!w) return;
+    var tbl = document.getElementById("tbin"), info = w.querySelector(".info"), sn = $(w, "n"), sp = $(w, "p"), se = $(w, "ev"), sk = $(w, "k"), wrap = $(w, "wrap");
+    fillSelect(sn, [2, 3, 4, 5, 6, 7, 8, 9].map(function (n) { return [n, n]; })); sn.value = 8;
+    var popts = PJ.map(function (o, j) { return ["t" + j, o.l]; }).concat(PJ.slice(0, 12).reverse().map(function (o, i) { var j = 11 - i; return ["c" + j, o.l === "1/3" ? "2/3" : decS(1 - o.p, 2)]; }));
+    fillSelect(sp, popts); sp.value = "t4";
+    var EV = [["eq", "P(X = k)"], ["le", "P(X ≤ k)"], ["ge", "P(X ≥ k)"]];
+    fillSelect(se, EV); se.value = "le";
+    function ks() { var n = +sn.value, v = sk.value; fillSelect(sk, Array.apply(null, Array(n + 1)).map(function (_, i) { return [i, i]; })); sk.value = v !== "" && +v <= n ? v : Math.min(2, n); }
+    ks();
+    [sn].forEach(function (s) { s.addEventListener("change", function () { ks(); draw(true); }); });
+    [sp, se, sk].forEach(function (s) { s.addEventListener("change", function () { draw(true); }); });
+    tbl.addEventListener("click", function (e) {
+      var tdc = e.target.closest("td"); if (!tdc) return;
+      var tr = tdc.parentNode, n = +tr.getAttribute("data-n"), x = +tr.getAttribute("data-x"), j = +tdc.getAttribute("data-j");
+      sn.value = n; ks(); sp.value = "t" + j; se.value = "eq"; sk.value = x; draw(false);
+    });
+    function draw(scroll) {
+      var n = +sn.value, pv = sp.value, j = +pv.slice(1), sw = pv[0] === "c", k = +sk.value, e = se.value, p = sw ? 1 - PJ[j].p : PJ[j].p;
+      var pl = sw ? (PJ[j].l === "1/3" ? "2/3" : td(1 - PJ[j].p, 2)) : PJ[j].l.replace(",", "{,}");
+      var ql = PJ[j].l.replace(",", "{,}");
+      var f = e === "eq" ? function (x) { return x === k; } : e === "le" ? function (x) { return x <= k; } : function (x) { return x >= k; };
+      var xs = []; for (var x = 0; x <= n; x++) if (f(x)) xs.push(x);
+      var ys = xs.map(function (x) { return sw ? n - x : x; });
+      var useC = ys.length > (n + 1) / 2 + 0.5;
+      var cs = []; if (useC) for (var y = 0; y <= n; y++) if (ys.indexOf(y) < 0) cs.push(y);
+      tbl.querySelectorAll("td").forEach(function (c) { c.classList.remove("on", "on2", "col"); });
+      tbl.querySelectorAll("tr.row").forEach(function (r) { r.classList.remove("row"); });
+      tbl.querySelectorAll("td[data-j='" + j + "']").forEach(function (c) { c.classList.add("col"); });
+      var cells = [];
+      (useC ? cs : ys).forEach(function (y) { var c = tbl.querySelector("tr[data-n='" + n + "'][data-x='" + y + "'] td[data-j='" + j + "']"); if (c) { c.classList.add(useC ? "on2" : "on"); cells.push(c); } });
+      var evt = e === "eq" ? "P(X=" + k + ")" : e === "le" ? "P(X\\leq " + k + ")" : "P(X\\geq " + k + ")";
+      var h = "<p>" + tex("X\\sim B(" + n + ";\\," + pl + ")") + "</p>";
+      if (sw) {
+        var ev2 = e === "eq" ? "P(Y=" + (n - k) + ")" : e === "le" ? "P(Y\\geq " + (n - k) + ")" : "P(Y\\leq " + (n - k) + ")";
+        h += "<p>" + t3("La taula no té ", "La tabla no tiene ", "The table has no ") + tex("p=" + pl) + t3(": comptem els fracassos, ", ": contamos los fracasos, ", ": count failures, ") + tex("Y=" + n + "-X\\sim B(" + n + ";\\," + ql + ")") + ".</p><p>" + tex(evt + "=" + ev2) + "</p>";
+      }
+      var vals = (useC ? cs : ys).map(function (y) { return BT[n][y][j]; }), sum = vals.reduce(function (s, v) { return s + v; }, 0), P = useC ? 1 - sum : sum;
+      var vy = sw ? "Y" : "X";
+      if (useC) h += "<p>" + t3("Més curt amb el contrari:", "Más corto con el contrario:", "Shorter with the complement:") + " " + tex("1-[" + cs.map(function (y) { return "P(" + vy + "=" + y + ")"; }).join("+") + "]") + "</p>";
+      h += "<p>" + tex("=" + (useC ? "1-(" : "") + vals.map(f4).join("+") + (useC ? ")" : "")) + "</p>";
+      h += '<p class="big-p">' + tex(evt + "=" + f4(P)) + "</p>";
+      h += "<p style='font-size:.85rem;color:var(--muted)'>" + t3("Caselles marcades en el bloc ", "Casillas marcadas en el bloque ", "Marked cells in block ") + "n = " + n + t3(", columna ", ", columna ", ", column ") + "p = " + PJ[j].l + ".</p>";
+      info.innerHTML = h;
+      if (scroll && cells[0]) { var top = cells[0].offsetTop - 60; wrap.scrollTo({ top: Math.max(0, top), behavior: "smooth" }); }
+    }
+    onLang(function () { draw(false); });
+  }
+
+  /* ---------- càlculs amb la normal ---------- */
+  var NEV = function () {
+    return [["le", "P(X ≤ a)"], ["ge", "P(X ≥ a)"], ["ab", "P(a ≤ X ≤ b)"], ["ile", t3("Invers: P(X ≤ k) = p", "Inverso: P(X ≤ k) = p", "Inverse: P(X ≤ k) = p")], ["ige", t3("Invers: P(X ≥ k) = p", "Inverso: P(X ≥ k) = p", "Inverse: P(X ≥ k) = p")]];
+  };
+  // passos per a X ~ N(m, s); torna {h, P, shade, z}
+  function normCalc(m, s, ev, a, b) {
+    var h = "<p>" + tex("X\\sim N(" + td(m, 4) + ";\\," + td(s, 4) + ")") + "</p>", P, shade, zs = [];
+    function zt(x) { var z = (x - m) / s; zs.push(r2(z)); return "\\frac{" + td(x, 4) + "-" + td(m, 4) + "}{" + td(s, 4) + "}" + (Math.abs(z - r2(z)) > 1e-9 ? "\\approx " : "=") + td(r2(z), 2); }
+    function Ft(z) { z = r2(z); return z >= 0 ? "P(Z\\leq " + td(z, 2) + ")=" + f4(F(z)) : "1-P(Z\\leq " + td(-z, 2) + ")=1-" + f4(F(-z)) + "=" + f4(F(z)); }
+    if (ev === "le" || ev === "ge") {
+      var z = (a - m) / s, zr = r2(z);
+      h += "<p>" + tex("Z=" + zt(a)) + "</p>";
+      if (ev === "le") { P = F(zr); h += "<p>" + tex("P(X\\leq " + td(a, 4) + ")=P(Z\\leq " + td(zr, 2) + ")") + "</p><p>" + tex("=" + Ft(zr)) + "</p>"; shade = [[-1e9, a]]; }
+      else { P = 1 - F(zr); h += "<p>" + tex("P(X\\geq " + td(a, 4) + ")=P(Z\\geq " + td(zr, 2) + ")=1-P(Z\\leq " + td(zr, 2) + ")") + "</p><p>" + tex("=1-" + f4(F(zr)) + "=" + f4(P)) + "</p>"; shade = [[a, 1e9]]; }
+    } else if (ev === "ab") {
+      var za = r2((a - m) / s), zb = r2((b - m) / s);
+      h += "<p>" + tex("z_1=" + zt(a) + ",\\quad z_2=" + zt(b)) + "</p>";
+      P = F(zb) - F(za);
+      h += "<p>" + tex("P(" + td(za, 2) + "\\leq Z\\leq " + td(zb, 2) + ")=P(Z\\leq " + td(zb, 2) + ")-P(Z\\leq " + td(za, 2) + ")") + "</p><p>" + tex("=" + f4(F(zb)) + "-" + f4(F(za)) + "=" + f4(P)) + "</p>";
+      shade = [[a, b]];
+    } else {
+      var pp = ev === "ile" ? a : 1 - a, zi = zinv(pp), k = m + zi.z * s;
+      if (ev === "ige") h += "<p>" + tex("P(X\\geq k)=" + td(a, 4) + "\\iff P(X\\leq k)=" + td(pp, 4)) + "</p>";
+      if (zi.neg) h += "<p>" + t3("Com que ", "Como ", "Since ") + tex(td(pp, 4) + "\\lt0{,}5") + t3(", el valor de z és negatiu: busquem ", ", el valor de z es negativo: buscamos ", ", z is negative: look up ") + tex(td(zi.pp, 4)) + t3(" a la taula.", " en la tabla.", " in the table.") + "</p>";
+      h += "<p>" + t3("Valor més pròxim a la taula: ", "Valor más próximo en la tabla: ", "Closest table value: ") + tex(f4(zi.b.v) + "\\to z=" + td(zi.b.z, 2)) + (zi.b.tie ? " " + t3("(empat amb ", "(empate con ", "(tie with ") + tex(f4(zi.b.tie.v) + "\\to" + td(zi.b.tie.z, 2)) + t3(": prenem la mitjana)", ": tomamos la media)", ": take the average)") : "") + "</p>";
+      h += "<p>" + tex("\\frac{k-" + td(m, 4) + "}{" + td(s, 4) + "}=" + td(zi.z, 3) + "\\Rightarrow k=" + td(m, 4) + (zi.z < 0 ? "-" : "+") + td(Math.abs(zi.z), 3) + "\\cdot" + td(s, 4) + "\\approx " + td(k, 3)) + "</p>";
+      P = k; shade = ev === "ile" ? [[-1e9, k]] : [[k, 1e9]];
+      zs.push(Math.abs(r2(zi.z)));
+      return { h: h + '<p class="big-p">' + tex("k\\approx " + td(k, 3)) + "</p>", P: k, shade: shade, zs: zs, inv: zi };
+    }
+    h += '<p class="big-p">' + tex("P\\approx " + f4(P)) + "</p>";
+    return { h: h, P: P, shade: shade, zs: zs };
+  }
+  function markZ(zs, inv) {
+    var t = document.getElementById("tnorm"); if (!t) return null;
+    t.querySelectorAll("td").forEach(function (c) { c.classList.remove("on", "on2"); });
+    var first = null;
+    if (inv) {
+      [inv.b, inv.b.tie].forEach(function (b) { if (!b) return; var c = t.querySelector("tr[data-r='" + b.r + "'] td[data-c='" + b.c + "']"); if (c) { c.classList.add("on"); first = first || c; } });
+      return first;
+    }
+    zs.forEach(function (z, i) { var rc = cell(z); if (!rc) return; var c = t.querySelector("tr[data-r='" + rc[0] + "'] td[data-c='" + rc[1] + "']"); if (c) { c.classList.add(i ? "on2" : "on"); first = first || c; } });
+    return first;
+  }
+
+  /* ---------- widget: campana de Gauss ---------- */
+  function wNorm() {
+    var w = document.getElementById("w-norm"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info");
+    ["m", "s", "a", "b"].forEach(function (r) { $(w, r).addEventListener("input", draw); });
+    presetBtns($(w, "presets"), function () { return ["μ ± σ", "μ ± 2σ", "μ ± 3σ"]; }, function (i) {
+      var m = +$(w, "m").value, s = +$(w, "s").value; $(w, "a").value = decS(m - (i + 1) * s, 2).replace(",", "."); $(w, "b").value = decS(m + (i + 1) * s, 2).replace(",", "."); draw();
+    });
+    function draw() {
+      var m = +$(w, "m").value, s = +$(w, "s").value, a = num($(w, "a").value), b = num($(w, "b").value);
+      $(w, "mv").textContent = decS(m, 1); $(w, "sv").textContent = decS(s, 1);
+      if (isNaN(a) || isNaN(b) || b < a) { info.innerHTML = "<p class='chk no'>" + t3("Escriu a ≤ b.", "Escribe a ≤ b.", "Type a ≤ b.") + "</p>"; return; }
+      var r = normCalc(m, s, "ab", a, b);
+      info.innerHTML = r.h;
+      var ticks = [[m, "μ", true]]; [-2, -1, 1, 2].forEach(function (k) { ticks.push([m + k * s, (k > 0 ? "μ+" : "μ−") + (Math.abs(k) > 1 ? Math.abs(k) : "") + "σ"]); });
+      normPlot(svg, { m: m, s: s, x0: -8, x1: 8, shade: r.shade, ticks: ticks, cmp: true, lines: [a, b], ymax: Math.max(dens(m, m, s), 0.42) * 1.08 });
+    }
+    onLang(draw);
+  }
+
+  /* ---------- widget: taula de la normal ---------- */
+  function wTz() {
+    var w = document.getElementById("w-tz"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info"), se = $(w, "ev"), wrap = $(w, "wrap"), tbl = document.getElementById("tnorm");
+    function EV() { return [["le", "P(Z ≤ z)"], ["ge", "P(Z ≥ z)"], ["ab", "P(z ≤ Z ≤ z₂)"], ["sym", "P(−z ≤ Z ≤ z)"], ["ile", t3("Invers: P(Z ≤ k) = p", "Inverso: P(Z ≤ k) = p", "Inverse: P(Z ≤ k) = p")], ["ige", t3("Invers: P(Z ≥ k) = p", "Inverso: P(Z ≥ k) = p", "Inverse: P(Z ≥ k) = p")]]; }
+    fillSelect(se, EV()); se.value = "le";
+    var lastEv = "le";
+    se.addEventListener("change", function () {
+      var e = se.value, inv = e[0] === "i";
+      if (inv !== (lastEv[0] === "i")) $(w, "a").value = inv ? "0.9" : "1.25";
+      lastEv = e; draw(true);
+    });
+    ["a", "b"].forEach(function (r) { $(w, r).addEventListener("input", function () { draw(true); }); });
+    tbl.addEventListener("click", function (e) {
+      var c = e.target.closest("td"); if (!c) return;
+      var z = +c.parentNode.getAttribute("data-r") / 10 + +c.getAttribute("data-c") / 100;
+      se.value = "le"; lastEv = "le"; $(w, "a").value = z.toFixed(2); draw(false);
+    });
+    function draw(scroll) {
+      var e = se.value, a = num($(w, "a").value), b = num($(w, "b").value);
+      var inv = e[0] === "i";
+      $(w, "lb").style.display = e === "ab" ? "" : "none";
+      $(w, "la").firstChild.textContent = inv ? "p = " : "";
+      if (isNaN(a) || (e === "ab" && isNaN(b)) || (inv && !(a > 0 && a < 1))) { info.innerHTML = "<p class='chk no'>" + t3("Revisa les dades.", "Revisa los datos.", "Check the data.") + "</p>"; return; }
+      var h = "", shade, zs = [], ivr = null, P;
+      if (e === "le" || e === "ge") {
+        var zr = r2(a); zs = [Math.abs(zr)];
+        if (e === "le") { P = F(zr); shade = [[-9, zr]]; h = zr >= 0 ? "<p>" + tex("P(Z\\leq " + td(zr, 2) + ")=" + f4(P)) + "</p>" : "<p>" + tex("P(Z\\leq " + td(zr, 2) + ")=1-P(Z\\leq " + td(-zr, 2) + ")=1-" + f4(F(-zr)) + "=" + f4(P)) + "</p>"; }
+        else { P = 1 - F(zr); shade = [[zr, 9]]; h = zr >= 0 ? "<p>" + tex("P(Z\\geq " + td(zr, 2) + ")=1-P(Z\\leq " + td(zr, 2) + ")=1-" + f4(F(zr)) + "=" + f4(P)) + "</p>" : "<p>" + tex("P(Z\\geq " + td(zr, 2) + ")=P(Z\\leq " + td(-zr, 2) + ")=" + f4(P)) + "</p>"; }
+      } else if (e === "ab") {
+        var za = r2(Math.min(a, b)), zb = r2(Math.max(a, b)); zs = [Math.abs(zb), Math.abs(za)]; P = F(zb) - F(za); shade = [[za, zb]];
+        h = "<p>" + tex("P(" + td(za, 2) + "\\leq Z\\leq " + td(zb, 2) + ")=P(Z\\leq " + td(zb, 2) + ")-P(Z\\leq " + td(za, 2) + ")") + "</p><p>" + tex("=" + f4(F(zb)) + "-" + f4(F(za)) + "=" + f4(P)) + "</p>";
+      } else if (e === "sym") {
+        var z = Math.abs(r2(a)); P = 2 * F(z) - 1; zs = [z]; shade = [[-z, z]];
+        h = "<p>" + tex("P(-" + td(z, 2) + "\\leq Z\\leq " + td(z, 2) + ")=2P(Z\\leq " + td(z, 2) + ")-1") + "</p><p>" + tex("=2\\cdot" + f4(F(z)) + "-1=" + f4(P)) + "</p>";
+      } else {
+        var pp = e === "ile" ? a : 1 - a; ivr = zinv(pp);
+        if (e === "ige") h += "<p>" + tex("P(Z\\geq k)=" + td(a, 4) + "\\iff P(Z\\leq k)=" + td(pp, 4)) + "</p>";
+        if (ivr.neg) h += "<p>" + t3("Com que la probabilitat és menor que 0,5, k és negatiu. Per simetria busquem ", "Como la probabilidad es menor que 0,5, k es negativo. Por simetría buscamos ", "Since the probability is below 0.5, k is negative. By symmetry we look up ") + tex(td(ivr.pp, 4)) + ".</p>";
+        h += "<p>" + t3("A la taula, el més pròxim és ", "En la tabla, el más próximo es ", "In the table, the closest is ") + tex(f4(ivr.b.v) + "\\to " + td(ivr.b.z, 2)) + (ivr.b.tie ? " " + t3("i ", "y ", "and ") + tex(f4(ivr.b.tie.v) + "\\to " + td(ivr.b.tie.z, 2)) + t3(" (igual de pròxims: prenem la mitjana)", " (igual de próximos: tomamos la media)", " (equally close: take the average)") : "") + "</p>";
+        h += '<p class="big-p">' + tex("k\\approx " + td(ivr.z, 3)) + "</p>";
+        shade = e === "ile" ? [[-9, ivr.z]] : [[ivr.z, 9]];
+      }
+      info.innerHTML = h;
+      normPlot(svg, { m: 0, s: 1, x0: -3.6, x1: 3.6, shade: shade, ticks: [[-3, "−3"], [-2, "−2"], [-1, "−1"], [0, "0"], [1, "1"], [2, "2"], [3, "3"]] });
+      var c = markZ(zs, ivr);
+      if (scroll && c) wrap.scrollTo({ top: Math.max(0, c.offsetTop - 80), behavior: "smooth" });
+    }
+    onLang(function () { fillSelect(se, EV()); draw(false); });
+  }
+
+  /* ---------- widget: tipificació ---------- */
+  function wTip() {
+    var w = document.getElementById("w-tip"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info"), se = $(w, "ev");
+    var PRE = [
+      { m: "100", s: "14", e: "ab", a: "108", b: "116", l: function () { return t3("CI entre 108 i 116", "CI entre 108 y 116", "IQ between 108 and 116"); } },
+      { m: "70", s: "15", e: "ge", a: "80", l: function () { return t3("Pes > 80 kg", "Peso > 80 kg", "Weight > 80 kg"); } },
+      { m: "60", s: "10", e: "ile", a: "0.96", l: function () { return t3("Temps per al 96 %", "Tiempo para el 96 %", "Time for 96%"); } },
+      { m: "250", s: "50", e: "ige", a: "0.4", l: function () { return t3("Truites: el 40 % millor", "Truchas: el 40 % mejor", "Trout: top 40%"); } }
+    ];
+    presetBtns($(w, "presets"), function () { return PRE.map(function (p) { return p.l(); }); }, function (i) {
+      var p = PRE[i]; $(w, "m").value = p.m; $(w, "s").value = p.s; se.value = p.e; $(w, "a").value = p.a; if (p.b) $(w, "b").value = p.b; draw();
+    })[0].classList.add("on");
+    fillSelect(se, NEV()); se.value = "ab";
+    ["m", "s", "a", "b"].forEach(function (r) { $(w, r).addEventListener("input", draw); }); se.addEventListener("change", draw);
+    function draw() {
+      var m = num($(w, "m").value), s = num($(w, "s").value), e = se.value, a = num($(w, "a").value), b = num($(w, "b").value);
+      $(w, "lb").style.display = e === "ab" ? "" : "none";
+      $(w, "la").firstChild.textContent = e[0] === "i" ? "p = " : "";
+      if (isNaN(m) || !(s > 0) || isNaN(a) || (e === "ab" && isNaN(b)) || (e[0] === "i" && !(a > 0 && a < 1))) { info.innerHTML = "<p class='chk no'>" + t3("Revisa les dades.", "Revisa los datos.", "Check the data.") + "</p>"; return; }
+      var r = normCalc(m, s, e, a, b);
+      info.innerHTML = r.h;
+      var ticks = [[m, td(m, 3).replace("{,}", ","), true]];
+      if (e === "ab") { ticks.push([a, decS(a, 3)], [b, decS(b, 3)]); } else if (e[0] === "i") ticks.push([r.P, "k"]); else ticks.push([a, decS(a, 3)]);
+      normPlot(svg, { m: m, s: s, x0: m - 3.8 * s, x1: m + 3.8 * s, shade: r.shade, ticks: ticks });
+    }
+    onLang(function () { fillSelect(se, NEV()); draw(); });
+  }
+
+  /* ---------- aproximació binomial-normal ---------- */
+  function aproxCalc(n, p, ev, a, b) {
+    var m = n * p, s = Math.sqrt(n * p * (1 - p)), lo, hi, h = "";
+    if (ev === "eq") { lo = a - 0.5; hi = a + 0.5; } else if (ev === "le") { lo = -1e9; hi = a + 0.5; } else if (ev === "lt") { lo = -1e9; hi = a - 0.5; }
+    else if (ev === "ge") { lo = a - 0.5; hi = 1e9; } else if (ev === "gt") { lo = a + 0.5; hi = 1e9; } else { lo = a - 0.5; hi = b + 0.5; }
+    var ok = m >= 5 && n * (1 - p) >= 5;
+    h += "<p>" + tex("np=" + td(m, 3) + ",\\ nq=" + td(n - m, 3)) + (ok ? " ✓" : " <span class='chk no'>" + t3("l'aproximació no és bona", "la aproximación no es buena", "the approximation is poor") + "</span>") + "</p>";
+    h += "<p>" + tex("X'\\sim N(" + td(m, 3) + ";\\," + td(s, 4) + ")") + "</p>";
+    var P, zl = r2((lo - m) / s), zh = r2((hi - m) / s), nt;
+    function zf(x) { return "\\frac{" + td(x, 4) + "-" + td(m, 3) + "}{" + td(s, 4) + "}\\approx " + td(r2((x - m) / s), 2); }
+    if (lo < -1e8) { P = F(zh); nt = "P(X'\\leq " + td(hi, 1) + ")=P(Z\\leq " + td(zh, 2) + ")"; h += "<p>" + tex("z=" + zf(hi)) + "</p>"; }
+    else if (hi > 1e8) { P = 1 - F(zl); nt = "P(X'\\geq " + td(lo, 1) + ")=P(Z\\geq " + td(zl, 2) + ")"; h += "<p>" + tex("z=" + zf(lo)) + "</p>"; }
+    else { P = F(zh) - F(zl); nt = "P(" + td(lo, 1) + "\\leq X'\\leq " + td(hi, 1) + ")=P(" + td(zl, 2) + "\\leq Z\\leq " + td(zh, 2) + ")"; h += "<p>" + tex("z_1=" + zf(lo) + ",\\ z_2=" + zf(hi)) + "</p>"; }
+    h += "<p>" + tex(bEvTex(ev, a, b) + "\\approx " + nt) + "</p><p class='big-p'>" + tex("\\approx " + f4(P)) + "</p>";
+    return { P: P, h: h, shade: [lo, hi], m: m, s: s };
+  }
+  function wAprox() {
+    var w = document.getElementById("w-aprox"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info"), ev = $(w, "ev");
+    fillSelect(ev, BEV); ev.value = "le";
+    ["n", "p", "a", "b"].forEach(function (r) { $(w, r).addEventListener("input", draw); }); ev.addEventListener("change", draw);
+    function draw() {
+      var n = +$(w, "n").value, p = +$(w, "p").value, a = Math.round(num($(w, "a").value)), b = Math.round(num($(w, "b").value)), e = ev.value;
+      $(w, "nv").textContent = n; $(w, "pv").textContent = decS(p, 2); $(w, "lb").style.display = e === "ab" ? "" : "none";
+      if (isNaN(a) || (e === "ab" && isNaN(b))) return;
+      var ex = 0, f = bset(e, a, b); for (var k = 0; k <= n; k++) if (f(k)) ex += pmf(n, p, k);
+      var r = aproxCalc(n, p, e, a, b);
+      info.innerHTML = "<p>" + tex("X\\sim B(" + n + ";\\," + td(p, 2) + ")") + "</p>" + r.h +
+        "<p>" + t3("Valor exacte (binomial): ", "Valor exacto (binomial): ", "Exact value (binomial): ") + tex(f4(ex)) + " · " + t3("diferència: ", "diferencia: ", "difference: ") + tex(f4(Math.abs(ex - r.P))) + "</p>";
+      barsPlot(svg, n, p, f, { shade: r.shade });
+    }
+    onLang(function () { fillSelect(ev, BEV); draw(); });
+  }
+
+  /* ---------- calculadora ---------- */
+  function wLab() {
+    var w = document.getElementById("w-lab"); if (!w) return;
+    var svg = w.querySelector("svg"), out = $(w, "out"), ev = $(w, "ev"), dist = "B";
+    var inp1 = $(w, "x1"), inp2 = $(w, "x2"), l1 = $(w, "l1"), l2 = $(w, "l2");
+    var bs = ["B", "N"].map(function (d) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn";
+      b.addEventListener("click", function () { dist = d; inp1.value = d === "B" ? "20" : "100"; inp2.value = d === "B" ? "0.3" : "15"; $(w, "a").value = d === "B" ? "5" : "110"; $(w, "b").value = d === "B" ? "8" : "130"; opts(); draw(); });
+      $(w, "dist").appendChild(b); return b;
+    });
+    function opts() {
+      bs[0].textContent = "Binomial"; bs[1].textContent = "Normal";
+      bs.forEach(function (b, i) { b.classList.toggle("on", (i === 0) === (dist === "B")); });
+      l1.innerHTML = tex(dist === "B" ? "n=" : "\\mu=") + " "; l1.appendChild(inp1);
+      l2.innerHTML = tex(dist === "B" ? "p=" : "\\sigma=") + " "; l2.appendChild(inp2);
+      fillSelect(ev, dist === "B" ? BEV : NEV());
+    }
+    ["a", "b"].forEach(function (r) { $(w, r).addEventListener("input", draw); }); [inp1, inp2].forEach(function (i) { i.addEventListener("input", draw); }); ev.addEventListener("change", draw);
+    function draw() {
+      var x1 = num(inp1.value), x2 = num(inp2.value), e = ev.value, a = num($(w, "a").value), b = num($(w, "b").value);
+      $(w, "lb").style.display = e === "ab" ? "" : "none";
+      if (dist === "B") {
+        var n = Math.round(x1), p = x2;
+        if (!(n >= 1 && n <= 2000) || !(p > 0 && p < 1) || isNaN(a) || (e === "ab" && isNaN(b))) { out.innerHTML = "<p class='chk no'>" + t3("Revisa les dades (1 ≤ n ≤ 2000, 0 < p < 1).", "Revisa los datos (1 ≤ n ≤ 2000, 0 < p < 1).", "Check the data (1 ≤ n ≤ 2000, 0 < p < 1).") + "</p>"; return; }
+        a = Math.round(a); b = Math.round(b);
+        var h = "";
+        if (n <= 60) { var r = binCalc(n, p, e, a, b); h = r.h; }
+        else { var ex = 0, f = bset(e, a, b); for (var k = 0; k <= n; k++) if (f(k)) ex += pmf(n, p, k); h = "<p>" + tex("X\\sim B(" + n + ";\\," + td(p, 4) + ")") + "</p><p>" + t3("Valor exacte (sumant amb ordinador): ", "Valor exacto (sumando con ordenador): ", "Exact value (computer sum): ") + tex(f4(ex)) + "</p>"; }
+        if (n * p >= 5 && n * (1 - p) >= 5) { var ap = aproxCalc(n, p, e, a, b); h += "<h4>" + t3("Aproximació normal", "Aproximación normal", "Normal approximation") + "</h4>" + ap.h; barsPlot(svg, n, p, bset(e, a, b), { shade: ap.shade }); }
+        else barsPlot(svg, n, p, bset(e, a, b));
+        out.innerHTML = h;
+      } else {
+        var m = x1, s = x2;
+        if (isNaN(m) || !(s > 0) || isNaN(a) || (e === "ab" && isNaN(b)) || (e[0] === "i" && !(a > 0 && a < 1))) { out.innerHTML = "<p class='chk no'>" + t3("Revisa les dades.", "Revisa los datos.", "Check the data.") + "</p>"; return; }
+        var rn = normCalc(m, s, e, a, b);
+        out.innerHTML = rn.h;
+        normPlot(svg, { m: m, s: s, x0: m - 3.8 * s, x1: m + 3.8 * s, shade: rn.shade, ticks: [[m, "μ", true]] });
+      }
+    }
+    onLang(function () { opts(); draw(); });
+  }
+
+  /* ---------- qüestionari ---------- */
+  function q3(va, es, en) { return { va: va, es: es === undefined ? va : es, en: en === undefined ? va : en }; }
+  var QUIZ = [
+    { q: q3("Quina d'aquestes variables és binomial?", "¿Cuál de estas variables es binomial?", "Which of these variables is binomial?"),
+      o: [q3("L'altura d'un alumne", "La altura de un alumno", "A student's height"), q3("El nombre de sisos en 10 llançaments d'un dau", "El número de seises en 10 lanzamientos de un dado", "The number of sixes in 10 rolls of a die"), q3("El nombre de boles roges en 3 extraccions sense reemplaçament d'una urna amb 5 boles", "El número de bolas rojas en 3 extracciones sin reemplazamiento de una urna con 5 bolas", "The number of red balls in 3 draws without replacement from an urn with 5 balls")], a: 1,
+      e: q3("10 proves independents amb la mateixa $p=\\frac16$. L'altura és contínua i, sense reemplaçament, la $p$ canvia.", "10 pruebas independientes con la misma $p=\\frac16$. La altura es continua y, sin reemplazamiento, la $p$ cambia.", "10 independent trials with the same $p=\\frac16$. Height is continuous and, without replacement, $p$ changes.") },
+    { q: q3("Si $X\\sim B(10;\\,0{,}3)$, la mitjana és…", "Si $X\\sim B(10;\\,0{,}3)$, la media es…", "If $X\\sim B(10;\\,0.3)$, the mean is…"),
+      o: [q3("$3$"), q3("$0{,}3$", "$0{,}3$", "$0.3$"), q3("$2{,}1$", "$2{,}1$", "$2.1$")], a: 0, e: q3("$\\mu=np=10\\cdot0{,}3=3$.", "$\\mu=np=10\\cdot0{,}3=3$.", "$\\mu=np=10\\cdot0.3=3$.") },
+    { q: q3("Amb la taula de la PAU, si $X\\sim B(5;\\,0{,}20)$, $P(X=1)$ val…", "Con la tabla de la PAU, si $X\\sim B(5;\\,0{,}20)$, $P(X=1)$ vale…", "Using the PAU table, if $X\\sim B(5;\\,0.20)$, $P(X=1)$ is…"),
+      o: [q3("$0{,}3277$", "$0{,}3277$", "$0.3277$"), q3("$0{,}4096$", "$0{,}4096$", "$0.4096$"), q3("$0{,}2$", "$0{,}2$", "$0.2$")], a: 1, e: q3("$\\binom51\\,0{,}2\\cdot0{,}8^4=0{,}4096$ (bloc $n=5$, fila $x=1$).", "$\\binom51\\,0{,}2\\cdot0{,}8^4=0{,}4096$ (bloque $n=5$, fila $x=1$).", "$\\binom51\\,0.2\\cdot0.8^4=0.4096$ (block $n=5$, row $x=1$).") },
+    { q: q3("Si $X\\sim B(6;\\,0{,}8)$, per a fer servir la taula calculem $P(X=6)$ com…", "Si $X\\sim B(6;\\,0{,}8)$, para usar la tabla calculamos $P(X=6)$ como…", "If $X\\sim B(6;\\,0.8)$, to use the table we compute $P(X=6)$ as…"),
+      o: [q3("$P(Y=6)$ amb $Y\\sim B(6;\\,0{,}2)$", "$P(Y=6)$ con $Y\\sim B(6;\\,0{,}2)$", "$P(Y=6)$ with $Y\\sim B(6;\\,0.2)$"), q3("$P(Y=0)$ amb $Y\\sim B(6;\\,0{,}2)$", "$P(Y=0)$ con $Y\\sim B(6;\\,0{,}2)$", "$P(Y=0)$ with $Y\\sim B(6;\\,0.2)$"), q3("$1-P(X=0)$")], a: 1,
+      e: q3("6 èxits són 0 fracassos: $P(Y=0)=0{,}2621$.", "6 éxitos son 0 fracasos: $P(Y=0)=0{,}2621$.", "6 successes means 0 failures: $P(Y=0)=0.2621$.") },
+    { q: q3("En una variable contínua, $P(X=5)$ és…", "En una variable continua, $P(X=5)$ es…", "For a continuous variable, $P(X=5)$ is…"),
+      o: [q3("$0$"), q3("$f(5)$"), q3("$P(X\\leq5)$")], a: 0, e: q3("L'àrea d'una línia és 0.", "El área de una línea es 0.", "The area over a single point is 0.") },
+    { q: q3("Si $Z\\sim N(0,1)$, $P(Z\\geq1)$ val…", "Si $Z\\sim N(0,1)$, $P(Z\\geq1)$ vale…", "If $Z\\sim N(0,1)$, $P(Z\\geq1)$ is…"),
+      o: [q3("$0{,}8413$", "$0{,}8413$", "$0.8413$"), q3("$0{,}1587$", "$0{,}1587$", "$0.1587$"), q3("$0{,}3413$", "$0{,}3413$", "$0.3413$")], a: 1, e: q3("$1-P(Z\\leq1)=1-0{,}8413$.", "$1-P(Z\\leq1)=1-0{,}8413$.", "$1-P(Z\\leq1)=1-0.8413$.") },
+    { q: q3("$P(Z\\leq-0{,}5)$ és igual a…", "$P(Z\\leq-0{,}5)$ es igual a…", "$P(Z\\leq-0.5)$ equals…"),
+      o: [q3("$-P(Z\\leq0{,}5)$", "$-P(Z\\leq0{,}5)$", "$-P(Z\\leq0.5)$"), q3("$1-P(Z\\leq0{,}5)$", "$1-P(Z\\leq0{,}5)$", "$1-P(Z\\leq0.5)$"), q3("$P(Z\\leq0{,}5)-0{,}5$", "$P(Z\\leq0{,}5)-0{,}5$", "$P(Z\\leq0.5)-0.5$")], a: 1, e: q3("Per simetria: $1-0{,}6915=0{,}3085$.", "Por simetría: $1-0{,}6915=0{,}3085$.", "By symmetry: $1-0.6915=0.3085$.") },
+    { q: q3("Si $X\\sim N(50,10)$, el valor tipificat de $x=65$ és…", "Si $X\\sim N(50,10)$, el valor tipificado de $x=65$ es…", "If $X\\sim N(50,10)$, the standardised value of $x=65$ is…"),
+      o: [q3("$6{,}5$", "$6{,}5$", "$6.5$"), q3("$1{,}5$", "$1{,}5$", "$1.5$"), q3("$15$")], a: 1, e: q3("$z=\\frac{65-50}{10}=1{,}5$.", "$z=\\frac{65-50}{10}=1{,}5$.", "$z=\\frac{65-50}{10}=1.5$.") },
+    { q: q3("Si $X\\sim N(100,15)$, quin valor deixa per davall el 90 % dels casos?", "Si $X\\sim N(100,15)$, ¿qué valor deja por debajo el 90 % de los casos?", "If $X\\sim N(100,15)$, which value has 90% of cases below it?"),
+      o: [q3("$119{,}2$", "$119{,}2$", "$119.2$"), q3("$115$"), q3("$128$")], a: 0, e: q3("$z\\approx1{,}28$: $100+1{,}28\\cdot15=119{,}2$.", "$z\\approx1{,}28$: $100+1{,}28\\cdot15=119{,}2$.", "$z\\approx1.28$: $100+1.28\\cdot15=119.2$.") },
+    { q: q3("Per a aproximar $P(X\\leq40)$ amb $X\\sim B(100;\\,0{,}5)$ calculem…", "Para aproximar $P(X\\leq40)$ con $X\\sim B(100;\\,0{,}5)$ calculamos…", "To approximate $P(X\\leq40)$ with $X\\sim B(100;\\,0.5)$ we compute…"),
+      o: [q3("$P(X'\\leq39{,}5)$", "$P(X'\\leq39{,}5)$", "$P(X'\\leq39.5)$"), q3("$P(X'\\leq40{,}5)$", "$P(X'\\leq40{,}5)$", "$P(X'\\leq40.5)$"), q3("$P(X'\\leq40)$")], a: 1, e: q3("La barra del 40 va fins a 40,5. $X'\\sim N(50,5)$: $P(Z\\leq-1{,}9)=0{,}0287$.", "La barra del 40 va hasta 40,5. $X'\\sim N(50,5)$: $P(Z\\leq-1{,}9)=0{,}0287$.", "The bar for 40 extends to 40.5. $X'\\sim N(50,5)$: $P(Z\\leq-1.9)=0.0287$.") }
+  ];
+  var answers = {};
+  function rtex(s) { return s.replace(/\$([^$]+)\$/g, function (_, m) { return tex(m); }); }
+  function wQuiz() {
+    var box = document.getElementById("quiz-box"), score = document.getElementById("quiz-score");
+    if (!box) return;
+    function render() {
+      box.innerHTML = ""; var ok = 0, done = 0;
+      QUIZ.forEach(function (q, i) {
+        var d = document.createElement("div"); d.className = "q";
+        d.innerHTML = '<p class="qt">' + (i + 1) + ". " + rtex(q.q[lang]) + '</p><div class="opts"></div><div class="fb"></div>';
+        var opts = d.querySelector(".opts"), fb = d.querySelector(".fb");
+        q.o.forEach(function (o, j) {
+          var b = document.createElement("button"); b.type = "button"; b.innerHTML = rtex(o[lang]);
+          if (answers[i] != null) {
+            b.disabled = true;
+            if (j === q.a) b.classList.add("right"); else if (j === answers[i]) b.classList.add("wrong");
+          }
+          b.addEventListener("click", function () { answers[i] = j; render(); });
+          opts.appendChild(b);
+        });
+        if (answers[i] != null) { done++; if (answers[i] === q.a) ok++; fb.innerHTML = "<strong>" + (answers[i] === q.a ? "✓ " + u("right") : "✗ " + u("wrong")) + "</strong> " + rtex(q.e[lang]); }
+        box.appendChild(d);
+      });
+      score.textContent = done ? u("score") + ": " + ok + " / " + QUIZ.length : "";
+    }
+    document.getElementById("quiz-reset").addEventListener("click", function () { answers = {}; render(); });
+    onLang(render);
+  }
+
+  /* ---------- passos ---------- */
+  function wSteps() {
+    document.querySelectorAll(".steps").forEach(function (s) {
+      var steps = [].slice.call(s.children).filter(function (c) { return c.classList.contains("step"); });
+      if (steps.length < 2) return;
+      s.classList.add("js");
+      var shown = 1, ctl = document.createElement("div"); ctl.className = "steps-ctl";
+      var bn = document.createElement("button"), ba = document.createElement("button"), cnt = document.createElement("span");
+      bn.type = ba.type = "button"; bn.className = "btn primary"; ba.className = "btn"; cnt.className = "step-count";
+      ctl.appendChild(bn); ctl.appendChild(ba); ctl.appendChild(cnt); s.after(ctl);
+      function upd() {
+        steps.forEach(function (st, i) { st.classList.toggle("hidden", i >= shown); });
+        bn.textContent = u("next") + " →"; bn.disabled = shown >= steps.length;
+        ba.textContent = shown >= steps.length ? u("reset") : u("all");
+        cnt.textContent = u("step") + " " + shown + " " + u("of") + " " + steps.length;
+      }
+      bn.addEventListener("click", function () { if (shown < steps.length) { shown++; upd(); steps[shown - 1].scrollIntoView({ block: "nearest", behavior: "smooth" }); } });
+      ba.addEventListener("click", function () { shown = shown >= steps.length ? 1 : steps.length; upd(); });
+      onLang(upd);
+    });
+  }
+
+  /* ---------- índex, progrés i seccions estudiades ---------- */
+  function wNav() {
+    var links = [].slice.call(document.querySelectorAll("#toc-list a")), secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var bar = document.getElementById("progress"), top = document.getElementById("to-top");
+    function onScroll() {
+      var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + "%";
+      top.classList.toggle("show", h.scrollTop > 800);
+      var y = window.scrollY + 140, idx = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    top.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    var done = {}; try { done = JSON.parse(store(UNIT_KEY) || "{}") || {}; } catch (e) {}
+    var heads = document.querySelectorAll("section.unit[id^='s'] .sec-head");
+    heads.forEach(function (hd) {
+      var id = hd.parentNode.id, b = document.createElement("button"); b.type = "button"; b.className = "done-btn";
+      function upd() { b.setAttribute("aria-pressed", String(!!done[id])); b.textContent = (done[id] ? "✓ " + u("studied") : "○ " + u("mark")); }
+      b.addEventListener("click", function () { done[id] = !done[id]; store(UNIT_KEY, JSON.stringify(done)); upd(); meter(); });
+      hd.appendChild(b); onLang(upd);
+    });
+    function meter() {
+      var n = 0; links.forEach(function (a) { var id = a.getAttribute("href").slice(1); a.classList.toggle("done", !!done[id]); if (done[id]) n++; });
+      document.getElementById("meter").style.width = (n / 8 * 100) + "%"; document.getElementById("meter-n").textContent = n;
+    }
+    meter();
+    var d = document.getElementById("toc-d");
+    var mq = window.matchMedia("(max-width: 960px)");
+    d.open = !mq.matches;
+    if (mq.addEventListener) mq.addEventListener("change", function () { d.open = !mq.matches; });
+    links.forEach(function (a) { a.addEventListener("click", function () { if (window.matchMedia("(max-width: 960px)").matches) d.open = false; }); });
+  }
+
+  /* ---------- idioma i tema ---------- */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function wChrome() {
+    var tb = document.getElementById("theme-btn");
+    function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+    tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+    var btns = document.querySelectorAll("[data-setlang]");
+    function paintLang() { btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); }
+    btns.forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.setlang); }); });
+    onLang(function () { paintTheme(); paintLang(); });
+  }
+  var TITLES = { va: "Distribució binomial i normal · FentMates", es: "Distribución binomial y normal · FentMates", en: "Binomial and normal distributions · FentMates" };
+  function setLang(l) {
+    if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }
+
+  function init() {
+    document.title = TITLES[lang];
+    readTables();
+    var Dl = [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }];
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
+      document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p, .lab .bh, .lab p, .lab label").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
+    }
+    var all = [wChrome, wSteps, wNav, wFigs, wBin, wTbin, wNorm, wTz, wTip, wAprox, wLab, wQuiz];
+    all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
+    window.FM10 = { F: F, zinv: zinv, pmf: pmf, BT: BT, normCalc: normCalc, aproxCalc: aproxCalc };
+  }
+  if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+})();
+</script>
+</body>
+</html>

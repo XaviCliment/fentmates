@@ -47,7 +47,7 @@
     n = n ? +n : 0;
     if (course === "1eso") return "ari";
     if (course === "3eso") return n >= 4 ? "alg" : "ari";
-    if (course === "2batx-ccss") return n === 3 ? "pl" : n >= 4 && n <= 8 ? "an" : "alg";
+    if (course === "2batx-ccss") return n === 3 ? "pl" : n >= 4 && n <= 8 ? "an" : n >= 9 ? "pr" : "alg";
     if (/^2batx/.test(course)) return "alg";
     return "all";
   }

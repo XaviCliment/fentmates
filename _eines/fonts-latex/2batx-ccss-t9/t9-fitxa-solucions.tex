@@ -1,0 +1,705 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 9: Probabilitat. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={probabilitat, espai mostral, successos, regla de Laplace, probabilitat condicionada, independència, taules de contingència, diagrames d'arbre, extraccions, probabilitat total, teorema de Bayes, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 9: Probabilitat · 2n Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+% successos contraris i probabilitat condicionada
+\newcommand{\co}[1]{\overline{#1}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{2n Batx}{Solucions de la fitxa · Unitat 9}{\raggedright Probabilitat}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Les probabilitats s'han calculat de manera exacta; quan el resultat no és un decimal exacte, es dona la fracció i el valor aproximat amb quatre decimals. Pots comprovar els exercicis de dos successos amb la calculadora dels apunts interactius de la unitat, i els d'arbres amb els ginys d'extraccions i de Bayes.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Espai mostral i operacions amb successos}
+
+\ex{1} \begin{tasks}(1)
+  \task $E=\{C1,C2,\dots,C6,\ {+}1,{+}2,\dots,{+}6\}$: \rest{12 elements}.
+  \task $E=\{XXX,XXY,XYX,XYY,YXX,YXY,YYX,YYY\}$: \rest{8 elements}.
+  \task $E=\{RB,RV,BR,BV,VR,VB\}$: \rest{6 elements} (l'ordre importa i no es pot repetir el color).
+  \task $E=\{1,2,3,4,\dots\}$: és un espai mostral \rest{infinit} (numerable).
+\end{tasks}
+
+\ex{1} $A=\{1,2,3\}$, $B=\{2,4,6\}$, $C=\{5,6\}$.\begin{tasks}(4)
+  \task $\{1,\,2,\,3,\,4,\,6\}$
+  \task $\{2\}$
+  \task $\{4,\,5,\,6\}$
+  \task $\{1,\,3,\,5\}$
+  \task $\{1,\,3\}$
+  \task $\{6\}$
+  \task $\{5\}$
+  \task $\{4\}$
+\end{tasks}Només \rest{$A$ i $C$} són incompatibles: $A\cap C=\varnothing$. ($A\cap B=\{2\}$ i $B\cap C=\{6\}$ no són buits.)
+
+\ex{1} \begin{tasks}(2)
+  \task $\res{M\cap N}$
+  \task $\res{\co M\cap\co N=\overline{M\cup N}}$
+  \task $\res{M\cap\co N=M-N}$
+  \task $\res{\overline{M\cap N}=\co M\cup\co N}$
+  \task $\res{M\cup N}$
+  \task $\res{(M\cap\co N)\cup(\co M\cap N)}$
+  \task $\res{\co M\cup\co N}$ (el mateix que «com a molt una»).
+\end{tasks}
+
+\ex{1} $\overline{A\cup B}=\overline{\{1,\,2,\,3,\,4,\,6,\,8\}}=\{5,\,7\}$ i $\co A\cap\co B=\{5,\,6,\,7,\,8\}\cap\{1,\,3,\,5,\,7\}=\{5,\,7\}$: \rest{coincideixen}.\par $\overline{A\cap B}=\overline{\{2,\,4\}}=\{1,\,3,\,5,\,6,\,7,\,8\}$ i $\co A\cup\co B=\{1,\,3,\,5,\,6,\,7,\,8\}$: \rest{coincideixen}.
+
+\ex{2} \begin{tasks}(1)
+  \task $\res{A\cap\co B\cap\co C}$
+  \task $\res{A\cup B\cup C}$
+  \task $\res{\co A\cap\co B\cap\co C=\overline{A\cup B\cup C}}$
+  \task $\res{(A\cap\co B\cap\co C)\cup(\co A\cap B\cap\co C)\cup(\co A\cap\co B\cap C)}$
+  \task $\res{A\cap B\cap C}$
+  \task $\res{(A\cap B)\cup(A\cap C)\cup(B\cap C)}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Probabilitat. Regla de Laplace}
+
+\ex{1} \begin{tasks}(4)
+  \task $\frac{4}{12}=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $\frac{9}{12}=\res{0{,}75}$
+  \task $\frac{9}{12}=\res{0{,}75}$
+  \task $\res{0}$ (impossible)
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task $\frac{10}{40}=\res{0{,}25}$
+  \task $\frac{12}{40}=\res{0{,}3}$
+  \task $\frac{10+12-3}{40}=\res{0{,}475}$ (les 3 figures d'ors es compten dues vegades)
+  \task $1-\frac{19}{40}=\res{0{,}525}$
+  \task $\res{\frac{3}{40}}$
+\end{tasks}
+
+\ex{1} Hi ha $2^3=8$ resultats equiprobables i només $CCC$ no té cap creu: $P=1-\frac18=\res{0{,}875}$.
+
+\ex{1} Hi ha 1000 números possibles (000 a 999) i acaben en 55 els 10 de la forma $x55$: $P=\frac{10}{1000}=\res{0{,}01}$.
+
+\ex{1} Hi ha $6\cdot6=36$ parelles equiprobables.\begin{tasks}(2)
+  \task (3,6), (4,5), (5,4), (6,3): $\frac{4}{36}=\res{\frac{1}{9}\approx 0{,}1111}$
+  \task 6 parelles: $\frac{6}{36}=\res{\frac{1}{6}\approx 0{,}1667}$
+  \task (2,6), (3,4), (4,3), (6,2): $\res{\frac{1}{9}\approx 0{,}1111}$
+  \task $3\cdot3=9$ parelles: $\res{0{,}25}$
+  \task $6+4+2=12$ parelles: $\res{\frac{1}{3}\approx 0{,}3333}$
+\end{tasks}
+
+\ex{2} $5p+\frac12=1\Rightarrow p=\frac{1}{10}$.\begin{tasks}(2)
+  \task $\res{0{,}1}$
+  \task $1-\frac1{10}=\res{0{,}9}$
+  \task $\frac1{10}+\frac1{10}+\frac12=\res{0{,}7}$
+  \task $3\cdot\frac1{10}=\res{0{,}3}$
+\end{tasks}
+
+\ex{2} $P(C)=2P({+})$ i $P(C)+P({+})=1$.\begin{tasks}(1)
+  \task $3P({+})=1\Rightarrow P(C)=\res{\frac{2}{3}\approx 0{,}6667}$
+  \task $P(C{+})+P({+}C)=2\cdot\frac23\cdot\frac13=\res{\frac{4}{9}\approx 0{,}4444}$ (els resultats ja no són equiprobables: multipliquem)
+  \task $1-P({+}{+})=1-\frac19=\res{\frac{8}{9}\approx 0{,}8889}$
+\end{tasks}
+
+\ex{1} Hi ha 33 múltiples de 3, 20 de 5 i 6 de 15 (comptats dues vegades): $P=\frac{33+20-6}{100}=\res{0{,}47}$.
+
+\ex{1} De les 8 ternes, tenen dues cares $CC{+}$, $C{+}C$ i ${+}CC$: $\res{0{,}375}$. Més cares que creus (2 o 3 cares): $\frac{3+1}{8}=\res{0{,}5}$.
+
+\ex{2} \begin{tasks}(1)
+  \task \rest{Falsa}: les sumes no són equiprobables (el 7 té 6 parelles i el 2 només una). Hem d'aplicar Laplace a les 36 parelles.
+  \task \rest{Falsa}: els llançaments són independents; la probabilitat continua sent $\frac12$.
+  \task \rest{Falsa}: tota probabilitat està entre 0 i 1.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Fórmules de la probabilitat}
+
+\ex{1} \begin{tasks}(2)
+  \task $0{,}45+0{,}3-0{,}6=\res{0{,}15}$
+  \task $1-0{,}6=\res{0{,}4}$
+  \task $0{,}45-0{,}15=\res{0{,}3}$
+  \task $1-0{,}15=\res{0{,}85}$
+  \task $0{,}6-0{,}15=\res{0{,}45}$
+\end{tasks}
+
+\begin{center}\begin{tikzpicture}[scale=.62,baseline=(current bounding box.center)]\draw[muted,rounded corners=3pt] (-2.9,-1.75) rectangle (2.9,1.75);\fill[accent!12] (-0.65,0) circle (1.35); \fill[teal!14] (0.65,0) circle (1.35);\draw[navy,thick] (-0.65,0) circle (1.35); \draw[navy,thick] (0.65,0) circle (1.35);\node[font=\small\bfseries] at (-1.75,1.25) {$A$}; \node[font=\small\bfseries] at (1.75,1.25) {$B$};\node[font=\scriptsize] at (-1.25,0) {$0{,}3$}; \node[font=\scriptsize] at (0,0) {$0{,}15$}; \node[font=\scriptsize] at (1.25,0) {$0{,}15$};\node[font=\scriptsize] at (2.25,-1.45) {$0{,}4$};\end{tikzpicture}\end{center}
+
+
+\ex{1} $P(A\cap B)=0{,}4+0{,}6-0{,}8=0{,}2$. \ $P(\co A\cap B)=P(B)-P(A\cap B)=\res{0{,}4}$; \ $P(\co A\cup\co B)=1-P(A\cap B)=\res{0{,}8}$.
+
+\ex{1} $P(A)=\res{0{,}3}$, $P(B)=\res{0{,}6}$. De Morgan: $P(A\cap B)=1-P(\co A\cup\co B)=\res{0{,}1}$; \ $P(A\cup B)=0{,}3+0{,}6-0{,}1=\res{0{,}8}$; \ $P(\co A\cap\co B)=1-0{,}8=\res{0{,}2}$.
+
+\ex{1} $P(A\cap B)=0$: $P(A\cup B)=\res{0{,}75}$; \ $P(\co A\cap\co B)=\res{0{,}25}$; \ $P(A\cap\co B)=P(A)=\res{0{,}35}$; \ $P(\co A\cup\co B)=1-0=\res{1}$.
+
+\ex{2} \begin{tasks}(1)
+  \task \rest{No}: si ho foren, $P(A\cup B)=0{,}6+0{,}7=1{,}3>1$.
+  \task Com que $P(A\cup B)\leq1$, $P(A\cap B)=1{,}3-P(A\cup B)\geq0{,}3$; i $A\cap B\subset A$, així que $P(A\cap B)\leq0{,}6$: \ $\res{0{,}3\leq P(A\cap B)\leq0{,}6}$.
+  \task $P(A\cup B)=1{,}3-P(A\cap B)$: \ $\res{0{,}7\leq P(A\cup B)\leq1}$.
+\end{tasks}
+
+\ex{2} $P(A\cup B\cup C)=3\cdot0{,}4-3\cdot0{,}15+0{,}05=\res{0{,}8}$; \ $P(\text{cap})=1-0{,}8=\res{0{,}2}$.
+
+
+% =====================================================
+\seccio{4}{Càlcul de probabilitats coneixent l'espai mostral i sense conéixer-lo}
+
+\ex{1} $P(A)=\frac{18}{36}=\res{0{,}5}$, \ $P(B)=\res{\frac{11}{36}\approx 0{,}3056}$, \ $A\cap B=\{(2,6),(4,6),(6,6),(6,2),(6,4)\}$: $P(A\cap B)=\res{\frac{5}{36}\approx 0{,}1389}$.\par $P(A\cup B)=\frac{18+11-5}{36}=\frac{24}{36}=\res{\frac{2}{3}\approx 0{,}6667}$. Comptant: les 18 parelles de suma parella més les 6 amb un 6 i suma senar, $(1,6),(3,6),(5,6),(6,1),(6,3),(6,5)$: 24 casos. \rest{Coincideix.}
+
+\ex{1} $P(A)=\frac{15}{30}$, $P(B)=\frac{10}{30}$, $P(A\cap B)=P(\text{múltiple de 6})=\frac{5}{30}$.\begin{tasks}(1)
+  \task $P(A\cup B)=\frac{15+10-5}{30}=\res{\frac{2}{3}\approx 0{,}6667}$
+  \task $P(A\cup B)-P(A\cap B)=\frac{20-5}{30}=\res{0{,}5}$
+  \task $1-P(A\cup B)=\res{\frac{1}{3}\approx 0{,}3333}$
+\end{tasks}
+
+\ex{1} $P(L)=1-0{,}6=0{,}4$ i $P(M)=0{,}8-0{,}4+0{,}35=0{,}75$.\begin{tasks}(1)
+  \task $P(M\cap\co L)=P(M)-P(M\cap L)=\res{0{,}4}$
+  \task $P(L\cap\co M)=0{,}4-0{,}35=\res{0{,}05}$
+  \task $0{,}4+0{,}05=\res{0{,}45}$
+\end{tasks}
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $M$ & $\overline{M}$ & \textbf{Total}\\\hline
+$L$ & $0{,}35$ & $0{,}05$ & $0{,}4$\\
+$\overline{L}$ & $0{,}4$ & $0{,}2$ & $0{,}6$\\
+\hline
+\textbf{Total} & $0{,}75$ & $0{,}25$ & $1$\\
+\end{tabular}}\end{center}
+
+
+\ex{1} \begin{tasks}(1)
+  \task De Morgan: $P(V\cup L)=1-P(\co V\cap\co L)=1-0{,}15=\res{0{,}85}$
+  \task $P(V\cap L)=0{,}65+0{,}45-0{,}85=0{,}25\Rightarrow P(V\cap\co L)=0{,}65-0{,}25=\res{0{,}4}$
+\end{tasks}
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $L$ & $\overline{L}$ & \textbf{Total}\\\hline
+$V$ & $0{,}25$ & $0{,}4$ & $0{,}65$\\
+$\overline{V}$ & $0{,}2$ & $0{,}15$ & $0{,}35$\\
+\hline
+\textbf{Total} & $0{,}45$ & $0{,}55$ & $1$\\
+\end{tabular}}\end{center}
+
+
+\ex{1} 
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $T$ & $\overline{T}$ & \textbf{Total}\\\hline
+$P$ & $0{,}2$ & $0{,}35$ & $0{,}55$\\
+$\overline{P}$ & $0{,}2$ & $0{,}25$ & $0{,}45$\\
+\hline
+\textbf{Total} & $0{,}4$ & $0{,}6$ & $1$\\
+\end{tabular}}\end{center}
+\begin{tasks}(2)
+  \task $\res{0{,}2}$
+  \task $\res{0{,}35}$
+  \task $0{,}35+0{,}2=\res{0{,}55}$
+  \task $1-P(\co P\cap T)=1-0{,}2=\res{0{,}8}$
+\end{tasks}
+
+\ex{1} Parlen algun idioma $30-6=24$; els dos: $18+12-24=6$.\begin{tasks}(3)
+  \task $\frac{6}{30}=\res{0{,}2}$
+  \task $\frac{24-6}{30}=\res{0{,}6}$
+  \task $\frac{12-6}{30}=\res{0{,}2}$
+\end{tasks}
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $F$ & $\overline{F}$ & \textbf{Total}\\\hline
+$A$ & $6$ & $12$ & $18$\\
+$\overline{A}$ & $6$ & $6$ & $12$\\
+\hline
+\textbf{Total} & $12$ & $18$ & $30$\\
+\end{tabular}}\end{center}
+
+
+
+% =====================================================
+\seccio{5}{Probabilitat condicionada}
+
+\ex{1} \begin{tasks}(3)
+  \task $\frac{0{,}1}{0{,}4}=\res{0{,}25}$
+  \task $\frac{0{,}1}{0{,}5}=\res{0{,}2}$
+  \task $\frac{0{,}4}{0{,}6}=\res{\frac{2}{3}\approx 0{,}6667}$
+  \task $\frac{0{,}2}{0{,}6}=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $\frac{0{,}3}{0{,}5}=\res{0{,}6}$
+  \task $1-0{,}2=\res{0{,}8}$
+\end{tasks}
+
+\begin{center}\begin{tikzpicture}[scale=.62,baseline=(current bounding box.center)]\draw[muted,rounded corners=3pt] (-2.9,-1.75) rectangle (2.9,1.75);\fill[accent!12] (-0.65,0) circle (1.35); \fill[teal!14] (0.65,0) circle (1.35);\draw[navy,thick] (-0.65,0) circle (1.35); \draw[navy,thick] (0.65,0) circle (1.35);\node[font=\small\bfseries] at (-1.75,1.25) {$A$}; \node[font=\small\bfseries] at (1.75,1.25) {$B$};\node[font=\scriptsize] at (-1.25,0) {$0{,}4$}; \node[font=\scriptsize] at (0,0) {$0{,}1$}; \node[font=\scriptsize] at (1.25,0) {$0{,}3$};\node[font=\scriptsize] at (2.25,-1.45) {$0{,}2$};\end{tikzpicture}\end{center}
+
+
+\ex{2} $P(A\cap B)=0{,}3\cdot0{,}4=0{,}12$; \ $P(\co A\cap B)=0{,}7\cdot0{,}6=0{,}42$; \ $P(B)=0{,}54$; \ $P(\co A\cap\co B)=0{,}7-0{,}42=0{,}28$.\begin{tasks}(2)
+  \task $\frac{0{,}12}{0{,}54}=\res{\frac{2}{9}\approx 0{,}2222}$
+  \task $\frac{0{,}28}{0{,}46}=\res{\frac{14}{23}\approx 0{,}6087}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $P(A\cap B)=P(B)\,P(A\cond B)=0{,}6\cdot0{,}3=\res{0{,}18}$
+  \task $0{,}4+0{,}6-0{,}18=\res{0{,}82}$
+  \task $1-0{,}82=\res{0{,}18}$
+\end{tasks}
+
+\ex{1} 
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $N$ & $\overline{N}$ & \textbf{Total}\\\hline
+$X$ & $0{,}55$ & $0{,}35$ & $0{,}9$\\
+$\overline{X}$ & $0{,}05$ & $0{,}05$ & $0{,}1$\\
+\hline
+\textbf{Total} & $0{,}6$ & $0{,}4$ & $1$\\
+\end{tabular}}\end{center}
+\begin{tasks}(1)
+  \task $0{,}9+0{,}6-0{,}55=\res{0{,}95}$
+  \task $P(N\cond\co X)=\frac{P(N\cap\co X)}{P(\co X)}=\frac{0{,}05}{0{,}1}=\res{0{,}5}$
+  \task $1-0{,}95=\res{0{,}05}$
+\end{tasks}
+
+\ex{2} 
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $L_2$ & $\overline{L_2}$ & \textbf{Total}\\\hline
+$L_1$ & $16$ & $30$ & $46$\\
+$\overline{L_1}$ & $18$ & $56$ & $74$\\
+\hline
+\textbf{Total} & $34$ & $86$ & $120$\\
+\end{tabular}}\end{center}
+\begin{tasks}(2)
+  \task $\frac{64}{120}=\res{\frac{8}{15}\approx 0{,}5333}$
+  \task $\frac{56}{120}=\res{\frac{7}{15}\approx 0{,}4667}$
+  \task $\frac{30}{120}=\res{0{,}25}$
+  \task $P(L_1\cond\co L_2)=\frac{30}{86}=\res{\frac{15}{43}\approx 0{,}3488}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $P(E\cap I)=P(I)\,P(E\cond I)=0{,}72\cdot0{,}64=\res{0{,}4608}$
+  \task $0{,}55+0{,}72-0{,}4608=\res{0{,}8092}$
+  \task $P(\co I\cond\co E)=\frac{P(\co I\cap\co E)}{P(\co E)}=\frac{1-0{,}8092}{0{,}45}=\res{0{,}424}$
+\end{tasks}
+
+\ex{2} 
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|ccccc|c}
+ & $\text{Vet.}$ & $\text{Eco.}$ & $\text{Quí.}$ & $\text{Bio.}$ & $\text{Mat.}$ & \textbf{Total}\\\hline
+$D$ & $10$ & $12$ & $13$ & $8$ & $6$ & $49$\\
+$H$ & $20$ & $13$ & $7$ & $7$ & $4$ & $51$\\
+\hline
+\textbf{Total} & $30$ & $25$ & $20$ & $15$ & $10$ & $100$\\
+\end{tabular}}\end{center}
+\begin{tasks}(3)
+  \task $\res{0{,}49}$
+  \task $\frac{20}{100}=\res{0{,}2}$
+  \task $\frac{50}{100}=\res{0{,}5}$
+  \task $\frac{75}{100}=\res{0{,}75}$
+  \task $\frac{13}{49}=\res{\frac{13}{49}\approx 0{,}2653}$
+  \task $\frac{13}{51}=\res{\frac{13}{51}\approx 0{,}2549}$
+\end{tasks}
+
+\ex{2} $P(A\cap B)=0{,}6\cdot0{,}5=\res{0{,}3}$; \ $P(\co A\cap B)=0{,}4\cdot0{,}25=0{,}1$, \ $P(B)=\res{0{,}4}$; \ $P(A\cond B)=\frac{0{,}3}{0{,}4}=\res{0{,}75}$; \ $P(A\cup B)=0{,}6+0{,}4-0{,}3=\res{0{,}7}$.
+
+
+% =====================================================
+\seccio{6}{Independència de successos}
+
+\ex{1} $P(A\cap B)=0{,}3\cdot0{,}5=\res{0{,}15}$; \ $P(A\cup B)=0{,}3+0{,}5-0{,}15=\res{0{,}65}$; \ $P(\co A\cap\co B)=0{,}7\cdot0{,}5=\res{0{,}35}$; \ $P(A\cond B)=P(A)=\res{0{,}3}$; \ $P(A\cap\co B)=0{,}3\cdot0{,}5=\res{0{,}15}$.
+
+\ex{2} \begin{tasks}(2)
+  \task $0{,}7=0{,}4+P(B)\Rightarrow P(B)=\res{0{,}3}$
+  \task $0{,}7=0{,}4+p-0{,}4p\Rightarrow0{,}6p=0{,}3\Rightarrow p=\res{0{,}5}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $P(A\cap B)=0{,}5+0{,}8-0{,}9=0{,}4=0{,}5\cdot0{,}8$: \rest{són independents}.
+  \task $\frac{P(A\cap\co B)}{P(\co B)}=\frac{0{,}1}{0{,}2}=\res{0{,}5}$ ($=P(A)$, com havia de ser).
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $0{,}29+0{,}14-0{,}37=\res{0{,}06}$
+  \task $0{,}29\cdot0{,}14=0{,}0406\neq0{,}06$: \rest{no són independents}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $0{,}4\cdot0{,}75=\res{0{,}3}$
+  \task $1-P(\co A\cap B)=1-(0{,}7-0{,}3)=\res{0{,}6}$
+  \task $0{,}4-0{,}3=\res{0{,}1}$
+  \task $P(A)P(B)=0{,}28\neq0{,}3$ (o bé $P(B\cond A)=0{,}75\neq P(B)$): \rest{no són independents}.
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $0{,}25\cdot0{,}1=0{,}025\neq0{,}08$: \rest{no són independents}.
+  \task $1-(0{,}25+0{,}1-0{,}08)=0{,}73$: \ $\res{73\,\%}$
+  \task $P(An\cond D)=\frac{0{,}08}{0{,}25}=\res{0{,}32}$
+\end{tasks}
+
+\ex{1} Aproven alguna $24-4=20$; les dues: $12+16-20=8$.
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $A$ & $\overline{A}$ & \textbf{Total}\\\hline
+$M$ & $8$ & $8$ & $16$\\
+$\overline{M}$ & $4$ & $4$ & $8$\\
+\hline
+\textbf{Total} & $12$ & $12$ & $24$\\
+\end{tabular}}\end{center}
+\begin{tasks}(1)
+  \task $\frac{8}{24}=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $\frac{8}{24}=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $P(M)P(A)=\frac{16}{24}\cdot\frac{12}{24}=\frac13=P(M\cap A)$: \rest{sí que són independents}.
+\end{tasks}
+
+\ex{2} $P(O\cap H)=P(H)\,P(O\cond H)\Rightarrow P(H)=\frac{0{,}11}{0{,}275}=0{,}4$.\begin{tasks}(1)
+  \task $0{,}2+0{,}4-0{,}11=0{,}49$: \ $\res{49\,\%}$
+  \task $0{,}2\cdot0{,}4=0{,}08\neq0{,}11$: \rest{no són independents}.
+  \task $P(H\cond\co O)=\frac{0{,}4-0{,}11}{0{,}8}=\res{0{,}3625}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $P(M\cond\co V)=\frac{0{,}2-0{,}03}{0{,}4}=0{,}425$: \ $\res{42{,}5\,\%}$
+  \task $P(V\cond M)=\frac{0{,}03}{0{,}2}=0{,}15$: \ $\res{15\,\%}$. Com que $P(V\cond M)=0{,}15\neq P(V)=0{,}6$, \rest{són dependents}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $P(A\cup B)=0{,}25+0{,}2-0{,}25\cdot0{,}2=\res{0{,}4}$
+  \task De Morgan: $1-P(B\cap C)=\res{0{,}95}$
+  \task Com que $P(B\cap C)>0$, $P(C)>0$; si foren independents, $P(A\cap C)=0{,}25\,P(C)>0$, però és 0 perquè són disjunts: \rest{no poden ser independents}.
+\end{tasks}
+
+\ex{1} Els tirs són independents: multipliquem.\begin{tasks}(2)
+  \task $\frac25\cdot\frac37=\res{\frac{6}{35}\approx 0{,}1714}$
+  \task $\frac35\cdot\frac47=\res{\frac{12}{35}\approx 0{,}3429}$
+  \task $\frac25\cdot\frac47=\res{\frac{8}{35}\approx 0{,}2286}$
+  \task $1-\frac{12}{35}=\res{\frac{23}{35}\approx 0{,}6571}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac{6}{36}=\res{\frac{1}{6}\approx 0{,}1667}$
+  \task $\frac{6+6-1}{36}=\res{\frac{11}{36}\approx 0{,}3056}$
+  \task $C=\{(1,2),(2,1)\}\subset A\cup B$, així que $P(C\cap(A\cup B))=P(C)=\frac{2}{36}$, però $P(C)\,P(A\cup B)=\frac{2}{36}\cdot\frac{11}{36}\neq\frac{2}{36}$: \rest{no són independents}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task \rest{Falsa}: $P(A\cap B)=0$, però $P(A)P(B)>0$. Si passa un, segur que no passa l'altre: depenen l'un de l'altre.
+  \task \rest{Vertadera}: $P(\co A\cap\co B)=1-P(A\cup B)=1-P(A)-P(B)+P(A)P(B)=(1-P(A))(1-P(B))=P(\co A)P(\co B)$.
+  \task \rest{Vertadera}: $P(A\cond B)=P(A)\iff P(A\cap B)=P(A)P(B)\iff P(B\cond A)=P(B)$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Experiments compostos. Extraccions amb i sense reemplaçament}
+
+\ex{1} \begin{tasks}(1)
+  \task $0{,}4^3=\res{0{,}064}$; \ dues roges: $RRB$, $RBR$, $BRR$: $3\cdot0{,}4^2\cdot0{,}6=\res{0{,}288}$
+  \task $\frac4{10}\cdot\frac39\cdot\frac28=\res{\frac{1}{30}\approx 0{,}0333}$; \ dues roges: $3\cdot\frac{4\cdot3\cdot6}{10\cdot9\cdot8}=\res{0{,}3}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task $\frac38\cdot\frac27=\res{\frac{3}{28}\approx 0{,}1071}$
+  \task $1-\frac58\cdot\frac47=\res{\frac{9}{14}\approx 0{,}6429}$
+  \task $\frac38\cdot\frac27+\frac48\cdot\frac37=\res{\frac{9}{28}\approx 0{,}3214}$ (dues roges és impossible)
+  \task $\frac{6/56}{18/56}=\res{\frac{1}{3}\approx 0{,}3333}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task $\frac{15}{20}=\res{0{,}75}$
+  \task $\frac{15}{20}\cdot\frac{14}{19}=\res{\frac{21}{38}\approx 0{,}5526}$
+  \task $\frac{4}{19}\approx0{,}2105$ \ ($\res{\frac{4}{19}}$)
+  \task $\frac{15}{20}\cdot\frac{5}{19}+\frac{5}{20}\cdot\frac{15}{19}=\res{\frac{15}{38}\approx 0{,}3947}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $\frac{8}{12}\cdot\frac{7}{11}\cdot\frac{6}{10}=\res{\frac{14}{55}\approx 0{,}2545}$
+  \task $1-\frac{14}{55}=\res{\frac{41}{55}\approx 0{,}7455}$
+  \task $3\cdot\frac{4}{12}\cdot\frac{8}{11}\cdot\frac{7}{10}=\res{\frac{28}{55}\approx 0{,}5091}$ (el defectuós pot eixir en 1r, 2n o 3r lloc)
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $\frac5{11}\cdot\frac4{10}=\res{\frac{2}{11}\approx 0{,}1818}$
+  \task $1-\frac{2\cdot1+4\cdot3+5\cdot4}{110}=\res{\frac{38}{55}\approx 0{,}6909}$
+  \task $\frac{2}{11}\cdot\frac{5}{10}+\frac{4}{11}\cdot\frac{5}{10}+\frac{5}{11}\cdot\frac{4}{10}=\res{\frac{5}{11}\approx 0{,}4545}$
+  \task $P(A\cap B)=\frac{2}{11}$ i $P(A)P(B)=\frac{5}{11}\cdot\frac{17}{55}=\frac{17}{121}\neq\frac{22}{121}$: \rest{no}
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac29\cdot\frac18+\frac39\cdot\frac28=\frac{2+6}{72}=\res{\frac{1}{9}\approx 0{,}1111}$
+  \task $\frac29\cdot\frac78+\frac79\cdot\frac28=\frac{28}{72}=\res{\frac{7}{18}\approx 0{,}3889}$
+  \task $\frac{7/18}{1/9+7/18}=\res{\frac{7}{9}\approx 0{,}7778}$
+\end{tasks}
+
+\ex{2} $P(A)=P(B)=\res{0{,}1}$. Hi ha $10\cdot9=90$ parelles i, per simetria, en la meitat la segona és més gran: $P(C)=\frac{45}{90}=\res{0{,}5}$.\par $P(A\cond C)=\frac{P(A\cap C)}{P(C)}=\frac{9/90}{1/2}=\res{0{,}2}$ \ (si la primera és 0, la segona sempre és més gran); \ $P(B\cond C)=\frac{4/90}{1/2}=\res{\frac{4}{45}\approx 0{,}0889}$.
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac{4}{40}=\res{0{,}1}$
+  \task $\frac{4}{40}\cdot\frac{3}{39}+\frac{36}{40}\cdot\frac{4}{39}=\res{0{,}1}$ (com la primera: l'ordre no afavoreix ningú)
+  \task $\frac{36}{40}\cdot\frac{35}{39}=\res{\frac{21}{26}\approx 0{,}8077}$
+\end{tasks}
+
+\ex{2} Hi ha $3!=6$ ordres equiprobables.\begin{tasks}(1)
+  \task Les dues últimes són senars si el 2 ix el primer: $\frac26=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $S_1$: el 2 no és l'últim, $P(S_1)=\frac46$; $S_2$: el 2 és el primer o l'últim, $P(S_2)=\frac46$; $S_1\cap S_2$: el 2 és el primer, $\frac26$. Com que $\frac46\cdot\frac46=\frac49\neq\frac13$, \rest{són dependents}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac{48}{64}=\res{0{,}75}$
+  \task $\frac{6}{48}=\res{0{,}125}$
+  \task $P(A\cap B)=\frac{12}{64}=\frac{3}{16}$ i $P(A)P(B)=\frac{16}{64}\cdot\frac{48}{64}=\frac{3}{16}$: \rest{sí que són independents}.
+  \task $\frac{16\cdot15\cdot14+41\cdot40\cdot39+7\cdot6\cdot5}{64\cdot63\cdot62}=\res{\frac{11255}{41664}\approx 0{,}2701}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{8}{Probabilitat total i teorema de Bayes}
+
+\ex{1} 
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.6cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$G_1$}
+    child {node[anchor=west] {$S$\ \ {\color{teal}\scriptsize$0{,}32$}} edge from parent node[above] {\scriptsize$0{,}8$}}
+    child {node[anchor=west] {$\overline{S}$\ \ {\color{teal}\scriptsize$0{,}08$}} edge from parent node[below] {\scriptsize$0{,}2$}}
+    edge from parent node[above] {\scriptsize$0{,}4$}}
+  child {node {$G_2$}
+    child {node[anchor=west] {$S$\ \ {\color{teal}\scriptsize$0{,}21$}} edge from parent node[above] {\scriptsize$0{,}6$}}
+    child {node[anchor=west] {$\overline{S}$\ \ {\color{teal}\scriptsize$0{,}14$}} edge from parent node[below] {\scriptsize$0{,}4$}}
+    edge from parent node[above] {\scriptsize$0{,}35$}}
+  child {node {$G_3$}
+    child {node[anchor=west] {$S$\ \ {\color{teal}\scriptsize$0{,}23$}} edge from parent node[above] {\scriptsize$0{,}92$}}
+    child {node[anchor=west] {$\overline{S}$\ \ {\color{teal}\scriptsize$0{,}02$}} edge from parent node[below] {\scriptsize$0{,}08$}}
+    edge from parent node[below] {\scriptsize$0{,}25$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(2)
+  \task $0{,}25\cdot0{,}92=\res{0{,}23}$
+  \task $1-0{,}76=\res{0{,}24}$
+  \task $0{,}32+0{,}21+0{,}23=\res{0{,}76}$
+  \task $0{,}35\cdot0{,}4+0{,}25\cdot0{,}08=\res{0{,}16}$
+  \task $P(G_3\cond S)=\frac{0{,}23}{0{,}76}=\res{\frac{23}{76}\approx 0{,}3026}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $P(D)=0{,}5\cdot0{,}05+0{,}3\cdot0{,}15+0{,}2\cdot0{,}2=0{,}11\Rightarrow P(\co D)=\res{0{,}89}$
+  \task $P(L_1\cond D)=\frac{0{,}025}{0{,}11}=\res{\frac{5}{22}\approx 0{,}2273}$
+\end{tasks}
+
+\ex{1} 
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.4cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$D$}
+    child {node[anchor=west] {$I$\ \ {\color{teal}\scriptsize$0{,}24$}} edge from parent node[above] {\scriptsize$0{,}8$}}
+    child {node[anchor=west] {$\overline{I}$\ \ {\color{teal}\scriptsize$0{,}06$}} edge from parent node[below] {\scriptsize$0{,}2$}}
+    edge from parent node[above] {\scriptsize$0{,}3$}}
+  child {node {$H$}
+    child {node[anchor=west] {$I$\ \ {\color{teal}\scriptsize$0{,}49$}} edge from parent node[above] {\scriptsize$0{,}7$}}
+    child {node[anchor=west] {$\overline{I}$\ \ {\color{teal}\scriptsize$0{,}21$}} edge from parent node[below] {\scriptsize$0{,}3$}}
+    edge from parent node[below] {\scriptsize$0{,}7$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(1)
+  \task $0{,}24+0{,}49=0{,}73$: \ $\res{73\,\%}$
+  \task $P(D\cond I)=\frac{0{,}24}{0{,}73}=\res{\frac{24}{73}\approx 0{,}3288}$
+  \task $P(I\cond H)=0{,}7\neq P(I)=0{,}73$: \rest{no són independents}.
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $0{,}3\cdot0{,}4=\res{0{,}12}$
+  \task $0{,}12+0{,}7\cdot0{,}25=\res{0{,}295}$
+  \task $P(T\cond B)=0{,}4\neq P(T)=0{,}295$: \rest{no són independents}.
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $P(D)=\frac{40}{50}\cdot0{,}05+\frac{10}{50}\cdot0{,}02=0{,}044\Rightarrow P(\co D)=\res{0{,}956}$
+  \task $P(LED\cond D)=\frac{0{,}04}{0{,}044}=\res{\frac{10}{11}\approx 0{,}9091}$
+\end{tasks}
+
+\ex{2} 
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.4cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$S$}
+    child {node[anchor=west] {$L$\ \ {\color{teal}\scriptsize$0{,}08$}} edge from parent node[above] {\scriptsize$0{,}4$}}
+    child {node[anchor=west] {$\overline{L}$\ \ {\color{teal}\scriptsize$0{,}12$}} edge from parent node[below] {\scriptsize$0{,}6$}}
+    edge from parent node[above] {\scriptsize$0{,}2$}}
+  child {node {$\overline{S}$}
+    child {node[anchor=west] {$L$\ \ {\color{teal}\scriptsize$0{,}0048$}} edge from parent node[above] {\scriptsize$0{,}006$}}
+    child {node[anchor=west] {$\overline{L}$\ \ {\color{teal}\scriptsize$0{,}7952$}} edge from parent node[below] {\scriptsize$0{,}994$}}
+    edge from parent node[below] {\scriptsize$0{,}8$}}
+;\end{tikzpicture}\end{center}
+$P(L)=0{,}08+0{,}0048=0{,}0848$.\begin{tasks}(1)
+  \task $P(S\cond L)=\frac{0{,}08}{0{,}0848}=\res{\frac{50}{53}\approx 0{,}9434}$
+  \task $P(\co S\cond\co L)=\frac{0{,}7952}{0{,}9152}=\res{\frac{497}{572}\approx 0{,}8689}$
+  \task $P(S\cap\co L)+P(\co S\cap L)=0{,}12+0{,}0048=\res{0{,}1248}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $0{,}04\cdot0{,}92+0{,}96\cdot0{,}1=\res{0{,}1328}$
+  \task $0{,}04\cdot0{,}08=\res{0{,}0032}$
+  \task $\frac{0{,}96\cdot0{,}9}{1-0{,}1328}=\frac{0{,}864}{0{,}8672}=\res{\frac{270}{271}\approx 0{,}9963}$
+\end{tasks}
+
+\ex{2} 
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.4cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$A$}
+    child {node[anchor=west] {$V$\ \ {\color{teal}\scriptsize$\frac{4}{21}$}} edge from parent node[above] {\scriptsize$\frac{4}{7}$}}
+    child {node[anchor=west] {$R$\ \ {\color{teal}\scriptsize$\frac{1}{7}$}} edge from parent node[below] {\scriptsize$\frac{3}{7}$}}
+    edge from parent node[above] {\scriptsize$\frac{1}{3}$}}
+  child {node {$B$}
+    child {node[anchor=west] {$V$\ \ {\color{teal}\scriptsize$\frac{8}{27}$}} edge from parent node[above] {\scriptsize$\frac{4}{9}$}}
+    child {node[anchor=west] {$R$\ \ {\color{teal}\scriptsize$\frac{10}{27}$}} edge from parent node[below] {\scriptsize$\frac{5}{9}$}}
+    edge from parent node[below] {\scriptsize$\frac{2}{3}$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(1)
+  \task $\frac13\cdot\frac{6}{14}+\frac23\cdot\frac59=\frac17+\frac{10}{27}=\res{\frac{97}{189}\approx 0{,}5132}$
+  \task $P(A\cond V)=\frac{4/21}{92/189}=\res{\frac{9}{23}\approx 0{,}3913}$
+  \task $P(R\cond A)=\frac{6}{14}=\frac37\approx0{,}4286\neq P(R)\approx0{,}5132$: \rest{no són independents}.
+\end{tasks}
+
+\ex{2} 
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.6cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$U_1$}
+    child {node[anchor=west] {$B$} edge from parent node[above] {\scriptsize$0{,}6$}}
+    child {node[anchor=west] {$N$} edge from parent node[below] {\scriptsize$0{,}4$}}
+    edge from parent node[above] {\scriptsize$\frac{1}{3}$}}
+  child {node {$U_2$}
+    child {node[anchor=west] {$B$} edge from parent node[above] {\scriptsize$\frac{5}{7}$}}
+    child {node[anchor=west] {$N$} edge from parent node[below] {\scriptsize$\frac{2}{7}$}}
+    edge from parent node[above] {\scriptsize$\frac{1}{3}$}}
+  child {node {$U_3$}
+    child {node[anchor=west] {$B$} edge from parent node[above] {\scriptsize$\frac{4}{11}$}}
+    child {node[anchor=west] {$N$} edge from parent node[below] {\scriptsize$\frac{7}{11}$}}
+    edge from parent node[below] {\scriptsize$\frac{1}{3}$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(1)
+  \task Vegeu l'arbre.
+  \task $\frac13\left(\frac4{10}+\frac27+\frac7{11}\right)=\res{\frac{509}{1155}\approx 0{,}4407}$
+  \task $P(U_1\cond B)=\frac{\frac13\cdot\frac{6}{10}}{1-\frac{509}{1155}}=\frac{1/5}{646/1155}=\res{\frac{231}{646}\approx 0{,}3576}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac13\left(\frac4{10}+\frac16+\frac38\right)=\res{\frac{113}{360}\approx 0{,}3139}$
+  \task $\frac{\frac13\cdot\frac{6}{10}}{1-\frac{113}{360}}=\frac{72/360}{247/360}=\res{\frac{72}{247}\approx 0{,}2915}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $\frac56\cdot\frac7{10}+\frac16\cdot\frac28=\res{0{,}625}$
+  \task $\frac{\frac16\cdot\frac68}{1-0{,}625}=\frac{0{,}125}{0{,}375}=\res{\frac{1}{3}\approx 0{,}3333}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task $0{,}2\cdot0{,}5=\res{0{,}1}$
+  \task $0{,}21+0{,}475+0{,}1=\res{0{,}785}$
+  \task $\frac{0{,}1}{0{,}785}=\res{\frac{20}{157}\approx 0{,}1274}$
+  \task $0{,}7\cdot0{,}95\cdot0{,}5=\res{0{,}3325}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $0{,}3\cdot0{,}3+0{,}25\cdot0{,}2+0{,}45\cdot0{,}4=\res{0{,}32}$
+  \task $\frac{0{,}05}{0{,}32}=\res{0{,}15625}$
+  \task $P(J\cond A)=0{,}3\neq P(J)=0{,}32$: \rest{no són independents}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $0{,}395=0{,}6\cdot0{,}4+0{,}3\cdot0{,}5+0{,}1\cdot x\Rightarrow x=P(\co T\cond C)=0{,}05\Rightarrow P(T\cond C)=\res{0{,}95}$
+  \task $\frac{0{,}24+0{,}15}{0{,}395}=\res{\frac{78}{79}\approx 0{,}9873}$ (o bé $1-\frac{0{,}005}{0{,}395}$)
+\end{tasks}
+
+\ex{2} Si la primera és roja, queden 5 roges i 10 blaves; si és blava, 12 roges i 3 blaves.
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.4cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$R_1$}
+    child {node[anchor=west] {$R_2$\ \ {\color{teal}\scriptsize$0{,}2$}} edge from parent node[above] {\scriptsize$\frac{1}{3}$}}
+    child {node[anchor=west] {$B_2$\ \ {\color{teal}\scriptsize$0{,}4$}} edge from parent node[below] {\scriptsize$\frac{2}{3}$}}
+    edge from parent node[above] {\scriptsize$0{,}6$}}
+  child {node {$B_1$}
+    child {node[anchor=west] {$R_2$\ \ {\color{teal}\scriptsize$0{,}32$}} edge from parent node[above] {\scriptsize$0{,}8$}}
+    child {node[anchor=west] {$B_2$\ \ {\color{teal}\scriptsize$0{,}08$}} edge from parent node[below] {\scriptsize$0{,}2$}}
+    edge from parent node[below] {\scriptsize$0{,}4$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(1)
+  \task $\frac{6}{10}\cdot\frac{5}{15}+\frac{4}{10}\cdot\frac{12}{15}=\res{0{,}52}$
+  \task $P(B_1\cond B_2)=\frac{\frac{4}{10}\cdot\frac{3}{15}}{1-0{,}52}=\frac{0{,}08}{0{,}48}=\res{\frac{1}{6}\approx 0{,}1667}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $\frac12\cdot\frac26\cdot\frac15=\res{\frac{1}{30}\approx 0{,}0333}$
+  \task $\frac12\cdot\frac46+\frac12\cdot\frac46\cdot\frac35=\res{\frac{8}{15}\approx 0{,}5333}$
+  \task $\frac12\cdot\frac46+\frac12\left(1-\frac1{15}\right)=\res{0{,}8}$
+  \task $\frac{1/3}{4/5}=\res{\frac{5}{12}\approx 0{,}4167}$
+\end{tasks}
+
+\ex{2} Després de la primera extracció hi ha 4 boles: 3 del color de la primera i 1 de l'altre.\begin{tasks}(1)
+  \task $\res{0{,}25}$ (queden 1 roja i 3 blaves)
+  \task $\frac12\cdot\frac14+\frac12\cdot\frac34=\res{0{,}5}$
+  \task $\frac{\frac12\cdot\frac14}{\frac12}=\res{0{,}25}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac{13}{52}\cdot\frac{12}{51}+\frac{39}{52}\cdot\frac{13}{51}=\res{0{,}25}$
+  \task $\frac{\frac{39}{52}\cdot\frac{38}{51}}{3/4}=\res{\frac{38}{51}\approx 0{,}7451}$
+\end{tasks}
+
+
+\end{document}
