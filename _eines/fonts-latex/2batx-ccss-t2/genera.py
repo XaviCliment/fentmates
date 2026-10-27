@@ -235,9 +235,8 @@ S.append(("Regla de Cramer", [
 R20a = [[1, 2, -1, 0], [2, -1, 1, 0], [3, 1, 1, 0]]
 R20b = [[1, -1, 1, 0], [2, 1, -1, 0], [1, 2, -2, 0]]
 ck('det', coef(R20a), -5); ck('cls', R20a, 'SCD'); ck('det', coef(R20b), 0); ck('cls', R20b, 'SCI'); ck('sol', R20b, lambda l: (0, l, l))
-for k in range(-10, 4): ck('det', [[1, 1, -1], [2, -1, k], [1, 2, 1]], -k - 8)
-R21 = [[1, 1, -1, 0], [2, -1, -8, 0], [1, 2, 1, 0]]
-ck('cls', R21, 'SCI'); ck('sol', R21, lambda l: (3 * l, -2 * l, l))
+R21 = [[1, 1, -2, 0], [3, -1, 0, 0], [-1, 3, -4, 0]]
+ck('det', coef(R21), 0); ck('cls', R21, 'SCI'); ck('sol', R21, lambda l: (l, 3 * l, 2 * l)); ck('sol', R21, (2, 6, 4))
 R22 = [[2, -1, 1, 0], [1, 3, -2, 0]]
 ck('sol', R22, lambda l: (-l, 5 * l, 7 * l)); ck('cls', R22, 'SCI')
 S.append(("Sistemes homogenis", [
@@ -245,8 +244,10 @@ S.append(("Sistemes homogenis", [
      + recorda(r"Un sistema homogeni sempre és compatible (té la solució trivial $x=y=z=0$). Té més solucions si i només si $\operatorname{rg}(A)<n$; si és quadrat, quan $|A|=0$."),
      tasks(1, [r"$|A|=" + vm(coef(R20a)) + r"=-5\neq0$: \ \rest{SCD}, només la solució trivial \ $\res{x=y=z=0}$.",
                r"$|A|=0$ i $\begin{vmatrix}1&-1\\ 2&1\end{vmatrix}=3\neq0$: \ $\operatorname{rg}(A)=2<3$, \ \rest{SCI}. Sumant les dues primeres, $3x=0$; i de la 1a, $y=z$: \ $\res{x=0;\ y=\lambda;\ z=\lambda}$"])),
- (2, r"Troba el valor de $k$ perquè el sistema \ $\left\{\begin{aligned}x+y-z&=0\\ 2x-y+kz&=0\\ x+2y+z&=0\end{aligned}\right.$ \ tinga solucions diferents de la trivial i resol-lo per a aquest valor.",
-     r"$|A|=\begin{vmatrix}1&1&-1\\ 2&-1&k\\ 1&2&1\end{vmatrix}=-k-8=0\Rightarrow\res{k=-8}$. Per a $k=-8$ és SCI: de la 1a, $z=x+y$; a la 3a, $2x+3y=0$." + dm(r'\boxed{x=3\lambda;\ \ y=-2\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}')),
+ (2, r"Considera el sistema homogeni \ $" + sy(R21) + r"$" + tasks(1, ["Raona, sense resoldre'l, si té solucions diferents de la trivial.", "Resol-lo pel mètode de Gauss.", r"Troba la solució que compleix $x+y+z=12$."]),
+     tasks(1, [r"$|A|=" + vm(coef(R21)) + r"=0\Rightarrow\operatorname{rg}(A)<3$: \ \rest{SCI}, té infinites solucions a més de la trivial.",
+               G(R21) + r"Amb $z=2\lambda$: \ $-4y+12\lambda=0\Rightarrow y=3\lambda$; \ $x=-y+2z=\lambda$: \ $\res{x=\lambda;\ y=3\lambda;\ z=2\lambda,\ \ \lambda\in\mathbb{R}}$",
+               r"$\lambda+3\lambda+2\lambda=6\lambda=12\Rightarrow\lambda=2$: \ $\res{x=2;\ y=6;\ z=4}$"])),
  (1, r"Per què el sistema \ $" + sy(R22) + r"$ \ té infinites solucions sense calcular cap determinant? Resol-lo.",
      r"És homogeni (compatible) i $\operatorname{rg}(A)\leq2<3$ incògnites: \rest{SCI}. Passant $z$ al segon membre: $2x-y=-z$, $x+3y=2z$ \ $\Rightarrow x=-\frac z7,\ y=\frac{5z}{7}$. Amb $z=7\lambda$: \ $\res{x=-\lambda;\ y=5\lambda;\ z=7\lambda}$"),
 ]))
@@ -333,6 +334,9 @@ for a in range(-5, 25):
     for b in range(-6, 7): ck('det', coef(CYL(a, b)), a * b * b - 2 * a - 5 * b + 13)
 par(lambda a: CYL(a, -1), {18: 'SI'}, range(10, 25), 'cyl1'); par(lambda b: CYL(3, b), {}, range(-6, 7), 'cyl2')
 ck('det', [[2, 1, 1], [-1, 2, 4], [1, -1, 5]], 36)
+HOMK = lambda k: [[1, 1, -1, 0], [2, -1, k, 0], [1, 2, 1, 0]]
+par(HOMK, {-8: 'SCI'}, range(-10, 4), 'homk'); ck('sol', HOMK(F(-8)), lambda l: (3 * l, -2 * l, l))
+for k in range(-10, 4): ck('det', coef(HOMK(k)), -k - 8)
 S.append(("Discussió de sistemes amb paràmetres", [
  (2, r"\pau{Astúries, PAU extraordinària 2025} Donat el sistema d'equacions \ $\left\{\begin{aligned}x-y&=-m\\ 10x+(10+m)y&=150\end{aligned}\right.$, \ amb incògnites $x$ i $y$:" + tasks(1, [r"Per a quins valors del paràmetre $m$ té el sistema una única solució?",
          r"Si el sistema fóra \ $\left\{\begin{aligned}x-y&=-\lambda\\ 10x+(10+m)y&=150\end{aligned}\right.$, \ troba el valor de $m$ i un valor de $\lambda$ per als quals el sistema tinga infinites solucions, i calcula'n una."])
@@ -364,6 +368,8 @@ S.append(("Discussió de sistemes amb paràmetres", [
      r"$|A|=-a^2+3a-2=-(a-1)(a-2)=0\Rightarrow a=1,\ a=2$."
      + r"\par $\bullet$ $a\neq1,2$: \rest{SCD}. \ $\bullet$ $a=1$: la 1a i la 3a equacions tenen els mateixos coeficients i termes independents diferents: \rest{SI}. \ $\bullet$ $a=2$: la 1a i la 2a són iguals, $\operatorname{rg}(A)=\operatorname{rg}(A^*)=2$: \rest{SCI}."
      + r"\par Per a $a=0$: $y+z=1$, $2x+y+z=1$, $x+z=2$ \ $\Rightarrow\res{x=0;\ y=-1;\ z=2}$"),
+ (2, r"Troba el valor de $k$ perquè el sistema homogeni \ $\left\{\begin{aligned}x+y-z&=0\\ 2x-y+kz&=0\\ x+2y+z&=0\end{aligned}\right.$ \ tinga solucions diferents de la trivial i resol-lo per a aquest valor.",
+     r"$|A|=\begin{vmatrix}1&1&-1\\ 2&-1&k\\ 1&2&1\end{vmatrix}=-k-8=0\Rightarrow\res{k=-8}$. Si $k\neq-8$: \rest{SCD}, només la solució trivial. Per a $k=-8$ és \rest{SCI}: de la 1a, $z=x+y$; a la 3a, $2x+3y=0$." + dm(r'\boxed{x=3\lambda;\ \ y=-2\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}')),
  (3, r"\pau{Madrid, EvAU extraordinària 2023} Considera el sistema d'equacions lineals dependent del paràmetre real $a$:" + dm(r'\left\{\begin{aligned}ax+y+2z&=1\\ x+ay+2z&=a\\ x+2y+az&=1\end{aligned}\right.') + tasks(1, ["Discuteix el sistema en funció dels valors del paràmetre $a$.", "Resol el sistema d'equacions per a $a=0$."]),
      tasks(1, [r"$|A|=a^3-7a+6=(a-1)(a-2)(a+3)=0\Rightarrow a=1,\ a=2,\ a=-3$."
                + r"\par $\bullet$ $a\neq1,2,-3$: \rest{SCD}. \ $\bullet$ $a=1$: la 1a i la 2a equacions són iguals, $\operatorname{rg}(A)=\operatorname{rg}(A^*)=2$: \rest{SCI}. \ $\bullet$ $a=2$: la 2a i la 3a tenen els mateixos coeficients i termes independents diferents: \rest{SI}. \ $\bullet$ $a=-3$: $\operatorname{rg}(A)=2$ i $\begin{vmatrix}-3&1&1\\ 1&-3&-3\\ 1&2&1\end{vmatrix}=-8\neq0$: \rest{SI}.",
