@@ -19,7 +19,8 @@ KEYS = {
     "AC": ("AC", "ac", "AC"), "BACK": ("↶", "fn", "Tornar enrere"), "DEL": ("DEL", "ac", "Esborrar"),
     "SHIFT": ("⇧", "shift", "SHIFT"), "FRAC": ("▭⁄▭", "num", "Fracció"),
     "SQRT": ("√▭", "num", "Arrel quadrada"), "SQ": ("▭²", "num", "Quadrat"), "POW": ("▭^▭", "num", "Potència"),
-    "X": ("x", "num", "Tecla x"), "UP": ("▲", "cur", "Cursor amunt"), "DOWN": ("▼", "cur", "Cursor avall"),
+    "X": ("x", "num", "Tecla x"), "LOGB": ("log▭▭", "num", "Logaritme en base (amb ⇧: ln)"),
+    "EXP": ("×10ˣ", "num", "Potència de 10"), "UP": ("▲", "cur", "Cursor amunt"), "DOWN": ("▼", "cur", "Cursor avall"),
     "LEFT": ("◀", "cur", "Cursor esquerra"), "RIGHT": ("▶", "cur", "Cursor dreta"),
 }
 LEGEND = ["HOME", "CONFIG", "CATALOG", "TOOLS", "FORMAT", "VAR", "FUNC", "SHIFT", "OK", "EXE", "AC",
