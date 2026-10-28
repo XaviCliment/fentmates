@@ -321,7 +321,8 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t4-limits-continuitat.html", date: "2026-10-24" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 55 exercicis, 22 de la PAU d'altres comunitats", es: "PDF · 55 ejercicios, 22 de la PAU de otras comunidades", en: "PDF · 55 exercises, 22 from other regions' PAU exams" }, url: "materials/2batx-ccss/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-24" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 55 exercicis", es: "PDF · Soluciones de los 55 ejercicios", en: "PDF · Solutions to all 55 exercises" }, url: "materials/2batx-ccss/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-24" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 55 exercicis", es: "PDF · Soluciones de los 55 ejercicios", en: "PDF · Solutions to all 55 exercises" }, url: "materials/2batx-ccss/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-24" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "26 exercicis resolts de la PAU valenciana (2002–2026)", es: "26 ejercicios resueltos de la PAU valenciana (2002–2026)", en: "26 solved past Valencian PAU exercises (2002–2026)" }, url: "materials/2batx-ccss/pau-u4-limits-continuitat.html", date: "2026-10-28" }
         ]
       },
       {
@@ -330,7 +331,8 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t5-derivades.html", date: "2026-10-25" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 48 exercicis, 28 enunciats de la PAU d'altres comunitats", es: "PDF · 48 ejercicios, 28 enunciados de la PAU de otras comunidades", en: "PDF · 48 exercises, 28 items from other regions' PAU exams" }, url: "materials/2batx-ccss/t5-fitxa-exercicis.pdf", download: true, date: "2026-10-25" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 48 exercicis", es: "PDF · Soluciones de los 48 ejercicios", en: "PDF · Solutions to all 48 exercises" }, url: "materials/2batx-ccss/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-25" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 48 exercicis", es: "PDF · Soluciones de los 48 ejercicios", en: "PDF · Solutions to all 48 exercises" }, url: "materials/2batx-ccss/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-25" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "5 exercicis resolts de la PAU valenciana (2001–2026)", es: "5 ejercicios resueltos de la PAU valenciana (2001–2026)", en: "5 solved past Valencian PAU exercises (2001–2026)" }, url: "materials/2batx-ccss/pau-u5-derivades.html", date: "2026-10-28" }
         ]
       },
       {
@@ -339,7 +341,8 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t6-aplicacions-derivada.html", date: "2026-10-26" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis, 42 de la PAU d'altres comunitats", es: "PDF · 54 ejercicios, 42 de la PAU de otras comunidades", en: "PDF · 54 exercises, 42 from other regions' PAU exams" }, url: "materials/2batx-ccss/t6-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/2batx-ccss/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/2batx-ccss/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "54 exercicis resolts de la PAU valenciana (1997–2026)", es: "54 ejercicios resueltos de la PAU valenciana (1997–2026)", en: "54 solved past Valencian PAU exercises (1997–2026)" }, url: "materials/2batx-ccss/pau-u6-aplicacions-derivada.html", date: "2026-10-28" }
         ]
       },
       {
@@ -348,7 +351,8 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t7-representacio-funcions.html", date: "2026-10-26" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 38 exercicis amb gràfiques a les solucions", es: "PDF · 38 ejercicios con gráficas en las soluciones", en: "PDF · 38 exercises with graphs in the solutions" }, url: "materials/2batx-ccss/t7-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 38 exercicis", es: "PDF · Soluciones de los 38 ejercicios", en: "PDF · Solutions to all 38 exercises" }, url: "materials/2batx-ccss/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 38 exercicis", es: "PDF · Soluciones de los 38 ejercicios", en: "PDF · Solutions to all 38 exercises" }, url: "materials/2batx-ccss/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "34 exercicis resolts de la PAU valenciana (2006–2026)", es: "34 ejercicios resueltos de la PAU valenciana (2006–2026)", en: "34 solved past Valencian PAU exercises (2006–2026)" }, url: "materials/2batx-ccss/pau-u7-representacio-funcions.html", date: "2026-10-28" }
         ]
       },
       {
@@ -357,7 +361,8 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t8-integrals.html", date: "2026-10-27" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis amb gràfiques a les solucions", es: "PDF · 36 ejercicios con gráficas en las soluciones", en: "PDF · 36 exercises with graphs in the solutions" }, url: "materials/2batx-ccss/t8-fitxa-exercicis.pdf", download: true, date: "2026-10-27" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/2batx-ccss/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-27" }
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/2batx-ccss/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-27" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "26 exercicis resolts de la PAU valenciana (2001–2026)", es: "26 ejercicios resueltos de la PAU valenciana (2001–2026)", en: "26 solved past Valencian PAU exercises (2001–2026)" }, url: "materials/2batx-ccss/pau-u8-integrals.html", date: "2026-10-28" }
         ]
       },
       {

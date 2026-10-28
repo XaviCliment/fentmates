@@ -196,6 +196,16 @@ comprovades). No toca les pàgines PAU de les unitats 1-3:
 python3 _eines/pau/pr/build.py
 ```
 
+Les pàgines PAU d'anàlisi (unitats 4 a 8) es generen des de `_eines/pau/an/`: `an.txt` conté els 118 enunciats del
+dossier «Exercicis d'anàlisi de la selectivitat» en el mateix ordre (`## 6 | Juny 2001`: el número és la unitat on va
+l'exercici, la més avançada que necessita). A `build.py`, `XL` indica els exercicis que també es mostren a les unitats 4 i 5
+perquè algun apartat és d'aquestes unitats. Les solucions són a `sol_a.py`, `sol_b.py` i `sol_c.py` (números 1-40, 41-80 i
+81-118): `anlib.py` fa els càlculs amb fraccions exactes, l'estudi complet de les funcions i les gràfiques en SVG:
+
+```
+python3 _eines/pau/an/build.py
+```
+
 ## Treballar des de casa i des de l'institut
 
 El repositori de GitHub és la còpia de referència. Abans de començar, baixa els canvis (`git pull` o *Fetch/Pull*
