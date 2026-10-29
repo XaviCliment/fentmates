@@ -1,0 +1,365 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 2: Sistemes d'equacions lineals. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={sistemes d'equacions lineals, mètode de Gauss, mètode matricial, regla de Cramer, teorema de Rouché-Frobenius, sistemes homogenis, discussió de sistemes, paràmetres, problemes, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 2: Sistemes d'equacions lineals · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Solucions de la fitxa · Unitat 2}{Sistemes d'equacions lineals}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Els passos de Gauss poden ser diferents dels teus i ser igualment correctes; el que ha de coincidir és la classificació i la solució (en un SCI, la solució general es pot escriure de maneres diferents segons la incògnita que prengues com a paràmetre). Pots comprovar-ho amb el resolutor de sistemes dels apunts interactius.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Sistemes d'equacions lineals. Mètode de Gauss}
+
+\ex{1} \label{ex:g4}\[A^*=\left(\begin{array}{rrrr|r}1 & 1 & 1 & 1 & 2\\2 & -1 & 1 & -1 & 5\\1 & 2 & -1 & 3 & -3\\3 & 1 & -2 & 1 & -2\end{array}\right)\xrightarrow[\substack{F_3'=F_3-F_1\\F_4'=F_4-3F_1}]{F_2'=F_2-2F_1}\left(\begin{array}{rrrr|r}1 & 1 & 1 & 1 & 2\\0 & -3 & -1 & -3 & 1\\0 & 1 & -2 & 2 & -5\\0 & -2 & -5 & -2 & -8\end{array}\right)\]\[\xrightarrow{F_2\leftrightarrow F_3}\left(\begin{array}{rrrr|r}1 & 1 & 1 & 1 & 2\\0 & 1 & -2 & 2 & -5\\0 & -3 & -1 & -3 & 1\\0 & -2 & -5 & -2 & -8\end{array}\right)\]\[\xrightarrow[F_4''=F_4'+2F_2']{F_3''=F_3'+3F_2'}\left(\begin{array}{rrrr|r}1 & 1 & 1 & 1 & 2\\0 & 1 & -2 & 2 & -5\\0 & 0 & -7 & 3 & -14\\0 & 0 & -9 & 2 & -18\end{array}\right)\]\[\xrightarrow{F_4'''=7F_4''-9F_3''}\left(\begin{array}{rrrr|r}1 & 1 & 1 & 1 & 2\\0 & 1 & -2 & 2 & -5\\0 & 0 & -7 & 3 & -14\\0 & 0 & 0 & -13 & 0\end{array}\right)\]Resolent de baix cap amunt: \ $\res{x=1;\ y=-1;\ z=2;\ t=0}$
+
+\ex{2} \begin{tasks}(1)
+  \task \[A^*=\left(\begin{array}{rrrr|r}1 & 1 & -1 & 1 & 1\\2 & 1 & 1 & -1 & 3\\3 & 2 & 0 & 0 & 4\end{array}\right)\xrightarrow[F_3'=F_3-3F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrrr|r}1 & 1 & -1 & 1 & 1\\0 & -1 & 3 & -3 & 1\\0 & -1 & 3 & -3 & 1\end{array}\right)\]\[\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrrr|r}1 & 1 & -1 & 1 & 1\\0 & -1 & 3 & -3 & 1\\0 & 0 & 0 & 0 & 0\end{array}\right)\]Rang 2 amb 4 incògnites: \rest{SCI amb dos paràmetres}. Amb $z=\lambda$, $t=\mu$: \ $y=-1+3\lambda-3\mu$, \ $x=1-y+z-t$:\par $\res{x=2-2\lambda+2\mu;\ y=-1+3\lambda-3\mu;\ z=\lambda;\ t=\mu}$
+  \task \[A^*=\left(\begin{array}{rrr|r}1 & 1 & 1 & 6\\1 & -1 & 2 & 5\\2 & 1 & -1 & 1\\3 & 2 & 0 & 7\end{array}\right)\xrightarrow[\substack{F_3'=F_3-2F_1\\F_4'=F_4-3F_1}]{F_2'=F_2-F_1}\left(\begin{array}{rrr|r}1 & 1 & 1 & 6\\0 & -2 & 1 & -1\\0 & -1 & -3 & -11\\0 & -1 & -3 & -11\end{array}\right)\]\[\xrightarrow{F_2\leftrightarrow F_3}\left(\begin{array}{rrr|r}1 & 1 & 1 & 6\\0 & -1 & -3 & -11\\0 & -2 & 1 & -1\\0 & -1 & -3 & -11\end{array}\right)\]\[\xrightarrow[F_4''=F_4'-F_2']{F_3''=F_3'-2F_2'}\left(\begin{array}{rrr|r}1 & 1 & 1 & 6\\0 & -1 & -3 & -11\\0 & 0 & 7 & 21\\0 & 0 & 0 & 0\end{array}\right)\]La 4a fila s'anul·la: queden tres equacions independents. \rest{SCD}: \ $\res{x=1;\ y=2;\ z=3}$
+  \task Els mateixos passos donen la darrera fila $(0\ 0\ 0\,|\,1)$: \ \rest{SI}. (Les tres primeres equacions obliguen $x=1$, $y=2$, $z=3$, i aleshores $3x+2y=7\neq8$.)
+\end{tasks}
+
+\ex{3} \[\left(\begin{array}{rrr|r}1 & 2 & -1 & 1\\ 2 & 1 & 1 & 4\\ 4 & 5 & k & m\end{array}\right)\xrightarrow[F_3'=F_3-4F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & 2 & -1 & 1\\ 0 & -3 & 3 & 2\\ 0 & -3 & k+4 & m-4\end{array}\right)\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrr|r}1 & 2 & -1 & 1\\ 0 & -3 & 3 & 2\\ 0 & 0 & k+1 & m-6\end{array}\right)\]\begin{tasks}(1)
+  \task Si $k\neq-1$: \ \rest{SCD} (per a qualsevol $m$).
+  \task Si $k=-1$ i $m=6$: la 3a fila és nul·la: \ \rest{SCI}.
+  \task Si $k=-1$ i $m\neq6$: la 3a fila diu $0=m-6\neq0$: \ \rest{SI}.
+\end{tasks}Per a $k=-1$, $m=6$, amb $z=\lambda$: \ $-3y+3\lambda=2\Rightarrow y=\lambda-\tfrac23$; \ $x=1-2y+z$:\par $\res{x=\tfrac73-\lambda;\ y=-\tfrac23+\lambda;\ z=\lambda}$
+
+\ex{2} Hi ha infinites respostes. Busquem relacions que complisquen totes les solucions: $x+y=3$ i $y+z=2$. La tercera equació ha de ser combinació lineal de les dues (si no, el sistema seria SCD); per exemple, la suma: $x+2y+z=5$:\[\boxed{\left\{\begin{aligned}x+y&=3\\y+z&=2\\x+2y+z&=5\end{aligned}\right.}\]
+
+\ex{2} \pau{Andalusia, extraordinària 2025}\[\left\{\begin{aligned}x+y+z&=22\\4x+3y+2z&=61\end{aligned}\right.\] \ Restant a la 2a el doble de la 1a: $2x+y=17$. Amb $x=\lambda$: \ $y=17-2\lambda$, \ $z=5+\lambda$ (\rest{SCI}).\par Perquè siguen naturals, $\lambda\geq1$ i $17-2\lambda\geq1$: $\lambda=1,\dots,8$. El 15 només pot ser $y$ (amb $\lambda=1$): \ \rest{1, 15 i 6}. Les altres opcions són $(2,13,7)$, $(3,11,8)$, $(4,9,9)$, $(5,7,10)$, $(6,5,11)$, $(7,3,12)$ i $(8,1,13)$.
+
+
+% =====================================================
+\seccio{2}{Expressió matricial. Mètode matricial}
+
+\ex{2} $|A|=5$, \ $\mathrm{Adj}(A)=\begin{pmatrix}2 & 2 & -1\\-4 & 1 & 2\\3 & -2 & 1\end{pmatrix}$, \ $A^{-1}=\frac15\begin{pmatrix}2 & -4 & 3\\2 & 1 & -2\\-1 & 2 & 1\end{pmatrix}$.\[X_1=\frac15\begin{pmatrix}2 & -4 & 3\\2 & 1 & -2\\-1 & 2 & 1\end{pmatrix}\begin{pmatrix}2\\2\\3\end{pmatrix}=\boxed{\begin{pmatrix}1\\ 0\\ 1\end{pmatrix}},\qquad X_2=\frac15\begin{pmatrix}2 & -4 & 3\\2 & 1 & -2\\-1 & 2 & 1\end{pmatrix}\begin{pmatrix}1\\1\\4\end{pmatrix}=\boxed{\begin{pmatrix}2\\ -1\\ 1\end{pmatrix}}\]
+
+\ex{2} $AX-X=B\Rightarrow(A-I)X=B$, \ amb $A-I=\begin{pmatrix}2 & 1 & 0\\1 & 2 & 1\\0 & 1 & 2\end{pmatrix}$, \ $|A-I|=4$, \ $(A-I)^{-1}=\frac14\begin{pmatrix}3 & -2 & 1\\-2 & 4 & -2\\1 & -2 & 3\end{pmatrix}$:\[X=\frac14\begin{pmatrix}3 & -2 & 1\\-2 & 4 & -2\\1 & -2 & 3\end{pmatrix}\begin{pmatrix}1\\0\\1\end{pmatrix}=\boxed{\begin{pmatrix}1\\ -1\\ 1\end{pmatrix}}\]
+
+\ex{3} \begin{tasks}(1)
+  \task $|A|=\begin{vmatrix}1 & 1 & 0\\1 & k & 1\\0 & 1 & 1\end{vmatrix}=k-1-1=k-2$: \ si \ $\res{k\neq2}$
+  \task $\mathrm{Adj}(A)=\begin{pmatrix}k-1 & -1 & 1\\ -1 & 1 & -1\\ 1 & -1 & k-1\end{pmatrix}$ (és simètrica), \ $A^{-1}=\dfrac{1}{k-2}\begin{pmatrix}k-1 & -1 & 1\\ -1 & 1 & -1\\ 1 & -1 & k-1\end{pmatrix}$:\[X=\frac{1}{k-2}\begin{pmatrix}k-1+0+1\\ -1+0-1\\ 1+0+k-1\end{pmatrix}=\frac{1}{k-2}\begin{pmatrix}k\\ -2\\ k\end{pmatrix}\ \Rightarrow\ \boxed{x=z=\tfrac{k}{k-2};\ \ y=\tfrac{2}{2-k}}\]
+  \task $|A|=0$: la suma de la 1a i la 3a equacions dona $x+2y+z=2$, que contradiu la 2a ($x+2y+z=0$): \ \rest{SI}.
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task Si $AX=B$, multiplicant per $A^{-1}$ per l'esquerra, $X=A^{-1}B$: la solució existeix i és única. Amb $B=O$, $X=A^{-1}O=O$.
+  \task $A(X_1-X_2)=AX_1-AX_2=B-B=O$; \ \ $A\big(X_1+t(X_2-X_1)\big)=B+t\,(B-B)=B$.
+  \task Si en té dues de diferents, $X_1+t(X_2-X_1)$ dona una solució diferent per a cada $t$: en té \rest{infinites}.
+\end{tasks}
+
+\ex{2} \pau{La Rioja, extraordinària 2024}$A^{-1}b$ és la solució $X$ del sistema $AX=b$ (quan $A$ és invertible: $|A|=-a^2+a+2=-(a-2)(a+1)\neq0$, és a dir, $a\neq2$ i $a\neq-1$). Observant el sistema, $x=y=z=1$ compleix les tres equacions: $1-1+a=a$, $a+1-1=a$, $a+1+1=a+2$. Com que la solució és única:\[A^{-1}b=\boxed{\begin{pmatrix}1\\ 1\\ 1\end{pmatrix}}\]
+
+
+% =====================================================
+\seccio{3}{Regla de Cramer}
+
+\ex{2} $|A|=a^3-3a+2=(a-1)^2(a+2)$: és de Cramer si $a\neq1$ i $a\neq-2$. \ Sumant totes les columnes a la primera i traient factor comú:\[|A_x|=\begin{vmatrix}1 & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}=(a-1)^2,\qquad x=\frac{(a-1)^2}{(a-1)^2(a+2)}=\frac{1}{a+2}\]i, de la mateixa manera (o per la simetria del sistema), $|A_y|=|A_z|=(a-1)^2$: \ $\res{x=y=z=\tfrac{1}{a+2}}$
+
+\ex{3} $|A|=-13$ \ i \ $|A_t|=\begin{vmatrix}1 & 1 & 1 & 2\\2 & -1 & 1 & 5\\1 & 2 & -1 & -3\\3 & 1 & -2 & -2\end{vmatrix}=0$: \ $t=\dfrac{0}{-13}=\res{0}$, \ com havíem obtingut per Gauss.
+
+\ex{2} La 3a equació és la suma de les dues primeres, i $\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}=-2\neq0$: \ $\left\{\begin{aligned}x+y&=2-z\\ x-y&=1-2z\end{aligned}\right.$\[x=\frac{\begin{vmatrix}2-z & 1\\ 1-2z & -1\end{vmatrix}}{-2}=\frac{3-3z}{2},\qquad y=\frac{\begin{vmatrix}1 & 2-z\\ 1 & 1-2z\end{vmatrix}}{-2}=\frac{1+z}{2}\]\[\boxed{x=\tfrac{3-3\lambda}{2};\ \ y=\tfrac{1+\lambda}{2};\ \ z=\lambda,\quad\lambda\in\mathbb{R}}\]
+
+\ex{3} \pau{Illes Balears, extraordinària 2025}\begin{tasks}(1)
+  \task $|A|=\begin{vmatrix}k & 1 & 0\\0 & k & 1\\3 & -1 & -1\end{vmatrix}=-k^2+k+3$, que s'anul·la per a $k=\frac{1\pm\sqrt{13}}{2}$. Si $k\neq\frac{1\pm\sqrt{13}}{2}$: \rest{SCD}. Si $k=\frac{1\pm\sqrt{13}}{2}$: $\begin{vmatrix}k & 1\\ 0 & k\end{vmatrix}=k^2\neq0$, així que $\operatorname{rg}(A)=2$, i el menor de $A^*$ \ $\begin{vmatrix}k & 1 & 1\\0 & k & 0\\3 & -1 & 0\end{vmatrix}=-3k\neq0$ dona $\operatorname{rg}(A^*)=3$: \rest{SI}.
+  \task Per Cramer, amb $|A_x|=1-k$, $|A_y|=3$, $|A_z|=-3k$:\[\boxed{x=\frac{1-k}{-k^2+k+3};\quad y=\frac{3}{-k^2+k+3};\quad z=\frac{-3k}{-k^2+k+3}}\]
+\end{tasks}
+
+\ex{2} \pau{Catalunya, extraordinària 2026}\begin{tasks}(1)
+  \task $|A|=3k-3$. Si $k\neq1$: \rest{SCD}. Si $k=1$: $\begin{vmatrix}-1 & 2\\ 1 & 1\end{vmatrix}\neq0$, $\operatorname{rg}(A)=2$, i $3E_1=5E_3-E_2$, també en els termes independents: \rest{SCI}.
+  \task Si $k\neq1$, per Cramer: $|A_y|=\begin{vmatrix}2 & 3 & 1\\-1 & 1 & 2\\1 & 2 & 1\end{vmatrix}=0\Rightarrow y=0$, i aleshores $-x+2z=1$, $x+z=2$: \ $\res{x=1;\ y=0;\ z=1}$, que no depèn de $k$. Si $k=1$: restant la 1a i la 3a, $x=1$, i $y+z=1$: \ $\res{x=1;\ y=1-\lambda;\ z=\lambda}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Sistemes homogenis}
+
+\ex{2} $|A|=-a^3+3a-2=-(a-1)^2(a+2)$.\begin{tasks}(1)
+  \task Si $a\neq1$ i $a\neq-2$: \ \rest{SCD}, només la solució trivial \ $x=y=z=0$.
+  \task Si $a=1$: les tres equacions són $x+y+z=0$, rang 1: \ \rest{SCI amb dos paràmetres}:\par $\res{x=-\lambda-\mu;\ y=\lambda;\ z=\mu}$
+  \task Si $a=-2$: rang 2 ($\begin{vmatrix}1 & 1\\ 1 & -2\end{vmatrix}\neq0$). De les dues primeres, $x+y=2z$ i $x-2y=-z$: $y=z$, $x=z$: \ $\res{x=y=z=\lambda}$
+\end{tasks}
+
+\ex{2} La 3a equació és la suma de les dues primeres i les dues primeres no són proporcionals: $\operatorname{rg}(A)=2$, amb 4 incògnites: \rest{dos paràmetres}. De la 3a, $x=-\tfrac32z$; amb $z=\lambda$, $t=\mu$, de la 1a, $y=-x-z-t$:\[\boxed{x=-\tfrac32\lambda;\ \ y=\tfrac12\lambda-\mu;\ \ z=\lambda;\ \ t=\mu}\]
+
+\ex{2} Per exemple, $y=2x$ i $z=-x$: \ $\res{\left\{\begin{aligned}2x-y&=0\\x+z&=0\end{aligned}\right.}$ \ (el rang és 2, de manera que la solució depèn d'un paràmetre). \ $k\lambda+2\lambda-3\lambda=0\Rightarrow\res{k=1}$
+
+\ex{3} \begin{tasks}(1)
+  \task \rest{Vertadera}: $\operatorname{rg}(A)\leq$ nombre d'equacions $<n$, i un sistema homogeni sempre és compatible: és SCI.
+  \task \rest{Vertadera}: si $|A|\neq0$, seria SCD i només tindria la solució trivial.
+  \task \rest{Vertadera}: $A(aX_1+bX_2)=aAX_1+bAX_2=aO+bO=O$.
+\end{tasks}
+
+\ex{2} \pau{La Rioja, ordinària 2025}$|A|=2-4m$. Si $m\neq\tfrac12$: \rest{només la solució trivial}. Per a $\res{m=\tfrac12}$, $\operatorname{rg}(A)=2$ (\,$\begin{vmatrix}3 & 1\\ 1 & -1\end{vmatrix}\neq0$): de la 1a i la 3a, $4x=2z$ i $y=z-3x$:\[\boxed{x=\lambda;\ \ y=-\lambda;\ \ z=2\lambda,\quad\lambda\in\mathbb{R}}\]
+
+
+% =====================================================
+\seccio{5}{Teorema de Rouché-Frobenius}
+
+\ex{2} \label{ex:r4}El menor de les tres primeres files de $A$ val $7\neq0$, i $\operatorname{rg}(A)=3$.\begin{tasks}(1)
+  \task $|A^*|=0$: \ $\operatorname{rg}(A^*)=3=n$: \ \rest{SCD}. Resolent les tres primeres equacions: \ $\res{x=y=z=1}$ \ (que també compleix la 4a).
+  \task $|A^*|=7\neq0$: \ $\operatorname{rg}(A^*)=4\neq3$: \ \rest{SI}.
+\end{tasks}
+
+\ex{2} Les dues primeres columnes són proporcionals, i també la 3a i la 4a (amb signe canviat): $\operatorname{rg}(A)\leq2$, i $\begin{vmatrix}1 & -1\\ 2 & 1\end{vmatrix}=3\neq0$ dona $\operatorname{rg}(A)=2$. La 3a equació és $E_2-E_1$, de manera que $\operatorname{rg}(A^*)=2<4$: \rest{SCI amb dos paràmetres}.\par Sumant les dues primeres: $3x+6y=6$; amb $y=\lambda$, $t=\mu$: \ $\res{x=2-2\lambda;\ y=\lambda;\ z=-1+\mu;\ t=\mu}$
+
+\ex{2} $|A|=\begin{vmatrix}1 & 1 & 1\\1 & -1 & 2\\3 & 1 & 4\end{vmatrix}=0$ i $\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}\neq0$: $\operatorname{rg}(A)=2$ sempre, de manera que \rest{mai no és SCD}. Com que $F_3=2F_1+F_2$ en la matriu $A$, el sistema és compatible si i només si els termes independents compleixen la mateixa relació:\[\boxed{c=2a+b}\](i aleshores és SCI; si no, $\operatorname{rg}(A^*)=3$ i és SI).
+
+\ex{2} \begin{tasks}(1)
+  \task \rest{Falsa}: pot ser $\operatorname{rg}(A^*)=4$ (és el cas del segon sistema de l'exercici \ref{ex:r4}).
+  \task \rest{Vertadera}: $\operatorname{rg}(A)\leq3<4=n$.
+  \task \rest{Vertadera}: $\operatorname{rg}(A^*)=4$ i $\operatorname{rg}(A)\leq3$.
+  \task \rest{Falsa}: pot ser SCI (si $\operatorname{rg}(A)=\operatorname{rg}(A^*)<3$).
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, extraordinària 2026}$|A|=\begin{vmatrix}2 & 1 & 1\\4 & 5 & 7\\1 & 2 & 3\end{vmatrix}=0$ i $\begin{vmatrix}2 & 1\\ 4 & 5\end{vmatrix}=6\neq0$: $\operatorname{rg}(A)=2$. La 2a equació és la suma de la 1a i el doble de la 3a, també en els termes independents ($6500+16000=22500$): $\operatorname{rg}(A^*)=2<3$. \ \rest{SCI}: \rest{no} es poden determinar de manera única.
+
+
+% =====================================================
+\seccio{6}{Discussió de sistemes amb paràmetres}
+
+\ex{2} $|A|=(a-1)^2(a+2)$.\begin{tasks}(1)
+  \task Si $a\neq1$ i $a\neq-2$: \rest{SCD}. Per Cramer (o restant les equacions dues a dues):\par $\res{x=-\tfrac{a+1}{a+2};\ \ y=\tfrac{1}{a+2};\ \ z=\tfrac{(a+1)^2}{a+2}}$
+  \task Si $a=1$: les tres equacions són $x+y+z=1$: \ \rest{SCI amb dos paràmetres}:\par $\res{x=1-\lambda-\mu;\ y=\lambda;\ z=\mu}$
+  \task Si $a=-2$: sumant les tres equacions, $0=1-2+4=3$: \ \rest{SI} (\,$\operatorname{rg}(A)=2$, $\operatorname{rg}(A^*)=3$).
+\end{tasks}
+
+\ex{2} $|A|=\begin{vmatrix}1 & 1 & 1\\1 & 2 & a\\2 & 3 & 4\end{vmatrix}=3-a$.\begin{tasks}(1)
+  \task Si $a\neq3$: \ \rest{SCD}.
+  \task Si $a=3$ i $b=3$: la 3a equació és la suma de les dues primeres: \rest{SCI}.
+  \task Si $a=3$ i $b\neq3$: els coeficients de la 3a són la suma dels de les altres, però el terme independent no: \rest{SI}.
+\end{tasks}Per a $a=b=3$, restant les dues primeres: $y+2z=1$; amb $z=\lambda$: \ $\res{x=\lambda;\ y=1-2\lambda;\ z=\lambda}$
+
+\ex{2} $\operatorname{rg}(A)=2$ sempre ($\begin{vmatrix}1 & 2\\ 2 & -1\end{vmatrix}=-5\neq0$). \ $|A^*|=\begin{vmatrix}1 & 2 & 3\\2 & -1 & 1\\a & 1 & 2\end{vmatrix}=5a-5$.\begin{tasks}(1)
+  \task Si $a\neq1$: $\operatorname{rg}(A^*)=3$: \ \rest{SI}.
+  \task Si $a=1$: $\operatorname{rg}(A^*)=2=n$: \ \rest{SCD}: \ $\res{x=1;\ y=1}$
+\end{tasks}
+
+\ex{3} Sumant les dues primeres equacions: $2x+2z=1+a$. Les dues primeres files de $A$ no són proporcionals, així que $\operatorname{rg}(A)\geq2$.\begin{tasks}(1)
+  \task Si $k\neq2$: el menor de les columnes 1a, 2a i 3a, $\begin{vmatrix}1 & 1 & 1\\1 & -1 & 1\\2 & 0 & k\end{vmatrix}=-k+2\neq0$: \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)=3<4$: \ \rest{SCI amb un paràmetre}.
+  \task Si $k=2$ i $a=2$: la 3a equació, $2x+2z=3$, coincideix amb la suma de les dues primeres: rang 2: \ \rest{SCI amb dos paràmetres}.
+  \task Si $k=2$ i $a\neq2$: $2x+2z=3$ i $2x+2z=1+a$ es contradiuen: \ \rest{SI}.
+\end{tasks}
+
+\ex{2} $|A|=\begin{vmatrix}1 & 1 & 1\\m & 1 & m-1\\1 & m & 1\end{vmatrix}=m-1$.\begin{tasks}(1)
+  \task Si $m\neq1$: \ \rest{SCD}.
+  \task Si $m=1$: la 1a equació és $x+y+z=2$ i la 3a, $x+y+z=1$: \ \rest{SI}.
+  \task $m=0$: \ $x+y+z=1$, \ $y-z=0$, \ $x+z=1$ \ $\Rightarrow$ \ $\res{x=1;\ y=0;\ z=0}$
+  \task $m=2$: \ $x+y+z=3$, \ $2x+y+z=2$, \ $x+2y+z=1$ \ $\Rightarrow$ \ $\res{x=-1;\ y=-2;\ z=6}$
+\end{tasks}
+
+\ex{2} \pau{Andalusia, ordinària 2026}\begin{tasks}(1)
+  \task $|A|=3\big[(1-a)(3-a)-8\big]=3(a^2-4a-5)=3(a-5)(a+1)$. \ Si $a\neq5$ i $a\neq-1$: \rest{SCD}. \ Si $a=-1$: les dues últimes equacions són $2y+2z=0$ i $4y+4z=-6$: \rest{SI}. \ Si $a=5$: són $-4y+2z=0$ i $4y-2z=0$ (proporcionals): \rest{SCI}.
+  \task $3x-y=0$, \ $y+2z=0$, \ $4y+3z=-5$ \ $\Rightarrow$ \ $\res{x=-\tfrac23;\ y=-2;\ z=1}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2025}\begin{tasks}(1)
+  \task $|A|=m^3-16m^2-m+16=(m-16)(m^2-1)$. \ Si $m\neq16$ i $m\neq\pm1$: \rest{una solució}. \ Si $m=1$: la 3a equació és la 1a canviada de signe: \rest{infinites solucions}. \ Si $m=-1$: la 1a i la 3a diuen $x+2y-z=-1$ i $x+2y-z=1$: \rest{cap solució}. \ Si $m=16$: $\operatorname{rg}(A)=2$ i el menor $\begin{vmatrix}1 & -1 & -1\\8 & -6 & -8\\-1 & 256 & 16\end{vmatrix}=30\neq0$ de $A^*$ dona $\operatorname{rg}(A^*)=3$: \rest{cap solució}.
+  \task $x+2y-z=-1$, \ $8x+y-6z=-8$. Restant a la 2a el sextuple de la 1a: $2x-11y=-2$. Amb $y=2\lambda$: $x=-1+11\lambda$, $z=x+2y+1=15\lambda$: \ $\res{x=-1+11\lambda;\ y=2\lambda;\ z=15\lambda}$
+\end{tasks}
+
+\ex{2} \pau{Canàries, ordinària 2024}\begin{tasks}(1)
+  \task $|A|=-k^2+2k+3=-(k-3)(k+1)$. \ Si $k\neq3$ i $k\neq-1$: \rest{SCD}. \ Si $k=3$: la 1a i la 3a equacions tenen els mateixos coeficients ($3x+y-3z$) i termes independents diferents: \rest{SI}. \ Si $k=-1$: el mateix passa amb la 2a i la 3a ($-x+y+z$): \rest{SI}.
+  \task Restant la 1a i la 3a: $z=4$; aleshores $4x+y=17$ i $-x+y=-8$: \ $\res{x=5;\ y=-3;\ z=4}$
+\end{tasks}
+
+\ex{2} \pau{Cantàbria, ordinària 2026}\begin{tasks}(1)
+  \task $|A|=1-a^2$. \ Si $a\neq\pm1$: \rest{SCD}. \ Si $a=-1$: les dues últimes són $y-z=1$ i $-y+z=3$: \rest{SI}. \ Si $a=1$: les dues últimes són $y+z=1$: \rest{SCI}.
+  \task $y+2z=1$, \ $2y+z=0$ \ $\Rightarrow$ \ $y=-\tfrac13$, $z=\tfrac23$: \ $\res{x=-\tfrac13;\ y=-\tfrac13;\ z=\tfrac23}$
+  \task $y+z=1$ i $x=-(y+z)=-1$: \ $\res{x=-1;\ y=1-\lambda;\ z=\lambda}$
+\end{tasks}
+
+\ex{3} \pau{Cantàbria, extraordinària 2026}\begin{tasks}(1)
+  \task Si $a\neq0$: el menor $\begin{vmatrix}1 & a\\ a^2 & 0\end{vmatrix}=-a^3\neq0$, i $\operatorname{rg}(A)=\operatorname{rg}(A^*)=2<3$: \rest{SCI}. Si $a=0$: queda $y=1$ i $0=0$: rang 1, \rest{SCI amb dos paràmetres}. És a dir, \rest{SCI per a tot $a$}.
+  \task $\res{x=\lambda;\ y=1;\ z=\mu}$, \ $\lambda,\mu\in\mathbb{R}$.
+  \task $8x+y+2z=1$, \ $2x+4y=2$. Amb $y=\lambda$: $x=1-2\lambda$, \ $z=\frac{1-8x-y}{2}$: \ $\res{x=1-2\lambda;\ y=\lambda;\ z=-\tfrac72+\tfrac{15}{2}\lambda}$
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2025}\begin{tasks}(1)
+  \task $|A|=2a-6$. \ Si $a\neq3$: \rest{SCD} (una solució). \ Si $a=3$: la 2a equació, $4x+2y=3$, és la suma de la 1a i la 3a: \rest{SCI} (infinites solucions).
+  \task Sumant la 1a i la 3a: $x+2y=3$; amb $4x+2y=0$: $x=-1$, $y=2$, $z=-1$: \ $\res{x=-1;\ y=2;\ z=-1}$
+\end{tasks}
+
+\ex{3} \pau{Castella i Lleó, extraordinària 2026}$A-\alpha I=\begin{pmatrix}2-\alpha & 2 & 0\\ 0 & 2-\alpha & 0\\ 2 & 0 & 4-\alpha\end{pmatrix}$, \ $|A-\alpha I|=(2-\alpha)^2(4-\alpha)$.\begin{tasks}(1)
+  \task Si $\alpha\neq2$ i $\alpha\neq4$: \ \rest{SCD}.
+  \task Si $\alpha=2$: queda $2y=0$, $0=0$, $2x+2z=1$: rang 2: \ \rest{SCI} \ ($x=\lambda$, $y=0$, $z=\tfrac12-\lambda$).
+  \task Si $\alpha=4$: la 3a columna de $A$ és nul·la i $\operatorname{rg}(A)=2$, però $\begin{vmatrix}-2 & 2 & 0\\0 & -2 & 0\\2 & 0 & 1\end{vmatrix}=4\neq0$: $\operatorname{rg}(A^*)=3$: \ \rest{SI}.
+\end{tasks}
+
+\ex{2} \pau{Castella i Lleó, ordinària 2026}\begin{tasks}(1)
+  \task $|A|=m^2-7m+10=(m-2)(m-5)$. \ Si $m\neq2$ i $m\neq5$: \rest{SCD}. \ Si $m=5$: la 1a equació és la 3a canviada de signe: \rest{SCI}. \ Si $m=2$: $\begin{vmatrix}-8 & -2\\ 7 & 4\end{vmatrix}\neq0$, $\operatorname{rg}(A)=2$, i $\begin{vmatrix}-8 & -2 & -1\\7 & 4 & 3\\5 & 2 & 1\end{vmatrix}=6\neq0$: $\operatorname{rg}(A^*)=3$, \rest{SI}.
+  \task Sumant la 1a i la 3a: $-2x=0$, $x=0$; aleshores $5y+2z=4$ i $2y+z=1$: \ $\res{x=0;\ y=2;\ z=-3}$
+\end{tasks}
+
+\ex{2} \pau{Catalunya, ordinària 2026}\begin{tasks}(1)
+  \task $|A|=m^2-4m+3=(m-1)(m-3)$. \ Si $m\neq1$ i $m\neq3$: \rest{SCD}. \ Si $m=1$: la 1a i la 3a equacions coincideixen: \rest{SCI}. \ Si $m=3$: la 1a i la 2a tenen els mateixos coeficients i termes independents 4 i 5: \rest{SI}.
+  \task $x+y+z=4$, $x+3y+z=5$: $y=\tfrac12$: \ $\res{x=\tfrac72-\lambda;\ y=\tfrac12;\ z=\lambda}$
+  \task Sí: $\left(3,\tfrac12,\tfrac12\right)$ és la solució amb $\lambda=\tfrac12$. N'hi ha prou d'afegir una equació que fixe $\lambda$, per exemple \ $\res{z=\tfrac12}$: aleshores $\operatorname{rg}(A)=\operatorname{rg}(A^*)=3$ i és SCD.
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinària 2026}\begin{tasks}(1)
+  \task $|A|=k^2-k-6=(k-3)(k+2)$. \ Si $k\neq3$ i $k\neq-2$: \rest{SCD}. \ Si $k=-2$: $\operatorname{rg}(A)=2$ i $\begin{vmatrix}-2 & -1 & -6\\2 & -2 & 6\\1 & 1 & -2\end{vmatrix}=-30\neq0$: \rest{SI}. \ Si $k=3$: la 1a equació és la suma de la 2a i la 3a: \rest{SCI}.
+  \task $2x+3y-2z=6$, \ $x-y+z=3$. Sumant a la 1a el doble de la 2a: $4x+y=12$. Amb $x=3-\lambda$: $y=4\lambda$, \ $z=3-x+y=5\lambda$: \ $\res{x=3-\lambda;\ y=4\lambda;\ z=5\lambda}$
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinària 2025}\begin{tasks}(1)
+  \task $|A|=m^2-m-2=(m-2)(m+1)$. \ Si $m\neq2$ i $m\neq-1$: \rest{SCD}. \ Si $m=2$: la 1a equació és el doble de la 2a més tres vegades la 3a ($0=6-6$): \rest{SCI}. \ Si $m=-1$: $-E_2+6E_3$ té els mateixos coeficients que la 1a equació, $-x+7y+5z$, però terme independent $-15\neq0$: \rest{SI}.
+  \task Restant la 3a a la 2a: $x=5$; aleshores $7y+5z=-5$ i $y+z=-2$: \ $\res{x=5;\ y=\tfrac52;\ z=-\tfrac92}$
+\end{tasks}
+
+\ex{2} \pau{Galícia, extraordinària 2026}$|A|=-2m-4=-2(m+2)$. \ Si $m\neq-2$: \rest{SCD}. \ Si $m=-2$: restant a la 1a el doble de la 2a s'obté $2y-2z=5$, mentre que la 3a és $2y-2z=-7$: \rest{SI}.
+
+\ex{2} \pau{Galícia, extraordinària 2025}$|A|=m^2-4m=m(m-4)$. \ Si $m\neq0$ i $m\neq4$: \rest{SCD}. \ Si $m=0$: queda $x+z=0$, $x+3z=0$, $2z=0$: $x=z=0$ i $y$ qualsevol: \rest{SCI}. \ Si $m=4$: restant les dues primeres, $4y+2z=-4$, mentre que la 3a és $4y+2z=12$: \rest{SI}.
+
+\ex{2} \pau{Madrid, extraordinària 2025}\begin{tasks}(1)
+  \task El sistema és $AX=\begin{pmatrix}0\\ k\\ 2k\end{pmatrix}$, amb $|A|=k^3+2k^2+k=k(k+1)^2$. \ Si $k\neq0$ i $k\neq-1$: \rest{SCD}. \ Si $k=0$: és homogeni amb $\operatorname{rg}(A)=2$: \rest{SCI}. \ Si $k=-1$: la 1a més la 3a dona $y+z=-2$, mentre que la 2a és $y+z=-1$: \rest{SI}.
+  \task $y+z=0$, \ $x+y=0$: \ $\res{x=-\lambda;\ y=\lambda;\ z=-\lambda}$
+\end{tasks}
+
+\ex{3} \pau{Navarra, extraordinària 2026}Fem servir el \textbf{teorema de Rouché-Frobenius}, que relaciona el tipus de sistema amb els rangs de $A$ i de $A^*$. \ $|A|=(a^2-4)^2=(a-2)^2(a+2)^2$.\begin{tasks}(1)
+  \task Si $a\neq\pm2$: $\operatorname{rg}(A)=\operatorname{rg}(A^*)=3$: \ \rest{SCD}.
+  \task Si $a=2$: la 1a i la 3a equacions són $4y+2z=4$ i $4y+2z=-4$: \rest{SI}.
+  \task Si $a=-2$: les equacions queden $2z=4$, $z=2$, $-2z=-4$: $\operatorname{rg}(A)=\operatorname{rg}(A^*)=1<3$: \rest{SCI}: \ $\res{x=\lambda;\ y=\mu;\ z=2}$
+\end{tasks}
+
+\ex{3} \pau{Navarra, extraordinària 2025}Teorema de Rouché-Frobenius. Sumant la 2a i la 3a: $(m+2)z=2m+4$. \ $|A|=m(m-1)^2(m+2)$.\begin{tasks}(1)
+  \task Si $m\neq0,1,-2$: \rest{SCD}: $z=2$; restant la 1a a la 2a, $(m-1)y+z=1+m^2$, d'on $y=m+1$, i de la 2a s'aïlla $x$: \ $\res{x=\tfrac{1-3m-2m^2}{m(m-1)};\ y=m+1;\ z=2}$
+  \task Si $m=0$: la columna de $x$ és nul·la, $\operatorname{rg}(A)=2$, i $\begin{vmatrix}2 & -1 & 1\\1 & 0 & 2\\-1 & 2 & 2\end{vmatrix}=-2\neq0$: \rest{SI}.
+  \task Si $m=1$: $3y-z=0$, $3y=2$, $-3y+3z=4$: \rest{SCI}: \ $\res{x=\lambda;\ y=\tfrac23;\ z=2}$
+  \task Si $m=-2$: la 3a equació és la 2a canviada de signe: \rest{SCI}: de $6x-z=-3$ i $6x-3y=2$: \ $\res{x=\lambda;\ y=-\tfrac23+2\lambda;\ z=3+6\lambda}$
+\end{tasks}
+
+\ex{2} \pau{País Basc, extraordinària 2025}\begin{tasks}(1)
+  \task Ordenant: $\left\{\begin{aligned}x-\alpha y+3z&=3\\ \alpha x+y+z&=2\\ x-y+2z&=1\end{aligned}\right.$. \ $|A|=2\alpha^2-4\alpha=2\alpha(\alpha-2)$. \ Si $\alpha\neq0$ i $\alpha\neq2$: \rest{SCD}. \ Si $\alpha=0$: la 1a equació és la suma de les altres dues: \rest{SCI}. \ Si $\alpha=2$: \rest{SI} ($\operatorname{rg}(A)=2$, $\operatorname{rg}(A^*)=3$).
+  \task $y+z=2$, \ $x-y+2z=1$: amb $z=\lambda$: \ $\res{x=3-3\lambda;\ y=2-\lambda;\ z=\lambda}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemes de plantejament}
+
+\ex{2} $(100z+10y+x)-(100x+10y+z)=396\Leftrightarrow-99x+99z=396$:\[\left\{\begin{aligned}x+y+z&=12\\-99x+99z&=396\\x-y+z&=0\end{aligned}\right.\]De la 1a i la 3a: $2y=12$, $y=6$; aleshores $x+z=6$ i $z-x=4$: \ el nombre és \rest{165}.
+
+\ex{2} Substituint cada punt: \ \[\left\{\begin{aligned}-a+b-c+d&=-4\\d&=1\\a+b+c+d&=2\\8a+4b+2c+d&=11\end{aligned}\right.\] \ $d=1$; sumant la 1a i la 3a: $2b+2d=-2$, $b=-2$; aleshores $a+c=3$ i $8a+2c=18$: $a=2$, $c=1$.\[\boxed{p(x)=2x^3-2x^2+x+1}\]
+
+\ex{2} \begin{tasks}(1)
+  \task $x$, $y$, $z$: monedes d'1, 2 i 5 €. \ \[\left\{\begin{aligned}x+y+z&=10\\x+2y+5z&=25\end{aligned}\right.\] \ Rang 2 i 3 incògnites: \rest{SCI}. Restant: $y+4z=15$; amb $z=\lambda$: \ $\res{x=-5+3\lambda;\ y=15-4\lambda;\ z=\lambda}$
+  \task Han de ser naturals: $x\geq0\Rightarrow\lambda\geq\tfrac53$ i $y\geq0\Rightarrow\lambda\leq\tfrac{15}{4}$, de manera que $\lambda=2$ o $\lambda=3$: \ \rest{1, 7 i 2} \ o \ \rest{4, 3 i 3} monedes.
+  \task \rest{4 monedes d'1 €, 3 de 2 € i 3 de 5 €}.
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $x$ generals, $y$ infantils, $z$ sèniors: \ \[\left\{\begin{aligned}x+y+z&=100\\10x+5y+kz&=600\\y-z&=0\end{aligned}\right.\] \ $|A|=\begin{vmatrix}1 & 1 & 1\\10 & 5 & k\\0 & 1 & -1\end{vmatrix}=k-15$. Si $k\neq15$: \rest{SCD}; si $k=15$: amb $y=z$, $x+2y=100$ i $10x+20y=600$ es contradiuen: \rest{SI}.
+  \task \rest{20 generals, 40 infantils i 40 sèniors}.
+  \task Amb $k=10$ el sistema és SCD, però la solució és $x=-60$, $y=z=80$: \rest{no té sentit} (no hi pot haver un nombre negatiu d'entrades).
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2024}$x$, $y$, $z$: grams de M$_1$, M$_2$ i M$_3$. Passant a mg i dividint entre 10:\[\left\{\begin{aligned}x+y+2z&=7000\\x+2y+3z&=9000\\2x+3y+5z&=16000\end{aligned}\right.\]La 3a equació és la suma de les altres dues: \rest{SCI}. Restant les dues primeres, $y+z=2000$; amb $z=\lambda$: \ $\res{x=5000-\lambda;\ y=2000-\lambda;\ z=\lambda}$, \ amb \rest{$0\leq\lambda\leq2000$} perquè les quantitats no siguen negatives. És possible, i de moltes maneres.
+
+\ex{2} \pau{Astúries, extraordinària 2026}\begin{tasks}(1)
+  \task \[\left\{\begin{aligned}x+y+z&=10\\x+2y+3z&=m+9\\2x+3y+(7-m)z&=22\end{aligned}\right.\]
+  \task $|A|=3-m$: cal \ $\res{m=3}$. Aleshores la 3a equació és la suma de les altres dues: \rest{SCI}:\par $\res{x=8+\lambda;\ y=2-2\lambda;\ z=\lambda}$
+  \task $\res{x=11;\ y=-2;\ z=1}$: \rest{no té sentit}, perquè no hi pot haver un nombre negatiu de camions.
+\end{tasks}
+
+\ex{3} \pau{Astúries, ordinària 2026}\begin{tasks}(1)
+  \task $c$, $t$, $s$: preus del café, el te i el suc: \ \[\left\{\begin{aligned}c+2t+2s&=11\\c+3t+3s&=16\\3c+3t+ps&=21\end{aligned}\right.\] \ $|A|=p-3$. Si $p\neq3$: \rest{SCD}; si $p=3$: \rest{SI} (restant les dues primeres, $t+s=5$, i aleshores la 3a donaria $3c=6$ però la 1a, $c=1$).
+  \task Amb $p=2$: \ $c=1$, $t=8$, $s=-3$: un preu negatiu: \rest{té raó el client}.
+  \task Amb $p=4$: \ \rest{café 1 €, te 2 € i suc 3 €}.
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2025}$x$, $y$, $z$: kg de cada matèria primera. Hi ha quatre equacions (massa total, proteïna, greix i carbohidrats):\[\left\{\begin{aligned}x+y+z&=1000\\0{,}2x+0{,}4y+0{,}6z&=360\\0{,}1x+0{,}2y+0{,}1z&=120\\0{,}1x+0{,}3y+0{,}3z&=200\end{aligned}\right.\]$|A^*|=0$ i el menor de les tres primeres files de $A$ és no nul: $\operatorname{rg}(A)=\operatorname{rg}(A^*)=3$, \rest{SCD}. Resolent: \ \rest{500 kg de vegetals, 200 kg de farines i 300 kg de carnis}.
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2024}\begin{tasks}(1)
+  \task \[\left\{\begin{aligned}x+y+z&=157\\x+2y+3z&=278\\x-kz&=0\end{aligned}\right.\]
+  \task $|A|=1-k$: solució única si \ $\res{k\neq1}$ \ ($k>0$). Vendre'n el mateix nombre vol dir $k=1$, i aleshores el sistema és incompatible ($x=z$ dona $2x+y=157$ i $4x+2y=278$, contradictòries): \rest{no és possible}.
+\end{tasks}
+
+\ex{2} \pau{Madrid, ordinària 2025}$x$, $y$, $z$: llançaments d'1, 2 i 3 punts: \ $0{,}8x+0{,}5\cdot2y+0{,}4\cdot3z=80$, \ $\frac y3=\frac{x+z}{5}$, \ $2z=x+y-5$:\[\left\{\begin{aligned}0{,}8x+y+1{,}2z&=80\\3x-5y+3z&=0\\x+y-2z&=5\end{aligned}\right.\]$\Rightarrow$ \ \rest{25 llançaments d'1 punt, 30 de 2 punts i 25 de 3 punts}.
+
+\ex{2} \pau{Múrcia, extraordinària 2026}\begin{tasks}(1)
+  \task \[\left\{\begin{aligned}x+2y+z&=400\\x+y+2z&=500\\x+y+z&=k\end{aligned}\right.\]
+  \task $|A|=1\neq0$: \rest{SCD per a tot $k$}. Restant la 3a a les altres: $y=400-k$, $z=500-k$, i $x=k-y-z$: \ $\res{x=3k-900;\ y=400-k;\ z=500-k}$. \ Perquè tinga sentit, $k$ ha de ser un nombre natural entre 300 i 400.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, ordinària 2026}\begin{tasks}(1)
+  \task \[\left\{\begin{aligned}x+y+z&=12\\x+2y-z&=k\\2x-y+z&=4\end{aligned}\right.\]
+  \task $|A|=-7\neq0$ per a tot $k$: \rest{SCD}. Per Cramer: \ $\res{x=\tfrac{2k}{7};\ y=4+\tfrac{k}{7};\ z=8-\tfrac{3k}{7}}$
+\end{tasks}
+
+\ex{2} \pau{País Basc, extraordinària 2026}\begin{tasks}(1)
+  \task $a$, $b$, $c$: recipients de cada productor: \ \[\left\{\begin{aligned}10a+15b+12c&=612\\a+b+c&=48\\5a+9b+4c&=304\end{aligned}\right.\]
+  \task Solució: $a=12$, $b=20$, $c=16$: \ \rest{60 € a A, 180 € a B i 64 € a C}.
+\end{tasks}
+
+
+\end{document}

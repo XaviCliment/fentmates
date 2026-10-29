@@ -1,0 +1,328 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 2: Sistemes d'equacions lineals. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={sistemes d'equacions lineals, mètode de Gauss, mètode matricial, regla de Cramer, teorema de Rouché-Frobenius, sistemes homogenis, discussió de sistemes, paràmetres, problemes, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 2: Sistemes d'equacions lineals · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Fitxa d'exercicis · Unitat 2}{Sistemes d'equacions lineals}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern justificant cada pas: indica sempre el mètode que fas servir i, en els problemes, què representa cada incògnita. En les discussions amb paràmetres, estudia \textbf{tots} els casos. Els exercicis marcats amb {\color{teal}\bfseries\faUniversity\ PAU} són de les proves d'accés a la universitat d'altres comunitats autònomes (2024--2026), traduïts al valencià.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Sistemes d'equacions lineals. Mètode de Gauss}
+
+\ex{1} \label{ex:g4}Resol pel mètode de Gauss el sistema de quatre equacions i quatre incògnites:\[\left\{\begin{aligned}x+y+z+t&=2\\2x-y+z-t&=5\\x+2y-z+3t&=-3\\3x+y-2z+t&=-2\end{aligned}\right.\]\recorda{Fes zeros davall de la diagonal amb operacions entre files de la matriu ampliada i després resol de baix cap amunt. Tria com a fila pivot la que tinga un 1 en la columna que vols anul·lar.}
+
+\ex{2} Discuteix i resol, quan siga possible, pel mètode de Gauss:\begin{tasks}(1)
+  \task $\left\{\begin{aligned}x+y-z+t&=1\\2x+y+z-t&=3\\3x+2y&=4\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=6\\x-y+2z&=5\\2x+y-z&=1\\3x+2y&=7\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=6\\x-y+2z&=5\\2x+y-z&=1\\3x+2y&=8\end{aligned}\right.$
+\end{tasks}
+
+\ex{3} Discuteix pel mètode de Gauss el sistema següent segons els valors de $k$ i $m$, i resol-lo quan siga compatible indeterminat:\[\left\{\begin{aligned}x+2y-z&=1\\2x+y+z&=4\\4x+5y+kz&=m\end{aligned}\right.\]
+
+\ex{2} Escriu un sistema de tres equacions amb tres incògnites, sense cap coeficient nul en la tercera equació, que tinga com a solució general \ $x=1+\lambda$, \ $y=2-\lambda$, \ $z=\lambda$.
+
+\ex{2} \pau{Andalusia, extraordinària 2025} Se sap que la suma de tres nombres naturals és 22 i que la suma de quatre vegades el primer més el triple del segon més el doble del tercer és 61. Pot ser 15 un dels tres nombres? En cas afirmatiu, calcula els altres. Hi ha altres opcions?
+
+
+% =====================================================
+\seccio{2}{Expressió matricial. Mètode matricial}
+
+\ex{2} Siga \ $A=\begin{pmatrix}1 & 2 & 1\\0 & 1 & 2\\1 & 0 & 2\end{pmatrix}$. Resol pel mètode matricial els sistemes $AX=B_1$ i $AX=B_2$, amb \ $B_1=\begin{pmatrix}2\\2\\3\end{pmatrix}$ \ i \ $B_2=\begin{pmatrix}1\\1\\4\end{pmatrix}$, calculant una sola vegada la matriu inversa.\recorda{Si $|A|\neq0$: \ $A\cdot X=B\Rightarrow X=A^{-1}\cdot B$. Quan diversos sistemes tenen la mateixa matriu de coeficients, n'hi ha prou de calcular $A^{-1}$ una vegada.}
+
+\ex{2} Troba la matriu columna $X=\begin{pmatrix}x\\ y\\ z\end{pmatrix}$ tal que $AX=X+B$, essent \ $A=\begin{pmatrix}3 & 1 & 0\\1 & 3 & 1\\0 & 1 & 3\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1\\0\\1\end{pmatrix}$.
+
+\ex{3} Considera el sistema \ $\left\{\begin{aligned}x+y&=1\\x+ky+z&=0\\y+z&=1\end{aligned}\right.$\begin{tasks}(1)
+  \task Per a quins valors de $k$ es pot resoldre pel mètode matricial?
+  \task Resol-lo pel mètode matricial en funció de $k$.
+  \task Què passa quan $k=2$?
+\end{tasks}
+
+\ex{3} Siga $AX=B$ un sistema de $n$ equacions i $n$ incògnites.\begin{tasks}(1)
+  \task Demostra que, si $|A|\neq0$, el sistema té una única solució per a qualsevol $B$, i que el sistema homogeni $AX=O$ només té la solució trivial.
+  \task Demostra que, si $X_1$ i $X_2$ són solucions de $AX=B$, aleshores $X_1-X_2$ és solució de $AX=O$, i que $X_1+t\,(X_2-X_1)$ és solució de $AX=B$ per a tot $t\in\mathbb{R}$.
+  \task Dedueix que un sistema lineal no pot tenir exactament dues solucions.
+\end{tasks}
+
+\ex{2} \pau{La Rioja, extraordinària 2024} Donat el sistema d'equacions lineals dependent del paràmetre real $a$\[\left\{\begin{aligned}x-y+az&=a\\ax+y-z&=a\\(a+1)x+z&=a+2\end{aligned}\right.\]troba la matriu $A^{-1}b$ sense calcular la matriu inversa de $A$, essent $A$ la matriu de coeficients i $b$ la de termes independents.
+
+
+% =====================================================
+\seccio{3}{Regla de Cramer}
+
+\ex{2} Resol per la regla de Cramer, en funció de $a$, el sistema \ $\left\{\begin{aligned}ax+y+z&=1\\x+ay+z&=1\\x+y+az&=1\end{aligned}\right.$ \ en els casos en què siga un sistema de Cramer.\recorda{Un sistema és de Cramer si té tantes equacions com incògnites i $|A|\neq0$. Aleshores $x=\dfrac{|A_x|}{|A|}$, \ldots, on $A_x$ s'obté substituint la columna de $x$ per la de termes independents.}
+
+\ex{3} Calcula, aplicant la regla de Cramer, només el valor de $t$ en el sistema de l'exercici \ref{ex:g4}.
+
+\ex{2} El sistema \ $\left\{\begin{aligned}x+y+z&=2\\x-y+2z&=1\\2x+3z&=3\end{aligned}\right.$ \ és compatible indeterminat. Resol-lo aplicant la regla de Cramer (passa $z$ al segon membre).
+
+\ex{3} \pau{Illes Balears, extraordinària 2025} Donat el sistema \ $\left\{\begin{aligned}kx+y&=1\\ky+z&=0\\3x-y-z&=0\end{aligned}\right.$, \ on $k$ és un nombre real qualsevol:\begin{tasks}(1)
+  \task Discuteix, segons el paràmetre $k$, el nombre de solucions que té el sistema.
+  \task Resol el sistema quan siga possible.
+\end{tasks}
+
+\ex{2} \pau{Catalunya, extraordinària 2026} Considera el sistema d'equacions \ $\left\{\begin{aligned}2x+ky+z&=3\\-x+2y+2z&=1\\x+y+z&=2\end{aligned}\right.$, \ on $k$ és un paràmetre real.\begin{tasks}(1)
+  \task Discuteix el sistema en funció del paràmetre $k$.
+  \task Resol el sistema per a tots els valors de $k$ i comprova que, per a $k\neq1$, la solució no depèn de $k$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Sistemes homogenis}
+
+\ex{2} Discuteix el sistema homogeni \ $\left\{\begin{aligned}x+y+az&=0\\x+ay+z&=0\\ax+y+z&=0\end{aligned}\right.$ \ segons els valors de $a$ i resol-lo quan tinga solucions diferents de la trivial.\recorda{Un sistema homogeni sempre és compatible. Si $\operatorname{rg}(A)=r<n$, és SCI i la solució depèn de $n-r$ paràmetres.}
+
+\ex{2} Resol el sistema homogeni \ $\left\{\begin{aligned}x+y+z+t&=0\\x-y+2z-t&=0\\2x+3z&=0\end{aligned}\right.$ \ i digues quants paràmetres té la solució.
+
+\ex{2} Escriu un sistema homogeni de dues equacions amb tres incògnites les solucions del qual siguen $(\lambda,\ 2\lambda,\ -\lambda)$, $\lambda\in\mathbb{R}$. Per a quin valor de $k$ l'equació $kx+y+3z=0$ també la compleixen totes aquestes solucions?
+
+\ex{3} Raona les afirmacions següents:\begin{tasks}(1)
+  \task Un sistema homogeni amb més incògnites que equacions sempre té solucions diferents de la trivial.
+  \task Si un sistema homogeni quadrat té alguna solució no trivial, aleshores $|A|=0$.
+  \task Si $X_1$ i $X_2$ són solucions d'un sistema homogeni, $aX_1+bX_2$ també ho és, per a qualssevol $a,b\in\mathbb{R}$.
+\end{tasks}
+
+\ex{2} \pau{La Rioja, ordinària 2025} Donat el sistema d'equacions homogeni \ $\left\{\begin{aligned}3x+y-z&=0\\3x+2y-mz&=0\\x-y-z&=0\end{aligned}\right.$, \ indica per a quins valors de $m$ el sistema té només la solució trivial. Resol el sistema per a un valor de $m$ que el faça compatible indeterminat.
+
+
+% =====================================================
+\seccio{5}{Teorema de Rouché-Frobenius}
+
+\ex{2} \label{ex:r4}Classifica, sense resoldre'ls, els sistemes de quatre equacions i tres incògnites següents, i resol el que siga compatible:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}x+y+z&=3\\2x-y+z&=2\\x+2y-z&=2\\3x+y+2z&=6\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=3\\2x-y+z&=2\\x+2y-z&=2\\3x+y+2z&=7\end{aligned}\right.$
+\end{tasks}\recorda{Amb 4 equacions i 3 incògnites, $\operatorname{rg}(A)\leq3$. Si $|A^*|\neq0$, aleshores $\operatorname{rg}(A^*)=4\neq\operatorname{rg}(A)$ i el sistema és incompatible.}
+
+\ex{2} Estudia el sistema \ $\left\{\begin{aligned}x+2y-z+t&=3\\2x+4y+z-t&=3\\x+2y+2z-2t&=0\end{aligned}\right.$ \ amb el teorema de Rouché-Frobenius i resol-lo.
+
+\ex{2} Troba la relació que han de complir $a$, $b$ i $c$ perquè el sistema \ $\left\{\begin{aligned}x+y+z&=a\\x-y+2z&=b\\3x+y+4z&=c\end{aligned}\right.$ \ siga compatible. Pot ser compatible determinat?
+
+\ex{2} Digues si són vertaderes o falses les afirmacions següents i justifica-ho:\begin{tasks}(1)
+  \task Un sistema de 4 equacions i 3 incògnites amb $\operatorname{rg}(A)=3$ sempre és compatible determinat.
+  \task Un sistema de 3 equacions i 4 incògnites no pot ser compatible determinat.
+  \task Si en un sistema de 4 equacions i 3 incògnites $|A^*|\neq0$, el sistema és incompatible.
+  \task Si un sistema de 3 equacions i 3 incògnites té $|A|=0$, és incompatible.
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, extraordinària 2026} Volem determinar el cost per hora de tres serveis d'una empresa de lloguer de material audiovisual: il·luminació professional ($x$ €/hora), equip de so ($y$ €/hora) i càmeres d'enregistrament ($z$ €/hora). S'han registrat les despeses totals de tres esdeveniments:\[\begin{aligned}&\text{Esdeveniment 1: } & 2x+y+z&=6500\\ &\text{Esdeveniment 2: } & 4x+5y+7z&=22500\\ &\text{Esdeveniment 3: } & x+2y+3z&=8000\end{aligned}\]Justifica si, amb aquesta informació, es poden determinar de manera única els costos dels tres serveis.
+
+
+% =====================================================
+\seccio{6}{Discussió de sistemes amb paràmetres}
+
+\ex{2} Discuteix el sistema següent segons els valors de $a$ i resol-lo en tots els casos en què siga compatible:\[\left\{\begin{aligned}ax+y+z&=1\\x+ay+z&=a\\x+y+az&=a^2\end{aligned}\right.\]\recorda{Calcula $|A|$ i troba'n les arrels (valors crítics). Per a la resta de valors el sistema és SCD; cada valor crític s'estudia a banda amb Rouché-Frobenius.}
+
+\ex{2} Discuteix el sistema següent segons els valors de $a$ i $b$, i resol-lo quan siga compatible indeterminat:\[\left\{\begin{aligned}x+y+z&=1\\x+2y+az&=2\\2x+3y+4z&=b\end{aligned}\right.\]
+
+\ex{2} Discuteix, segons els valors de $a$, el sistema de tres equacions i dues incògnites \ $\left\{\begin{aligned}x+2y&=3\\2x-y&=1\\ax+y&=2\end{aligned}\right.$, \ i resol-lo quan siga compatible.
+
+\ex{3} Discuteix, segons els valors de $k$ i de $a$, el sistema \ $\left\{\begin{aligned}x+y+z+t&=1\\x-y+z-t&=a\\2x+kz&=3\end{aligned}\right.$
+
+\ex{2} Discuteix el sistema \ $\left\{\begin{aligned}x+y+z&=m+1\\mx+y+(m-1)z&=m\\x+my+z&=1\end{aligned}\right.$ \ segons els valors de $m$ i resol-lo per a $m=0$ i per a $m=2$.
+
+\ex{2} \pau{Andalusia, ordinària 2026} Considera el sistema \ $\left\{\begin{aligned}3x-y&=a^2\\ (1-a)y+2z&=0\\ 4y+(3-a)z&=a-5\end{aligned}\right.$\begin{tasks}(1)
+  \task Discuteix-lo segons els valors de $a$.
+  \task Per a $a=0$, resol el sistema, si és possible.
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2025} Donat el sistema d'equacions lineals \ $\left\{\begin{aligned}x+2y-z&=-1\\ 8x+my-6z&=-8\\ -x-2y+m^2z&=m\end{aligned}\right.$, \ amb $m\in\mathbb{R}$:\begin{tasks}(1)
+  \task Estudia, en funció de $m$, el nombre de solucions del sistema.
+  \task Resol, si és possible, el sistema per a $m=1$.
+\end{tasks}
+
+\ex{2} \pau{Canàries, ordinària 2024} Donat el sistema d'equacions lineals amb un paràmetre $k\in\mathbb{R}$:\[\left\{\begin{aligned}kx+y-3z&=5\\-x+y+z&=-4\\kx+y-kz&=1\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discuteix la resolució del sistema segons els valors de $k$.
+  \task Resol el sistema quan $k=4$.
+\end{tasks}
+
+\ex{2} \pau{Cantàbria, ordinària 2026} Considera el sistema \ $\left\{\begin{aligned}x+y+z&=0\\y+az&=1\\ay+z&=2-a\end{aligned}\right.$, \ dependent del paràmetre $a\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discuteix el sistema en funció dels valors de $a$.
+  \task Per a $a=2$, si el sistema és compatible, troba'n la solució general.
+  \task Per a $a=1$, si el sistema és compatible, troba'n la solució general.
+\end{tasks}
+
+\ex{3} \pau{Cantàbria, extraordinària 2026} Considera el sistema \ $\left\{\begin{aligned}a^3x+y+az&=1\\ ax+a^2y&=a\end{aligned}\right.$, \ dependent del paràmetre $a\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discuteix el sistema en funció dels valors de $a$.
+  \task Per a $a=0$, si el sistema és compatible, troba'n la solució general.
+  \task Per a $a=2$, si el sistema és compatible, troba'n la solució general.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2025} Donat el sistema \ $\left\{\begin{aligned}x+y-z&=2\\4x+2y&=a\\ax+y+z&=1\end{aligned}\right.$:\begin{tasks}(1)
+  \task Discuteix la resolució del sistema segons els valors de $a\in\mathbb{R}$ i indica el nombre de solucions en cada cas.
+  \task Per a $a=0$, resol el sistema de forma raonada.
+\end{tasks}
+
+\ex{3} \pau{Castella i Lleó, extraordinària 2026} Siguen \ $A=\begin{pmatrix}2 & 2 & 0\\0 & 2 & 0\\2 & 0 & 4\end{pmatrix}$ \ i $I$ la matriu identitat d'ordre 3. Discuteix el sistema \ $(A-\alpha I)\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}0\\ 0\\ 1\end{pmatrix}$ \ en funció del paràmetre $\alpha\in\mathbb{R}$.
+
+\ex{2} \pau{Castella i Lleó, ordinària 2026} Considera el sistema \ $\left\{\begin{aligned}(m-10)x-2y-z&=-1\\ 7x+(m+2)y+2z&=m+1\\ 5x+2y+z&=1\end{aligned}\right.$, \ amb $m\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discuteix el sistema segons els valors del paràmetre $m$.
+  \task Resol, raonadament, el sistema per a $m=3$.
+\end{tasks}
+
+\ex{2} \pau{Catalunya, ordinària 2026} Considera el sistema \ $\left\{\begin{aligned}x+my+z&=4\\x+3y+z&=5\\mx+y+z&=4\end{aligned}\right.$, \ que depèn del paràmetre real $m$.\begin{tasks}(1)
+  \task Discuteix el sistema per als diferents valors de $m$.
+  \task Resol-lo, si és possible, per al cas $m=1$.
+  \task Per a $m=1$, és possible afegir una quarta equació de manera que el sistema resultant siga compatible determinat i tinga com a solució $(x,y,z)=\left(3,\tfrac12,\tfrac12\right)$? Raona la resposta.
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinària 2026} Donat el sistema \ $\left\{\begin{aligned}kx+2y-z&=3k\\2x+ky-2z&=6\\x-y+z&=k\end{aligned}\right.$:\begin{tasks}(1)
+  \task Discuteix el sistema segons els valors del paràmetre $k$.
+  \task Resol el sistema per al valor $k=3$.
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinària 2025} Es considera el sistema \ $\left\{\begin{aligned}mx+7y+5z&=0\\x+my+z&=3\\y+z&=-2\end{aligned}\right.$, \ amb $m\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discuteix el sistema en funció del paràmetre $m$.
+  \task Resol-lo per al cas $m=1$.
+\end{tasks}
+
+\ex{2} \pau{Galícia, extraordinària 2026} Discuteix, segons els valors del paràmetre $m$, el sistema \ $\left\{\begin{aligned}2x+(2m-2)y+(m+6)z&=9\\ x+(m-2)y+3z&=2\\ 2y+(2m+2)z&=m-5\end{aligned}\right.$
+
+\ex{2} \pau{Galícia, extraordinària 2025} Discuteix, segons els valors del paràmetre $m$, el sistema \ $\left\{\begin{aligned}x+my+z&=m\\ x+(3-m)z&=2m\\ my+2z&=3m\end{aligned}\right.$
+
+\ex{2} \pau{Madrid, extraordinària 2025} Siga el sistema d'equacions lineals dependent del paràmetre real $k$:\[\begin{pmatrix}k & 1 & 1\\k+1 & 1 & -k\\1 & k+1 & 0\end{pmatrix}\begin{pmatrix}x\\ y\\ z\end{pmatrix}-\begin{pmatrix}0\\ k\\ 2k\end{pmatrix}=\begin{pmatrix}0\\ 0\\ 0\end{pmatrix}\]\begin{tasks}(1)
+  \task Discuteix el sistema en funció dels valors de $k$.
+  \task Resol el sistema per a $k=0$.
+\end{tasks}
+
+\ex{3} \pau{Navarra, extraordinària 2026} Estudia el sistema següent, que depèn del paràmetre real $a$, i resol-lo en els casos en què siga compatible indeterminat. Esmenta el resultat teòric emprat i justifica'n l'ús.\[\left\{\begin{aligned}(a^2-4)x+(a+2)y+2z&=4\\ (4-a^2)x+z&=2\\ (a^2-4)x+(a+2)y+az&=-4\end{aligned}\right.\]
+
+\ex{3} \pau{Navarra, extraordinària 2025} Estudia el sistema següent, que depèn del paràmetre real $m$, i resol-lo en els casos en què siga compatible. Esmenta el resultat teòric emprat i justifica'n l'ús.\[\left\{\begin{aligned}(m^2-m)x+(m+2)y-z&=1-m^2\\ (m^2-m)x+(2m+1)y&=2\\ (m-m^2)x-(2m+1)y+(m+2)z&=2m+2\end{aligned}\right.\]
+
+\ex{2} \pau{País Basc, extraordinària 2025} Siga el sistema d'equacions lineals \ $\left\{\begin{aligned}x+3z&=3+\alpha y\\ z+\alpha x+y-2&=0\\ x+2z-y&=1\end{aligned}\right.$\begin{tasks}(1)
+  \task Discuteix l'existència de solució segons els valors del paràmetre $\alpha$.
+  \task Si és possible, resol-lo en el cas $\alpha=0$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemes de plantejament}
+
+\ex{2} Un nombre de tres xifres compleix que la suma de les xifres és 12, que la xifra de les desenes és igual a la suma de les altres dues i que, si s'inverteix l'ordre de les xifres, el nombre augmenta en 396. Quin és el nombre?\recorda{Si les xifres són $x$ (centenes), $y$ (desenes) i $z$ (unitats), el nombre val $100x+10y+z$.}
+
+\ex{2} Troba el polinomi de tercer grau $p(x)=ax^3+bx^2+cx+d$ la gràfica del qual passa pels punts $(-1,-4)$, $(0,1)$, $(1,2)$ i $(2,11)$.
+
+\ex{2} Tenim 10 monedes d'1 €, de 2 € i de 5 € que sumen 25 €.\begin{tasks}(1)
+  \task Planteja el sistema i comprova que és compatible indeterminat. Escriu-ne la solució general.
+  \task Quines són les solucions possibles en el context del problema?
+  \task Quantes monedes hi ha de cada tipus si hi ha més monedes d'1 € que de 2 €?
+\end{tasks}
+
+\ex{3} Un teatre ven 100 entrades de tres tipus: generals a 10 €, infantils a 5 € i sèniors a $k$ euros. Ha recaptat 600 € i ha venut tantes entrades infantils com sèniors.\begin{tasks}(1)
+  \task Planteja el sistema i discuteix-lo segons els valors de $k$.
+  \task Si l'entrada sènior costa 5 €, quantes entrades de cada tipus s'han venut?
+  \task Pot ser que l'entrada sènior coste 10 €? Raona-ho.
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2024} En un laboratori farmacèutic es fabriquen tres medicaments, M$_1$, M$_2$ i M$_3$, a partir de tres principis actius, A$_1$, A$_2$ i A$_3$. Un gram de M$_1$ necessita 10 mg de A$_1$, 10 mg de A$_2$ i 20 mg de A$_3$; un gram de M$_2$, 10, 20 i 30 mg, i un gram de M$_3$, 20, 30 i 50 mg, respectivament. Es disposa de 70 g de A$_1$, 90 g de A$_2$ i 160 g de A$_3$, i es vol gastar-ho tot. És possible? En cas afirmatiu, quines quantitats de cada medicament es poden fabricar?
+
+\ex{2} \pau{Astúries, extraordinària 2026} Una empresa de logística transporta mercaderia amb camions xicotets, mitjans i grans, i en fa servir 10 en total. Cada camió xicotet transporta 1 tona; cada mitjà, 2 tones, i cada gran, 3 tones. La càrrega total és de $(m+9)$ tones, amb $m\in\mathbb{R}$. El transport té un cost de 2 unitats per camió xicotet, 3 per camió mitjà i $7-m$ per camió gran, i el cost total és de 22 unitats.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions lineals que modelitza la situació.
+  \task Determina un valor de $m$ per al qual el sistema té infinites solucions i resol-lo.
+  \task Resol el sistema per a $m=1$. Té sentit aquesta solució?
+\end{tasks}
+
+\ex{3} \pau{Astúries, ordinària 2026} Un client d'una cafeteria compra 1 café, 2 tes i 2 sucs i paga 11 euros. L'endemà compra 1 café, 3 tes i 3 sucs i paga 16 euros. El tercer dia compra 3 cafés, 3 tes i tots els sucs que puga pagar amb 21 euros exactes (no li han de tornar canvi).\begin{tasks}(1)
+  \task Troba un sistema d'equacions lineals que modelitze el problema de calcular el preu de cada producte en funció del nombre $p$ de sucs que li donen el tercer dia, i discuteix-lo en funció de $p$.
+  \task El cambrer del tercer dia li diu: «Per eixos diners et donaré dos sucs», i el client respon: «És impossible, el preu està mal calculat». Qui té raó? Justifica la resposta.
+  \task El cambrer li respon que en realitat té 4 sucs per a donar-li i el client queda satisfet. A quin preu li ha cobrat cada beguda?
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2025} Una empresa de pinsos per a peixos utilitza tres matèries primeres: subproductes vegetals (20\,\% de proteïna, 10\,\% de greix i 10\,\% de carbohidrats), farines (40\,\%, 20\,\% i 30\,\%) i subproductes carnis (60\,\%, 10\,\% i 30\,\%). Vol preparar 1000 kg de pinso que continguen un 36\,\% de proteïna, un 12\,\% de greix i un 20\,\% de carbohidrats. Quina quantitat de cada matèria primera ha d'utilitzar?
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2024} Una gelateria ven gelats d'una, dues i tres boles a 1, 2 i 3 euros, respectivament. Divendres va vendre 157 gelats i en va obtenir 278 euros. També sabem que el nombre de gelats d'una bola venuts és $k$ vegades el nombre de gelats de tres boles, amb $k>0$.\begin{tasks}(1)
+  \task Planteja un sistema d'equacions lineals que permeta determinar el nombre de gelats venuts de cada tipus.
+  \task Estudia per a quins valors de $k$ el sistema té solució única. És possible que, en algun d'aquests casos, s'haja venut el mateix nombre de gelats d'una bola que de tres boles?
+\end{tasks}
+
+\ex{2} \pau{Madrid, ordinària 2025} En el bàsquet hi ha cistelles d'un punt, de dos i de tres. Calcula el nombre de llançaments d'un, de dos i de tres punts que va fer un equip en un partit, sabent que: l'equip va anotar 80 punts amb un encert del 80\,\% en els tirs d'un punt, del 50\,\% en els de dos i del 40\,\% en els de tres; la tercera part del nombre de llançaments de dos va ser igual a la cinquena part de la resta de llançaments, i el doble del nombre de llançaments de tres és cinc unitats menor que la resta de llançaments.
+
+\ex{2} \pau{Múrcia, extraordinària 2026} Una empresa prepara capses de fruita de tres tipus. Les capses A porten 1 poma, 1 pera i 1 taronja; les B, 2 pomes, 1 pera i 1 taronja, i les C, 1 poma, 2 peres i 1 taronja. Un dia van preparar $x$ capses A, $y$ capses B i $z$ capses C, i van fer servir 400 pomes, 500 peres i $k$ taronges.\begin{tasks}(1)
+  \task Planteja un sistema d'equacions per a esbrinar quantes capses de cada tipus van preparar.
+  \task Discuteix i resol el sistema, donant la solució en funció del paràmetre $k$.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, ordinària 2026} En Darío i la Cayetana inverteixen $x$ milers d'euros en publicitat, $y$ en materials i $z$ en logística, 12 mil euros en total. En Darío proposa que la inversió en publicitat més el doble de la inversió en materials siga igual a la inversió en logística més $k$, on $k>0$ és un paràmetre d'ajust econòmic. La Cayetana vol que el doble de la inversió en publicitat menys la de materials més la de logística siga 4 mil euros.\begin{tasks}(1)
+  \task Planteja un sistema de 3 equacions amb 3 incògnites que reculla les dades del problema.
+  \task Discuteix el sistema i, si té solució única, troba-la en funció de $k$.
+\end{tasks}
+
+\ex{2} \pau{País Basc, extraordinària 2026} Una central lletera recull llet de tres productors. El productor A porta la llet en recipients de 10 litres i cobra 5 € per recipient; el B, en recipients de 15 litres i cobra 9 € per recipient, i el C, en recipients de 12 litres i cobra 4 € per recipient. L'última setmana s'han recollit 612 litres en 48 recipients i s'han de pagar 304 €.\begin{tasks}(1)
+  \task Planteja el sistema d'equacions que modelitza la situació.
+  \task Quant s'ha de pagar a cada productor per la llet que ha portat l'última setmana?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb el resolutor de sistemes dels apunts interactius.\end{center}
+
+\end{document}
