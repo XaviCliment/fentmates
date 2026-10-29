@@ -1,0 +1,351 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de repàs de la unitat 2: Nombres reals. 3r d'ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={nombres reals, potències, radicals, notació científica, intervals}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\AtBeginDocument{\setlength{\abovedisplayskip}{5pt}\setlength{\belowdisplayskip}{5pt}\setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{4pt}}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.8em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa de repàs · Unitat 2}
+\fancyfoot[L]{\scriptsize\color{muted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ CC BY-NC-SA 4.0 · fentmates.org}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\newcommand{\seccio}[2]{}
+
+% ---------- recta real ----------
+% \seg{color}{altura}{x1}{x2}{estil esquerra}{estil dreta}: estil = p (ple), b (buit), i (infinit)
+\newcommand{\extrem}[4]{\ifx#3p\fill[#4] (#1,#2) circle (0.13);\else\ifx#3b\filldraw[fill=white,draw=#4,line width=1.2pt] (#1,#2) circle (0.13);\fi\fi}
+\newcommand{\seg}[6]{\draw[#1,line width=3pt] (#3,#2)--(#4,#2);
+  \ifx#5i\fill[#1] (#3-0.25,#2)--(#3+0.15,#2+0.2)--(#3+0.15,#2-0.2)--cycle;\else\extrem{#3}{#2}{#5}{#1}\fi
+  \ifx#6i\fill[#1] (#4+0.25,#2)--(#4-0.15,#2+0.2)--(#4-0.15,#2-0.2)--cycle;\else\extrem{#4}{#2}{#6}{#1}\fi}
+\newcommand{\recta}[1]{\begin{tikzpicture}[x=0.42cm,baseline=0]
+  \draw[-latex,muted] (-6.7,0)--(6.8,0);
+  \foreach \i in {-6,...,6}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}
+  #1\end{tikzpicture}}
+\newcommand{\rectaint}[4]{\recta{\seg{accent}{0}{#1}{#2}{#3}{#4}}}
+% dos intervals en la mateixa recta: el primer (taronja) damunt del segon (verd)
+\newcommand{\rectados}[2]{\recta{\seg{accent}{0.75}#1\seg{teal}{0.38}#2}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+\input{../comu/fentmates.tex}
+\fmcurs{3eso}
+
+% ---------- exercicis, recordatoris i explicacions ----------
+\newcounter{exer}
+\newcommand{\ex}[2]{\par\needspace{7\baselineskip}\bigskip\stepcounter{exer}\noindent
+  {\color{cursfosc}\bfseries\theexer.}\ \ {\scriptsize\bfseries\color{curs}\MakeUppercase{#1}}\par\nopagebreak\smallskip
+  \noindent{\small\color{muted}#2}\par}
+\newcommand{\recorda}[1]{\par\smallskip
+  \begin{tcolorbox}[colback=curs!7,colframe=curs!55,boxrule=0.5pt,arc=1.5mm,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]
+  \small{\bfseries\color{cursfosc}\faLightbulb[regular]\ Recorda.}\ #1
+  \end{tcolorbox}}
+\newcommand{\res}[1]{\boxed{#1}}
+% apartat amb explicació: \ap{text}{càlculs}
+\newcommand{\ap}[1]{\par\needspace{3\baselineskip}\smallskip\noindent{\color{navy}\bfseries #1)}\ \ }
+\newcommand{\pas}[1]{{\color{muted}\small #1}}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques}{3r ESO}{Solucions de la fitxa de repàs · Unitat 2}{Nombres reals}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Abans de cada exercici tens un requadre \textbf{Recorda} amb la regla que cal aplicar. Compara els teus passos amb els d'ací, no només el resultat: el resultat final està dins d'un requadre. Si t'has equivocat, torna a fer l'apartat sense mirar la solució.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{A}{Potències i notació científica}
+
+\ex{Càlcul de potències}{Calcula les potències següents.}
+\recorda{Si la base és negativa i va entre parèntesis, el resultat és positiu amb exponent parell i negatiu amb exponent imparell. Si el signe \emph{no} està dins del parèntesi ($-3^{4}$), l'exponent no l'afecta. Un exponent negatiu inverteix la base: $a^{-n}=\dfrac{1}{a^{n}}$ i $\left(\dfrac ab\right)^{-n}=\left(\dfrac ba\right)^{n}$. Qualsevol base (no nul·la) elevada a 0 val 1.}
+
+\ap{a} \pas{La base és $-3$ i l'exponent és parell, per tant el resultat és positiu.}
+\[(-3)^{4}=(-3)\cdot(-3)\cdot(-3)\cdot(-3)=\res{81}\]
+\ap{b} \pas{Sense parèntesi, l'exponent només afecta el 3. El signe menys es queda fora.}
+\[-3^{4}=-(3\cdot3\cdot3\cdot3)=\res{-81}\]
+\ap{c} \pas{Exponent negatiu: fem l'invers. Després, base negativa amb exponent imparell dona negatiu.}
+\[(-2)^{-3}=\frac{1}{(-2)^{3}}=\frac{1}{-8}=\res{-\frac18}\]
+\ap{d} \pas{Exponent negatiu en una fracció: girem la fracció i l'exponent passa a ser positiu.}
+\[\left(\frac25\right)^{-2}=\left(\frac52\right)^{2}=\frac{5^{2}}{2^{2}}=\res{\frac{25}{4}}\]
+\ap{e} \pas{Elevem numerador i denominador. Exponent imparell amb base negativa: el resultat és negatiu.}
+\[\left(-\frac34\right)^{3}=-\frac{3^{3}}{4^{3}}=\res{-\frac{27}{64}}\]
+\ap{f} \pas{Primer escrivim el decimal en forma de fracció: $0,1=\frac{1}{10}$. Després girem per l'exponent negatiu.}
+\[0,1^{-3}=\left(\frac{1}{10}\right)^{-3}=10^{3}=\res{1000}\]
+\ap{g} \pas{Tota base diferent de 0 elevada a 0 val 1 (també les negatives).}
+\[(-7)^{0}=\res{1}\]
+\ap{h} \pas{Calculem primer la potència (girant la fracció) i, al final, posem el signe menys que hi ha davant.}
+\[-\left(\frac12\right)^{-4}=-\,2^{4}=\res{-16}\]
+
+% -----------------------------------------------------
+\ex{Propietats de les potències}{Expressa com una sola potència i calcula'n el valor.}
+\recorda{\textbf{Mateixa base:} $a^{m}\cdot a^{n}=a^{m+n}$, \ $a^{m}:a^{n}=a^{m-n}$, \ $\left(a^{m}\right)^{n}=a^{m\cdot n}$. \ \textbf{Mateix exponent:} $a^{n}\cdot b^{n}=(a\cdot b)^{n}$, \ $a^{n}:b^{n}=(a:b)^{n}$. Compte amb els signes quan restes exponents negatius: $-3-(-4)=-3+4=1$. Un factor sense exponent, com el $3$, té exponent 1.}
+
+\ap{a} \pas{Mateixa base: sumem els exponents. El $3$ sol és $3^{1}$.}
+\[3^{5}\cdot3^{-2}\cdot3^{1}=3^{5+(-2)+1}=3^{4}=\res{81}\]
+\ap{b} \pas{Potència d'una potència: multipliquem exponents. Després, divisió de la mateixa base: restem.}
+\[\left(2^{3}\right)^{4}:2^{10}=2^{12}:2^{10}=2^{12-10}=2^{2}=\res{4}\]
+\ap{c} \pas{Al numerador sumem els exponents; després restem l'exponent del denominador.}
+\[\frac{5^{-3}\cdot5^{7}}{5^{2}}=\frac{5^{-3+7}}{5^{2}}=\frac{5^{4}}{5^{2}}=5^{4-2}=5^{2}=\res{25}\]
+\ap{d} \pas{$(-2)\cdot(-3)=6$. Després restem exponents.}
+\[\left(7^{-2}\right)^{-3}:7^{5}=7^{(-2)\cdot(-3)}:7^{5}=7^{6}:7^{5}=7^{6-5}=7^{1}=\res{7}\]
+\ap{e} \pas{La base és la fracció $\frac23$: sumem els exponents i, al final, elevem numerador i denominador.}
+\[\left(\frac23\right)^{-2}\cdot\left(\frac23\right)^{5}=\left(\frac23\right)^{-2+5}=\left(\frac23\right)^{3}=\frac{2^{3}}{3^{3}}=\res{\frac{8}{27}}\]
+\ap{f} \pas{Primer el producte (sumem), després la divisió (restem). Atenció al doble signe menys.}
+\[6^{-2}\cdot6^{-1}:6^{-4}=6^{-3}:6^{-4}=6^{-3-(-4)}=6^{-3+4}=6^{1}=\res{6}\]
+\ap{g} \pas{Ara les bases són diferents però l'exponent és el mateix: multipliquem les bases i mantenim l'exponent.}
+\[2^{5}\cdot5^{5}=(2\cdot5)^{5}=10^{5}=\res{100\,000}\]
+\ap{h} \pas{Mateix exponent: dividim les bases.}
+\[12^{3}:4^{3}=(12:4)^{3}=3^{3}=\res{27}\]
+\ap{i} \pas{Mateix exponent: multipliquem les fraccions de la base. Exponent parell, per tant positiu.}
+\[\left(-\frac23\right)^{4}\cdot\left(\frac32\right)^{4}=\left(-\frac23\cdot\frac32\right)^{4}=\left(-\frac66\right)^{4}=(-1)^{4}=\res{1}\]
+
+% -----------------------------------------------------
+\ex{Propietats amb descomposició de bases}{Descompon, simplifica i calcula.}
+\recorda{Seguim sempre tres passos: \textbf{1)} escrivim cada base com a producte de primers ($8=2^{3}$, $12=2^{2}\cdot3$, \ldots); \textbf{2)} apliquem $\left(a\cdot b\right)^{n}=a^{n}\cdot b^{n}$ i $\left(a^{m}\right)^{n}=a^{m\cdot n}$; \textbf{3)} agrupem cada primer: sumem els exponents de dalt, restem els de baix. Un exponent negatiu final passa al denominador.}
+
+\ap{a} \pas{Totes les bases són potències de 2: $8=2^{3}$, \ $4=2^{2}$, \ $16=2^{4}$.}
+\[\frac{8^{2}\cdot4^{3}}{2^{5}\cdot16}=\frac{\left(2^{3}\right)^{2}\cdot\left(2^{2}\right)^{3}}{2^{5}\cdot2^{4}}=\frac{2^{6}\cdot2^{6}}{2^{5}\cdot2^{4}}=\frac{2^{12}}{2^{9}}=2^{12-9}=2^{3}=\res{8}\]
+\ap{b} \pas{Totes són potències de 3: $9=3^{2}$, \ $27=3^{3}$.}
+\[\frac{9^{3}\cdot27^{-1}}{3^{5}}=\frac{\left(3^{2}\right)^{3}\cdot\left(3^{3}\right)^{-1}}{3^{5}}=\frac{3^{6}\cdot3^{-3}}{3^{5}}=\frac{3^{3}}{3^{5}}=3^{3-5}=3^{-2}=\res{\frac19}\]
+\ap{c} \pas{$6=2\cdot3$, \ $10=2\cdot5$, \ $15=3\cdot5$, \ $4=2^{2}$. Cada potència d'un producte es reparteix entre els factors.}
+\[\frac{6^{4}\cdot10^{2}}{15^{3}\cdot4^{2}}=\frac{(2\cdot3)^{4}\cdot(2\cdot5)^{2}}{(3\cdot5)^{3}\cdot\left(2^{2}\right)^{2}}=\frac{2^{4}\cdot3^{4}\cdot2^{2}\cdot5^{2}}{3^{3}\cdot5^{3}\cdot2^{4}}=\frac{2^{6}\cdot3^{4}\cdot5^{2}}{2^{4}\cdot3^{3}\cdot5^{3}}\]
+\pas{Ara restem els exponents de cada primer:}
+\[=2^{6-4}\cdot3^{4-3}\cdot5^{2-3}=2^{2}\cdot3\cdot5^{-1}=\frac{4\cdot3}{5}=\res{\frac{12}{5}}\]
+\ap{d} \pas{$12=2^{2}\cdot3$, \ $18=2\cdot3^{2}$, \ $27=3^{3}$. Compte: l'exponent $-2$ multiplica tots els exponents de dins.}
+\[\frac{12^{-2}\cdot18^{3}}{2\cdot27}=\frac{\left(2^{2}\cdot3\right)^{-2}\cdot\left(2\cdot3^{2}\right)^{3}}{2\cdot3^{3}}=\frac{2^{-4}\cdot3^{-2}\cdot2^{3}\cdot3^{6}}{2\cdot3^{3}}=\frac{2^{-1}\cdot3^{4}}{2^{1}\cdot3^{3}}\]
+\[=2^{-1-1}\cdot3^{4-3}=2^{-2}\cdot3=\frac{3}{2^{2}}=\res{\frac34}\]
+
+% -----------------------------------------------------
+\ex{Escriure en notació científica}{Escriu aquests nombres en notació científica.}
+\recorda{Un nombre en notació científica és $a\cdot10^{n}$ amb $1\le|a|<10$ (una sola xifra no nul·la davant de la coma) i $n$ enter. Comptem quants llocs es mou la coma: si el nombre és \textbf{gran} ($\ge10$), l'exponent és \textbf{positiu}; si és \textbf{menut} (entre 0 i 1), l'exponent és \textbf{negatiu}.}
+
+\ap{a} \pas{La coma, que està al final, es mou 9 llocs cap a l'esquerra fins a deixar només el 4 davant: nombre gran, exponent positiu.}
+\quad $4\,560\,000\,000=\res{4,56\cdot10^{9}}$
+\ap{b} \pas{La coma es mou 6 llocs cap a la dreta fins a passar el 7: nombre menut, exponent negatiu.}
+\quad $0,000\,007\,2=\res{7,2\cdot10^{-6}}$
+\ap{c} \pas{5 llocs cap a l'esquerra. Els zeros del mig (el de $3,02$) es mantenen; els del final desapareixen.}
+\quad $302\,000=\res{3,02\cdot10^{5}}$
+\ap{d} \pas{7 llocs cap a la dreta fins a passar l'1.}
+\quad $0,000\,000\,105=\res{1,05\cdot10^{-7}}$
+\ap{e} \pas{El signe menys es manté davant. 3 llocs cap a la dreta fins a passar el 8.}
+\quad $-0,008\,3=\res{-8,3\cdot10^{-3}}$
+\ap{f} \pas{Hi ha 14 xifres; la coma es mou 13 llocs cap a l'esquerra.}
+\quad $61\,000\,000\,000\,000=\res{6,1\cdot10^{13}}$
+
+% -----------------------------------------------------
+\ex{De notació científica a decimal}{Escriu aquests nombres en forma decimal.}
+\recorda{Si l'exponent és \textbf{positiu}, movem la coma cap a la \textbf{dreta} tants llocs com indica (i omplim amb zeros). Si és \textbf{negatiu}, la movem cap a l'\textbf{esquerra} (i posem zeros davant). Comprova-ho: exponent positiu $\Rightarrow$ nombre gran; exponent negatiu $\Rightarrow$ nombre menut.}
+
+\ap{a} \pas{6 llocs a la dreta: $3,5\to35\to350\to\cdots$}
+\quad $3,5\cdot10^{6}=\res{3\,500\,000}$
+\ap{b} \pas{5 llocs a l'esquerra: davant del 2 queden quatre zeros després de la coma.}
+\quad $2,04\cdot10^{-5}=\res{0,000\,020\,4}$
+\ap{c} \pas{3 llocs a l'esquerra.}
+\quad $9\cdot10^{-3}=\res{0,009}$
+\ap{d} \pas{8 llocs a la dreta: 3 els ocupen les xifres 2, 3 i 4, i hi afegim 5 zeros.}
+\quad $1,234\cdot10^{8}=\res{123\,400\,000}$
+\ap{e} \pas{El signe es manté. 4 llocs a l'esquerra.}
+\quad $-6,1\cdot10^{-4}=\res{-0,000\,61}$
+\ap{f} \pas{2 llocs a la dreta.}
+\quad $7,08\cdot10^{2}=\res{708}$
+
+% -----------------------------------------------------
+\ex{Corregir la notació científica}{Indica si estan ben escrits i, si no, corregeix-los.}
+\recorda{Per corregir-los, escrivim el nombre de davant en notació científica i ajuntem les potències de 10 sumant-ne els exponents. Truc: si la coma del nombre de davant es mou cap a l'\textbf{esquerra}, l'exponent \textbf{puja}; si es mou cap a la \textbf{dreta}, l'exponent \textbf{baixa}.}
+
+\ap{a} \pas{Mal escrit: $45\ge10$.}
+\quad $45\cdot10^{6}=4,5\cdot10^{1}\cdot10^{6}=\res{4,5\cdot10^{7}}$
+\ap{b} \pas{Mal escrit: $0,32<1$.}
+\quad $0,32\cdot10^{-4}=3,2\cdot10^{-1}\cdot10^{-4}=\res{3,2\cdot10^{-5}}$
+\ap{c} \pas{Mal escrit: $125,7\ge10$.}
+\quad $125,7\cdot10^{-3}=1,257\cdot10^{2}\cdot10^{-3}=\res{1,257\cdot10^{-1}}$
+\ap{d} \pas{Mal escrit: $0,008<1$.}
+\quad $0,008\cdot10^{5}=8\cdot10^{-3}\cdot10^{5}=\res{8\cdot10^{2}}$
+\ap{e} \pas{Mal escrit: $a$ ha de ser menor que 10, i $10$ no ho és.}
+\quad $10\cdot10^{3}=1\cdot10^{1}\cdot10^{3}=\res{1\cdot10^{4}}$\ \ \pas{(o simplement $10^{4}$)}
+\ap{f} \pas{\textbf{Ben escrit}: $1\le9,9<10$ i l'exponent és enter. No cal canviar res.}
+\quad $\res{9,9\cdot10^{-2}}$
+
+% =====================================================
+\seccio{B}{Radicals}
+
+\ex{Introduir factors en un radical}{Introdueix el factor dins del radical.}
+\recorda{Un factor entra dins d'un radical \textbf{elevat a l'índex} del radical: $a\sqrt[n]{b}=\sqrt[n]{a^{n}\cdot b}$. En una arrel quadrada (índex 2) l'elevem al quadrat; en una cúbica, al cub; etc.}
+
+\begin{tasks}(2)
+  \task $3\sqrt{2}=\sqrt{3^{2}\cdot2}=\sqrt{9\cdot2}=\res{\sqrt{18}}$
+  \task $5\sqrt{3}=\sqrt{5^{2}\cdot3}=\sqrt{25\cdot3}=\res{\sqrt{75}}$
+  \task $2\sqrt[3]{3}=\sqrt[3]{2^{3}\cdot3}=\sqrt[3]{8\cdot3}=\res{\sqrt[3]{24}}$
+  \task $2\sqrt[4]{5}=\sqrt[4]{2^{4}\cdot5}=\sqrt[4]{16\cdot5}=\res{\sqrt[4]{80}}$
+  \task $3\sqrt[3]{4}=\sqrt[3]{3^{3}\cdot4}=\sqrt[3]{27\cdot4}=\res{\sqrt[3]{108}}$
+  \task $\dfrac12\sqrt{12}=\sqrt{\left(\dfrac12\right)^{2}\cdot12}=\sqrt{\dfrac{12}{4}}=\res{\sqrt{3}}$
+\end{tasks}
+
+% -----------------------------------------------------
+\ex{Extraure factors d'un radical}{Extrau tots els factors possibles.}
+\recorda{\textbf{1)} Descomponem el radicand en factors primers. \textbf{2)} Per a cada factor, dividim el seu exponent entre l'índex: el \textbf{quocient} és l'exponent amb què ix fora i el \textbf{residu}, l'exponent amb què es queda dins. Per exemple, en $\sqrt[3]{2^{7}}$: $7:3$ fa 2 i sobra 1, per tant $\sqrt[3]{2^{7}}=2^{2}\sqrt[3]{2}$.}
+
+\ap{a} \pas{$50=2\cdot5^{2}$. El $5^{2}$ ix com a $5$; el $2$ no pot eixir.}
+\quad $\sqrt{50}=\sqrt{2\cdot5^{2}}=\res{5\sqrt{2}}$
+\ap{b} \pas{$72=2^{3}\cdot3^{2}=2^{2}\cdot2\cdot3^{2}$. Ix un 2 i un 3; dins queda un 2.}
+\quad $\sqrt{72}=\sqrt{2^{2}\cdot3^{2}\cdot2}=2\cdot3\sqrt{2}=\res{6\sqrt{2}}$
+\ap{c} \pas{$180=2^{2}\cdot3^{2}\cdot5$. Ixen el 2 i el 3; dins queda el 5.}
+\quad $\sqrt{180}=\sqrt{2^{2}\cdot3^{2}\cdot5}=2\cdot3\sqrt{5}=\res{6\sqrt{5}}$
+\ap{d} \pas{$54=2\cdot3^{3}$. Arrel cúbica: el $3^{3}$ ix com a 3.}
+\quad $\sqrt[3]{54}=\sqrt[3]{2\cdot3^{3}}=\res{3\sqrt[3]{2}}$
+\ap{e} \pas{$128=2^{7}$. $7:3=2$ i sobra 1: ix $2^{2}$ i dins queda $2^{1}$.}
+\quad $\sqrt[3]{128}=\sqrt[3]{2^{7}}=\sqrt[3]{2^{6}\cdot2}=2^{2}\sqrt[3]{2}=\res{4\sqrt[3]{2}}$
+\ap{f} \pas{$162=2\cdot3^{4}$. Arrel quarta: el $3^{4}$ ix com a 3.}
+\quad $\sqrt[4]{162}=\sqrt[4]{2\cdot3^{4}}=\res{3\sqrt[4]{2}}$
+\ap{g} \pas{$5:2=2$ i sobra 1 (ix $2^{2}$, queda $2$); $3:2=1$ i sobra 1 (ix $3$, queda $3$); el 5 no ix.}
+\[\sqrt{2^{5}\cdot3^{3}\cdot5}=\sqrt{2^{4}\cdot2\cdot3^{2}\cdot3\cdot5}=2^{2}\cdot3\sqrt{2\cdot3\cdot5}=\res{12\sqrt{30}}\]
+\ap{h} \pas{$7:3=2$ i sobra 1 (ix $2^{2}$, queda $2$); $4:3=1$ i sobra 1 (ix $5$, queda $5$).}
+\[\sqrt[3]{2^{7}\cdot5^{4}}=\sqrt[3]{2^{6}\cdot2\cdot5^{3}\cdot5}=2^{2}\cdot5\sqrt[3]{2\cdot5}=\res{20\sqrt[3]{10}}\]
+
+% -----------------------------------------------------
+\ex{Sumes i restes de radicals}{Calcula i simplifica.}
+\recorda{Només es poden sumar o restar radicals \textbf{semblants} (mateix índex i mateix radicand): sumem els nombres de fora i el radical es queda igual, com si fóra $3x+2x=5x$. Si no ho semblen, primer \textbf{extraiem factors} de cada radical. \textbf{Mai} sumes els radicands: $\sqrt{a}+\sqrt{b}\neq\sqrt{a+b}$.}
+
+\ap{a} \pas{Ja són semblants: només operem els coeficients $3+2-7$.}
+\quad $3\sqrt{5}+2\sqrt{5}-7\sqrt{5}=(3+2-7)\sqrt{5}=\res{-2\sqrt{5}}$
+\ap{b} \pas{Semblants. El radical sense número davant té coeficient 1.}
+\quad $4\sqrt[3]{2}-1\sqrt[3]{2}+5\sqrt[3]{2}=(4-1+5)\sqrt[3]{2}=\res{8\sqrt[3]{2}}$
+\ap{c} \pas{Extraiem factors: $18=2\cdot3^{2}$, \ $50=2\cdot5^{2}$, \ $8=2^{2}\cdot2$. Tots passen a ser múltiples de $\sqrt2$.}
+\[\sqrt{18}+\sqrt{50}-\sqrt{8}=3\sqrt{2}+5\sqrt{2}-2\sqrt{2}=(3+5-2)\sqrt{2}=\res{6\sqrt{2}}\]
+\ap{d} \pas{$\sqrt{12}=\sqrt{2^{2}\cdot3}=2\sqrt3$, per tant $2\sqrt{12}=2\cdot2\sqrt3=4\sqrt3$. \ $\sqrt{27}=\sqrt{3^{2}\cdot3}=3\sqrt3$.}
+\[2\sqrt{12}-\sqrt{27}+4\sqrt{3}=4\sqrt{3}-3\sqrt{3}+4\sqrt{3}=(4-3+4)\sqrt{3}=\res{5\sqrt{3}}\]
+\ap{e} \pas{$\sqrt{20}=\sqrt{2^{2}\cdot5}=2\sqrt5$. \ $\sqrt{45}=\sqrt{3^{2}\cdot5}=3\sqrt5$, per tant $3\sqrt{45}=9\sqrt5$. \ $\sqrt{80}=\sqrt{2^{4}\cdot5}=4\sqrt5$.}
+\[\sqrt{20}-3\sqrt{45}+\sqrt{80}=2\sqrt{5}-9\sqrt{5}+4\sqrt{5}=(2-9+4)\sqrt{5}=\res{-3\sqrt{5}}\]
+\ap{f} \pas{Arrels cúbiques: busquem cubs. $24=2^{3}\cdot3$ \ i \ $81=3^{3}\cdot3$.}
+\[\sqrt[3]{24}+\sqrt[3]{81}-2\sqrt[3]{3}=2\sqrt[3]{3}+3\sqrt[3]{3}-2\sqrt[3]{3}=(2+3-2)\sqrt[3]{3}=\res{3\sqrt[3]{3}}\]
+\ap{g} \pas{$\sqrt8=2\sqrt2\Rightarrow5\sqrt8=10\sqrt2$. \ $\sqrt{32}=\sqrt{2^{4}\cdot2}=4\sqrt2\Rightarrow2\sqrt{32}=8\sqrt2$. \ $\sqrt{98}=\sqrt{7^{2}\cdot2}=7\sqrt2$.}
+\[5\sqrt{8}-2\sqrt{32}+\sqrt{98}-\sqrt{2}=10\sqrt{2}-8\sqrt{2}+7\sqrt{2}-1\sqrt{2}=(10-8+7-1)\sqrt{2}=\res{8\sqrt{2}}\]
+\ap{h} \pas{$\sqrt{12}=2\sqrt3$, \ $\sqrt8=2\sqrt2$, \ $\sqrt{27}=3\sqrt3$. Ara hi ha \emph{dos} tipus de radicals: agrupem només els semblants entre ells. $\sqrt3$ i $\sqrt2$ no es poden ajuntar.}
+\[\sqrt{12}+\sqrt{8}-\sqrt{27}=2\sqrt{3}+2\sqrt{2}-3\sqrt{3}=(2-3)\sqrt{3}+2\sqrt{2}=\res{2\sqrt{2}-\sqrt{3}}\]
+
+% -----------------------------------------------------
+\ex{Producte, quocient i potència de radicals}{Calcula i simplifica.}
+\recorda{Amb el \textbf{mateix índex}: $\sqrt[n]{a}\cdot\sqrt[n]{b}=\sqrt[n]{a\cdot b}$ \ i \ $\sqrt[n]{a}:\sqrt[n]{b}=\sqrt[n]{a:b}$. Si hi ha nombres fora, es multipliquen (o divideixen) entre ells i els radicands entre ells. Potència: $\left(\sqrt[n]{a}\right)^{m}=\sqrt[n]{a^{m}}$, i el nombre de fora també s'eleva. Al final, sempre \textbf{extraiem factors}.}
+
+\ap{a} \pas{Multipliquem radicands i extraiem: $90=3^{2}\cdot10$.}
+\quad $\sqrt{6}\cdot\sqrt{15}=\sqrt{6\cdot15}=\sqrt{90}=\sqrt{3^{2}\cdot10}=\res{3\sqrt{10}}$
+\ap{b} \pas{Nombres de fora: $2\cdot5=10$. Radicands: $3\cdot6=18=3^{2}\cdot2$.}
+\quad $2\sqrt{3}\cdot5\sqrt{6}=10\sqrt{18}=10\cdot3\sqrt{2}=\res{30\sqrt{2}}$
+\ap{c} \pas{$4\cdot10=40=2^{3}\cdot5$; en arrel cúbica ix el $2^{3}$.}
+\quad $\sqrt[3]{4}\cdot\sqrt[3]{10}=\sqrt[3]{40}=\sqrt[3]{2^{3}\cdot5}=\res{2\sqrt[3]{5}}$
+\ap{d} \pas{Dividim radicands: $120:10=12=2^{2}\cdot3$.}
+\quad $\sqrt{120}:\sqrt{10}=\sqrt{120:10}=\sqrt{12}=\res{2\sqrt{3}}$
+\ap{e} \pas{Fora: $12:4=3$. Dins: $15:5=3$.}
+\quad $12\sqrt{15}:\left(4\sqrt{5}\right)=(12:4)\sqrt{15:5}=\res{3\sqrt{3}}$
+\ap{f} \pas{$162:3=54=2\cdot3^{3}$.}
+\quad $\sqrt[3]{162}:\sqrt[3]{3}=\sqrt[3]{54}=\sqrt[3]{3^{3}\cdot2}=\res{3\sqrt[3]{2}}$
+\ap{g} \pas{L'exponent entra dins del radical; després extraiem: $3^{3}=3^{2}\cdot3$.}
+\quad $\left(\sqrt{3}\right)^{3}=\sqrt{3^{3}}=\sqrt{3^{2}\cdot3}=\res{3\sqrt{3}}$
+\ap{h} \pas{S'eleven els dos factors: el 2 de fora i el radical. $3^{2}=9$ no té cap cub, per tant no ix res.}
+\quad $\left(2\sqrt[3]{3}\right)^{2}=2^{2}\cdot\sqrt[3]{3^{2}}=\res{4\sqrt[3]{9}}$
+\ap{i} \pas{$3^{3}=27$ i $\left(\sqrt2\right)^{3}=\sqrt{2^{3}}=\sqrt{2^{2}\cdot2}=2\sqrt2$.}
+\[\left(3\sqrt{2}\right)^{3}=3^{3}\cdot\sqrt{2^{3}}=27\cdot2\sqrt{2}=\res{54\sqrt{2}}\]
+
+% =====================================================
+\seccio{C}{Intervals i conjunts numèrics}
+
+\ex{Intervals}{Completa la taula.}
+\recorda{\textbf{Claudàtor} $[\ ]$ $\leftrightarrow$ $\le$ o $\ge$ $\leftrightarrow$ \textbf{punt ple} (l'extrem s'inclou). \textbf{Parèntesi} $(\ )$ $\leftrightarrow$ $<$ o $>$ $\leftrightarrow$ \textbf{punt buit} (l'extrem no s'inclou). Al costat de $\infty$ sempre va parèntesi. Per a escriure la desigualtat, la $x$ va al mig dels extrems (o a un costat si un és infinit) i el nombre menut sempre a l'esquerra.}
+
+\smallskip
+{\renewcommand{\arraystretch}{1.9}\centering
+\begin{tabular}{|C{0.6cm}|C{3cm}|C{3.4cm}|C{6.4cm}|}
+\hline
+\rowcolor{soft} & \textbf{Interval} & \textbf{Desigualtat} & \textbf{Representació} \\ \hline
+a) & $[-2,\ 4)$ & $-2\le x<4$ & \rectaint{-2}{4}{p}{b} \\ \hline
+b) & $(-3,\ +\infty)$ & $x>-3$ & \rectaint{-3}{6.4}{b}{i} \\ \hline
+c) & $(-\infty,\ 1]$ & $x\le1$ & \rectaint{-6.4}{1}{i}{p} \\ \hline
+d) & $(-5,\ 0]$ & $-5<x\le0$ & \rectaint{-5}{0}{b}{p} \\ \hline
+e) & $[-4,\ 3]$ & $-4\le x\le3$ & \rectaint{-4}{3}{p}{p} \\ \hline
+f) & $(-\infty,\ -2)$ & $x<-2$ & \rectaint{-6.4}{-2}{i}{b} \\ \hline
+\end{tabular}\par}
+\smallskip
+\pas{a) El $-2$ està inclòs (claudàtor, $\le$, punt ple) i el 4 no (parèntesi, $<$, punt buit). \ b) Són els nombres més grans que $-3$, sense incloure'l. \ c) La fletxa cap a l'esquerra indica $-\infty$; l'1 té punt ple, per tant s'inclou. \ d) El $-5$ no s'inclou i el 0 sí. \ e) Tots dos punts són plens: interval tancat. \ f) Nombres menors que $-2$, sense el $-2$.}
+
+% -----------------------------------------------------
+\ex{Unió i intersecció d'intervals}{Representa i calcula la unió i la intersecció.}
+\recorda{Dibuixem els dos intervals en la mateixa recta, un damunt de l'altre. La \textbf{unió} $\cup$ són els punts que estan en \emph{almenys un} dels dos (tot el que està pintat). La \textbf{intersecció} $\cap$ són els punts que estan en \emph{tots dos alhora} (la part on se solapen). En cada extrem, mirem si aquell punt està inclòs en l'interval que el determina.}
+
+\ap{a} \pas{$A$ va de $-3$ (inclòs) a 2 (no inclòs) i $B$ de 0 (no inclòs) a 5 (inclòs). Se solapen entre 0 i 2. La unió comença on comença $A$ (en $-3$, punt ple) i acaba on acaba $B$ (en 5, punt ple). La intersecció va de 0 a 2 i cap dels dos extrems hi pertany: el 0 no és de $B$ i el 2 no és de $A$.}
+\par\smallskip
+{\centering
+\begin{tabular}{@{}r@{\quad}l@{}}
+{\color{accent}$A$}, {\color{teal}$B$} & \rectados{{-3}{2}{p}{b}}{{0}{5}{b}{p}} \\[22pt]
+$A\cup B=\res{[-3,\ 5]}$ & \rectaint{-3}{5}{p}{p} \\[14pt]
+$A\cap B=\res{(0,\ 2)}$ & \rectaint{0}{2}{b}{b}
+\end{tabular}\par}
+
+\ap{b} \pas{$C$ arriba des de $-\infty$ fins a 1 (inclòs) i $D$ va des de $-2$ (no inclòs) fins a $+\infty$. Entre tots dos cobreixen tota la recta, per tant la unió és $\mathbb{R}$. Se solapen entre $-2$ i 1: el $-2$ no és de $D$ (punt buit) i l'1 sí que és de $C$ (punt ple).}
+\par\smallskip
+{\centering
+\begin{tabular}{@{}r@{\quad}l@{}}
+{\color{accent}$C$}, {\color{teal}$D$} & \rectados{{-6.4}{1}{i}{p}}{{-2}{6.4}{b}{i}} \\[22pt]
+$C\cup D=\res{(-\infty,\ +\infty)=\mathbb{R}}$ & \rectaint{-6.4}{6.4}{i}{i} \\[14pt]
+$C\cap D=\res{(-2,\ 1]}$ & \rectaint{-2}{1}{b}{p}
+\end{tabular}\par}
+
+\ap{c} \pas{$E$ i $F$ estan separats: entre $-1$ i 1 no hi ha cap punt pintat. La unió no es pot escriure com un sol interval: s'escriuen els dos amb el símbol $\cup$. Com que no tenen cap punt en comú, la intersecció és el conjunt buit.}
+\par\smallskip
+{\centering
+\begin{tabular}{@{}r@{\quad}l@{}}
+{\color{accent}$E$}, {\color{teal}$F$} & \rectados{{-5}{-1}{p}{b}}{{1}{4}{p}{b}} \\[22pt]
+$E\cup F=\res{[-5,\ -1)\cup[1,\ 4)}$ & \recta{\seg{accent}{0}{-5}{-1}{p}{b}\seg{accent}{0}{1}{4}{p}{b}} \\[14pt]
+$E\cap F=\res{\varnothing}$ & \recta{}
+\end{tabular}\par}
+
+% -----------------------------------------------------
+\ex{Conjunts numèrics}{Indica el conjunt més xicotet al qual pertany cada nombre.}
+\recorda{$\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}$ \ i \ $\mathbb{I}\subset\mathbb{R}$. \textbf{Primer simplifica} el nombre (fes l'arrel, la divisió\ldots) i després classifica'l. $\mathbb{N}$: $1,2,3,\ldots$ \ $\mathbb{Z}$: també els negatius. \ $\mathbb{Q}$: es poden escriure com a fracció (decimals exactes i periòdics). \ $\mathbb{I}$: infinites xifres decimals \emph{sense} període (arrels no exactes, $\pi$, \ldots). Un racional sumat o multiplicat per un irracional (no nul) dona irracional.}
+
+\begin{tasks}(2)
+  \task $-\dfrac{12}{4}=-3$: enter negatiu $\Rightarrow\res{\mathbb{Z}}$
+  \task $\sqrt{49}=7$: natural $\Rightarrow\res{\mathbb{N}}$
+  \task $0,\overline{4}=\dfrac49$: decimal periòdic pur $\Rightarrow\res{\mathbb{Q}}$
+  \task $\sqrt{20}=2\sqrt5$: 20 no és quadrat perfecte, arrel no exacta $\Rightarrow\res{\mathbb{I}}$
+  \task $-\dfrac56$: fracció que no dona un enter $\Rightarrow\res{\mathbb{Q}}$
+  \task $2\pi$: racional per irracional $\Rightarrow\res{\mathbb{I}}$
+  \task $\sqrt[3]{-8}=-2$, perquè $(-2)^{3}=-8$ $\Rightarrow\res{\mathbb{Z}}$
+  \task $3,010\,010\,001\ldots$: infinites xifres sense període (cada vegada hi ha un zero més) $\Rightarrow\res{\mathbb{I}}$
+  \task $\sqrt{\dfrac{9}{16}}=\dfrac{\sqrt9}{\sqrt{16}}=\dfrac34$: fracció $\Rightarrow\res{\mathbb{Q}}$
+  \task $1+\sqrt2$: racional més irracional $\Rightarrow\res{\mathbb{I}}$
+  \task $7,25=\dfrac{725}{100}=\dfrac{29}{4}$: decimal exacte $\Rightarrow\res{\mathbb{Q}}$
+  \task $\dfrac{18}{6}=3$: natural $\Rightarrow\res{\mathbb{N}}$
+\end{tasks}
+
+\end{document}
