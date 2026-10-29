@@ -1,0 +1,466 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 1: Matrius i determinants. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={matrius, matrius idempotents, involutives, nilpotents, potències de matrius, determinants, propietats dels determinants, Vandermonde, rang amb paràmetres, matriu inversa, equacions matricials, sistemes matricials}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 1: Matrius i determinants · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Fitxa d'exercicis · Unitat 1}{Matrius i determinants}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern mostrant tots els passos i justificant cada afirmació. Recorda que el producte de matrius \textbf{no} és commutatiu: en les identitats amb matrius i en les equacions matricials, fixa't bé per quin costat multipliques. En els exercicis amb paràmetres, estudia tots els casos. Els exercicis marcats amb \textcolor{teal}{\faUniversity\ PAU} són de les proves d'accés a la universitat de diferents comunitats autònomes (2023--2026).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Matrius. Definicions i tipus}
+
+\ex{1} \label{ex:tipus}Escriu les matrius següents i digues de quin tipus és cadascuna:\begin{tasks}(1)
+  \task $A=(a_{ij})$, quadrada d'ordre 3, amb $a_{ij}=i^2-j^2$.
+  \task $B=(b_{ij})$, quadrada d'ordre 4, amb $b_{ij}=1$ si $j=i+1$ \ i \ $b_{ij}=0$ en cas contrari.
+  \task $C=(c_{ij})$, quadrada d'ordre 3, amb $c_{ij}=\min(i,j)$.
+\end{tasks}
+
+\ex{2} Siga $A$ una matriu quadrada qualsevol.\begin{tasks}(1)
+  \task Demostra que $A+A^t$ és simètrica i que $A-A^t$ és antisimètrica.
+  \task Dedueix que tota matriu quadrada és la suma d'una matriu simètrica i d'una antisimètrica, i escriu \ $M=\begin{pmatrix}1 & 4 & -2\\0 & 3 & 5\\6 & -1 & 2\end{pmatrix}$ \ d'aquesta manera.
+  \task Demostra que l'única matriu que és alhora simètrica i antisimètrica és la matriu nul·la.
+\end{tasks}\recorda{$(A+B)^t=A^t+B^t$, \ $(kA)^t=kA^t$ \ i \ $(A^t)^t=A$. \ $A$ és simètrica si $A^t=A$ i antisimètrica si $A^t=-A$.}
+
+\ex{2} \label{ex:idem}Una matriu quadrada $A$ és \emph{idempotent} si $A^2=A$, \emph{involutiva} si $A^2=I$ i \emph{nilpotent} si alguna potència és la matriu nul·la (el menor exponent $k$ amb $A^k=O$ s'anomena \emph{índex}). Classifica les matrius:\begin{tasks}(2)
+  \task $P=\begin{pmatrix}2 & -1\\2 & -1\end{pmatrix}$
+  \task $Q=\begin{pmatrix}3 & -4\\2 & -3\end{pmatrix}$
+  \task $R=\begin{pmatrix}2 & -4\\1 & -2\end{pmatrix}$
+  \task $S=\begin{pmatrix}1 & 1 & 3\\5 & 2 & 6\\-2 & -1 & -3\end{pmatrix}$
+\end{tasks}\par Quin és l'índex de nilpotència de la matriu $B$ de l'exercici \ref{ex:tipus}?
+
+\ex{3} Siga $A$ una matriu idempotent.\begin{tasks}(1)
+  \task Demostra que $I-A$ també és idempotent i que $A(I-A)=O$.
+  \task Demostra que $B=2A-I$ és involutiva.
+  \task Comprova-ho amb la matriu $P$ de l'exercici anterior.
+\end{tasks}
+
+\ex{2} \pau{Catalunya, ordinària 2023} Considera les matrius \ $A=\begin{pmatrix}2 & -3 & -5\\-1 & 4 & 5\\1 & -3 & -4\end{pmatrix}$ \ i \ $B=\begin{pmatrix}2 & 2 & 0\\-1 & -1 & 0\\1 & 2 & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Calcula $A\cdot B$ i $B\cdot A$.
+  \task Siguen $C$ i $D$ dues matrius quadrades del mateix ordre que compleixen $C\cdot D=C$ i $D\cdot C=D$. Demostra que $C$ i $D$ són idempotents.
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Operacions amb matrius}
+
+\ex{1} Donades \ $A=\begin{pmatrix}1 & -2 & 0\\3 & 1 & -1\end{pmatrix}$, \ $B=\begin{pmatrix}2 & 1\\0 & -1\\4 & 3\end{pmatrix}$ \ i \ $C=\begin{pmatrix}1 & 2\\-1 & 0\end{pmatrix}$:\begin{tasks}(1)
+  \task Calcula $(AB)^t-2C$ i $A\cdot B\cdot C$.
+  \task Calcula $B\cdot A$. Té sentit comparar $AB$ i $BA$?
+  \task Comprova que $(AB)^t=B^tA^t$ i explica per què, en general, $A^tB^t$ no és igual a $(AB)^t$ (en aquest cas, ni tan sols tenen el mateix ordre).
+\end{tasks}
+
+\ex{2} Siguen $A$ i $B$ matrius quadrades del mateix ordre.\begin{tasks}(1)
+  \task Demostra que $(A+B)^2=A^2+2AB+B^2$ si i només si $AB=BA$.
+  \task Demostra que $(A+B)(A-B)=A^2-B^2$ si i només si $AB=BA$.
+  \task Troba totes les matrius $X$ d'ordre 2 que commuten amb \ $A=\begin{pmatrix}1 & 2\\0 & 1\end{pmatrix}$, és a dir, tals que $AX=XA$.
+\end{tasks}
+
+\ex{2} Troba totes les matrius de la forma \ $X=\begin{pmatrix}a & b\\ 0 & c\end{pmatrix}$ \ que compleixen $X^2=I$.
+
+\ex{2} Troba els valors de $m$ per als quals \ $A=\begin{pmatrix}1 & m\\ m & 1\end{pmatrix}$ \ compleix $A^2=2A$. Comprova després que \ $B=\begin{pmatrix}1 & m\\ 0 & -1\end{pmatrix}$ \ compleix $B^2=I$ per a qualsevol $m$, i calcula $B^{2027}$.
+
+\ex{2} Donada \ $A=\begin{pmatrix}1 & 1 & 1\\0 & 1 & 1\\0 & 0 & 1\end{pmatrix}$, calcula $A^2$ i $A^3$. Conjectura l'expressió de $A^n$, comprova que si és certa per a $n$ també ho és per a $n+1$, i calcula $A^{10}$.\recorda{$1+2+\dots+n=\dfrac{n(n+1)}{2}$.}
+
+\ex{2} Donada \ $A=\begin{pmatrix}a & 1\\ 0 & a\end{pmatrix}$, calcula $A^2$, $A^3$ i $A^4$, dedueix l'expressió de $A^n$ i calcula $A^{10}$ per a $a=2$.
+
+\ex{3} \label{ex:J}Siga \ $J=\begin{pmatrix}0 & -1\\1 & 0\end{pmatrix}$.\begin{tasks}(1)
+  \task Calcula $J^2$, $J^3$ i $J^4$.
+  \task Calcula $J^{2026}$.
+  \task Calcula la suma \ $J+J^2+J^3+\dots+J^{2026}$.
+\end{tasks}
+
+\ex{3} Siga \ $A=\begin{pmatrix}3 & -4\\1 & -1\end{pmatrix}$ \ i siga $N=A-I$.\begin{tasks}(1)
+  \task Comprova que $N^2=O$.
+  \task Demostra que $A^n=I+nN$ per a tot $n\geq1$ (multiplica $I+nN$ per $A=I+N$).
+  \task Calcula $A^{50}$.
+\end{tasks}
+
+\ex{3} \label{ex:pq}Siga \ $A=\begin{pmatrix}1 & 2\\3 & 4\end{pmatrix}$.\begin{tasks}(1)
+  \task Troba els nombres $p$ i $q$ tals que $A^2=pA+qI$.
+  \task Expressa $A^3$ i $A^4$ en la forma $\alpha A+\beta I$, sense calcular-les directament.
+\end{tasks}
+
+\ex{3} La \emph{traça} d'una matriu quadrada, $\operatorname{tr}(A)$, és la suma dels elements de la diagonal principal.\begin{tasks}(1)
+  \task Comprova que $\operatorname{tr}(AB)=\operatorname{tr}(BA)$ per a dues matrius qualssevol d'ordre 2.
+  \task Dedueix que no hi ha cap parella de matrius d'ordre 2 tals que $AB-BA=I$.
+\end{tasks}
+
+\ex{3} \pau{Madrid, extraordinària 2025} Donada la matriu \ $A=\begin{pmatrix}1 & 5\\-1 & -3\end{pmatrix}$:\begin{tasks}(1)
+  \task Troba les matrius simètriques $B$ que verifiquen $BA=(A+A^2)B$.
+  \task Amb $A_1=A$, es consideren les matrius $A_2=A_1^2+A_1$, $A_3=A_2^2+A_2$, $A_4=A_3^2+A_3$, i així successivament. Troba $A_{2025}$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Determinants}
+
+\ex{1} Calcula el determinant \ $|M|=\begin{vmatrix}1 & 0 & 2 & 0\\3 & -1 & 1 & 2\\0 & 2 & 1 & -1\\2 & 1 & 0 & 3\end{vmatrix}$ \ desenvolupant per la primera fila.
+
+\ex{2} Resol l'equació \ $\begin{vmatrix}x & 2 & 3\\ x & x & 3\\ x & x & x\end{vmatrix}=0$.
+
+\ex{3} Considera els determinants \ $D_2=\begin{vmatrix}m & 1\\ 1 & m\end{vmatrix}$, \ $D_3=\begin{vmatrix}m & 1 & 0\\ 1 & m & 1\\ 0 & 1 & m\end{vmatrix}$ \ i \ $D_4=\begin{vmatrix}m & 1 & 0 & 0\\ 1 & m & 1 & 0\\ 0 & 1 & m & 1\\ 0 & 0 & 1 & m\end{vmatrix}$.\begin{tasks}(1)
+  \task Calcula $D_3$ i troba els valors de $m$ que l'anul·len.
+  \task Desenvolupant per la primera fila, comprova que $D_4=m\cdot D_3-D_2$. Calcula $D_4$ i troba els valors de $m$ que l'anul·len.
+\end{tasks}
+
+\ex{2} \pau{Navarra, ordinària 2026} Calcula els valors possibles de $r$ i $t$ perquè $|A|+|B|=4$, sabent que\[A=\begin{pmatrix}t & t & t\\ t & 3+t & -3+t\\ 2 & -1 & 5\end{pmatrix},\qquad B=\begin{pmatrix}1+r & r & 3r\\ 2 & -1 & 1\\ r & r & 3r\end{pmatrix}\]
+
+
+% =====================================================
+\seccio{4}{Propietats dels determinants}
+
+\ex{2} Sabent que \ $\begin{vmatrix}a & b & c\\ d & e & f\\ g & h & i\end{vmatrix}=3$, \ calcula, sense desenvolupar-los:\begin{tasks}(2)
+  \task $\begin{vmatrix}2a & 2b & 2c\\ d-3g & e-3h & f-3i\\ g & h & i\end{vmatrix}$
+  \task $\begin{vmatrix}a+d & b+e & c+f\\ d+g & e+h & f+i\\ g+a & h+b & i+c\end{vmatrix}$
+  \task $\begin{vmatrix}3c & a & b+2a\\ 3f & d & e+2d\\ 3i & g & h+2g\end{vmatrix}$
+  \task $\begin{vmatrix}g & h & i\\ a & b & c\\ d & e & f\end{vmatrix}$
+  \task $\begin{vmatrix}a-b & b-c & c-a\\ d-e & e-f & f-d\\ g-h & h-i & i-g\end{vmatrix}$
+  \task $|-2A^t|$, on $A$ és la matriu del determinant donat
+\end{tasks}\recorda{Un determinant és lineal respecte de cada fila (o columna): si una fila és una suma, el determinant es descompon en una suma de dos determinants.}
+
+\ex{2} Siguen $A$ i $B$ matrius quadrades d'ordre 3 amb $|A|=2$ i $|B|=-\tfrac12$, i $C$ una matriu quadrada d'ordre 4 amb $|C|=-2$. Calcula:\begin{tasks}(4)
+  \task $|2A^{-1}B^t|$
+  \task $|(3A)^{-1}|$
+  \task $|A^2B^{-3}|$
+  \task $|A^t(2B)^{-1}A|$
+  \task $|BAB^{-1}|$
+  \task $|3C|$
+  \task $|C^tC^3|$
+  \task $|(2C)^{-1}C^2|$
+\end{tasks}
+
+\ex{2} Sabent que els nombres 136, 255 i 323 són múltiples de 17, demostra, sense calcular-lo, que el determinant \ $\begin{vmatrix}1 & 3 & 6\\2 & 5 & 5\\3 & 2 & 3\end{vmatrix}$ \ també és múltiple de 17. Comprova-ho després calculant-lo.
+
+\ex{3} \label{ex:lletres}Calcula, fent zeros abans de desenvolupar, i expressa el resultat factoritzat:\begin{tasks}(1)
+  \task $\begin{vmatrix}a+b & a & a\\ a & a+b & a\\ a & a & a+b\end{vmatrix}$
+  \task $\begin{vmatrix}a & b & b & b\\ b & a & b & b\\ b & b & a & b\\ b & b & b & a\end{vmatrix}$
+\end{tasks}
+
+\ex{3} \label{ex:vdm}Demostra que \ $\begin{vmatrix}1 & 1 & 1\\ a & b & c\\ a^2 & b^2 & c^2\end{vmatrix}=(b-a)(c-a)(c-b)$ \ (\emph{determinant de Vandermonde}) i utilitza-ho per a:\begin{tasks}(1)
+  \task calcular \ $\begin{vmatrix}1 & 1 & 1\\ 2 & 3 & 5\\ 4 & 9 & 25\end{vmatrix}$;
+  \task resoldre l'equació \ $\begin{vmatrix}1 & 1 & 1\\ 1 & x & 2\\ 1 & x^2 & 4\end{vmatrix}=0$.
+\end{tasks}
+
+\ex{3} Raona les qüestions següents:\begin{tasks}(1)
+  \task Hi ha cap matriu real $A$ d'ordre 3 tal que $A^2=-I$? I d'ordre 2? (Pensa en la matriu $J$ de l'exercici \ref{ex:J}.)
+  \task $B$ és una matriu quadrada d'ordre 3 tal que $4B^3=B$. Quins valors pot tenir $|B|$?
+  \task Si $A$ és antisimètrica i d'ordre \emph{senar}, aleshores $|A|=0$.
+  \task Si $A$ és d'ordre 3 i $A\cdot A^t=4I$, quant pot valer $|A|$?
+\end{tasks}
+
+\ex{2} \pau{Andalusia, ordinària 2026} Considera la matriu \ $A=\begin{pmatrix}\alpha & \beta & 1\\ 2 & \alpha & \beta\\ 3 & 4 & \alpha\end{pmatrix}$, \ que compleix $|A|=-2$.\begin{tasks}(1)
+  \task Calcula \ $\begin{vmatrix}-3 & -4 & -\alpha\\ \alpha-2 & \beta-\alpha & 1-\beta\\ 8 & 4\alpha & 4\beta\end{vmatrix}$.
+  \task Calcula \ $\left|A^{-1}\left(A^t\right)^2A\right|$.
+\end{tasks}
+
+\ex{2} \pau{Castella i Lleó, extraordinària 2026} Si \ $\begin{vmatrix}a & b & c\\ d & e & f\\ g & h & i\end{vmatrix}=-2$, \ calcula el valor de \ $\begin{vmatrix}g-5a & 2d & a\\ 2h-10b & 4e & 2b\\ i-5c & 2f & c\end{vmatrix}$.
+
+\ex{2} \pau{Navarra, extraordinària 2025} Siguen $A$ i $B$ dues matrius quadrades $3\times3$ tals que $|A|=\tfrac13$ i $|B|=3$. Calcula $|C|$ sabent que \ $C=3\cdot\left(A^t\right)^2\cdot(A\cdot B)^{-1}$.
+
+\ex{3} \pau{Astúries, extraordinària 2025} Una matriu $M$ verifica que $|M|=x$. (Els apartats són independents.)\begin{tasks}(1)
+  \task Suposem que $M$ és $2\times2$ i que $M^2=(x-1)I$. Calcula tots els valors possibles de $x$.
+  \task Suposem que \ $M=\begin{pmatrix}2 & 1 & 1\\ 0 & -1 & x\\ -1 & -1 & 0\end{pmatrix}$. Hi ha algun valor de $x$ per al qual siga $|M|=x$?
+  \task Suposem que $M$ és $3\times3$, que $x\neq0$ i que $M=xM^2$. Calcula els valors possibles de $x$ i de $|M^{-1}|$.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, extraordinària 2024} Una matriu quadrada $A$ d'ordre 2 és \emph{ortogonal} si $A\cdot A^t=I$.\begin{tasks}(1)
+  \task Estudia si són ortogonals les matrius \ $\begin{pmatrix}\sqrt3/2 & 1/2\\ -1/2 & \sqrt3/2\end{pmatrix}$ \ i \ $\begin{pmatrix}\sqrt3/2 & 1/2\\ -1/2 & -\sqrt3/2\end{pmatrix}$.
+  \task Si $A$ és una matriu ortogonal qualsevol d'ordre 2, calcula'n raonadament el determinant.
+  \task Justifica que, si $A$ i $B$ són ortogonals d'ordre 2, el producte $C=A\cdot B$ també ho és.
+\end{tasks}
+
+\ex{3} \pau{Navarra, extraordinària 2026} Donades les matrius següents, calcula $\left|A\cdot B^{-1}\right|$ en funció del paràmetre $t$. Per a quins valors de $t$ no existeix $\left|A\cdot B^{-1}\right|$?\[A=\begin{pmatrix}t+1 & t^2 & 2\\ t+1 & t^2+t-2 & 2-t\\ t+1 & t^2 & 4\end{pmatrix},\qquad B=\begin{pmatrix}t & 3t & t^2-1\\ 0 & t & 2-t\\ t & 4t & t^2\end{pmatrix}\]
+
+
+% =====================================================
+\seccio{5}{Rang d'una matriu}
+
+\ex{1} Calcula pel mètode de Gauss el rang de \ $A=\begin{pmatrix}1 & 2 & 0 & -1 & 3\\2 & 3 & 1 & 0 & 1\\0 & 1 & -1 & -2 & 5\\1 & 1 & 2 & 1 & 0\end{pmatrix}$.
+
+\ex{3} Estudia, utilitzant menors, el rang de la matriu \ $B=\begin{pmatrix}m & 1 & 1 & 2\\ 1 & m & 1 & 1\\ 1 & 1 & m & 1\end{pmatrix}$ \ segons els valors de $m$.\recorda{Que s'anul·le un menor d'ordre 3 no vol dir que el rang siga 2: cal comprovar que s'anul·len \textbf{tots} els menors d'ordre 3 que contenen un menor d'ordre 2 no nul.}
+
+\ex{3} Estudia el rang de \ $A=\begin{pmatrix}a & 1 & 1 & 1\\ 1 & a & 1 & 1\\ 1 & 1 & a & 1\\ 1 & 1 & 1 & a\end{pmatrix}$ \ segons els valors de $a$. (Aprofita l'exercici \ref{ex:lletres}.)
+
+\ex{3} Estudia el rang de \ $M=\begin{pmatrix}1 & -1 & 2 & 1\\2 & 1 & a & 3\\1 & 2 & 1 & b\end{pmatrix}$ \ segons els valors de $a$ i $b$.
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2026} Estudia el rang de la matriu següent en funció del paràmetre real $a$: \ $A=\begin{pmatrix}a & a-1 & a^2-a\\ a & 1 & a\\ a & 1 & a-1\end{pmatrix}$.
+
+\ex{3} \pau{País Basc, extraordinària 2024} Calcula el rang de la matriu $A$ segons els valors del paràmetre $m$: \ $A=\begin{pmatrix}1 & 3 & 4 & 1\\ m & 2-m & 2 & 1\\ m & -2 & m-2 & 1\end{pmatrix}$.
+
+\ex{2} \pau{Illes Balears, extraordinària 2024} Siga $I_3$ la matriu identitat d'ordre 3 i \ $A=\begin{pmatrix}1 & 0 & 0\\2 & 0 & 0\\-2 & 1 & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Calcula la matriu $B=3A-kI_3$ en funció del paràmetre real $k$.
+  \task Discuteix el rang de $B$ segons el paràmetre $k$.
+\end{tasks}
+
+\ex{3} \pau{Cantàbria, extraordinària 2025} Considera les matrius \ $A=\begin{pmatrix}-1 & 1\\ 1 & 2\\ 1 & a\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & a & 0\\ 3 & 0 & 2\end{pmatrix}$, amb $a\in\mathbb{R}$.\begin{tasks}(1)
+  \task Estudia el rang de $AB$ en funció dels valors de $a$.
+  \task Estudia el rang de $BA$ en funció dels valors de $a$.
+\end{tasks}
+
+\ex{3} \pau{Astúries, ordinària 2026} Per a cada $a\in\mathbb{R}$ es considera la matriu \ $A=\begin{pmatrix}-1 & 2 & -2\\ 0 & 3 & -4\\ a & 2 & -3\end{pmatrix}$.\begin{tasks}(1)
+  \task Calcula tots els valors de $a$ que fan que $A^2=I$.
+  \task Si una matriu $B$ de mida $3\times3$ verifica $B^2=2I$, quins valors pot prendre $\det(B)$?
+  \task Calcula el rang i el determinant de $A$ per a cada valor de $a$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Matriu inversa}
+
+\ex{2} Calcula la inversa de les matrius següents:\begin{tasks}(2)
+  \task $A=\begin{pmatrix}2 & 1 & -1\\0 & 1 & 3\\1 & 0 & 2\end{pmatrix}$
+  \task $B=\begin{pmatrix}1 & a & b\\ 0 & 1 & c\\ 0 & 0 & 1\end{pmatrix}$ \ ($a$, $b$, $c$ reals)
+\end{tasks}\recorda{$A^{-1}=\dfrac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t$, i només existeix si $|A|\neq0$.}
+
+\ex{2} Donada \ $A=\begin{pmatrix}m & 1 & 0\\ 0 & m & 1\\ 0 & 0 & m\end{pmatrix}$, troba per a quins valors de $m$ té inversa i calcula-la en funció de $m$.
+
+\ex{2} Donada \ $M=\begin{pmatrix}1 & k & 0\\ k & 1 & k\\ 0 & k & 1\end{pmatrix}$:\begin{tasks}(1)
+  \task Per a quins valors de $k$ té inversa?
+  \task Calcula $M^{-1}$ per a $k=1$.
+\end{tasks}
+
+\ex{3} Siga $N$ una matriu quadrada tal que $N^3=O$.\begin{tasks}(1)
+  \task Demostra que $I-N$ té inversa i que $(I-N)^{-1}=I+N+N^2$.
+  \task Utilitza-ho per a calcular la inversa de \ $\begin{pmatrix}1 & -2 & -1\\0 & 1 & -3\\0 & 0 & 1\end{pmatrix}$.
+\end{tasks}
+
+\ex{3} Siga \ $A=\begin{pmatrix}0 & 1 & 1\\1 & 0 & 1\\1 & 1 & 0\end{pmatrix}$.\begin{tasks}(1)
+  \task Comprova que $A^2=A+2I$.
+  \task Dedueix que $A$ és invertible i expressa $A^{-1}$ en funció de $A$ i $I$.
+  \task Expressa $A^3$ i $A^4$ en la forma $\alpha A+\beta I$.
+  \task Fes el mateix raonament per a calcular la inversa de la matriu de l'exercici \ref{ex:pq}.
+\end{tasks}
+
+\ex{3} Demostra les propietats següents de matrius invertibles:\begin{tasks}(1)
+  \task $(A^t)^{-1}=(A^{-1})^t$.
+  \task Si $A$ és simètrica i invertible, $A^{-1}$ també és simètrica.
+  \task Una matriu és \emph{ortogonal} si $A\cdot A^t=I$. Comprova que \ $Q=\frac13\begin{pmatrix}1 & 2 & 2\\2 & 1 & -2\\2 & -2 & 1\end{pmatrix}$ \ és ortogonal i escriu $Q^{-1}$ sense fer cap càlcul més.
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2026} Donada la matriu \ $A=\begin{pmatrix}3 & -k & 0\\ 1 & 2 & k\\ k & 0 & k\end{pmatrix}$, \ amb $k\in\mathbb{R}$:\begin{tasks}(1)
+  \task Esbrina els valors de $k$ per als quals $A$ té inversa.
+  \task Calcula la inversa de $A$ quan $k=1$.
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2026} Siguen $A$, $M$ i $N$ tres matrius quadrades d'ordre 4 que satisfan la condició \ $M\cdot A=I+N\cdot A$.\begin{tasks}(1)
+  \task Justifica que $A$ és regular (és a dir, invertible).
+  \task Si \ $M=\begin{pmatrix}1 & 2 & 3 & 4\\1/2 & 1/2 & \sqrt3 & 0\\1/3 & 5 & 0 & -1\\\pi & 0 & 2 & 2\end{pmatrix}$ \ i \ $N=\begin{pmatrix}0 & 3 & 4 & 2\\1/2 & -1/2 & \sqrt3 & 1\\1/3 & 5 & -1 & 0\\\pi & 0 & 2 & 1\end{pmatrix}$, \ calcula $A^{-1}$.
+\end{tasks}
+
+\ex{2} \pau{Catalunya, extraordinària 2023} Siguen \ $A=\begin{pmatrix}2 & 1\\3 & 2\end{pmatrix}$, \ $B=\begin{pmatrix}2 & -1\\-3 & 2\end{pmatrix}$ \ i la matriu identitat $I$ d'ordre 2.\begin{tasks}(1)
+  \task Comprova que $(A-2I)^2=3I$.
+  \task Utilitzant aquesta igualtat, troba la inversa de $A$ en funció de $A$ i de $I$, i comprova que coincideix amb $B$.
+  \task Calcula la matriu $X$ que satisfà $A\cdot X=B$.
+\end{tasks}
+
+\ex{3} \pau{Múrcia, extraordinària 2025} Siga $A$ una matriu quadrada d'ordre 3 que compleix $A^2=O$, on $O$ és la matriu nul·la d'ordre 3.\begin{tasks}(1)
+  \task Demostra que $(A+I)^2=2A+I$ i que $(A+I)^3=3A+I$.
+  \task Demostra que la matriu $I-A$ és la inversa de la matriu $I+A$.
+  \task Resol l'equació matricial $X+AX=A$, expressant $X$ en funció de $A$.
+\end{tasks}
+
+\ex{2} \pau{País Basc, extraordinària 2025} Siga $\alpha$ un nombre real i \ $A=\begin{pmatrix}1 & \alpha & 1\\ 0 & 1 & 1\\ 0 & \alpha & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Troba els valors de $\alpha$ per als quals existeix la matriu inversa de $A$.
+  \task En el cas $\alpha=0$, calcula, si és possible, $A^{-1}$ i $A^{2025}$.
+\end{tasks}
+
+\ex{2} \pau{Galícia, extraordinària 2026} Donades les matrius \ $A=\begin{pmatrix}1 & 0 & 1\\0 & 2 & 0\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & 0 & 1\\0 & 1 & 0\\1 & 0 & 1\end{pmatrix}$:\begin{tasks}(1)
+  \task Calcula les matrius $X=AA^t$ i $Y=A^tA$. Són invertibles $X$ o $Y$? Raona la resposta i calcula les inverses quan siga possible.
+  \task Calcula les matrius de la forma $M=\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ tals que $BM=M$.
+\end{tasks}
+
+\ex{3} \pau{La Rioja, extraordinària 2026} Donada la matriu \ $X=\begin{pmatrix}1 & 1\\1 & 2\\1 & 1\\1 & 3\end{pmatrix}$, \ calcula \ $A=I_4-X\left(X^tX\right)^{-1}X^t$ \ i comprova que és idempotent, és a dir, que $A^2=A$. Demostra després que això passa per a qualsevol matriu $X$ per a la qual $X^tX$ siga invertible.
+
+
+% =====================================================
+\seccio{7}{Equacions i sistemes matricials}
+
+\ex{2} \label{ex:axb}Resol l'equació $AX+B=2X$, essent \ $A=\begin{pmatrix}3 & 1 & 0\\0 & 3 & 1\\1 & 0 & 2\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & 0\\2 & 1\\0 & -1\end{pmatrix}$.\recorda{Per a traure factor comú $X$ cal escriure $2X=2IX$; i cal posar el factor pel costat correcte: \ $AX-2IX=(A-2I)X$.}
+
+\ex{2} Resol l'equació $XA+X=B$, essent \ $A=\begin{pmatrix}0 & 1 & 0\\1 & 1 & 1\\0 & 0 & 0\end{pmatrix}$ \ i \ $B=\begin{pmatrix}1 & 2 & 1\\0 & 1 & -1\end{pmatrix}$. Quin ordre ha de tenir $X$?
+
+\ex{3} Resol l'equació $A\,X^{-1}A=B$, essent \ $A=\begin{pmatrix}1 & 1\\1 & 2\end{pmatrix}$ \ i \ $B=\begin{pmatrix}2 & 1\\1 & 1\end{pmatrix}$.
+
+\ex{3} Resol l'equació $AXB=C$, essent \ $A=\begin{pmatrix}1 & 1 & 0\\0 & 1 & 1\\1 & 0 & 0\end{pmatrix}$, \ $B=\begin{pmatrix}2 & 1\\1 & 1\end{pmatrix}$ \ i \ $C=\begin{pmatrix}2 & 2\\1 & 2\\2 & 1\end{pmatrix}$. \ (La inversa de $A$ ja l'has calculada en l'exercici \ref{ex:axb}: és la matriu $A-2I$.)
+
+\ex{3} Siga \ $A=\begin{pmatrix}1 & 0\\2 & 1\\1 & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Resol l'equació $AX=\begin{pmatrix}1 & 2\\3 & 5\\2 & 3\end{pmatrix}$.
+  \task Resol l'equació $AX=\begin{pmatrix}1 & 2\\3 & 5\\2 & 4\end{pmatrix}$.
+\end{tasks}(Atenció: $A$ no és quadrada!)
+
+\ex{3} Donades \ $A=\begin{pmatrix}1 & 0 & 1\\ 0 & m & 0\\ 1 & 0 & m\end{pmatrix}$ \ i \ $B=\begin{pmatrix}-1\\4\\-2\end{pmatrix}$:\begin{tasks}(1)
+  \task Per a quins valors de $m$ l'equació $A^2X=B$ té una única solució?
+  \task Resol-la per a $m=2$.
+\end{tasks}
+
+\ex{3} Siga \ $A=\begin{pmatrix}4 & 1\\2 & 3\end{pmatrix}$ \ i siga $X=\begin{pmatrix}x\\ y\end{pmatrix}$.\begin{tasks}(1)
+  \task Per a quins valors de $\alpha$ l'equació $AX=\alpha X$ té solucions diferents de $X=\begin{pmatrix}0\\ 0\end{pmatrix}$?
+  \task Troba totes les solucions per a cadascun d'aquests valors.
+  \task Sense calcular $A^{100}$, calcula $A^{100}\begin{pmatrix}1\\ 1\end{pmatrix}$.
+\end{tasks}
+
+\ex{3} Resol el sistema matricial \ $\left\{\begin{aligned}AX+Y&=\begin{pmatrix}3 & 5\\-1 & 3\end{pmatrix}\\ X-Y&=\begin{pmatrix}-1 & 1\\1 & 1\end{pmatrix}\end{aligned}\right.$ \ essent \ $A=\begin{pmatrix}1 & 2\\0 & 1\end{pmatrix}$.
+
+\ex{2} \pau{Andalusia, extraordinària 2026} Considera les matrius \ $A=\begin{pmatrix}2 & 2\\3 & 4\end{pmatrix}$ \ i \ $B=\begin{pmatrix}3 & 1\\2 & 2\end{pmatrix}$.\begin{tasks}(1)
+  \task Troba raonadament el determinant d'una matriu $X$ que verifica \ $A^3XB^t=5B^2A^{-1}$.
+  \task Determina, si existeix, una matriu $Y$ que verifica \ $A^3YB^{-1}=A^2$.
+\end{tasks}
+
+\ex{2} \pau{Canàries, ordinària 2026} Donada la matriu \ $A=\begin{pmatrix}1 & 2 & 0\\0 & 1 & 0\\-1 & 1 & 1\end{pmatrix}$, \ troba dues matrius quadrades d'ordre 3 tals que la primera més el doble de la segona done la matriu $A$, i la primera menys el doble de la segona done la inversa de $A$.
+
+\ex{2} \pau{Castella-la Manxa, ordinària 2026}\begin{tasks}(1)
+  \task Determina els valors de $a$ i $b$ perquè les matrius \ $A=\begin{pmatrix}1 & a & 1\\ 1 & 2 & 1\\ 1 & 1 & b\end{pmatrix}$ \ i \ $B=\begin{pmatrix}3 & -1 & -1\\-1 & 1 & 0\\-1 & 0 & 1\end{pmatrix}$ \ complisquen $A\cdot B=I$.
+  \task Resol raonadament el sistema \ $\left\{\begin{aligned}X+Y&=\begin{pmatrix}1 & 0\\2 & 3\end{pmatrix}\\ 2X+3Y&=\begin{pmatrix}4 & 1\\7 & 9\end{pmatrix}\end{aligned}\right.$
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinària 2025} Siguen les matrius\[A=\begin{pmatrix}0 & 2 & 3\\2 & 3 & 5\\1 & 3 & 1\end{pmatrix},\qquad B=\begin{pmatrix}-1 & 0 & 1\\0 & -1 & 1\\2 & 1 & -3\end{pmatrix}\]\begin{tasks}(1)
+  \task Obtín la inversa de la matriu $A^t+I$, on $I$ és la matriu identitat d'ordre 3.
+  \task Resol l'equació matricial \ $A^tX-I=2B-X$.
+\end{tasks}
+
+\ex{2} \pau{Galícia, ordinària 2026} Considera la igualtat matricial $A(X-I)B=C$, on $X$ és quadrada i $I$ és la matriu identitat.\begin{tasks}(1)
+  \task Aïlla $X$ suposant que $A$ i $B$ són quadrades i invertibles.
+  \task Quines dimensions tenen $X$ i $B$ si $A$ i $C$ són matrius $1\times2$? Troba $X$, simètrica i amb els elements de la diagonal que sumen 0, si $A=(1\ \ 1)$, $B=I$ i $C=(0\ \ 0)$.
+\end{tasks}
+
+\ex{3} \pau{Madrid, ordinària 2026} Donada la matriu real \ $A=\begin{pmatrix}1 & \lambda-2 & \lambda\\ 0 & 1 & \lambda-1\\ 1 & 0 & 1\end{pmatrix}$:\begin{tasks}(1)
+  \task Discuteix el rang de $A$ en funció del paràmetre $\lambda$.
+  \task Per al cas $\lambda=2$, resol l'equació matricial $A^2-AX=I$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, extraordinària 2026} Es consideren les matrius \ $A=\begin{pmatrix}1 & 0 & 1\\0 & 1 & 0\\0 & 2 & 1\end{pmatrix}$, \ $B=\begin{pmatrix}2 & -1\\1 & 0\\-1 & -2\end{pmatrix}$ \ i \ $C=\begin{pmatrix}1 & 0 & 0\\-1 & 1 & 0\\0 & -1 & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Resol l'equació matricial $AX+X=B$.
+  \task Calcula el determinant de la matriu $(2C)^{100}$ aplicant les propietats dels determinants.
+  \task Justifica si les matrius $A$ i $AB$ són invertibles.
+\end{tasks}
+
+\ex{2} \pau{Navarra, extraordinària 2024} Siguen $A$, $P$ i $Q$ tres matrius quadrades regulars tals que $Q\cdot A\cdot P=I$, on $I$ és la matriu identitat de la mateixa dimensió.\begin{tasks}(1)
+  \task Demostra que \ $A\cdot P\cdot Q\cdot A=Q^{-1}\cdot P^{-1}$.
+  \task Calcula la matriu $A$ en el cas \ $P=\begin{pmatrix}-1 & 1\\2 & -1\end{pmatrix}$ \ i \ $Q=\begin{pmatrix}1 & 0\\1 & 2\end{pmatrix}$.
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, ordinària 2026} Siguen $A$ i $B$ dues matrius $3\times3$ tals que $A$ és invertible i \ $AB+A+I=2A$, \ amb $I$ la matriu identitat d'ordre 3.\begin{tasks}(1)
+  \task Calcula la inversa de $A$ en funció de $I$ i $B$.
+  \task Siguen \ $B=\begin{pmatrix}0 & 1 & 2\\1 & 1 & 1\\0 & 3 & 1\end{pmatrix}$ \ i \ $b=\begin{pmatrix}0\\1\\0\end{pmatrix}$. Calcula $x$ tal que $Ax=b$, on $A$ compleix la igualtat de l'enunciat.
+\end{tasks}
+
+\ex{3} \pau{Cantàbria, ordinària 2026} Considera la matriu \ $A=\begin{pmatrix}1 & a & 0\\ 0 & 1 & 0\\ 0 & 0 & a\end{pmatrix}$, \ que depèn del paràmetre $a\in\mathbb{R}$.\begin{tasks}(1)
+  \task Estudia el rang de $A$ en funció del valor del paràmetre $a$.
+  \task Calcula $A^{100}$ en funció del paràmetre $a$.
+  \task Per a $a=-1$, calcula, si és possible, la matriu $X$ que compleix \ $AXA^{-1}=\begin{pmatrix}2 & 2 & 2\\0 & 0 & -1\\0 & -2 & -2\end{pmatrix}$.
+\end{tasks}
+
+\ex{3} \pau{Castella i Lleó, extraordinària 2026} Siguen les matrius\[A=\begin{pmatrix}2 & 2 & 0\\0 & 2 & 0\\2 & 0 & 4\end{pmatrix},\qquad B=\begin{pmatrix}-3 & 4 & -6\\-2 & 1 & -2\\-11 & 3 & -8\end{pmatrix}\]Resol l'equació matricial \ $\tfrac14A^2-AX=B$.
+
+\ex{3} \pau{Andalusia, ordinària 2024} Considera la matriu \ $A=\begin{pmatrix}1 & 1/8 & 1/8\\ 0 & 1 & 0\\ 0 & 0 & 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Calcula $A^{2024}$.
+  \task Troba la matriu $X$, si és possible, que verifica $A^2XA+I=O$, on $I$ i $O$ són la matriu identitat i la matriu nul·la d'ordre 3.
+\end{tasks}
+
+
+% =====================================================
+\seccio{8}{Problemes i qüestions}
+
+\ex{2} En una lliga de quatre equips (A, B, C i D), cada equip juga una vegada contra cada altre i no hi ha empats. A guanya B i C; B guanya C i D; C guanya D, i D guanya A.\begin{tasks}(1)
+  \task Escriu la matriu $M$ en què $m_{ij}=1$ si l'equip $i$ ha guanyat l'equip $j$, i $m_{ij}=0$ si no.
+  \task Calcula $M^2$. Què indica l'element $(i,j)$ de $M^2$?
+  \task Per a ordenar els equips, cada equip obté un punt per cada victòria directa i un punt per cada victòria ``indirecta'' (guanyar un equip que ha guanyat un altre). Utilitza $M+M^2$ per a fer la classificació.
+\end{tasks}
+
+\ex{2} Una economia té dos sectors, agricultura (1) i indústria (2). Per a produir 1 € del sector 1 calen 0,20 € del sector 1 i 0,40 € del sector 2; per a produir 1 € del sector 2 calen 0,30 € del sector 1 i 0,10 € del sector 2. Si $A=\begin{pmatrix}0{,}2 & 0{,}3\\0{,}4 & 0{,}1\end{pmatrix}$ i $x$ és el vector de producció, la producció que queda per al consum és $d=x-Ax=(I-A)x$.\begin{tasks}(1)
+  \task Si la producció és de 100 i 80 milions d'euros, quina part es destina al consum?
+  \task Quina producció cal perquè el consum siga de 56 i 32 milions? Resol-ho amb $(I-A)^{-1}$.
+\end{tasks}
+
+\ex{2} Per a codificar un missatge, se substitueix cada lletra pel seu lloc en l'alfabet (A$=1$, B$=2$, \ldots, Z$=26$; espai $=0$), s'agrupen els nombres de dos en dos en matrius columna i es multiplica cadascuna per $H=\begin{pmatrix}2 & 1\\3 & 2\end{pmatrix}$. Hem rebut\[\begin{pmatrix}27\\41\end{pmatrix},\quad\begin{pmatrix}45\\70\end{pmatrix},\quad\begin{pmatrix}38\\57\end{pmatrix}\]Desxifra el missatge. (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z.)
+
+\ex{3} Digues si són vertaderes o falses les afirmacions següents ($A$, $B$, $C$ són matrius quadrades del mateix ordre). Si són vertaderes, demostra-ho; si són falses, dona'n un contraexemple.\begin{tasks}(1)
+  \task Si $AB=O$, aleshores $A=O$ o $B=O$.
+  \task Si $A$ és invertible i $AB=AC$, aleshores $B=C$.
+  \task $|A+B|=|A|+|B|$.
+  \task Si $A^2=A$ i $|A|\neq0$, aleshores $A=I$.
+  \task Si $AB=I$, aleshores també $BA=I$.
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2026} En un ecosistema interactuen tres espècies, A, B i C. La població de cada espècie en el mes $k$ és $a_k$, $b_k$ i $c_k$, respectivament, i l'evolució de les poblacions d'un mes al següent ve donada per\[\begin{pmatrix}a_{k+1}\\ b_{k+1}\\ c_{k+1}\end{pmatrix}=M\begin{pmatrix}a_k\\ b_k\\ c_k\end{pmatrix},\qquad M=\begin{pmatrix}1 & 0 & 0\\1 & 1 & 0\\1 & 0 & 1\end{pmatrix}\]\begin{tasks}(1)
+  \task Si en l'instant inicial ($k=0$) hi ha 100 exemplars de l'espècie A, 124 de la B i 234 de la C, quants exemplars de cada espècie hi haurà dos mesos després?
+  \task Raona (sense calcular $M^k$) que es compleix \ $\begin{pmatrix}a_k\\ b_k\\ c_k\end{pmatrix}=M^k\begin{pmatrix}a_0\\ b_0\\ c_0\end{pmatrix}$.
+  \task Calcula $M^k$ per a $k\in\mathbb{N}$. Què passarà amb el nombre d'exemplars de cada espècie amb el pas del temps?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb el laboratori de matrius dels apunts interactius.\end{center}
+
+\end{document}

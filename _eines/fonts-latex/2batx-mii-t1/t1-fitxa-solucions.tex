@@ -1,0 +1,478 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 1: Matrius i determinants. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={matrius, matrius idempotents, involutives, nilpotents, potències de matrius, determinants, propietats dels determinants, Vandermonde, rang amb paràmetres, matriu inversa, equacions matricials, sistemes matricials}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 1: Matrius i determinants · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Solucions de la fitxa · Unitat 1}{Matrius i determinants}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Els passos intermedis (les operacions de Gauss, la fila o columna per la qual desenvolupes un determinant, el menor que tries per a estudiar un rang\ldots) poden ser diferents dels teus i ser igualment correctes; el que ha de coincidir és el resultat. En els exercicis amb paràmetres, revisa que has estudiat \textbf{tots} els casos.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Matrius. Definicions i tipus}
+
+\ex{1} \label{ex:tipus}\begin{tasks}(1)
+  \task $A=\begin{pmatrix}0 & -3 & -8\\3 & 0 & -5\\8 & 5 & 0\end{pmatrix}$: \ com que $a_{ji}=j^2-i^2=-a_{ij}$, és \rest{antisimètrica}.
+  \task $B=\begin{pmatrix}0 & 1 & 0 & 0\\0 & 0 & 1 & 0\\0 & 0 & 0 & 1\\0 & 0 & 0 & 0\end{pmatrix}$: \rest{triangular superior} (amb la diagonal principal també nul·la).
+  \task $C=\begin{pmatrix}1 & 1 & 1\\1 & 2 & 2\\1 & 2 & 3\end{pmatrix}$: \ com que $\min(i,j)=\min(j,i)$, és \rest{simètrica}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $(A+A^t)^t=A^t+(A^t)^t=A^t+A=A+A^t$ \ i \ $(A-A^t)^t=A^t-A=-(A-A^t)$.
+  \task $A=\underbrace{\tfrac12(A+A^t)}_{\text{simètrica}}+\underbrace{\tfrac12(A-A^t)}_{\text{antisimètrica}}$. \ Per a $M$: \ $\res{M=\begin{pmatrix}1 & 2 & 2\\2 & 3 & 2\\2 & 2 & 2\end{pmatrix}+\begin{pmatrix}0 & 2 & -4\\-2 & 0 & 3\\4 & -3 & 0\end{pmatrix}}$
+  \task Si $A^t=A$ i $A^t=-A$, aleshores $A=-A$, és a dir, $2A=O$ i \rest{$A=O$}.
+\end{tasks}
+
+\ex{2} \label{ex:idem}\begin{tasks}(1)
+  \task $P^2=\begin{pmatrix}2 & -1\\2 & -1\end{pmatrix}=P$: \rest{idempotent}.
+  \task $Q^2=\begin{pmatrix}1 & 0\\0 & 1\end{pmatrix}=I$: \rest{involutiva}.
+  \task $R^2=\begin{pmatrix}0 & 0\\0 & 0\end{pmatrix}$: \rest{nilpotent d'índex 2}.
+  \task $S^2=\begin{pmatrix}0 & 0 & 0\\3 & 3 & 9\\-1 & -1 & -3\end{pmatrix}$, \ $S^3=O$: \rest{nilpotent d'índex 3}.
+\end{tasks}\par Per a $B$: \ $B^2=\begin{pmatrix}0 & 0 & 1 & 0\\0 & 0 & 0 & 1\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{pmatrix}$, \ $B^3=\begin{pmatrix}0 & 0 & 0 & 1\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{pmatrix}$, \ $B^4=O$: \ \rest{índex 4}.
+
+\ex{3} \begin{tasks}(1)
+  \task $(I-A)^2=I-A-A+A^2=I-2A+A=I-A$; \ \ $A(I-A)=A-A^2=A-A=O$.
+  \task $(2A-I)^2=4A^2-2A-2A+I=4A-4A+I=I$.
+  \task $I-P=\begin{pmatrix}-1 & 1\\-2 & 2\end{pmatrix}$, \ $(I-P)^2=\begin{pmatrix}-1 & 1\\-2 & 2\end{pmatrix}=I-P$, \ $P(I-P)=O$; \ \ $2P-I=\begin{pmatrix}3 & -2\\4 & -3\end{pmatrix}$ \ i \ $(2P-I)^2=I$.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $A\cdot B=\begin{pmatrix}2 & -3 & -5\\-1 & 4 & 5\\1 & -3 & -4\end{pmatrix}=\res{A}$, \qquad $B\cdot A=\begin{pmatrix}2 & 2 & 0\\-1 & -1 & 0\\1 & 2 & 1\end{pmatrix}=\res{B}$
+  \task $C^2=C\cdot C=(CD)\cdot C=C\cdot(DC)=C\cdot D=C$ \ i \ $D^2=(DC)\cdot D=D\cdot(CD)=D\cdot C=D$: \rest{són idempotents}. (Per l'apartat anterior, $A$ i $B$ en són un exemple.)
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Operacions amb matrius}
+
+\ex{1} \begin{tasks}(1)
+  \task $AB=\begin{pmatrix}2 & 3\\2 & -1\end{pmatrix}$, \ \ $(AB)^t-2C=\begin{pmatrix}2 & 2\\3 & -1\end{pmatrix}-\begin{pmatrix}2 & 4\\-2 & 0\end{pmatrix}=\res{\begin{pmatrix}0 & -2\\5 & -1\end{pmatrix}}$, \ \ $ABC=\res{\begin{pmatrix}-1 & 4\\3 & 4\end{pmatrix}}$
+  \task $BA=\begin{pmatrix}5 & -3 & -1\\-3 & -1 & 1\\13 & -5 & -3\end{pmatrix}$: és d'ordre $3\times3$, mentre que $AB$ és $2\times2$: \rest{no són comparables}.
+  \task $B^tA^t=\begin{pmatrix}2 & 0 & 4\\1 & -1 & 3\end{pmatrix}\begin{pmatrix}1 & 3\\-2 & 1\\0 & -1\end{pmatrix}=\begin{pmatrix}2 & 2\\3 & -1\end{pmatrix}=(AB)^t$. \ $A^t$ és $3\times2$ i $B^t$ és $2\times3$: \ $A^tB^t$ és $3\times3$, mentre que $(AB)^t$ és $2\times2$. En general, $(AB)^t=B^tA^t$ i el producte no és commutatiu.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $(A+B)^2=A^2+AB+BA+B^2$, que és igual a $A^2+2AB+B^2$ \ $\iff$ \ $AB+BA=2AB$ \ $\iff$ \ $BA=AB$.
+  \task $(A+B)(A-B)=A^2-AB+BA-B^2$, que és igual a $A^2-B^2$ \ $\iff$ \ $-AB+BA=O$ \ $\iff$ \ $AB=BA$.
+  \task Amb $X=\begin{pmatrix}x & y\\ z & t\end{pmatrix}$: \ $AX=\begin{pmatrix}x+2z & y+2t\\ z & t\end{pmatrix}$, \ $XA=\begin{pmatrix}x & 2x+y\\ z & 2z+t\end{pmatrix}$.\par Igualant: $2z=0$, \ $2t=2x$: \ $\res{X=\begin{pmatrix}x & y\\ 0 & x\end{pmatrix}}$, \ amb $x,y\in\mathbb{R}$ qualssevol.
+\end{tasks}
+
+\ex{2} $X^2=\begin{pmatrix}a^2 & b(a+c)\\ 0 & c^2\end{pmatrix}=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}$ \ $\Rightarrow$ \ $a=\pm1$, \ $c=\pm1$, \ $b(a+c)=0$.\par Si $a=c$, aleshores $a+c\neq0$ i $b=0$: \ $\res{X=I}$ \ i \ $\res{X=-I}$. \ Si $a=-c$, $b$ pot ser qualsevol: \ $\res{X=\begin{pmatrix}1 & b\\ 0 & -1\end{pmatrix}}$ \ i \ $\res{X=\begin{pmatrix}-1 & b\\ 0 & 1\end{pmatrix}}$, \ $b\in\mathbb{R}$. Hi ha infinites solucions!
+
+\ex{2} $A^2=\begin{pmatrix}1+m^2 & 2m\\ 2m & 1+m^2\end{pmatrix}=\begin{pmatrix}2 & 2m\\ 2m & 2\end{pmatrix}\iff1+m^2=2$: \ $\res{m=1\ \text{o}\ m=-1}$.\par $B^2=\begin{pmatrix}1 & m-m\\ 0 & 1\end{pmatrix}=I$. \ Com que $2027=2\cdot1013+1$: \ $B^{2027}=(B^2)^{1013}\cdot B=\res{B}$
+
+\ex{2} $A^2=\begin{pmatrix}1 & 2 & 3\\0 & 1 & 2\\0 & 0 & 1\end{pmatrix}$, \ $A^3=\begin{pmatrix}1 & 3 & 6\\0 & 1 & 3\\0 & 0 & 1\end{pmatrix}$ \ $\Rightarrow$ \ $\res{A^n=\begin{pmatrix}1 & n & \frac{n(n+1)}{2}\\ 0 & 1 & n\\ 0 & 0 & 1\end{pmatrix}}$\par $A^n\cdot A=\begin{pmatrix}1 & n+1 & \frac{n(n+1)}{2}+n+1\\ 0 & 1 & n+1\\ 0 & 0 & 1\end{pmatrix}$ \ i \ $\frac{n(n+1)}{2}+n+1=\frac{(n+1)(n+2)}{2}$: és la mateixa fórmula amb $n+1$. \ \ $A^{10}=\begin{pmatrix}1 & 10 & 55\\0 & 1 & 10\\0 & 0 & 1\end{pmatrix}$
+
+\ex{2} $A^2=\begin{pmatrix}a^2 & 2a\\ 0 & a^2\end{pmatrix}$, \ $A^3=\begin{pmatrix}a^3 & 3a^2\\ 0 & a^3\end{pmatrix}$, \ $A^4=\begin{pmatrix}a^4 & 4a^3\\ 0 & a^4\end{pmatrix}$ \ $\Rightarrow$ \ $\res{A^n=\begin{pmatrix}a^n & na^{n-1}\\ 0 & a^n\end{pmatrix}}$\par (En multiplicar per $A$: \ $na^{n-1}\cdot a+a^n=(n+1)a^n$.) \ Per a $a=2$: \ $A^{10}=\begin{pmatrix}2^{10} & 10\cdot2^9\\ 0 & 2^{10}\end{pmatrix}=\begin{pmatrix}1024 & 5120\\0 & 1024\end{pmatrix}$
+
+\ex{3} \label{ex:J}\begin{tasks}(1)
+  \task $J^2=\begin{pmatrix}-1 & 0\\0 & -1\end{pmatrix}=-I$, \ $J^3=-J=\begin{pmatrix}0 & 1\\-1 & 0\end{pmatrix}$, \ $J^4=(J^2)^2=I$.
+  \task Les potències es repeteixen cada 4 i $2026=4\cdot506+2$: \ $J^{2026}=J^2=\res{-I}$
+  \task $J+J^2+J^3+J^4=J-I-J+I=O$: cada bloc de quatre potències consecutives suma $O$. Hi ha 506 blocs fins a $J^{2024}$, i queden $J^{2025}+J^{2026}=J+J^2$: \ $\res{J-I=\begin{pmatrix}-1 & -1\\1 & -1\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $N=\begin{pmatrix}2 & -4\\1 & -2\end{pmatrix}$, \ $N^2=\begin{pmatrix}0 & 0\\0 & 0\end{pmatrix}$
+  \task Per a $n=1$ és certa. Si $A^n=I+nN$: \ $A^{n+1}=(I+nN)(I+N)=I+N+nN+nN^2=I+(n+1)N$.
+  \task $A^{50}=I+50N=\res{\begin{pmatrix}101 & -200\\50 & -99\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} \label{ex:pq}\begin{tasks}(1)
+  \task $A^2=\begin{pmatrix}7 & 10\\15 & 22\end{pmatrix}=p\begin{pmatrix}1 & 2\\3 & 4\end{pmatrix}+q\begin{pmatrix}1 & 0\\0 & 1\end{pmatrix}$: \ de $2p=10$ i $3p=15$, $p=5$; de $p+q=7$, $q=2$: \ $\res{A^2=5A+2I}$
+  \task $A^3=A\cdot A^2=5A^2+2A=5(5A+2I)+2A=\res{27A+10I}$; \ \ $A^4=27A^2+10A=27(5A+2I)+10A=\res{145A+54I}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task Amb $A=\begin{pmatrix}a & b\\ c & d\end{pmatrix}$ i $B=\begin{pmatrix}x & y\\ z & t\end{pmatrix}$: \ $\operatorname{tr}(AB)=(ax+bz)+(cy+dt)$ \ i \ $\operatorname{tr}(BA)=(xa+yc)+(zb+td)$: \rest{són iguals}.
+  \task $\operatorname{tr}(AB-BA)=\operatorname{tr}(AB)-\operatorname{tr}(BA)=0$, però $\operatorname{tr}(I)=2$: \rest{és impossible}.
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A+A^2=\begin{pmatrix}-3 & -5\\1 & 1\end{pmatrix}$.\par Amb $B=\begin{pmatrix}a & b\\ b & c\end{pmatrix}$: \ $BA=\begin{pmatrix}a-b & 5a-3b\\ b-c & 5b-3c\end{pmatrix}$, \ $(A+A^2)B=\begin{pmatrix}-3a-5b & -3b-5c\\ a+b & b+c\end{pmatrix}$.\par Igualant: $4a+4b=0$, $5a=-5c$, \ldots: \ $b=-a$, $c=-a$: \ $\res{B=\begin{pmatrix}a & -a\\ -a & -a\end{pmatrix}}$, \ $a\in\mathbb{R}$.
+  \task $A_2=A^2+A=\begin{pmatrix}-3 & -5\\1 & 1\end{pmatrix}$, \ $A_3=A_2^2+A_2=\begin{pmatrix}4 & 10\\-2 & -4\end{pmatrix}+\begin{pmatrix}-3 & -5\\1 & 1\end{pmatrix}=\begin{pmatrix}1 & 5\\-1 & -3\end{pmatrix}=A$. Les matrius es repeteixen cada 2: les d'índex senar són $A$, i com que 2025 és senar:\par $\res{A_{2025}=A=\begin{pmatrix}1 & 5\\-1 & -3\end{pmatrix}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Determinants}
+
+\ex{1} La primera fila només té dos elements no nuls ($a_{11}=1$ i $a_{13}=2$, tots dos amb signe $+$):\[|M|=1\cdot\begin{vmatrix}-1 & 1 & 2\\2 & 1 & -1\\1 & 0 & 3\end{vmatrix}+2\cdot\begin{vmatrix}3 & -1 & 2\\0 & 2 & -1\\2 & 1 & 3\end{vmatrix}=-12+2\cdot(15)=\boxed{18}\]
+
+\ex{2} Per Sarrus: \ $x^3+6x+3x^2-(3x^2+3x^2+2x^2)=x^3-5x^2+6x=x(x-2)(x-3)=0$: \ $\res{x=0;\ x=2;\ x=3}$
+
+\ex{3} \begin{tasks}(1)
+  \task $D_3=m^3-m-m=m^3-2m=m(m^2-2)$: \ s'anul·la per a \ $\res{m=0;\ m=\pm\sqrt2}$
+  \task $D_4=m\cdot D_3-1\cdot\begin{vmatrix}1 & 1 & 0\\ 0 & m & 1\\ 0 & 1 & m\end{vmatrix}=m\cdot D_3-1\cdot(m^2-1)=m\cdot D_3-D_2$ \ (el menor es desenvolupa per la 1a columna).\par $D_4=m^4-2m^2-m^2+1=\res{m^4-3m^2+1}$. \ Equació biquadrada: $m^2=\frac{3\pm\sqrt5}{2}$, \ i com que $\frac{3+\sqrt5}{2}=\left(\frac{1+\sqrt5}{2}\right)^2$ \ i \ $\frac{3-\sqrt5}{2}=\left(\frac{\sqrt5-1}{2}\right)^2$: \ $\res{m=\pm\tfrac{1+\sqrt5}{2};\ m=\pm\tfrac{\sqrt5-1}{2}}$
+\end{tasks}
+
+\ex{2} A $|A|$, fem $F_2-F_1$: \ $|A|=\begin{vmatrix}t & t & t\\ 0 & 3 & -3\\ 2 & -1 & 5\end{vmatrix}=t\,(15-3)-t\,(0+6)+t\,(0-6)=0$ per a tot $t$.\par A $|B|$, fem $F_1-F_3$: \ $|B|=\begin{vmatrix}1 & 0 & 0\\ 2 & -1 & 1\\ r & r & 3r\end{vmatrix}=-3r-r=-4r$.\par $0-4r=4$: \ $\res{r=-1}$ \ i \ \rest{$t$ qualsevol}.
+
+
+% =====================================================
+\seccio{4}{Propietats dels determinants}
+
+\ex{2} \begin{tasks}(1)
+  \task Traiem el factor 2 de $F_1$; restar $3F_3$ a $F_2$ no el canvia: \ $2\cdot3=\res{6}$
+  \task Fem $F_1-F_2+F_3$ i obtenim $(2a\ \ 2b\ \ 2c)$; traiem el 2 i, després, $F_3-F_1$ i $F_2-F_3$ deixen $(g\ h\ i)$ i $(d\ e\ f)$: \ $2\cdot3=\res{6}$
+  \task $C_3-2C_2$ dona $(b\ e\ h)$; traiem el 3 de $C_1$ i queda l'ordre de columnes $(c,a,b)$, que són dos canvis respecte de $(a,b,c)$: \ $3\cdot3=\res{9}$
+  \task De $(F_1,F_2,F_3)$ a $(F_3,F_1,F_2)$ hi ha dos canvis de files: \ $\res{3}$
+  \task $C_1+C_2+C_3$ és la columna nul·la: \ $\res{0}$
+  \task $|-2A^t|=(-2)^3|A|=\res{-24}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $2^3\cdot\frac12\cdot\left(-\frac12\right)=\res{-2}$
+  \task $\dfrac{1}{3^3\cdot2}=\res{\tfrac1{54}}$
+  \task $\dfrac{2^2}{(-1/2)^3}=\res{-32}$
+  \task $2\cdot\dfrac{1}{2^3\cdot(-1/2)}\cdot2=\res{-1}$
+  \task $|B|\cdot|A|\cdot\dfrac{1}{|B|}=\res{2}$
+  \task $3^4\cdot(-2)=\res{-162}$
+  \task $|C|^4=(-2)^4=\res{16}$
+  \task $\dfrac{(-2)^2}{2^4\cdot(-2)}=\res{-\tfrac18}$
+\end{tasks}
+
+\ex{2} Fem $C_3'=100C_1+10C_2+C_3$ (no canvia el determinant):\[\begin{vmatrix}1 & 3 & 6\\2 & 5 & 5\\3 & 2 & 3\end{vmatrix}=\begin{vmatrix}1 & 3 & 136\\2 & 5 & 255\\3 & 2 & 323\end{vmatrix}=17\cdot\begin{vmatrix}1 & 3 & 8\\2 & 5 & 15\\3 & 2 & 19\end{vmatrix}\]i l'últim determinant és un nombre enter. \ Efectivament, val $-34=17\cdot(-2)$.
+
+\ex{3} \label{ex:lletres}\begin{tasks}(1)
+  \task Sumem totes les columnes a la primera i traiem el factor $3a+b$; després restem $F_1$ a les altres files:\[(3a+b)\begin{vmatrix}1 & a & a\\ 1 & a+b & a\\ 1 & a & a+b\end{vmatrix}=(3a+b)\begin{vmatrix}1 & a & a\\ 0 & b & 0\\ 0 & 0 & b\end{vmatrix}=\boxed{b^2(3a+b)}\]
+  \task De la mateixa manera, amb el factor $a+3b$:\[(a+3b)\begin{vmatrix}1 & b & b & b\\ 1 & a & b & b\\ 1 & b & a & b\\ 1 & b & b & a\end{vmatrix}=(a+3b)\begin{vmatrix}1 & b & b & b\\ 0 & a-b & 0 & 0\\ 0 & 0 & a-b & 0\\ 0 & 0 & 0 & a-b\end{vmatrix}=\boxed{(a+3b)(a-b)^3}\]
+\end{tasks}
+
+\ex{3} \label{ex:vdm}Fem $C_2-C_1$ i $C_3-C_1$, desenvolupem per la 1a fila i traiem els factors $b-a$ i $c-a$:\[\begin{vmatrix}1 & 0 & 0\\ a & b-a & c-a\\ a^2 & b^2-a^2 & c^2-a^2\end{vmatrix}=(b-a)(c-a)\begin{vmatrix}1 & 1\\ b+a & c+a\end{vmatrix}=(b-a)(c-a)(c-b)\]\begin{tasks}(1)
+  \task $a=2$, $b=3$, $c=5$: \ $(3-2)(5-2)(5-3)=\res{6}$
+  \task $a=1$, $b=x$, $c=2$: \ $(x-1)(2-1)(2-x)=0$: \ $\res{x=1;\ x=2}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $|A|^2=|A^2|=|-I|=(-1)^3=-1$, que és impossible: \rest{no n'hi ha}. \ En ordre 2, $|-I|=(-1)^2=1$ i no hi ha contradicció: $J^2=-I$.
+  \task $|4B^3|=4^3|B|^3=|B|\Rightarrow|B|\,(64|B|^2-1)=0$: \ $\res{|B|=0;\ |B|=\pm\tfrac18}$
+  \task $|A|=|A^t|=|-A|=(-1)^n|A|=-|A|$ (perquè $n$ és senar) $\Rightarrow2|A|=0\Rightarrow\res{|A|=0}$
+  \task $|A|\cdot|A^t|=|A|^2=|4I|=4^3=64$: \ $\res{|A|=\pm8}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task Les files són $-F_3$, \ $F_1-F_2$ \ i \ $4F_2$. Traiem els factors $-1$ i $4$, sumem la 3a fila a la 2a i fem dos canvis de files:\[-4\,\begin{vmatrix}F_3\\ F_1-F_2\\ F_2\end{vmatrix}=-4\,\begin{vmatrix}F_3\\ F_1\\ F_2\end{vmatrix}=-4\,|A|=-4\cdot(-2)=\boxed{8}\]
+  \task $\dfrac{1}{|A|}\cdot|A|^2\cdot|A|=|A|^2=\res{4}$
+\end{tasks}
+
+\ex{2} Traiem el factor 2 de la 2a fila i el factor 2 de la 2a columna, i fem $C_1+5C_3$:\[4\begin{vmatrix}g & d & a\\ h & e & b\\ i & f & c\end{vmatrix}=4\begin{vmatrix}g & h & i\\ d & e & f\\ a & b & c\end{vmatrix}=-4\begin{vmatrix}a & b & c\\ d & e & f\\ g & h & i\end{vmatrix}=-4\cdot(-2)=\boxed{8}\](hem transposat i, després, hem canviat $F_1$ i $F_3$).
+
+\ex{2} $|C|=3^3\cdot|A|^2\cdot\dfrac{1}{|A|\cdot|B|}=27\cdot\dfrac19\cdot\dfrac{1}{\frac13\cdot3}=\res{3}$
+
+\ex{3} \begin{tasks}(1)
+  \task $|M^2|=|M|^2=x^2$ \ i \ $|(x-1)I_2|=(x-1)^2$: \ $x^2=x^2-2x+1$: \ $\res{x=\tfrac12}$
+  \task $|M|=2(0+x)-1(0+x)+1(0-1)=x-1$, i $x-1=x$ no té solució: \rest{no n'hi ha cap}.
+  \task $|M|=x^3|M|^2\Rightarrow x=x^3\cdot x^2=x^5\Rightarrow x^4=1$: \ $\res{x=1,\ |M^{-1}|=1}$ \ o \ $\res{x=-1,\ |M^{-1}|=-1}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task La 1a: $\begin{pmatrix}\frac34+\frac14 & -\frac{\sqrt3}4+\frac{\sqrt3}4\\ -\frac{\sqrt3}4+\frac{\sqrt3}4 & \frac14+\frac34\end{pmatrix}=I$: \rest{és ortogonal}. La 2a: l'element $(1,2)$ del producte és $-\frac{\sqrt3}4-\frac{\sqrt3}4=-\frac{\sqrt3}{2}\neq0$: \rest{no ho és}.
+  \task $|A|\cdot|A^t|=|A|^2=|I|=1$: \ $\res{|A|=\pm1}$
+  \task $C\cdot C^t=AB\,B^tA^t=A\,(BB^t)\,A^t=A\,I\,A^t=AA^t=I$.
+\end{tasks}
+
+\ex{3} A $|A|$ traiem $t+1$ de la 1a columna i fem $F_2-F_1$, $F_3-F_1$:\[|A|=(t+1)\begin{vmatrix}1 & t^2 & 2\\ 0 & t-2 & -t\\ 0 & 0 & 2\end{vmatrix}=2(t+1)(t-2)\]A $|B|$ traiem $t$ de la 1a columna i fem $F_3-F_1$:\[|B|=t\begin{vmatrix}1 & 3t & t^2-1\\ 0 & t & 2-t\\ 0 & t & 1\end{vmatrix}=t\,\big(t-t(2-t)\big)=t^2(t-1)\]$\left|AB^{-1}\right|=\dfrac{|A|}{|B|}=\res{\dfrac{2(t+1)(t-2)}{t^2(t-1)}}$, \ que no existeix si $B$ no té inversa: \ $\res{t=0\ \text{o}\ t=1}$
+
+
+% =====================================================
+\seccio{5}{Rang d'una matriu}
+
+\ex{1} \[A=\begin{pmatrix}1 & 2 & 0 & -1 & 3\\2 & 3 & 1 & 0 & 1\\0 & 1 & -1 & -2 & 5\\1 & 1 & 2 & 1 & 0\end{pmatrix}\xrightarrow[F_4'=F_4-F_1]{F_2'=F_2-2F_1}\begin{pmatrix}1 & 2 & 0 & -1 & 3\\0 & -1 & 1 & 2 & -5\\0 & 1 & -1 & -2 & 5\\0 & -1 & 2 & 2 & -3\end{pmatrix}\]\[\xrightarrow[F_4''=F_4'-F_2']{F_3'=F_3+F_2'}\begin{pmatrix}1 & 2 & 0 & -1 & 3\\0 & -1 & 1 & 2 & -5\\0 & 0 & 0 & 0 & 0\\0 & 0 & 1 & 0 & 2\end{pmatrix}\]\[\xrightarrow{F_3\leftrightarrow F_4}\begin{pmatrix}1 & 2 & 0 & -1 & 3\\0 & -1 & 1 & 2 & -5\\0 & 0 & 1 & 0 & 2\\0 & 0 & 0 & 0 & 0\end{pmatrix}\]Queden tres files no nul·les: \ $\res{\operatorname{rg}(A)=3}$ \ (de fet, $F_3=2F_1-F_2$).
+
+\ex{3} Menor de les tres primeres columnes: \ $\begin{vmatrix}m & 1 & 1\\ 1 & m & 1\\ 1 & 1 & m\end{vmatrix}=m^3-3m+2=(m-1)^2(m+2)$.\begin{tasks}(1)
+  \task Si $m\neq1$ i $m\neq-2$: \ hi ha un menor d'ordre 3 no nul: \ $\res{\operatorname{rg}(B)=3}$
+  \task Si $m=1$: \ $B=\begin{pmatrix}1 & 1 & 1 & 2\\ 1 & 1 & 1 & 1\\ 1 & 1 & 1 & 1\end{pmatrix}$, dues files iguals i $\begin{vmatrix}1 & 2\\ 1 & 1\end{vmatrix}=-1\neq0$: \ $\res{\operatorname{rg}(B)=2}$
+  \task Si $m=-2$: \ el menor de les columnes 1a, 2a i 4a és \ $\begin{vmatrix}-2 & 1 & 2\\1 & -2 & 1\\1 & 1 & 1\end{vmatrix}=12\neq0$: \ $\res{\operatorname{rg}(B)=3}$
+\end{tasks}
+
+\ex{3} Amb $b=1$ a l'exercici \ref{ex:lletres}: \ $|A|=(a+3)(a-1)^3$.\begin{tasks}(1)
+  \task Si $a\neq1$ i $a\neq-3$: \ $\res{\operatorname{rg}(A)=4}$
+  \task Si $a=1$: totes les files són $(1\ 1\ 1\ 1)$: \ $\res{\operatorname{rg}(A)=1}$
+  \task Si $a=-3$: \ $|A|=0$ i el menor \ $\begin{vmatrix}-3 & 1 & 1\\1 & -3 & 1\\1 & 1 & -3\end{vmatrix}=-16\neq0$ \ (és el primer determinant de l'exercici \ref{ex:lletres} amb $a=1$, $b=-4$): \ $\res{\operatorname{rg}(A)=3}$
+\end{tasks}
+
+\ex{3} \[M\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\begin{pmatrix}1 & -1 & 2 & 1\\ 0 & 3 & a-4 & 1\\ 0 & 3 & -1 & b-1\end{pmatrix}\xrightarrow{F_3''=F_3'-F_2'}\begin{pmatrix}1 & -1 & 2 & 1\\ 0 & 3 & a-4 & 1\\ 0 & 0 & 3-a & b-2\end{pmatrix}\]La 3a fila és nul·la només si $3-a=0$ i $b-2=0$: \ si $\res{a=3\ \text{i}\ b=2}$, \ $\operatorname{rg}(M)=2$; \ en qualsevol altre cas, \ $\res{\operatorname{rg}(M)=3}$
+
+\ex{2} Fem $F_2-F_3$: la 2a fila queda $(0\ 0\ 1)$, i desenvolupant per aquesta fila: \ $|A|=-\begin{vmatrix}a & a-1\\ a & 1\end{vmatrix}=-(a-a^2+a)=a(a-2)$.\begin{tasks}(1)
+  \task Si $a\neq0$ i $a\neq2$: \ $\res{\operatorname{rg}(A)=3}$
+  \task Si $a=0$: \ $A=\begin{pmatrix}0 & -1 & 0\\ 0 & 1 & 0\\ 0 & 1 & -1\end{pmatrix}$ i $\begin{vmatrix}1 & 0\\ 1 & -1\end{vmatrix}\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+  \task Si $a=2$: \ $A=\begin{pmatrix}2 & 1 & 2\\ 2 & 1 & 2\\ 2 & 1 & 1\end{pmatrix}$ i $\begin{vmatrix}1 & 2\\ 1 & 1\end{vmatrix}\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+\end{tasks}
+
+\ex{3} $\begin{vmatrix}1 & 3 & 1\\ m & 2-m & 1\\ m & -2 & 1\end{vmatrix}$ (columnes 1a, 2a i 4a) $=(m-1)(m-4)$.\begin{tasks}(1)
+  \task Si $m\neq1$ i $m\neq4$: \ $\res{\operatorname{rg}(A)=3}$
+  \task Si $m=1$: \ $A=\begin{pmatrix}1 & 3 & 4 & 1\\1 & 1 & 2 & 1\\1 & -2 & -1 & 1\end{pmatrix}$; els quatre menors d'ordre 3 són nuls ($F_3=\tfrac52F_2-\tfrac32F_1$) i $\begin{vmatrix}1 & 3\\ 1 & 1\end{vmatrix}\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+  \task Si $m=4$: \ $A=\begin{pmatrix}1 & 3 & 4 & 1\\4 & -2 & 2 & 1\\4 & -2 & 2 & 1\end{pmatrix}$, dues files iguals i $\begin{vmatrix}1 & 3\\ 4 & -2\end{vmatrix}\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\res{B=\begin{pmatrix}3-k & 0 & 0\\ 6 & -k & 0\\ -6 & 3 & 3-k\end{pmatrix}}$
+  \task És triangular: $|B|=-k(3-k)^2$. \ Si $k\neq0$ i $k\neq3$: \ $\res{\operatorname{rg}(B)=3}$. \ Si $k=0$: $B=\begin{pmatrix}3 & 0 & 0\\6 & 0 & 0\\-6 & 3 & 3\end{pmatrix}$, \ $\res{\operatorname{rg}(B)=2}$. \ Si $k=3$: $B=\begin{pmatrix}0 & 0 & 0\\6 & -3 & 0\\-6 & 3 & 0\end{pmatrix}$, \ $\res{\operatorname{rg}(B)=1}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $AB=\begin{pmatrix}2 & -a & 2\\ 7 & a & 4\\ 1+3a & a & 2a\end{pmatrix}$. Per Sarrus, $|AB|=4a^2-4a(1+3a)+14a-2a(1+3a)-8a+14a^2=0$ per a qualsevol $a$, i el menor $\begin{vmatrix}2 & 2\\ 7 & 4\end{vmatrix}=-6\neq0$: \ $\res{\operatorname{rg}(AB)=2}$ per a tot $a$.
+  \task $BA=\begin{pmatrix}a-1 & 1+2a\\ -1 & 3+2a\end{pmatrix}$, \ $|BA|=(a-1)(3+2a)+1+2a=2a^2+3a-2=(2a-1)(a+2)$. \ Si $a\neq\tfrac12$ i $a\neq-2$: \ $\res{\operatorname{rg}(BA)=2}$; \ si $a=\tfrac12$ o $a=-2$: \ $\res{\operatorname{rg}(BA)=1}$ (no és la matriu nul·la).
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A^2=\begin{pmatrix}1-2a & 0 & 0\\ -4a & 1 & 0\\ -4a & 2a & 1-2a\end{pmatrix}$ (fes el producte), que és $I$ si i només si \ $\res{a=0}$
+  \task $|B|^2=|2I|=2^3=8$: \ $\res{\det(B)=\pm2\sqrt2}$
+  \task $|A|=-1(-9+8)-2(0+4a)-2(0-3a)=1-2a$. \ Si $a\neq\tfrac12$: \ $\res{\operatorname{rg}(A)=3}$; \ si $a=\tfrac12$: \ $|A|=0$ i $\begin{vmatrix}-1 & 2\\ 0 & 3\end{vmatrix}\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Matriu inversa}
+
+\ex{2} \begin{tasks}(1)
+  \task $|A|=8\neq0$, per tant $A$ té inversa:\[\mathrm{Adj}(A)=\begin{pmatrix}2 & 3 & -1\\-2 & 5 & 1\\4 & -6 & 2\end{pmatrix},\qquad A^{-1}=\frac{1}{8}\big(\mathrm{Adj}(A)\big)^t=\frac{1}{8}\begin{pmatrix}2 & -2 & 4\\3 & 5 & -6\\-1 & 1 & 2\end{pmatrix}\](Comprova que $A\cdot A^{-1}=I$.)
+  \task $|B|=1$ per a tots els valors de $a$, $b$, $c$. \ $\mathrm{Adj}(B)=\begin{pmatrix}1 & 0 & 0\\ -a & 1 & 0\\ ac-b & -c & 1\end{pmatrix}$, \ \ $\res{B^{-1}=\begin{pmatrix}1 & -a & ac-b\\ 0 & 1 & -c\\ 0 & 0 & 1\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} $|A|=m^3$: té inversa si \ $\res{m\neq0}$. \ $\mathrm{Adj}(A)=\begin{pmatrix}m^2 & 0 & 0\\ -m & m^2 & 0\\ 1 & -m & m^2\end{pmatrix}$, \ i\[A^{-1}=\frac{1}{m^3}\begin{pmatrix}m^2 & -m & 1\\ 0 & m^2 & -m\\ 0 & 0 & m^2\end{pmatrix}=\boxed{\begin{pmatrix}\frac1m & -\frac1{m^2} & \frac1{m^3}\\[2pt] 0 & \frac1m & -\frac1{m^2}\\[2pt] 0 & 0 & \frac1m\end{pmatrix}}\]
+
+\ex{2} \begin{tasks}(1)
+  \task $|M|=1-k^2-k^2=1-2k^2$, que s'anul·la si $k^2=\frac12$: \ té inversa si \ $\res{k\neq\pm\tfrac{\sqrt2}{2}}$
+  \task $|M|=-1\neq0$, per tant $M$ té inversa:\[\mathrm{Adj}(M)=\begin{pmatrix}0 & -1 & 1\\-1 & 1 & -1\\1 & -1 & 0\end{pmatrix},\qquad M^{-1}=\frac{1}{-1}\big(\mathrm{Adj}(M)\big)^t=\begin{pmatrix}0 & 1 & -1\\1 & -1 & 1\\-1 & 1 & 0\end{pmatrix}\]
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $(I-N)(I+N+N^2)=I+N+N^2-N-N^2-N^3=I-N^3=I$ (i igual en l'altre ordre).
+  \task És $I-N$ amb $N=\begin{pmatrix}0 & 2 & 1\\0 & 0 & 3\\0 & 0 & 0\end{pmatrix}$, $N^2=\begin{pmatrix}0 & 0 & 6\\0 & 0 & 0\\0 & 0 & 0\end{pmatrix}$, $N^3=O$: \ $(I-N)^{-1}=I+N+N^2=\res{\begin{pmatrix}1 & 2 & 7\\0 & 1 & 3\\0 & 0 & 1\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A^2=\begin{pmatrix}2 & 1 & 1\\1 & 2 & 1\\1 & 1 & 2\end{pmatrix}=A+2I$
+  \task $A^2-A=2I\Rightarrow A\cdot\frac{A-I}{2}=I$: \ $\res{A^{-1}=\tfrac12(A-I)=\begin{pmatrix}-\tfrac{1}{2} & \tfrac{1}{2} & \tfrac{1}{2}\\\tfrac{1}{2} & -\tfrac{1}{2} & \tfrac{1}{2}\\\tfrac{1}{2} & \tfrac{1}{2} & -\tfrac{1}{2}\end{pmatrix}}$
+  \task $A^3=A^2+2A=\res{3A+2I}$; \ \ $A^4=3A^2+2A=\res{5A+6I}$
+  \task $A^2=5A+2I\Rightarrow A(A-5I)=2I$: \ $A^{-1}=\tfrac12(A-5I)=\res{\begin{pmatrix}-2 & 1\\\tfrac{3}{2} & -\tfrac{1}{2}\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $A^t\cdot(A^{-1})^t=(A^{-1}A)^t=I^t=I$: per tant, $(A^{-1})^t$ és la inversa de $A^t$.
+  \task $(A^{-1})^t=(A^t)^{-1}=A^{-1}$.
+  \task $Q\cdot Q^t=\frac19\begin{pmatrix}9 & 0 & 0\\0 & 9 & 0\\0 & 0 & 9\end{pmatrix}=I$. \ Aleshores $Q^{-1}=Q^t$, i com que $Q$ és simètrica: \ $\res{Q^{-1}=Q}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $|A|=6k+k^2-k^3=-k(k^2-k-6)=-k(k-3)(k+2)$: té inversa si \ $\res{k\neq0,\ k\neq3\ \text{i}\ k\neq-2}$
+  \task $|A|=6\neq0$, per tant $A$ té inversa:\[\mathrm{Adj}(A)=\begin{pmatrix}2 & 0 & -2\\1 & 3 & -1\\-1 & -3 & 7\end{pmatrix},\qquad A^{-1}=\frac{1}{6}\big(\mathrm{Adj}(A)\big)^t=\frac{1}{6}\begin{pmatrix}2 & 1 & -1\\0 & 3 & -3\\-2 & -1 & 7\end{pmatrix}\]
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $MA-NA=I\Rightarrow(M-N)\cdot A=I$: \ $A$ té inversa i \ $\res{A^{-1}=M-N}$
+  \task $A^{-1}=M-N=\res{\begin{pmatrix}1 & -1 & -1 & 2\\0 & 1 & 0 & -1\\0 & 0 & 1 & -1\\0 & 0 & 0 & 1\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $A-2I=\begin{pmatrix}0 & 1\\3 & 0\end{pmatrix}$, \ $(A-2I)^2=\begin{pmatrix}3 & 0\\0 & 3\end{pmatrix}=3I$
+  \task $A^2-4A+4I=3I\Rightarrow A^2-4A=-I\Rightarrow A(4I-A)=I$: \ $\res{A^{-1}=4I-A=\begin{pmatrix}2 & -1\\-3 & 2\end{pmatrix}=B}$
+  \task $X=A^{-1}B=B\cdot B=\res{\begin{pmatrix}7 & -4\\-12 & 7\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $(A+I)^2=A^2+2A+I=2A+I$; \ \ $(A+I)^3=(2A+I)(A+I)=2A^2+3A+I=3A+I$.
+  \task $(I+A)(I-A)=I-A+A-A^2=I$ (i igual en l'altre ordre).
+  \task $(I+A)X=A\Rightarrow X=(I+A)^{-1}A=(I-A)A=A-A^2$: \ $\res{X=A}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $|A|=1\cdot(1-\alpha)$: existeix si \ $\res{\alpha\neq1}$
+  \task $|A|=1\neq0$, per tant $A$ té inversa:\[\mathrm{Adj}(A)=\begin{pmatrix}1 & 0 & 0\\0 & 1 & 0\\-1 & -1 & 1\end{pmatrix},\qquad A^{-1}=\frac{1}{1}\big(\mathrm{Adj}(A)\big)^t=\begin{pmatrix}1 & 0 & -1\\0 & 1 & -1\\0 & 0 & 1\end{pmatrix}\]$A^2=\begin{pmatrix}1 & 0 & 2\\0 & 1 & 2\\0 & 0 & 1\end{pmatrix}$, \ $A^3=\begin{pmatrix}1 & 0 & 3\\0 & 1 & 3\\0 & 0 & 1\end{pmatrix}$, \ldots \ $\Rightarrow$ \ $A^n=\begin{pmatrix}1 & 0 & n\\ 0 & 1 & n\\ 0 & 0 & 1\end{pmatrix}$, \ \ $\res{A^{2025}=\begin{pmatrix}1 & 0 & 2025\\0 & 1 & 2025\\0 & 0 & 1\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $X=\begin{pmatrix}2 & 0\\0 & 4\end{pmatrix}$, \ $|X|=8\neq0$: \ $\res{X^{-1}=\begin{pmatrix}\tfrac{1}{2} & 0\\0 & \tfrac{1}{4}\end{pmatrix}}$.\par $Y=\begin{pmatrix}1 & 0 & 1\\0 & 4 & 0\\1 & 0 & 1\end{pmatrix}$ té dues files iguals: \ \rest{$Y$ no és invertible}.
+  \task $BM=\begin{pmatrix}a+c\\ b\\ a+c\end{pmatrix}=\begin{pmatrix}a\\ b\\ c\end{pmatrix}\Rightarrow c=0,\ a=0$: \ $\res{M=\begin{pmatrix}0\\ b\\ 0\end{pmatrix}}$, \ $b\in\mathbb{R}$.
+\end{tasks}
+
+\ex{3} $X^tX=\begin{pmatrix}4 & 7\\7 & 15\end{pmatrix}$, \ $|X^tX|=11$, \ $\left(X^tX\right)^{-1}=\frac1{11}\begin{pmatrix}15 & -7\\-7 & 4\end{pmatrix}$:\[A=I_4-\frac1{11}\begin{pmatrix}5 & 2 & 5 & -1\\2 & 3 & 2 & 4\\5 & 2 & 5 & -1\\-1 & 4 & -1 & 9\end{pmatrix}=\boxed{\frac1{11}\begin{pmatrix}6 & -2 & -5 & 1\\-2 & 8 & -2 & -4\\-5 & -2 & 6 & 1\\1 & -4 & 1 & 2\end{pmatrix}}\]En general, amb $P=X\left(X^tX\right)^{-1}X^t$: \ $P^2=X\left(X^tX\right)^{-1}\left(X^tX\right)\left(X^tX\right)^{-1}X^t=P$, \ i aleshores $(I-P)^2=I-2P+P^2=I-P$.
+
+
+% =====================================================
+\seccio{7}{Equacions i sistemes matricials}
+
+\ex{2} \label{ex:axb}$AX-2IX=-B\Rightarrow(A-2I)X=-B\Rightarrow X=-(A-2I)^{-1}B$.\[A-2I=\begin{pmatrix}1 & 1 & 0\\0 & 1 & 1\\1 & 0 & 0\end{pmatrix},\quad|A-2I|=1,\quad(A-2I)^{-1}=\begin{pmatrix}0 & 0 & 1\\1 & 0 & -1\\-1 & 1 & 1\end{pmatrix}\]\[X=-\begin{pmatrix}0 & 0 & 1\\1 & 0 & -1\\-1 & 1 & 1\end{pmatrix}\begin{pmatrix}1 & 0\\2 & 1\\0 & -1\end{pmatrix}=\boxed{\begin{pmatrix}0 & 1\\-1 & -1\\-1 & 0\end{pmatrix}}\]
+
+\ex{2} $X$ ha de ser $2\times3$. \ $X(A+I)=B\Rightarrow X=B(A+I)^{-1}$, \ amb $|A+I|=1$ i $(A+I)^{-1}=\begin{pmatrix}2 & -1 & 1\\-1 & 1 & -1\\0 & 0 & 1\end{pmatrix}$:\[X=\begin{pmatrix}1 & 2 & 1\\0 & 1 & -1\end{pmatrix}\begin{pmatrix}2 & -1 & 1\\-1 & 1 & -1\\0 & 0 & 1\end{pmatrix}=\boxed{\begin{pmatrix}0 & 1 & 0\\-1 & 1 & -2\end{pmatrix}}\]
+
+\ex{3} $X^{-1}=A^{-1}BA^{-1}$ \ i, invertint, \ $X=(A^{-1}BA^{-1})^{-1}=AB^{-1}A$. \ Amb $B^{-1}=\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}$:\[X=\begin{pmatrix}1 & 1\\1 & 2\end{pmatrix}\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}\begin{pmatrix}1 & 1\\1 & 2\end{pmatrix}=\boxed{\begin{pmatrix}1 & 2\\2 & 5\end{pmatrix}}\]
+
+\ex{3} $X=A^{-1}CB^{-1}$, amb $B^{-1}=\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}$:\[X=\begin{pmatrix}0 & 0 & 1\\1 & 0 & -1\\-1 & 1 & 1\end{pmatrix}\begin{pmatrix}2 & 2\\1 & 2\\2 & 1\end{pmatrix}\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}=\begin{pmatrix}2 & 1\\0 & 1\\1 & 1\end{pmatrix}\begin{pmatrix}1 & -1\\-1 & 2\end{pmatrix}=\boxed{\begin{pmatrix}1 & 0\\-1 & 2\\0 & 1\end{pmatrix}}\]
+
+\ex{3} $X$ ha de ser $2\times2$: \ $X=\begin{pmatrix}x & y\\ z & t\end{pmatrix}$, \ $AX=\begin{pmatrix}x & y\\ 2x+z & 2y+t\\ x+z & y+t\end{pmatrix}$.\begin{tasks}(1)
+  \task $x=1$, $y=2$, $2x+z=3\Rightarrow z=1$, $2y+t=5\Rightarrow t=1$; i la 3a fila també es compleix: $x+z=2$, $y+t=3$. \ $\res{X=\begin{pmatrix}1 & 2\\1 & 1\end{pmatrix}}$
+  \task Les dues primeres files donen la mateixa $X$, però aleshores $y+t=3\neq4$: \ \rest{no té solució}.
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $|A^2|=|A|^2$ i $|A|=m^2-m=m(m-1)$: hi ha solució única ($X=(A^2)^{-1}B$) si \ $\res{m\neq0\ \text{i}\ m\neq1}$
+  \task $A^2=\begin{pmatrix}2 & 0 & 3\\0 & 4 & 0\\3 & 0 & 5\end{pmatrix}$, \ $|A^2|=4$, \ $(A^2)^{-1}=\frac14\begin{pmatrix}20 & 0 & -12\\0 & 1 & 0\\-12 & 0 & 8\end{pmatrix}$:\[X=\frac14\begin{pmatrix}20 & 0 & -12\\0 & 1 & 0\\-12 & 0 & 8\end{pmatrix}\begin{pmatrix}-1\\4\\-2\end{pmatrix}=\boxed{\begin{pmatrix}1\\1\\-1\end{pmatrix}}\]
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $AX=\alpha X\iff(A-\alpha I)X=O$. Si $|A-\alpha I|\neq0$, multiplicant per $(A-\alpha I)^{-1}$ queda $X=O$. Per tant, cal \ $|A-\alpha I|=(4-\alpha)(3-\alpha)-2=\alpha^2-7\alpha+10=0$: \ $\res{\alpha=2;\ \alpha=5}$
+  \task $\alpha=5$: \ $\begin{pmatrix}-1 & 1\\ 2 & -2\end{pmatrix}X=O\Rightarrow y=x$: \ $\res{X=\begin{pmatrix}t\\ t\end{pmatrix}}$. \ \ $\alpha=2$: \ $\begin{pmatrix}2 & 1\\ 2 & 1\end{pmatrix}X=O\Rightarrow y=-2x$: \ $\res{X=\begin{pmatrix}t\\ -2t\end{pmatrix}}$, \ $t\in\mathbb{R}$.
+  \task $A\begin{pmatrix}1\\ 1\end{pmatrix}=5\begin{pmatrix}1\\ 1\end{pmatrix}\Rightarrow A^2\begin{pmatrix}1\\ 1\end{pmatrix}=5A\begin{pmatrix}1\\ 1\end{pmatrix}=5^2\begin{pmatrix}1\\ 1\end{pmatrix}\Rightarrow\dots\Rightarrow A^{100}\begin{pmatrix}1\\ 1\end{pmatrix}=\res{\begin{pmatrix}5^{100}\\ 5^{100}\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} Sumant les dues equacions: \ $AX+X=(A+I)X=\begin{pmatrix}2 & 6\\0 & 4\end{pmatrix}$. \ $A+I=\begin{pmatrix}2 & 2\\0 & 2\end{pmatrix}$, \ $(A+I)^{-1}=\begin{pmatrix}0{,}5 & -0{,}5\\0 & 0{,}5\end{pmatrix}$:\[X=\begin{pmatrix}0{,}5 & -0{,}5\\0 & 0{,}5\end{pmatrix}\begin{pmatrix}2 & 6\\0 & 4\end{pmatrix}=\boxed{\begin{pmatrix}1 & 1\\0 & 2\end{pmatrix}},\qquad Y=X-\begin{pmatrix}-1 & 1\\1 & 1\end{pmatrix}=\boxed{\begin{pmatrix}2 & 0\\-1 & 1\end{pmatrix}}\]
+
+\ex{2} \begin{tasks}(1)
+  \task $|A|=2$, $|B|=4$, i les matrius són d'ordre 2: \ $|A|^3\,|X|\,|B|=5^2\,|B|^2\,\dfrac{1}{|A|}\Rightarrow8\cdot|X|\cdot4=25\cdot16\cdot\tfrac12$: \ $\res{|X|=\tfrac{25}{4}}$
+  \task $Y=A^{-3}A^2B=A^{-1}B=\frac12\begin{pmatrix}4 & -2\\-3 & 2\end{pmatrix}\begin{pmatrix}3 & 1\\2 & 2\end{pmatrix}=\res{\begin{pmatrix}4 & 0\\-\tfrac{5}{2} & \tfrac{1}{2}\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} $\left\{\begin{aligned}X+2Y&=A\\ X-2Y&=A^{-1}\end{aligned}\right.\Rightarrow X=\tfrac12\left(A+A^{-1}\right),\ \ Y=\tfrac14\left(A-A^{-1}\right)$, \ amb $|A|=1$ i $A^{-1}=\begin{pmatrix}1 & -2 & 0\\0 & 1 & 0\\1 & -3 & 1\end{pmatrix}$:\[X=\boxed{\begin{pmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & -1 & 1\end{pmatrix}},\qquad Y=\boxed{\begin{pmatrix}0 & 1 & 0\\0 & 0 & 0\\-\tfrac{1}{2} & 1 & 0\end{pmatrix}}\]
+
+\ex{2} \begin{tasks}(1)
+  \task $AB=\begin{pmatrix}3-a & a-1 & 0\\ 0 & 1 & 0\\ 2-b & 0 & b-1\end{pmatrix}=I\iff3-a=1,\ a-1=0,\ 2-b=0,\ b-1=1$: \ $\res{a=1;\ b=2}$
+  \task Restant a la 2a equació el doble de la 1a: \ $\res{Y=\begin{pmatrix}2 & 1\\3 & 3\end{pmatrix}}$, \ i \ $X=\begin{pmatrix}1 & 0\\2 & 3\end{pmatrix}-Y=\res{\begin{pmatrix}-1 & -1\\-1 & 0\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $A^t+I=\begin{pmatrix}1 & 2 & 1\\2 & 4 & 3\\3 & 5 & 2\end{pmatrix}$, \ $|A^t+I|=1$: \ $\res{\left(A^t+I\right)^{-1}=\begin{pmatrix}-7 & 1 & 2\\5 & -1 & -1\\-2 & 1 & 0\end{pmatrix}}$
+  \task $A^tX+X=2B+I\Rightarrow(A^t+I)X=2B+I\Rightarrow X=(A^t+I)^{-1}(2B+I)$:\[X=\begin{pmatrix}-7 & 1 & 2\\5 & -1 & -1\\-2 & 1 & 0\end{pmatrix}\begin{pmatrix}-1 & 0 & 2\\0 & -1 & 2\\4 & 2 & -5\end{pmatrix}=\boxed{\begin{pmatrix}15 & 3 & -22\\-9 & -1 & 13\\2 & -1 & -2\end{pmatrix}}\]
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $X-I=A^{-1}CB^{-1}$: \ $\res{X=A^{-1}CB^{-1}+I}$
+  \task $A(X-I)$ ha de tenir sentit, així que $X$ és $2\times2$; i $(1\times2)\cdot B=1\times2$ obliga $B$ a ser $2\times2$. Amb $X=\begin{pmatrix}p & q\\ q & -p\end{pmatrix}$: \ $(1\ \ 1)\begin{pmatrix}p-1 & q\\ q & -p-1\end{pmatrix}=(p-1+q\ \ \ q-p-1)=(0\ \ 0)$ \ $\Rightarrow$ \ $q=1$, $p=0$: \ $\res{X=\begin{pmatrix}0 & 1\\ 1 & 0\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $|A|=1+(\lambda-2)(\lambda-1)-\lambda=\lambda^2-4\lambda+3=(\lambda-1)(\lambda-3)$. \ Si $\lambda\neq1$ i $\lambda\neq3$: \ $\res{\operatorname{rg}(A)=3}$; \ si $\lambda=1$ o $\lambda=3$: \ $|A|=0$ i $\begin{vmatrix}0 & 1\\ 1 & 0\end{vmatrix}\neq0$: \ $\res{\operatorname{rg}(A)=2}$
+  \task $AX=A^2-I\Rightarrow X=A^{-1}(A^2-I)=A-A^{-1}$. Amb $A=\begin{pmatrix}1 & 0 & 2\\0 & 1 & 1\\1 & 0 & 1\end{pmatrix}$, \ $A^{-1}=\begin{pmatrix}-1 & 0 & 2\\-1 & 1 & 1\\1 & 0 & -1\end{pmatrix}$: \ $X=\res{\begin{pmatrix}2 & 0 & 0\\1 & 0 & 0\\0 & 0 & 2\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $(A+I)X=B$, \ $|A+I|=8$, \ $(A+I)^{-1}=\frac18\begin{pmatrix}4 & 2 & -2\\0 & 4 & 0\\0 & -4 & 4\end{pmatrix}$: \ $X=\res{\begin{pmatrix}\tfrac{3}{2} & 0\\\tfrac{1}{2} & 0\\-1 & -1\end{pmatrix}}$
+  \task $|C|=1$ (triangular): \ $|(2C)^{100}|=\left(2^3\cdot1\right)^{100}=\res{2^{300}}$
+  \task $|A|=1\neq0$: \rest{$A$ és invertible}. $AB$ és $3\times2$, \rest{no és quadrada} i no pot tenir inversa.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task De $QAP=I$: \ $A=Q^{-1}P^{-1}$. Aleshores \ $APQA=Q^{-1}P^{-1}PQ\,Q^{-1}P^{-1}=Q^{-1}P^{-1}$.
+  \task $A=Q^{-1}P^{-1}=(PQ)^{-1}$, \ $PQ=\begin{pmatrix}0 & 2\\1 & -2\end{pmatrix}$: \ $\res{A=\begin{pmatrix}1 & 1\\\tfrac{1}{2} & 0\end{pmatrix}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $AB-A=-I\Rightarrow A(I-B)=I$: \ $\res{A^{-1}=I-B}$
+  \task $x=A^{-1}b=(I-B)\,b=\begin{pmatrix}1 & -1 & -2\\-1 & 0 & -1\\0 & -3 & 0\end{pmatrix}\begin{pmatrix}0\\1\\0\end{pmatrix}=\res{\begin{pmatrix}-1\\0\\-3\end{pmatrix}}$ \ (no cal calcular $A$).
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $|A|=a$. \ Si $a\neq0$: \ $\res{\operatorname{rg}(A)=3}$; \ si $a=0$: \ $\res{\operatorname{rg}(A)=2}$
+  \task $A^2=\begin{pmatrix}1 & 2a & 0\\ 0 & 1 & 0\\ 0 & 0 & a^2\end{pmatrix}$, \ $A^3=\begin{pmatrix}1 & 3a & 0\\ 0 & 1 & 0\\ 0 & 0 & a^3\end{pmatrix}$, \ldots \ $\Rightarrow$ \ $\res{A^{100}=\begin{pmatrix}1 & 100a & 0\\ 0 & 1 & 0\\ 0 & 0 & a^{100}\end{pmatrix}}$
+  \task $X=A^{-1}CA$, amb $A=\begin{pmatrix}1 & -1 & 0\\0 & 1 & 0\\0 & 0 & -1\end{pmatrix}$ \ i \ $A^{-1}=\begin{pmatrix}1 & 1 & 0\\0 & 1 & 0\\0 & 0 & -1\end{pmatrix}$: \ $X=\res{\begin{pmatrix}2 & 0 & -1\\0 & 0 & 1\\0 & 2 & -2\end{pmatrix}}$
+\end{tasks}
+
+\ex{3} $AX=\tfrac14A^2-B\Rightarrow X=A^{-1}\left(\tfrac14A^2-B\right)$. \ $|A|=16$, \ $A^{-1}=\frac1{16}\begin{pmatrix}8 & -8 & 0\\0 & 8 & 0\\-4 & 4 & 4\end{pmatrix}$, \ $\tfrac14A^2-B=\begin{pmatrix}4 & -2 & 6\\2 & 0 & 2\\14 & -2 & 12\end{pmatrix}$:\[X=\frac1{16}\begin{pmatrix}8 & -8 & 0\\0 & 8 & 0\\-4 & 4 & 4\end{pmatrix}\begin{pmatrix}4 & -2 & 6\\2 & 0 & 2\\14 & -2 & 12\end{pmatrix}=\boxed{\begin{pmatrix}1 & -1 & 2\\1 & 0 & 1\\3 & 0 & 2\end{pmatrix}}\]
+
+\ex{3} \begin{tasks}(1)
+  \task $A^2=\begin{pmatrix}1 & 2/8 & 2/8\\ 0 & 1 & 0\\ 0 & 0 & 1\end{pmatrix}$, \ldots, \ $A^n=\begin{pmatrix}1 & n/8 & n/8\\ 0 & 1 & 0\\ 0 & 0 & 1\end{pmatrix}$: \ $\res{A^{2024}=\begin{pmatrix}1 & 253 & 253\\0 & 1 & 0\\0 & 0 & 1\end{pmatrix}}$
+  \task $|A|=1$. \ $A^2XA=-I\Rightarrow X=-A^{-2}A^{-1}=-\left(A^{-1}\right)^3$. Com que $A^{-1}=\begin{pmatrix}1 & -\tfrac{1}{8} & -\tfrac{1}{8}\\0 & 1 & 0\\0 & 0 & 1\end{pmatrix}$ (canviant $n$ per $-n$ en la fórmula de $A^n$), \ $\left(A^{-1}\right)^3=\begin{pmatrix}1 & -\tfrac{3}{8} & -\tfrac{3}{8}\\0 & 1 & 0\\0 & 0 & 1\end{pmatrix}$ \ i \ $X=\res{\begin{pmatrix}-1 & \tfrac{3}{8} & \tfrac{3}{8}\\0 & -1 & 0\\0 & 0 & -1\end{pmatrix}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{8}{Problemes i qüestions}
+
+\ex{2} \begin{tasks}(1)
+  \task $M=\begin{pmatrix}0 & 1 & 1 & 0\\0 & 0 & 1 & 1\\0 & 0 & 0 & 1\\1 & 0 & 0 & 0\end{pmatrix}$
+  \task $M^2=\begin{pmatrix}0 & 0 & 1 & 2\\1 & 0 & 0 & 1\\1 & 0 & 0 & 0\\0 & 1 & 1 & 0\end{pmatrix}$: el nombre de victòries indirectes de $i$ sobre $j$ (a través d'un tercer equip).
+  \task $M+M^2=\begin{pmatrix}0 & 1 & 2 & 2\\1 & 0 & 1 & 2\\1 & 0 & 0 & 1\\1 & 1 & 1 & 0\end{pmatrix}$; sumant cada fila: A: 5, B: 4, C: 2, D: 3. \ Classificació: \rest{1r A, 2n B, 3r D, 4t C}.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $d=(I-A)x=\begin{pmatrix}0{,}8 & -0{,}3\\-0{,}4 & 0{,}9\end{pmatrix}\begin{pmatrix}100\\80\end{pmatrix}=\begin{pmatrix}56\\32\end{pmatrix}$: \rest{56 i 32 milions}.
+  \task $|I-A|=0{,}6$, \ $(I-A)^{-1}=\frac{1}{0{,}6}\begin{pmatrix}0{,}9 & 0{,}3\\0{,}4 & 0{,}8\end{pmatrix}$, \ $x=(I-A)^{-1}d=\frac{1}{0{,}6}\begin{pmatrix}60\\48\end{pmatrix}=\begin{pmatrix}100\\80\end{pmatrix}$: \rest{100 i 80 milions} (coherent amb l'apartat anterior).
+\end{tasks}
+
+\ex{2} $|H|=1$, \ $H^{-1}=\begin{pmatrix}2 & -1\\-3 & 2\end{pmatrix}$. \ $H^{-1}\begin{pmatrix}27\\ 41\end{pmatrix}=\begin{pmatrix}13\\ 1\end{pmatrix}$, \ $H^{-1}\begin{pmatrix}45\\ 70\end{pmatrix}=\begin{pmatrix}20\\ 5\end{pmatrix}$, \ $H^{-1}\begin{pmatrix}38\\ 57\end{pmatrix}=\begin{pmatrix}19\\ 0\end{pmatrix}$: 13, 1, 20, 5, 19, 0 \ $\to$ \ \rest{MATES}
+
+\ex{3} \begin{tasks}(1)
+  \task \rest{Falsa}: la matriu $R=\begin{pmatrix}2 & -4\\1 & -2\end{pmatrix}$ de l'exercici \ref{ex:idem} compleix $R\cdot R=O$ i $R\neq O$.
+  \task \rest{Vertadera}: multiplicant per $A^{-1}$ per l'esquerra, $A^{-1}AB=A^{-1}AC\Rightarrow B=C$.
+  \task \rest{Falsa}: amb $A=B=I_2$, \ $|A+B|=|2I_2|=4$, però $|A|+|B|=2$.
+  \task \rest{Vertadera}: $A$ té inversa; multiplicant $A^2=A$ per $A^{-1}$: $A=I$.
+  \task \rest{Vertadera}: $|A|\cdot|B|=|I|=1$, així que $|A|\neq0$ i existeix $A^{-1}$. Aleshores $B=A^{-1}AB=A^{-1}$, i $BA=A^{-1}A=I$.
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $M^2=\begin{pmatrix}1 & 0 & 0\\2 & 1 & 0\\2 & 0 & 1\end{pmatrix}$, \ $M^2\begin{pmatrix}100\\124\\234\end{pmatrix}=\begin{pmatrix}100\\324\\434\end{pmatrix}$: \ \rest{100 de A, 324 de B i 434 de C}.
+  \task Cada mes es multiplica per $M$: \ $X_1=MX_0$, \ $X_2=MX_1=M^2X_0$, \ldots, \ i si $X_k=M^kX_0$, aleshores $X_{k+1}=MX_k=M^{k+1}X_0$.
+  \task $\res{M^k=\begin{pmatrix}1 & 0 & 0\\ k & 1 & 0\\ k & 0 & 1\end{pmatrix}}$: \ $a_k=a_0=100$ es manté, i $b_k=124+100k$, $c_k=234+100k$: les espècies B i C \rest{augmenten 100 exemplars cada mes}.
+\end{tasks}
+
+
+\end{document}
