@@ -273,6 +273,13 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: "materials/2batx-mii/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-29" },
           { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-mii/casio-u2-sistemes.html", date: "2026-10-23" }
         ]
+      },
+      {
+        ill: "geometria", block: "geo",
+        title: { va: "Vectors i aplicacions. Rectes, plans i feixos de plans", es: "Vectores y aplicaciones. Rectas, planos y haces de planos", en: "Vectors and applications. Lines, planes and pencils of planes" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Productes escalar, vectorial i mixt, equacions de rectes i plans, posicions relatives, tres plans i feixos", es: "Productos escalar, vectorial y mixto, ecuaciones de rectas y planos, posiciones relativas, tres planos y haces", en: "Dot, cross and triple products, equations of lines and planes, relative positions, three planes and pencils" }, url: "materials/2batx-mii/t3-vectors-rectes-plans.html", date: "2026-10-29" }
+        ]
       }
     ]
   },

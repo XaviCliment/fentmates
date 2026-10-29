@@ -48,6 +48,7 @@
     if (course === "1eso") return "ari";
     if (course === "3eso") return n >= 4 ? "alg" : "ari";
     if (course === "2batx-ccss") return n === 3 ? "pl" : n >= 4 && n <= 8 ? "an" : n >= 9 ? "pr" : "alg";
+    if (course === "2batx-mii" && (n === 3 || n === 4)) return "geo";
     if (/^2batx/.test(course)) return "alg";
     if (course === "1batx-mi") return n === 5 ? "geo" : "all";
     return "all";
