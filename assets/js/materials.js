@@ -196,13 +196,26 @@ window.LEVELS = {
     color: "#9b1c1c",
     symbol: "sin",
     stage: "batx",
+    cards: true,
     name: { va: "1r Batxillerat MI", es: "1º Bachillerato MI", en: "1st Baccalaureate Maths I" },
     desc: {
       va: "Nombres reals i complexos, trigonometria, vectors, geometria analítica i anàlisi.",
       es: "Números reales y complejos, trigonometría, vectores, geometría analítica y análisis.",
       en: "Real and complex numbers, trigonometry, vectors, coordinate geometry and calculus."
     },
-    units: []
+    units: [
+      {
+        // num: la unitat 5 del departament (les unitats anteriors encara no estan penjades)
+        num: "5",
+        ill: "geometria", block: "geo",
+        title: { va: "Geometria analítica en el pla", es: "Geometría analítica en el plano", en: "Coordinate geometry in the plane" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Vectors, producte escalar, equacions de la recta, posicions relatives, angles i distàncies", es: "Vectores, producto escalar, ecuaciones de la recta, posiciones relativas, ángulos y distancias", en: "Vectors, dot product, equations of a line, relative positions, angles and distances" }, url: "materials/1batx-mi/t5-geometria-pla.html", date: "2026-10-29" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 61 exercicis, dels vectors als problemes mètrics", es: "PDF · 61 ejercicios, de los vectores a los problemas métricos", en: "PDF · 61 exercises, from vectors to metric problems" }, url: "materials/1batx-mi/t5-fitxa-exercicis.pdf", download: true, date: "2026-10-29" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 61 exercicis", es: "PDF · Soluciones de los 61 ejercicios", en: "PDF · Solutions to all 61 exercises" }, url: "materials/1batx-mi/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-29" }
+        ]
+      }
+    ]
   },
 
   "1batx-ccss": {

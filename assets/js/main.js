@@ -277,7 +277,7 @@
     var soon = !L.units.length;
     var tag = soon
       ? '<span class="tag">' + esc(t("level.comingsoon")) + "</span>"
-      : '<span class="tag">' + L.units.filter(function (u) { return !u.num; }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>";
+      : '<span class="tag">' + L.units.filter(function (u) { return !u.num || /^\d+$/.test(u.num); }).length + " " + esc(t("level.units")) + " · " + n + " " + esc(t("level.items")) + "</span>";
     return '<a class="level-card' + (soon ? " soon" : "") + '" href="' + k + '.html" style="--c:' + L.color + '">' +
       '<span class="symbol" aria-hidden="true">' + esc(L.symbol || "") + "</span>" +
       '<span class="tags">' + tag + "</span>" +

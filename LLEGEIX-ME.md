@@ -128,7 +128,7 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `2batx-ccss-t1`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7`, `2batx-ccss-t8`, `2batx-ccss-t9` i `2batx-ccss-t10` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `1batx-mi-t5`, `2batx-ccss-t1`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7`, `2batx-ccss-t8`, `2batx-ccss-t9` i `2batx-ccss-t10` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
@@ -185,6 +185,16 @@ curs 2025-26); els ginys llegeixen els valors d'aquestes taules, de manera que e
 
 ```
 python3 _eines/apunts/2batx-ccss-t10/build.py
+```
+
+Els apunts de 1r Batx MI de la unitat 5 (Geometria analítica en el pla, carpeta `1batx-mi-t5`) reaprofiten l'estil de les
+unitats 4 i 9 de 2n Batx CCSS. Els ginys dibuixen un pla cartesià amb punts que es poden arrossegar (vectors, rectes, angles,
+distàncies i el laboratori del triangle) i calculen amb fraccions exactes. A `materials.js` la unitat porta `num: "5"`, el número
+dels apunts del departament (les unitats 1-4 encara no hi són). La fitxa (`_eines/fonts-latex/1batx-mi-t5/genera.py`) comprova
+totes les solucions amb fraccions i en dibuixa algunes figures:
+
+```
+python3 _eines/apunts/1batx-mi-t5/build.py
 ```
 
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
