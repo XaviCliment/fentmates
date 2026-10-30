@@ -366,6 +366,7 @@
     var title = (tx(it.title) + " " + tx(it.desc)).toLowerCase();
     if (it.type === "notes" && /resum|formulari|resumen|summary/.test(title)) return ill("items", "book");
     // el dibuix «PAU» només per als exercicis tipus PAU (no per a les fitxes que en citen alguns)
+    if (/solucions|soluciones|solutions/i.test(tx(it.title))) return ill("items", "solutions");
     if (it.type === "exercises") return ill("items", /pau/i.test(tx(it.title)) ? "pau" : "worksheet");
     return ill("items", it.type) || ill("items", "resource");
   }

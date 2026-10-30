@@ -145,9 +145,11 @@ window.LEVELS = {
       },
       {
         ill: "polinomis", block: "alg",
-        title: { va: "Polinomis", es: "Polinomios", en: "Polynomials" },
+        title: { va: "Àlgebra", es: "Álgebra", en: "Algebra" },
         items: [
-          { type: "notes", title: { va: "Apunts de la unitat", es: "Apuntes de la unidad", en: "Unit notes" }, url: "" },
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t4-polinomis.html", date: "2026-10-30" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 65 exercicis graduats per nivells de dificultat", es: "PDF · 65 ejercicios graduados por niveles de dificultad", en: "PDF · 65 exercises graded by difficulty" }, url: "materials/3eso/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-30" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 65 exercicis", es: "PDF · Soluciones de los 65 ejercicios", en: "PDF · Solutions to all 65 exercises" }, url: "materials/3eso/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-30" },
           { type: "resource", date: "2026-10-15", title: { va: "GeoGebra: identitats notables $(a+b)^2$", es: "GeoGebra: identidades notables $(a+b)^2$", en: "GeoGebra: special products $(a+b)^2$" }, url: "https://www.geogebra.org" },
           { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/3eso/casio-u4-polinomis.html" }
         ]
@@ -325,7 +327,7 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t2-sistemes-equacions.html", date: "2026-10-18" },
           { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "68 exercicis de la PAU valenciana (1994–2026)", es: "68 ejercicios de la PAU valenciana (1994–2026)", en: "68 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u2-sistemes.html" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 60 exercicis, 42 de la PAU d'altres comunitats", es: "PDF · 60 ejercicios, 42 de la PAU de otras comunidades", en: "PDF · 60 exercises, 42 from other regions' PAU exams" }, url: "materials/2batx-ccss/t2-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: "materials/2batx-ccss/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-26" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: "materials/2batx-ccss/t2-fitxa-solucions.pdf", download: true, date: "2026-10-26" },
           { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-ccss/casio-u2-sistemes.html" }
         ]
       },
