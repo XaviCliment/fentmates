@@ -761,7 +761,7 @@
       Q.forEach(function (q) { if (q.ind) return; var v = qVal(q, X); h += "<div>" + tex(qT(q) + "=" + (v ? texP(v) : "\\text{—}")) + "</div>"; });
       var pa = dot([1, 1, 0, 0], X), pb = dot([0, 1, 1, 0], X), ind = fEq(fMul(pa, pb), X[1]);
       h += "<h4>" + t3("Relació entre A i B", "Relación entre A y B", "How A and B are related") + "</h4>";
-      h += "<p>" + tex("P(A)\\cdot P(B)=" + texP(fMul(pa, pb)) + (ind ? "=" : "\\neq") + "P(A\\cap B)") + "</p>";
+      h += "<p>" + tex("P(A)\\cdot P(B)=" + texP(fMul(pa, pb)) + (ind ? "=" : "\\neq ") + "P(A\\cap B)") + "</p>";
       h += "<p><span class='chk " + (ind ? "ok" : "no") + "'>" + (ind ? t3("Independents", "Independientes", "Independent") : t3("Dependents", "Dependientes", "Dependent")) + "</span> ";
       h += "<span class='chk " + (X[1].n === 0 ? "ok" : "no") + "'>" + (X[1].n === 0 ? t3("Incompatibles", "Incompatibles", "Mutually exclusive") : t3("Compatibles", "Compatibles", "Compatible")) + "</span></p>";
       out.innerHTML = h;

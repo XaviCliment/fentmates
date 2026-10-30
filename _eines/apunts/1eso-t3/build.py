@@ -225,7 +225,7 @@ s2 += level(2, 3,
   prob(L(r"Ordena de major a menor: \(\ -12,\ 5,\ -3,\ 0,\ -20,\ 8,\ -1\).", r"Ordena de mayor a menor: \(\ -12,\ 5,\ -3,\ 0,\ -20,\ 8,\ -1\).", r"Order from largest to smallest: \(\ -12,\ 5,\ -3,\ 0,\ -20,\ 8,\ -1\)."),
        P(r"Primer els positius (el més gran davant), després el zero i després els negatius (del més pròxim al zero al més allunyat):", r"Primero los positivos (el mayor delante), después el cero y después los negativos (del más cercano al cero al más alejado):", r"First the positives (largest first), then zero, then the negatives (from closest to zero to furthest):"),
        r'\[\boxed{8>5>0>-1>-3>-12>-20}\]'),
-  prob(L(r"Escriu tots els enters \(x\) que complixen \(-6<x<-2\).", r"Escribe todos los enteros \(x\) que cumplen \(-6<x<-2\).", r"Write all the integers \(x\) such that \(-6<x<-2\)."),
+  prob(L(r"Escriu tots els enters \(x\) que complixen \(-6\lt x\lt -2\).", r"Escribe todos los enteros \(x\) que cumplen \(-6\lt x\lt -2\).", r"Write all the integers \(x\) such that \(-6\lt x\lt -2\)."),
        P(r"Són els que estan a la dreta de \(-6\) i a l'esquerra de \(-2\) (sense incloure'ls):", r"Son los que están a la derecha de \(-6\) y a la izquierda de \(-2\) (sin incluirlos):", r"They are the ones to the right of \(-6\) and to the left of \(-2\) (not including them):"),
        r'\[\boxed{-5,\ -4,\ -3}\]'))
 s2 += level(3, 5,

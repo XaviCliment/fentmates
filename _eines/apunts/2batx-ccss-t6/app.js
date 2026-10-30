@@ -713,7 +713,7 @@
     var Dl = [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }];
     if (window.renderMathInElement) {
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
-      document.querySelectorAll(".widget .wt, .widget label, .widget .ttl, .widget .legend, #w-lab label, #w-lab .legend").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
+      document.querySelectorAll(".widget .wt, .widget label, .widget .ttl, .widget .legend, #w-lab label, #w-lab .legend, #w-lab > p, .pw-in .r > span").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
     var all = [wChrome, wSteps, wNav, wFigs, function wTan() { wTN("w-tan", false); }, wPar, function wNorm() { wTN("w-norm", true); }, wMono, wExt, wAbs, wOpt, wBuild, wLab, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
