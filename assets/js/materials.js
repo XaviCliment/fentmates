@@ -172,6 +172,24 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis graduats per nivells de dificultat", es: "PDF · 63 ejercicios graduados por niveles de dificultad", en: "PDF · 63 exercises graded by difficulty" }, url: "materials/3eso/t6-fitxa-exercicis.pdf", download: true, date: "2026-10-30" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: "materials/3eso/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-30" }
         ]
+      },
+      {
+        ill: "grafiques", block: "an",
+        title: { va: "Funcions", es: "Funciones", en: "Functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t7-funcions.html", date: "2026-10-30" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 60 exercicis graduats per nivells de dificultat", es: "PDF · 60 ejercicios graduados por niveles de dificultad", en: "PDF · 60 exercises graded by difficulty" }, url: "materials/3eso/t7-fitxa-exercicis.pdf", download: true, date: "2026-10-30" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: "materials/3eso/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-30" }
+        ]
+      },
+      {
+        ill: "lineal", block: "an",
+        title: { va: "Funció lineal i quadràtica", es: "Función lineal y cuadrática", en: "Linear and quadratic functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t8-funcio-lineal-quadratica.html", date: "2026-10-30" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 62 exercicis graduats per nivells de dificultat", es: "PDF · 62 ejercicios graduados por niveles de dificultad", en: "PDF · 62 exercises graded by difficulty" }, url: "materials/3eso/t8-fitxa-exercicis.pdf", download: true, date: "2026-10-30" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 62 exercicis", es: "PDF · Soluciones de los 62 ejercicios", en: "PDF · Solutions to all 62 exercises" }, url: "materials/3eso/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-30" }
+        ]
       }
     ]
   },
