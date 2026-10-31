@@ -199,6 +199,24 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 71 exercicis graduats per nivells de dificultat", es: "PDF · 71 ejercicios graduados por niveles de dificultad", en: "PDF · 71 exercises graded by difficulty" }, url: "materials/3eso/t9-fitxa-exercicis.pdf", download: true, date: "2026-10-31" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 71 exercicis", es: "PDF · Soluciones de los 71 ejercicios", en: "PDF · Solutions to all 71 exercises" }, url: "materials/3eso/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-31" }
         ]
+      },
+      {
+        ill: "tales", block: "geo",
+        title: { va: "Proporcionalitat. Teorema de Tales", es: "Proporcionalidad. Teorema de Tales", en: "Proportionality. Thales' theorem" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t10-tales-semblanca.html", date: "2026-10-31" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 58 exercicis graduats per nivells de dificultat", es: "PDF · 58 ejercicios graduados por niveles de dificultad", en: "PDF · 58 exercises graded by difficulty" }, url: "materials/3eso/t10-fitxa-exercicis.pdf", download: true, date: "2026-10-31" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 58 exercicis", es: "PDF · Soluciones de los 58 ejercicios", en: "PDF · Solutions to all 58 exercises" }, url: "materials/3eso/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-31" }
+        ]
+      },
+      {
+        ill: "cossos", block: "geo",
+        title: { va: "Cossos geomètrics", es: "Cuerpos geométricos", en: "Solids" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t11-cossos-geometrics.html", date: "2026-10-31" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis graduats per nivells de dificultat", es: "PDF · 63 ejercicios graduados por niveles de dificultad", en: "PDF · 63 exercises graded by difficulty" }, url: "materials/3eso/t11-fitxa-exercicis.pdf", download: true, date: "2026-10-31" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: "materials/3eso/t11-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-31" }
+        ]
       }
     ]
   },

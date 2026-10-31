@@ -96,7 +96,7 @@ def G(items, W=240, pad=16, cap=None, maxh=None):
     xs, ys = [], []
     for it in items:
         k = it[0]
-        if k == 'poly': xs += [p[0] for p in it[1]]; ys += [p[1] for p in it[1]]
+        if k in ('poly', 'pl'): xs += [p[0] for p in it[1]]; ys += [p[1] for p in it[1]]
         elif k == 'seg': xs += [it[1][0], it[2][0]]; ys += [it[1][1], it[2][1]]
         elif k == 'circ': C, r = it[1], it[2]; xs += [C[0] - r, C[0] + r]; ys += [C[1] - r, C[1] + r]
         elif k in ('sect', 'arc'):
@@ -121,6 +121,8 @@ def G(items, W=240, pad=16, cap=None, maxh=None):
         k = it[0]
         if k == 'poly':
             out += f'<polygon class="gp {it[2] if len(it) > 2 else ""}" points="' + ' '.join(f'{X(p[0])},{Y(p[1])}' for p in it[1]) + '"/>'
+        elif k == 'pl':
+            out += f'<polyline class="gs {it[2] if len(it) > 2 else ""}" fill="none" points="' + ' '.join(f'{X(p[0])},{Y(p[1])}' for p in it[1]) + '"/>'
         elif k == 'seg':
             out += f'<line class="gs {it[3] if len(it) > 3 else ""}" x1="{X(it[1][0])}" y1="{Y(it[1][1])}" x2="{X(it[2][0])}" y2="{Y(it[2][1])}"/>'
         elif k == 'ra':

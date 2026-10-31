@@ -83,7 +83,7 @@ s2 = box('def', L('El teorema de Tales', 'El teorema de Tales', "Thales' theorem
   P(r"Si diverses rectes <strong>paral·leles</strong> tallen dues rectes secants \(a\) i \(b\), els segments que determinen sobre una d'elles són <strong>proporcionals</strong> als segments corresponents de l'altra:",
     r"Si varias rectas <strong>paralelas</strong> cortan dos rectas secantes \(a\) y \(b\), los segmentos que determinan sobre una de ellas son <strong>proporcionales</strong> a los segmentos correspondientes de la otra:",
     r"If several <strong>parallel</strong> lines cut two lines \(a\) and \(b\), the segments they mark on one of them are <strong>proportional</strong> to the corresponding segments on the other:")
-  + figs(G(tales(2, 3, labs={'AB': '', 'BC': ''}), W=270, cap=L('Les rectes vermelles són paral·leles', 'Las rectas rojas son paralelas', 'The red lines are parallel')))
+  + figs(G(tales(2, 3, labs={'AB': '', 'BC': ''}), W=270, cap=L('Les rectes morades són paral·leles', 'Las rectas moradas son paralelas', 'The purple lines are parallel')))
   + D(r"\frac{\overline{AB}}{\overline{BC}}=\frac{\overline{A'B'}}{\overline{B'C'}}\qquad\text{%s}\qquad\frac{\overline{AB}}{\overline{A'B'}}=\frac{\overline{BC}}{\overline{B'C'}}=\frac{\overline{AC}}{\overline{A'C'}}" % Lt('o bé', 'o bien', 'or'))
   + P(r"Les dues formes són equivalents (són la mateixa proporció amb els mitjans intercanviats). Si les paral·leles estan a la mateixa distància entre elles, els segments de cada secant són iguals.",
       r"Las dos formas son equivalentes (son la misma proporción con los medios intercambiados). Si las paralelas están a la misma distancia entre sí, los segmentos de cada secante son iguales.",
@@ -112,7 +112,7 @@ ck(R(45, 10) / 6, 0.75)
 s2 += levels(
  [prob(L(r"Les rectes \(r\), \(s\) i \(t\) són paral·leles. Sobre la secant \(a\) determinen \(\overline{AB}=3\) cm i \(\overline{BC}=5\) cm, i sobre la secant \(b\), \(\overline{A'B'}=4{,}2\) cm. Calcula \(\overline{B'C'}\).", r"Las rectas \(r\), \(s\) y \(t\) son paralelas. Sobre la secante \(a\) determinan \(\overline{AB}=3\) cm y \(\overline{BC}=5\) cm, y sobre la secante \(b\), \(\overline{A'B'}=4{,}2\) cm. Calcula \(\overline{B'C'}\).", r"The lines \(r\), \(s\) and \(t\) are parallel. On line \(a\) they mark \(\overline{AB}=3\) cm and \(\overline{BC}=5\) cm, and on line \(b\), \(\overline{A'B'}=4.2\) cm. Find \(\overline{B'C'}\)."),
        D(r"\frac{3}{5}=\frac{4{,}2}{x}\ \Rightarrow\ 3x=21\ \Rightarrow\ x=\boxed{7\ \text{cm}}"))],
- [prob(L(r"En la figura, les rectes vermelles són paral·leles. Calcula \(x\) i \(\overline{A'C'}\).", r"En la figura, las rectas rojas son paralelas. Calcula \(x\) y \(\overline{A'C'}\).", r"In the figure the red lines are parallel. Find \(x\) and \(\overline{A'C'}\).")
+ [prob(L(r"En la figura, les rectes morades són paral·leles. Calcula \(x\) i \(\overline{A'C'}\).", r"En la figura, las rectas moradas son paralelas. Calcula \(x\) y \(\overline{A'C'}\).", r"In the figure the purple lines are parallel. Find \(x\) and \(\overline{A'C'}\).")
        + figs(G(tales(2.5, 3.5, labs={'AB': '5', 'BC': '7', 'A1B1': 'x', 'B1C1': '8,4'}, hot='A1B1'), W=270)),
        D(r"\frac{5}{7}=\frac{x}{8{,}4}\ \Rightarrow\ 7x=42\ \Rightarrow\ x=\boxed{6}"),
        D(r"\overline{A'C'}=6+8{,}4=\boxed{14{,}4}"))],

@@ -45,9 +45,9 @@ def drill(kind, va, es, en, mode='dec'):
     if mode == 'opts':
         row = f'<div class="wrow dopts"></div><div class="wrow"><button class="btn" type="button" data-a="new">↻ {L("Un altre", "Otro", "Another")}</button><span class="dscore"></span></div>'
     else:
-        hint = (L("Escriu un nombre. Si el resultat no és exacte, arrodoneix-lo a les centèsimes (2 decimals): 8,60 o 8.6. Fes servir la tecla π de la calculadora.",
-                  "Escribe un número. Si el resultado no es exacto, redondéalo a las centésimas (2 decimales): 8,60 o 8.6. Usa la tecla π de la calculadora.",
-                  "Type a number. If it isn't exact, round it to 2 decimal places: 8.60 or 8,6. Use the π key on your calculator.") if mode == 'dec'
+        hint = (L("Escriu un nombre. Si el resultat no és exacte, arrodoneix-lo a les centèsimes (2 decimals): 8,60 o 8.6.",
+                  "Escribe un número. Si el resultado no es exacto, redondéalo a las centésimas (2 decimales): 8,60 o 8.6.",
+                  "Type a number. If it isn't exact, round it to 2 decimal places: 8.60 or 8,6.") if mode == 'dec'
                 else L("Escriu el nombre exacte.", "Escribe el número exacto.", "Type the exact number."))
         row = (f'<div class="wrow"><label>{L("Resposta", "Respuesta", "Answer")} <input class="tin" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" autocapitalize="off" aria-label="resultat" placeholder="…"></label><button class="btn primary" type="button" data-a="check">{L("Comprova", "Comprobar", "Check")}</button><button class="btn" type="button" data-a="new">↻ {L("Un altre", "Otro", "Another")}</button><span class="dscore"></span></div>'
                + '<p class="hint-s">' + hint + '</p>')
