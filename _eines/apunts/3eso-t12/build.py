@@ -126,5 +126,5 @@ while os.path.basename(_d) != "_eines":
     _d = os.path.dirname(_d)
 _sp = _ilu.spec_from_file_location("aplica", os.path.join(_d, "tema", "aplica.py"))
 _tema = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_tema)
-_tema.VERSION = "20261031p12"
+_tema.VERSION = "20261101p12"
 _tema.aplica_fitxer(OUT)
