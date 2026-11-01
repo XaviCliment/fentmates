@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model d'examen · Sistemes d'equacions lineals · FentMates</title>
+<meta name="description" content="Model d'examen tipus PAU (Comunitat Valenciana) de la Unitat 2: Sistemes d'equacions lineals. Matemàtiques Aplicades a les CCSS II. Amb solucions i criteris de correcció.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --def: #1d4f73; --def-bg: #eef4f9; --prop: #3b4252; --prop-bg: #f3f4f7;
+  --ex: #a3203a; --ex-bg: #fbf0f2; --pr: #b7791f; --pr-bg: #fff8e8;
+  --hl-a: rgba(255, 122, 80, .22); --hl-b: rgba(43, 179, 163, .25); --hl-c: rgba(59, 130, 246, .2);
+  --plus: #2563eb; --minus: #dc2626; --ok: #15803d; --bad: #c2410c;
+  --radius: 16px; --header-h: 60px;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+  --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+  --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+    --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+    --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+  }
+}
+
+/* idiomes */
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Outfit", "Inter", system-ui, sans-serif; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 .5em; }
+a { color: inherit; }
+p { margin: .6em 0; }
+strong { font-weight: 650; }
+.katex { font-size: 1.08em; }
+.katex-display { margin: .9em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* capçalera */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .in { max-width: 1240px; margin: 0 auto; height: 100%; padding: 0 16px; display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.15rem; }
+.brand .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+.crumb { color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { text-decoration: none; } .crumb a:hover { color: var(--accent); }
+.spacer { flex: 1; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn svg { width: 18px; height: 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .1s; }
+html[data-embed="1"] .brand, html[data-embed="1"] .crumb { display: none; }
+
+/* portada */
+.hero { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; position: relative; overflow: hidden; }
+.hero::after { content: "|A|"; position: absolute; right: -10px; bottom: -60px; font: 800 15rem/1 "Outfit", sans-serif; color: rgba(255,255,255,.05); pointer-events: none; }
+.hero .in { max-width: 1240px; margin: 0 auto; padding: 44px 16px 40px; position: relative; z-index: 1; }
+.hero .kicker { display: inline-block; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 999px; font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 14px 0 8px; }
+.hero h1 .u { color: var(--yellow); }
+.hero p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: .82rem; padding: 4px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); }
+html[data-embed="1"] .hero .in { padding: 28px 16px 26px; }
+
+/* disposició */
+.layout { max-width: 1240px; margin: 0 auto; padding: 28px 16px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+.toc { position: sticky; top: calc(var(--header-h) + 18px); align-self: start; max-height: calc(100vh - var(--header-h) - 36px); overflow: auto; }
+.toc details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 10px 10px; }
+.toc summary { list-style: none; font: 700 .78rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 8px; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 10px; text-decoration: none; font-size: .9rem; color: var(--muted); line-height: 1.35; }
+.toc a:hover { background: var(--surface-2); color: var(--text); }
+.toc a.active { background: var(--surface-2); color: var(--text); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.toc a .n { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2em; color: var(--accent); }
+.toc a .ck { margin-left: auto; color: var(--ok); visibility: hidden; }
+.toc a.done .ck { visibility: visible; }
+.toc .meter { margin: 10px 8px 4px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.toc .meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.toc .meter-l { font-size: .78rem; color: var(--muted); padding: 2px 8px 0; }
+article { min-width: 0; max-width: 860px; }
+
+/* seccions */
+section.unit { margin-bottom: 56px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.sec-head .num { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 800 1.05rem "Outfit", sans-serif; }
+:root[data-theme="dark"] .sec-head .num { background: var(--accent); }
+.sec-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); flex: 1; min-width: 200px; }
+.done-btn { border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.done-btn[aria-pressed="true"] { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+h3.sub { font-size: 1.2rem; margin: 30px 0 10px; }
+
+/* caixes */
+.box { border-radius: var(--radius); margin: 18px 0; border: 1.5px solid; overflow: hidden; }
+.box > .bh { padding: 9px 18px; font: 700 1rem "Outfit", sans-serif; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+.box > .bb { padding: 6px 20px 14px; }
+.box .tag { font: 700 .68rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.box.def { border-color: var(--def); background: var(--def-bg); }
+.box.def > .bh { background: var(--def); color: #fff; }
+.box.prop { border-color: var(--prop); background: var(--prop-bg); }
+.box.prop > .bh { background: var(--prop); color: var(--bg); justify-content: center; text-transform: uppercase; font-size: .95rem; letter-spacing: .04em; }
+.box.ex { border-color: var(--ex); background: var(--ex-bg); }
+.box.ex > .bh { color: var(--ex); border-bottom: 1px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.box.pr { border-color: var(--pr); background: var(--pr-bg); }
+.box.pr > .bh { color: var(--pr); }
+.box.lab { border-color: var(--accent-2); background: var(--surface); box-shadow: var(--shadow); }
+.box.lab > .bh { background: linear-gradient(90deg, var(--accent-2), #3fc7b6); color: #fff; }
+:root[data-theme="dark"] .box.def > .bh, :root[data-theme="dark"] .box.prop > .bh { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .box.def > .bh, :root:not([data-theme="light"]) .box.prop > .bh { color: #0f1526; } }
+.box ul, .box ol { padding-left: 1.4em; }
+.box li { margin: .45em 0; }
+ol.alpha { list-style: lower-alpha; }
+.key { background: color-mix(in srgb, var(--yellow) 35%, transparent); padding: 0 4px; border-radius: 4px; }
+.u-line { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.note { border-left: 4px solid var(--accent); background: var(--surface); padding: 10px 16px; border-radius: 0 12px 12px 0; margin: 14px 0; }
+.ex-list > li { margin: 1.1em 0; }
+.ex-list > li::marker { font-weight: 700; color: var(--ex); }
+
+/* passos */
+.steps > .step { transition: opacity .3s, transform .3s; }
+.steps.js > .step.hidden { display: none; }
+.steps-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 14px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.step-count { font-size: .8rem; color: var(--muted); align-self: center; }
+
+/* solucions */
+details.sol { margin: 12px 0 4px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--pr); }
+details.sol > summary { cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--pr); list-style: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol > div { padding: 0 16px 12px; }
+
+/* taula COVID */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; }
+table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: .9rem; background: var(--surface); border-radius: 12px; overflow: hidden; }
+table.data th, table.data td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+table.data thead th, table.data tbody th { background: color-mix(in srgb, var(--yellow) 70%, var(--surface)); color: #1b2340; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+table.data tbody tr:hover td { background: var(--hl-a); }
+
+/* matrius interactives */
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--shadow); }
+.widget .wt { font: 700 .75rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-2); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+.wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.mx { display: inline-grid; gap: 2px 4px; padding: 6px 12px; position: relative; font-variant-numeric: tabular-nums; }
+.mx::before, .mx::after { content: ""; position: absolute; top: 0; bottom: 0; width: 9px; border: 2px solid var(--text); }
+.mx::before { left: 0; border-right: 0; border-radius: 10px 0 0 10px; }
+.mx::after { right: 0; border-left: 0; border-radius: 0 10px 10px 0; }
+.mx.det::before, .mx.det::after { width: 0; border-radius: 0; border-width: 0 0 0 2px; }
+.mx.det::after { border-width: 0 2px 0 0; }
+.mx .c { min-width: 2.3em; height: 2.1em; display: grid; place-items: center; border-radius: 8px; transition: background .15s, opacity .15s, color .15s; cursor: default; font-size: .98rem; }
+.mx .c.hot { cursor: pointer; }
+.mx .c.hot:hover { background: var(--surface-2); }
+.mx .c.on { background: var(--hl-a); font-weight: 700; }
+.mx .c.on2 { background: var(--hl-b); font-weight: 700; }
+.mx .c.off { opacity: .25; text-decoration: line-through; }
+.mx .c.plus { background: var(--hl-c); color: var(--plus); font-weight: 700; }
+.mx .c.minus { background: rgba(220, 38, 38, .14); color: var(--minus); font-weight: 700; }
+.mx .c.r1 { color: var(--r1); } .mx .c.r2 { color: var(--r2); } .mx .c.r3 { color: var(--r3); } .mx .c.r4 { color: var(--r4); }
+.mx .c.r1, .mx .c.r2, .mx .c.r3, .mx .c.r4 { font-weight: 700; }
+.mx input { width: 3.1em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.mx input.sel { outline: 2px solid var(--accent); background: var(--hl-a); }
+.mx input.off { opacity: .3; }
+.op { font: 600 1.25rem "Outfit", sans-serif; color: var(--muted); }
+.lbl { font: 700 1.05rem "Outfit", sans-serif; }
+.info { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 2.8em; font-size: .95rem; overflow-x: auto; }
+.terms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.terms button { font: 600 .82rem "Inter", sans-serif; border-radius: 999px; padding: 5px 11px; cursor: pointer; border: 1.5px solid; background: var(--surface); }
+.terms button.p { color: var(--plus); border-color: var(--plus); }
+.terms button.m { color: var(--minus); border-color: var(--minus); }
+.terms button.act.p { background: var(--plus); color: #fff; } .terms button.act.m { background: var(--minus); color: #fff; }
+input[type="range"] { accent-color: var(--accent); width: 180px; }
+select { font: 500 .9rem "Inter", sans-serif; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 .82rem "Inter", sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.lab-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.lab-out .card { background: var(--surface-2); border-radius: 12px; padding: 10px 14px; overflow-x: auto; }
+.lab-out .card h4 { margin: 0 0 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-family: "Inter", sans-serif; }
+
+/* SVG Sarrus */
+.sarrus-fig { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 10px 0; }
+.sarrus-fig svg { width: 210px; height: auto; }
+.sarrus-fig text { font: italic 600 15px "Times New Roman", serif; fill: var(--text); }
+.sarrus-fig text.sgn { font: 700 28px "Inter", sans-serif; font-style: normal; }
+
+/* qüestionari */
+.quiz .q { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 12px 0; }
+.quiz .q p.qt { font-weight: 600; margin: 0 0 8px; }
+.quiz .opts { display: grid; gap: 6px; }
+.quiz .opts button { text-align: left; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; padding: 8px 12px; font: 500 .95rem "Inter", sans-serif; cursor: pointer; }
+.quiz .opts button:hover:not([disabled]) { border-color: var(--accent); }
+.quiz .opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg)); }
+.quiz .opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg)); }
+.quiz .fb { font-size: .9rem; margin-top: 8px; color: var(--muted); }
+.score { font: 700 1.1rem "Outfit", sans-serif; margin-top: 12px; }
+
+footer.foot { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; text-align: center; padding: 24px 16px 40px; }
+html[data-embed="1"] footer.foot { display: none; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; box-shadow: var(--shadow); }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
+  .toc { position: static; max-height: none; }
+  .toc summary { cursor: pointer; }
+  .toc summary::after { content: "▾"; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .box > .bb { padding: 4px 14px 12px; }
+  .crumb { display: none; }
+  .widget { padding: 12px; }
+  .mx .c { min-width: 2em; }
+}
+@media print {
+  .topbar, .toc, .steps-ctl, .done-btn, .to-top, .widget, .quiz-sec, footer.foot { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .steps.js > .step.hidden { display: block; }
+  details.sol { display: none; }
+  .hero { background: none; color: #000; } .hero p, .hero .chips span { color: #333; }
+  .box { break-inside: avoid; }
+}
+
+/* FentMates: 80% de l'ample en ordinador (marc i text) */
+@media (min-width: 1101px) {
+  .topbar .in, .hero .in, .layout { max-width: 80vw; }
+  article { max-width: none; }
+  .slide > .in, .overview .in { max-width: 80vw; }
+}
+
+
+/* ---- examen ---- */
+.exam { max-width: 900px; margin: 0 auto; padding: 28px 16px 80px; }
+@media (min-width: 1101px) { .exam { max-width: 80vw; } } /* 80% de l'ample, com la resta de la web */
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 18px; padding: 0; list-style: none; }
+.rules li { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; font-size: .92rem; display: flex; gap: 10px; align-items: flex-start; }
+.rules li b { display: block; font-family: "Outfit", sans-serif; font-size: 1rem; }
+.rules .ic { font-size: 1.3rem; line-height: 1.2; }
+.toolbar { position: sticky; top: calc(var(--header-h) + 8px); z-index: 30; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center;
+  background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 8px 6px 16px; margin: 0 0 22px; box-shadow: var(--shadow); }
+.timer { font: 800 1.35rem "Outfit", sans-serif; font-variant-numeric: tabular-nums; min-width: 4.6ch; }
+.timer.warn { color: var(--accent); } .timer.over { color: var(--minus); }
+.toolbar .sp { flex: 1; }
+.prob { border: 1.5px solid var(--def); border-radius: var(--radius); background: var(--surface); margin: 0 0 26px; overflow: hidden; box-shadow: var(--shadow); }
+.prob > .ph { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: var(--def); color: #fff; }
+:root[data-theme="dark"] .prob > .ph { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .prob > .ph { color: #0f1526; } }
+.prob > .ph h2 { font-size: 1.25rem; margin: 0; flex: 1; }
+.prob > .ph .pts { font: 700 .8rem "Inter", sans-serif; background: rgba(255,255,255,.22); padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+.prob > .pb { padding: 8px 22px 16px; }
+.prob .topic { font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; color: var(--def); margin-top: 10px; }
+ol.parts { list-style: none; padding: 0; margin: 10px 0 0; counter-reset: p; }
+ol.parts > li { counter-increment: p; position: relative; padding: 8px 0 8px 2.4em; border-top: 1px dashed var(--border); }
+ol.parts > li::before { content: counter(p, lower-alpha) ")"; position: absolute; left: 0; top: 8px; font: 700 1rem "Outfit", sans-serif; color: var(--def); }
+.pp { font-size: .78rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+details.sol { border-style: solid; border-color: var(--def); background: var(--def-bg); margin-top: 14px; }
+details.sol > summary { color: var(--def); }
+details.sol h4 { font: 700 .95rem "Outfit", sans-serif; margin: 14px 0 4px; color: var(--def); }
+.crit { margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: var(--pr-bg); border: 1px solid color-mix(in srgb, var(--pr) 40%, transparent); font-size: .9rem; }
+.crit b { color: var(--pr); }
+.crit ul { margin: 4px 0 0; padding-left: 1.2em; }
+.final { text-align: center; color: var(--muted); font-size: .9rem; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+.links a { text-decoration: none; }
+.disclaimer { font-size: .82rem; color: var(--muted); text-align: center; margin: 4px 0 18px; }
+@media (max-width: 560px) {
+  .toolbar { border-radius: 16px; }
+  .prob > .pb { padding: 6px 14px 14px; }
+  .prob > .ph { padding: 10px 14px; }
+}
+@media print {
+  .toolbar, details.sol, .links, .final { display: none !important; }
+  .prob { box-shadow: none; break-inside: avoid; border-color: #333; }
+  .prob > .ph { background: none; color: #000; border-bottom: 1px solid #333; }
+  .rules li { border-color: #999; }
+  body { font-size: 14px; }
+  .exam { padding: 0; }
+}
+</style>
+<link rel="stylesheet" href="../../assets/css/fm-materials.css?v=20261025a"><script defer src="../../assets/js/fm-materials.js?v=20261025a"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../2batx-ccss.html"><span data-l="va">2n Batxillerat CCSS</span><span data-l="es">2º Bachillerato CCSS</span><span data-l="en">2nd Baccalaureate (Social Sciences)</span></a> / <span data-l="va">Unitat 2</span><span data-l="es">Unidad 2</span><span data-l="en">Unit 2</span></span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker"><span data-l="va">Matemàtiques Aplicades a les CCSS II · Tipus PAU</span><span data-l="es">Matemáticas Aplicadas a las CCSS II · Tipo PAU</span><span data-l="en">Applied Maths for Social Sciences II · PAU style</span></span>
+    <h1><span class="u"><span data-l="va">Model d'examen</span><span data-l="es">Modelo de examen</span><span data-l="en">Mock exam</span></span> · <span data-l="va">Sistemes d'equacions lineals</span><span data-l="es">Sistemas de ecuaciones lineales</span><span data-l="en">Systems of linear equations</span></h1>
+    <p><span data-l="va">Quatre problemes amb el format i el nivell de les PAU de la Comunitat Valenciana, amb tots els continguts de la unitat. Fes-lo amb el cronòmetre i, quan acabes, consulta les solucions i els criteris de correcció.</span><span data-l="es">Cuatro problemas con el formato y el nivel de las PAU de la Comunitat Valenciana, con todos los contenidos de la unidad. Hazlo con el cronómetro y, cuando acabes, consulta las soluciones y los criterios de corrección.</span><span data-l="en">Four problems in the format and at the level of the Valencian PAU (university entrance exam), covering every topic in the unit. Do it against the clock and, when you finish, check the solutions and the marking criteria.</span></p>
+  </div>
+</section>
+
+<main class="exam">
+  <ul class="rules">
+    <li><span class="ic">⏱</span><span><b><span data-l="va">1 h 30 min</span><span data-l="es">1 h 30 min</span><span data-l="en">1 h 30 min</span></b><span data-l="va">Temps màxim</span><span data-l="es">Tiempo máximo</span><span data-l="en">Time allowed</span></span></li>
+    <li><span class="ic">🧮</span><span><b><span data-l="va">Calculadora</span><span data-l="es">Calculadora</span><span data-l="en">Calculator</span></b><span data-l="va">Científica no programable</span><span data-l="es">Científica no programable</span><span data-l="en">Non-programmable scientific</span></span></li>
+    <li><span class="ic">✍</span><span><b><span data-l="va">Justifica-ho tot</span><span data-l="es">Justifícalo todo</span><span data-l="en">Show your working</span></b><span data-l="va">Sense raonament, la resposta no puntua</span><span data-l="es">Sin razonamiento, la respuesta no puntúa</span><span data-l="en">Unjustified answers score no marks</span></span></li>
+    <li><span class="ic">🎯</span><span><b><span data-l="va">10 punts</span><span data-l="es">10 puntos</span><span data-l="en">10 points</span></b><span data-l="va">4 problemes de 2,5 punts</span><span data-l="es">4 problemas de 2,5 puntos</span><span data-l="en">4 problems × 2.5 points</span></span></li>
+  </ul>
+
+  <div class="toolbar">
+    <span class="timer" id="timer">90:00</span>
+    <button class="btn primary" type="button" id="t-start">▶ <span data-l="va">Comença</span><span data-l="es">Empieza</span><span data-l="en">Start</span></button>
+    <button class="btn" type="button" id="t-reset">↺</button>
+    <span class="sp"></span>
+    <button class="btn" type="button" id="sol-all">👁 <span data-l="va">Mostra totes les solucions</span><span data-l="es">Mostrar todas las soluciones</span><span data-l="en">Show all solutions</span></button>
+    <button class="btn" type="button" id="print">🖨 <span data-l="va">Imprimeix</span><span data-l="es">Imprimir</span><span data-l="en">Print</span></button>
+  </div>
+
+  <!-- ===================== PROBLEMA 1 ===================== -->
+  <section class="prob" id="p1">
+    <div class="ph"><h2><span data-l="va">Problema 1</span><span data-l="es">Problema 1</span><span data-l="en">Problem 1</span></h2><span class="pts"><span data-l="va">2,5 punts</span><span data-l="es">2,5 puntos</span><span data-l="en">2.5 points</span></span></div>
+    <div class="pb">
+      <div class="topic"><span data-l="va">Plantejament de sistemes i mètode de Gauss</span><span data-l="es">Planteamiento de sistemas y método de Gauss</span><span data-l="en">Setting up systems and Gaussian elimination</span></div>
+      <p><span data-l="va">Un restaurant ofereix tres menús: el menú diari, el menú especial i el menú infantil. Dilluns va servir 20 menús diaris, 10 d'especials i 5 d'infantils, i en va recaptar 460 euros. Dimarts va servir 15 menús diaris, 5 d'especials i 10 d'infantils, i en va recaptar 350 euros. A més, se sap que dos menús infantils costen 4 euros més que un menú diari.</span><span data-l="es">Un restaurante ofrece tres menús: el menú diario, el menú especial y el menú infantil. El lunes sirvió 20 menús diarios, 10 especiales y 5 infantiles, y recaudó 460 euros. El martes sirvió 15 menús diarios, 5 especiales y 10 infantiles, y recaudó 350 euros. Además, se sabe que dos menús infantiles cuestan 4 euros más que un menú diario.</span><span data-l="en">A restaurant offers three set menus: the daily menu, the special menu and the children's menu. On Monday it served 20 daily menus, 10 special menus and 5 children's menus, and took 460 euros. On Tuesday it served 15 daily menus, 5 special menus and 10 children's menus, and took 350 euros. It is also known that two children's menus cost 4 euros more than one daily menu.</span></p>
+      <ol class="parts">
+        <li><span data-l="va">Plantegeu un sistema d'equacions lineals que permeta calcular el preu de cada menú.</span><span data-l="es">Plantead un sistema de ecuaciones lineales que permita calcular el precio de cada menú.</span><span data-l="en">Set up a system of linear equations to find the price of each menu.</span> <span class="pp">(<span data-l="va">0,75 punts</span><span data-l="es">0,75 puntos</span><span data-l="en">0.75 points</span>)</span></li>
+        <li><span data-l="va">Resoleu el sistema pel mètode de Gauss.</span><span data-l="es">Resolved el sistema por el método de Gauss.</span><span data-l="en">Solve the system by Gaussian elimination.</span> <span class="pp">(<span data-l="va">1,25 punts</span><span data-l="es">1,25 puntos</span><span data-l="en">1.25 points</span>)</span></li>
+        <li><span data-l="va">Si només coneguérem les recaptacions dels dos dies (i no la relació entre el menú infantil i el diari), es podria saber el preu de cada menú? Raoneu la resposta.</span><span data-l="es">Si solo conociéramos las recaudaciones de los dos días (y no la relación entre el menú infantil y el diario), ¿se podría saber el precio de cada menú? Razonad la respuesta.</span><span data-l="en">If we only knew the takings for the two days (and not the relation between the children's and the daily menu), could we work out the price of each menu? Explain your answer.</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Solució i criteris de correcció</span><span data-l="es">Solución y criterios de corrección</span><span data-l="en">Solution and marking criteria</span></summary><div>
+        <h4>a)</h4>
+        <p><span data-l="va">Anomenem \(x\) el preu del menú diari, \(y\) el del menú especial i \(z\) el del menú infantil (en euros).</span><span data-l="es">Llamamos \(x\) al precio del menú diario, \(y\) al del menú especial y \(z\) al del menú infantil (en euros).</span><span data-l="en">Let \(x\) be the price of the daily menu, \(y\) that of the special menu and \(z\) that of the children's menu (in euros).</span></p>
+        \[\left\{\begin{aligned}20x+10y+5z&=460\\ 15x+5y+10z&=350\\ 2z&=x+4\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}4x+2y+z&=92\\ 3x+y+2z&=70\\ x-2z&=-4\end{aligned}\right.\]
+        <p><span data-l="va">(Hem dividit la primera equació per 5 i la segona també per 5, i hem passat \(x\) al primer membre en la tercera.)</span><span data-l="es">(Hemos dividido la primera ecuación entre 5 y la segunda también entre 5, y hemos pasado \(x\) al primer miembro en la tercera.)</span><span data-l="en">(We divided the first and second equations by 5 and moved \(x\) to the left-hand side in the third.)</span></p>
+        <h4>b)</h4>
+        <p><span data-l="va">Posem la tercera equació en primer lloc (té coeficient 1 en \(x\)) i esglaonem la matriu ampliada:</span><span data-l="es">Ponemos la tercera ecuación en primer lugar (tiene coeficiente 1 en \(x\)) y escalonamos la matriz ampliada:</span><span data-l="en">We put the third equation first (its \(x\) coefficient is 1) and reduce the augmented matrix to echelon form:</span></p>
+        \[\left(\begin{array}{rrr|r}1 & 0 & -2 & -4\\ 4 & 2 & 1 & 92\\ 3 & 1 & 2 & 70\end{array}\right)\xrightarrow[F_3'=F_3-3F_1]{F_2'=F_2-4F_1}\left(\begin{array}{rrr|r}1 & 0 & -2 & -4\\ 0 & 2 & 9 & 108\\ 0 & 1 & 8 & 82\end{array}\right)\xrightarrow{F_3''=2F_3'-F_2'}\left(\begin{array}{rrr|r}1 & 0 & -2 & -4\\ 0 & 2 & 9 & 108\\ 0 & 0 & 7 & 56\end{array}\right)\]
+        <p><span data-l="va">Sistema compatible determinat. Resolem de baix cap amunt:</span><span data-l="es">Sistema compatible determinado. Resolvemos de abajo arriba:</span><span data-l="en">Consistent system with a unique solution. We solve from the bottom up:</span></p>
+        \[7z=56\Rightarrow z=8;\qquad 2y+9\cdot8=108\Rightarrow y=18;\qquad x-2\cdot8=-4\Rightarrow x=12\]
+        <p><span data-l="va"><strong>El menú diari costa 12 €, l'especial 18 € i l'infantil 8 €.</strong></span><span data-l="es"><strong>El menú diario cuesta 12 €, el especial 18 € y el infantil 8 €.</strong></span><span data-l="en"><strong>The daily menu costs €12, the special €18 and the children's menu €8.</strong></span></p>
+        <p><span data-l="va">Comprovació:</span><span data-l="es">Comprobación:</span><span data-l="en">Check:</span> \(20\cdot12+10\cdot18+5\cdot8=460\ \checkmark\quad 15\cdot12+5\cdot18+10\cdot8=350\ \checkmark\quad 2\cdot8=12+4\ \checkmark\)</p>
+        <h4>c)</h4>
+        <p><span data-l="va">Tindríem només les dues primeres equacions, amb tres incògnites:</span><span data-l="es">Tendríamos solo las dos primeras ecuaciones, con tres incógnitas:</span><span data-l="en">We would only have the first two equations, with three unknowns:</span> \(A=\begin{pmatrix}4 & 2 & 1\\ 3 & 1 & 2\end{pmatrix}\), \(\begin{vmatrix}4 & 2\\ 3 & 1\end{vmatrix}=-2\neq0\).</p>
+        <p><span data-l="va">Per tant \(rg(A)=rg(A^*)=2<3=\) nombre d'incògnites: pel teorema de Rouché-Frobenius el sistema és <strong>compatible indeterminat</strong>. Té infinites solucions, així que <strong>no es podria saber</strong> el preu de cada menú.</span><span data-l="es">Por tanto \(rg(A)=rg(A^*)=2<3=\) número de incógnitas: por el teorema de Rouché-Frobenius el sistema es <strong>compatible indeterminado</strong>. Tiene infinitas soluciones, así que <strong>no se podría saber</strong> el precio de cada menú.</span><span data-l="en">So \(rg(A)=rg(A^*)=2<3=\) number of unknowns: by the Rouché–Frobenius theorem the system is <strong>consistent with infinitely many solutions</strong>, so the price of each menu <strong>could not be determined</strong>.</span></p>
+        <div class="crit"><b><span data-l="va">Criteris de correcció</span><span data-l="es">Criterios de corrección</span><span data-l="en">Marking criteria</span></b>
+          <div data-l="va"><ul><li>a) 0,25 per cada equació ben plantejada (amb les incògnites definides).</li><li>b) 0,75 esglaonar correctament la matriu; 0,5 obtenir i interpretar la solució. Si es resol per un altre mètode, màxim 0,5.</li><li>c) 0,25 identificar que és un sistema de 2 equacions i 3 incògnites (o els rangs); 0,25 concloure que és SCI i no es poden determinar els preus.</li></ul></div><div data-l="es"><ul><li>a) 0,25 por cada ecuación bien planteada (con las incógnitas definidas).</li><li>b) 0,75 escalonar correctamente la matriz; 0,5 obtener e interpretar la solución. Si se resuelve por otro método, máximo 0,5.</li><li>c) 0,25 identificar que es un sistema de 2 ecuaciones y 3 incógnitas (o los rangos); 0,25 concluir que es SCI y no se pueden determinar los precios.</li></ul></div><div data-l="en"><ul><li>a) 0.25 for each correctly set-up equation (with the unknowns defined).</li><li>b) 0.75 correct row reduction; 0.5 obtaining and interpreting the solution. If solved by another method, maximum 0.5.</li><li>c) 0.25 noting that there are 2 equations and 3 unknowns (or the ranks); 0.25 concluding that it has infinitely many solutions and the prices cannot be found.</li></ul></div>
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 2 ===================== -->
+  <section class="prob" id="p2">
+    <div class="ph"><h2><span data-l="va">Problema 2</span><span data-l="es">Problema 2</span><span data-l="en">Problem 2</span></h2><span class="pts"><span data-l="va">2,5 punts</span><span data-l="es">2,5 puntos</span><span data-l="en">2.5 points</span></span></div>
+    <div class="pb">
+      <div class="topic"><span data-l="va">Discussió amb paràmetre (Rouché-Frobenius) i regla de Cramer</span><span data-l="es">Discusión con parámetro (Rouché-Frobenius) y regla de Cramer</span><span data-l="en">Discussion with a parameter (Rouché–Frobenius) and Cramer's rule</span></div>
+      <p><span data-l="va">Considereu el sistema d'equacions lineals següent, on \(a\) és un paràmetre real:</span><span data-l="es">Considerad el sistema de ecuaciones lineales siguiente, donde \(a\) es un parámetro real:</span><span data-l="en">Consider the following system of linear equations, where \(a\) is a real parameter:</span></p>
+      \[\left\{\begin{aligned}x+y+az&=1\\ x+ay+z&=1\\ 2x+y+z&=a+1\end{aligned}\right.\]
+      <ol class="parts">
+        <li><span data-l="va">Discutiu el sistema segons els valors de \(a\).</span><span data-l="es">Discutid el sistema según los valores de \(a\).</span><span data-l="en">Discuss the system according to the values of \(a\).</span> <span class="pp">(<span data-l="va">1,25 punts</span><span data-l="es">1,25 puntos</span><span data-l="en">1.25 points</span>)</span></li>
+        <li><span data-l="va">Resoleu el sistema per a \(a=-1\) utilitzant la regla de Cramer.</span><span data-l="es">Resolved el sistema para \(a=-1\) utilizando la regla de Cramer.</span><span data-l="en">Solve the system for \(a=-1\) using Cramer's rule.</span> <span class="pp">(<span data-l="va">0,75 punts</span><span data-l="es">0,75 puntos</span><span data-l="en">0.75 points</span>)</span></li>
+        <li><span data-l="va">Obteniu totes les solucions del sistema per a \(a=1\).</span><span data-l="es">Obtened todas las soluciones del sistema para \(a=1\).</span><span data-l="en">Find all the solutions of the system for \(a=1\).</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Solució i criteris de correcció</span><span data-l="es">Solución y criterios de corrección</span><span data-l="en">Solution and marking criteria</span></summary><div>
+        <h4>a)</h4>
+        \[A=\begin{pmatrix}1 & 1 & a\\ 1 & a & 1\\ 2 & 1 & 1\end{pmatrix},\qquad A^*=\left(\begin{array}{ccc|c}1 & 1 & a & 1\\ 1 & a & 1 & 1\\ 2 & 1 & 1 & a+1\end{array}\right)\]
+        <p><span data-l="va">Calculem el determinant per Sarrus:</span><span data-l="es">Calculamos el determinante por Sarrus:</span><span data-l="en">We compute the determinant using Sarrus' rule:</span></p>
+        \[|A|=(a+2+a)-(2a^2+1+1)=-2a^2+2a=2a(1-a)\]
+        <p><span data-l="va">Per tant, \(|A|=0\iff a=0\) o \(a=1\).</span><span data-l="es">Por tanto, \(|A|=0\iff a=0\) o \(a=1\).</span><span data-l="en">Hence \(|A|=0\iff a=0\) or \(a=1\).</span></p>
+        <ul>
+          <li><span data-l="va">Si \(a\neq0\) i \(a\neq1\): \(|A|\neq0\Rightarrow rg(A)=rg(A^*)=3=\) nombre d'incògnites \(\Rightarrow\) <strong>SCD</strong>.</span><span data-l="es">Si \(a\neq0\) y \(a\neq1\): \(|A|\neq0\Rightarrow rg(A)=rg(A^*)=3=\) número de incógnitas \(\Rightarrow\) <strong>SCD</strong>.</span><span data-l="en">If \(a\neq0\) and \(a\neq1\): \(|A|\neq0\Rightarrow rg(A)=rg(A^*)=3=\) number of unknowns \(\Rightarrow\) <strong>unique solution</strong>.</span></li>
+          <li><span data-l="va">Si \(a=0\):</span><span data-l="es">Si \(a=0\):</span><span data-l="en">If \(a=0\):</span> \(A^*=\left(\begin{array}{rrr|r}1 & 1 & 0 & 1\\ 1 & 0 & 1 & 1\\ 2 & 1 & 1 & 1\end{array}\right)\). <span data-l="va">Com que \(\begin{vmatrix}1 & 1\\ 1 & 0\end{vmatrix}=-1\neq0\), \(rg(A)=2\). Orlem amb la columna de termes independents:</span><span data-l="es">Como \(\begin{vmatrix}1 & 1\\ 1 & 0\end{vmatrix}=-1\neq0\), \(rg(A)=2\). Orlamos con la columna de términos independientes:</span><span data-l="en">Since \(\begin{vmatrix}1 & 1\\ 1 & 0\end{vmatrix}=-1\neq0\), \(rg(A)=2\). We border it with the column of constants:</span>
+          \[\begin{vmatrix}1 & 1 & 1\\ 1 & 0 & 1\\ 2 & 1 & 1\end{vmatrix}=1\neq0\ \Rightarrow\ rg(A^*)=3\neq rg(A)\ \Rightarrow\ \textbf{SI}\]</li>
+          <li><span data-l="va">Si \(a=1\):</span><span data-l="es">Si \(a=1\):</span><span data-l="en">If \(a=1\):</span> \(A^*=\left(\begin{array}{rrr|r}1 & 1 & 1 & 1\\ 1 & 1 & 1 & 1\\ 2 & 1 & 1 & 2\end{array}\right)\). <span data-l="va">Les dues primeres files són iguals i \(\begin{vmatrix}1 & 1\\ 2 & 1\end{vmatrix}=-1\neq0\), així que \(rg(A)=rg(A^*)=2<3\Rightarrow\) <strong>SCI</strong> (amb un paràmetre).</span><span data-l="es">Las dos primeras filas son iguales y \(\begin{vmatrix}1 & 1\\ 2 & 1\end{vmatrix}=-1\neq0\), así que \(rg(A)=rg(A^*)=2<3\Rightarrow\) <strong>SCI</strong> (con un parámetro).</span><span data-l="en">The first two rows are equal and \(\begin{vmatrix}1 & 1\\ 2 & 1\end{vmatrix}=-1\neq0\), so \(rg(A)=rg(A^*)=2<3\Rightarrow\) <strong>infinitely many solutions</strong> (one parameter).</span></li>
+        </ul>
+        <h4>b)</h4>
+        <p><span data-l="va">Per a \(a=-1\) el sistema és \(x+y-z=1;\ x-y+z=1;\ 2x+y+z=0\), i \(|A|=2\cdot(-1)\cdot2=-4\neq0\) (SCD).</span><span data-l="es">Para \(a=-1\) el sistema es \(x+y-z=1;\ x-y+z=1;\ 2x+y+z=0\), y \(|A|=2\cdot(-1)\cdot2=-4\neq0\) (SCD).</span><span data-l="en">For \(a=-1\) the system is \(x+y-z=1;\ x-y+z=1;\ 2x+y+z=0\), and \(|A|=2\cdot(-1)\cdot2=-4\neq0\) (unique solution).</span></p>
+        \[x=\frac{\begin{vmatrix}1 & 1 & -1\\ 1 & -1 & 1\\ 0 & 1 & 1\end{vmatrix}}{-4}=\frac{-4}{-4}=1,\qquad y=\frac{\begin{vmatrix}1 & 1 & -1\\ 1 & 1 & 1\\ 2 & 0 & 1\end{vmatrix}}{-4}=\frac{4}{-4}=-1,\qquad z=\frac{\begin{vmatrix}1 & 1 & 1\\ 1 & -1 & 1\\ 2 & 1 & 0\end{vmatrix}}{-4}=\frac{4}{-4}=-1\]
+        <p><span data-l="va">Solució:</span><span data-l="es">Solución:</span><span data-l="en">Solution:</span> \(\boxed{x=1,\ y=-1,\ z=-1}\)</p>
+        <p><span data-l="va">Comprovació:</span><span data-l="es">Comprobación:</span><span data-l="en">Check:</span> \(1-1+1=1\ \checkmark\quad 1+1-1=1\ \checkmark\quad 2-1-1=0\ \checkmark\)</p>
+        <h4>c)</h4>
+        <p><span data-l="va">Per a \(a=1\) eliminem la segona equació (és igual que la primera) i queda:</span><span data-l="es">Para \(a=1\) eliminamos la segunda ecuación (es igual que la primera) y queda:</span><span data-l="en">For \(a=1\) we drop the second equation (it is the same as the first) and we are left with:</span></p>
+        \[\left\{\begin{aligned}x+y+z&=1\\ 2x+y+z&=2\end{aligned}\right.\ \xrightarrow{E_2'=E_2-E_1}\ \left\{\begin{aligned}x+y+z&=1\\ x&=1\end{aligned}\right.\ \Rightarrow\ y+z=0\]
+        <p><span data-l="va">Fem \(z=\lambda\):</span><span data-l="es">Hacemos \(z=\lambda\):</span><span data-l="en">Let \(z=\lambda\):</span></p>
+        \[\boxed{x=1,\quad y=-\lambda,\quad z=\lambda,\qquad \lambda\in\mathbb{R}}\]
+        <div class="crit"><b><span data-l="va">Criteris de correcció</span><span data-l="es">Criterios de corrección</span><span data-l="en">Marking criteria</span></b>
+          <div data-l="va"><ul><li>a) 0,25 determinant de \(A\); 0,25 valors que l'anul·len; 0,25 cas general; 0,25 cada un dels casos \(a=0\) i \(a=1\), sempre justificant-ho amb els rangs.</li><li>b) 0,25 determinant del sistema; 0,5 les tres incògnites (resolt per un altre mètode: màxim 0,25).</li><li>c) 0,25 reduir el sistema a dues equacions; 0,25 solució amb un paràmetre.</li></ul></div><div data-l="es"><ul><li>a) 0,25 determinante de \(A\); 0,25 valores que lo anulan; 0,25 caso general; 0,25 cada uno de los casos \(a=0\) y \(a=1\), siempre justificándolo con los rangos.</li><li>b) 0,25 determinante del sistema; 0,5 las tres incógnitas (resuelto por otro método: máximo 0,25).</li><li>c) 0,25 reducir el sistema a dos ecuaciones; 0,25 solución con un parámetro.</li></ul></div><div data-l="en"><ul><li>a) 0.25 determinant of \(A\); 0.25 values that make it zero; 0.25 general case; 0.25 each of the cases \(a=0\) and \(a=1\), always justified with the ranks.</li><li>b) 0.25 determinant of the system; 0.5 the three unknowns (solved by another method: maximum 0.25).</li><li>c) 0.25 reducing the system to two equations; 0.25 solution with one parameter.</li></ul></div>
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 3 ===================== -->
+  <section class="prob" id="p3">
+    <div class="ph"><h2><span data-l="va">Problema 3</span><span data-l="es">Problema 3</span><span data-l="en">Problem 3</span></h2><span class="pts"><span data-l="va">2,5 punts</span><span data-l="es">2,5 puntos</span><span data-l="en">2.5 points</span></span></div>
+    <div class="pb">
+      <div class="topic"><span data-l="va">Expressió matricial i mètode de la matriu inversa</span><span data-l="es">Expresión matricial y método de la matriz inversa</span><span data-l="en">Matrix form and the inverse-matrix method</span></div>
+      <p><span data-l="va">Considereu el sistema d'equacions:</span><span data-l="es">Considerad el sistema de ecuaciones:</span><span data-l="en">Consider the system of equations:</span></p>
+      \[\left\{\begin{aligned}x-z&=-1\\ 2x+y&=3\\ y+z&=2\end{aligned}\right.\]
+      <ol class="parts">
+        <li><span data-l="va">Escriviu-lo en la forma matricial \(AX=B\) i justifiqueu que es pot resoldre pel mètode de la matriu inversa.</span><span data-l="es">Escribidlo en la forma matricial \(AX=B\) y justificad que se puede resolver por el método de la matriz inversa.</span><span data-l="en">Write it in matrix form \(AX=B\) and justify that it can be solved by the inverse-matrix method.</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+        <li><span data-l="va">Calculeu la matriu inversa \(A^{-1}\).</span><span data-l="es">Calculad la matriz inversa \(A^{-1}\).</span><span data-l="en">Compute the inverse matrix \(A^{-1}\).</span> <span class="pp">(<span data-l="va">1 punt</span><span data-l="es">1 punto</span><span data-l="en">1 point</span>)</span></li>
+        <li><span data-l="va">Resoleu el sistema matricialment.</span><span data-l="es">Resolved el sistema matricialmente.</span><span data-l="en">Solve the system using matrices.</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+        <li><span data-l="va">Aprofitant el càlcul anterior, resoleu el sistema que té la mateixa matriu de coeficients i la matriu de termes independents \(B'=\begin{pmatrix}1\\ 0\\ -1\end{pmatrix}\).</span><span data-l="es">Aprovechando el cálculo anterior, resolved el sistema que tiene la misma matriz de coeficientes y la matriz de términos independientes \(B'=\begin{pmatrix}1\\ 0\\ -1\end{pmatrix}\).</span><span data-l="en">Using the previous calculation, solve the system with the same coefficient matrix and constant matrix \(B'=\begin{pmatrix}1\\ 0\\ -1\end{pmatrix}\).</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Solució i criteris de correcció</span><span data-l="es">Solución y criterios de corrección</span><span data-l="en">Solution and marking criteria</span></summary><div>
+        <h4>a)</h4>
+        \[\underbrace{\begin{pmatrix}1 & 0 & -1\\ 2 & 1 & 0\\ 0 & 1 & 1\end{pmatrix}}_{A}\cdot\underbrace{\begin{pmatrix}x\\ y\\ z\end{pmatrix}}_{X}=\underbrace{\begin{pmatrix}-1\\ 3\\ 2\end{pmatrix}}_{B}\]
+        <p>\(|A|=(1+0-2)-(0+0+0)=-1\neq0\) <span data-l="va">\(\Rightarrow A\) és invertible i, per tant, \(AX=B\Rightarrow X=A^{-1}B\). (A més, el sistema és compatible determinat.)</span><span data-l="es">\(\Rightarrow A\) es invertible y, por tanto, \(AX=B\Rightarrow X=A^{-1}B\). (Además, el sistema es compatible determinado.)</span><span data-l="en">\(\Rightarrow A\) is invertible, so \(AX=B\Rightarrow X=A^{-1}B\). (The system also has a unique solution.)</span></p>
+        <h4>b)</h4>
+        \[A_{11}=1,\ A_{12}=-2,\ A_{13}=2;\quad A_{21}=-1,\ A_{22}=1,\ A_{23}=-1;\quad A_{31}=1,\ A_{32}=-2,\ A_{33}=1\]
+        \[A^{-1}=\frac{1}{|A|}(Adj(A))^t=\frac{1}{-1}\begin{pmatrix}1 & -1 & 1\\ -2 & 1 & -2\\ 2 & -1 & 1\end{pmatrix}=\boxed{\begin{pmatrix}-1 & 1 & -1\\ 2 & -1 & 2\\ -2 & 1 & -1\end{pmatrix}}\]
+        <p><span data-l="va">Comprovació:</span><span data-l="es">Comprobación:</span><span data-l="en">Check:</span> \(A\cdot A^{-1}=I\ \checkmark\)</p>
+        <h4>c)</h4>
+        \[X=A^{-1}B=\begin{pmatrix}-1 & 1 & -1\\ 2 & -1 & 2\\ -2 & 1 & -1\end{pmatrix}\begin{pmatrix}-1\\ 3\\ 2\end{pmatrix}=\begin{pmatrix}1+3-2\\ -2-3+4\\ 2+3-2\end{pmatrix}=\boxed{\begin{pmatrix}2\\ -1\\ 3\end{pmatrix}}\]
+        <h4>d)</h4>
+        \[X'=A^{-1}B'=\begin{pmatrix}-1 & 1 & -1\\ 2 & -1 & 2\\ -2 & 1 & -1\end{pmatrix}\begin{pmatrix}1\\ 0\\ -1\end{pmatrix}=\begin{pmatrix}-1+0+1\\ 2-0-2\\ -2+0+1\end{pmatrix}=\boxed{\begin{pmatrix}0\\ 0\\ -1\end{pmatrix}}\]
+        <p><span data-l="va">Comprovació:</span><span data-l="es">Comprobación:</span><span data-l="en">Check:</span> \(0-(-1)=1,\ 0+0=0,\ 0+(-1)=-1\ \checkmark\)</p>
+        <div class="crit"><b><span data-l="va">Criteris de correcció</span><span data-l="es">Criterios de corrección</span><span data-l="en">Marking criteria</span></b>
+          <div data-l="va"><ul><li>a) 0,25 forma matricial; 0,25 justificar amb \(|A|\neq0\).</li><li>b) 0,25 determinant; 0,5 matriu adjunta; 0,25 inversa final.</li><li>c) 0,25 escriure \(X=A^{-1}B\) (i no \(BA^{-1}\), que no es pot calcular); 0,25 resultat.</li><li>d) 0,5 resultat obtingut amb \(A^{-1}\).</li></ul></div><div data-l="es"><ul><li>a) 0,25 forma matricial; 0,25 justificar con \(|A|\neq0\).</li><li>b) 0,25 determinante; 0,5 matriz adjunta; 0,25 inversa final.</li><li>c) 0,25 escribir \(X=A^{-1}B\) (y no \(BA^{-1}\), que no se puede calcular); 0,25 resultado.</li><li>d) 0,5 resultado obtenido con \(A^{-1}\).</li></ul></div><div data-l="en"><ul><li>a) 0.25 matrix form; 0.25 justification with \(|A|\neq0\).</li><li>b) 0.25 determinant; 0.5 adjugate matrix; 0.25 final inverse.</li><li>c) 0.25 writing \(X=A^{-1}B\) (not \(BA^{-1}\), which cannot be computed); 0.25 result.</li><li>d) 0.5 result obtained with \(A^{-1}\).</li></ul></div>
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 4 ===================== -->
+  <section class="prob" id="p4">
+    <div class="ph"><h2><span data-l="va">Problema 4</span><span data-l="es">Problema 4</span><span data-l="en">Problem 4</span></h2><span class="pts"><span data-l="va">2,5 punts</span><span data-l="es">2,5 puntos</span><span data-l="en">2.5 points</span></span></div>
+    <div class="pb">
+      <div class="topic"><span data-l="va">Sistemes homogenis amb paràmetre</span><span data-l="es">Sistemas homogéneos con parámetro</span><span data-l="en">Homogeneous systems with a parameter</span></div>
+      <p><span data-l="va">Donat el sistema homogeni següent, on \(m\) és un paràmetre real:</span><span data-l="es">Dado el sistema homogéneo siguiente, donde \(m\) es un parámetro real:</span><span data-l="en">Given the following homogeneous system, where \(m\) is a real parameter:</span></p>
+      \[\left\{\begin{aligned}x+2y-z&=0\\ 2x+y+z&=0\\ x+my+2z&=0\end{aligned}\right.\]
+      <ol class="parts">
+        <li><span data-l="va">Justifiqueu que el sistema és compatible per a qualsevol valor de \(m\) i indiqueu una solució que sempre té.</span><span data-l="es">Justificad que el sistema es compatible para cualquier valor de \(m\) e indicad una solución que siempre tiene.</span><span data-l="en">Justify that the system is consistent for every value of \(m\) and give a solution it always has.</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+        <li><span data-l="va">Determineu per a quins valors de \(m\) el sistema té solucions diferents de la trivial.</span><span data-l="es">Determinad para qué valores de \(m\) el sistema tiene soluciones distintas de la trivial.</span><span data-l="en">Find the values of \(m\) for which the system has non-trivial solutions.</span> <span class="pp">(<span data-l="va">0,75 punts</span><span data-l="es">0,75 puntos</span><span data-l="en">0.75 points</span>)</span></li>
+        <li><span data-l="va">Per al valor de \(m\) trobat en l'apartat anterior, resoleu el sistema pel mètode de Gauss.</span><span data-l="es">Para el valor de \(m\) hallado en el apartado anterior, resolved el sistema por el método de Gauss.</span><span data-l="en">For the value of \(m\) found in the previous part, solve the system by Gaussian elimination.</span> <span class="pp">(<span data-l="va">0,75 punts</span><span data-l="es">0,75 puntos</span><span data-l="en">0.75 points</span>)</span></li>
+        <li><span data-l="va">Per a aquest mateix valor de \(m\), trobeu la solució que compleix \(x+y+z=4\).</span><span data-l="es">Para este mismo valor de \(m\), hallad la solución que cumple \(x+y+z=4\).</span><span data-l="en">For the same value of \(m\), find the solution that satisfies \(x+y+z=4\).</span> <span class="pp">(<span data-l="va">0,5 punts</span><span data-l="es">0,5 puntos</span><span data-l="en">0.5 points</span>)</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Solució i criteris de correcció</span><span data-l="es">Solución y criterios de corrección</span><span data-l="en">Solution and marking criteria</span></summary><div>
+        <h4>a)</h4>
+        <p><span data-l="va">És un sistema homogeni: la columna de termes independents és de zeros, així que no pot augmentar el rang i \(rg(A)=rg(A^*)\) sempre. Pel teorema de Rouché-Frobenius, és <strong>compatible per a tot \(m\)</strong>. Sempre té la solució trivial \(x=y=z=0\).</span><span data-l="es">Es un sistema homogéneo: la columna de términos independientes es de ceros, así que no puede aumentar el rango y \(rg(A)=rg(A^*)\) siempre. Por el teorema de Rouché-Frobenius, es <strong>compatible para todo \(m\)</strong>. Siempre tiene la solución trivial \(x=y=z=0\).</span><span data-l="en">It is a homogeneous system: the column of constants is all zeros, so it cannot increase the rank and \(rg(A)=rg(A^*)\) always. By the Rouché–Frobenius theorem it is <strong>consistent for every \(m\)</strong>. It always has the trivial solution \(x=y=z=0\).</span></p>
+        <h4>b)</h4>
+        \[|A|=\begin{vmatrix}1 & 2 & -1\\ 2 & 1 & 1\\ 1 & m & 2\end{vmatrix}=(2+2-2m)-(-1+8+m)=-3m-3=-3(m+1)\]
+        <ul>
+          <li><span data-l="va">Si \(m\neq-1\): \(rg(A)=3\Rightarrow\) SCD: només té la solució trivial.</span><span data-l="es">Si \(m\neq-1\): \(rg(A)=3\Rightarrow\) SCD: solo tiene la solución trivial.</span><span data-l="en">If \(m\neq-1\): \(rg(A)=3\Rightarrow\) unique solution: only the trivial one.</span></li>
+          <li><span data-l="va">Si \(m=-1\): \(|A|=0\) i \(\begin{vmatrix}1 & 2\\ 2 & 1\end{vmatrix}=-3\neq0\Rightarrow rg(A)=2<3\Rightarrow\) SCI: <strong>té solucions no trivials</strong>.</span><span data-l="es">Si \(m=-1\): \(|A|=0\) y \(\begin{vmatrix}1 & 2\\ 2 & 1\end{vmatrix}=-3\neq0\Rightarrow rg(A)=2<3\Rightarrow\) SCI: <strong>tiene soluciones no triviales</strong>.</span><span data-l="en">If \(m=-1\): \(|A|=0\) and \(\begin{vmatrix}1 & 2\\ 2 & 1\end{vmatrix}=-3\neq0\Rightarrow rg(A)=2<3\Rightarrow\) infinitely many solutions: <strong>there are non-trivial solutions</strong>.</span></li>
+        </ul>
+        <h4>c)</h4>
+        \[\left(\begin{array}{rrr|r}1 & 2 & -1 & 0\\ 2 & 1 & 1 & 0\\ 1 & -1 & 2 & 0\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & 2 & -1 & 0\\ 0 & -3 & 3 & 0\\ 0 & -3 & 3 & 0\end{array}\right)\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrr|r}1 & 2 & -1 & 0\\ 0 & -3 & 3 & 0\\ 0 & 0 & 0 & 0\end{array}\right)\]
+        <p><span data-l="va">Fem \(z=\lambda\): de la segona equació \(-3y+3\lambda=0\Rightarrow y=\lambda\); de la primera \(x=-2\lambda+\lambda=-\lambda\).</span><span data-l="es">Hacemos \(z=\lambda\): de la segunda ecuación \(-3y+3\lambda=0\Rightarrow y=\lambda\); de la primera \(x=-2\lambda+\lambda=-\lambda\).</span><span data-l="en">Let \(z=\lambda\): from the second equation \(-3y+3\lambda=0\Rightarrow y=\lambda\); from the first \(x=-2\lambda+\lambda=-\lambda\).</span></p>
+        \[\boxed{x=-\lambda,\quad y=\lambda,\quad z=\lambda,\qquad\lambda\in\mathbb{R}}\]
+        <h4>d)</h4>
+        <p>\(x+y+z=-\lambda+\lambda+\lambda=\lambda=4\ \Rightarrow\ \boxed{x=-4,\ y=4,\ z=4}\)</p>
+        <div class="crit"><b><span data-l="va">Criteris de correcció</span><span data-l="es">Criterios de corrección</span><span data-l="en">Marking criteria</span></b>
+          <div data-l="va"><ul><li>a) 0,25 justificar que és compatible (rangs o sistema homogeni); 0,25 solució trivial.</li><li>b) 0,25 determinant; 0,25 valor \(m=-1\); 0,25 justificar amb els rangs que només aleshores hi ha solucions no trivials.</li><li>c) 0,5 esglaonar correctament; 0,25 solució general amb un paràmetre.</li><li>d) 0,5 resultat.</li></ul></div><div data-l="es"><ul><li>a) 0,25 justificar que es compatible (rangos o sistema homogéneo); 0,25 solución trivial.</li><li>b) 0,25 determinante; 0,25 valor \(m=-1\); 0,25 justificar con los rangos que solo entonces hay soluciones no triviales.</li><li>c) 0,5 escalonar correctamente; 0,25 solución general con un parámetro.</li><li>d) 0,5 resultado.</li></ul></div><div data-l="en"><ul><li>a) 0.25 justifying consistency (ranks or homogeneous system); 0.25 trivial solution.</li><li>b) 0.25 determinant; 0.25 value \(m=-1\); 0.25 justifying with the ranks that only then are there non-trivial solutions.</li><li>c) 0.5 correct row reduction; 0.25 general solution with one parameter.</li><li>d) 0.5 result.</li></ul></div>
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <p class="disclaimer"><span data-l="va">Model d'elaboració pròpia inspirat en els problemes de sistemes de les PAU de la Comunitat Valenciana i d'altres comunitats. Inclou tots els continguts de la unitat: Gauss, forma matricial, Cramer, sistemes homogenis, Rouché-Frobenius i paràmetres. Els criteris de correcció són orientatius.</span><span data-l="es">Modelo de elaboración propia inspirado en los problemas de sistemas de las PAU de la Comunitat Valenciana y de otras comunidades. Incluye todos los contenidos de la unidad: Gauss, forma matricial, Cramer, sistemas homogéneos, Rouché-Frobenius y parámetros. Los criterios de corrección son orientativos.</span><span data-l="en">Original mock exam based on the systems problems of the Valencian and other regions' PAU. It covers every topic in the unit: Gaussian elimination, matrix form, Cramer's rule, homogeneous systems, Rouché–Frobenius and parameters. The marking criteria are a guide only.</span></p>
+  <div class="final">
+    <span data-l="va">Vols practicar més?</span><span data-l="es">¿Quieres practicar más?</span><span data-l="en">Want more practice?</span>
+    <div class="links">
+      <a class="btn" href="t2-sistemes-equacions.html">📘 <span data-l="va">Apunts de la unitat</span><span data-l="es">Apuntes de la unidad</span><span data-l="en">Unit notes</span></a>
+      <a class="btn" href="pau-u2-sistemes.html">📝 <span data-l="va">Exercicis PAU reals</span><span data-l="es">Ejercicios PAU reales</span><span data-l="en">Real PAU exercises</span></a>
+      <a class="btn" href="casio-u2-sistemes.html">🧮 <span data-l="va">Amb la calculadora</span><span data-l="es">Con la calculadora</span><span data-l="en">With the calculator</span></a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <p><span data-l="va">Model d'examen · Unitat 2: Sistemes d'equacions lineals · 2n Batxillerat CCSS II</span><span data-l="es">Modelo de examen · Unidad 2: Sistemas de ecuaciones lineales · 2º Bachillerato CCSS II</span><span data-l="en">Mock exam · Unit 2: Systems of linear equations · 2nd Baccalaureate, Social Sciences II</span></p>
+  <p><a href="../../index.html">FentMates</a> · <span data-l="va">Fet amb ♥ per a l'alumnat</span><span data-l="es">Hecho con ♥ para el alumnado</span><span data-l="en">Made with ♥ for students</span></p>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement, LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var TITLES = { va: "Model d'examen · Sistemes d'equacions lineals · FentMates", es: "Modelo de examen · Sistemas de ecuaciones lineales · FentMates", en: "Mock exam · Systems of linear equations · FentMates" };
+  var UI = {
+    va: { start: "▶ Comença", pause: "⏸ Pausa", resume: "▶ Continua", show: "👁 Mostra totes les solucions", hide: "🙈 Amaga les solucions", theme: "Canvia entre mode clar i fosc", over: "Temps esgotat!" },
+    es: { start: "▶ Empieza", pause: "⏸ Pausa", resume: "▶ Continúa", show: "👁 Mostrar todas las soluciones", hide: "🙈 Ocultar las soluciones", theme: "Cambiar entre modo claro y oscuro", over: "¡Tiempo agotado!" },
+    en: { start: "▶ Start", pause: "⏸ Pause", resume: "▶ Resume", show: "👁 Show all solutions", hide: "🙈 Hide solutions", theme: "Toggle light and dark mode", over: "Time's up!" }
+  };
+  var lang = root.getAttribute("data-lang") || "va", refreshers = [];
+  function u(k) { return UI[lang][k]; }
+  function onLang(fn) { refreshers.push(fn); fn(); }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  /* cronòmetre (compte enrere de 90 min) */
+  var TOTAL = 90 * 60, left = TOTAL, timerId = null, started = false;
+  var tEl = document.getElementById("timer"), bStart = document.getElementById("t-start");
+  function fmt(s) { var a = Math.abs(s), m = Math.floor(a / 60), r = a % 60; return (s < 0 ? "−" : "") + m + ":" + (r < 10 ? "0" : "") + r; }
+  function paint() {
+    tEl.textContent = fmt(left);
+    tEl.classList.toggle("warn", left <= 600 && left > 0);
+    tEl.classList.toggle("over", left <= 0);
+    tEl.title = left <= 0 ? u("over") : "";
+    bStart.textContent = timerId ? u("pause") : (started ? u("resume") : u("start"));
+  }
+  bStart.addEventListener("click", function () {
+    if (timerId) { clearInterval(timerId); timerId = null; }
+    else { started = true; timerId = setInterval(function () { left--; paint(); }, 1000); }
+    paint();
+  });
+  document.getElementById("t-reset").addEventListener("click", function () { clearInterval(timerId); timerId = null; started = false; left = TOTAL; paint(); });
+  onLang(paint);
+
+  /* solucions */
+  var sols = [].slice.call(document.querySelectorAll("details.sol")), bSol = document.getElementById("sol-all");
+  function paintSol() { var all = sols.every(function (d) { return d.open; }); bSol.textContent = all ? u("hide") : u("show"); }
+  bSol.addEventListener("click", function () { var all = sols.every(function (d) { return d.open; }); sols.forEach(function (d) { d.open = !all; }); paintSol(); });
+  sols.forEach(function (d) { d.addEventListener("toggle", paintSol); });
+  onLang(paintSol);
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+
+  /* tema i idioma (compartits amb la web) */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  var tb = document.getElementById("theme-btn");
+  function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+  tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+  var lb = document.querySelectorAll("[data-setlang]");
+  function paintLang() { lb.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); document.title = TITLES[lang]; }
+  lb.forEach(function (b) { b.addEventListener("click", function () {
+    var l = b.dataset.setlang; if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }); });
+  onLang(function () { paintTheme(); paintLang(); });
+
+  function render() {
+    if (window.renderMathInElement) window.renderMathInElement(document.body, {
+      delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }], throwOnError: false
+    });
+  }
+  if (document.readyState === "complete") render(); else window.addEventListener("load", render);
+})();
+</script>
+</body>
+</html>

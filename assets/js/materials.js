@@ -79,6 +79,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 70 exercicis graduats per nivells de dificultat", es: "PDF · 70 ejercicios graduados por niveles de dificultad", en: "PDF · 70 exercises graded by difficulty" }, url: "materials/1eso/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-22" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 70 exercicis", es: "PDF · Soluciones de los 70 ejercicios", en: "PDF · Solutions to all 70 exercises" }, url: "materials/1eso/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-22" }
         ]
+      },
+      {
+        ill: "proporcionalitat", block: "ari",
+        title: { va: "Proporcionalitat i percentatges. Nombres decimals", es: "Proporcionalidad y porcentajes. Números decimales", en: "Proportionality and percentages. Decimal numbers" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t5-proporcionalitat-decimals.html", date: "2026-11-01" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 69 exercicis graduats per nivells de dificultat", es: "PDF · 69 ejercicios graduados por niveles de dificultad", en: "PDF · 69 exercises graded by difficulty" }, url: "materials/1eso/t5-fitxa-exercicis.pdf", download: true, date: "2026-11-01" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 69 exercicis", es: "PDF · Soluciones de los 69 ejercicios", en: "PDF · Solutions to all 69 exercises" }, url: "materials/1eso/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-01" }
+        ]
       }
     ]
   },
@@ -390,6 +399,7 @@ window.LEVELS = {
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-ccss/t2-sistemes-equacions.html", date: "2026-10-18" },
           { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "68 exercicis de la PAU valenciana (1994–2026)", es: "68 ejercicios de la PAU valenciana (1994–2026)", en: "68 past Valencian PAU exercises (1994–2026)" }, url: "materials/2batx-ccss/pau-u2-sistemes.html" },
+          { type: "exam", title: { va: "Model d'examen tipus PAU", es: "Modelo de examen tipo PAU", en: "PAU-style mock exam" }, desc: { va: "4 problemes amb solucions i criteris de correcció", es: "4 problemas con soluciones y criterios de corrección", en: "4 problems with solutions and marking criteria" }, url: "materials/2batx-ccss/examen-u2-sistemes-model1.html", date: "2026-11-01" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 60 exercicis, 42 de la PAU d'altres comunitats", es: "PDF · 60 ejercicios, 42 de la PAU de otras comunidades", en: "PDF · 60 exercises, 42 from other regions' PAU exams" }, url: "materials/2batx-ccss/t2-fitxa-exercicis.pdf", download: true, date: "2026-10-26" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: "materials/2batx-ccss/t2-fitxa-solucions.pdf", download: true, date: "2026-10-26" },
           { type: "calc", title: { va: "Amb la calculadora: pas a pas", es: "Con la calculadora: paso a paso", en: "With the calculator: step by step" }, desc: { va: "Casio ClassWiz fx-991SP CW", es: "Casio ClassWiz fx-991SP CW", en: "Casio ClassWiz fx-991SP CW" }, url: "materials/2batx-ccss/casio-u2-sistemes.html" }
