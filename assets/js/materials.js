@@ -39,9 +39,9 @@ window.LEVELS = {
     cards: true,
     name: { va: "1r ESO", es: "1º ESO", en: "1st ESO (Year 7)" },
     desc: {
-      va: "Nombres naturals i enters, fraccions, proporcionalitat i geometria plana.",
-      es: "Números naturales y enteros, fracciones, proporcionalidad y geometría plana.",
-      en: "Whole numbers and integers, fractions, proportionality and plane geometry."
+      va: "Nombres naturals i enters, fraccions, proporcionalitat, àlgebra i geometria plana.",
+      es: "Números naturales y enteros, fracciones, proporcionalidad, álgebra y geometría plana.",
+      en: "Whole numbers and integers, fractions, proportionality, algebra and plane geometry."
     },
     units: [
       {
@@ -87,6 +87,15 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t5-proporcionalitat-decimals.html", date: "2026-11-01" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 69 exercicis graduats per nivells de dificultat", es: "PDF · 69 ejercicios graduados por niveles de dificultad", en: "PDF · 69 exercises graded by difficulty" }, url: "materials/1eso/t5-fitxa-exercicis.pdf", download: true, date: "2026-11-01" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 69 exercicis", es: "PDF · Soluciones de los 69 ejercicios", en: "PDF · Solutions to all 69 exercises" }, url: "materials/1eso/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-01" }
+        ]
+      },
+      {
+        ill: "equacions", block: "alg",
+        title: { va: "Introducció a l'àlgebra. Equacions de 1r grau", es: "Introducción al álgebra. Ecuaciones de 1.er grado", en: "Introduction to algebra. First-degree equations" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t6-algebra-equacions.html", date: "2026-11-01" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 68 exercicis graduats per nivells de dificultat", es: "PDF · 68 ejercicios graduados por niveles de dificultad", en: "PDF · 68 exercises graded by difficulty" }, url: "materials/1eso/t6-fitxa-exercicis.pdf", download: true, date: "2026-11-01" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 68 exercicis", es: "PDF · Soluciones de los 68 ejercicios", en: "PDF · Solutions to all 68 exercises" }, url: "materials/1eso/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-01" }
         ]
       }
     ]
