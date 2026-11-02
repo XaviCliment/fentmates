@@ -37,7 +37,11 @@ def practice(items, sol):
 def sec(i, title, body):
     return (f'\n<!-- ======================= 9.{i} ======================= -->\n<section class="unit" id="s{i}">\n'
             f'  <div class="sec-head"><span class="num">9.{i}</span><h2>{title}</h2></div>\n{body}</section>\n')
-def D(s): return r'\[' + s + r'\]'
+def D(s):
+    """fórmula centrada; si té parts separades per \\qquad, cada part va en una fórmula i es reparteixen en una fila que es plega"""
+    parts = [p.strip() for p in s.split(r'\qquad')]
+    if len(parts) == 1: return r'\[' + s + r'\]'
+    return '<div class="eqv">' + ''.join(r'\[' + p + r'\]' for p in parts) + '</div>'
 def Lt(va, es, en): return r'\tri{%s}{%s}{%s}' % (va, es, en)
 
 # ---------- ginys ----------

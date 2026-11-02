@@ -17,8 +17,8 @@ def at(P, x):
 EXC = [(0, 0), (2, 8), (3, 8), (4, 12), (6, 0)]
 ck(at(EXC, 1), 4); ck(at(EXC, 5), 6); ck(at(EXC, 2.5), 8)
 XL_T, YL_D = Ls('temps (h)', 'tiempo (h)', 'time (h)'), Ls('distància (km)', 'distancia (km)', 'distance (km)')
-F_EXC = pla((0, 6.6, 0, 13.6), curves=[(EXC, 'c0')], pts=[(x, y, None, 'p0') for x, y in EXC], proj=[(1, 4)], W=300, H=230, ys=2, xl=XL_T, yl=YL_D)
-F_EXCm = pla((0, 6.6, 0, 13.6), curves=mono(EXC), pts=[(4, 12, L('màxim', 'máximo', 'maximum').replace('span', 'tspan'), 'mx')], W=300, H=230, ys=2, xl=XL_T, yl=YL_D)
+F_EXC = pla((0, 7, 0, 13.6), curves=[(EXC, 'c0')], pts=[(x, y, None, 'p0') for x, y in EXC], proj=[(1, 4)], W=300, H=230, ys=2, xl=XL_T, yl=YL_D)
+F_EXCm = pla((0, 7, 0, 13.6), curves=mono(EXC), pts=[(4, 12, L('màxim', 'máximo', 'maximum').replace('span', 'tspan'), 'mx')], W=300, H=230, ys=2, xl=XL_T, yl=YL_D)
 
 s4 = box('def', L('Llegir un gràfic', 'Leer una gráfica', 'Reading a graph'),
   P(r"Un gràfic conta una història. La Júlia fa una excursió en bicicleta; el gràfic dona la <strong>distància</strong> a què està de casa en cada <strong>moment</strong>:",
@@ -41,9 +41,9 @@ s4 += box('prop', L('Creixent, decreixent i constant. Màxims i mínims', 'Creci
        L(r"És <strong>constant</strong> on és horitzontal: la \(y\) no canvia.", r"Es <strong>constante</strong> donde es horizontal: la \(y\) no cambia.", r"It is <strong>constant</strong> where it's flat: \(y\) doesn't change."),
        L(r"El <strong>màxim</strong> és el punt més alt i el <strong>mínim</strong>, el més baix.", r"El <strong>máximo</strong> es el punto más alto y el <strong>mínimo</strong>, el más bajo.", r"The <strong>maximum</strong> is the highest point and the <strong>minimum</strong> the lowest."))
   + '<div class="gout">' + F_EXCm + '<div class="gcol">'
-  + P(r"<span class=\"key ku\"></span>Creix de 0 a 2 h i de 3 a 4 h.", r"<span class=\"key ku\"></span>Crece de 0 a 2 h y de 3 a 4 h.", r"<span class=\"key ku\"></span>Increasing from 0 to 2 h and from 3 to 4 h.")
-  + P(r"<span class=\"key kf\"></span>És constant de 2 a 3 h.", r"<span class=\"key kf\"></span>Es constante de 2 a 3 h.", r"<span class=\"key kf\"></span>Constant from 2 to 3 h.")
-  + P(r"<span class=\"key kw\"></span>Decreix de 4 a 6 h.", r"<span class=\"key kw\"></span>Decrece de 4 a 6 h.", r"<span class=\"key kw\"></span>Decreasing from 4 to 6 h.")
+  + P(r"<span class='key ku'></span>Creix de 0 a 2 h i de 3 a 4 h.", r"<span class='key ku'></span>Crece de 0 a 2 h y de 3 a 4 h.", r"<span class='key ku'></span>Increasing from 0 to 2 h and from 3 to 4 h.")
+  + P(r"<span class='key kf'></span>És constant de 2 a 3 h.", r"<span class='key kf'></span>Es constante de 2 a 3 h.", r"<span class='key kf'></span>Constant from 2 to 3 h.")
+  + P(r"<span class='key kw'></span>Decreix de 4 a 6 h.", r"<span class='key kw'></span>Decrece de 4 a 6 h.", r"<span class='key kw'></span>Decreasing from 4 to 6 h.")
   + P(r"Màxim: \((4,\ 12)\): a les 4 h està a 12 km, el més lluny. Mínim: 0 km, a l'eixida i a l'arribada.", r"Máximo: \((4,\ 12)\): a las 4 h está a 12 km, lo más lejos. Mínimo: 0 km, a la salida y a la llegada.", r"Maximum: \((4,\ 12)\): after 4 h she is 12 km away, the furthest. Minimum: 0 km, at the start and at the end.")
   + '</div></div>')
 
@@ -235,8 +235,8 @@ s6 += box('prop', L('Com es representa i com es llig la fórmula', 'Cómo se rep
   + '<div class="gout">' + F_LEC + '<div class="gcol">'
   + ol(L(r"Mirem on talla l'eix \(Y\): és \(n\).", r"Miramos dónde corta el eje \(Y\): es \(n\).", r"See where it crosses the y-axis: that's \(n\)."),
        L(r"Des d'aquest punt, avancem 1 a la dreta i comptem quant puja (o baixa) fins a tornar a la recta: és \(m\).", r"Desde ese punto, avanzamos 1 a la derecha y contamos cuánto sube (o baja) hasta volver a la recta: es \(m\).", r"From that point, move 1 to the right and count how far up (or down) you go to get back to the line: that's \(m\)."))
-  + P(r"<span class=\"key k0\"></span>Talla en 3 i baixa 1: \(y=-x+3\).", r"<span class=\"key k0\"></span>Corta en 3 y baja 1: \(y=-x+3\).", r"<span class=\"key k0\"></span>Crosses at 3 and goes down 1: \(y=-x+3\).")
-  + P(r"<span class=\"key k1\"></span>Talla en \(-1\) i puja 2: \(y=2x-1\).", r"<span class=\"key k1\"></span>Corta en \(-1\) y sube 2: \(y=2x-1\).", r"<span class=\"key k1\"></span>Crosses at \(-1\) and goes up 2: \(y=2x-1\).")
+  + P(r"<span class='key k0'></span>Talla en 3 i baixa 1: \(y=-x+3\).", r"<span class='key k0'></span>Corta en 3 y baja 1: \(y=-x+3\).", r"<span class='key k0'></span>Crosses at 3 and goes down 1: \(y=-x+3\).")
+  + P(r"<span class='key k1'></span>Talla en \(-1\) i puja 2: \(y=2x-1\).", r"<span class='key k1'></span>Corta en \(-1\) y sube 2: \(y=2x-1\).", r"<span class='key k1'></span>Crosses at \(-1\) and goes up 2: \(y=2x-1\).")
   + '</div></div>'
   + P(r"<strong>Per a saber si un punt és de la recta</strong>, substituïm la seua \(x\) en la fórmula: si dona la seua \(y\), hi és. \((2,\ 3)\) és de \(y=2x-1\) perquè \(2\cdot2-1=3\).",
       r"<strong>Para saber si un punto es de la recta</strong>, sustituimos su \(x\) en la fórmula: si da su \(y\), está. \((2,\ 3)\) es de \(y=2x-1\) porque \(2\cdot2-1=3\).",
@@ -255,7 +255,7 @@ ck(lin(-2, 3)(1), 1); ck(lin(Fr(1, 2), -2)(2), -1)
 s6 += levels(
  [prob(L(r"Fes una taula de valors de \(y=2x+1\) i representa-la.", r"Haz una tabla de valores de \(y=2x+1\) y represéntala.", r"Make a table of values of \(y=2x+1\) and plot it."),
        D(r"x=-2:\ y=2\cdot(-2)+1=-3\qquad x=0:\ y=2\cdot0+1=1\qquad x=2:\ y=2\cdot2+1=5"),
-       tv([-2, -1, 0, 1, 2], TV21) + P(r"És la recta <span class="key k0"></span> del dibuix de més amunt: talla l'eix \(Y\) en \((0,\ 1)\) i puja 2 per cada 1 que avança.", r"Es la recta <span class="key k0"></span> del dibujo de más arriba: corta el eje \(Y\) en \((0,\ 1)\) y sube 2 por cada 1 que avanza.", r"It's the <span class="key k0"></span> line in the picture above: it crosses the y-axis at \((0,\ 1)\) and goes up 2 for every 1 across.")),
+       tv([-2, -1, 0, 1, 2], TV21) + P(r"És la recta <span class='key k0'></span> del dibuix de més amunt: talla l'eix \(Y\) en \((0,\ 1)\) i puja 2 per cada 1 que avança.", r"Es la recta <span class='key k0'></span> del dibujo de más arriba: corta el eje \(Y\) en \((0,\ 1)\) y sube 2 por cada 1 que avanza.", r"It's the <span class='key k0'></span> line in the picture above: it crosses the y-axis at \((0,\ 1)\) and goes up 2 for every 1 across.")),
   prob(L(r"Escriu el pendent i l'ordenada en l'origen de: \(y=3x-4\), \(y=-x+5\), \(y=\frac x2+1\), \(y=6\), \(y=-4x\).", r"Escribe la pendiente y la ordenada en el origen de: \(y=3x-4\), \(y=-x+5\), \(y=\frac x2+1\), \(y=6\), \(y=-4x\).", r"Write the slope and the y-intercept of: \(y=3x-4\), \(y=-x+5\), \(y=\frac x2+1\), \(y=6\), \(y=-4x\)."),
        P(r"\(m\) és el nombre que multiplica la \(x\) i \(n\), el nombre solt (amb el seu signe):", r"\(m\) es el número que multiplica a la \(x\) y \(n\), el número suelto (con su signo):", r"\(m\) is the number multiplying \(x\) and \(n\) is the number on its own (with its sign):"),
        tbl(['', r'\(y=3x-4\)', r'\(y=-x+5\)', r'\(y=\frac x2+1\)', r'\(y=6\)', r'\(y=-4x\)'], [[r'\(m\)'] + [f'\\({tn(m)}\\)' for _, m, _ in MN], [r'\(n\)'] + [f'\\({tn(n)}\\)' for _, _, n in MN]], 'c'))],
@@ -311,7 +311,7 @@ s7 += box('ex', L('Exemple: el taxi', 'Ejemplo: el taxi', 'Example: the taxi'),
     r"A taxi charges a €3 pick-up fee plus €1.20 per km. How much is a 10 km ride? How many km can we go with €21?")
   + '<div class="gout"><div class="gcol">'
   + P(r"\(x\) = km, \(y\) = preu (€). Part fixa: 3 €; per cada km: 1,20 €.", r"\(x\) = km, \(y\) = precio (€). Parte fija: 3 €; por cada km: 1,20 €.", r"\(x\) = km, \(y\) = price (€). Fixed part: €3; per km: €1.20.")
-  + D(r"y=1{,}2x+3") + D(r"x=10:\ y=1{,}2\cdot10+3=15\ \text{€}") + D(r"1{,}2x+3=21\ \Rightarrow\ 1{,}2x=18\ \Rightarrow\ x=15\ \text{km}")
+  + D(r"y=1{,}2x+3") + D(r"x=10:\ y=1{,}2\cdot10+3=15\ \text{€}") + D(r"1{,}2x+3=21\ \Rightarrow\ 1{,}2x=18") + D(r"x=\frac{18}{1{,}2}=15\ \text{km}")
   + '</div>' + F_TAXI + '</div>')
 s7 += box('ex', L('Exemple: un dipòsit que es buida', 'Ejemplo: un depósito que se vacía', 'Example: a tank that empties'),
   P(r"Un dipòsit té 500 L d'aigua i se'n buiden 20 L cada minut. Escriu la fórmula. Quanta aigua queda als 10 minuts? Quan es buida?",
@@ -319,7 +319,7 @@ s7 += box('ex', L('Exemple: un dipòsit que es buida', 'Ejemplo: un depósito qu
     r"A tank holds 500 L of water and 20 L drain out every minute. Write the formula. How much water is left after 10 minutes? When is it empty?")
   + '<div class="gout"><div class="gcol">'
   + P(r"Part fixa: 500 L. Cada minut <strong>disminueix</strong> 20 L, així que el pendent és negatiu:", r"Parte fija: 500 L. Cada minuto <strong>disminuye</strong> 20 L, así que la pendiente es negativa:", r"Fixed part: 500 L. Every minute it <strong>drops</strong> 20 L, so the slope is negative:")
-  + D(r"y=-20x+500") + D(r"x=10:\ y=-200+500=300\ \text{L}") + D(r"-20x+500=0\ \Rightarrow\ x=\frac{500}{20}=25\ \text{min}")
+  + D(r"y=-20x+500") + D(r"x=10:\ y=-200+500=300\ \text{L}") + D(r"-20x+500=0\ \Rightarrow\ 20x=500") + D(r"x=\frac{500}{20}=25\ \text{min}")
   + '</div>' + F_DIP + '</div>')
 s7 += box('ex', L('Exemple: quina oferta ix més a compte?', 'Ejemplo: ¿qué oferta sale más a cuenta?', 'Example: which deal is better?'),
   P(r"El gimnàs A cobra 20 € de matrícula i 25 € al mes; el gimnàs B no té matrícula i cobra 30 € al mes. Quin convé més?",

@@ -105,7 +105,7 @@ s1 += levels(
  [prob(L(r"Dibuixa tots els punts de coordenades enteres que tenen <strong>l'ordenada igual a l'abscissa</strong>, entre \(-4\) i \(4\). Què observes?",
          r"Dibuja todos los puntos de coordenadas enteras que tienen <strong>la ordenada igual a la abscisa</strong>, entre \(-4\) y \(4\). ¿Qué observas?",
          r"Plot all the points with whole-number coordinates whose <strong>y-coordinate equals the x-coordinate</strong>, between \(-4\) and \(4\). What do you notice?"),
-       P(r"Són \((-4,\ -4),\ (-3,\ -3),\ \dots,\ (0,\ 0),\ (1,\ 1),\ \dots,\ (4,\ 4)\).", r"Son \((-4,\ -4),\ (-3,\ -3),\ \dots,\ (0,\ 0),\ (1,\ 1),\ \dots,\ (4,\ 4)\).", r"They are \((-4,\ -4),\ (-3,\ -3),\ \dots,\ (0,\ 0),\ (1,\ 1),\ \dots,\ (4,\ 4)\).") + figs(fig(F_P4)),
+       P(r"Són \((-4,\ -4)\), \((-3,\ -3)\), …, \((0,\ 0)\), \((1,\ 1)\), …, \((4,\ 4)\).", r"Son \((-4,\ -4)\), \((-3,\ -3)\), …, \((0,\ 0)\), \((1,\ 1)\), …, \((4,\ 4)\).", r"They are \((-4,\ -4)\), \((-3,\ -3)\), …, \((0,\ 0)\), \((1,\ 1)\), …, \((4,\ 4)\).") + figs(fig(F_P4)),
        P(r"Tots estan <strong>alineats</strong> sobre una recta que passa per l'origen i travessa els quadrants I i III. Ho estudiarem a l'apartat 9.5: és la gràfica de \(y=x\).",
          r"Todos están <strong>alineados</strong> sobre una recta que pasa por el origen y atraviesa los cuadrantes I y III. Lo estudiaremos en el apartado 9.5: es la gráfica de \(y=x\).",
          r"They all lie <strong>in a straight line</strong> through the origin, crossing quadrants I and III. We'll study it in section 9.5: it's the graph of \(y=x\)."))])
@@ -137,7 +137,7 @@ s2 = box('def', L('Plànols, mapes i jocs', 'Planos, mapas y juegos', 'Maps, pla
   P(r"Les coordenades serveixen per a dir <strong>on està</strong> una cosa amb només dos nombres. Si posem l'origen en la plaça del poble i cada quadre és una illa de cases, podem localitzar cada lloc:",
     r"Las coordenadas sirven para decir <strong>dónde está</strong> una cosa con solo dos números. Si ponemos el origen en la plaza del pueblo y cada cuadro es una manzana de casas, podemos localizar cada lugar:",
     r"Coordinates let us say <strong>where</strong> something is with just two numbers. If we put the origin in the town square and each square of the grid is a block of houses, we can locate every place:")
-  + '<div class="gout">' + F_MAPA + '<div class="gcol">' + ''.join(f'<p>{e} {n}: \\(({x},\\ {y})\\)</p>' for x, y, e, n in LLOCS) + '</div></div>'
+  + '<div class="gout">' + F_MAPA + '<div class="gcol">' + ''.join(f'<p>{e}&ensp;{n}: \\(({x},\\ {y})\\)</p>' for x, y, e, n in LLOCS) + '</div></div>'
   + ul(L(r"En el joc d'<strong>enfonsar la flota</strong> o en els <strong>escacs</strong>, cada casella té una lletra (columna) i un nombre (fila): B4, E7…",
          r"En el juego de <strong>hundir la flota</strong> o en el <strong>ajedrez</strong>, cada casilla tiene una letra (columna) y un número (fila): B4, E7…",
          r"In <strong>Battleships</strong> or <strong>chess</strong>, each square has a letter (column) and a number (row): B4, E7…"),

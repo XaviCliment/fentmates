@@ -28,7 +28,7 @@ NS = len(SECS)
 src = open(SRC, encoding='utf-8').read().split('\n')
 head = '\n'.join(src[:253])
 head = head.replace('<title>Proporcionalitat i percentatges · FentMates</title>', "<title>Gràfics de funcions · FentMates</title>")
-head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Apunts interactius de la Unitat 9 (Gràfics de funcions: coordenades cartesianes, taules i gràfics, interpretació de gràfics i funcions lineals) de 1r d\\'ESO, en valencià, castellà i anglés.">', head)
+head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Apunts interactius de la Unitat 9 (Gràfics de funcions: coordenades cartesianes, taules i gràfics, interpretació de gràfics i funcions lineals) de 1r d\'ESO, en valencià, castellà i anglés.">', head)
 head = head.replace('.hero::after { content: "%";', '.hero::after { content: "(x, y)";')
 assert "Gràfics de funcions · FentMates" in head and 'content: "(x, y)"' in head
 wide = '\n'.join(src[344:350])
