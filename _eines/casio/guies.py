@@ -148,7 +148,7 @@ GUIDES.append({
         "Selecciona <<A:>>, tria el tipus (per exemple <<a<x≤b>>) i escriu els extrems.",
         "Repeteix-ho amb <<B:>> si vols comparar dos intervals. Després tria <<Ejecutar>>.",
         "El punt ple vol dir que l'extrem està inclòs, i el buit que no ho està."],
-     "ex": "Representa $(-2,3]$ i $[1,+\\infty)$ i observa'n la intersecció",
+     "ex": "Representa $\\mathopen{]}-2,3]$ i $[1,+\\infty\\mathclose{[}$ i observa'n la intersecció",
      "keys": "<<A:>> <<a<x≤b>> [[SHIFT]] [[−]] [[2]] [[EXE]] [[3]] [[EXE]] <<Confirmar>> · <<B:>> <<x≥a>> [[1]] [[EXE]] <<Confirmar>> · <<Ejecutar>>",
      "screen": "Dues rectes: la intersecció és [1, 3]"},
   ]})
