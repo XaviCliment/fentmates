@@ -3,7 +3,7 @@
   var root = document.documentElement;
   var LANGS = ["va", "es", "en"];
   var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
-  var UNIT_KEY = "fm-1eso-u8-done", NSEC = 9;
+  var UNIT_KEY = "fm-1eso-u8-done", NSEC = 11;
 
   /* ---------- textos de la interfície ---------- */
   var UI = {
@@ -558,7 +558,177 @@
     onLang(paint);
   }
 
+  /* ---------- 8.10 el teorema de Pitàgores ---------- */
+  function rt(v) { return "\\sqrt{" + n4(v) + "}" + ap(Math.sqrt(v)); }
+  function rtv(v) { return Math.round(Math.sqrt(v) * 100) / 100; }
+  /* triangle rectangle amb els quadrats dels tres costats (com tri_sq de s1011.py) */
+  function triSq(a, b, grid) {
+    var A = [a, 0], B = [0, b], A2 = [a + b, a], B2 = [b, a + b], c = Math.hypot(a, b), i;
+    var it = [["poly", [[0, 0], [a, 0], [a, -a], [0, -a]], "q0"], ["poly", [[0, 0], [0, b], [-b, b], [-b, 0]], "q1"], ["poly", [A, B, B2, A2], "q2"]];
+    if (grid) {
+      for (i = 1; i < a; i++) { it.push(["seg", [i, 0], [i, -a], "gl"]); it.push(["seg", [0, -i], [a, -i], "gl"]); }
+      for (i = 1; i < b; i++) { it.push(["seg", [0, i], [-b, i], "gl"]); it.push(["seg", [-i, 0], [-i, b], "gl"]); }
+      if (isInt(c)) for (i = 1; i < Math.round(c); i++) { var f = i / c; it.push(["seg", mid(A, B, f), mid(A2, B2, f), "gl"]); it.push(["seg", mid(A, A2, f), mid(B, B2, f), "gl"]); }
+    }
+    it.push(["poly", [[0, 0], A, B], "tr"], ["ra", [0, 0], A, B],
+      T_([a / 2, -a / 2], lab(a * a), { cls: "big" }), T_([-b / 2, b / 2], lab(b * b), { cls: "big" }), T_([(a + b) / 2, (a + b) / 2], lab(a * a + b * b), { cls: "big" }),
+      T_([a / 2, 0], "a", { dy: -6 }), T_([0, b / 2], "b", { dx: 8, a: "start" }), T_(off(A, B, 0.16 * Math.min(a, b)), "c", { cls: "hy" }));
+    return it;
+  }
+  function wPit() {
+    var w = document.getElementById("w-pit"); if (!w) return;
+    var I = sliders(w), out = w.querySelector(".gout");
+    function paint() {
+      var a = +I.a.value, b = +I.b.value, c2 = a * a + b * b;
+      showRv(w, "a", "a", a); showRv(w, "b", "b", b);
+      out.innerHTML = G(triSq(a, b, true), { W: 300, maxh: 300 }) + gcol([
+        T(L3("Quadrats dels catets:", "Cuadrados de los catetos:", "Squares on the legs:")) + " " + tex("a^2=" + a * a + ",\\ \\ b^2=" + b * b),
+        T(L3("Quadrat de la hipotenusa:", "Cuadrado de la hipotenusa:", "Square on the hypotenuse:")) + " " + tex("c^2=a^2+b^2=" + a * a + "+" + b * b + "=" + c2),
+        '<span class="big">' + tex("c=" + rt(c2)) + "</span>",
+        isInt(Math.sqrt(c2)) ? "✨ " + T(L3("Arrel exacta: compta els quadrets del quadrat gran!", "Raíz exacta: ¡cuenta los cuadraditos del cuadrado grande!", "Exact root: count the little squares in the big square!")) : "🧮 " + T(L3("L'arrel no és exacta: l'arrodonim a les centèsimes.", "La raíz no es exacta: la redondeamos a las centésimas.", "The root isn't exact: we round it to hundredths."))]);
+    }
+    [I.a, I.b].forEach(function (s) { s.addEventListener("input", paint); });
+    quickBind(w, function (v) { I.a.value = v[0]; I.b.value = v[1]; paint(); });
+    onLang(paint);
+  }
+  function wProof() {
+    var w = document.getElementById("w-proof"); if (!w) return;
+    var I = sliders(w), out = w.querySelector(".gout"), mode = "0";
+    function paint() {
+      var a = +I.a.value, b = +I.b.value, s = a + b, it, tri = a * b / 2;
+      showRv(w, "a", "a", a); showRv(w, "b", "b", b);
+      var sq = ["poly", [[0, 0], [s, 0], [s, s], [0, s]], "frame"];
+      if (mode === "0") {
+        var P1 = [a, 0], P2 = [s, a], Q3 = [b, s], P4 = [0, b];
+        it = [sq, ["poly", [P1, P2, Q3, P4], "q2"], ["poly", [[0, 0], P1, P4], "tr"], ["poly", [[s, 0], P2, P1], "tr"], ["poly", [[s, s], Q3, P2], "tr"], ["poly", [[0, s], P4, Q3], "tr"], T_([s / 2, s / 2], "c²", { cls: "big" })];
+      } else {
+        it = [sq, ["poly", [[0, 0], [a, 0], [a, a], [0, a]], "q0"], ["poly", [[a, a], [s, a], [s, s], [a, s]], "q1"],
+          ["poly", [[a, 0], [s, 0], [a, a]], "tr"], ["poly", [[s, 0], [s, a], [a, a]], "tr"], ["poly", [[0, a], [a, a], [0, s]], "tr"], ["poly", [[a, a], [a, s], [0, s]], "tr"],
+          T_([a / 2, a / 2], "a²", { cls: "big" }), T_([a + b / 2, a + b / 2], "b²", { cls: "big" })];
+      }
+      it.push(T_([a / 2, 0], "a", { dy: 15 }), T_([a + b / 2, 0], "b", { dy: 15 }), T_([0, mode === "0" ? b / 2 : a / 2], mode === "0" ? "b" : "a", { dx: -8, a: "end" }));
+      out.innerHTML = G(it, { W: 260, maxh: 260 }) + gcol([
+        T(L3("Quadrat gran:", "Cuadrado grande:", "Big square:")) + " " + tex("(a+b)^2=" + n4(s) + "^2=" + n4(s * s)),
+        T(L3("Els quatre triangles:", "Los cuatro triángulos:", "The four triangles:")) + " " + tex("4\\cdot\\dfrac{a\\cdot b}{2}=" + n4(4 * tri)),
+        T(L3("Zona lliure:", "Zona libre:", "Free region:")) + " " + tex((mode === "0" ? "c^2" : "a^2+b^2") + "=" + n4(s * s) + "-" + n4(4 * tri) + "=" + n4(s * s - 4 * tri)),
+        "💡 " + T(L3("Canvia de manera: la zona lliure sempre té la mateixa àrea.", "Cambia de manera: la zona libre siempre tiene la misma área.", "Switch layouts: the free region always has the same area."))]);
+    }
+    segs(w, [function (k) { mode = k; paint(); }]);
+    [I.a, I.b].forEach(function (s) { s.addEventListener("input", paint); });
+    onLang(paint);
+  }
+  /* triangle rectangle amb mesures; hot = costat que busquem */
+  function rtFig(a, b, la, lb, lc, hot) {
+    return G([["poly", [[0, 0], [a, 0], [0, b]], "tr"], ["ra", [0, 0], [a, 0], [0, b]], T_([a / 2, 0], la, { dy: 15, cls: hot === "a" ? "hot" : "" }), T_([0, b / 2], lb, { dx: -8, a: "end", cls: hot === "b" ? "hot" : "" }),
+      T_(off([a, 0], [0, b], -0.06 * (a + b)), lc, { a: "start", cls: hot === "c" ? "hot" : "hy" })], { W: 260, maxh: 190, pad: 44 });
+  }
+  function pythSteps(a, b, c) {
+    var miss = a == null ? "a" : b == null ? "b" : "c";
+    if (miss === "c") { var c2 = a * a + b * b; return { miss: miss, v: Math.sqrt(c2), rows: [tex("c^2=a^2+b^2=" + nf(a) + "^2+" + nf(b) + "^2=" + n4(a * a) + "+" + n4(b * b) + "=" + n4(c2)), tex("c=" + rt(c2))] }; }
+    var k = miss === "a" ? b : a, o = miss === "a" ? "b" : "a", d = c * c - k * k;
+    return { miss: miss, v: Math.sqrt(d), rows: [tex(miss + "^2=c^2-" + o + "^2=" + nf(c) + "^2-" + nf(k) + "^2=" + n4(c * c) + "-" + n4(k * k) + "=" + n4(d)), tex(miss + "=" + rt(d))] };
+  }
+  function wPcalc() {
+    var w = document.getElementById("w-pcalc"); if (!w) return;
+    var I = inputs(w), out = w.querySelector(".hsteps"), g = w.querySelector(".gout"), info = w.querySelector(".info");
+    function rd(k) { var s = I[k].value.trim(); if (s === "" || s === "?") return null; var v = numIn(s); return v === null || v <= 0 ? NaN : v; }
+    function paint() {
+      out.innerHTML = g.innerHTML = info.innerHTML = "";
+      var a = rd("a"), b = rd("b"), c = rd("c"), blanks = [a, b, c].filter(function (v) { return v === null; }).length;
+      if ([a, b, c].some(function (v) { return v !== null && isNaN(v); })) { info.innerHTML = warn(u("num")); return; }
+      if (blanks !== 1) { info.innerHTML = warn(T(L3("Escriu dos costats i deixa en blanc el que vols calcular.", "Escribe dos lados y deja en blanco el que quieres calcular.", "Type two sides and leave blank the one you want to find."))); return; }
+      if (c !== null && ((a !== null && a >= c) || (b !== null && b >= c))) { info.innerHTML = warn(T(L3("La hipotenusa ha de ser el costat més llarg.", "La hipotenusa debe ser el lado más largo.", "The hypotenuse must be the longest side."))); return; }
+      var r = pythSteps(a, b, c), A = a == null ? r.v : a, B = b == null ? r.v : b;
+      out.innerHTML = rows2html([T(r.miss === "c" ? L3("Busquem la hipotenusa: sumem els quadrats dels catets i fem l'arrel.", "Buscamos la hipotenusa: sumamos los cuadrados de los catetos y hacemos la raíz.", "We want the hypotenuse: add the squares of the legs and take the root.")
+        : L3("Busquem un catet: al quadrat de la hipotenusa li restem el de l'altre catet i fem l'arrel.", "Buscamos un cateto: al cuadrado de la hipotenusa le restamos el del otro cateto y hacemos la raíz.", "We want a leg: subtract the square of the other leg from the square of the hypotenuse and take the root."))].concat(r.rows));
+      g.innerHTML = rtFig(A, B, "a = " + lab(A), "b = " + lab(B), "c = " + lab(c == null ? r.v : c), r.miss);
+    }
+    ["a", "b", "c"].forEach(function (k) { I[k].addEventListener("input", paint); });
+    quickBind(w, function (v) { I.a.value = v[0]; I.b.value = v[1]; I.c.value = v[2]; paint(); });
+    onLang(paint);
+  }
+  /* triangle de costats a ≤ b ≤ c dibuixat sobre el costat c */
+  function tri3(a, b, c, right) {
+    var x = (c * c + b * b - a * a) / (2 * c), y = Math.sqrt(Math.max(b * b - x * x, 0)), P = [x, y], it = [["poly", [[0, 0], [c, 0], P], "tr"]];
+    if (right) it.push(["ra", P, [0, 0], [c, 0]]);
+    it.push(T_([c / 2, 0], lab(c), { dy: 15 }), T_(off([0, 0], P, 0.08 * c), lab(b)), T_(off(P, [c, 0], 0.08 * c), lab(a)));
+    return it;
+  }
+  function isRight(s) {
+    var t = s.slice().sort(function (p, q) { return p - q; }), a = t[0], b = t[1], c = t[2], L = c * c, Rr = a * a + b * b;
+    return { a: a, b: b, c: c, ok: c < a + b, right: Math.abs(L - Rr) < 1e-9,
+      row: tex(nf(c) + "^2=" + n4(L) + "\\qquad " + nf(a) + "^2+" + nf(b) + "^2=" + n4(a * a) + "+" + n4(b * b) + "=" + n4(Rr)) };
+  }
+  function wEsRect() {
+    var w = document.getElementById("w-esrect"); if (!w) return;
+    var I = inputs(w), out = w.querySelector(".hsteps"), g = w.querySelector(".gout"), info = w.querySelector(".info");
+    function paint() {
+      out.innerHTML = g.innerHTML = info.innerHTML = "";
+      var v = ["a", "b", "c"].map(function (k) { return numIn(I[k].value); });
+      if (v.some(function (x) { return x === null || x <= 0; })) { info.innerHTML = warn(u("num")); return; }
+      var C = isRight(v);
+      if (!C.ok) { out.innerHTML = rows2html([fill(T(L3("El costat més llarg, {c}, no és menor que la suma dels altres dos, {s}: <strong>no hi ha cap triangle</strong> amb aquests costats.", "El lado más largo, {c}, no es menor que la suma de los otros dos, {s}: <strong>no existe ningún triángulo</strong> con esos lados.", "The longest side, {c}, isn't less than the sum of the other two, {s}: <strong>no triangle</strong> has these sides.")), { c: tex(nf(C.c)), s: tex(nf(C.a) + "+" + nf(C.b) + "=" + nf(C.a + C.b)) })]); return; }
+      out.innerHTML = rows2html([fill(T(L3("El costat més llarg és {c}. Comparem el seu quadrat amb la suma dels quadrats dels altres dos:", "El lado más largo es {c}. Comparamos su cuadrado con la suma de los cuadrados de los otros dos:", "The longest side is {c}. Compare its square with the sum of the squares of the other two:")), { c: tex(nf(C.c)) }), C.row,
+        '<span class="big">' + (C.right ? "✓ " + T(L3("Són iguals: el triangle <strong>és rectangle</strong>.", "Son iguales: el triángulo <strong>es rectángulo</strong>.", "They're equal: it <strong>is a right triangle</strong>.")) : "✗ " + T(L3("No són iguals: el triangle <strong>no és rectangle</strong>.", "No son iguales: el triángulo <strong>no es rectángulo</strong>.", "They're not equal: it <strong>isn't a right triangle</strong>."))) + "</span>"]);
+      g.innerHTML = G(tri3(C.a, C.b, C.c, C.right), { W: 300, maxh: 190 });
+    }
+    ["a", "b", "c"].forEach(function (k) { I[k].addEventListener("input", paint); });
+    quickBind(w, function (v) { I.a.value = v[0]; I.b.value = v[1]; I.c.value = v[2]; paint(); });
+    onLang(paint);
+  }
+
+  /* ---------- 8.11 Pitàgores per a calcular àrees i perímetres ---------- */
+  /* cada figura: lliscadors, validació, dibuix, passos i resultats (v: la mesura amb Pitàgores, A, P) */
+  var APL = {
+    rect: { k: ["b", "h"], f: function (b, h) { var d2_ = b * b + h * h;
+      return { it: [["poly", [[0, 0], [b, 0], [b, h], [0, h]], "gf"], ["poly", [[0, 0], [b, 0], [b, h]], "tr"], ["ra", [b, 0], [0, 0], [b, h]], T_([b / 2, 0], "b = " + lab(b), { dy: 15 }), T_([b, h / 2], "h = " + lab(h), { dx: 8, a: "start" }), T_(off([0, 0], [b, h], 0.06 * (b + h)), "d", { cls: "hot" })],
+        rows: [T(L3("La diagonal és la hipotenusa d'un triangle que té de catets la base i l'altura:", "La diagonal es la hipotenusa de un triángulo que tiene de catetos la base y la altura:", "The diagonal is the hypotenuse of a triangle whose legs are the base and the height:")), tex("d=\\sqrt{b^2+h^2}=\\sqrt{" + n4(b * b) + "+" + n4(h * h) + "}=" + rt(d2_))], v: Math.sqrt(d2_) }; } },
+    iso: { k: ["l", "b"], bad: function (l, b) { return b >= 2 * l ? L3("La base ha de ser menor que la suma dels dos costats iguals.", "La base debe ser menor que la suma de los dos lados iguales.", "The base must be shorter than the two equal sides together.") : null; },
+      f: function (l, b) { var hb = b / 2, h2 = l * l - hb * hb, h = Math.sqrt(h2);
+      return { it: [["poly", [[-hb, 0], [hb, 0], [0, h]], "gf"], ["poly", [[0, 0], [hb, 0], [0, h]], "tr"], ["seg", [0, 0], [0, h], "d"], ["ra", [0, 0], [hb, 0], [0, h]], T_([0, 0], "b = " + lab(b), { dy: 15 }), T_([hb / 2, 0], lab(hb), { dy: -6, cls: "sm" }), T_([0, h / 2], "h", { dx: -8, a: "end", cls: "hot" }), T_(off([hb, 0], [0, h], -0.1 * l), "l = " + lab(l), { a: "start" })],
+        rows: [T(L3("L'altura parteix la base per la meitat. Hipotenusa: el costat; catets: mitja base i l'altura.", "La altura parte la base por la mitad. Hipotenusa: el lado; catetos: media base y la altura.", "The height cuts the base in half. Hypotenuse: the side; legs: half the base and the height.")),
+          tex("h=\\sqrt{l^2-\\left(\\tfrac b2\\right)^2}=\\sqrt{" + n4(l * l) + "-" + n4(hb * hb) + "}=" + rt(h2)), tex("A=\\dfrac{b\\cdot h}{2}" + (isInt(h) ? "=\\dfrac{" + nf(b) + "\\cdot" + nf(h) + "}{2}=" + n4(b * h / 2) : "\\approx\\dfrac{" + nf(b) + "\\cdot" + d2(h) + "}{2}\\approx" + d2(b * rtv(h2) / 2)))], v: h, A: b * h / 2 }; } },
+    eq: { k: ["l"], f: function (l) { var hb = l / 2, h2 = l * l - hb * hb, h = Math.sqrt(h2);
+      return { it: [["poly", [[-hb, 0], [hb, 0], [0, h]], "gf"], ["poly", [[0, 0], [hb, 0], [0, h]], "tr"], ["seg", [0, 0], [0, h], "d"], ["ra", [0, 0], [hb, 0], [0, h]], T_([hb / 2, 0], lab(hb), { dy: 15 }), T_([0, h / 2], "h", { dx: -8, a: "end", cls: "hot" }), T_(off([hb, 0], [0, h], -0.1 * l), "l = " + lab(l), { a: "start" })],
+        rows: [T(L3("L'altura parteix el costat de baix per la meitat:", "La altura parte el lado de abajo por la mitad:", "The height cuts the bottom side in half:")),
+          tex("h=\\sqrt{l^2-\\left(\\tfrac l2\\right)^2}=\\sqrt{" + n4(l * l) + "-" + n4(hb * hb) + "}=" + rt(h2)), tex("A=\\dfrac{l\\cdot h}{2}\\approx\\dfrac{" + nf(l) + "\\cdot" + d2(h) + "}{2}\\approx" + d2(l * rtv(h2) / 2))], v: h, A: l * h / 2 }; } },
+    rom: { k: ["D", "d"], f: function (D, d) { var x = D / 2, y = d / 2, l2 = x * x + y * y;
+      return { it: [["poly", [[-x, 0], [0, y], [x, 0], [0, -y]], "gf"], ["seg", [-x, 0], [x, 0], "d"], ["seg", [0, -y], [0, y], "d"], ["poly", [[0, 0], [x, 0], [0, y]], "tr"], ["ra", [0, 0], [x, 0], [0, y]], T_([x / 2, 0], lab(x), { dy: 15 }), T_([0, y / 2], lab(y), { dx: -6, a: "end" }), T_(off([x, 0], [0, y], -0.08 * (x + y)), "l", { a: "start", cls: "hot" })],
+        rows: [T(L3("Les diagonals es tallen per la meitat i en angle recte. Hipotenusa: el costat.", "Las diagonales se cortan por la mitad y en ángulo recto. Hipotenusa: el lado.", "The diagonals cut each other in half at right angles. Hypotenuse: the side.")),
+          tex("l=\\sqrt{\\left(\\tfrac D2\\right)^2+\\left(\\tfrac d2\\right)^2}=\\sqrt{" + n4(x * x) + "+" + n4(y * y) + "}=" + rt(l2)), tex("P=4\\cdot l" + (isInt(Math.sqrt(l2)) ? "=4\\cdot" + nf(Math.sqrt(l2)) + "=" + n4(4 * Math.sqrt(l2)) : "\\approx4\\cdot" + d2(Math.sqrt(l2)) + "=" + d2(4 * rtv(l2)))) + "\\qquad " + tex("A=\\dfrac{D\\cdot d}{2}=" + n4(D * d / 2))], v: Math.sqrt(l2), P: 4 * Math.sqrt(l2), A: D * d / 2 }; } },
+    trap: { k: ["B", "b", "c"], bad: function (B, b, c) { return B <= b ? L3("La base gran B ha de ser més llarga que la base menuda b.", "La base mayor B debe ser más larga que la base menor b.", "The long base B must be longer than the short base b.") : c <= (B - b) / 2 ? L3("El costat c és massa curt per a unir les dues bases.", "El lado c es demasiado corto para unir las dos bases.", "Side c is too short to join the two bases.") : null; },
+      f: function (B, b, c) { var e = (B - b) / 2, h2 = c * c - e * e, h = Math.sqrt(h2), X0 = -B / 2;
+      return { it: [["poly", [[X0, 0], [B / 2, 0], [b / 2, h], [-b / 2, h]], "gf"], ["poly", [[b / 2, 0], [B / 2, 0], [b / 2, h]], "tr"], ["seg", [b / 2, 0], [b / 2, h], "d"], ["ra", [b / 2, 0], [B / 2, 0], [b / 2, h]],
+          T_([0, 0], "B = " + lab(B), { dy: 15 }), T_([0, h], "b = " + lab(b), { dy: -7 }), T_([b / 2 + e / 2, 0], lab(e), { dy: -6, cls: "sm" }), T_([b / 2, h / 2], "h", { dx: -8, a: "end", cls: "hot" }), T_(off([B / 2, 0], [b / 2, h], -0.05 * B), "c = " + lab(c), { a: "start" })],
+        rows: [T(L3("Si tracem les altures, a cada costat de la base gran sobra un tros de ", "Si trazamos las alturas, a cada lado de la base mayor sobra un trozo de ", "Drawing the heights leaves a piece on each side of the long base of ")) + tex("\\tfrac{B-b}{2}=" + n4(e)) + ":",
+          tex("h=\\sqrt{c^2-" + n4(e) + "^2}=\\sqrt{" + n4(c * c) + "-" + n4(e * e) + "}=" + rt(h2)), tex("A=\\dfrac{(B+b)\\cdot h}{2}" + (isInt(h) ? "=\\dfrac{" + (B + b) + "\\cdot" + nf(h) + "}{2}=" + n4((B + b) * h / 2) : "\\approx\\dfrac{" + (B + b) + "\\cdot" + d2(h) + "}{2}\\approx" + d2((B + b) * rtv(h2) / 2)))], v: h, A: (B + b) * h / 2 }; } },
+    hex: { k: ["l"], f: function (l) { var V = reg(6, l), M = mid(V[0], V[1]), a2 = l * l - l * l / 4, a = Math.sqrt(a2);
+      return { it: [["poly", V, "gf"], ["poly", [[0, 0], M, V[1]], "tr"], ["seg", [0, 0], V[0], "d"], ["ra", M, [0, 0], V[1]], ["dot", [0, 0]], T_(mid(M, V[1]), lab(l / 2), { dy: 15 }), T_(mid([0, 0], V[1]), "r = " + lab(l), { dx: 6, dy: -4, a: "start" }), T_(mid([0, 0], M), "a", { dx: -8, a: "end", cls: "hot" })],
+        rows: [T(L3("En l'hexàgon regular el radi és igual al costat. Hipotenusa: el radi; catets: l'apotema i mig costat.", "En el hexágono regular el radio es igual al lado. Hipotenusa: el radio; catetos: la apotema y medio lado.", "In a regular hexagon the radius equals the side. Hypotenuse: the radius; legs: the apothem and half a side.")),
+          tex("a=\\sqrt{l^2-\\left(\\tfrac l2\\right)^2}=\\sqrt{" + n4(l * l) + "-" + n4(l * l / 4) + "}=" + rt(a2)), tex("A=\\dfrac{P\\cdot a}{2}\\approx\\dfrac{" + 6 * l + "\\cdot" + d2(a) + "}{2}\\approx" + d2(6 * l * rtv(a2) / 2))], v: a, A: 3 * l * a }; } }
+  };
+  function wApl() {
+    var w = document.getElementById("w-apl"); if (!w) return;
+    var I = sliders(w), out = w.querySelector(".gout"), info = w.querySelector(".info"), kind = "rect", keys = ["p", "q", "r"];
+    function paint() {
+      var F = APL[kind], vals = F.k.map(function (_, i) { return +I[keys[i]].value; });
+      keys.forEach(function (k, i) { showRange(w, k, i < F.k.length); if (i < F.k.length) showRv(w, k, F.k[i], vals[i]); });
+      info.innerHTML = "";
+      var bad = F.bad && F.bad.apply(null, vals);
+      if (bad) { out.innerHTML = ""; info.innerHTML = warn(T(bad)); return; }
+      var r = F.f.apply(null, vals);
+      out.innerHTML = G(r.it, { W: 320, maxh: 230, pad: 46 }) + gcol(r.rows);
+    }
+    segs(w, [function (k) { kind = k; paint(); }]);
+    keys.forEach(function (k) { I[k].addEventListener("input", paint); });
+    onLang(paint);
+  }
+
   /* ---------- entrenadors ---------- */
+  var TRIPLES = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29]];
+  /* ternes menudes (en els dos ordres) per a les figures de 8.11 */
+  var SMALLT = [[3, 4, 5], [4, 3, 5], [6, 8, 10], [8, 6, 10], [5, 12, 13], [12, 5, 13], [9, 12, 15], [12, 9, 15], [8, 15, 17], [15, 8, 17]];
+  function triple() { var t = pick(TRIPLES), k = t[2] > 13 ? 1 : pick([1, 1, 2, 3]); return t.map(function (v) { return v * k; }); }
   function optsTxt(right, wrongs) {
     var all = [right].concat(wrongs), order = shuffle(all.map(function (_, i) { return i; }));
     return { opts: order.map(function (i) { return all[i]; }), ans: order.indexOf(0) };
@@ -684,6 +854,46 @@
         return T(per ? L3("Calcula el perímetre de la figura (mesures en m, π ≈ 3,14).", "Calcula el perímetro de la figura (medidas en m, π ≈ 3,14).", "Find the perimeter of the shape (lengths in m, π ≈ 3.14).") : L3("Calcula l'àrea de la zona acolorida (mesures en m, resultat en m², π ≈ 3,14).", "Calcula el área de la zona coloreada (medidas en m, resultado en m², π ≈ 3,14).", "Find the coloured area (lengths in m, answer in m², π ≈ 3.14)."))
           + (mode === "cami" ? " " + fill(T(L3("El camí fa {c} m d'amplària.", "El camino mide {c} m de ancho.", "The path is {c} m wide.")), { c: $(v[2]) }) : "") + FG(r.it, 260, 170); },
         function () { return r.rows.join(" "); });
+    },
+    hip: function () {
+      var a, b; if (rint(0, 2)) { var t = triple(); a = t[0]; b = t[1]; } else { a = rint(2, 12); b = rint(2, 12); }
+      if (rint(0, 1)) { var x = a; a = b; b = x; }
+      var r = pythSteps(a, b, null);
+      return ret(qn(r.v), function () { return fill(T(L3("Els catets d'un triangle rectangle fan {a} cm i {b} cm. Quant fa la hipotenusa? (si l'arrel no és exacta, arrodoneix a les centèsimes)", "Los catetos de un triángulo rectángulo miden {a} cm y {b} cm. ¿Cuánto mide la hipotenusa? (si la raíz no es exacta, redondea a las centésimas)", "The legs of a right triangle are {a} cm and {b} cm. How long is the hypotenuse? (if the root isn't exact, round to hundredths)")), { a: $(a), b: $(b) }) + rtFig(a, b, lab(a), lab(b), "?", "c"); },
+        function () { return r.rows.join(" "); });
+    },
+    cat: function () {
+      var a, c; if (rint(0, 2)) { var t = triple(); a = t[rint(0, 1)]; c = t[2]; } else { c = rint(6, 20); a = rint(2, c - 1); }
+      var r = pythSteps(a, null, c);
+      return ret(qn(r.v), function () { return fill(T(L3("La hipotenusa d'un triangle rectangle fa {c} m i un catet, {a} m. Quant fa l'altre catet? (si l'arrel no és exacta, arrodoneix a les centèsimes)", "La hipotenusa de un triángulo rectángulo mide {c} m y un cateto, {a} m. ¿Cuánto mide el otro cateto? (si la raíz no es exacta, redondea a las centésimas)", "The hypotenuse of a right triangle is {c} m and one leg is {a} m. How long is the other leg? (if the root isn't exact, round to hundredths)")), { a: $(a), c: $(c) }) + rtFig(a, r.v, lab(a), "?", lab(c), "b"); },
+        function () { return r.rows.join(" "); });
+    },
+    esrect: function () {
+      var right = rint(0, 1) === 1, s, C;
+      do { s = right ? triple() : [rint(2, 15), rint(2, 15), rint(2, 15)]; C = isRight(s); } while (!C.ok || C.right !== right);
+      s = shuffle(s.slice());
+      var o = { opts: [L3("Sí, és rectangle", "Sí, es rectángulo", "Yes, it's a right triangle"), L3("No és rectangle", "No es rectángulo", "No, it isn't")], ans: right ? 0 : 1 };
+      return ret(o, function () { return fill(T(L3("És rectangle un triangle de costats {a}, {b} i {c} cm?", "¿Es rectángulo un triángulo de lados {a}, {b} y {c} cm?", "Is a triangle with sides {a}, {b} and {c} cm a right triangle?")), { a: $(s[0]), b: $(s[1]), c: $(s[2]) }); },
+        function () { return C.row + " → " + T(right ? L3("són iguals: <strong>és rectangle</strong>.", "son iguales: <strong>es rectángulo</strong>.", "they're equal: <strong>it's a right triangle</strong>.") : L3("no són iguals: <strong>no és rectangle</strong>.", "no son iguales: <strong>no es rectángulo</strong>.", "they're not equal: <strong>it isn't a right triangle</strong>.")); });
+    },
+    apl: function () {
+      var kind = pick(["rect", "iso", "eq", "rom", "trap", "hex", "iso", "rom", "trap"]), F = APL[kind], t = pick(SMALLT), v, ask = "v";
+      if (kind === "rect") v = rint(0, 2) ? [t[0], t[1]] : [rint(2, 12), rint(2, 9)];
+      else if (kind === "iso") { v = [t[2], 2 * t[0]]; ask = pick(["v", "A"]); }
+      else if (kind === "eq" || kind === "hex") v = [2 * rint(1, 6)];
+      else if (kind === "rom") { v = [2 * t[0], 2 * t[1]]; ask = pick(["v", "P"]); }
+      else { v = [rint(2, 8), 0, t[2]]; v[0] = v[0] + 2 * t[0]; v[1] = v[0] - 2 * t[0]; ask = pick(["v", "A"]); }
+      var r = F.f.apply(null, v), val = r[ask];
+      var what = {
+        rect: L3("la diagonal del rectangle", "la diagonal del rectángulo", "the rectangle's diagonal"),
+        iso: ask === "A" ? L3("l'àrea del triangle isòsceles (en cm²)", "el área del triángulo isósceles (en cm²)", "the area of the isosceles triangle (in cm²)") : L3("l'altura del triangle isòsceles", "la altura del triángulo isósceles", "the height of the isosceles triangle"),
+        eq: L3("l'altura del triangle equilàter", "la altura del triángulo equilátero", "the height of the equilateral triangle"),
+        rom: ask === "P" ? L3("el perímetre del rombe", "el perímetro del rombo", "the perimeter of the rhombus") : L3("el costat del rombe", "el lado del rombo", "the side of the rhombus"),
+        trap: ask === "A" ? L3("l'àrea del trapezi isòsceles (en cm²)", "el área del trapecio isósceles (en cm²)", "the area of the isosceles trapezium (in cm²)") : L3("l'altura del trapezi isòsceles", "la altura del trapecio isósceles", "the height of the isosceles trapezium"),
+        hex: L3("l'apotema de l'hexàgon regular", "la apotema del hexágono regular", "the apothem of the regular hexagon")
+      }[kind];
+      return ret(qn(val), function () { return fill(T(L3("Calcula {w} (mesures en cm; si l'arrel no és exacta, arrodoneix a les centèsimes).", "Calcula {w} (medidas en cm; si la raíz no es exacta, redondea a las centésimas).", "Find {w} (lengths in cm; if the root isn't exact, round to hundredths).")), { w: T(what) }) + G(r.it, { W: 260, maxh: 170, pad: 46 }); },
+        function () { return r.rows.join(" "); });
     }
   };
 
@@ -719,7 +929,7 @@
     if (inp) inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { if (done) fresh(); else check(); } });
     onLang(paint);
   }
-  window.FM18 = { G: G, GEN: GEN, convRows: convRows, cellPer: cellPer, polyomino: polyomino, COMP: COMP, CMODE: CMODE, apo: apo, numIn: numIn };
+  window.FM18 = { G: G, GEN: GEN, convRows: convRows, cellPer: cellPer, polyomino: polyomino, COMP: COMP, CMODE: CMODE, APL: APL, isRight: isRight, apo: apo, numIn: numIn };
 
   /* ---------- qüestionari ---------- */
   var QUIZ = [
@@ -843,7 +1053,7 @@
       });
     }
     wChrome(); wSteps(); wNav();
-    wGrid(); wConv(); wPer(); wRect(); wShear(); wArea(); wReg(); wPi(); wCirc(); wPizza(); wCirca(); wComp();
+    wGrid(); wConv(); wPer(); wRect(); wShear(); wArea(); wReg(); wPi(); wCirc(); wPizza(); wCirca(); wComp(); wPit(); wProof(); wPcalc(); wEsRect(); wApl();
     document.querySelectorAll(".w-drill").forEach(wDrill); wQuiz();
   }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);

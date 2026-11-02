@@ -4,7 +4,7 @@ import os, re, sys
 # Agafa la capçalera i l'estil de materials/3eso/t3-proporcionalitat-percentatges.html; l'estil de les figures és el de
 # ../3eso-t8/extra.css, ../3eso-t9/extra.css i ../1eso-t7/extra.css (cal mantindre'n els marcadors) més extra.css.
 # El JavaScript és a app.js (feta a partir de la de 1eso-t7: capçalera genèrica, dibuixant G(), entrenadors, qüestionari
-# i navegació) i quiz.js. El contingut és a s123.py, s456.py i s789.py (amb comu.py): cada resultat es comprova amb ck()
+# i navegació) i quiz.js. El contingut és a s123.py, s456.py, s789.py i s1011.py (amb comu.py): cada resultat es comprova amb ck()
 # i els càlculs amb π es fan amb 3,14.
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
@@ -15,6 +15,7 @@ from comu import L, P
 from s123 import s1, s2, s3
 from s456 import s4, s5, s6
 from s789 import s7, s8, s9
+from s1011 import s10, s11
 from comu import sec
 
 SECS = [
@@ -27,12 +28,14 @@ SECS = [
   (L('La circumferència i la seua longitud', 'La circunferencia y su longitud', 'The circle and its length'), s7),
   (L("L'àrea del cercle i de les figures circulars", 'El área del círculo y de las figuras circulares', 'Area of discs and circular shapes'), s8),
   (L('Figures compostes', 'Figuras compuestas', 'Compound shapes'), s9),
+  (L('El teorema de Pitàgores', 'El teorema de Pitágoras', "Pythagoras' theorem"), s10),
+  (L('Pitàgores per a calcular àrees i perímetres', 'Pitágoras para calcular áreas y perímetros', "Using Pythagoras to find areas and perimeters"), s11),
 ]
 NS = len(SECS)
 src = open(SRC, encoding='utf-8').read().split('\n')
 head = '\n'.join(src[:253])
 head = head.replace('<title>Proporcionalitat i percentatges · FentMates</title>', "<title>Àrees i perímetres · FentMates</title>")
-head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Apunts interactius de la Unitat 8 (Àrees i perímetres: polígons, circumferència, cercle i figures compostes) de 1r d\'ESO, en valencià, castellà i anglés.">', head)
+head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Apunts interactius de la Unitat 8 (Àrees i perímetres: polígons, circumferència, cercle, figures compostes i teorema de Pitàgores) de 1r d\'ESO, en valencià, castellà i anglés.">', head)
 head = head.replace('.hero::after { content: "%";', '.hero::after { content: "π";')
 assert "Àrees i perímetres · FentMates" in head and 'content: "π"' in head
 wide = '\n'.join(src[344:350])
@@ -69,9 +72,9 @@ body = f'''<body>
   <div class="in">
     <span class="kicker">{L("Apunts de teoria · 1r ESO · Matemàtiques", "Apuntes de teoría · 1º ESO · Matemáticas", "Theory notes · 1st ESO · Mathematics")}</span>
     <h1><span class="u">{L("Unitat 8", "Unidad 8", "Unit 8")}</span> · {TIT}</h1>
-    <p>{L("Perímetre i àrea, unitats de longitud i de superfície, àrees del quadrat, el rectangle, el romboide, el triangle, el rombe, el trapezi i els polígons regulars, la longitud de la circumferència i el nombre π, l'àrea del cercle i de les figures circulars i les figures compostes: teoria explicada pas a pas, problemes resolts ordenats de més fàcils a més difícils i eines interactives per a practicar.",
-          "Perímetro y área, unidades de longitud y de superficie, áreas del cuadrado, el rectángulo, el romboide, el triángulo, el rombo, el trapecio y los polígonos regulares, la longitud de la circunferencia y el número π, el área del círculo y de las figuras circulares y las figuras compuestas: teoría explicada paso a paso, problemas resueltos ordenados de más fáciles a más difíciles y herramientas interactivas para practicar.",
-          "Perimeter and area, units of length and area, areas of squares, rectangles, parallelograms, triangles, rhombuses, trapeziums and regular polygons, the circumference and the number π, the area of discs and circular shapes, and compound shapes: theory explained step by step, worked problems from easier to harder and interactive tools to practise.")}</p>
+    <p>{L("Perímetre i àrea, unitats de longitud i de superfície, àrees del quadrat, el rectangle, el romboide, el triangle, el rombe, el trapezi i els polígons regulars, la longitud de la circumferència i el nombre π, l'àrea del cercle i de les figures circulars, les figures compostes i el teorema de Pitàgores per a calcular les mesures que ens falten: teoria explicada pas a pas, problemes resolts ordenats de més fàcils a més difícils i eines interactives per a practicar.",
+          "Perímetro y área, unidades de longitud y de superficie, áreas del cuadrado, el rectángulo, el romboide, el triángulo, el rombo, el trapecio y los polígonos regulares, la longitud de la circunferencia y el número π, el área del círculo y de las figuras circulares, las figuras compuestas y el teorema de Pitágoras para calcular las medidas que nos faltan: teoría explicada paso a paso, problemas resueltos ordenados de más fáciles a más difíciles y herramientas interactivas para practicar.",
+          "Perimeter and area, units of length and area, areas of squares, rectangles, parallelograms, triangles, rhombuses, trapeziums and regular polygons, the circumference and the number π, the area of discs and circular shapes, compound shapes, and Pythagoras' theorem to find missing lengths: theory explained step by step, worked problems from easier to harder and interactive tools to practise.")}</p>
     <div class="chips"><span>{L(f"{NS} apartats", f"{NS} apartados", f"{NS} sections")}</span><span>{L(f"{ntools} eines interactives", f"{ntools} herramientas interactivas", f"{ntools} interactive tools")}</span><span>{L("Problemes per nivells ★☆☆ → ★★★", "Problemas por niveles ★☆☆ → ★★★", "Problems by level ★☆☆ → ★★★")}</span><span>{L("Autoavaluació final", "Autoevaluación final", "Final self-check")}</span></div>
   </div>
 </section>

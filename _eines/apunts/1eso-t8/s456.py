@@ -173,9 +173,9 @@ s6 += box('prop', L("Àrea d'un polígon regular", 'Área de un polígono regula
   + P(r"Per exemple, un pentàgon regular de 8 cm de costat i 5,5 cm d'apotema té \(P=5\cdot8=40\) cm i \(A=\dfrac{40\cdot5{,}5}{2}=110\ \text{cm}^2\).",
       r"Por ejemplo, un pentágono regular de 8 cm de lado y 5,5 cm de apotema tiene \(P=5\cdot8=40\) cm y \(A=\dfrac{40\cdot5{,}5}{2}=110\ \text{cm}^2\).",
       r"For example, a regular pentagon with 8 cm sides and a 5.5 cm apothem has \(P=5\cdot8=40\) cm and \(A=\dfrac{40\cdot5.5}{2}=110\ \text{cm}^2\).")
-  + note(r"L'apotema ens la donaran o la mesurarem amb el regle. En l'<strong>hexàgon regular</strong> els sis triangles són equilàters: el radi és igual al costat.",
-         r"La apotema nos la darán o la mediremos con la regla. En el <strong>hexágono regular</strong> los seis triángulos son equiláteros: el radio es igual al lado.",
-         r"The apothem will be given or we'll measure it with a ruler. In a <strong>regular hexagon</strong> the six triangles are equilateral: the radius equals the side.", '📏')
+  + note(r"L'apotema ens la donaran o la mesurarem amb el regle. En l'<strong>hexàgon regular</strong> els sis triangles són equilàters: el radi és igual al costat. A l'apartat 8.11 veurem com es calcula l'apotema amb el teorema de Pitàgores.",
+         r"La apotema nos la darán o la mediremos con la regla. En el <strong>hexágono regular</strong> los seis triángulos son equiláteros: el radio es igual al lado. En el apartado 8.11 veremos cómo se calcula la apotema con el teorema de Pitágoras.",
+         r"The apothem will be given or we'll measure it with a ruler. In a <strong>regular hexagon</strong> the six triangles are equilateral: the radius equals the side. In section 8.11 we'll see how to work out the apothem with Pythagoras' theorem.", '📏')
   + widget('w-reg', '⬡', L('Explora els polígons regulars', 'Explora los polígonos regulares', 'Explore regular polygons'),
            ['<div class="wrow">' + rng('n', 3, 10, 1, 6, 'n') + rng('l', 1, 12, 0.5, 4, 'l') + '</div>'], out='<div class="gout"></div>')
   + drill('reg', 'Entrena: polígons regulars', 'Entrena: polígonos regulares', 'Train: regular polygons'))

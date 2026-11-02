@@ -1,5 +1,5 @@
 # Genera t8-fitxa-exercicis.tex i t8-fitxa-solucions.tex
-# (1r ESO, Unitat 8: Àrees i perímetres — unitats de mesura, polígons, circumferència, cercle i figures compostes)
+# (1r ESO, Unitat 8: Àrees i perímetres — unitats de mesura, polígons, circumferència, cercle, figures compostes i teorema de Pitàgores)
 # a partir d'una sola llista d'exercicis: cada exercici és (estrelles, enunciat, solució).
 # Els càlculs amb π es fan amb π ≈ 3,14 (P3). Les comprovacions N() i CHK verifiquen cada resultat escrit.
 import os, re, math
@@ -368,9 +368,86 @@ S_.append(("Figures compostes", [
 ]))
 
 # =====================================================================
+# 10. El teorema de Pitàgores
+# =====================================================================
+def R2(x): return Dm(str(x)).sqrt()
+F71 = tz([('poly', [(0, 0), (4, 0), (0, 3)], 'sh'), ('ra', (0, 0), (4, 0), (0, 3)), ('lab', (2, 0), '$x$', 'below'), ('lab', (0, 1.5), '$y$', 'left'), ('lab', (2, 1.5), '$z$', 'above right')], 0.45)
+F72 = tz([('poly', [(0, 0), (5, 0), (1.8, 2.4)], 'sh'), ('ra', (1.8, 2.4), (0, 0), (5, 0)), ('lab', (2.5, 0), '$m$', 'below'), ('lab', (0.9, 1.2), '$n$', 'above left'), ('lab', (3.4, 1.2), '$p$', 'above right')], 0.45)
+F73 = tz([('poly', [(0, 0), (0, 4), (3, 4)], 'sh'), ('ra', (0, 4), (0, 0), (3, 4)), ('lab', (0, 2), '$r$', 'left'), ('lab', (1.5, 4), '$s$', 'above'), ('lab', (1.5, 2), '$t$', 'below right')], 0.45)
+for a, b, c in [(3, 4, 5), (6, 8, 10), (5, 12, 13), (9, 12, 15), (6, 8, 10), (12, 5, 13), (15, 8, 17), (7, 24, 25)]: CHK(a * a + b * b == c * c, a, b, c)
+N(R2(29), '5,39', 2); N(R2(52), '7,21', 2); N(R2(64 - 9), '7,42', 2); N(R2(100 - 49), '7,14', 2)
+CHK(36 + 64 == 100 and 25 + 49 == 74 != 81 and 64 + 225 == 289 and 100 + 121 == 221 != 225)
+N(Dm(25) - Dm('1.96'), '23,04'); N(R2('23.04'), '4,8')
+N(R2(144 + 81), '15'); N(R2(36 + 64), '10'); N(R2(144 + 25), '13'); N(4 * 13, '52')
+F79 = tz([('grid', (0, 0), (8, 10)), ('poly', [(1, 1), (7, 1), (7, 9)], 'sht'), ('ra', (7, 1), (1, 1), (7, 9)), ('dot', (1, 1)), ('dot', (7, 9)), ('lab', (1, 1), '$A$', 'below left'), ('lab', (7, 9), '$B$', 'above right')], 0.3)
+F710 = tz([('seg', (-1, 0), (7, 0), ''), ('seg', (0, 0), (0, 12), 'hl'), ('seg', (0, 12), (5, 0), ''), ('ra', (0, 0), (5, 0), (0, 12)), ('lab', (0, 6), '12 m', 'left'), ('lab', (2.5, 0), '5 m', 'below'), ('lab', (2.5, 6), 'cable', 'right')], 0.17)
+S_.append(("El teorema de Pitàgores", [
+ (1, r"En cada triangle rectangle, digues quins costats són els catets i quin és la hipotenusa, i escriu la relació que dona el teorema de Pitàgores:" + center(F71 + r'\qquad\qquad ' + F72 + r'\qquad\qquad ' + F73)
+     + recorda(r"En un triangle rectangle, els \textbf{catets} formen l'angle recte i la \textbf{hipotenusa} és el costat oposat, el més llarg. \textbf{Teorema de Pitàgores:} $c^2=a^2+b^2$."),
+     tasks(1, [r"Catets $x$ i $y$; hipotenusa $z$: \ $\res{z^2=x^2+y^2}$", r"Catets $n$ i $p$; hipotenusa $m$: \ $\res{m^2=n^2+p^2}$", r"Catets $r$ i $s$; hipotenusa $t$: \ $\res{t^2=r^2+s^2}$"])),
+ (1, r"Calcula la hipotenusa d'un triangle rectangle de catets:" + tasks(4, [r"3\,cm i 4\,cm", r"6\,m i 8\,m", r"5\,cm i 12\,cm", r"9\,dm i 12\,dm"])
+     + recorda(r"Hipotenusa: $c=\sqrt{a^2+b^2}$ (sumem els quadrats i fem l'arrel). \ Catet: $b=\sqrt{c^2-a^2}$ (restem i fem l'arrel)."),
+     tasks(2, [r"$\sqrt{9+16}=\sqrt{25}=\res{5\text{ cm}}$", r"$\sqrt{36+64}=\sqrt{100}=\res{10\text{ m}}$", r"$\sqrt{25+144}=\sqrt{169}=\res{13\text{ cm}}$", r"$\sqrt{81+144}=\sqrt{225}=\res{15\text{ dm}}$"])),
+ (1, r"Calcula el catet que falta en cada triangle rectangle:" + tasks(2, [r"hipotenusa 10\,cm, catet 6\,cm", r"hipotenusa 13\,m, catet 12\,m", r"hipotenusa 17\,cm, catet 15\,cm", r"hipotenusa 25\,cm, catet 7\,cm"]),
+     tasks(2, [r"$\sqrt{100-36}=\sqrt{64}=\res{8\text{ cm}}$", r"$\sqrt{169-144}=\sqrt{25}=\res{5\text{ m}}$", r"$\sqrt{289-225}=\sqrt{64}=\res{8\text{ cm}}$", r"$\sqrt{625-49}=\sqrt{576}=\res{24\text{ cm}}$"])),
+ (2, r"Calcula el costat que falta i arrodoneix el resultat a les centèsimes:" + tasks(2, [r"catets 2\,cm i 5\,cm", r"catets 4\,cm i 6\,cm", r"hipotenusa 8\,cm, catet 3\,cm", r"hipotenusa 10\,cm, catet 7\,cm"]),
+     tasks(2, [r"$c=\sqrt{4+25}=\sqrt{29}\approx\res{5,39\text{ cm}}$", r"$c=\sqrt{16+36}=\sqrt{52}\approx\res{7,21\text{ cm}}$", r"$b=\sqrt{64-9}=\sqrt{55}\approx\res{7,42\text{ cm}}$", r"$b=\sqrt{100-49}=\sqrt{51}\approx\res{7,14\text{ cm}}$"])),
+ (2, r"Esbrina si són rectangles els triangles que tenen aquests costats:" + tasks(4, [r"6, 8 i 10\,cm", r"5, 7 i 9\,cm", r"8, 15 i 17\,cm", r"10, 11 i 15\,cm"])
+     + recorda(r"Compara el quadrat del costat més llarg amb la suma dels quadrats dels altres dos. Si són iguals, el triangle és rectangle."),
+     tasks(2, [r"$10^2=100$; \ $36+64=100$: \ \rest{sí}", r"$9^2=81$; \ $25+49=74$: \ \rest{no}", r"$17^2=289$; \ $64+225=289$: \ \rest{sí}", r"$15^2=225$; \ $100+121=221$: \ \rest{no}"])),
+ (2, r"Una escala de 5\,m està recolzada en una paret, amb el peu a 1,4\,m de la paret. A quina altura arriba?",
+     r"L'escala és la hipotenusa: \ $h=\sqrt{5^2-1,4^2}=\sqrt{25-1,96}=\sqrt{23,04}=\res{4,8\text{ m}}$"),
+ (2, r"Un vaixell ix del port i navega 12\,km cap al nord i després 9\,km cap a l'est. A quina distància en línia recta està del port?",
+     r"Els dos trajectes són els catets: \ $d=\sqrt{12^2+9^2}=\sqrt{144+81}=\sqrt{225}=\res{15\text{ km}}$"),
+ (3, r"En la quadrícula, cada quadret fa 1\,cm de costat. Calcula la distància entre els punts $A$ i $B$." + center(F79),
+     r"Triangle rectangle de catets 6\,cm i 8\,cm: \ $AB=\sqrt{36+64}=\sqrt{100}=\res{10\text{ cm}}$"),
+ (3, r"Per a subjectar un pal de 12\,m d'alt es lliguen quatre cables des de la punta fins a terra, cadascun a 5\,m del peu del pal. Quants metres de cable calen?" + center(F710),
+     r"Cada cable: $\sqrt{12^2+5^2}=\sqrt{169}=13$\,m. \ Quatre cables: $4\cdot13=\res{52\text{ m}}$"),
+]))
+
+# =====================================================================
+# 11. Pitàgores per a calcular àrees i perímetres
+# =====================================================================
+N(R2(64 + 36), '10'); N(R2(576 + 49), '25'); N(R2(32), '5,66', 2)
+N(R2(100 - 64), '6'); N(Dm(16 * 6) / 2, '48'); N(16 + 20, '36')
+F82 = tz([('poly', [(-8, 0), (8, 0), (0, 6)], 'gf'), ('seg', (0, 0), (0, 6), 'd'), ('ra', (0, 0), (8, 0), (0, 6)), ('lab', (0, 0), '16 cm', 'below'), ('lab', (-4, 3), '10 cm', 'above left'), ('lab', (4, 3), '10 cm', 'above right'), ('lab', (0, 3), '$h$', 'right')], 0.2)
+N(R2(81 + 144), '15'); N(4 * 15, '60'); N(Dm(18 * 24) / 2, '216')
+N(R2(25 + 144), '13'); N(12 + 7 + 12 + 13, '44'); N(Dm(19 * 12) / 2, '114')
+F84 = tz([('poly', [(0, 0), (12, 0), (7, 12), (0, 12)], 'gf'), ('seg', (7, 0), (7, 12), 'd'), ('ra', (0, 0), (12, 0), (0, 12)), ('ra', (7, 0), (12, 0), (7, 12)), ('lab', (6, 0), '12 cm', 'below'), ('lab', (3.5, 12), '7 cm', 'above'), ('lab', (0, 6), '12 cm', 'left'), ('lab', (9.5, 6), '$c$', 'right')], 0.17)
+N(R2(100 - 36), '8'); N(Dm(20 * 8) / 2, '80'); N(16 + 4 + 20, '40')
+N(R2(16 - 4), '3,46', 2); N(Dm(24) * Dm('3.46') / 2, '41,52')
+F86 = tz([('poly', reg(6, 2), 'gf'), ('seg', (0, 0), mid(reg(6, 2)[0], reg(6, 2)[1]), 'd'), ('seg', (0, 0), reg(6, 2)[1], 'd'), ('ra', mid(reg(6, 2)[0], reg(6, 2)[1]), (0, 0), reg(6, 2)[1]), ('dot', (0, 0)), ('lab', mid(reg(6, 2)[0], reg(6, 2)[1]), '4 cm', 'below'), ('lab', (0, -0.85), '$a$', 'left')], 0.55)
+N(R2(36 - 9), '5,20', 2); N(6 * Dm('5.2') / 2, '15,6')
+N(P3 * 16, '50,24'); N(P3 * 16 - 32, '18,24')
+F88 = tz([('circ', (0, 0), 4, 'sh'), ('poly', [(4, 0), (0, 4), (-4, 0), (0, -4)], 'hole'), ('seg', (-4, 0), (4, 0), 'd'), ('dot', (0, 0)), ('lab', (2, 0), '4 cm', 'above')], 0.32)
+N(R2(16 + 9), '5'); N(8 + 5 + 5 + 5 + 5, '28'); N(8 * 5 + Dm(8 * 3) / 2, '52')
+F89 = tz([('poly', [(0, 0), (8, 0), (8, 5), (0, 5)], 'gf'), ('poly', [(0, 5), (8, 5), (4, 8)], 'sh'), ('seg', (4, 5), (4, 8), 'd'), ('ra', (4, 5), (8, 5), (4, 8)), ('lab', (4, 0), '8 m', 'below'), ('lab', (8, 2.5), '5 m', 'right'), ('lab', (4, 6.5), '3 m', 'left')], 0.3)
+S_.append(("Pitàgores per a calcular àrees i perímetres", [
+ (1, r"Calcula la diagonal de:" + tasks(3, [r"un rectangle de 8\,cm × 6\,cm", r"un rectangle de 24\,m × 7\,m", r"un quadrat de 4\,cm de costat"])
+     + recorda(r"Busca dins de la figura un \textbf{triangle rectangle} en què la mesura que et falta siga un costat i en conegues els altres dos. Aplica Pitàgores i després calcula l'àrea o el perímetre."),
+     tasks(3, [r"$\sqrt{64+36}=\res{10\text{ cm}}$", r"$\sqrt{576+49}=\res{25\text{ m}}$", r"$\sqrt{16+16}=\sqrt{32}\approx\res{5,66\text{ cm}}$"])),
+ (1, r"Calcula l'altura, l'àrea i el perímetre d'aquest triangle isòsceles:" + center(F82),
+     r"L'altura parteix la base en dues meitats de 8\,cm: \ $h=\sqrt{10^2-8^2}=\sqrt{36}=\res{6\text{ cm}}$. \ $A=\frac{16\cdot6}{2}=\res{48\text{ cm}^2}$. \ $P=16+10+10=\res{36\text{ cm}}$"),
+ (2, r"Les diagonals d'un rombe fan 18\,cm i 24\,cm. Calcula'n el costat, el perímetre i l'àrea.",
+     r"Les semidiagonals fan 9 i 12\,cm: \ $l=\sqrt{81+144}=\sqrt{225}=\res{15\text{ cm}}$. \ $P=4\cdot15=\res{60\text{ cm}}$. \ $A=\frac{18\cdot24}{2}=\res{216\text{ cm}^2}$"),
+ (2, r"Calcula el perímetre i l'àrea d'aquest trapezi rectangle:" + center(F84),
+     r"Triangle de catets $12-7=5$ i 12: \ $c=\sqrt{25+144}=\sqrt{169}=13$\,cm. \ $P=12+7+12+13=\res{44\text{ cm}}$. \ $A=\frac{(12+7)\cdot12}{2}=\res{114\text{ cm}^2}$"),
+ (2, r"Un trapezi isòsceles té les bases de 16\,cm i 4\,cm i els costats iguals de 10\,cm. Calcula'n l'altura, l'àrea i el perímetre.",
+     r"A cada costat sobren $(16-4):2=6$\,cm: \ $h=\sqrt{100-36}=\res{8\text{ cm}}$. \ $A=\frac{(16+4)\cdot8}{2}=\res{80\text{ cm}^2}$. \ $P=16+4+10+10=\res{40\text{ cm}}$"),
+ (2, r"Calcula l'apotema i l'àrea d'un hexàgon regular de 4\,cm de costat." + center(F86),
+     r"El radi és igual al costat (4\,cm): \ $a=\sqrt{4^2-2^2}=\sqrt{12}\approx\res{3,46\text{ cm}}$. \ $P=6\cdot4=24$\,cm; \ $A=\frac{24\cdot3,46}{2}=\res{41,52\text{ cm}^2}$"),
+ (3, r"Un triangle equilàter té 18\,cm de perímetre. Calcula'n l'altura i l'àrea.",
+     r"Costat: $18:3=6$\,cm. \ $h=\sqrt{6^2-3^2}=\sqrt{27}\approx\res{5,20\text{ cm}}$. \ $A=\frac{6\cdot5,2}{2}=\res{15,6\text{ cm}^2}$"),
+ (3, r"Un quadrat té els quatre vèrtexs sobre una circumferència de 4\,cm de radi. Calcula l'àrea de la zona acolorida ($\pi\approx3,14$)." + center(F88),
+     r"La diagonal del quadrat és un diàmetre (8\,cm): \ $l^2+l^2=64\Rightarrow l^2=32$, que és l'àrea del quadrat. \ $A=3,14\cdot4^2-32=50,24-32=\res{18,24\text{ cm}^2}$"),
+ (3, r"Calcula el perímetre i l'àrea de la façana d'aquesta caseta, amb una teulada en forma de triangle isòsceles:" + center(F89),
+     r"Cada costat de la teulada: $\sqrt{4^2+3^2}=\sqrt{25}=5$\,m. \ $P=8+5+5+5+5=\res{28\text{ m}}$. \ $A=8\cdot5+\frac{8\cdot3}{2}=\res{52\text{ m}^2}$"),
+]))
+
+# =====================================================================
 pre = open(os.path.join(HERE, 'preamble.tex'), encoding='utf-8').read()
 pre = pre.split('% ---------- recta real ----------')[0] + '\\newcolumntype{C}[1]{>{\\centering\\arraybackslash}p{#1}}\n'
-KW = 'pdfkeywords={perímetre, àrea, unitats de longitud, unitats de superfície, hectàrea, quadrat, rectangle, romboide, triangle, rombe, trapezi, polígons regulars, apotema, circumferència, nombre pi, cercle, sector circular, corona circular, figures compostes}'
+KW = 'pdfkeywords={perímetre, àrea, unitats de longitud, unitats de superfície, hectàrea, quadrat, rectangle, romboide, triangle, rombe, trapezi, polígons regulars, apotema, circumferència, nombre pi, cercle, sector circular, corona circular, figures compostes, teorema de Pitàgores, catets, hipotenusa}'
 pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda m: KW, pre)
 pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques 1r ESO}')
 pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
@@ -407,7 +484,7 @@ Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \
 
 \begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
 \small ''' + (r"Intenta resoldre cada exercici abans de mirar-ne la solució. Si no t'ix el mateix resultat, repassa els passos o consulta els apunts interactius de la unitat: hi trobaràs eines per a canviar d'unitats i per a explorar les àrees i els perímetres de totes les figures."
-             if sol else r"Exercicis graduats per nivells de dificultat:\quad \estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt] Resol-los al quadern mostrant tots els passos i escriu sempre les unitats (cm, cm$^2$…). Quan hi haja cercles o circumferències, fes servir $\pi\approx3,14$.") + r'''
+             if sol else r"Exercicis graduats per nivells de dificultat:\quad \estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt] Resol-los al quadern mostrant tots els passos i escriu sempre les unitats (cm, cm$^2$…). Quan hi haja cercles o circumferències, fes servir $\pi\approx3,14$. Si una arrel no és exacta, arrodoneix-la a les centèsimes.") + r'''
 \end{tcolorbox}
 ''')
     n = 0

@@ -112,8 +112,8 @@ window.LEVELS = {
         title: { va: "Àrees i perímetres", es: "Áreas y perímetros", en: "Area and perimeter" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t8-arees-perimetres.html", date: "2026-11-02" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 69 exercicis graduats per nivells de dificultat", es: "PDF · 69 ejercicios graduados por niveles de dificultad", en: "PDF · 69 exercises graded by difficulty" }, url: "materials/1eso/t8-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 69 exercicis", es: "PDF · Soluciones de los 69 ejercicios", en: "PDF · Solutions to all 69 exercises" }, url: "materials/1eso/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 87 exercicis graduats per nivells de dificultat", es: "PDF · 87 ejercicios graduados por niveles de dificultad", en: "PDF · 87 exercises graded by difficulty" }, url: "materials/1eso/t8-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 87 exercicis", es: "PDF · Soluciones de los 87 ejercicios", en: "PDF · Solutions to all 87 exercises" }, url: "materials/1eso/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
         ]
       }
     ]
