@@ -315,6 +315,22 @@ for k in HV:
 R26 = lambda m: [[1, 1, 1, m + 1], [m, 1, m - 1, m], [1, m, 1, 1]]
 detpoly(R26, lambda m: m - 1, HV); par(R26, {1: 'SI'}, HV)
 ck('sol', R26(F(0)), (1, 0, 0)); S26 = solve(R26(F(2))); ck('sol', R26(F(2)), tuple(S26))
+V27 = lambda a, b: [[1, 1, 1, 1], [1, 2, a, b], [1, 4, a * a, b * b]]
+for a in HV:
+    for b in HV[::2]:
+        R = V27(a, b); ck('det', coef(R), (a - 1) * (a - 2))
+        if a not in (1, 2): ck('cls', R, 'SCD'); ck('sol', R, ((2 - b) * (a - b) / (a - 1), (b - 1) * (a - b) / (a - 2), (b - 1) * (b - 2) / ((a - 1) * (a - 2))))
+        else: ck('cls', R, 'SCI' if b in (1, 2) else 'SI')
+    ck('det', [[1, 1, 1], [1, 2, a], [1, 4, a * a]], (a - 1) * (a - 2))
+ck('sol', V27(F(1), F(1)), lambda l: (1 - l, 0, l)); ck('sol', V27(F(1), F(2)), lambda l: (-l, 1, l))
+ck('sol', V27(F(2), F(1)), lambda l: (1, -l, l)); ck('sol', V27(F(2), F(2)), lambda l: (0, 1 - l, l))
+B28 = lambda m: [[1, 2, -1, 1, 2], [2, 1, 1, -1, 1], [3, 3, m * m - 4, 0, m + 1]]
+for m_ in HV:
+    R = B28(m_)
+    if m_ == 2: ck('cls', R, 'SCI'); ck('rank', coef(R), 2); ck('sol', R, lambda l, u: (u - l, 1 + l - u, l, u))
+    elif m_ == -2: ck('cls', R, 'SI'); ck('rank', coef(R), 2)
+    else: ck('cls', R, 'SCI'); ck('rank', coef(R), 3); ck('sol', R, (lambda c: lambda l: (l - c, 1 + c - l, c, l))(1 / (m_ + 2)))
+ck('sol', B28(F(0)), lambda l: (-F(1, 2) + l, F(3, 2) - l, F(1, 2), l))
 S.append(("Discussió de sistemes amb paràmetres", [
  (2, r"Discuteix el sistema següent segons els valors de $a$ i resol-lo en tots els casos en què siga compatible:" + dm(sy(R22(Sym('a'))))
      + recorda(r"Calcula $|A|$ i troba'n les arrels (valors crítics). Per a la resta de valors el sistema és SCD; cada valor crític s'estudia a banda amb Rouché-Frobenius."),
@@ -335,6 +351,23 @@ S.append(("Discussió de sistemes amb paràmetres", [
      r"$|A|=" + vm(coef(R26(Sym('m')))) + r"=m-1$." + tasks(1, [r"Si $m\neq1$: \ \rest{SCD}.", r"Si $m=1$: la 1a equació és $x+y+z=2$ i la 3a, $x+y+z=1$: \ \rest{SI}.",
      r"$m=0$: \ $x+y+z=1$, \ $y-z=0$, \ $x+z=1$ \ $\Rightarrow$ \ $\res{x=1;\ y=0;\ z=0}$",
      r"$m=2$: \ $x+y+z=3$, \ $2x+y+z=2$, \ $x+2y+z=1$ \ $\Rightarrow$ \ $\res{x=%s;\ y=%s;\ z=%s}$" % tuple(q(v, 'tfrac') for v in S26)])),
+ (3, r"Discuteix el sistema següent segons els valors dels paràmetres $a$ i $b$, i resol-lo en tots els casos en què siga compatible:" + dm(sy(V27(Sym('a'), Sym('b'))))
+     + recorda(r"Quan hi ha dos paràmetres, primer es troben els valors crítics del que apareix a la matriu $A$ (amb $|A|=0$) i, per a cadascun, s'estudia quins valors de l'altre fan $\operatorname{rg}(A^*)=\operatorname{rg}(A)$. Fixa't en la forma dels determinants (exercici de Vandermonde de la unitat 1)."),
+     r"$|A|=" + vm(coef(V27(Sym('a'), 0))) + r"$ és un determinant de Vandermonde (transposat) amb els valors $1$, $2$ i $a$: \ $|A|=(2-1)(a-1)(a-2)=(a-1)(a-2)$."
+     + tasks(1, [r"Si $a\neq1$ i $a\neq2$: \ \rest{SCD} per a qualsevol $b$. Per Cramer, els tres numeradors també són determinants de Vandermonde:"
+                 + dm(r"x=\frac{" + vm([[1, 1, 1], [Sym('b'), 2, Sym('a')], [Sym('b^2'), 4, Sym('a^2')]]) + r"}{(a-1)(a-2)}=\frac{(2-b)(a-b)(a-2)}{(a-1)(a-2)},\qquad y=\frac{" + vm([[1, 1, 1], [1, Sym('b'), Sym('a')], [1, Sym('b^2'), Sym('a^2')]]) + r"}{(a-1)(a-2)}=\frac{(b-1)(a-1)(a-b)}{(a-1)(a-2)}")
+                 + dm(r"z=\frac{" + vm([[1, 1, 1], [1, 2, Sym('b')], [1, 4, Sym('b^2')]]) + r"}{(a-1)(a-2)}\ \Rightarrow\ \boxed{x=\frac{(2-b)(a-b)}{a-1};\ \ y=\frac{(b-1)(a-b)}{a-2};\ \ z=\frac{(b-1)(b-2)}{(a-1)(a-2)}}"),
+                 r"Si $a=1$ o $a=2$: dues columnes de $A$ són iguals i $\operatorname{rg}(A)=2$ (\,$\begin{vmatrix}1 & 1\\ 1 & 2\end{vmatrix}\neq0$). El menor de $A^*$ format per les columnes de $x$, de $y$ i dels termes independents és \ $" + vm([[1, 1, 1], [1, 2, Sym('b')], [1, 4, Sym('b^2')]]) + r"=(b-1)(b-2)$:"
+                 r"\par si $b\neq1$ i $b\neq2$, \ $\operatorname{rg}(A^*)=3$: \ \rest{SI}; \ si $b=1$ o $b=2$, \ $\operatorname{rg}(A^*)=2$: \ \rest{SCI}.",
+                 r"Solucions dels quatre casos SCI (amb $\lambda\in\mathbb{R}$):\par $a=1,\ b=1$: \ $\res{x=1-\lambda;\ y=0;\ z=\lambda}$ \qquad $a=1,\ b=2$: \ $\res{x=-\lambda;\ y=1;\ z=\lambda}$"
+                 r"\par $a=2,\ b=1$: \ $\res{x=1;\ y=-\lambda;\ z=\lambda}$ \qquad $a=2,\ b=2$: \ $\res{x=0;\ y=1-\lambda;\ z=\lambda}$"])),
+ (3, r"Discuteix el sistema de tres equacions i quatre incògnites següent segons els valors de $m$, i resol-lo en tots els casos en què siga compatible:" + dm(sy(B28(Sym('m')), 'xyzt'))
+     + recorda(r"Amb 3 equacions i 4 incògnites, el sistema mai no pot ser SCD: si és compatible, la solució depèn de $4-\operatorname{rg}(A)$ paràmetres."),
+     dm(r"A^*\xrightarrow[F_3'=F_3-3F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrrr|r}1 & 2 & -1 & 1 & 2\\ 0 & -3 & 3 & -3 & -3\\ 0 & -3 & m^2-1 & -3 & m-5\end{array}\right)\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrrr|r}1 & 2 & -1 & 1 & 2\\ 0 & -3 & 3 & -3 & -3\\ 0 & 0 & m^2-4 & 0 & m-2\end{array}\right)")
+     + tasks(1, [r"Si $m\neq\pm2$: \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)=3<4$: \ \rest{SCI amb un paràmetre}. De la 3a fila, $z=\frac{m-2}{m^2-4}=\frac{1}{m+2}$; de la 2a, $y=1+z-t$; de la 1a, $x=2-2y+z-t=t-z$. Amb $t=\lambda$:"
+                 + dm(r"\boxed{x=\lambda-\tfrac{1}{m+2};\ \ y=1+\tfrac{1}{m+2}-\lambda;\ \ z=\tfrac{1}{m+2};\ \ t=\lambda}"),
+                 r"Si $m=2$: la 3a fila és nul·la: \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)=2<4$: \ \rest{SCI amb dos paràmetres}. Amb $z=\lambda$, $t=\mu$: \ $\res{x=\mu-\lambda;\ y=1+\lambda-\mu;\ z=\lambda;\ t=\mu}$",
+                 r"Si $m=-2$: la 3a fila diu $0=-4$: \ $\operatorname{rg}(A)=2\neq\operatorname{rg}(A^*)=3$: \ \rest{SI}."])),
 ]))
 
 # =====================================================================
@@ -525,7 +558,7 @@ pau("Discussió de sistemes amb paràmetres",
                  r"Si $m=0$: la columna de $x$ és nul·la, $\operatorname{rg}(A)=2$, i $" + vm(mn(NV5(F(0)), [1, 2, -1])) + r"=-2\neq0$: \rest{SI}.",
                  r"Si $m=1$: $3y-z=0$, $3y=2$, $-3y+3z=4$: \rest{SCI}: \ $\res{x=\lambda;\ y=\tfrac23;\ z=2}$",
                  r"Si $m=-2$: la 3a equació és la 2a canviada de signe: \rest{SCI}: de $6x-z=-3$ i $6x-3y=2$: \ $\res{x=\lambda;\ y=-\tfrac23+2\lambda;\ z=3+6\lambda}$"])),
- (2, r"\pau{País Basc, extraordinària 2025} Siga el sistema d'equacions lineals \ $\left\{\begin{aligned}x+3z&=3+\alpha y\\ z+\alpha x+y-2&=0\\ x+2z-y&=1\end{aligned}\right.$" + tasks(1, [r"Discuteix l'existència de solució segons els valors del paràmetre $\alpha$.", r"Si és possible, resol-lo en el cas $\alpha=0$."]),
+ (2, r"\pau{País Basc, extraordinària 2025} Siga el sistema d'equacions lineals" + dm(r"\left\{\begin{aligned}x+3z&=3+\alpha y\\ z+\alpha x+y-2&=0\\ x+2z-y&=1\end{aligned}\right.") + tasks(1, [r"Discuteix l'existència de solució segons els valors del paràmetre $\alpha$.", r"Si és possible, resol-lo en el cas $\alpha=0$."]),
      tasks(1, [r"Ordenant: $\left\{\begin{aligned}x-\alpha y+3z&=3\\ \alpha x+y+z&=2\\ x-y+2z&=1\end{aligned}\right.$. \ $|A|=2\alpha^2-4\alpha=2\alpha(\alpha-2)$. \ Si $\alpha\neq0$ i $\alpha\neq2$: \rest{SCD}. \ Si $\alpha=0$: la 1a equació és la suma de les altres dues: \rest{SCI}. \ Si $\alpha=2$: \rest{SI} ($\operatorname{rg}(A)=2$, $\operatorname{rg}(A^*)=3$).",
                r"$y+z=2$, \ $x-y+2z=1$: amb $z=\lambda$: \ $\res{x=3-3\lambda;\ y=2-\lambda;\ z=\lambda}$"])))
 ck('cls', PVE(F(2)), 'SI'); ck('rank', coef(PVE(F(2))), 2)
