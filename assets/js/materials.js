@@ -97,6 +97,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 68 exercicis graduats per nivells de dificultat", es: "PDF · 68 ejercicios graduados por niveles de dificultad", en: "PDF · 68 exercises graded by difficulty" }, url: "materials/1eso/t6-fitxa-exercicis.pdf", download: true, date: "2026-11-01" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 68 exercicis", es: "PDF · Soluciones de los 68 ejercicios", en: "PDF · Solutions to all 68 exercises" }, url: "materials/1eso/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-01" }
         ]
+      },
+      {
+        ill: "angles", block: "geo",
+        title: { va: "Geometria bàsica del pla", es: "Geometría básica del plano", en: "Basic plane geometry" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t7-geometria-pla.html", date: "2026-11-02" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 67 exercicis graduats per nivells de dificultat", es: "PDF · 67 ejercicios graduados por niveles de dificultad", en: "PDF · 67 exercises graded by difficulty" }, url: "materials/1eso/t7-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 67 exercicis", es: "PDF · Soluciones de los 67 ejercicios", en: "PDF · Solutions to all 67 exercises" }, url: "materials/1eso/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
+        ]
       }
     ]
   },
