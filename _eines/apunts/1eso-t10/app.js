@@ -313,17 +313,22 @@
   }
 
   /* ---------- 10.3 laboratori de dades ---------- */
+  /* percentatge arrodonit a les dècimes */
+  function pct(h) { var r = Math.round(h * 1000) / 10; return (near(r, h * 100) ? "" : "\\approx ") + nf(r) + "\\ \\%"; }
   function freqTable(d) {
     var c = countOf(d), N = d.vals.length, F = 0, rows = c.map(function (o) {
       F += o.f;
       var h = o.f / N, r = [d.num ? tex(nf(o.v)) : esc(cap(String(o.v))), tally(o.f), tex(String(o.f))];
       if (d.num) r.push(tex(String(F)));
-      r.push(tex("\\frac{" + o.f + "}{" + N + "}" + eqr(h)), tex(nf(Math.round(h * 1000) / 10) + "\\ \\%"));
+      r.push(tex("\\frac{" + o.f + "}{" + N + "}" + eqr(h)));
+      if (d.num) r.push(tex(eqr(F / N).replace(/^=/, "")));
+      r.push(tex(pct(h)));
+      if (d.num) r.push(tex(pct(F / N)));
       return r;
     });
-    var tot = ["<strong>" + T(TOTAL) + "</strong>", "", tex("N=" + N)]; if (d.num) tot.push(""); tot.push(tex("1"), tex("100\\ \\%"));
+    var tot = ["<strong>" + T(TOTAL) + "</strong>", "", tex("N=" + N)]; if (d.num) tot.push(""); tot.push(tex("1")); if (d.num) tot.push(""); tot.push(tex("100\\ \\%")); if (d.num) tot.push("");
     rows.push(tot);
-    var head = [tex("x_i"), T(L3("Recompte", "Recuento", "Tally")), tex("f_i")]; if (d.num) head.push(tex("F_i")); head.push(tex("h_i"), "%");
+    var head = [tex("x_i"), T(L3("Recompte", "Recuento", "Tally")), tex("f_i")]; if (d.num) head.push(tex("F_i")); head.push(tex("h_i")); if (d.num) head.push(tex("H_i")); head.push(tex("\\%")); if (d.num) head.push(tex("\\%_A"));
     return tbl(head, rows, "freq");
   }
   function wTally() {

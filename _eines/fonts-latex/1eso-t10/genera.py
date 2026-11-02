@@ -49,7 +49,7 @@ def tr(v, d=2):
     """arrodonit (amb ≈ si cal)"""
     v = fr(v); t = ('%.*f' % (d, float(v))).rstrip('0').rstrip('.')
     return ('=' if fr(t) == v else r'\approx ') + t.replace('.', '{,}')
-def lst(d): return r',\ '.join(tn(x) for x in d)
+def lst(d): return r',\ \allowbreak '.join(tn(x) for x in d)  # les llistes llargues poden partir-se entre línies
 
 # ---------- taules ----------
 def ftab(xs, fs, cols=('f',), xl='$x_i$', N=None):

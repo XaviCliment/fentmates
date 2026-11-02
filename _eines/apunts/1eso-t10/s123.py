@@ -195,17 +195,23 @@ def acc(tab):
     for _, f in tab: s += f; out.append(s)
     return out
 FN = acc(NOT); assert FN == [2, 7, 13, 18, 22, 24, 25]
-HF = [M('x_i'), M('f_i'), M('F_i'), M('h_i'), '%']
-def frow(x, f, F, N): return [M(str(x)), M(str(f)), M(str(F)), M(tn(Fr(f, N))), M(tn(Fr(100 * f, N)))]
-TNOT = tbl(HF, [frow(x, f, F, NN) for (x, f), F in zip(NOT, FN)] + [['<strong>Total</strong>', M('25'), '', M('1'), M('100')]], 'c freq')
+HF = [M('x_i'), M('f_i'), M('F_i'), M('h_i'), M('H_i'), M(r'\%'), M(r'\%_A')]
+def cel(v, d):
+    """valor exacte si té com a molt d decimals; si no, arrodonit amb ≈"""
+    v = Fr(v); t = ('%.*f' % (d, float(v))).rstrip('0').rstrip('.')
+    return tn(v) if fr(t) == v else r'\approx ' + tr(v, d)
+def frow(x, f, F, N, xc=None):
+    return [xc or M(str(x)), M(str(f)), M(str(F)), M(cel(Fr(f, N), 3)), M(cel(Fr(F, N), 3)), M(cel(Fr(100 * f, N), 1)), M(cel(Fr(100 * F, N), 1))]
+def ftot(N, pre=1): return ['<strong>Total</strong>'] + [''] * (pre - 1) + [M(str(N)), '', M('1'), '', M('100'), '']
+TNOT = tbl(HF, [frow(x, f, F, NN) for (x, f), F in zip(NOT, FN)] + [ftot(25)], 'c freq')
 ALT = [152, 147, 158, 150, 143, 161, 155, 149, 151, 146, 157, 153, 163, 150, 148, 154, 159, 141, 152, 156, 145, 151, 160, 149, 153, 144, 158, 147, 162, 150]
 EDG = [140, 145, 150, 155, 160, 165]
 FA = [sum(1 for a in ALT if EDG[i] <= a < EDG[i + 1]) for i in range(5)]
 assert len(ALT) == 30 and FA == [3, 7, 10, 6, 4], FA
 def ivl(a, b): return M(r'[%s,\ %s)' % (a, b))
-TALT = tbl([L('Alçada (cm)', 'Altura (cm)', 'Height (cm)'), L('Marca de classe', 'Marca de clase', 'Class mark'), M('f_i'), M('F_i'), '%'],
-           [[ivl(EDG[i], EDG[i + 1]), M(tn(Fr(EDG[i] + EDG[i + 1], 2))), M(str(f)), M(str(F)), M(tn(Fr(100 * f, 30)) if Fr(100 * f, 30).denominator == 1 else r'\approx ' + tr(Fr(100 * f, 30), 1))]
-            for i, (f, F) in enumerate(zip(FA, acc([(0, f) for f in FA])))] + [['<strong>Total</strong>', '', M('30'), '', M('100')]], 'c freq')
+TALT = tbl([L('Alçada (cm)', 'Altura (cm)', 'Height (cm)'), L('Marca de classe', 'Marca de clase', 'Class mark')] + HF[1:],
+           [[ivl(EDG[i], EDG[i + 1])] + frow(None, f, F, 30, M(tn(Fr(EDG[i] + EDG[i + 1], 2))))
+            for i, (f, F) in enumerate(zip(FA, acc([(0, f) for f in FA])))] + [ftot(30, 2)], 'c freq')
 
 s3 = box('def', L('La taula de freqüències', 'La tabla de frecuencias', 'The frequency table'),
   P(r"Una <strong>taula de freqüències</strong> organitza les dades: en la primera columna posem els valors \(x_i\) <strong>ordenats</strong> i, al costat, les seues freqüències. Quan la variable és quantitativa també hi afegim la <strong>freqüència absoluta acumulada</strong> \(F_i\):",
@@ -214,12 +220,15 @@ s3 = box('def', L('La taula de freqüències', 'La tabla de frecuencias', 'The f
   + ul(L(r"\(F_i\) és el nombre de dades <strong>menors o iguals</strong> que \(x_i\). S'obté sumant les \(f_i\) des de dalt fins a la fila de \(x_i\).",
          r"\(F_i\) es el número de datos <strong>menores o iguales</strong> que \(x_i\). Se obtiene sumando las \(f_i\) desde arriba hasta la fila de \(x_i\).",
          r"\(F_i\) is the number of data values <strong>less than or equal to</strong> \(x_i\). Add up the \(f_i\) from the top down to the row of \(x_i\)."),
-       L(r"L'última \(F_i\) sempre és \(N\), el nombre total de dades.", r"La última \(F_i\) siempre es \(N\), el número total de datos.", r"The last \(F_i\) is always \(N\), the total number of data."))
+       L(r"L'última \(F_i\) sempre és \(N\), el nombre total de dades.", r"La última \(F_i\) siempre es \(N\), el número total de datos.", r"The last \(F_i\) is always \(N\), the total number of data."),
+       L(r"La <strong>freqüència relativa acumulada</strong> és \(H_i=\dfrac{F_i}{N}\) (o la suma de les \(h_i\) fins a eixa fila), i el <strong>percentatge acumulat</strong> és \(\%_A=H_i\cdot100\). L'última \(H_i\) és 1 i l'últim \(\%_A\), el 100&nbsp;%.",
+         r"La <strong>frecuencia relativa acumulada</strong> es \(H_i=\dfrac{F_i}{N}\) (o la suma de las \(h_i\) hasta esa fila), y el <strong>porcentaje acumulado</strong> es \(\%_A=H_i\cdot100\). La última \(H_i\) es 1 y el último \(\%_A\), el 100&nbsp;%.",
+         r"The <strong>cumulative relative frequency</strong> is \(H_i=\dfrac{F_i}{N}\) (or the sum of the \(h_i\) down to that row), and the <strong>cumulative percentage</strong> is \(\%_A=H_i\cdot100\). The last \(H_i\) is 1 and the last \(\%_A\) is 100&nbsp;%."))
   + box('ex', L('Exemple', 'Ejemplo', 'Example'),
         P(r"Notes d'un examen de 25 alumnes:", r"Notas de un examen de 25 alumnos:", r"Marks in a test for 25 students:") + TNOT
-        + ul(L(r"Han tret un 6 o menys \(F=13\) alumnes. Han aprovat (5 o més) \(25-2=23\) alumnes.", r"Han sacado un 6 o menos \(F=13\) alumnos. Han aprobado (5 o más) \(25-2=23\) alumnos.", r"\(F=13\) students got 6 or less. \(25-2=23\) students passed (5 or more)."),
+        + ul(L(r"Han tret un 6 o menys \(F=13\) alumnes, el \(\%_A=52\ \%\). Han aprovat (5 o més) \(25-2=23\) alumnes.", r"Han sacado un 6 o menos \(F=13\) alumnos, el \(\%_A=52\ \%\). Han aprobado (5 o más) \(25-2=23\) alumnos.", r"\(F=13\) students got 6 or less, \(\%_A=52\ \%\). \(25-2=23\) students passed (5 or more)."),
              L(r"Han tret més d'un 7: \(25-18=7\) alumnes, el \(16+8+4=28\ \%\).", r"Han sacado más de un 7: \(25-18=7\) alumnos, el \(16+8+4=28\ \%\).", r"Got more than 7: \(25-18=7\) students, \(16+8+4=28\ \%\)."))))
-ck(NN - FN[3], 7); ck(Fr(100 * 4, 25) + Fr(100 * 2, 25) + Fr(100, 25), 28)
+ck(NN - FN[3], 7); ck(Fr(100 * FN[2], NN), 52); ck(Fr(100 * 4, 25) + Fr(100 * 2, 25) + Fr(100, 25), 28)
 
 s3 += box('prop', L('Dades agrupades en intervals', 'Datos agrupados en intervalos', 'Data grouped into intervals'),
   P(r"Si la variable és <strong>contínua</strong> o té <strong>molts valors diferents</strong>, agrupem les dades en <strong>intervals</strong> (o classes) de la mateixa amplitud:",
@@ -256,7 +265,7 @@ s3 += levels(
          r"Completa la tabla de frecuencias del número de libros leídos el verano pasado por 20 alumnos: " + ', '.join(f'{x} libros → {f} alumnos' for x, f in S3A) + ".",
          r"Complete the frequency table for the number of books read last summer by 20 students: " + ', '.join(f'{x} books → {f} students' for x, f in S3A) + "."),
        P(r"Acumulem les \(f_i\) i dividim entre \(N=20\):", r"Acumulamos las \(f_i\) y dividimos entre \(N=20\):", r"Accumulate the \(f_i\) and divide by \(N=20\):")
-       + tbl(HF, [frow(x, f, F, 20) for (x, f), F in zip(S3A, acc(S3A))] + [['<strong>Total</strong>', M('20'), '', M('1'), M('100')]], 'c freq'))],
+       + tbl(HF, [frow(x, f, F, 20) for (x, f), F in zip(S3A, acc(S3A))] + [ftot(20)], 'c freq'))],
  [prob(L(r"Amb la taula anterior, respon: a) quants alumnes han llegit com a molt 2 llibres? b) quants n'han llegit més de 2? c) quin percentatge n'ha llegit almenys 1?",
          r"Con la tabla anterior, responde: a) ¿cuántos alumnos han leído como mucho 2 libros? b) ¿cuántos han leído más de 2? c) ¿qué porcentaje ha leído al menos 1?",
          r"Using the table above, answer: a) how many students read at most 2 books? b) how many read more than 2? c) what percentage read at least 1?"),
@@ -266,9 +275,9 @@ s3 += levels(
  [prob(L(r"Aquests són els minuts que 20 alumnes tarden a arribar a l'institut: " + ', '.join(str(a) for a in S3B) + ". Agrupa les dades en intervals d'amplitud 10 començant en 0 i fes la taula amb les marques de classe. Quants tarden menys de 20 minuts?",
          r"Estos son los minutos que 20 alumnos tardan en llegar al instituto: " + ', '.join(str(a) for a in S3B) + ". Agrupa los datos en intervalos de amplitud 10 empezando en 0 y haz la tabla con las marcas de clase. ¿Cuántos tardan menos de 20 minutos?",
          r"These are the minutes 20 students take to get to school: " + ', '.join(str(a) for a in S3B) + ". Group the data into intervals of width 10 starting at 0 and make the table with the class marks. How many take less than 20 minutes?"),
-       tbl([L('Temps (min)', 'Tiempo (min)', 'Time (min)'), L('Marca', 'Marca', 'Mark'), M('f_i'), M('F_i'), '%'],
-           [[ivl(EDB[i], EDB[i + 1]), M(str(EDB[i] + 5)), M(str(f)), M(str(F)), M(tn(Fr(100 * f, 20)))] for i, (f, F) in enumerate(zip(FB, acc([(0, f) for f in FB])))]
-           + [['<strong>Total</strong>', '', M('20'), '', M('100')]], 'c freq'),
+       tbl([L('Temps (min)', 'Tiempo (min)', 'Time (min)'), L('Marca', 'Marca', 'Mark')] + HF[1:],
+           [[ivl(EDB[i], EDB[i + 1])] + frow(None, f, F, 20, M(str(EDB[i] + 5))) for i, (f, F) in enumerate(zip(FB, acc([(0, f) for f in FB])))]
+           + [ftot(20, 2)], 'c freq'),
        P(r"Menys de 20 minuts són els dos primers intervals: \(F=4+7=\boxed{11}\) alumnes.", r"Menos de 20 minutos son los dos primeros intervalos: \(F=4+7=\boxed{11}\) alumnos.", r"Less than 20 minutes is the first two intervals: \(F=4+7=\boxed{11}\) students."))])
 ck(acc(S3A)[2], 17); ck(Fr(16, 20) * 100, 80); ck(FB[0] + FB[1], 11)
 s3 += practice([('★☆☆', L(r"Fes la taula de freqüències (amb \(F_i\)) del nombre de gols marcats per un equip en 15 partits: 2, 1, 0, 3, 1, 2, 2, 4, 1, 0, 2, 1, 3, 2, 1.",
