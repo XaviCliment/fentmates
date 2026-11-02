@@ -1,0 +1,14 @@
+    /* preguntes sobre operacions amb esdeveniments i fórmules de la unió i del contrari: ocultes; build.py les afegeix
+       al final del qüestionari només amb FM_AVANCAT=1 */
+    { q: { va: "Al dau, si $A=\\{2,4,6\\}$ i $B=\\{4,5,6\\}$, què és $A\\cap B$?", es: "En el dado, si $A=\\{2,4,6\\}$ y $B=\\{4,5,6\\}$, ¿qué es $A\\cap B$?", en: "On a die, if $A=\\{2,4,6\\}$ and $B=\\{4,5,6\\}$, what is $A\\cap B$?" },
+      o: [{ va: "$\\{2,4,5,6\\}$" }, { va: "$\\{4,6\\}$" }, { va: "$\\{1,3\\}$" }, { va: "$\\{2\\}$" }], a: 1,
+      e: { va: "La intersecció són els elements comuns («A i B»). $\\{2,4,5,6\\}$ és la unió.", es: "La intersección son los elementos comunes («A y B»). $\\{2,4,5,6\\}$ es la unión.", en: "The intersection is the common elements (“A and B”). $\\{2,4,5,6\\}$ is the union." } },
+    { q: { va: "Quina afirmació és certa?", es: "¿Qué afirmación es cierta?", en: "Which statement is true?" },
+      o: [{ va: "Dos esdeveniments incompatibles sempre són contraris", es: "Dos sucesos incompatibles siempre son contrarios", en: "Two mutually exclusive events are always complementary" }, { va: "Dos esdeveniments contraris sempre són incompatibles", es: "Dos sucesos contrarios siempre son incompatibles", en: "Two complementary events are always mutually exclusive" }, { va: "Un esdeveniment i el seu contrari poden ocórrer alhora", es: "Un suceso y su contrario pueden ocurrir a la vez", en: "An event and its complement can happen together" }], a: 1,
+      e: { va: "$A\\cap\\overline{A}=\\varnothing$. Però «traure 1» i «traure 6» són incompatibles i no contraris.", es: "$A\\cap\\overline{A}=\\varnothing$. Pero «sacar 1» y «sacar 6» son incompatibles y no contrarios.", en: "$A\\cap\\overline{A}=\\varnothing$. But “roll 1” and “roll 6” are mutually exclusive and not complementary." } },
+    { q: { va: "Si $P(A)=0{,}3$, quant val $P(\\overline{A})$?", es: "Si $P(A)=0{,}3$, ¿cuánto vale $P(\\overline{A})$?", en: "If $P(A)=0.3$, what is $P(\\overline{A})$?" },
+      o: [{ va: "$0{,}3$" }, { va: "$0{,}7$" }, { va: "$-0{,}3$" }, { va: "$1{,}3$" }], a: 1,
+      e: { va: "$P(\\overline{A})=1-0{,}3=0{,}7$.", es: "$P(\\overline{A})=1-0{,}3=0{,}7$.", en: "$P(\\overline{A})=1-0.3=0.7$." } },
+    { q: { va: "$P(A)=0{,}5$, $P(B)=0{,}4$ i $P(A\\cap B)=0{,}1$. Quant val $P(A\\cup B)$?", es: "$P(A)=0{,}5$, $P(B)=0{,}4$ y $P(A\\cap B)=0{,}1$. ¿Cuánto vale $P(A\\cup B)$?", en: "$P(A)=0.5$, $P(B)=0.4$ and $P(A\\cap B)=0.1$. What is $P(A\\cup B)$?" },
+      o: [{ va: "$0{,}9$" }, { va: "$0{,}8$" }, { va: "$1$" }, { va: "$0{,}2$" }], a: 1,
+      e: { va: "$0{,}5+0{,}4-0{,}1=0{,}8$: la intersecció no s'ha de comptar dues vegades.", es: "$0{,}5+0{,}4-0{,}1=0{,}8$: la intersección no se debe contar dos veces.", en: "$0.5+0.4-0.1=0.8$: the intersection mustn't be counted twice." } },

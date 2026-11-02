@@ -15,17 +15,18 @@ from s12 import s1, s2
 from s34 import s3, s4
 from s56 import s5, s6
 from s7 import s7
-from comu import sec
+from comu import sec, AVANCAT, tria
 
 SECS = [
   (L('Experiments aleatoris. Espai mostral i esdeveniments', 'Experimentos aleatorios. Espacio muestral y sucesos', 'Random experiments. Sample space and events'), s1),
-  (L('Operacions amb esdeveniments', 'Operaciones con sucesos', 'Operations with events'), s2),
   (L("Probabilitat d'un esdeveniment. Propietats", 'Probabilidad de un suceso. Propiedades', 'Probability of an event. Properties'), s3),
   (L('Experiments regulars. Llei de Laplace', 'Experimentos regulares. Ley de Laplace', "Regular experiments. Laplace's rule"), s4),
   (L('Experiments irregulars. Llei dels grans nombres', 'Experimentos irregulares. Ley de los grandes números', 'Irregular experiments. Law of large numbers'), s5),
   (L("Experiments compostos. Diagrames d'arbre", 'Experimentos compuestos. Diagramas de árbol', 'Compound experiments. Tree diagrams'), s6),
   (L('Extraccions amb i sense reemplaçament. Problemes', 'Extracciones con y sin reemplazamiento. Problemas', 'Drawing with and without replacement. Problems'), s7),
 ]
+# 12.2 Operacions amb esdeveniments: contingut avançat, ocult llevat de FM_AVANCAT=1 (vegeu comu.py)
+if AVANCAT: SECS.insert(1, (L('Operacions amb esdeveniments', 'Operaciones con sucesos', 'Operations with events'), s2))
 NS = len(SECS)
 src = open(SRC, encoding='utf-8').read().split('\n')
 head = '\n'.join(src[:253])
@@ -39,7 +40,9 @@ css8 = open(os.path.join(HERE, '..', '3eso-t8', 'extra.css'), encoding='utf-8').
 assert '/* unitat 8: rectes i paràboles */' in css8
 css = css8 + open(os.path.join(HERE, 'extra.css'), encoding='utf-8').read()
 js = open(os.path.join(HERE, 'app.js'), encoding='utf-8').read()
-js = js.replace('/*QUIZ*/\n', open(os.path.join(HERE, 'quiz.js'), encoding='utf-8').read())
+js = js.replace('/*QUIZ*/\n', open(os.path.join(HERE, 'quiz.js'), encoding='utf-8').read()
+                + (open(os.path.join(HERE, 'quiz-avancat.js'), encoding='utf-8').read() if AVANCAT else ''))
+js = re.sub(r'NSEC = \d+', 'NSEC = %d' % NS, js)
 assert 'NSEC = %d' % NS in js and '/*QUIZ*/' not in js
 
 ntools = sum(b.count('class="widget') for _, b in SECS)
@@ -63,9 +66,9 @@ body = f'''<body>
   <div class="in">
     <span class="kicker">{L("Apunts de teoria · 3r ESO · Matemàtiques", "Apuntes de teoría · 3º ESO · Matemáticas", "Theory notes · 3rd ESO · Mathematics")}</span>
     <h1><span class="u">{L("Unitat 12", "Unidad 12", "Unit 12")}</span> · {TIT}</h1>
-    <p>{L("Experiments aleatoris, espai mostral i esdeveniments, operacions amb esdeveniments, freqüències i probabilitat, la llei de Laplace, la llei dels grans nombres, experiments compostos amb diagrames d'arbre i taules, i extraccions amb i sense reemplaçament: teoria explicada pas a pas, problemes resolts ordenats de més fàcils a més difícils i eines interactives per a experimentar i practicar.",
-          "Experimentos aleatorios, espacio muestral y sucesos, operaciones con sucesos, frecuencias y probabilidad, la ley de Laplace, la ley de los grandes números, experimentos compuestos con diagramas de árbol y tablas, y extracciones con y sin reemplazamiento: teoría explicada paso a paso, problemas resueltos ordenados de más fáciles a más difíciles y herramientas interactivas para experimentar y practicar.",
-          "Random experiments, sample space and events, operations with events, frequencies and probability, Laplace's rule, the law of large numbers, compound experiments with tree diagrams and tables, and drawing with and without replacement: theory explained step by step, worked problems from easier to harder and interactive tools to experiment and practise.")}</p>
+    <p>{L("Experiments aleatoris, espai mostral i esdeveniments, " + tria("", "operacions amb esdeveniments, ") + "freqüències i probabilitat, la llei de Laplace, la llei dels grans nombres, experiments compostos amb diagrames d'arbre i taules, i extraccions amb i sense reemplaçament: teoria explicada pas a pas, problemes resolts ordenats de més fàcils a més difícils i eines interactives per a experimentar i practicar.",
+          "Experimentos aleatorios, espacio muestral y sucesos, " + tria("", "operaciones con sucesos, ") + "frecuencias y probabilidad, la ley de Laplace, la ley de los grandes números, experimentos compuestos con diagramas de árbol y tablas, y extracciones con y sin reemplazamiento: teoría explicada paso a paso, problemas resueltos ordenados de más fáciles a más difíciles y herramientas interactivas para experimentar y practicar.",
+          "Random experiments, sample space and events, " + tria("", "operations with events, ") + "frequencies and probability, Laplace's rule, the law of large numbers, compound experiments with tree diagrams and tables, and drawing with and without replacement: theory explained step by step, worked problems from easier to harder and interactive tools to experiment and practise.")}</p>
     <div class="chips"><span>{L(f"{NS} apartats", f"{NS} apartados", f"{NS} sections")}</span><span>{L(f"{ntools} eines interactives", f"{ntools} herramientas interactivas", f"{ntools} interactive tools")}</span><span>{L("Problemes per nivells ★☆☆ → ★★★", "Problemas por niveles ★☆☆ → ★★★", "Problems by level ★☆☆ → ★★★")}</span><span>{L("Autoavaluació final", "Autoevaluación final", "Final self-check")}</span></div>
   </div>
 </section>

@@ -1,7 +1,22 @@
 # Funcions comunes dels apunts de la Unitat 12 (3r ESO, Probabilitat): HTML trilingüe, ginys, figures (arbres,
 # taula de dos daus, bosses de boles en SVG) i comprovacions exactes de cada probabilitat amb fraccions (ck).
-import math
+import math, os
 from fractions import Fraction as Fr
+
+# ---------- contingut avançat ocult ----------
+# Les operacions amb esdeveniments (unió, intersecció, contrari, incompatibles) i les fórmules P(Ā) = 1 − P(A) i
+# P(A∪B) es donen en cursos posteriors. Aquest contingut es conserva ací però no s'inclou a la pàgina, llevat que es
+# genere amb la variable d'entorn FM_AVANCAT=1:  FM_AVANCAT=1 python3 _eines/apunts/3eso-t12/build.py
+AVANCAT = os.environ.get('FM_AVANCAT') == '1'
+def ocult(s):
+    """contingut avançat: només apareix amb FM_AVANCAT=1"""
+    return s if AVANCAT else ''
+def adv(*xs):
+    """elements avançats d'una llista (problemes, punts d'una enumeració)"""
+    return list(xs) if AVANCAT else []
+def tria(nou, vell):
+    """versió per a 3r d'ESO (nou) o la versió original amb operacions i fórmules (vell, amb FM_AVANCAT=1)"""
+    return vell if AVANCAT else nou
 
 def L(va, es, en):
     return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'

@@ -371,6 +371,78 @@ pre_ += r'''
 '''
 TITOL = 'Probabilitat'
 
+# =====================================================================
+# Contingut avançat ocult (2026-11-01): les operacions amb esdeveniments (unió, intersecció, contrari, incompatibles)
+# i les fórmules P(Ā) = 1 − P(A) i P(A∪B) es donen en cursos posteriors. Els exercicis de dalt es conserven sense
+# tocar; ací s'oculta o es reescriu el que en depén. Amb FM_AVANCAT=1 python3 genera.py ix la fitxa original.
+# =====================================================================
+AVANCAT = os.environ.get('FM_AVANCAT') == '1'
+SEC_OCULTES = {"Operacions amb esdeveniments"}
+# exercicis ocults: un tros únic del seu enunciat
+EX_OCULTS = [r"Calcula la probabilitat de l'esdeveniment contrari:",
+             r"Siguen $A$ i $B$ dos esdeveniments amb $P(A)=0{,}4$",
+             r"a) $A$ i $B$ són incompatibles, amb $P(A)=0{,}3$",
+             r"En una enquesta, el 45 % de l'alumnat",
+             r"Sabem que $P(A\cup B)=0{,}9$"]
+# reescriptures (sense operacions ni fórmules del contrari): (text original, text nou), en enunciats i solucions
+CANVIS = [
+ (r"$P(\text{no roig})=1-0{,}35=\res{0{,}65}$. \ Són incompatibles: $P(\text{blau o groc})=0{,}25+0{,}3=\res{0{,}55}$.",
+  r"$P(\text{no roig})=P(\text{blau})+P(\text{verd})+P(\text{groc})=0{,}25+0{,}1+0{,}3=\res{0{,}65}$. \ $P(\text{blau o groc})=0{,}25+0{,}3=\res{0{,}55}$."),
+ (r"$P(\text{no verda})=1-\frac13=\res{\frac23}$.", r"$P(\text{no verda})=\frac{6+4}{15}=\frac{10}{15}=\res{\frac23}$."),
+ (r"$P(\text{consonant})=1-\frac12=\res{\frac12}$.", r"$P(\text{consonant})=\frac{12-6}{12}=\res{\frac12}$."),
+ (r"$P(\text{almenys una creu})=1-P(CC)=\res{\frac34}$.", r"$P(\text{almenys una creu})=P(CX)+P(XC)+P(XX)=\frac14+\frac14+\frac14=\res{\frac34}$."),
+ (r"c) Contrari: tots dos senars, $\frac36\cdot\frac36=\frac14$; \ $P=1-\frac14=\res{\frac34}$.", r"c) A la taula de 36 productes, 27 són parells (només són senars els 9 de dos nombres senars): $\frac{27}{36}=\res{\frac34}$."),
+ (r"c) $1-P(XXX)=1-\frac18=\res{\frac78}$.", r"c) Tots els camins menys $XXX$: $\res{\frac78}$."),
+ (r"c) $1-\frac{25}{36}=\res{\frac{11}{36}}$.", r"c) A la taula, la fila i la columna del 6 tenen 11 caselles: $\res{\frac{11}{36}}$."),
+ (r"I de no encertar-ne cap? I d'encertar-ne almenys una?", r"I de no encertar-ne cap? I d'encertar-ne exactament una?"),
+ (r"$P(\text{almenys una})=1-\frac{27}{64}=\res{\frac{37}{64}}$.", r"$P(\text{exactament una})=3\cdot\frac14\cdot\frac34\cdot\frac34=\res{\frac{27}{64}}$ (tres camins: l'encert pot ser la 1a, la 2a o la 3a)."),
+ (r"I que isca almenys un sis?", r"I que no isca cap sis?"),
+ (r"$P(\text{almenys un 6})=1-\left(\frac56\right)^3=1-\frac{125}{216}=\res{\frac{91}{216}}\approx0{,}42$.", r"$P(\text{cap 6})=\frac56\cdot\frac56\cdot\frac56=\res{\frac{125}{216}}\approx0{,}58$."),
+ (r"Siguen $A=$ «la suma és 7» i $B=$ «algun dels daus és un 6». Calcula $P(A)$, $P(B)$, $P(A\cap B)$ i $P(A\cup B)$.",
+  r"Calcula la probabilitat que: a) la suma siga 7; b) algun dels daus siga un 6; c) la suma siga 7 i algun dau siga un 6; d) la suma siga 7 o algun dau siga un 6."),
+ (r"$P(A)=\frac6{36}$, \ $P(B)=\frac{11}{36}$, \ $A\cap B=\{(1,6),(6,1)\}$: $P(A\cap B)=\frac2{36}=\res{\frac1{18}}$. \ $P(A\cup B)=\frac{6+11-2}{36}=\frac{15}{36}=\res{\frac5{12}}$.",
+  r"Comptem a la taula: a) $\frac6{36}=\res{\frac16}$. \ b) $\res{\frac{11}{36}}$. \ c) $(1,6)$ i $(6,1)$: $\frac2{36}=\res{\frac1{18}}$. \ d) $6+11-2=15$ caselles (les 2 de c) no es compten dues vegades): $\frac{15}{36}=\res{\frac5{12}}$."),
+ (r"Contrari: cap defectuosa, $\frac7{10}\cdot\frac69=\frac{42}{90}=\frac7{15}$. \ $P=1-\frac7{15}=\res{\frac8{15}}$.",
+  r"Sumem els camins amb alguna defectuosa ($D$) o bona ($B$): $DD$: $\frac3{10}\cdot\frac29=\frac6{90}$; \ $DB$: $\frac3{10}\cdot\frac79=\frac{21}{90}$; \ $BD$: $\frac7{10}\cdot\frac39=\frac{21}{90}$. \ $P=\frac{48}{90}=\res{\frac8{15}}$."),
+ (r" (o bé $1-P(XX)=1-\frac14$)", r""),
+]
+ck(Fr(25, 100) + Fr(1, 10) + Fr(3, 10), '0,65'); ck(Fr(10, 15), Fr(2, 3)); ck(3 * Fr(1, 4), Fr(3, 4)); ck(lap(DD, lambda e: e[0] * e[1] % 2 == 0), Fr(27, 36))
+ck(3 * Fr(1, 4) * Fr(3, 4) ** 2, Fr(27, 64)); ck(Fr(5, 6) ** 3, Fr(125, 216)); assert abs(float(Fr(125, 216)) - 0.58) < 0.005
+ck(lap(DD, lambda e: sum(e) == 7), Fr(1, 6)); ck(Fr(6 + 21 + 21, 90), Fr(8, 15)); ck(Fr(3, 10) * Fr(2, 9), Fr(6, 90))
+# exercicis nous per a la secció 3 (substitueixen els que s'oculten)
+NOUS = {"Probabilitat d'un esdeveniment. Propietats": [
+ (1, r"Una ruleta té tres colors. Sabem que $P(\text{roig})=0{,}5$ i $P(\text{blau})=0{,}3$. Calcula $P(\text{verd})$ i la probabilitat que isca roig o verd."
+     + recorda(r"Les probabilitats de tots els resultats elementals sumen 1, i la probabilitat d'un esdeveniment és la suma de les probabilitats dels seus resultats elementals."),
+     r"$P(\text{verd})=1-(0{,}5+0{,}3)=\res{0{,}2}$. \ $P(\text{roig o verd})=0{,}5+0{,}2=\res{0{,}7}$."),
+ (2, r"Un dau està trucat: les cares de l'1 al 5 tenen la mateixa probabilitat i $P(6)=0{,}5$. Calcula $P(1)$, la probabilitat de traure parell i la de traure menys de 3.",
+     r"Si $P(1)=\dots=P(5)=x$: \ $5x+0{,}5=1\Rightarrow x=\res{0{,}1}$. \ $P(\text{parell})=0{,}1+0{,}1+0{,}5=\res{0{,}7}$. \ $P(\text{menys de 3})=0{,}1+0{,}1=\res{0{,}2}$."),
+ (3, r"En una bossa hi ha boles roges, blaves i verdes. La probabilitat de traure roja és el doble que la de traure blava, i $P(\text{verda})=0{,}4$. Calcula $P(\text{roja})$ i $P(\text{blava})$. Si a la bossa hi ha 20 boles, quantes n'hi ha de cada color?",
+     r"Si $P(\text{blava})=x$: \ $2x+x+0{,}4=1\Rightarrow x=0{,}2$. \ $P(\text{roja})=\res{0{,}4}$, \ $P(\text{blava})=\res{0{,}2}$. \ Amb 20 boles: \res{8 roges, 4 blaves i 8 verdes}."),
+]}
+ck(1 - Fr(5, 10) - Fr(3, 10), '0,2'); ck(Fr(5, 10) + Fr(2, 10), '0,7'); ck((1 - Fr(1, 2)) / 5, '0,1'); ck(Fr(1, 10) * 2 + Fr(1, 2), '0,7')
+ck((1 - Fr(4, 10)) / 3, '0,2'); assert (20 * Fr(4, 10), 20 * Fr(2, 10), 20 * Fr(4, 10)) == (8, 4, 8)
+
+def ajusta(S):
+    """aplica les ocultacions i les reescriptures (res si AVANCAT)"""
+    if AVANCAT: return S
+    out, usats = [], set()
+    for title, exs in S:
+        if title in SEC_OCULTES: continue
+        nous = []
+        for ex in exs:
+            if any(o in ex[1] for o in EX_OCULTS):
+                usats.update(o for o in EX_OCULTS if o in ex[1]); continue
+            q, s_ = ex[1], ex[2]
+            for a, b in CANVIS:
+                if a in q or a in s_: usats.add(a)
+                q, s_ = q.replace(a, b), s_.replace(a, b)
+            nous.append((ex[0], q, s_))
+        nous = sorted(nous + NOUS.get(title, []), key=lambda e: e[0])
+        out.append((title, nous))
+    falten = [x for x in EX_OCULTS + [a for a, _ in CANVIS] if x not in usats]
+    assert not falten, falten
+    return out
+
 def build(sol_):
     t = 'Solucions de la fitxa' if sol_ else "Fitxa d'exercicis"
     p = pre_.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
@@ -402,7 +474,7 @@ Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \
 \end{tcolorbox}
 ''')
     n = 0
-    for i, (title, exs) in enumerate(S_, 1):
+    for i, (title, exs) in enumerate(ajusta(S_), 1):
         out.append('\n%% =====================================================\n\\seccio{%d}{%s}\n\n' % (i, title))
         for st_, q, s in exs:
             n += 1

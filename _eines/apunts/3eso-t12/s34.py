@@ -35,24 +35,26 @@ s3 += box('def', L("Probabilitat d'un esdeveniment", 'Probabilidad de un suceso'
     r"La <strong>probabilidad</strong> de un suceso \(A\), \(P(A)\), es un número entre 0 y 1 que mide lo esperable que es que ocurra: cuanto más cerca de 1, más fácil es que ocurra. Se puede escribir como fracción, como decimal o como porcentaje: \(P(A)=\frac14=0{,}25=25\,\%\).",
     r"The <strong>probability</strong> of an event \(A\), \(P(A)\), is a number between 0 and 1 that measures how likely \(A\) is to happen: the closer to 1, the more likely. It can be written as a fraction, a decimal or a percentage: \(P(A)=\frac14=0.25=25\,\%\).")
   + SCALE
-  + P(r"Com la calculem? Si el experiment és <strong>regular</strong> (tots els resultats tenen la mateixa possibilitat), amb la llei de Laplace (apartat 12.4). Si no, l'estimem amb la freqüència relativa d'un nombre gran de repeticions (apartat 12.5).",
-      r"¿Cómo la calculamos? Si el experimento es <strong>regular</strong> (todos los resultados tienen la misma posibilidad), con la ley de Laplace (apartado 12.4). Si no, la estimamos con la frecuencia relativa de un número grande de repeticiones (apartado 12.5).",
-      r"How do we work it out? If the experiment is <strong>regular</strong> (all outcomes are equally likely), with Laplace's rule (section 12.4). If not, we estimate it with the relative frequency over a large number of trials (section 12.5)."))
+  + P(r"Com la calculem? Si el experiment és <strong>regular</strong> (tots els resultats tenen la mateixa possibilitat), amb la llei de Laplace. Si no, l'estimem amb la freqüència relativa d'un nombre gran de repeticions.",
+      r"¿Cómo la calculamos? Si el experimento es <strong>regular</strong> (todos los resultados tienen la misma posibilidad), con la ley de Laplace. Si no, la estimamos con la frecuencia relativa de un número grande de repeticiones.",
+      r"How do we work it out? If the experiment is <strong>regular</strong> (all outcomes are equally likely), with Laplace's rule. If not, we estimate it with the relative frequency over a large number of trials."))
 
 s3 += box('prop', L('Propietats de la probabilitat', 'Propiedades de la probabilidad', 'Properties of probability'),
   ol(L(r"Per a qualsevol esdeveniment, \(0\le P(A)\le1\).", r"Para cualquier suceso, \(0\le P(A)\le1\).", r"For any event, \(0\le P(A)\le1\)."),
      L(r"\(P(E)=1\) (esdeveniment segur) i \(P(\varnothing)=0\) (esdeveniment impossible).", r"\(P(E)=1\) (suceso seguro) y \(P(\varnothing)=0\) (suceso imposible).", r"\(P(E)=1\) (certain event) and \(P(\varnothing)=0\) (impossible event)."),
      L(r"Les probabilitats de tots els resultats elementals sumen 1.", r"Las probabilidades de todos los resultados elementales suman 1.", r"The probabilities of all the elementary outcomes add up to 1."),
-     L(r"<strong>Esdeveniment contrari:</strong> \(P(\overline{A})=1-P(A)\).", r"<strong>Suceso contrario:</strong> \(P(\overline{A})=1-P(A)\).", r"<strong>Complementary event:</strong> \(P(\overline{A})=1-P(A)\)."),
+     L(r"La probabilitat d'un esdeveniment compost és la suma de les probabilitats dels seus resultats elementals. Per exemple, \(P(\text{parell})=P(2)+P(4)+P(6)\).", r"La probabilidad de un suceso compuesto es la suma de las probabilidades de sus resultados elementales. Por ejemplo, \(P(\text{par})=P(2)+P(4)+P(6)\).", r"The probability of a compound event is the sum of the probabilities of its elementary outcomes. For example, \(P(\text{even})=P(2)+P(4)+P(6)\)."),
+     *adv(L(r"<strong>Esdeveniment contrari:</strong> \(P(\overline{A})=1-P(A)\).", r"<strong>Suceso contrario:</strong> \(P(\overline{A})=1-P(A)\).", r"<strong>Complementary event:</strong> \(P(\overline{A})=1-P(A)\)."),
      L(r"Si \(A\) i \(B\) són <strong>incompatibles</strong>: \(P(A\cup B)=P(A)+P(B)\).", r"Si \(A\) y \(B\) son <strong>incompatibles</strong>: \(P(A\cup B)=P(A)+P(B)\).", r"If \(A\) and \(B\) are <strong>mutually exclusive</strong>: \(P(A\cup B)=P(A)+P(B)\)."),
-     L(r"En general (compatibles o no): \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\). Restem la intersecció perquè l'hem sumada dues vegades.", r"En general (compatibles o no): \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\). Restamos la intersección porque la hemos sumado dos veces.", r"In general (exclusive or not): \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\). We subtract the intersection because it has been added twice."))
-  + note(r"La propietat del contrari és molt útil: de vegades és més fàcil calcular la probabilitat que <strong>no</strong> ocórrega una cosa i restar-la d'1.",
+     L(r"En general (compatibles o no): \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\). Restem la intersecció perquè l'hem sumada dues vegades.", r"En general (compatibles o no): \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\). Restamos la intersección porque la hemos sumado dos veces.", r"In general (exclusive or not): \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\). We subtract the intersection because it has been added twice.")))
+  + ocult(note(r"La propietat del contrari és molt útil: de vegades és més fàcil calcular la probabilitat que <strong>no</strong> ocórrega una cosa i restar-la d'1.",
          r"La propiedad del contrario es muy útil: a veces es más fácil calcular la probabilidad de que algo <strong>no</strong> ocurra y restarla de 1.",
-         r"The complement rule is very handy: sometimes it's easier to work out the probability that something does <strong>not</strong> happen and subtract it from 1.")
-  + widget('w-prop', '⚖️', L('Probabilitats de dos esdeveniments', 'Probabilidades de dos sucesos', 'Probabilities of two events'),
+         r"The complement rule is very handy: sometimes it's easier to work out the probability that something does <strong>not</strong> happen and subtract it from 1."))
+  + ocult(widget('w-prop', '⚖️', L('Probabilitats de dos esdeveniments', 'Probabilidades de dos sucesos', 'Probabilities of two events'),
            ['<div class="wrow">' + rng('a', 0, 1, 0.05, 0.5, 'P(A)') + rng('b', 0, 1, 0.05, 0.4, 'P(B)') + rng('c', 0, 1, 0.05, 0.2, 'P(A∩B)') + '</div>',
-            quick([('0.5|0.4|0.2', 'P(A)=0,5 · P(B)=0,4 · P(A∩B)=0,2'), ('0.3|0.45|0', L('incompatibles', 'incompatibles', 'mutually exclusive')), ('0.6|0.3|0.3', 'B ⊂ A'), ('0.7|0.6|0.1', L('impossible?', '¿imposible?', 'impossible?'))])])
-  + drill('prop', 'Entrena: propietats de la probabilitat', 'Entrena: propiedades de la probabilidad', 'Train: properties of probability'))
+            quick([('0.5|0.4|0.2', 'P(A)=0,5 · P(B)=0,4 · P(A∩B)=0,2'), ('0.3|0.45|0', L('incompatibles', 'incompatibles', 'mutually exclusive')), ('0.6|0.3|0.3', 'B ⊂ A'), ('0.7|0.6|0.1', L('impossible?', '¿imposible?', 'impossible?'))])]))
+  + tria(drill('falta', 'Entrena: les probabilitats sumen 1', 'Entrena: las probabilidades suman 1', 'Train: probabilities add up to 1'),
+         drill('prop', 'Entrena: propietats de la probabilitat', 'Entrena: propiedades de la probabilidad', 'Train: properties of probability')))
 
 PT = [Fr(1, 10), Fr(2, 10), Fr(1, 10), Fr(2, 10), Fr(1, 10)]; P6 = 1 - sum(PT)
 assert P6 == Fr(3, 10) and PT[1] + PT[3] + P6 == Fr(7, 10)
@@ -62,40 +64,65 @@ pf, pbq, pfb = Fr(30, 100), Fr(20, 100), Fr(8, 100)
 assert pf + pbq - pfb == Fr(42, 100) and 1 - Fr(42, 100) == Fr(58, 100) and pf - pfb == Fr(22, 100)
 pu, pa3, pb3 = Fr(8, 10), Fr(5, 10), Fr(45, 100)
 assert pa3 + pb3 - pu == Fr(15, 100) and pa3 - Fr(15, 100) == Fr(35, 100)
-s3 += levels(
- [prob(L(r"La probabilitat que demà ploga és 0,35. Quina és la probabilitat que no ploga?", r"La probabilidad de que mañana llueva es 0,35. ¿Cuál es la probabilidad de que no llueva?", r"The probability that it will rain tomorrow is 0.35. What is the probability that it won't?"),
-       D(r"P(\overline{A})=1-P(A)=1-0{,}35=\boxed{0{,}65}")),
-  prob(L(r"Un dau està trucat. Les probabilitats dels resultats de l'1 al 5 són 0,1, 0,2, 0,1, 0,2 i 0,1. Calcula la probabilitat de traure un 6 i la de traure parell.",
+PR_RAIN = prob(L(r"La probabilitat que demà ploga és 0,35. Quina és la probabilitat que no ploga?", r"La probabilidad de que mañana llueva es 0,35. ¿Cuál es la probabilidad de que no llueva?", r"The probability that it will rain tomorrow is 0.35. What is the probability that it won't?"),
+       D(r"P(\overline{A})=1-P(A)=1-0{,}35=\boxed{0{,}65}"))
+PR_DIE = prob(L(r"Un dau està trucat. Les probabilitats dels resultats de l'1 al 5 són 0,1, 0,2, 0,1, 0,2 i 0,1. Calcula la probabilitat de traure un 6 i la de traure parell.",
          r"Un dado está trucado. Las probabilidades de los resultados del 1 al 5 son 0,1, 0,2, 0,1, 0,2 y 0,1. Calcula la probabilidad de sacar un 6 y la de sacar par.",
          r"A die is loaded. The probabilities of the outcomes 1 to 5 are 0.1, 0.2, 0.1, 0.2 and 0.1. Find the probability of rolling a 6 and of rolling an even number."),
        P(r"Les sis probabilitats han de sumar 1:", r"Las seis probabilidades deben sumar 1:", r"The six probabilities must add up to 1:"),
        D(r"P(6)=1-(0{,}1+0{,}2+0{,}1+0{,}2+0{,}1)=1-0{,}7=\boxed{0{,}3}"),
-       D(r"P(\text{%s})=P(2)+P(4)+P(6)=0{,}2+0{,}2+0{,}3=\boxed{0{,}7}" % Lt('parell', 'par', 'even')))],
- [prob(L(r"Siguen \(A\) i \(B\) dos esdeveniments amb \(P(A)=0{,}5\), \(P(B)=0{,}4\) i \(P(A\cap B)=0{,}2\). Calcula \(P(A\cup B)\) i la probabilitat que no ocórrega cap dels dos.",
+       D(r"P(\text{%s})=P(2)+P(4)+P(6)=0{,}2+0{,}2+0{,}3=\boxed{0{,}7}" % Lt('parell', 'par', 'even')))
+PR_UNI = prob(L(r"Siguen \(A\) i \(B\) dos esdeveniments amb \(P(A)=0{,}5\), \(P(B)=0{,}4\) i \(P(A\cap B)=0{,}2\). Calcula \(P(A\cup B)\) i la probabilitat que no ocórrega cap dels dos.",
          r"Sean \(A\) y \(B\) dos sucesos con \(P(A)=0{,}5\), \(P(B)=0{,}4\) y \(P(A\cap B)=0{,}2\). Calcula \(P(A\cup B)\) y la probabilidad de que no ocurra ninguno de los dos.",
          r"Let \(A\) and \(B\) be two events with \(P(A)=0.5\), \(P(B)=0.4\) and \(P(A\cap B)=0.2\). Find \(P(A\cup B)\) and the probability that neither happens."),
        D(r"P(A\cup B)=0{,}5+0{,}4-0{,}2=\boxed{0{,}7}"),
        P(r"«No ocorre cap dels dos» és el contrari d'«ocorre algun dels dos» (\(A\cup B\)):", r"«No ocurre ninguno de los dos» es el contrario de «ocurre alguno de los dos» (\(A\cup B\)):", r"“Neither happens” is the complement of “at least one happens” (\(A\cup B\)):"),
-       D(r"P(\overline{A\cup B})=1-0{,}7=\boxed{0{,}3}")),
-  prob(L(r"En un institut, el 30 % de l'alumnat juga a futbol, el 20 % a bàsquet i el 8 % a tots dos esports. Triem un alumne a l'atzar. Quina és la probabilitat que jugue a algun d'aquests esports? I que no en jugue a cap?",
+       D(r"P(\overline{A\cup B})=1-0{,}7=\boxed{0{,}3}"))
+PR_SPORT = prob(L(r"En un institut, el 30 % de l'alumnat juga a futbol, el 20 % a bàsquet i el 8 % a tots dos esports. Triem un alumne a l'atzar. Quina és la probabilitat que jugue a algun d'aquests esports? I que no en jugue a cap?",
          r"En un instituto, el 30 % del alumnado juega a fútbol, el 20 % a baloncesto y el 8 % a los dos deportes. Elegimos un alumno al azar. ¿Cuál es la probabilidad de que juegue a alguno de estos deportes? ¿Y de que no juegue a ninguno?",
          r"In a school, 30 % of the students play football, 20 % play basketball and 8 % play both. We pick a student at random. What is the probability that they play at least one of these sports? And neither?"),
        D(r"P(F\cup B)=0{,}30+0{,}20-0{,}08=\boxed{0{,}42}\qquad P(\overline{F\cup B})=1-0{,}42=\boxed{0{,}58}"),
-       note(r"Si sumàrem directament 30 % + 20 %, l'alumnat que juga als dos esports (8 %) estaria comptat dues vegades.", r"Si sumáramos directamente 30 % + 20 %, el alumnado que juega a los dos deportes (8 %) estaría contado dos veces.", r"If we just added 30 % + 20 %, the students who play both sports (8 %) would be counted twice.", '⚠️'))],
- [prob(L(r"Sabem que \(P(A)=0{,}5\), \(P(B)=0{,}45\) i \(P(A\cup B)=0{,}8\). Calcula \(P(A\cap B)\). Són incompatibles? Quina és la probabilitat que ocórrega \(A\) però no \(B\)?",
+       note(r"Si sumàrem directament 30 % + 20 %, l'alumnat que juga als dos esports (8 %) estaria comptat dues vegades.", r"Si sumáramos directamente 30 % + 20 %, el alumnado que juega a los dos deportes (8 %) estaría contado dos veces.", r"If we just added 30 % + 20 %, the students who play both sports (8 %) would be counted twice.", '⚠️'))
+PR_INTER = prob(L(r"Sabem que \(P(A)=0{,}5\), \(P(B)=0{,}45\) i \(P(A\cup B)=0{,}8\). Calcula \(P(A\cap B)\). Són incompatibles? Quina és la probabilitat que ocórrega \(A\) però no \(B\)?",
          r"Sabemos que \(P(A)=0{,}5\), \(P(B)=0{,}45\) y \(P(A\cup B)=0{,}8\). Calcula \(P(A\cap B)\). ¿Son incompatibles? ¿Cuál es la probabilidad de que ocurra \(A\) pero no \(B\)?",
          r"We know that \(P(A)=0.5\), \(P(B)=0.45\) and \(P(A\cup B)=0.8\). Find \(P(A\cap B)\). Are they mutually exclusive? What is the probability that \(A\) happens but \(B\) doesn't?"),
        P(r"Aïllem la intersecció de la fórmula de la unió:", r"Despejamos la intersección de la fórmula de la unión:", r"Solve the union formula for the intersection:"),
        D(r"0{,}8=0{,}5+0{,}45-P(A\cap B)\ \Rightarrow\ P(A\cap B)=0{,}95-0{,}8=\boxed{0{,}15}"),
        P(r"Com que \(P(A\cap B)\neq0\), <strong>no</strong> són incompatibles. «\(A\) però no \(B\)» és la part d'\(A\) que no és en \(B\):", r"Como \(P(A\cap B)\neq0\), <strong>no</strong> son incompatibles. «\(A\) pero no \(B\)» es la parte de \(A\) que no está en \(B\):", r"Since \(P(A\cap B)\neq0\), they are <strong>not</strong> mutually exclusive. “\(A\) but not \(B\)” is the part of \(A\) outside \(B\):"),
-       D(r"P(A\cap\overline{B})=P(A)-P(A\cap B)=0{,}5-0{,}15=\boxed{0{,}35}"))])
-s3 += practice([
+       D(r"P(A\cap\overline{B})=P(A)-P(A\cap B)=0{,}5-0{,}15=\boxed{0{,}35}"))
+PR_RUL = prob(L(r"Una ruleta té sectors de quatre colors. Sabem que \(P(\text{roig})=0{,}35\), \(P(\text{blau})=0{,}25\) i \(P(\text{verd})=0{,}1\). Calcula la probabilitat que isca groc i la probabilitat que isca blau o groc.",
+         r"Una ruleta tiene sectores de cuatro colores. Sabemos que \(P(\text{rojo})=0{,}35\), \(P(\text{azul})=0{,}25\) y \(P(\text{verde})=0{,}1\). Calcula la probabilidad de que salga amarillo y la probabilidad de que salga azul o amarillo.",
+         r"A spinner has sectors in four colours. We know that \(P(\text{red})=0.35\), \(P(\text{blue})=0.25\) and \(P(\text{green})=0.1\). Find the probability of yellow and the probability of blue or yellow."),
+       P(r"Els quatre colors són tots els resultats possibles, així que les seues probabilitats sumen 1:", r"Los cuatro colores son todos los resultados posibles, así que sus probabilidades suman 1:", r"The four colours are all the possible outcomes, so their probabilities add up to 1:"),
+       D(r"P(\text{%s})=1-(0{,}35+0{,}25+0{,}1)=1-0{,}7=\boxed{0{,}3}" % Lt('groc', 'amarillo', 'yellow')),
+       P(r"«Blau o groc» està format per dos resultats elementals: sumem les seues probabilitats.", r"«Azul o amarillo» está formado por dos resultados elementales: sumamos sus probabilidades.", r"“Blue or yellow” is made up of two elementary outcomes: add their probabilities."),
+       D(r"P(\text{%s})=0{,}25+0{,}3=\boxed{0{,}55}" % Lt('blau o groc', 'azul o amarillo', 'blue or yellow')))
+PR_LOAD = prob(L(r"Un dau està trucat de manera que cada cara té una probabilitat proporcional al seu nombre: \(P(1)=p\), \(P(2)=2p\), …, \(P(6)=6p\). Calcula \(p\), \(P(6)\) i la probabilitat de traure parell.",
+         r"Un dado está trucado de manera que cada cara tiene una probabilidad proporcional a su número: \(P(1)=p\), \(P(2)=2p\), …, \(P(6)=6p\). Calcula \(p\), \(P(6)\) y la probabilidad de sacar par.",
+         r"A die is loaded so that each face has a probability proportional to its number: \(P(1)=p\), \(P(2)=2p\), …, \(P(6)=6p\). Find \(p\), \(P(6)\) and the probability of rolling an even number."),
+       P(r"Les sis probabilitats sumen 1:", r"Las seis probabilidades suman 1:", r"The six probabilities add up to 1:"),
+       D(r"p+2p+3p+4p+5p+6p=21p=1\ \Rightarrow\ \boxed{p=\frac1{21}}\qquad P(6)=\frac6{21}=\boxed{\frac27}"),
+       D(r"P(\text{%s})=P(2)+P(4)+P(6)=\frac{2+4+6}{21}=\frac{12}{21}=\boxed{\frac47}" % Lt('parell', 'par', 'even')))
+assert Fr(1, 1) - Fr(35, 100) - Fr(25, 100) - Fr(1, 10) == Fr(3, 10) and Fr(25, 100) + Fr(3, 10) == Fr(55, 100)
+assert sum(range(1, 7)) == 21 and Fr(6, 21) == Fr(2, 7) and Fr(12, 21) == Fr(4, 7)
+# problemes amb el contrari o la unió: ocults (FM_AVANCAT=1)
+s3 += levels(adv(PR_RAIN) + [PR_DIE], [PR_RUL] + adv(PR_UNI, PR_SPORT), [PR_LOAD] + adv(PR_INTER))
+PRACT3_VELL = practice([
   ('★', L(r"a) Si \(P(A)=\frac38\), quant val \(P(\overline{A})\)? b) Pot ser que \(P(A)=1{,}2\)? I que \(P(A)=-0{,}3\)?", r"a) Si \(P(A)=\frac38\), ¿cuánto vale \(P(\overline{A})\)? b) ¿Puede ser que \(P(A)=1{,}2\)? ¿Y que \(P(A)=-0{,}3\)?", r"a) If \(P(A)=\frac38\), what is \(P(\overline{A})\)? b) Can \(P(A)=1.2\)? What about \(P(A)=-0.3\)?")),
   ('★★', L(r"c) \(A\) i \(B\) són incompatibles, amb \(P(A)=0{,}25\) i \(P(B)=0{,}6\). Calcula \(P(A\cup B)\) i \(P(\overline{A\cup B})\). d) En una ruleta, \(P(\text{roig})=0{,}45\), \(P(\text{negre})=0{,}45\) i la resta és verd. Quant val \(P(\text{verd})\)?", r"c) \(A\) y \(B\) son incompatibles, con \(P(A)=0{,}25\) y \(P(B)=0{,}6\). Calcula \(P(A\cup B)\) y \(P(\overline{A\cup B})\). d) En una ruleta, \(P(\text{rojo})=0{,}45\), \(P(\text{negro})=0{,}45\) y el resto es verde. ¿Cuánto vale \(P(\text{verde})\)?", r"c) \(A\) and \(B\) are mutually exclusive, with \(P(A)=0.25\) and \(P(B)=0.6\). Find \(P(A\cup B)\) and \(P(\overline{A\cup B})\). d) On a roulette wheel, \(P(\text{red})=0.45\), \(P(\text{black})=0.45\) and the rest is green. What is \(P(\text{green})\)?")),
   ('★★★', L(r"e) El 60 % de les famílies d'un poble té gos, el 35 % té gat i el 25 % no té cap dels dos. Quin percentatge té gos i gat?", r"e) El 60 % de las familias de un pueblo tiene perro, el 35 % tiene gato y el 25 % no tiene ninguno de los dos. ¿Qué porcentaje tiene perro y gato?", r"e) 60 % of the families in a village have a dog, 35 % have a cat and 25 % have neither. What percentage have both a dog and a cat?"))],
   P(r"a) \(\frac58\). b) No: una probabilitat sempre està entre 0 i 1. c) \(0{,}85\) i \(0{,}15\). d) \(1-0{,}9=0{,}1\). e) \(P(G\cup T)=1-0{,}25=0{,}75\); \(P(G\cap T)=0{,}60+0{,}35-0{,}75=0{,}20\): el <strong>20 %</strong>.",
     r"a) \(\frac58\). b) No: una probabilidad siempre está entre 0 y 1. c) \(0{,}85\) y \(0{,}15\). d) \(1-0{,}9=0{,}1\). e) \(P(G\cup T)=1-0{,}25=0{,}75\); \(P(G\cap T)=0{,}60+0{,}35-0{,}75=0{,}20\): el <strong>20 %</strong>.",
     r"a) \(\frac58\). b) No: a probability is always between 0 and 1. c) \(0.85\) and \(0.15\). d) \(1-0.9=0.1\). e) \(P(D\cup C)=1-0.25=0.75\); \(P(D\cap C)=0.60+0.35-0.75=0.20\): <strong>20 %</strong>."))
+PRACT3 = practice([
+  ('★', L(r"a) Quins d'aquests nombres poden ser la probabilitat d'un esdeveniment: \(0{,}8\); \(1{,}2\); \(-0{,}3\); \(\frac34\); \(\frac53\)? b) En una ruleta, \(P(\text{roig})=0{,}45\), \(P(\text{negre})=0{,}45\) i la resta és verd. Quant val \(P(\text{verd})\)?", r"a) ¿Cuáles de estos números pueden ser la probabilidad de un suceso: \(0{,}8\); \(1{,}2\); \(-0{,}3\); \(\frac34\); \(\frac53\)? b) En una ruleta, \(P(\text{rojo})=0{,}45\), \(P(\text{negro})=0{,}45\) y el resto es verde. ¿Cuánto vale \(P(\text{verde})\)?", r"a) Which of these numbers can be the probability of an event: \(0.8\); \(1.2\); \(-0.3\); \(\frac34\); \(\frac53\)? b) On a roulette wheel, \(P(\text{red})=0.45\), \(P(\text{black})=0.45\) and the rest is green. What is \(P(\text{green})\)?")),
+  ('★★', L(r"c) Un dau està trucat: les cares de l'1 al 5 tenen la mateixa probabilitat i \(P(6)=0{,}5\). Quant val \(P(1)\)? Quina és la probabilitat de traure parell?", r"c) Un dado está trucado: las caras del 1 al 5 tienen la misma probabilidad y \(P(6)=0{,}5\). ¿Cuánto vale \(P(1)\)? ¿Cuál es la probabilidad de sacar par?", r"c) A die is loaded: faces 1 to 5 have the same probability and \(P(6)=0.5\). What is \(P(1)\)? What is the probability of rolling an even number?")),
+  ('★★★', L(r"d) En una bossa hi ha boles roges, blaves i verdes. La probabilitat de traure roja és el doble que la de traure blava, i \(P(\text{verda})=0{,}4\). Calcula la probabilitat de roja i la de blava.", r"d) En una bolsa hay bolas rojas, azules y verdes. La probabilidad de sacar roja es el doble que la de sacar azul, y \(P(\text{verde})=0{,}4\). Calcula la probabilidad de roja y la de azul.", r"d) A bag has red, blue and green balls. The probability of red is twice that of blue, and \(P(\text{green})=0.4\). Find the probabilities of red and of blue."))],
+  P(r"a) Només \(0{,}8\) i \(\frac34\): una probabilitat sempre està entre 0 i 1. b) \(1-0{,}9=0{,}1\). c) \(5x+0{,}5=1\Rightarrow x=0{,}1\); \(P(\text{parell})=0{,}1+0{,}1+0{,}5=0{,}7\). d) Si \(P(B)=x\), \(2x+x+0{,}4=1\Rightarrow x=0{,}2\): \(P(B)=0{,}2\) i \(P(R)=0{,}4\).",
+    r"a) Solo \(0{,}8\) y \(\frac34\): una probabilidad siempre está entre 0 y 1. b) \(1-0{,}9=0{,}1\). c) \(5x+0{,}5=1\Rightarrow x=0{,}1\); \(P(\text{par})=0{,}1+0{,}1+0{,}5=0{,}7\). d) Si \(P(A)=x\), \(2x+x+0{,}4=1\Rightarrow x=0{,}2\): \(P(A)=0{,}2\) y \(P(R)=0{,}4\).",
+    r"a) Only \(0.8\) and \(\frac34\): a probability is always between 0 and 1. b) \(1-0.9=0.1\). c) \(5x+0.5=1\Rightarrow x=0.1\); \(P(\text{even})=0.1+0.1+0.5=0.7\). d) If \(P(B)=x\), \(2x+x+0.4=1\Rightarrow x=0.2\): \(P(B)=0.2\) and \(P(R)=0.4\)."))
+assert 1 - Fr(9, 10) == Fr(1, 10) and Fr(1, 10) * 2 + Fr(1, 2) == Fr(7, 10) and 3 * Fr(2, 10) + Fr(4, 10) == 1
+s3 += tria(PRACT3, PRACT3_VELL)
 assert 1 - Fr(3, 8) == Fr(5, 8) and Fr(25, 100) + Fr(6, 10) == Fr(85, 100) and Fr(60, 100) + Fr(35, 100) - Fr(75, 100) == Fr(20, 100)
 
 # =====================================================================
@@ -138,7 +165,8 @@ s4 += levels(
          r"An urn holds 4 red, 6 blue and 5 green balls. We draw one at random. Find the probability that it's red, blue, green, and that it isn't blue."),
        P(r"Hi ha \(4+6+5=15\) boles (casos possibles):", r"Hay \(4+6+5=15\) bolas (casos posibles):", r"There are \(4+6+5=15\) balls (possible outcomes):") + figs(bag('RRRRBBBBBBVVVVV')),
        D(r"P(R)=\frac4{15}\qquad P(B)=\frac6{15}=\frac25\qquad P(V)=\frac5{15}=\frac13"),
-       D(r"P(\overline{B})=1-\frac25=\boxed{\frac35}\qquad\left(%s\ \frac{4+5}{15}=\frac9{15}=\frac35\right)" % Lt('o bé', 'o bien', 'or')),
+       tria(D(r"P(\text{%s})=\frac{4+5}{15}=\frac9{15}=\boxed{\frac35}" % Lt('no blava', 'no azul', 'not blue')),
+            D(r"P(\overline{B})=1-\frac25=\boxed{\frac35}\qquad\left(%s\ \frac{4+5}{15}=\frac9{15}=\frac35\right)" % Lt('o bé', 'o bien', 'or'))),
        P(r"Comprovació: \(\frac4{15}+\frac6{15}+\frac5{15}=1\ \checkmark\)", r"Comprobación: \(\frac4{15}+\frac6{15}+\frac5{15}=1\ \checkmark\)", r"Check: \(\frac4{15}+\frac6{15}+\frac5{15}=1\ \checkmark\)")),
   prob(L(r"Llancem un dau. Calcula la probabilitat de traure un nombre primer i la de traure més de 4.", r"Lanzamos un dado. Calcula la probabilidad de sacar un número primo y la de sacar más de 4.", r"We roll a die. Find the probability of rolling a prime number and of rolling more than 4."),
        D(r"P(\text{%s})=P(\{2,3,5\})=\frac36=\boxed{\frac12}\qquad P(\{5,6\})=\frac26=\boxed{\frac13}" % Lt('primer', 'primo', 'prime')))],
@@ -146,13 +174,14 @@ s4 += levels(
          r"Escribimos cada letra de la palabra valenciana PROBABILITAT en una tarjeta y sacamos una al azar. ¿Cuál es la probabilidad de que sea una A? ¿Y una vocal? ¿Y una consonante?",
          r"We write each letter of the Valencian word PROBABILITAT on a card and draw one at random. What is the probability that it's an A? A vowel? A consonant?"),
        P(r"Hi ha 12 targetes. Les vocals són O, A, I, I, A (5 targetes):", r"Hay 12 tarjetas. Las vocales son O, A, I, I, A (5 tarjetas):", r"There are 12 cards. The vowels are O, A, I, I, A (5 cards):"),
-       D(r"P(A)=\frac2{12}=\boxed{\frac16}\qquad P(\text{%s})=\boxed{\frac5{12}}\qquad P(\text{%s})=1-\frac5{12}=\boxed{\frac7{12}}" % (Lt('vocal', 'vocal', 'vowel'), Lt('consonant', 'consonante', 'consonant')))),
+       D(r"P(A)=\frac2{12}=\boxed{\frac16}\qquad P(\text{%s})=\boxed{\frac5{12}}\qquad P(\text{%s})=\frac{12-5}{12}=\boxed{\frac7{12}}" % (Lt('vocal', 'vocal', 'vowel'), Lt('consonant', 'consonante', 'consonant')))),
   prob(L(r"Traiem una carta d'una baralla espanyola. Calcula la probabilitat que siga un rei, que siga de copes o figura, i que no siga ni de copes ni figura.",
          r"Sacamos una carta de una baraja española. Calcula la probabilidad de que sea un rey, de que sea de copas o figura, y de que no sea ni de copas ni figura.",
          r"We draw a card from a Spanish pack. Find the probability that it's a king, that it's cups or a face card, and that it's neither cups nor a face card."),
        D(r"P(\text{%s})=\frac4{40}=\boxed{\frac1{10}}" % Lt('rei', 'rey', 'king')),
        P(r"Copes o figura: 10 copes + 12 figures − 3 figures de copes (comptades dues vegades) = 19 cartes.", r"Copas o figura: 10 copas + 12 figuras − 3 figuras de copas (contadas dos veces) = 19 cartas.", r"Cups or face card: 10 cups + 12 face cards − 3 face cards of cups (counted twice) = 19 cards."),
-       D(r"P(C\cup F)=\frac{10}{40}+\frac{12}{40}-\frac3{40}=\boxed{\frac{19}{40}}\qquad P(\overline{C\cup F})=1-\frac{19}{40}=\boxed{\frac{21}{40}}"))],
+       tria(D(r"P(\text{%s})=\boxed{\frac{19}{40}}\qquad P(\text{%s})=\frac{40-19}{40}=\boxed{\frac{21}{40}}" % (Lt('copes o figura', 'copas o figura', 'cups or face'), Lt('ni copes ni figura', 'ni copas ni figura', 'neither'))),
+            D(r"P(C\cup F)=\frac{10}{40}+\frac{12}{40}-\frac3{40}=\boxed{\frac{19}{40}}\qquad P(\overline{C\cup F})=1-\frac{19}{40}=\boxed{\frac{21}{40}}")))],
  [prob(L(r"En una bossa hi ha 3 boles roges i unes quantes de blaves. Si la probabilitat de traure una bola roja és \(\frac15\), quantes boles blaves hi ha? Quantes boles roges hauríem d'afegir perquè la probabilitat de roja fóra \(\frac12\)?",
          r"En una bolsa hay 3 bolas rojas y algunas azules. Si la probabilidad de sacar una bola roja es \(\frac15\), ¿cuántas bolas azules hay? ¿Cuántas bolas rojas tendríamos que añadir para que la probabilidad de roja fuera \(\frac12\)?",
          r"A bag has 3 red balls and some blue ones. If the probability of drawing a red ball is \(\frac15\), how many blue balls are there? How many red balls would we need to add to make the probability of red \(\frac12\)?"),

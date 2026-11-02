@@ -526,6 +526,25 @@
       return ret({ num: p6, tol: 0.001 }, function () { return fill(T(L3("Un dau està trucat. $P(1)$, $P(2)$, $P(3)$, $P(4)$ i $P(5)$ valen {l}. Quant val $P(6)$?", "Un dado está trucado. $P(1)$, $P(2)$, $P(3)$, $P(4)$ y $P(5)$ valen {l}. ¿Cuánto vale $P(6)$?", "A die is loaded. $P(1)$, $P(2)$, $P(3)$, $P(4)$ and $P(5)$ are {l}. What is $P(6)$?")), { l: "$" + ps.map(dz).join(";\\ ") + "$" }); },
         function () { return tex("P(6)=1-(" + ps.map(dz).join("+") + ")=" + dz(p6)); });
     },
+    /* sense fórmules d'operacions: les probabilitats dels resultats elementals sumen 1 i se sumen per a un esdeveniment compost */
+    falta: function () {
+      var t = rint(0, 2), r2 = function (v) { return Math.round(v * 100) / 100; }, ps, tot;
+      if (t === 1) {
+        var C = [L3("roig", "rojo", "red"), L3("blau", "azul", "blue"), L3("verd", "verde", "green"), L3("groc", "amarillo", "yellow")];
+        do { ps = [0, 0, 0].map(function () { return rint(1, 6) * 5 / 100; }); tot = ps[0] + ps[1] + ps[2]; } while (tot > 0.9);
+        var pg = r2(1 - tot);
+        return ret({ num: pg, tol: 0.001 }, function () { return fill(T(L3("Una ruleta té sectors roig, blau, verd i groc. $P(\\text{roig})={a}$, $P(\\text{blau})={b}$ i $P(\\text{verd})={c}$. Quina és la probabilitat que isca groc?", "Una ruleta tiene sectores rojo, azul, verde y amarillo. $P(\\text{rojo})={a}$, $P(\\text{azul})={b}$ y $P(\\text{verde})={c}$. ¿Cuál es la probabilidad de que salga amarillo?", "A spinner has red, blue, green and yellow sectors. $P(\\text{red})={a}$, $P(\\text{blue})={b}$ and $P(\\text{green})={c}$. What is the probability of yellow?")), { a: dz(ps[0]), b: dz(ps[1]), c: dz(ps[2]) }); },
+          function () { return T(L3("Els quatre colors sumen 1:", "Los cuatro colores suman 1:", "The four colours add up to 1:")) + " " + tex("1-(" + ps.map(dz).join("+") + ")=" + dz(pg)); });
+      }
+      do { ps = [0, 0, 0, 0, 0].map(function () { return rint(1, 3) * 5 / 100; }); tot = ps.reduce(function (s, v) { return s + v; }, 0); } while (tot > 0.9);
+      var p6 = r2(1 - tot), all = ps.concat([p6]);
+      if (t === 0) return ret({ num: p6, tol: 0.001 }, function () { return fill(T(L3("Un dau està trucat. $P(1)$, $P(2)$, $P(3)$, $P(4)$ i $P(5)$ valen {l}. Quant val $P(6)$?", "Un dado está trucado. $P(1)$, $P(2)$, $P(3)$, $P(4)$ y $P(5)$ valen {l}. ¿Cuánto vale $P(6)$?", "A die is loaded. $P(1)$, $P(2)$, $P(3)$, $P(4)$ and $P(5)$ are {l}. What is $P(6)$?")), { l: "$" + ps.map(dz).join(";\\ ") + "$" }); },
+        function () { return tex("P(6)=1-(" + ps.map(dz).join("+") + ")=" + dz(p6)); });
+      var E = pick([{ t: L3("parell", "par", "even"), s: [2, 4, 6] }, { t: L3("senar", "impar", "odd"), s: [1, 3, 5] }, { t: L3("més gran que 3", "mayor que 3", "greater than 3"), s: [4, 5, 6] }, { t: L3("menor que 3", "menor que 3", "less than 3"), s: [1, 2] }]);
+      var v = r2(E.s.reduce(function (s, k) { return s + all[k - 1]; }, 0));
+      return ret({ num: v, tol: 0.001 }, function () { return fill(T(L3("Un dau està trucat i les probabilitats de l'1 al 6 són {l}. Quina és la probabilitat de traure un nombre {e}?", "Un dado está trucado y las probabilidades del 1 al 6 son {l}. ¿Cuál es la probabilidad de sacar un número {e}?", "A die is loaded and the probabilities of 1 to 6 are {l}. What is the probability of rolling a number that is {e}?")), { l: "$" + all.map(dz).join(";\\ ") + "$", e: T(E.t) }); },
+        function () { return tex(E.s.map(function (k) { return "P(" + k + ")"; }).join("+") + "=" + E.s.map(function (k) { return dz(all[k - 1]); }).join("+") + "=" + dz(v)); });
+    },
     lap: function () {
       var t = rint(0, 3);
       if (t === 0) {
