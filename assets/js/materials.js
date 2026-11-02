@@ -124,6 +124,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 61 exercicis graduats per nivells de dificultat", es: "PDF · 61 ejercicios graduados por niveles de dificultad", en: "PDF · 61 exercises graded by difficulty" }, url: "materials/1eso/t9-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 61 exercicis", es: "PDF · Soluciones de los 61 ejercicios", en: "PDF · Solutions to all 61 exercises" }, url: "materials/1eso/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
         ]
+      },
+      {
+        ill: "estadistica", block: "pr",
+        title: { va: "Estadística", es: "Estadística", en: "Statistics" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t10-estadistica.html", date: "2026-11-02" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 65 exercicis graduats per nivells de dificultat", es: "PDF · 65 ejercicios graduados por niveles de dificultad", en: "PDF · 65 exercises graded by difficulty" }, url: "materials/1eso/t10-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 65 exercicis", es: "PDF · Soluciones de los 65 ejercicios", en: "PDF · Solutions to all 65 exercises" }, url: "materials/1eso/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
+        ]
       }
     ]
   },
