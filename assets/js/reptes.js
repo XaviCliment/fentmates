@@ -14,10 +14,25 @@
 
 window.CHALLENGES = [
   {
+    date: "2026-11-02",
+    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
+    title: { va: "El secret del full A4", es: "El secreto del folio A4", en: "The secret of A4 paper" },
+    hideSolution: true,
+    statement: {
+      va: "Si doblegues un full DIN A4 per la meitat, obtens un A5 que té exactament la mateixa forma: els costats dels dos fulls són proporcionals. a) Quina és la raó entre el costat llarg i el curt d'un full DIN? b) Un full A0 té una àrea d'1 m², i en doblegar-lo per la meitat successivament s'obtenen l'A1, l'A2, l'A3 i l'A4. Quant mesuren els costats d'un A4? Expressa'ls primer amb radicals o potències i després en mil·límetres.",
+      es: "Si doblas un folio DIN A4 por la mitad, obtienes un A5 que tiene exactamente la misma forma: los lados de las dos hojas son proporcionales. a) ¿Cuál es la razón entre el lado largo y el corto de una hoja DIN? b) Una hoja A0 tiene un área de 1 m², y al doblarla por la mitad sucesivamente se obtienen el A1, el A2, el A3 y el A4. ¿Cuánto miden los lados de un A4? Exprésalos primero con radicales o potencias y después en milímetros.",
+      en: "If you fold an A4 sheet in half, you get an A5 sheet with exactly the same shape: the sides of the two sheets are proportional. a) What is the ratio between the long side and the short side of an A-series sheet? b) An A0 sheet has an area of 1 m², and folding it in half again and again gives A1, A2, A3 and A4. How long are the sides of an A4 sheet? Write them first with radicals or powers and then in millimetres."
+    },
+    solution: {
+      va: "a) Si els costats són $a$ (llarg) i $b$ (curt), en doblegar-lo queden $b$ i $\\frac{a}{2}$. Perquè tinguen la mateixa forma: $\\frac{a}{b} = \\frac{b}{a/2}$, és a dir, $a^2 = 2b^2$ i $\\frac{a}{b} = \\mathbf{\\sqrt{2}}$. b) En l'A0, $a = \\sqrt{2}\\,b$ i $a \\cdot b = 1$, així que $\\sqrt{2}\\,b^2 = 1$: $b = \\frac{1}{\\sqrt[4]{2}} = 2^{-1/4} \\approx 0{,}8409$ m i $a = \\sqrt[4]{2} = 2^{1/4} \\approx 1{,}1892$ m. Cada dos doblecs els costats es fan la meitat, i de l'A0 a l'A4 n'hi ha quatre: els costats es divideixen entre 4. L'A4 fa $\\frac{2^{-1/4}}{4} = 2^{-9/4}$ m $\\approx \\mathbf{210}$ mm per $\\frac{2^{1/4}}{4} = 2^{-7/4}$ m $\\approx \\mathbf{297}$ mm. Mesura un full i ho comprovaràs!",
+      es: "a) Si los lados son $a$ (largo) y $b$ (corto), al doblarlo quedan $b$ y $\\frac{a}{2}$. Para que tengan la misma forma: $\\frac{a}{b} = \\frac{b}{a/2}$, es decir, $a^2 = 2b^2$ y $\\frac{a}{b} = \\mathbf{\\sqrt{2}}$. b) En el A0, $a = \\sqrt{2}\\,b$ y $a \\cdot b = 1$, así que $\\sqrt{2}\\,b^2 = 1$: $b = \\frac{1}{\\sqrt[4]{2}} = 2^{-1/4} \\approx 0{,}8409$ m y $a = \\sqrt[4]{2} = 2^{1/4} \\approx 1{,}1892$ m. Cada dos dobleces los lados se reducen a la mitad, y del A0 al A4 hay cuatro: los lados se dividen entre 4. El A4 mide $\\frac{2^{-1/4}}{4} = 2^{-9/4}$ m $\\approx \\mathbf{210}$ mm por $\\frac{2^{1/4}}{4} = 2^{-7/4}$ m $\\approx \\mathbf{297}$ mm. ¡Mide un folio y lo comprobarás!",
+      en: "a) If the sides are $a$ (long) and $b$ (short), after folding they are $b$ and $\\frac{a}{2}$. For the same shape: $\\frac{a}{b} = \\frac{b}{a/2}$, so $a^2 = 2b^2$ and $\\frac{a}{b} = \\mathbf{\\sqrt{2}}$. b) For A0, $a = \\sqrt{2}\\,b$ and $a \\cdot b = 1$, so $\\sqrt{2}\\,b^2 = 1$: $b = \\frac{1}{\\sqrt[4]{2}} = 2^{-1/4} \\approx 0.8409$ m and $a = \\sqrt[4]{2} = 2^{1/4} \\approx 1.1892$ m. Every two folds halve the sides, and there are four folds from A0 to A4: the sides are divided by 4. A4 measures $\\frac{2^{-1/4}}{4} = 2^{-9/4}$ m $\\approx \\mathbf{210}$ mm by $\\frac{2^{1/4}}{4} = 2^{-7/4}$ m $\\approx \\mathbf{297}$ mm. Measure a sheet and check!"
+    }
+  },
+  {
     date: "2026-10-26",
     level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
     title: { va: "Un cor incansable", es: "Un corazón incansable", en: "A tireless heart" },
-    hideSolution: true,
     statement: {
       va: "El cor d'una persona batega, de mitjana, unes 70 vegades per minut. Quantes vegades haurà bategat el teu cor quan complisques 80 anys? Fes el càlcul en notació científica i dona el resultat amb dues xifres decimals.",
       es: "El corazón de una persona late, de media, unas 70 veces por minuto. ¿Cuántas veces habrá latido tu corazón cuando cumplas 80 años? Haz el cálculo en notación científica y da el resultado con dos cifras decimales.",
@@ -86,6 +101,14 @@ window.CURIOSITIES = [
     }
   },
   {
+    title: { va: "El secret que va enfonsar Hípasos", es: "El secreto que hundió a Hípaso", en: "The secret that sank Hippasus" },
+    text: {
+      va: "Els pitagòrics creien que tot es podia expressar amb fraccions. Segons la llegenda, quan Hípasos de Metapont va demostrar que la diagonal d'un quadrat de costat 1, $\\sqrt{2}$, no és cap fracció, el van llançar al mar per haver revelat el secret. Havia descobert els nombres irracionals!",
+      es: "Los pitagóricos creían que todo se podía expresar con fracciones. Según la leyenda, cuando Hípaso de Metaponto demostró que la diagonal de un cuadrado de lado 1, $\\sqrt{2}$, no es ninguna fracción, lo arrojaron al mar por haber revelado el secreto. ¡Había descubierto los números irracionales!",
+      en: "The Pythagoreans believed everything could be expressed with fractions. Legend has it that when Hippasus of Metapontum proved that the diagonal of a square of side 1, $\\sqrt{2}$, is not a fraction, he was thrown into the sea for revealing the secret. He had discovered irrational numbers!"
+    }
+  },
+  {
     title: { va: "És $0{,}999\\ldots = 1$?", es: "¿Es $0{,}999\\ldots = 1$?", en: "Is $0.999\\ldots = 1$?" },
     text: {
       va: "Sí! Si $x = 0{,}999\\ldots$, aleshores $10x = 9{,}999\\ldots$. Restant: $9x = 9$, és a dir, $x = 1$.",
@@ -104,6 +127,25 @@ window.CURIOSITIES = [
 ];
 
 /* Reptes guardats per a més endavant (traure'ls del comentari i posar-los dins de CHALLENGES amb la data).
+
+   Per a quan donem percentatges (3r ESO, unitat 3):
+
+  {
+    date: "AAAA-MM-DD",
+    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
+    title: { va: "Síndries al sol", es: "Sandías al sol", en: "Watermelons in the sun" },
+    hideSolution: true,
+    statement: {
+      va: "Un llaurador té 100 kg de síndries, i el 99 % del seu pes és aigua. Les deixa uns dies al sol i s'assequen una mica: ara l'aigua és el 98 % del pes. Quant pesen ara les síndries? Pensa-ho bé abans de respondre: el resultat sorprén quasi tothom.",
+      es: "Un agricultor tiene 100 kg de sandías, y el 99 % de su peso es agua. Las deja unos días al sol y se secan un poco: ahora el agua es el 98 % del peso. ¿Cuánto pesan ahora las sandías? Piénsalo bien antes de responder: el resultado sorprende a casi todo el mundo.",
+      en: "A farmer has 100 kg of watermelons, and 99% of their weight is water. He leaves them in the sun for a few days and they dry out a little: now water is 98% of the weight. How much do the watermelons weigh now? Think carefully before answering: the result surprises almost everyone."
+    },
+    solution: {
+      va: "La part que no és aigua no canvia. Al principi és l'1 % de 100 kg, és a dir, $1$ kg. Després, l'aigua és el 98 %, així que eixe quilo és el 2 % del pes nou: $P = 1 : 0{,}02 = \\mathbf{50}$ kg. Han perdut la meitat del pes! Que l'aigua passe del 99 % al 98 % vol dir que la part seca passa de l'1 % al 2 %: la seua proporció es duplica, i per això el total es fa la meitat.",
+      es: "La parte que no es agua no cambia. Al principio es el 1 % de 100 kg, es decir, $1$ kg. Después, el agua es el 98 %, así que ese kilo es el 2 % del peso nuevo: $P = 1 : 0{,}02 = \\mathbf{50}$ kg. ¡Han perdido la mitad del peso! Que el agua pase del 99 % al 98 % significa que la parte seca pasa del 1 % al 2 %: su proporción se duplica, y por eso el total se reduce a la mitad.",
+      en: "The part that isn't water doesn't change. At first it is 1% of 100 kg, that is, $1$ kg. Afterwards water is 98%, so that kilo is 2% of the new weight: $P = 1 \\div 0.02 = \\mathbf{50}$ kg. They have lost half their weight! Water going from 99% to 98% means the dry part goes from 1% to 2%: its share doubles, so the total halves."
+    }
+  }
 
    Per a quan donem identitats notables (3r ESO, unitat 4):
 
