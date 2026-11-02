@@ -144,9 +144,10 @@
   function bagSvg(spec, per) {
     var n = spec.length; if (!n) return "";
     per = per || (n > 20 ? 8 : n > 12 ? 6 : 5);
-    var cols = Math.min(per, n), rows = Math.ceil(n / cols), W = 30 + cols * 26, H = 34 + rows * 26, o = "";
-    o += '<path class="bagp" d="M8 18 Q8 ' + (H - 4) + " " + W / 2 + " " + (H - 4) + " Q" + (W - 8) + " " + (H - 4) + " " + (W - 8) + ' 18 Z"/><path class="bagt" d="M4 18 H' + (W - 4) + '"/>';
-    for (var i = 0; i < n; i++) { var r = Math.floor(i / cols), k = i % cols; o += '<circle class="ball ' + BALLC[spec[i]] + '" cx="' + (W / 2 + (k - (cols - 1) / 2) * 26).toFixed(1) + '" cy="' + (34 + r * 26) + '" r="10"/>'; }
+    /* costats rectes i cantonades de baix arredonides: cada bola queda a 6 px (o més) de la vora (com bag() de comu.py) */
+    var cols = Math.min(per, n), rows = Math.ceil(n / cols), W = 44 + (cols - 1) * 26, Hb = 36 + (rows - 1) * 26 + 19, H = Hb + 4, o = "";
+    o += '<path class="bagp" d="M6 20 L6 ' + (Hb - 16) + " Q6 " + Hb + " 22 " + Hb + " L" + (W - 22) + " " + Hb + " Q" + (W - 6) + " " + Hb + " " + (W - 6) + " " + (Hb - 16) + " L" + (W - 6) + ' 20 Z"/><path class="bagt" d="M2 20 H' + (W - 2) + '"/>';
+    for (var i = 0; i < n; i++) { var r = Math.floor(i / cols), k = i % cols; o += '<circle class="ball ' + BALLC[spec[i]] + '" cx="' + (22 + k * 26) + '" cy="' + (36 + r * 26) + '" r="10"/>'; }
     return '<svg class="bag" viewBox="0 0 ' + W + " " + H + '" style="max-width:' + W + 'px" role="img" aria-label="bossa">' + o + "</svg>";
   }
   function bagSpec(c) { var s = ""; ["R", "B", "V", "G"].forEach(function (k) { for (var i = 0; i < (c[k] || 0); i++) s += k; }); return s; }

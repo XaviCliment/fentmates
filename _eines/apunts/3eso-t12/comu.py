@@ -169,13 +169,14 @@ BALLC = {'R': 'ball-r', 'B': 'ball-b', 'V': 'ball-g', 'G': 'ball-y', 'N': 'ball-
 def bag(spec, cap=None, per=5):
     """bossa amb boles: spec = 'RRRBB' (R roja, B blava, V verda, G groga, N negra)"""
     n = len(spec); cols = min(per, n); rows = (n + cols - 1) // cols
-    W = 30 + cols * 26; H = 34 + rows * 26
-    out = [f'<path class="bagp" d="M8 18 Q8 {H - 4} {W / 2:.0f} {H - 4} Q{W - 8} {H - 4} {W - 8} 18 Z"/>',
-           f'<path class="bagt" d="M4 18 H{W - 4}"/>']
+    # costats rectes i cantonades de baix arredonides: cada bola queda a 6 px (o més) de la vora
+    W = 44 + (cols - 1) * 26; Hb = 36 + (rows - 1) * 26 + 19; H = Hb + 4
+    out = [f'<path class="bagp" d="M6 20 L6 {Hb - 16} Q6 {Hb} 22 {Hb} L{W - 22} {Hb} Q{W - 6} {Hb} {W - 6} {Hb - 16} L{W - 6} 20 Z"/>',
+           f'<path class="bagt" d="M2 20 H{W - 2}"/>']
     for i, c in enumerate(spec):
         r, k = divmod(i, cols)
-        cx = W / 2 + (k - (cols - 1) / 2) * 26; cy = 34 + r * 26
-        out.append(f'<circle class="ball {BALLC[c]}" cx="{cx:.1f}" cy="{cy:.1f}" r="10"/>')
+        cx = 22 + k * 26; cy = 36 + r * 26
+        out.append(f'<circle class="ball {BALLC[c]}" cx="{cx}" cy="{cy}" r="10"/>')
     svg = f'<svg class="bag" viewBox="0 0 {W} {H}" style="max-width:{W}px" role="img" aria-label="bossa">' + ''.join(out) + '</svg>'
     return f'<figure>{svg}<figcaption>{cap}</figcaption></figure>' if cap else f'<figure>{svg}</figure>'
 

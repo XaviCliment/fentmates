@@ -258,7 +258,12 @@ def pla(win, pts=(), polys=(), fns=(), curves=(), proj=(), W=300, H=None, xs=1, 
     return f'<svg class="sgraf" viewBox="-14 -6 {W + 22} {H + 24}" role="img" aria-label="pla cartesià">{g}</svg>'
 def fig(s, cap=None): return f'<figure>{s}<figcaption>{cap}</figcaption></figure>' if cap else f'<figure>{s}</figure>'
 def tv(xs_, ys_, xl='x', yl='y', cls=''):
-    """taula de valors horitzontal"""
+    """taula de valors horitzontal (els decimals «2{,}5» s'escriuen 2,5 en valencià i castellà i 2.5 en anglés)"""
+    def cell(c):
+        c = str(c)
+        if '{,}' not in c: return c
+        return L(c.replace('{,}', ','), c.replace('{,}', ','), c.replace('{,}', '.'))
+    xs_, ys_ = [cell(c) for c in xs_], [cell(c) for c in ys_]
     return (f'<div class="tbl-wrap"><table class="data tv {cls}"><tbody><tr><th>{xl}</th>' + ''.join(f'<td>{c}</td>' for c in xs_)
             + f'</tr><tr><th>{yl}</th>' + ''.join(f'<td>{c}</td>' for c in ys_) + '</tr></tbody></table></div>')
 def tn(v):
