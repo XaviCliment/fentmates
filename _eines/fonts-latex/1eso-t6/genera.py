@@ -418,7 +418,7 @@ def build(sol):
 \begin{document}
 \thispagestyle{primera}
 
-\capcalera{Matemàtiques}{1r ESO}{''' + ('Solucions de la fitxa · Unitat 6' if sol else "Fitxa d'exercicis · Unitat 6") + r'''}{''' + TIT + r'''}
+\capcalera{Matemàtiques}{1r ESO}{''' + ('Solucions de la fitxa · Unitat 6' if sol else "Fitxa d'exercicis · Unitat 6") + r'''}{''' + TIT.replace('. ', r'.\\ ') + r'''}
 ''')
     if not sol:
         out.append(r'''\vspace{10pt}
