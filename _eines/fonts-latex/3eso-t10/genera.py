@@ -337,7 +337,7 @@ def build(sol_):
 \begin{document}
 \thispagestyle{primera}
 
-\capcalera{Matemàtiques}{3r ESO}{''' + ('Solucions de la fitxa · Unitat %d' % NU if sol_ else "Fitxa d'exercicis · Unitat %d" % NU) + '}{' + TITOL + r'''}
+\capcalera{Matemàtiques}{3r ESO}{''' + ('Solucions de la fitxa · Unitat %d' % NU if sol_ else "Fitxa d'exercicis · Unitat %d" % NU) + '}{' + TITOL.replace(' Tales', r'\\Tales') + r'''}
 ''')
     if not sol_:
         out.append(r'''\vspace{10pt}
