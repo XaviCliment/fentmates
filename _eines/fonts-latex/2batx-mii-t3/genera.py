@@ -625,7 +625,7 @@ def build(sol):
 \begin{document}
 \thispagestyle{primera}
 
-\capcalera{Matemàtiques II}{2n Batx}{''' + ('Solucions de la fitxa · Unitat 3' if sol else "Fitxa d'exercicis · Unitat 3") + r'''}{''' + TIT + r'''}
+\capcalera{Matemàtiques II}{2n Batx}{''' + ('Solucions de la fitxa · Unitat 3' if sol else "Fitxa d'exercicis · Unitat 3") + r'''}{\raggedright ''' + TIT + r'''}
 ''')
     if not sol:
         out.append('\\vspace{10pt}\nNom i cognoms: \\rule{8.4cm}{0.4pt}\\hfill Grup: \\rule{1.6cm}{0.4pt}\\hfill Data: \\rule{2.2cm}{0.4pt}\n')
