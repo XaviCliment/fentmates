@@ -233,3 +233,18 @@ OneDrive: la sincronització la fa GitHub. Les carpetes que comencen per `_` no 
   pots pujar la carpeta de la fitxa a Overleaf i compilar-la allà.
 - **Vista prèvia:** obri `index.html` amb doble clic al navegador (les fórmules necessiten connexió a internet).
 - El fitxer `.gitattributes` fa que els salts de línia siguen els mateixos a Mac i a Windows.
+
+## Global d'Àlgebra (2n Batx CCSS)
+
+Secció de repàs de les unitats 1 i 2, darrere de la Unitat 2. A `materials.js` porta `num: "1–2"` (no compta com a unitat)
+i `block: "algg"`, un blau més fosc que el de les unitats d'àlgebra (color a `BLOCKS` de `main.js` i de `fm-materials.js`).
+Les dues pàgines es generen amb el mateix `build.py` dels models d'examen:
+
+```
+python3 _eines/examens/build.py _eines/examens/2batx-global-alg/pau.src.html materials/2batx-ccss/global-algebra-pau.html
+python3 _eines/examens/build.py _eines/examens/2batx-global-alg/model1.src.html materials/2batx-ccss/global-algebra-prova-model1.html
+```
+
+`pau.src.html` té 19 exercicis de la PAU 2026 d'altres comunitats (de www.ebaumatematicas.com) amb les solucions i una
+taula que indica en quins exercicis apareix cada contingut; `model1.src.html` és la prova global tipus PAU. Atenció: dins
+d'un marcador `[[va||es||en]]` no es pot escriure `||` (per exemple `|M||N|`; cal posar `|M|\cdot|N|`).

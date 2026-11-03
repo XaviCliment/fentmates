@@ -15,6 +15,7 @@
   var BLOCKS = {
     ari: { c: "#e6b84a", c2: "#c99a2e", icon: "sum" },
     alg: { c: "#4e81bd", c2: "#3d6aa0", icon: "calc" },
+    algg: { c: "#3a669f", c2: "#2a4f80", icon: "calc" },
     pl:  { c: "#f79645", c2: "#dc7a29", icon: "pi" },
     geo: { c: "#f79645", c2: "#dc7a29", icon: "compass" },
     an:  { c: "#7fa040", c2: "#6a8a33", icon: "graph" },
@@ -43,6 +44,7 @@
     if (!m) return "all";
     var course = m[1], file = m[2];
     if (/resum-teoric/.test(file)) return "all";
+    if (/^global-algebra/.test(file)) return "algg";
     var n = (file.match(/(?:^t|-u)(\d+)/) || [])[1];
     n = n ? +n : 0;
     if (course === "1eso") return n === 6 ? "alg" : n === 7 || n === 8 ? "geo" : n === 9 ? "an" : n === 10 ? "pr" : "ari";

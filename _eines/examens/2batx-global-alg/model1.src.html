@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prova global d'Àlgebra · FentMates</title>
+<meta name="description" content="Prova global tipus PAU (Comunitat Valenciana) de les unitats 1 (Matrius i determinants) i 2 (Sistemes d'equacions lineals). Matemàtiques Aplicades a les CCSS II. Amb solucions i criteris de correcció.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+/*BASE_CSS*/
+
+/* ---- examen ---- */
+.exam { max-width: 900px; margin: 0 auto; padding: 28px 16px 80px; }
+@media (min-width: 1101px) { .exam { max-width: 80vw; } } /* 80% de l'ample, com la resta de la web */
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 18px; padding: 0; list-style: none; }
+.rules li { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; font-size: .92rem; display: flex; gap: 10px; align-items: flex-start; }
+.rules li b { display: block; font-family: "Outfit", sans-serif; font-size: 1rem; }
+.rules .ic { font-size: 1.3rem; line-height: 1.2; }
+.toolbar { position: sticky; top: calc(var(--header-h) + 8px); z-index: 30; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center;
+  background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 8px 6px 16px; margin: 0 0 22px; box-shadow: var(--shadow); }
+.timer { font: 800 1.35rem "Outfit", sans-serif; font-variant-numeric: tabular-nums; min-width: 4.6ch; }
+.timer.warn { color: var(--accent); } .timer.over { color: var(--minus); }
+.toolbar .sp { flex: 1; }
+.prob { border: 1.5px solid var(--def); border-radius: var(--radius); background: var(--surface); margin: 0 0 26px; overflow: hidden; box-shadow: var(--shadow); }
+.prob > .ph { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: var(--def); color: #fff; }
+:root[data-theme="dark"] .prob > .ph { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .prob > .ph { color: #0f1526; } }
+.prob > .ph h2 { font-size: 1.25rem; margin: 0; flex: 1; }
+.prob > .ph .pts { font: 700 .8rem "Inter", sans-serif; background: rgba(255,255,255,.22); padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+.prob > .pb { padding: 8px 22px 16px; }
+.prob .topic { font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; color: var(--def); margin-top: 10px; }
+ol.parts { list-style: none; padding: 0; margin: 10px 0 0; counter-reset: p; }
+ol.parts > li { counter-increment: p; position: relative; padding: 8px 0 8px 2.4em; border-top: 1px dashed var(--border); }
+ol.parts > li::before { content: counter(p, lower-alpha) ")"; position: absolute; left: 0; top: 8px; font: 700 1rem "Outfit", sans-serif; color: var(--def); }
+.pp { font-size: .78rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+details.sol { border-style: solid; border-color: var(--def); background: var(--def-bg); margin-top: 14px; }
+details.sol > summary { color: var(--def); }
+details.sol h4 { font: 700 .95rem "Outfit", sans-serif; margin: 14px 0 4px; color: var(--def); }
+.crit { margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: var(--pr-bg); border: 1px solid color-mix(in srgb, var(--pr) 40%, transparent); font-size: .9rem; }
+.crit b { color: var(--pr); }
+.crit ul { margin: 4px 0 0; padding-left: 1.2em; }
+.final { text-align: center; color: var(--muted); font-size: .9rem; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+.links a { text-decoration: none; }
+.disclaimer { font-size: .82rem; color: var(--muted); text-align: center; margin: 4px 0 18px; }
+@media (max-width: 560px) {
+  .toolbar { border-radius: 16px; }
+  .prob > .pb { padding: 6px 14px 14px; }
+  .prob > .ph { padding: 10px 14px; }
+}
+@media print {
+  .toolbar, details.sol, .links, .final { display: none !important; }
+  .prob { box-shadow: none; break-inside: avoid; border-color: #333; }
+  .prob > .ph { background: none; color: #000; border-bottom: 1px solid #333; }
+  .rules li { border-color: #999; }
+  body { font-size: 14px; }
+  .exam { padding: 0; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../2batx-ccss.html#u3">[[2n Batxillerat CCSS||2º Bachillerato CCSS||2nd Baccalaureate (Social Sciences)]]</a> / [[Global d'Àlgebra||Global de Álgebra||Algebra block test]]</span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker">[[Matemàtiques Aplicades a les CCSS II · Tipus PAU||Matemáticas Aplicadas a las CCSS II · Tipo PAU||Applied Maths for Social Sciences II · PAU style]]</span>
+    <h1><span class="u">[[Prova global||Prueba global||Block test]]</span> · [[Àlgebra (unitats 1 i 2)||Álgebra (unidades 1 y 2)||Algebra (units 1 and 2)]]</h1>
+    <p>[[Quatre problemes amb el format i el nivell de les PAU de la Comunitat Valenciana que recullen tot el bloc d'àlgebra: matrius, determinants, rang, matriu inversa, equacions matricials i sistemes d'equacions lineals. Fes-la amb el cronòmetre i, quan acabes, corregeix-la amb les solucions i els criteris.||Cuatro problemas con el formato y el nivel de las PAU de la Comunitat Valenciana que recogen todo el bloque de álgebra: matrices, determinantes, rango, matriz inversa, ecuaciones matriciales y sistemas de ecuaciones lineales. Hazla con el cronómetro y, cuando acabes, corrígela con las soluciones y los criterios.||Four problems in the format and at the level of the Valencian PAU (university entrance exam) covering the whole algebra block: matrices, determinants, rank, inverse matrix, matrix equations and systems of linear equations. Do it against the clock and, when you finish, mark it with the solutions and criteria.]]</p>
+  </div>
+</section>
+
+<main class="exam">
+  <ul class="rules">
+    <li><span class="ic">⏱</span><span><b>[[1 h 30 min||1 h 30 min||1 h 30 min]]</b>[[Temps màxim||Tiempo máximo||Time allowed]]</span></li>
+    <li><span class="ic">🧮</span><span><b>[[Calculadora||Calculadora||Calculator]]</b>[[Científica no programable||Científica no programable||Non-programmable scientific]]</span></li>
+    <li><span class="ic">✍</span><span><b>[[Justifica-ho tot||Justifícalo todo||Show your working]]</b>[[Sense raonament, la resposta no puntua||Sin razonamiento, la respuesta no puntúa||Unjustified answers score no marks]]</span></li>
+    <li><span class="ic">🎯</span><span><b>[[10 punts||10 puntos||10 points]]</b>[[4 problemes de 2,5 punts||4 problemas de 2,5 puntos||4 problems × 2.5 points]]</span></li>
+  </ul>
+
+  <div class="toolbar">
+    <span class="timer" id="timer">90:00</span>
+    <button class="btn primary" type="button" id="t-start">▶ [[Comença||Empieza||Start]]</button>
+    <button class="btn" type="button" id="t-reset">↺</button>
+    <span class="sp"></span>
+    <button class="btn" type="button" id="sol-all">👁 [[Mostra totes les solucions||Mostrar todas las soluciones||Show all solutions]]</button>
+    <button class="btn" type="button" id="print">🖨 [[Imprimeix||Imprimir||Print]]</button>
+  </div>
+
+  <!-- ===================== PROBLEMA 1 ===================== -->
+  <section class="prob" id="p1">
+    <div class="ph"><h2>[[Problema 1||Problema 1||Problem 1]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Operacions, potències, matriu inversa i equacions matricials||Operaciones, potencias, matriz inversa y ecuaciones matriciales||Operations, powers, inverse matrix and matrix equations]]</div>
+      <p>[[Siguen les matrius||Sean las matrices||Let]] \(A=\begin{pmatrix}2 & -1\\ 1 & 0\end{pmatrix}\) [[i||y||and]] \(B=\begin{pmatrix}1 & 3\\ 0 & -2\end{pmatrix}\).</p>
+      <ol class="parts">
+        <li>[[Comproveu que \(A^2-2A+I=O\), on \(I\) és la matriu identitat i \(O\) la matriu nul·la d'ordre 2.||Comprobad que \(A^2-2A+I=O\), donde \(I\) es la matriz identidad y \(O\) la matriz nula de orden 2.||Check that \(A^2-2A+I=O\), where \(I\) is the identity matrix and \(O\) the 2×2 zero matrix.]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[A partir de la igualtat anterior, deduïu que \(A\) és invertible i que \(A^{-1}=2I-A\). Calculeu \(A^{-1}\).||A partir de la igualdad anterior, deducid que \(A\) es invertible y que \(A^{-1}=2I-A\). Calculad \(A^{-1}\).||Using the previous equality, deduce that \(A\) is invertible and that \(A^{-1}=2I-A\). Compute \(A^{-1}\).]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Calculeu \(A^2\) i \(A^3\), deduïu l'expressió de \(A^n\) i calculeu \(A^{10}\).||Calculad \(A^2\) y \(A^3\), deducid la expresión de \(A^n\) y calculad \(A^{10}\).||Compute \(A^2\) and \(A^3\), deduce the expression for \(A^n\) and compute \(A^{10}\).]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Resoleu l'equació matricial \(XA=A^t+B\), on \(A^t\) és la transposada de \(A\).||Resolved la ecuación matricial \(XA=A^t+B\), donde \(A^t\) es la traspuesta de \(A\).||Solve the matrix equation \(XA=A^t+B\), where \(A^t\) is the transpose of \(A\).]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        \[A^2=\begin{pmatrix}2 & -1\\ 1 & 0\end{pmatrix}\begin{pmatrix}2 & -1\\ 1 & 0\end{pmatrix}=\begin{pmatrix}3 & -2\\ 2 & -1\end{pmatrix},\qquad A^2-2A+I=\begin{pmatrix}3-4+1 & -2+2+0\\ 2-2+0 & -1-0+1\end{pmatrix}=\begin{pmatrix}0 & 0\\ 0 & 0\end{pmatrix}\ \checkmark\]
+        <h4>b)</h4>
+        <p>[[Passem \(I\) a l'altre membre i traiem \(A\) factor comú:||Pasamos \(I\) al otro miembro y sacamos \(A\) factor común:||Move \(I\) to the other side and factor out \(A\):]]</p>
+        \[A^2-2A=-I\ \Rightarrow\ A(A-2I)=-I\ \Rightarrow\ A(2I-A)=I\]
+        <p>[[Per tant \(A\) és invertible i la seua inversa és \(2I-A\):||Por tanto \(A\) es invertible y su inversa es \(2I-A\):||So \(A\) is invertible and its inverse is \(2I-A\):]]</p>
+        \[A^{-1}=2I-A=\begin{pmatrix}2 & 0\\ 0 & 2\end{pmatrix}-\begin{pmatrix}2 & -1\\ 1 & 0\end{pmatrix}=\boxed{\begin{pmatrix}0 & 1\\ -1 & 2\end{pmatrix}}\]
+        <p>[[(També: \(|A|=1\neq0\) i \(A^{-1}=\frac1{|A|}(Adj(A))^t\) dona el mateix resultat.)||(También: \(|A|=1\neq0\) y \(A^{-1}=\frac1{|A|}(Adj(A))^t\) da el mismo resultado.)||(Alternatively: \(|A|=1\neq0\) and \(A^{-1}=\frac1{|A|}(Adj(A))^t\) gives the same result.)]]</p>
+        <h4>c)</h4>
+        \[A^2=\begin{pmatrix}3 & -2\\ 2 & -1\end{pmatrix},\qquad A^3=A^2\cdot A=\begin{pmatrix}4 & -3\\ 3 & -2\end{pmatrix}\]
+        <p>[[Cada potència suma 1 als elements de la diagonal principal i a \(a_{21}\), i resta 1 a \(a_{12}\). Per tant:||Cada potencia suma 1 a los elementos de la diagonal principal y a \(a_{21}\), y resta 1 a \(a_{12}\). Por tanto:||Each power adds 1 to the main-diagonal entries and to \(a_{21}\), and subtracts 1 from \(a_{12}\). Therefore:]]</p>
+        \[A^n=\begin{pmatrix}n+1 & -n\\ n & 1-n\end{pmatrix}\ \Rightarrow\ A^{10}=\boxed{\begin{pmatrix}11 & -10\\ 10 & -9\end{pmatrix}}\]
+        <h4>d)</h4>
+        <p>[[Multipliquem per \(A^{-1}\) per la dreta (\(A\) està a la dreta de \(X\)):||Multiplicamos por \(A^{-1}\) por la derecha (\(A\) está a la derecha de \(X\)):||Multiply by \(A^{-1}\) on the right (\(A\) is to the right of \(X\)):]] \(X=(A^t+B)A^{-1}\).</p>
+        \[A^t+B=\begin{pmatrix}2 & 1\\ -1 & 0\end{pmatrix}+\begin{pmatrix}1 & 3\\ 0 & -2\end{pmatrix}=\begin{pmatrix}3 & 4\\ -1 & -2\end{pmatrix}\]
+        \[X=\begin{pmatrix}3 & 4\\ -1 & -2\end{pmatrix}\begin{pmatrix}0 & 1\\ -1 & 2\end{pmatrix}=\boxed{\begin{pmatrix}-4 & 11\\ 2 & -5\end{pmatrix}}\]
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,25 càlcul de \(A^2\); 0,25 comprovació.</li><li>b) 0,25 deduir que \(A(2I-A)=I\); 0,25 calcular \(A^{-1}\). Si només es calcula la inversa per adjunts, màxim 0,25.</li><li>c) 0,25 \(A^2\) i \(A^3\); 0,25 expressió de \(A^n\); 0,25 \(A^{10}\).</li><li>d) 0,25 aïllar bé \(X=(A^t+B)A^{-1}\) (l'ordre importa); 0,25 \(A^t+B\); 0,25 resultat.</li></ul>||<ul><li>a) 0,25 cálculo de \(A^2\); 0,25 comprobación.</li><li>b) 0,25 deducir que \(A(2I-A)=I\); 0,25 calcular \(A^{-1}\). Si solo se calcula la inversa por adjuntos, máximo 0,25.</li><li>c) 0,25 \(A^2\) y \(A^3\); 0,25 expresión de \(A^n\); 0,25 \(A^{10}\).</li><li>d) 0,25 despejar bien \(X=(A^t+B)A^{-1}\) (el orden importa); 0,25 \(A^t+B\); 0,25 resultado.</li></ul>||<ul><li>a) 0.25 computing \(A^2\); 0.25 the check.</li><li>b) 0.25 deducing \(A(2I-A)=I\); 0.25 computing \(A^{-1}\). If the inverse is only computed with cofactors, maximum 0.25.</li><li>c) 0.25 \(A^2\) and \(A^3\); 0.25 the expression for \(A^n\); 0.25 \(A^{10}\).</li><li>d) 0.25 isolating \(X=(A^t+B)A^{-1}\) correctly (order matters); 0.25 \(A^t+B\); 0.25 result.</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 2 ===================== -->
+  <section class="prob" id="p2">
+    <div class="ph"><h2>[[Problema 2||Problema 2||Problem 2]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Determinants, rang amb paràmetre, inversa i sistemes homogenis||Determinantes, rango con parámetro, inversa y sistemas homogéneos||Determinants, rank with a parameter, inverse and homogeneous systems]]</div>
+      <p>[[Considereu la matriu següent, on \(m\) és un paràmetre real:||Considerad la matriz siguiente, donde \(m\) es un parámetro real:||Consider the following matrix, where \(m\) is a real parameter:]]</p>
+      \[M=\begin{pmatrix}1 & 1 & 1\\ 1 & m & 1\\ 2 & 2 & m\end{pmatrix}\]
+      <ol class="parts">
+        <li>[[Estudieu el rang de \(M\) segons els valors de \(m\).||Estudiad el rango de \(M\) según los valores de \(m\).||Study the rank of \(M\) according to the values of \(m\).]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Per a \(m=0\), calculeu la matriu inversa \(M^{-1}\).||Para \(m=0\), calculad la matriz inversa \(M^{-1}\).||For \(m=0\), compute the inverse matrix \(M^{-1}\).]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Per a \(m=0\) i sense calcular-los directament, trobeu el valor dels determinants \(|3M^{-1}|\) i \(|M^t\cdot M^2|\).||Para \(m=0\) y sin calcularlos directamente, hallad el valor de los determinantes \(|3M^{-1}|\) y \(|M^t\cdot M^2|\).||For \(m=0\), and without computing them directly, find the determinants \(|3M^{-1}|\) and \(|M^t\cdot M^2|\).]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Per a quins valors de \(m\) el sistema homogeni \(M\cdot X=O\), amb \(X=\begin{pmatrix}x\\ y\\ z\end{pmatrix}\), té solucions diferents de la trivial? Resoleu-lo per a \(m=2\).||¿Para qué valores de \(m\) el sistema homogéneo \(M\cdot X=O\), con \(X=\begin{pmatrix}x\\ y\\ z\end{pmatrix}\), tiene soluciones distintas de la trivial? Resolvedlo para \(m=2\).||For which values of \(m\) does the homogeneous system \(M\cdot X=O\), with \(X=\begin{pmatrix}x\\ y\\ z\end{pmatrix}\), have non-trivial solutions? Solve it for \(m=2\).]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        \[|M|=(m^2+2+2)-(2m+2+m)=m^2-3m+2=(m-1)(m-2)\]
+        <ul>
+          <li>[[Si \(m\neq1\) i \(m\neq2\): \(|M|\neq0\Rightarrow\) \(\boxed{rg(M)=3}\).||Si \(m\neq1\) y \(m\neq2\): \(|M|\neq0\Rightarrow\) \(\boxed{rg(M)=3}\).||If \(m\neq1\) and \(m\neq2\): \(|M|\neq0\Rightarrow\) \(\boxed{rg(M)=3}\).]]</li>
+          <li>[[Si \(m=1\): \(M=\begin{pmatrix}1 & 1 & 1\\ 1 & 1 & 1\\ 2 & 2 & 1\end{pmatrix}\), \(|M|=0\) i \(\begin{vmatrix}1 & 1\\ 2 & 1\end{vmatrix}=-1\neq0\Rightarrow\) \(\boxed{rg(M)=2}\).||Si \(m=1\): \(M=\begin{pmatrix}1 & 1 & 1\\ 1 & 1 & 1\\ 2 & 2 & 1\end{pmatrix}\), \(|M|=0\) y \(\begin{vmatrix}1 & 1\\ 2 & 1\end{vmatrix}=-1\neq0\Rightarrow\) \(\boxed{rg(M)=2}\).||If \(m=1\): \(M=\begin{pmatrix}1 & 1 & 1\\ 1 & 1 & 1\\ 2 & 2 & 1\end{pmatrix}\), \(|M|=0\) and \(\begin{vmatrix}1 & 1\\ 2 & 1\end{vmatrix}=-1\neq0\Rightarrow\) \(\boxed{rg(M)=2}\).]]</li>
+          <li>[[Si \(m=2\): \(M=\begin{pmatrix}1 & 1 & 1\\ 1 & 2 & 1\\ 2 & 2 & 2\end{pmatrix}\), \(|M|=0\) i \(\begin{vmatrix}1 & 1\\ 1 & 2\end{vmatrix}=1\neq0\Rightarrow\) \(\boxed{rg(M)=2}\).||Si \(m=2\): \(M=\begin{pmatrix}1 & 1 & 1\\ 1 & 2 & 1\\ 2 & 2 & 2\end{pmatrix}\), \(|M|=0\) y \(\begin{vmatrix}1 & 1\\ 1 & 2\end{vmatrix}=1\neq0\Rightarrow\) \(\boxed{rg(M)=2}\).||If \(m=2\): \(M=\begin{pmatrix}1 & 1 & 1\\ 1 & 2 & 1\\ 2 & 2 & 2\end{pmatrix}\), \(|M|=0\) and \(\begin{vmatrix}1 & 1\\ 1 & 2\end{vmatrix}=1\neq0\Rightarrow\) \(\boxed{rg(M)=2}\).]]</li>
+        </ul>
+        <h4>b)</h4>
+        <p>[[Per a \(m=0\), \(|M|=2\neq0\). Matriu d'adjunts i inversa:||Para \(m=0\), \(|M|=2\neq0\). Matriz de adjuntos e inversa:||For \(m=0\), \(|M|=2\neq0\). Cofactor matrix and inverse:]]</p>
+        \[M=\begin{pmatrix}1 & 1 & 1\\ 1 & 0 & 1\\ 2 & 2 & 0\end{pmatrix},\qquad Adj(M)=\begin{pmatrix}-2 & 2 & 2\\ 2 & -2 & 0\\ 1 & 0 & -1\end{pmatrix}\]
+        \[M^{-1}=\frac1{|M|}\big(Adj(M)\big)^t=\frac12\begin{pmatrix}-2 & 2 & 1\\ 2 & -2 & 0\\ 2 & 0 & -1\end{pmatrix}=\boxed{\begin{pmatrix}-1 & 1 & \frac12\\ 1 & -1 & 0\\ 1 & 0 & -\frac12\end{pmatrix}}\]
+        <h4>c)</h4>
+        <p>[[Amb \(|M|=2\) i les propietats dels determinants (ordre 3):||Con \(|M|=2\) y las propiedades de los determinantes (orden 3):||With \(|M|=2\) and the properties of determinants (order 3):]]</p>
+        \[|3M^{-1}|=3^3\cdot\frac1{|M|}=\boxed{\frac{27}2},\qquad |M^t\cdot M^2|=|M^t|\cdot|M|^2=|M|^3=\boxed{8}\]
+        <h4>d)</h4>
+        <p>[[Un sistema homogeni sempre és compatible. Té solucions no trivials si i només si \(rg(M)<3\), és a dir, si \(|M|=0\): \(\boxed{m=1\ \text{o}\ m=2}\).||Un sistema homogéneo siempre es compatible. Tiene soluciones no triviales si y solo si \(rg(M)<3\), es decir, si \(|M|=0\): \(\boxed{m=1\ \text{o}\ m=2}\).||A homogeneous system is always consistent. It has non-trivial solutions if and only if \(rg(M)<3\), i.e. \(|M|=0\): \(\boxed{m=1\ \text{or}\ m=2}\).]]</p>
+        <p>[[Per a \(m=2\) la tercera equació és el doble de la primera; ens quedem amb les dues primeres:||Para \(m=2\) la tercera ecuación es el doble de la primera; nos quedamos con las dos primeras:||For \(m=2\) the third equation is twice the first; we keep the first two:]]</p>
+        \[\left\{\begin{aligned}x+y+z&=0\\ x+2y+z&=0\end{aligned}\right.\ \xrightarrow{E_2-E_1}\ y=0\ \Rightarrow\ x=-z\ \Rightarrow\ \boxed{x=-\lambda,\ y=0,\ z=\lambda,\quad\lambda\in\mathbb R}\]
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,25 determinant; 0,25 valors que l'anul·len i cas general; 0,25 rang en els casos \(m=1\) i \(m=2\) (justificat amb un menor no nul).</li><li>b) 0,25 determinant; 0,25 adjunts; 0,25 inversa final.</li><li>c) 0,25 cada determinant, sempre que s'expliciten les propietats utilitzades.</li><li>d) 0,25 relacionar les solucions no trivials amb \(|M|=0\); 0,25 solució per a \(m=2\).</li></ul>||<ul><li>a) 0,25 determinante; 0,25 valores que lo anulan y caso general; 0,25 rango en los casos \(m=1\) y \(m=2\) (justificado con un menor no nulo).</li><li>b) 0,25 determinante; 0,25 adjuntos; 0,25 inversa final.</li><li>c) 0,25 cada determinante, siempre que se expliciten las propiedades utilizadas.</li><li>d) 0,25 relacionar las soluciones no triviales con \(|M|=0\); 0,25 solución para \(m=2\).</li></ul>||<ul><li>a) 0.25 determinant; 0.25 values that make it zero and general case; 0.25 rank in the cases \(m=1\) and \(m=2\) (justified with a non-zero minor).</li><li>b) 0.25 determinant; 0.25 cofactors; 0.25 final inverse.</li><li>c) 0.25 each determinant, provided the properties used are stated.</li><li>d) 0.25 linking non-trivial solutions to \(|M|=0\); 0.25 solution for \(m=2\).</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 3 ===================== -->
+  <section class="prob" id="p3">
+    <div class="ph"><h2>[[Problema 3||Problema 3||Problem 3]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Discussió amb paràmetre (Rouché-Frobenius), regla de Cramer i Gauss||Discusión con parámetro (Rouché-Frobenius), regla de Cramer y Gauss||Discussion with a parameter (Rouché–Frobenius), Cramer's rule and Gaussian elimination]]</div>
+      <p>[[Considereu el sistema d'equacions lineals següent, on \(a\) és un paràmetre real:||Considerad el sistema de ecuaciones lineales siguiente, donde \(a\) es un parámetro real:||Consider the following system of linear equations, where \(a\) is a real parameter:]]</p>
+      \[\left\{\begin{aligned}x+y+z&=1\\ 2x+3y+az&=3\\ x+ay+3z&=3\end{aligned}\right.\]
+      <ol class="parts">
+        <li>[[Discutiu el sistema segons els valors de \(a\).||Discutid el sistema según los valores de \(a\).||Discuss the system according to the values of \(a\).]] <span class="pp">([[1,25 punts||1,25 puntos||1.25 points]])</span></li>
+        <li>[[Resoleu-lo per a \(a=1\) utilitzant la regla de Cramer.||Resolvedlo para \(a=1\) utilizando la regla de Cramer.||Solve it for \(a=1\) using Cramer's rule.]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Resoleu-lo per a \(a=3\).||Resolvedlo para \(a=3\).||Solve it for \(a=3\).]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        \[A=\begin{pmatrix}1 & 1 & 1\\ 2 & 3 & a\\ 1 & a & 3\end{pmatrix},\qquad |A|=(9+a+2a)-(3+a^2+6)=3a-a^2=a(3-a)\]
+        <ul>
+          <li>[[Si \(a\neq0\) i \(a\neq3\): \(rg(A)=rg(A^*)=3=\) nre. d'incògnites \(\Rightarrow\) <strong>SCD</strong>.||Si \(a\neq0\) y \(a\neq3\): \(rg(A)=rg(A^*)=3=\) n.º de incógnitas \(\Rightarrow\) <strong>SCD</strong>.||If \(a\neq0\) and \(a\neq3\): \(rg(A)=rg(A^*)=3=\) number of unknowns \(\Rightarrow\) <strong>unique solution</strong>.]]</li>
+          <li>[[Si \(a=0\): \(\begin{vmatrix}1 & 1\\ 2 & 3\end{vmatrix}=1\neq0\Rightarrow rg(A)=2\). Orlem amb la columna de termes independents:||Si \(a=0\): \(\begin{vmatrix}1 & 1\\ 2 & 3\end{vmatrix}=1\neq0\Rightarrow rg(A)=2\). Orlamos con la columna de términos independientes:||If \(a=0\): \(\begin{vmatrix}1 & 1\\ 2 & 3\end{vmatrix}=1\neq0\Rightarrow rg(A)=2\). We border it with the column of constants:]] \(\begin{vmatrix}1 & 1 & 1\\ 2 & 3 & 3\\ 1 & 0 & 3\end{vmatrix}=3\neq0\Rightarrow rg(A^*)=3\neq rg(A)\Rightarrow\) <strong>SI</strong>.</li>
+          <li>[[Si \(a=3\): \(rg(A)=2\) (mateix menor) i||Si \(a=3\): \(rg(A)=2\) (mismo menor) y||If \(a=3\): \(rg(A)=2\) (same minor) and]] \(\begin{vmatrix}1 & 1 & 1\\ 2 & 3 & 3\\ 1 & 3 & 3\end{vmatrix}=0\Rightarrow rg(A^*)=2<3\Rightarrow\) <strong>SCI</strong>.</li>
+        </ul>
+        <h4>b)</h4>
+        <p>[[Per a \(a=1\), \(|A|=1\cdot2=2\neq0\):||Para \(a=1\), \(|A|=1\cdot2=2\neq0\):||For \(a=1\), \(|A|=1\cdot2=2\neq0\):]]</p>
+        \[x=\frac{\begin{vmatrix}1 & 1 & 1\\ 3 & 3 & 1\\ 3 & 1 & 3\end{vmatrix}}{2}=\frac{-4}{2}=-2,\qquad y=\frac{\begin{vmatrix}1 & 1 & 1\\ 2 & 3 & 1\\ 1 & 3 & 3\end{vmatrix}}{2}=\frac{4}{2}=2,\qquad z=\frac{\begin{vmatrix}1 & 1 & 1\\ 2 & 3 & 3\\ 1 & 1 & 3\end{vmatrix}}{2}=\frac{2}{2}=1\]
+        <p>\(\boxed{x=-2,\ y=2,\ z=1}\). [[Comprovació:||Comprobación:||Check:]] \(-2+2+1=1\ \checkmark\quad -4+6+1=3\ \checkmark\quad -2+2+3=3\ \checkmark\)</p>
+        <h4>c)</h4>
+        \[\left(\begin{array}{rrr|r}1 & 1 & 1 & 1\\ 2 & 3 & 3 & 3\\ 1 & 3 & 3 & 3\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & 1 & 1 & 1\\ 0 & 1 & 1 & 1\\ 0 & 2 & 2 & 2\end{array}\right)\xrightarrow{F_3''=F_3'-2F_2'}\left(\begin{array}{rrr|r}1 & 1 & 1 & 1\\ 0 & 1 & 1 & 1\\ 0 & 0 & 0 & 0\end{array}\right)\]
+        <p>[[Fem \(z=\lambda\): \(y=1-\lambda\) i \(x=1-y-z=0\).||Hacemos \(z=\lambda\): \(y=1-\lambda\) y \(x=1-y-z=0\).||Let \(z=\lambda\): \(y=1-\lambda\) and \(x=1-y-z=0\).]]</p>
+        \[\boxed{x=0,\quad y=1-\lambda,\quad z=\lambda,\qquad\lambda\in\mathbb R}\]
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,25 determinant; 0,25 valors crítics; 0,25 cas general; 0,25 cada un dels casos \(a=0\) i \(a=3\), justificant-ho amb els rangs.</li><li>b) 0,25 determinant del sistema; 0,5 les tres incògnites (per un altre mètode, màxim 0,25).</li><li>c) 0,25 reducció del sistema; 0,25 solució en funció d'un paràmetre.</li></ul>||<ul><li>a) 0,25 determinante; 0,25 valores críticos; 0,25 caso general; 0,25 cada uno de los casos \(a=0\) y \(a=3\), justificándolo con los rangos.</li><li>b) 0,25 determinante del sistema; 0,5 las tres incógnitas (por otro método, máximo 0,25).</li><li>c) 0,25 reducción del sistema; 0,25 solución en función de un parámetro.</li></ul>||<ul><li>a) 0.25 determinant; 0.25 critical values; 0.25 general case; 0.25 each of the cases \(a=0\) and \(a=3\), justified with the ranks.</li><li>b) 0.25 determinant of the system; 0.5 the three unknowns (by another method, maximum 0.25).</li><li>c) 0.25 reducing the system; 0.25 solution in terms of one parameter.</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 4 ===================== -->
+  <section class="prob" id="p4">
+    <div class="ph"><h2>[[Problema 4||Problema 4||Problem 4]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Plantejament, forma matricial i mètode de la matriu inversa||Planteamiento, forma matricial y método de la matriz inversa||Setting up, matrix form and the inverse-matrix method]]</div>
+      <p>[[Una cooperativa de la Ribera ven caixes de taronges, de mandarines i de llimes. Un client compra 2 caixes de taronges, 1 de mandarines i 1 de llimes i paga 40 €. Un altre en compra 1 de taronges, 2 de mandarines i 1 de llimes i paga 38 €. Un tercer client en compra 1 de taronges, 1 de mandarines i 2 de llimes i paga 34 €.||Una cooperativa de la Ribera vende cajas de naranjas, de mandarinas y de limones. Un cliente compra 2 cajas de naranjas, 1 de mandarinas y 1 de limones y paga 40 €. Otro compra 1 de naranjas, 2 de mandarinas y 1 de limones y paga 38 €. Un tercer cliente compra 1 de naranjas, 1 de mandarinas y 2 de limones y paga 34 €.||A cooperative in La Ribera sells boxes of oranges, mandarins and lemons. One customer buys 2 boxes of oranges, 1 of mandarins and 1 of lemons and pays 40 €. Another buys 1 box of oranges, 2 of mandarins and 1 of lemons and pays 38 €. A third buys 1 box of oranges, 1 of mandarins and 2 of lemons and pays 34 €.]]</p>
+      <ol class="parts">
+        <li>[[Plantegeu un sistema d'equacions lineals que permeta calcular el preu de cada tipus de caixa.||Plantead un sistema de ecuaciones lineales que permita calcular el precio de cada tipo de caja.||Set up a system of linear equations to find the price of each type of box.]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Escriviu-lo en la forma matricial \(AX=B\) i justifiqueu que es pot resoldre pel mètode de la matriu inversa.||Escribidlo en la forma matricial \(AX=B\) y justificad que se puede resolver por el método de la matriz inversa.||Write it in matrix form \(AX=B\) and justify that it can be solved by the inverse-matrix method.]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Calculeu \(A^{-1}\) i resoleu el sistema matricialment.||Calculad \(A^{-1}\) y resolved el sistema matricialmente.||Compute \(A^{-1}\) and solve the system using matrices.]] <span class="pp">([[1 punt||1 punto||1 point]])</span></li>
+        <li>[[Un quart client diu que ha comprat una caixa de cada tipus i que ha pagat 30 €. Si afegim aquesta informació al sistema, quin tipus de sistema obtenim? Raoneu-ho.||Un cuarto cliente dice que ha comprado una caja de cada tipo y que ha pagado 30 €. Si añadimos esta información al sistema, ¿qué tipo de sistema obtenemos? Razonadlo.||A fourth customer says they bought one box of each type and paid 30 €. If we add this information to the system, what kind of system do we get? Explain.]] <span class="pp">([[0,25 punts||0,25 puntos||0.25 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        <p>[[Anomenem \(x\), \(y\) i \(z\) el preu (en euros) d'una caixa de taronges, de mandarines i de llimes:||Llamamos \(x\), \(y\) y \(z\) al precio (en euros) de una caja de naranjas, de mandarinas y de limones:||Let \(x\), \(y\) and \(z\) be the price (in euros) of a box of oranges, mandarins and lemons:]]</p>
+        \[\left\{\begin{aligned}2x+y+z&=40\\ x+2y+z&=38\\ x+y+2z&=34\end{aligned}\right.\]
+        <h4>b)</h4>
+        \[\underbrace{\begin{pmatrix}2 & 1 & 1\\ 1 & 2 & 1\\ 1 & 1 & 2\end{pmatrix}}_{A}\cdot\underbrace{\begin{pmatrix}x\\ y\\ z\end{pmatrix}}_{X}=\underbrace{\begin{pmatrix}40\\ 38\\ 34\end{pmatrix}}_{B}\]
+        <p>\(|A|=(8+1+1)-(2+2+2)=4\neq0\) [[\(\Rightarrow A\) és invertible i \(X=A^{-1}B\).||\(\Rightarrow A\) es invertible y \(X=A^{-1}B\).||\(\Rightarrow A\) is invertible and \(X=A^{-1}B\).]]</p>
+        <h4>c)</h4>
+        <p>[[Els adjunts són \(A_{ii}=3\) en la diagonal i \(A_{ij}=-1\) fora de la diagonal (la matriu és simètrica):||Los adjuntos son \(A_{ii}=3\) en la diagonal y \(A_{ij}=-1\) fuera de la diagonal (la matriz es simétrica):||The cofactors are \(A_{ii}=3\) on the diagonal and \(A_{ij}=-1\) off the diagonal (the matrix is symmetric):]]</p>
+        \[A^{-1}=\frac14\begin{pmatrix}3 & -1 & -1\\ -1 & 3 & -1\\ -1 & -1 & 3\end{pmatrix},\qquad X=A^{-1}B=\frac14\begin{pmatrix}120-38-34\\ -40+114-34\\ -40-38+102\end{pmatrix}=\frac14\begin{pmatrix}48\\ 40\\ 24\end{pmatrix}=\begin{pmatrix}12\\ 10\\ 6\end{pmatrix}\]
+        <p>[[<strong>Una caixa de taronges costa 12 €, una de mandarines 10 € i una de llimes 6 €.</strong>||<strong>Una caja de naranjas cuesta 12 €, una de mandarinas 10 € y una de limones 6 €.</strong>||<strong>A box of oranges costs €12, mandarins €10 and lemons €6.</strong>]]</p>
+        <h4>d)</h4>
+        <p>[[Afegim l'equació \(x+y+z=30\). La matriu de coeficients (4×3) continua tenint rang 3, però la matriu ampliada és 4×4 i el seu determinant val \(8\neq0\), així que \(rg(A^*)=4\neq rg(A)=3\): el sistema és <strong>incompatible</strong>. Dit d'una altra manera: els tres primers clients ja fixen els preus, i una caixa de cada tipus costa \(12+10+6=28\neq30\) €.||Añadimos la ecuación \(x+y+z=30\). La matriz de coeficientes (4×3) sigue teniendo rango 3, pero la matriz ampliada es 4×4 y su determinante vale \(8\neq0\), así que \(rg(A^*)=4\neq rg(A)=3\): el sistema es <strong>incompatible</strong>. Dicho de otra forma: los tres primeros clientes ya fijan los precios, y una caja de cada tipo cuesta \(12+10+6=28\neq30\) €.||We add the equation \(x+y+z=30\). The (4×3) coefficient matrix still has rank 3, but the augmented matrix is 4×4 with determinant \(8\neq0\), so \(rg(A^*)=4\neq rg(A)=3\): the system is <strong>inconsistent</strong>. Put another way: the first three customers already fix the prices, and one box of each type costs \(12+10+6=28\neq30\) €.]]</p>
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,25 per cada equació ben plantejada (amb les incògnites definides).</li><li>b) 0,25 forma matricial; 0,25 justificar-ho amb \(|A|\neq0\).</li><li>c) 0,5 matriu inversa; 0,25 escriure \(X=A^{-1}B\); 0,25 resultat i interpretació. Si es resol per un altre mètode, màxim 0,25.</li><li>d) 0,25 concloure que és incompatible amb un raonament correcte (rangs o substitució de la solució).</li></ul>||<ul><li>a) 0,25 por cada ecuación bien planteada (con las incógnitas definidas).</li><li>b) 0,25 forma matricial; 0,25 justificarlo con \(|A|\neq0\).</li><li>c) 0,5 matriz inversa; 0,25 escribir \(X=A^{-1}B\); 0,25 resultado e interpretación. Si se resuelve por otro método, máximo 0,25.</li><li>d) 0,25 concluir que es incompatible con un razonamiento correcto (rangos o sustitución de la solución).</li></ul>||<ul><li>a) 0.25 for each correctly set-up equation (with the unknowns defined).</li><li>b) 0.25 matrix form; 0.25 justification with \(|A|\neq0\).</li><li>c) 0.5 inverse matrix; 0.25 writing \(X=A^{-1}B\); 0.25 result and interpretation. If solved by another method, maximum 0.25.</li><li>d) 0.25 concluding that it is inconsistent with correct reasoning (ranks or substituting the solution).</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <p class="disclaimer">[[Prova d'elaboració pròpia amb el format de les PAU de la Comunitat Valenciana. Inclou tots els continguts de les unitats 1 i 2: operacions i potències de matrius, determinants i propietats, rang, matriu inversa, equacions matricials, Gauss, forma matricial, Cramer, sistemes homogenis, Rouché-Frobenius i paràmetres. Els criteris de correcció són orientatius.||Prueba de elaboración propia con el formato de las PAU de la Comunitat Valenciana. Incluye todos los contenidos de las unidades 1 y 2: operaciones y potencias de matrices, determinantes y propiedades, rango, matriz inversa, ecuaciones matriciales, Gauss, forma matricial, Cramer, sistemas homogéneos, Rouché-Frobenius y parámetros. Los criterios de corrección son orientativos.||Original test in the format of the Valencian PAU. It covers everything in units 1 and 2: matrix operations and powers, determinants and their properties, rank, inverse matrix, matrix equations, Gaussian elimination, matrix form, Cramer's rule, homogeneous systems, Rouché–Frobenius and parameters. The marking criteria are a guide only.]]</p>
+  <div class="final">
+    [[Vols practicar més?||¿Quieres practicar más?||Want more practice?]]
+    <div class="links">
+      <a class="btn" href="global-algebra-pau.html">📝 [[Exercicis PAU de tot l'Espanya||Ejercicios PAU de toda España||PAU exercises from across Spain]]</a>
+      <a class="btn" href="examen-u1-matrius-model1.html">⏱ [[Model d'examen de la unitat 1||Modelo de examen de la unidad 1||Unit 1 mock exam]]</a>
+      <a class="btn" href="examen-u2-sistemes-model1.html">⏱ [[Model d'examen de la unitat 2||Modelo de examen de la unidad 2||Unit 2 mock exam]]</a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>[[Prova global d'Àlgebra · Unitats 1 i 2 · 2n Batxillerat CCSS II||Prueba global de Álgebra · Unidades 1 y 2 · 2º Bachillerato CCSS II||Algebra block test · Units 1 and 2 · 2nd Baccalaureate, Social Sciences II]]</p>
+  <p><a href="../../index.html">FentMates</a> · [[Fet amb ♥ per a l'alumnat||Hecho con ♥ para el alumnado||Made with ♥ for students]]</p>
+</footer>
+<!--SCRIPT-->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement, LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var TITLES = { va: "Prova global d'Àlgebra · FentMates", es: "Prueba global de Álgebra · FentMates", en: "Algebra block test · FentMates" };
+  var UI = {
+    va: { start: "▶ Comença", pause: "⏸ Pausa", resume: "▶ Continua", show: "👁 Mostra totes les solucions", hide: "🙈 Amaga les solucions", theme: "Canvia entre mode clar i fosc", over: "Temps esgotat!" },
+    es: { start: "▶ Empieza", pause: "⏸ Pausa", resume: "▶ Continúa", show: "👁 Mostrar todas las soluciones", hide: "🙈 Ocultar las soluciones", theme: "Cambiar entre modo claro y oscuro", over: "¡Tiempo agotado!" },
+    en: { start: "▶ Start", pause: "⏸ Pause", resume: "▶ Resume", show: "👁 Show all solutions", hide: "🙈 Hide solutions", theme: "Toggle light and dark mode", over: "Time's up!" }
+  };
+  var lang = root.getAttribute("data-lang") || "va", refreshers = [];
+  function u(k) { return UI[lang][k]; }
+  function onLang(fn) { refreshers.push(fn); fn(); }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  /* cronòmetre (compte enrere de 90 min) */
+  var TOTAL = 90 * 60, left = TOTAL, timerId = null, started = false;
+  var tEl = document.getElementById("timer"), bStart = document.getElementById("t-start");
+  function fmt(s) { var a = Math.abs(s), m = Math.floor(a / 60), r = a % 60; return (s < 0 ? "−" : "") + m + ":" + (r < 10 ? "0" : "") + r; }
+  function paint() {
+    tEl.textContent = fmt(left);
+    tEl.classList.toggle("warn", left <= 600 && left > 0);
+    tEl.classList.toggle("over", left <= 0);
+    tEl.title = left <= 0 ? u("over") : "";
+    bStart.textContent = timerId ? u("pause") : (started ? u("resume") : u("start"));
+  }
+  bStart.addEventListener("click", function () {
+    if (timerId) { clearInterval(timerId); timerId = null; }
+    else { started = true; timerId = setInterval(function () { left--; paint(); }, 1000); }
+    paint();
+  });
+  document.getElementById("t-reset").addEventListener("click", function () { clearInterval(timerId); timerId = null; started = false; left = TOTAL; paint(); });
+  onLang(paint);
+
+  /* solucions */
+  var sols = [].slice.call(document.querySelectorAll("details.sol")), bSol = document.getElementById("sol-all");
+  function paintSol() { var all = sols.every(function (d) { return d.open; }); bSol.textContent = all ? u("hide") : u("show"); }
+  bSol.addEventListener("click", function () { var all = sols.every(function (d) { return d.open; }); sols.forEach(function (d) { d.open = !all; }); paintSol(); });
+  sols.forEach(function (d) { d.addEventListener("toggle", paintSol); });
+  onLang(paintSol);
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+
+  /* tema i idioma (compartits amb la web) */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  var tb = document.getElementById("theme-btn");
+  function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+  tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+  var lb = document.querySelectorAll("[data-setlang]");
+  function paintLang() { lb.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); document.title = TITLES[lang]; }
+  lb.forEach(function (b) { b.addEventListener("click", function () {
+    var l = b.dataset.setlang; if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }); });
+  onLang(function () { paintTheme(); paintLang(); });
+
+  function render() {
+    if (window.renderMathInElement) window.renderMathInElement(document.body, {
+      delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }], throwOnError: false
+    });
+  }
+  if (document.readyState === "complete") render(); else window.addEventListener("load", render);
+})();
+</script>
+</body>
+</html>

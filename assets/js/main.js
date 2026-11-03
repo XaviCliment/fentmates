@@ -341,6 +341,7 @@
   /* ---------- Cursos amb targetes (cards: true a materials.js) ---------- */
   var BLOCKS = {
     all: { c: "#e3a21a", c2: "#c98a0c" }, ari: { c: "#e6b84a", c2: "#c99a2e" }, alg: { c: "#4e81bd", c2: "#3d6aa0" },
+    algg: { c: "#3a669f", c2: "#2a4f80" },
     pl: { c: "#f79645", c2: "#dc7a29" }, geo: { c: "#f79645", c2: "#dc7a29" },
     an: { c: "#7fa040", c2: "#6a8a33" }, pr: { c: "#8064a1", c2: "#684e88" }
   };
@@ -386,7 +387,7 @@
     hero.style.setProperty("--c2", b.c2);
     hero.innerHTML = '<div class="uh-ill" aria-hidden="true">' + ill("units", u.ill) + '</div><div class="container">' +
       '<div class="breadcrumb"><a href="index.html">' + esc(t("nav.home")) + '</a> / <a href="#">' + esc(tx(L.name)) + "</a> / " + esc(tx(u.title)) + "</div>" +
-      '<span class="uh-num">' + esc(num === "★" ? t("level.wholecourse") : t("level.unit") + " " + num) + " · " + esc(t("block." + (u.block || "all"))) + "</span>" +
+      '<span class="uh-num">' + (num === "★" ? esc(t("level.wholecourse")) + " · " : /^\d+$/.test(num) ? esc(t("level.unit") + " " + num) + " · " : "") + esc(t("block." + (u.block || "all"))) + "</span>" +
       "<h1>" + esc(tx(u.title)) + "</h1><p>" + esc(countLabel(u)) + "</p></div>";
   }
 
