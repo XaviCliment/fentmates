@@ -236,7 +236,7 @@ OneDrive: la sincronització la fa GitHub. Les carpetes que comencen per `_` no 
 
 ## Global d'Àlgebra (2n Batx CCSS)
 
-Secció de repàs de les unitats 1 i 2, darrere de la Unitat 2. A `materials.js` porta `num: "1–2"` (no compta com a unitat)
+Secció de repàs de les unitats 1 i 2, darrere de la Unitat 2. A `materials.js` porta `num: "★"` (com el Resum teòric, no compta com a unitat)
 i `block: "algg"`, un blau més fosc que el de les unitats d'àlgebra (color a `BLOCKS` de `main.js` i de `fm-materials.js`).
 Les dues pàgines es generen amb el mateix `build.py` dels models d'examen:
 
@@ -246,5 +246,7 @@ python3 _eines/examens/build.py _eines/examens/2batx-global-alg/model1.src.html 
 ```
 
 `pau.src.html` té 19 exercicis de la PAU 2026 d'altres comunitats (de www.ebaumatematicas.com) amb les solucions i una
-taula que indica en quins exercicis apareix cada contingut; `model1.src.html` és la prova global tipus PAU. Atenció: dins
+taula que indica en quins exercicis apareix cada contingut; `model1.src.html` és la prova global tipus PAU, i
+`resum.src.html`, la presentació-resum (mapa conceptual i errors típics), amb l'estil de `materials/3eso/t2-resum-diapositives.html`
+(es genera igual, cap a `materials/2batx-ccss/global-algebra-resum-diapositives.html`). Atenció: dins
 d'un marcador `[[va||es||en]]` no es pot escriure `||` (per exemple `|M||N|`; cal posar `|M|\cdot|N|`).

@@ -453,11 +453,12 @@ window.LEVELS = {
         ]
       },
       {
-        // prova global de les unitats 1 i 2: num no numèric (no compta com a unitat) i blau més fosc (block: "algg")
-        num: "1–2",
+        // prova global de les unitats 1 i 2: estrella com el Resum teòric (no compta com a unitat) i blau més fosc (block: "algg")
+        num: "★",
         ill: "global", block: "algg",
         title: { va: "Global d'Àlgebra", es: "Global de Álgebra", en: "Algebra block test" },
         items: [
+          { type: "notes", title: { va: "Presentació-resum: mapa conceptual i errors típics", es: "Presentación-resumen: mapa conceptual y errores típicos", en: "Summary slides: concept map and common mistakes" }, desc: { va: "17 diapositives amb tot l'important de les unitats 1 i 2", es: "17 diapositivas con todo lo importante de las unidades 1 y 2", en: "17 slides with everything important from units 1 and 2" }, url: "materials/2batx-ccss/global-algebra-resum-diapositives.html", date: "2026-11-03" },
           { type: "exercises", title: { va: "Selecció d'exercicis PAU", es: "Selección de ejercicios PAU", en: "Selected PAU exercises" }, desc: { va: "19 exercicis resolts de la PAU 2026 d'11 comunitats, amb tot el bloc", es: "19 ejercicios resueltos de la PAU 2026 de 11 comunidades, con todo el bloque", en: "19 solved 2026 PAU exercises from 11 regions, covering the whole block" }, url: "materials/2batx-ccss/global-algebra-pau.html", date: "2026-11-03" },
           { type: "exam", title: { va: "Prova global tipus PAU", es: "Prueba global tipo PAU", en: "PAU-style block test" }, desc: { va: "4 problemes de les unitats 1 i 2 amb solucions i criteris de correcció", es: "4 problemas de las unidades 1 y 2 con soluciones y criterios de corrección", en: "4 problems on units 1 and 2 with solutions and marking criteria" }, url: "materials/2batx-ccss/global-algebra-prova-model1.html", date: "2026-11-03" }
         ]

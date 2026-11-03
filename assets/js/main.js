@@ -387,7 +387,7 @@
     hero.style.setProperty("--c2", b.c2);
     hero.innerHTML = '<div class="uh-ill" aria-hidden="true">' + ill("units", u.ill) + '</div><div class="container">' +
       '<div class="breadcrumb"><a href="index.html">' + esc(t("nav.home")) + '</a> / <a href="#">' + esc(tx(L.name)) + "</a> / " + esc(tx(u.title)) + "</div>" +
-      '<span class="uh-num">' + (num === "★" ? esc(t("level.wholecourse")) + " · " : /^\d+$/.test(num) ? esc(t("level.unit") + " " + num) + " · " : "") + esc(t("block." + (u.block || "all"))) + "</span>" +
+      '<span class="uh-num">' + (num === "★" && u.block === "all" ? esc(t("level.wholecourse")) + " · " : /^\d+$/.test(num) ? esc(t("level.unit") + " " + num) + " · " : "") + esc(t("block." + (u.block || "all"))) + "</span>" +
       "<h1>" + esc(tx(u.title)) + "</h1><p>" + esc(countLabel(u)) + "</p></div>";
   }
 
