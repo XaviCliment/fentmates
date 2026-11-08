@@ -118,7 +118,7 @@
     }
     return { rows: rows, o: o };
   }
-  function rowsLL(P, d, Q, e) {
+  function rowsLL(P, d, Q, e, noPerp) {
     var o = LL(P, d, Q, e), rows = [[t3("Posició", "Posición", "Position"), "<strong>" + POSLL()[o.pos] + "</strong>"]];
     if (o.pos === 0) rows.push([tex("d(r,s)"), tex("0")]);
     if (o.pos === 1) {
@@ -129,6 +129,7 @@
       rows.push([tex("[\\overrightarrow{PQ},\\vec d_r,\\vec d_s]"), tex(detT(o.w, d, e))]);
       if (o.pos === 3) rows.push([tex("d(r,s)"), tex("\\dfrac{|[\\overrightarrow{PQ},\\vec d_r,\\vec d_s]|}{|\\vec d_r\\times\\vec d_s|}=\\dfrac{" + fT(abs(o.m)) + "}{|" + vT(o.n) + "|}=\\dfrac{" + fT(abs(o.m)) + "}{" + rtF(vdot(o.n, o.n)) + "}=" + distT(o.d2))]);
       else rows.push([tex("d(r,s)"), tex("0") + " " + t3("(es tallen)", "(se cortan)", "(they meet)")]);
+      if (noPerp) { if (o.pos === 2) rows.push([cdot(COL.p) + t3("Punt de tall", "Punto de corte", "Intersection"), tex(vT(o.X))]); return { rows: rows, o: o }; }
       rows.push([t3("Perpendicular comuna", "Perpendicular común", "Common perpendicular"), tex("\\overrightarrow{XY}\\perp\\vec d_r,\\ \\overrightarrow{XY}\\perp\\vec d_s\\Rightarrow\\lambda=" + fT(o.la) + ",\\ \\mu=" + fT(o.mu))]);
       rows.push([cdot(COL.p) + t3("Peus", "Pies", "Feet"), tex("X=" + vT(o.X) + (o.pos === 3 ? ",\\ \\ Y=" + vT(o.Y) : "\\ " + "(=Y)"))]);
       if (o.pos === 3) rows.push([t3("Recta perpendicular comuna", "Recta perpendicular común", "Common perpendicular line"), tex(lineT(o.X, primDir(o.n), "t"))]);
@@ -243,7 +244,7 @@
     function draw() {
       var P = g.f.v.P, Q = g.f.v.Q, d = g.f.v.dr, e = g.f.v.ds, items = [dot3(P, "P", COL.r), dot3(Q, "Q", COL.s)];
       if (vzero(d) || vzero(e)) { bad(g, MSG.d()); scene(g, items, [P, Q]); return; }
-      var R = rowsLL(P, d, Q, e), o = R.o, pts = [P, Q];
+      var R = rowsLL(P, d, Q, e, true), o = R.o, pts = [P, Q];
       items.unshift(lineI(P, d, COL.r, "r"), lineI(Q, e, COL.s, "s"));
       if (o.X) { items.push(dot3(vnum(o.X), "X", COL.p)); pts.push(vnum(o.X)); }
       if (o.pos === 3 || o.pos === 1) { items.push(segP(o.X, o.Y, COL.p, false), dot3(vnum(o.Y), "Y", COL.p)); pts.push(vnum(o.Y)); }
@@ -272,7 +273,70 @@
     onLang(draw);
   }
 
-  /* ---------- 4.7 simètric respecte d'una recta ---------- */
+  /* ---------- 4.7 recta que passa per un punt i talla dues rectes ---------- */
+  function lineThrough(P, A, d, B, e) {
+    var n1 = vcross(d, vsub(P, A)), n2 = vcross(e, vsub(P, B)), o = { n1: n1, n2: n2 };
+    if (vzero(n1) || vzero(n2)) { o.k = "on"; return o; }
+    o.p1 = planeEq(n1, fMul(-1, vdot(n1, P))); o.p2 = planeEq(n2, fMul(-1, vdot(n2, P)));
+    var w = vcross(n1, n2);
+    if (vzero(w)) { o.k = "copl"; return o; }
+    o.w = primDir(w); o.k = "ok";
+    var a = LL(P, o.w, A, d), b = LL(P, o.w, B, e);
+    o.X = a.pos === 2 ? a.X : null; o.Y = b.pos === 2 ? b.X : null;
+    return o;
+  }
+  function wTall() {
+    var g = setupW("w-tall", [{ k: "P", vals: [1, 1, 2], fmt: ptF("P") }, { k: "A", vals: [0, 1, 0], fmt: ptF("A") }, { k: "dr", vals: [1, 0, 0], fmt: veF("\\vec d_r") }, { k: "B", vals: [0, 0, 1], fmt: ptF("B") }, { k: "ds", vals: [0, 1, 0], fmt: veF("\\vec d_s") }], draw); if (!g) return;
+    function draw() {
+      var v = g.f.v, P = v.P, items = [dot3(P, "P", COL.p)], pts = [P];
+      if (vzero(v.dr) || vzero(v.ds)) { bad(g, MSG.d()); scene(g, items, pts); return; }
+      items.unshift(lineI(v.A, v.dr, COL.r, "r"), lineI(v.B, v.ds, COL.s, "s"));
+      var o = lineThrough(P, v.A, v.dr, v.B, v.ds), rows = [];
+      if (o.k === "on") { bad(g, t3("El punt P és d'una de les dues rectes: n'hi ha infinites solucions (o cap). Tria un punt que no siga de r ni de s.", "El punto P está en una de las dos rectas: hay infinitas soluciones (o ninguna). Elige un punto que no esté en r ni en s.", "P lies on one of the lines: there are infinitely many solutions (or none). Pick a point on neither r nor s.")); scene(g, items, pts); return; }
+      rows.push([cdot(PCOL[0][1]) + tex("\\pi_1\\ (P,\\,r)"), tex("\\vec d_r\\times\\overrightarrow{AP}=" + vT(o.n1) + "\\ \\to\\ " + o.p1.t)]);
+      rows.push([cdot(PCOL[2][1]) + tex("\\pi_2\\ (P,\\,s)"), tex("\\vec d_s\\times\\overrightarrow{BP}=" + vT(o.n2) + "\\ \\to\\ " + o.p2.t)]);
+      items.unshift({ plane: o.p1.c.slice(), fill: PCOL[0][0], stroke: PCOL[0][1], op: 0.18 }, { plane: o.p2.c.slice(), fill: PCOL[2][0], stroke: PCOL[2][1], op: 0.18 });
+      if (o.k === "copl") rows.push(["", "<strong>" + t3("Els dos plans coincideixen: P, r i s són coplanaris i hi ha infinites rectes solució.", "Los dos planos coinciden: P, r y s son coplanarios y hay infinitas rectas solución.", "The two planes coincide: P, r and s are coplanar, so there are infinitely many solutions.") + "</strong>"]);
+      else {
+        rows.push([cdot(COL.p) + t3("Recta ", "Recta ", "Line ") + tex("t"), tex("\\begin{cases}" + o.p1.t + "\\\\" + o.p2.t + "\\end{cases}\\ \\to\\ " + lineT(P, o.w, "k"))]);
+        items.push({ line: [vnum(P), o.w], stroke: COL.p, w: 3, label: "t" });
+        if (o.X) { rows.push([t3("Talla ", "Corta a ", "Meets ") + tex("r"), tex("X=" + vT(o.X))]); items.push(dot3(vnum(o.X), "X", COL.r)); pts.push(vnum(o.X)); }
+        if (o.Y) { rows.push([t3("Talla ", "Corta a ", "Meets ") + tex("s"), tex("Y=" + vT(o.Y))]); items.push(dot3(vnum(o.Y), "Y", COL.s)); pts.push(vnum(o.Y)); }
+        if (!o.X || !o.Y) rows.push(["", "<strong>" + t3("La recta t és paral·lela a ", "La recta t es paralela a ", "The line t is parallel to ") + (o.X ? "s" : "r") + t3(": el problema no té solució.", ": el problema no tiene solución.", ": the problem has no solution.") + "</strong>"]);
+      }
+      scene(g, items, pts);
+      g.info.innerHTML = kv(rows);
+    }
+    onLang(draw);
+  }
+
+  /* ---------- 4.8 perpendicular comuna ---------- */
+  function wPc() {
+    var g = setupW("w-pc", [{ k: "P", vals: [1, 0, 0], fmt: ptF("P") }, { k: "dr", vals: [1, 1, 0], fmt: veF("\\vec d_r") }, { k: "Q", vals: [0, 0, 2], fmt: ptF("Q") }, { k: "ds", vals: [0, 1, 1], fmt: veF("\\vec d_s") }], draw); if (!g) return;
+    function draw() {
+      var P = g.f.v.P, Q = g.f.v.Q, d = g.f.v.dr, e = g.f.v.ds, items = [dot3(P, "P", COL.r), dot3(Q, "Q", COL.s)], pts = [P, Q];
+      if (vzero(d) || vzero(e)) { bad(g, MSG.d()); scene(g, items, pts); return; }
+      items.unshift(lineI(P, d, COL.r, "r"), lineI(Q, e, COL.s, "s"));
+      var o = LL(P, d, Q, e);
+      if (o.pos < 2) { bad(g, o.pos ? t3("Les rectes són paral·leles: hi ha infinites perpendiculars comunes.", "Las rectas son paralelas: hay infinitas perpendiculares comunes.", "The lines are parallel: there are infinitely many common perpendiculars.") : t3("Les rectes són coincidents.", "Las rectas son coincidentes.", "The lines coincide.")); scene(g, items, pts); return; }
+      var w = primDir(o.n), nr = vcross(d, w), ns = vcross(e, w), pr = planeEq(nr, fMul(-1, vdot(nr, P))), ps = planeEq(ns, fMul(-1, vdot(ns, Q)));
+      var rows = [[t3("Posició", "Posición", "Position"), "<strong>" + POSLL()[o.pos] + "</strong>"], [tex("\\vec w=\\vec d_r\\times\\vec d_s"), tex(vT(o.n) + (vzero(vsub(o.n, w)) ? "" : "\\parallel" + vT(w)))],
+        [cdot(PCOL[0][1]) + tex("\\pi_r\\ (r,\\,\\vec w)"), tex("\\vec d_r\\times\\vec w=" + vT(nr) + "\\ \\to\\ " + pr.t)],
+        [cdot(PCOL[2][1]) + tex("\\pi_s\\ (s,\\,\\vec w)"), tex("\\vec d_s\\times\\vec w=" + vT(ns) + "\\ \\to\\ " + ps.t)],
+        [cdot(COL.p) + t3("Perpendicular comuna", "Perpendicular común", "Common perpendicular"), tex("\\begin{cases}" + pr.t + "\\\\" + ps.t + "\\end{cases}")],
+        [t3("Punts genèrics", "Puntos genéricos", "Generic points"), tex("\\overrightarrow{XY}\\perp\\vec d_r,\\ \\overrightarrow{XY}\\perp\\vec d_s\\Rightarrow\\lambda=" + fT(o.la) + ",\\ \\mu=" + fT(o.mu))],
+        [cdot(COL.p) + t3("Peus", "Pies", "Feet"), tex("X=" + vT(o.X) + (o.pos === 3 ? ",\\ \\ Y=" + vT(o.Y) : "\\ (=Y)"))],
+        ["", tex("t:" + lineT(o.X, w, "k") + ",\\qquad d(r,s)=|\\overrightarrow{XY}|=" + distT(o.d2))]];
+      items.unshift({ plane: pr.c.slice(), fill: PCOL[0][0], stroke: PCOL[0][1], op: 0.16 }, { plane: ps.c.slice(), fill: PCOL[2][0], stroke: PCOL[2][1], op: 0.16 });
+      items.push({ line: [vnum(o.X), w], stroke: COL.p, w: 2, dash: "4 3", label: "t" }, segP(o.X, o.Y, COL.p, false), dot3(vnum(o.X), "X", COL.p), dot3(vnum(o.Y), "Y", COL.p));
+      pts.push(vnum(o.X), vnum(o.Y));
+      scene(g, items, pts);
+      g.info.innerHTML = kv(rows);
+    }
+    onLang(draw);
+  }
+
+  /* ---------- 4.9 simètric respecte d'una recta ---------- */
   function rowsSymL(P, A, d) {
     var o = dPL(P, A, d), P1 = sym2(o.Q, P), c = planeEq(d, fMul(-1, vdot(d, P)));
     var rows = [[t3("Pla per P ⊥ a r", "Plano por P ⊥ a r", "Plane through P ⊥ r"), tex("\\pi:" + c.t)],
@@ -294,7 +358,7 @@
     onLang(draw);
   }
 
-  /* ---------- 4.8 simètric respecte d'un pla (d'un punt i d'una recta) ---------- */
+  /* ---------- 4.10 simètric respecte d'un pla (d'un punt i d'una recta) ---------- */
   function rowsSymP(P, c) {
     var o = dPPl(P, c), P1 = sym2(o.Q, P);
     return { rows: [[t3("Recta per P ⊥ a π", "Recta por P ⊥ a π", "Line through P ⊥ π"), tex(lineT(P, nOf(c), "t"))],
@@ -332,7 +396,7 @@
     onLang(draw);
   }
 
-  /* ---------- 4.9 àrees i volums ---------- */
+  /* ---------- 4.11 àrees i volums ---------- */
   function wVol() {
     var g = setupW("w-vol", [{ k: "A", vals: [1, 1, 1], fmt: ptF("A") }, { k: "B", vals: [3, 1, 1], fmt: ptF("B") }, { k: "C", vals: [1, 4, 1], fmt: ptF("C") }, { k: "D", vals: [2, 3, 5], fmt: ptF("D") }], draw); if (!g) return;
     function draw() {
@@ -362,7 +426,7 @@
     onLang(draw);
   }
 
-  /* ---------- 4.10 llocs geomètrics ---------- */
+  /* ---------- 4.12 llocs geomètrics ---------- */
   function circle3(C, n, R) { // circumferència de centre C, radi R, en el pla de normal n (numèric)
     var nn = Math.sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]), u = n.map(function (x) { return x / nn; });
     var a = Math.abs(u[0]) < 0.9 ? [0, -u[2], u[1]] : [-u[2], 0, u[0]], la = Math.hypot(a[0], a[1], a[2]); a = a.map(function (x) { return x / la; });
@@ -498,6 +562,11 @@
       o: [q3("$|\\vec d_r\\times\\vec d_s|$"), q3("$|[\\overrightarrow{PQ},\\vec d_r,\\vec d_s]|$"), q3("$|\\overrightarrow{PQ}|$")], a: 1, e: q3("$d=\\frac{|[\\overrightarrow{PQ},\\vec d_r,\\vec d_s]|}{|\\vec d_r\\times\\vec d_s|}$: volum del paral·lelepípede entre l'àrea de la base.", "$d=\\frac{|[\\overrightarrow{PQ},\\vec d_r,\\vec d_s]|}{|\\vec d_r\\times\\vec d_s|}$: volumen del paralelepípedo entre el área de la base.", "$d=\\frac{|[\\overrightarrow{PQ},\\vec d_r,\\vec d_s]|}{|\\vec d_r\\times\\vec d_s|}$: parallelepiped volume over base area.") },
     { q: q3("La distància entre els plans $x+2y-2z=1$ i $x+2y-2z=7$ és…", "La distancia entre los planos $x+2y-2z=1$ y $x+2y-2z=7$ es…", "The distance between the planes $x+2y-2z=1$ and $x+2y-2z=7$ is…"),
       o: [q3("$6$"), q3("$2$"), q3("$\\frac83$")], a: 1, e: q3("$\\frac{|7-1|}{\\sqrt{1+4+4}}=\\frac63=2$.") },
+    { q: q3("Per a trobar la recta que passa per $P$ i talla $r$ i $s$, la busquem com…", "Para hallar la recta que pasa por $P$ y corta a $r$ y $s$, la buscamos como…", "To find the line through $P$ meeting $r$ and $s$, we take…"),
+      o: [q3("la intersecció del pla que conté $P$ i $r$ amb el pla que conté $P$ i $s$", "la intersección del plano que contiene $P$ y $r$ con el plano que contiene $P$ y $s$", "the intersection of the plane through $P$ and $r$ with the plane through $P$ and $s$"), q3("la recta per $P$ de director $\\vec d_r\\times\\vec d_s$", "la recta por $P$ de director $\\vec d_r\\times\\vec d_s$", "the line through $P$ with direction $\\vec d_r\\times\\vec d_s$"), q3("la recta que uneix les projeccions de $P$ sobre $r$ i sobre $s$", "la recta que une las proyecciones de $P$ sobre $r$ y sobre $s$", "the line joining the projections of $P$ onto $r$ and $s$")], a: 0,
+      e: q3("La recta buscada és coplanària amb $r$ i amb $s$. Cal comprovar, a més, que no és paral·lela a cap de les dues.", "La recta buscada es coplanaria con $r$ y con $s$. Hay que comprobar, además, que no es paralela a ninguna de las dos.", "The required line is coplanar with $r$ and with $s$. Also check that it is parallel to neither.") },
+    { q: q3("El director de la perpendicular comuna a dues rectes que s'encreuen és…", "El director de la perpendicular común a dos rectas que se cruzan es…", "The direction of the common perpendicular of two skew lines is…"),
+      o: [q3("$\\vec d_r+\\vec d_s$"), q3("$\\vec d_r\\times\\vec d_s$"), q3("$\\overrightarrow{PQ}$")], a: 1, e: q3("Ha de ser perpendicular a $\\vec d_r$ i a $\\vec d_s$.", "Tiene que ser perpendicular a $\\vec d_r$ y a $\\vec d_s$.", "It must be perpendicular to both $\\vec d_r$ and $\\vec d_s$.") },
     { q: q3("Si una recta talla un pla, la distància entre ells és…", "Si una recta corta a un plano, la distancia entre ellos es…", "If a line cuts a plane, the distance between them is…"),
       o: [q3("0"), q3("$d(P,\\pi)$ per a qualsevol $P$ de la recta", "$d(P,\\pi)$ para cualquier $P$ de la recta", "$d(P,\\pi)$ for any $P$ on the line"), q3("l'angle que formen", "el ángulo que forman", "the angle between them")], a: 0, e: q3("Només té sentit calcular $d(P,\\pi)$ quan la recta és paral·lela al pla.", "Solo tiene sentido calcular $d(P,\\pi)$ cuando la recta es paralela al plano.", "Computing $d(P,\\pi)$ only makes sense when the line is parallel to the plane.") },
     { q: q3("El simètric de $P(1,2,3)$ respecte del pla $z=0$ és…", "El simétrico de $P(1,2,3)$ respecto del plano $z=0$ es…", "The reflection of $P(1,2,3)$ in the plane $z=0$ is…"),
@@ -529,7 +598,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p, #lab .bh, #lab .bb > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wArr, wArp, wDpp, wDpr, wDrr, wDpl, wSr, wSp, wVol, wLloc, wLab, wQuiz];
+    var all = [wChrome, wSteps, wNav, wArr, wArp, wDpp, wDpr, wDrr, wDpl, wTall, wPc, wSr, wSp, wVol, wLloc, wLab, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
     window.FM4 = { Fr: Fr, sqrtFrT: sqrtFrT, angLL: angLL, dPPl: dPPl, dPL: dPL, LL: LL, LPl: LPl, PlPl: PlPl, symLinePl: symLinePl, med: med, bis: bis, tetra: tetra, fVal: fVal, vT: vT };
   }

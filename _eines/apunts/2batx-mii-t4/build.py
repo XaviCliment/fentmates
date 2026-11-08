@@ -16,7 +16,7 @@ RESUM = os.path.join(HERE, "..", "2batx-mii-resum")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/2batx-mii/t4-problemes-metrics.html")
-NSEC = 10
+NSEC = 12
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'

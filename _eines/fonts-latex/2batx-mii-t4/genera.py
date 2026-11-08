@@ -221,10 +221,9 @@ ck(all(skew2([0, 0, 0], [1, 0, 0], [0, 1, a_], [1, 1, 0]) == a_ * a_ for a_ in (
 S.append(("Distància entre dues rectes", [
  (1, r"Comprova que les rectes $r:(x,y,z)=(1,1,0)+\lambda\,(1,-1,1)$ i $s:(x,y,z)=(2,0,3)+\mu\,(-1,1,-1)$ són paral·leles i calcula la distància entre elles.",
      r"Directors oposats i $(2,0,3)\notin r$ ($\overrightarrow{PQ}=(1,-1,3)$ no és proporcional a $(1,-1,1)$). \ $\overrightarrow{PQ}\times\vec d_r=(2,2,0)$ \ $\Rightarrow$ \ $d=\dfrac{\sqrt8}{\sqrt3}=\res{\dfrac{2\sqrt6}{3}}$"),
- (2, r"Siguen $r:" + sy('x-y=0', 'z=0') + r"$ \ i \ $s:" + sy('x=1', 'y-z=0') + r"$" + tasks(1, [r"Comprova que s'encreuen i calcula la distància entre elles.", r"Troba els punts $X\in r$ i $Y\in s$ més pròxims i la perpendicular comuna."])
-     + recorda(r"Si s'encreuen, $d(r,s)=\dfrac{\big|[\overrightarrow{PQ},\vec d_r,\vec d_s]\big|}{|\vec d_r\times\vec d_s|}$. Per a la perpendicular comuna, imposa $\overrightarrow{XY}\perp\vec d_r$ i $\overrightarrow{XY}\perp\vec d_s$."),
-     tasks(1, [r"$r$: $O$, $(1,1,0)$; \ $s$: $(1,0,0)$, $(0,1,1)$. \ $\vec d_r\times\vec d_s=(1,-1,1)$, \ $[\overrightarrow{PQ},\vec d_r,\vec d_s]=1\neq0$: s'encreuen; \ $d=\res{\dfrac{\sqrt3}{3}}$",
-               r"$X(\lambda,\lambda,0)$, $Y(1,\mu,\mu)$: \ $1-2\lambda+\mu=0$, \ $2\mu-\lambda=0$ \ $\Rightarrow$ \ $\lambda=\tfrac23$, $\mu=\tfrac13$: \ $\res{X\left(\tfrac23,\tfrac23,0\right),\ Y\left(1,\tfrac13,\tfrac13\right)}$; \ perpendicular comuna: \ $\res{(x,y,z)=\left(\tfrac23,\tfrac23,0\right)+t\,(1,-1,1)}$"])),
+ (2, r"\label{ex:pc}Comprova que les rectes $r:" + sy('x-y=0', 'z=0') + r"$ \ i \ $s:" + sy('x=1', 'y-z=0') + r"$ \ s'encreuen i calcula la distància entre elles."
+     + recorda(r"Si s'encreuen, $d(r,s)=\dfrac{\big|[\overrightarrow{PQ},\vec d_r,\vec d_s]\big|}{|\vec d_r\times\vec d_s|}$."),
+     r"$r$: $O$, $(1,1,0)$; \ $s$: $(1,0,0)$, $(0,1,1)$. \ $\vec d_r\times\vec d_s=(1,-1,1)$, \ $[\overrightarrow{PQ},\vec d_r,\vec d_s]=1\neq0$: s'encreuen; \ $d=\dfrac{1}{\sqrt3}=\res{\dfrac{\sqrt3}{3}}$"),
  (2, r"Troba $a$ perquè la distància entre l'eix $OX$ i la recta $s:(x,y,z)=(0,1,a)+\mu\,(1,1,0)$ siga 2.",
      r"$\vec d_r\times\vec d_s=(1,0,0)\times(1,1,0)=(0,0,1)$, \ $[\overrightarrow{OQ},\vec d_r,\vec d_s]=(0,1,a)\cdot(0,0,1)=a$: \ $d=|a|=2$ \ $\Rightarrow$ \ $\res{a=\pm2}$"),
 ]))
@@ -244,6 +243,50 @@ S.append(("Distància entre recta i pla i entre dos plans", [
      r"$2x+y-2z+k=0$ amb $\dfrac{|k|}{3}=3$: \ $\res{2x+y-2z+9=0\ \text{i}\ 2x+y-2z-9=0}$"),
  (2, r"Troba $m$ perquè la recta $(x,y,z)=(1,1,1)+\lambda\,(m,1,2)$ siga paral·lela al pla $x+2y-2z=0$ i calcula aleshores la distància entre la recta i el pla.",
      r"$\vec d\cdot\vec n=m+2-4=0$: \ $\res{m=2}$. \ $(1,1,1)\notin\pi$, \ $d=\dfrac{|1+2-2|}{3}=\res{\dfrac13}$"),
+]))
+
+# =====================================================================
+# 6. Recta que passa per un punt i talla dues rectes
+def through(P, A, d, B, e):                                               # plans (P, r) i (P, s), recta comuna i punts de tall
+    p1, p2 = plane(cross(d, sub(P, A)), P), plane(cross(e, sub(P, B)), P)
+    assert onp(p1, A) and onp(p2, B) and onp(p1, add(A, d)) and onp(p2, add(B, e))
+    w = prim(cross(p1[:3], p2[:3]))
+    X = feet(P, w, A, d)[2] if not par_(w, d) else None; Y = feet(P, w, B, e)[2] if not par_(w, e) else None
+    if X: assert online(A, d, X) and online(P, w, X)
+    if Y: assert online(B, e, Y) and online(P, w, Y)
+    return p1, p2, w, X, Y
+o6a = through([2, 1, 1], [0, 0, 0], [0, 0, 1], [1, 0, 0], [0, 1, 0])
+ck(o6a == ([1, -2, 0, 0], [1, 0, -1, -1], [2, 1, 2], [0, 0, -1], [1, F(1, 2), 0]))
+ck(plane(cross([0, 0, 1], [1, 0, 1]), [0, 0, 0]) == [0, 1, 0, 0] and plane(cross([0, 1, 0], [1, 0, 1]), [1, 0, 0]) == [1, 0, -1, -1] and online([0, 0, -1], [1, 0, 1], [1, 0, 0]))
+t6, X6 = meet_lp([0, 0, 0], [1, 2, 0], [1, 1, 1, -3]); ck(X6 == [1, 2, 0] and sub(X6, [1, 1, 1]) == [0, 1, -1] and dot([0, 1, -1], [1, 1, 1]) == 0)
+o6d = through([0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 0, 0]); ck(o6d[0] == [0, 0, 1, 0] and o6d[1] == [0, 1, 0, 0] and par_(o6d[2], [1, 0, 0]) and o6d[4] is None and o6d[3] == [1, 0, 0])
+S.append(("Recta que passa per un punt i talla dues rectes", [
+ (1, r"Troba la recta que passa pel punt $P(2,1,1)$ i talla les rectes $r:" + sy('x=0', 'y=0') + r"$ \ i \ $s:" + sy('x=1', 'z=0') + r"$ \ Calcula també els punts de tall."
+     + recorda(r"$t=\pi_1\cap\pi_2$, on $\pi_1$ és el pla que conté $P$ i $r$, i $\pi_2$, el que conté $P$ i $s$. Comprova que $t$ no és paral·lela a $r$ ni a $s$."),
+     r"$\pi_1$ ($P$ i l'eix $OZ$): $x-2y=0$; \ $\pi_2$ ($P$ i $s$): $x-z-1=0$. \ $\res{t:" + sy('x-2y=0', 'x-z-1=0') + r"}$, \ director $(2,1,2)$. \ Talla $r$ en $\res{(0,0,-1)}$ i $s$ en $\res{\left(1,\tfrac12,0\right)}$"),
+ (2, r"Troba la recta paral·lela al vector $\vec v=(1,0,1)$ que talla les rectes $r$ i $s$ de l'exercici anterior.",
+     r"$\pi_1$ conté $r$ i $\vec v$: $y=0$; \ $\pi_2$ conté $s$ i $\vec v$: $x-z-1=0$. \ $\res{t:" + sy('y=0', 'x-z-1=0') + r"}$, \ és a dir, $(x,y,z)=(0,0,-1)+k\,(1,0,1)$, que talla $r$ en $(0,0,-1)$ i $s$ en $(1,0,0)$."),
+ (2, r"Troba la recta continguda en el pla $\pi:x+y+z=3$ que passa pel punt $P(1,1,1)$ i talla la recta $r:(x,y,z)=\lambda\,(1,2,0)$.",
+     r"$r\cap\pi$: $3\lambda=3$, $X(1,2,0)$. La recta és $PX$: \ $\res{(x,y,z)=(1,1,1)+k\,(0,1,-1)}$ \ (està en $\pi$: $P\in\pi$ i $(0,1,-1)\perp(1,1,1)$)."),
+ (2, r"Raona que no hi ha cap recta que passe per l'origen i talle les rectes $r:(x,y,z)=(1,0,0)+\lambda\,(0,1,0)$ i $s:(x,y,z)=(0,0,1)+\mu\,(1,0,0)$.",
+     r"$\pi_1$ ($O$ i $r$): $z=0$; \ $\pi_2$ ($O$ i $s$): $y=0$. La seua intersecció és l'eix $OX$, que talla $r$ en $(1,0,0)$ però \rest{és paral·lela a $s$} (i no la conté): no hi ha solució."),
+]))
+
+# =====================================================================
+# 7. Perpendicular comuna
+def comperp(P, d, Q, e):                                                  # plans (r, w) i (s, w), peus i distància²
+    w = prim(cross(d, e)); pr, ps = plane(cross(d, w), P), plane(cross(e, w), Q)
+    la, mu, X, Y = feet(P, d, Q, e); assert onp(pr, X) and onp(ps, X) and onp(pr, Y) and onp(ps, Y)
+    return w, pr, ps, X, Y, n2(sub(Y, X))
+c7a = comperp([0, 0, 0], [1, 1, 0], [1, 0, 0], [0, 1, 1]); ck(c7a[0] == [1, -1, 1] and c7a[3] == [F(2, 3), F(2, 3), 0] and c7a[4] == [1, F(1, 3), F(1, 3)] and c7a[5] == F(1, 3))
+c7b = comperp([1, 0, 0], [1, 1, 0], [0, 0, 1], [1, -1, 0]); ck(c7b[0] == [0, 0, 1] and c7b[1] == [1, -1, 0, -1] and c7b[2] == [1, 1, 0, 0] and c7b[3] == [F(1, 2), F(-1, 2), 0] and c7b[4] == [F(1, 2), F(-1, 2), 1] and c7b[5] == 1)
+S.append(("Perpendicular comuna", [
+ (2, r"Troba els punts $X\in r$ i $Y\in s$ més pròxims de les rectes $r:" + sy('x-y=0', 'z=0') + r"$ \ i \ $s:" + sy('x=1', 'y-z=0') + r"$ \ de l'exercici \ref{ex:pc} i la seua perpendicular comuna. Comprova que $|\overrightarrow{XY}|=d(r,s)$."
+     + recorda(r"Amb els punts genèrics $X\in r$, $Y\in s$, imposa $\overrightarrow{XY}\perp\vec d_r$ i $\overrightarrow{XY}\perp\vec d_s$."),
+     r"$X(\lambda,\lambda,0)$, $Y(1,\mu,\mu)$: \ $1-2\lambda+\mu=0$, \ $2\mu-\lambda=0$ \ $\Rightarrow$ \ $\lambda=\tfrac23$, $\mu=\tfrac13$: \ $\res{X\left(\tfrac23,\tfrac23,0\right),\ Y\left(1,\tfrac13,\tfrac13\right)}$; \ perpendicular comuna: \ $\res{(x,y,z)=\left(\tfrac23,\tfrac23,0\right)+t\,(1,-1,1)}$. \ $|\overrightarrow{XY}|=\left|\left(\tfrac13,-\tfrac13,\tfrac13\right)\right|=\tfrac{\sqrt3}{3}$ \ \checkmark"),
+ (2, r"Siguen $r:(x,y,z)=(1,0,0)+\lambda\,(1,1,0)$ i $s:(x,y,z)=(0,0,1)+\mu\,(1,-1,0)$. Troba la perpendicular comuna pel mètode dels plans i comprova el resultat amb els punts genèrics. Quina és la distància entre $r$ i $s$?"
+     + recorda(r"$\vec w=\vec d_r\times\vec d_s$; \ $\pi_r$ conté $r$ i $\vec w$; \ $\pi_s$ conté $s$ i $\vec w$; \ la perpendicular comuna és $\pi_r\cap\pi_s$."),
+     r"$\vec w\parallel(0,0,1)$; \ $\pi_r:x-y-1=0$, \ $\pi_s:x+y=0$: \ $\res{t:" + sy('x-y-1=0', 'x+y=0') + r"}$, \ és a dir, $x=\tfrac12$, $y=-\tfrac12$. \ Punts genèrics: $\lambda=-\tfrac12$, $\mu=\tfrac12$, \ $X\left(\tfrac12,-\tfrac12,0\right)$, $Y\left(\tfrac12,-\tfrac12,1\right)$; \ $d=|\overrightarrow{XY}|=\res{1}$"),
 ]))
 
 # =====================================================================
@@ -427,11 +470,6 @@ la2, mu2, X2, Y2 = feet([0, -3, 2], [1, 1, -2], [-4, 1, -1], [3, 1, 2]); ck(par_
 ck(skew2([-4, 4, 1], [5, -4, -2], [-2, 7, -1], [4, -4, 0]) == F(64, 9) and pos_rr([-4, 4, 1], [5, -4, -2], [-2, 7, -1], [4, -4, 0]) == "s'encreuen")
 ck(skew2([5, -1, 8], [1, 0, 2], [2, 2, -1], [3, -1, 4]) == 9)
 pau("Distància entre dues rectes",
- (2, r"\pau{Múrcia, ordinària 2025} Considera les rectes $r:" + sy('x=1', 'y=5+\lambda', 'z=\lambda') + r"$ \ i \ $s:" + sy(r'x=7+3\mu', r'y=-5+\mu', 'z=7') + r"$" + tasks(1, [r"Comprova que s'encreuen.", r"Troba l'equació de la recta perpendicular a totes dues.", r"Calcula la distància entre $r$ i $s$."]),
-     tasks(1, [r"$[\overrightarrow{PQ},\vec d_r,\vec d_s]=" + vm([[6, -10, 7], [0, 1, 1], [3, 1, 0]]) + r"=-57\neq0$", r"$\vec n=\vec d_r\times\vec d_s=(-1,3,-3)$; plans que contenen cada recta i $\vec n$: \ $\res{t:" + sy('6x+y-z-11=0', '3x-9y-10z+4=0') + r"}$",
-               r"$d=\dfrac{57}{\sqrt{19}}=\res{3\sqrt{19}}$"])),
- (2, r"\pau{Navarra, ordinària 2026} Troba l'equació contínua de la recta $t$ que talla perpendicularment les rectes $r:\dfrac x1=\dfrac{y+3}{1}=\dfrac{z-2}{-2}$ \ i \ $s:" + sy(r'x=-4+3\lambda', r'y=1+\lambda', r'z=-1+2\lambda') + r"$",
-     r"$X(\lambda,-3+\lambda,2-2\lambda)$, $Y(-4+3\mu,1+\mu,-1+2\mu)$; \ $\overrightarrow{XY}\perp\vec d_r,\vec d_s$ \ $\Rightarrow$ \ $X" + V(X2) + r"$, $Y" + V(Y2) + r"$: \ $\res{t:\dfrac{x+1}{2}=\dfrac{y-2}{-4}=\dfrac{z-1}{-1}}$"),
  (2, r"\pau{País Basc, ordinària 2025} Es consideren la recta $r$ que passa pels punts $A(-4,4,1)$ i $B(1,0,-1)$ i la recta $s$ que passa pels punts $C(-2,7,-1)$ i $D(2,3,-1)$." + tasks(1, [r"Calcula la posició relativa de la recta $r$ respecte de la recta $s$.", r"En cas que siguen paral·leles o s'encreuen, calcula la distància entre elles. Si es tallen, calcula el punt d'intersecció."]),
      tasks(1, [r"$\vec d_r=(5,-4,-2)$, $\vec d_s=(4,-4,0)$, $[\overrightarrow{AC},\vec d_r,\vec d_s]=-32\neq0$: \ \rest{s'encreuen}", r"$|\vec d_r\times\vec d_s|=|(-8,-8,-4)|=12$: \ $d=\dfrac{32}{12}=\res{\dfrac83}$"])),
  (2, r"\pau{La Rioja, extraordinària 2025} Calcula la distància entre les rectes $r:" + sy(r'x=5+\lambda', 'y=-1', r'z=8+2\lambda') + r"$ \ i \ $s:" + sy(r'x=2+3\mu', r'y=2-\mu', r'z=-1+4\mu') + r"$",
@@ -458,6 +496,37 @@ pau("Distància entre recta i pla i entre dos plans",
      r"$r\parallel\pi$ ($-3+2+1=0$). $\pi':x+y-z+k=0$ amb $\dfrac{|1+0-2+k|}{\sqrt3}=2\sqrt3$, $|k-1|=6$: \ \rest{dos plans}, \ $\res{x+y-z+7=0}$ \ i \ $\res{x+y-z-5=0}$"),
  (2, r"\pau{Catalunya, extraordinària 2025} Considera el pla $\pi:2x-y+z=5$ i el punt $P(0,1,3)$." + tasks(1, [r"Comprova que la distància del punt $P$ al pla $\pi$ és $\dfrac{\sqrt6}{2}$.", r"Troba l'equació general d'un pla $\pi_1$ paral·lel a $\pi$ que passe pel punt $P$. Quant val la distància entre $\pi_1$ i $\pi$?", r"Troba l'equació general d'un segon pla $\pi_2$, diferent de $\pi_1$, que siga paral·lel a $\pi$ i que estiga a una distància $\dfrac{\sqrt6}{2}$ de $\pi$."]),
      tasks(1, [r"$\dfrac{|0-1+3-5|}{\sqrt6}=\dfrac{3}{\sqrt6}=\dfrac{\sqrt6}{2}$ \ \checkmark", r"$\res{2x-y+z-2=0}$, \ distància $\res{\dfrac{\sqrt6}{2}}$ (la de $P$)", r"$2x-y+z+k=0$, $|k+5|=3$, $k\neq-2$: \ $\res{2x-y+z-8=0}$"])),
+)
+
+# ---------- 6. Recta per un punt que talla dues rectes
+o6n = through([2, 4, -2], [-1, -2, 1], [1, 0, 3], [2, -1, 0], [-1, 2, 1]); ck(o6n[0] == [3, -2, -1, 0] and o6n[1] == [9, 2, 5, -16] and par_(o6n[2], [1, 3, -3]) and o6n[3] == [0, -2, 4] and o6n[4] == [1, 1, 1])
+ck(online([2, 4, -2], [1, 3, -3], [1, 1, 1]) and not online([2, 4, 3], [1, 3, -3], [2, 4, -2]))   # la solució del recull porta (z-3), errata
+ck(meet_lp([0, 0, 0], [1, 1, 1], [1, 1, 0, 0]) == (0, [0, 0, 0]) and onp([1, 1, 0, 0], [1, -1, 0]))
+Am, dm, Bm = [2, -1, 0], [3, -1, 1], [3, -2, 0]; dsm = cross([1, -1, 0], [1, 0, 1])
+ck(cross(dm, dsm) == [0, -4, -4] and det3(sub(Bm, Am), dm, dsm) == 4 and plane(dm, [5, -1, 2]) == [3, -1, 1, -18])
+ck(dsm == [-1, -1, 1] and onp([1, -1, 0, -5], Bm) and onp([1, 0, 1, -3], Bm) and pos_rr(Am, dm, Bm, dsm) == "s'encreuen" and skew2(Am, dm, Bm, dsm) == F(1, 2))
+ck(projl([5, -1, 2], Am, dm) == [5, -2, 1] and sub([5, -2, 1], [5, -1, 2]) == [0, -1, -1])
+pau("Recta que passa per un punt i talla dues rectes",
+ (2, r"\pau{Navarra, extraordinària 2026} Troba l'equació contínua de la recta $t$ que passa pel punt $A(2,4,-2)$ i talla les rectes $s:\dfrac{x-2}{-1}=\dfrac{y+1}{2}=\dfrac z1$ \ i \ $r:" + sy(r'x=-1+\lambda', 'y=-2', r'z=1+3\lambda') + r"$",
+     r"Pla per $A$ i $r$: normal $(1,0,3)\times(3,6,-3)\parallel(3,-2,-1)$, \ $3x-2y-z=0$. \ Pla per $A$ i $s$: normal $(-1,2,1)\times(0,5,-2)\parallel(9,2,5)$, \ $9x+2y+5z-16=0$. \ Director $(1,3,-3)$: \ $\res{t:\dfrac{x-2}{1}=\dfrac{y-4}{3}=\dfrac{z+2}{-3}}$. Talla $r$ en $(0,-2,4)$ i $s$ en $(1,1,1)$."),
+ (2, r"\pau{Castella i Lleó, extraordinària 2026} Donats el pla $\pi:x+y=0$, el punt $A(1,-1,0)$ i la recta $s:x=y=z$, troba la recta $r$, en forma paramètrica, que passa per $A$, està continguda en $\pi$ i talla la recta $s$.",
+     r"$s\cap\pi$: $(t,t,t)$ amb $2t=0$: $O(0,0,0)$. La recta és $AO$ ($A\in\pi$): \ $\res{r:" + sy(r'x=1+\lambda', r'y=-1-\lambda', 'z=0') + r"}$"),
+ (2, r"\pau{Madrid, extraordinària 2024} Donats el punt $P(5,-1,2)$ i les rectes $r:\dfrac{x-2}{3}=\dfrac{y+1}{-1}=\dfrac{z}{1}$ \ i \ $s:" + sy('x-y=5', 'x+z=3') + r"$" + tasks(1, [r"Estudia la posició relativa de les dues rectes i troba la distància entre elles.", r"Determina una equació de la recta que passa per $P$ i talla perpendicularment la recta $r$."]),
+     tasks(1, [r"$\vec d_s=(1,-1,0)\times(1,0,1)=(-1,-1,1)$, $B(3,-2,0)$; \ $[\overrightarrow{AB},\vec d_r,\vec d_s]=4\neq0$: \rest{s'encreuen}; \ $|\vec d_r\times\vec d_s|=|(0,-4,-4)|=4\sqrt2$: \ $d=\res{\dfrac{\sqrt2}{2}\approx0{,}71}$",
+               r"Projecció de $P$ sobre $r$: pla $3x-y+z=18$, $M(5,-2,1)$. \ $\res{(x,y,z)=(5,-1,2)+k\,(0,1,1)}$"])),
+)
+
+# ---------- 7. Perpendicular comuna
+c7n = comperp([3, 7, 0], [1, -3, -1], [4, -1, 0], [-1, 1, -1]); ck(c7n[3] == [5, 1, -2] and c7n[4] == [3, 0, -1] and par_(c7n[0], [2, 1, -1]) and onp([1, 1, -2, -10], [3, 7, 0]) and onp([1, 0, 1, -3], [3, 7, 0]))
+ck(cross([1, 1, -2], [1, 0, 1]) == [1, -3, -1] and online([3, 0, -1], [2, 1, -1], [5, 1, -2]))
+pau("Perpendicular comuna",
+ (2, r"\pau{Múrcia, ordinària 2025} Considera les rectes $r:" + sy('x=1', 'y=5+\lambda', 'z=\lambda') + r"$ \ i \ $s:" + sy(r'x=7+3\mu', r'y=-5+\mu', 'z=7') + r"$" + tasks(1, [r"Comprova que s'encreuen.", r"Troba l'equació de la recta perpendicular a totes dues.", r"Calcula la distància entre $r$ i $s$."]),
+     tasks(1, [r"$[\overrightarrow{PQ},\vec d_r,\vec d_s]=" + vm([[6, -10, 7], [0, 1, 1], [3, 1, 0]]) + r"=-57\neq0$", r"$\vec n=\vec d_r\times\vec d_s=(-1,3,-3)$; plans que contenen cada recta i $\vec n$: \ $\res{t:" + sy('6x+y-z-11=0', '3x-9y-10z+4=0') + r"}$",
+               r"$d=\dfrac{57}{\sqrt{19}}=\res{3\sqrt{19}}$"])),
+ (2, r"\pau{Navarra, ordinària 2026} Troba l'equació contínua de la recta $t$ que talla perpendicularment les rectes $r:\dfrac x1=\dfrac{y+3}{1}=\dfrac{z-2}{-2}$ \ i \ $s:" + sy(r'x=-4+3\lambda', r'y=1+\lambda', r'z=-1+2\lambda') + r"$",
+     r"$X(\lambda,-3+\lambda,2-2\lambda)$, $Y(-4+3\mu,1+\mu,-1+2\mu)$; \ $\overrightarrow{XY}\perp\vec d_r,\vec d_s$ \ $\Rightarrow$ \ $X" + V(X2) + r"$, $Y" + V(Y2) + r"$: \ $\res{t:\dfrac{x+1}{2}=\dfrac{y-2}{-4}=\dfrac{z-1}{-1}}$"),
+ (2, r"\pau{Navarra, extraordinària 2025} Calcula l'equació contínua de la recta $t$ que talla perpendicularment les rectes $r:" + sy('x+y-2z-10=0', 'x+z-3=0') + r"$ \ i \ $s:\dfrac{x-4}{-1}=\dfrac{y+1}{1}=\dfrac{z}{-1}$",
+     r"$\vec d_r=(1,1,-2)\times(1,0,1)=(1,-3,-1)$, $P(3,7,0)\in r$. \ Punts genèrics: $X(3+\lambda,7-3\lambda,-\lambda)$, $Y(4-\mu,-1+\mu,-\mu)$; \ $\overrightarrow{XY}\perp\vec d_r,\vec d_s$ \ $\Rightarrow$ \ $X(5,1,-2)$, $Y(3,0,-1)$: \ $\res{t:\dfrac{x-3}{2}=\dfrac{y}{1}=\dfrac{z+1}{-1}}$"),
 )
 
 # ---------- 6. Simètrics (punt i recta)
