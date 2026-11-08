@@ -402,6 +402,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 92 exercicis, 40 de la PAU de 16 comunitats autònomes", es: "PDF · 92 ejercicios, 40 de la PAU de 16 comunidades autónomas", en: "PDF · 92 exercises, 40 from the PAU of 16 Spanish regions" }, url: "materials/2batx-mii/t3-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 92 exercicis", es: "PDF · Soluciones de los 92 ejercicios", en: "PDF · Solutions to all 92 exercises" }, url: "materials/2batx-mii/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
         ]
+      },
+      {
+        ill: "geometria", block: "geo",
+        title: { va: "Problemes mètrics", es: "Problemas métricos", en: "Metric problems" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Angles, distàncies, perpendicular comuna, simètrics, àrees i volums, i llocs geomètrics", es: "Ángulos, distancias, perpendicular común, simétricos, áreas y volúmenes, y lugares geométricos", en: "Angles, distances, common perpendicular, reflections, areas and volumes, and loci" }, url: "materials/2batx-mii/t4-problemes-metrics.html", date: "2026-11-08" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 98 exercicis, 55 de la PAU de 16 comunitats autònomes", es: "PDF · 98 ejercicios, 55 de la PAU de 16 comunidades autónomas", en: "PDF · 98 exercises, 55 from the PAU of 16 Spanish regions" }, url: "materials/2batx-mii/t4-fitxa-exercicis.pdf", download: true, date: "2026-11-08" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 98 exercicis", es: "PDF · Soluciones de los 98 ejercicios", en: "PDF · Solutions to all 98 exercises" }, url: "materials/2batx-mii/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-08" }
+        ]
       }
     ]
   },
