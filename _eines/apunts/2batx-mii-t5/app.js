@@ -24,8 +24,8 @@
       sideL: "esquerra", sideR: "dreta", at: "en", nanIn: "Hi ha algun valor que no és un nombre.", h: "h", infPts: "(punt d'acumulació)",
       pInf: ["Asímptota y = 2", "Exponencial", "Polinomi", "Oscil·la"], pDeg: ["Grau menor", "Mateix grau", "Grau major", "Senar a −∞"],
       pOne: ["Exemple 1", "Exemple 2", "(1 + 3/x)^x", "Base → 1 ràpid", "Exponent x²"], pSide: ["A trossos", "4x²/(x²−1)", "0/0", "3/(x−2)²"],
-      pFact: ["Exemple 1", "Exemple 2", "Exemple 3", "Directe"], pPw: ["PAU 2006", "PAU 2007", "PAU 2009", "PAU 2014", "PAU 2006 (a=0)", "PAU 2015", "PAU 2010"],
-      pPar: ["Exemple resum", "PAU 2007", "PAU 2017", "PAU 2006", "Dos paràmetres", "PAU 2026"], pLab: ["0/0", "∞−∞", "1^∞", "Infinits", "Salt", "Asímptota"],
+      pFact: ["Exemple 1", "Exemple 2", "Exemple 3", "Directe"], pPw: ["Exemple 1", "Exemple 2", "PAU CLM 2020", "Exemple 4", "Practica a", "Practica b", "Practica c", "PAU Madrid 2023"],
+      pPar: ["sin(ax)/x", "Trigonomètrica", "Exp. i log.", "PAU Aragó 2022", "PAU CyL 2024", "Dos paràmetres"], pLab: ["0/0", "∞−∞", "1^∞", "Infinits", "sin(3x)/tan(5x)", "(1−cos x)/x²", "Salt", "Asímptota"],
       pc: "si", lt: "<", le: "≤", lo: "des de", hi: "fins a", addPc: "＋ Tros", rmPc: "Lleva" },
     es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
       score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba",
@@ -44,8 +44,8 @@
       sideL: "izquierda", sideR: "derecha", at: "en", nanIn: "Hay algún valor que no es un número.", h: "h", infPts: "",
       pInf: ["Asíntota y = 2", "Exponencial", "Polinomio", "Oscila"], pDeg: ["Grado menor", "Mismo grado", "Grado mayor", "Impar en −∞"],
       pOne: ["Ejemplo 1", "Ejemplo 2", "(1 + 3/x)^x", "Base → 1 rápido", "Exponente x²"], pSide: ["A trozos", "4x²/(x²−1)", "0/0", "3/(x−2)²"],
-      pFact: ["Ejemplo 1", "Ejemplo 2", "Ejemplo 3", "Directo"], pPw: ["PAU 2006", "PAU 2007", "PAU 2009", "PAU 2014", "PAU 2006 (a=0)", "PAU 2015", "PAU 2010"],
-      pPar: ["Ejemplo resumen", "PAU 2007", "PAU 2017", "PAU 2006", "Dos parámetros", "PAU 2026"], pLab: ["0/0", "∞−∞", "1^∞", "Infinitos", "Salto", "Asíntota"],
+      pFact: ["Ejemplo 1", "Ejemplo 2", "Ejemplo 3", "Directo"], pPw: ["Ejemplo 1", "Ejemplo 2", "PAU CLM 2020", "Ejemplo 4", "Practica a", "Practica b", "Practica c", "PAU Madrid 2023"],
+      pPar: ["sin(ax)/x", "Trigonométrica", "Exp. y log.", "PAU Aragón 2022", "PAU CyL 2024", "Dos parámetros"], pLab: ["0/0", "∞−∞", "1^∞", "Infinitos", "sin(3x)/tan(5x)", "(1−cos x)/x²", "Salto", "Asíntota"],
       pc: "si", lt: "<", le: "≤", lo: "desde", hi: "hasta", addPc: "＋ Trozo", rmPc: "Quitar" },
     en: { next: "Next step", all: "Show all", reset: "Hide the steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
       score: "Correct", right: "Correct!", wrong: "Not quite.", theme: "Switch between light and dark mode", top: "Back to top",
@@ -64,8 +64,8 @@
       sideL: "left", sideR: "right", at: "at", nanIn: "Some value is not a number.", h: "h", infPts: "",
       pInf: ["Asymptote y = 2", "Exponential", "Polynomial", "Oscillates"], pDeg: ["Lower degree", "Same degree", "Higher degree", "Odd at −∞"],
       pOne: ["Example 1", "Example 2", "(1 + 3/x)^x", "Base → 1 fast", "Exponent x²"], pSide: ["Piecewise", "4x²/(x²−1)", "0/0", "3/(x−2)²"],
-      pFact: ["Example 1", "Example 2", "Example 3", "Direct"], pPw: ["PAU 2006", "PAU 2007", "PAU 2009", "PAU 2014", "PAU 2006 (a=0)", "PAU 2015", "PAU 2010"],
-      pPar: ["Summary example", "PAU 2007", "PAU 2017", "PAU 2006", "Two parameters", "PAU 2026"], pLab: ["0/0", "∞−∞", "1^∞", "Infinities", "Jump", "Asymptote"],
+      pFact: ["Example 1", "Example 2", "Example 3", "Direct"], pPw: ["Example 1", "Example 2", "PAU CLM 2020", "Example 4", "Practice a", "Practice b", "Practice c", "PAU Madrid 2023"],
+      pPar: ["sin(ax)/x", "Trigonometric", "Exp. and log.", "PAU Aragón 2022", "PAU CyL 2024", "Two parameters"], pLab: ["0/0", "∞−∞", "1^∞", "Infinities", "sin(3x)/tan(5x)", "(1−cos x)/x²", "Jump", "Asymptote"],
       pc: "if", lt: "<", le: "≤", lo: "from", hi: "to", addPc: "＋ Piece", rmPc: "Remove" }
   };
   var lang = root.getAttribute("data-lang") || "va";
@@ -112,6 +112,24 @@
     }
     return decTex(String(+v.toPrecision(7)));
   }
+  // múltiples senzills de pi (talls de les funcions a trossos)
+  function piTex(v) {
+    if (!isFinite(v) || Math.abs(v) < 1e-12) return numTex(v);
+    var k = v / Math.PI * 12, r = Math.round(k);
+    if (Math.abs(k - r) > 1e-9 || Math.abs(v - Math.round(v)) < 1e-9) return numTex(v);
+    var f = new Fr(r, 12), n = Math.abs(f.n);
+    return (f.n < 0 ? "-" : "") + (f.d === 1 ? (n === 1 ? "" : n) + "\\pi" : "\\frac{" + (n === 1 ? "" : n) + "\\pi}{" + f.d + "}");
+  }
+  function piSrc(v) {
+    var t = piTex(v); if (t.indexOf("\\pi") < 0) return numTxt(v);
+    var k = new Fr(Math.round(v / Math.PI * 12), 12), n = Math.abs(k.n);
+    return (k.n < 0 ? "-" : "") + (n === 1 ? "" : n) + "pi" + (k.d === 1 ? "" : "/" + k.d);
+  }
+  // llig un nombre: enter, decimal, fracció o expressió constant (pi/2, ln 2, e^2...)
+  function readNum(s) {
+    var q = parseFr(s); if (q) return q.val();
+    try { var v = fnOf(s)(0); return isFinite(v) && !/x/.test(s) ? v : NaN; } catch (e) { return NaN; }
+  }
   function numTxt(v) {
     if (v !== v) return "∄";
     if (v === Infinity) return "+∞";
@@ -139,8 +157,8 @@
   }
 
   /* ---------- lectura d'expressions ---------- */
-  var NAMES = ["sqrt", "exp", "abs", "log", "sin", "cos", "ln", "pi", "x", "t", "a", "b", "e"];
-  var FUNCS = { sqrt: 1, exp: 1, abs: 1, log: 1, sin: 1, cos: 1, ln: 1 };
+  var NAMES = ["sqrt", "exp", "abs", "log", "sin", "cos", "tan", "ln", "pi", "x", "t", "a", "b", "e"];
+  var FUNCS = { sqrt: 1, exp: 1, abs: 1, log: 1, sin: 1, cos: 1, tan: 1, ln: 1 };
   function tokenize(src) {
     var s = String(src).replace(/\s+/g, "").replace(/,/g, ".").replace(/[−–]/g, "-").replace(/[·×]/g, "*").replace(/\*\*/g, "^").replace(/√/g, "sqrt").replace(/²/g, "^2").replace(/³/g, "^3").replace(/π/g, "pi").toLowerCase();
     var out = [], i = 0, m;
@@ -200,7 +218,7 @@
     return r;
   }
   function strip(n) { while (n.t === "()") n = n.a; return n; }
-  var FN = { sqrt: Math.sqrt, exp: Math.exp, abs: Math.abs, log: Math.log10, ln: Math.log, sin: Math.sin, cos: Math.cos };
+  var FN = { sqrt: Math.sqrt, exp: Math.exp, abs: Math.abs, log: Math.log10, ln: Math.log, sin: Math.sin, cos: Math.cos, tan: Math.tan };
   function compile(ast) {
     function ev(n, x, env) {
       switch (n.t) {
@@ -369,7 +387,7 @@
   // valor exacte quan es pot (polinomis, etc.), si no, estimació
   function sideAt(f, c, side) {
     var y = f(c);
-    if (isFinite(y)) { var y2 = f(c + side * 1e-7); if (isFinite(y2) && Math.abs(y2 - y) < 1e-4 * (1 + Math.abs(y))) return { k: "num", v: y }; }
+    if (isFinite(y)) { var y2 = f(c + side * 1e-10); if (isFinite(y2) && Math.abs(y2 - y) < 1e-4 * (1 + Math.abs(y))) return { k: "num", v: y }; }
     return limSide(f, c, side);
   }
   // tipus de discontinuïtat a partir dels laterals i f(a)
@@ -470,7 +488,9 @@
     var curves = [], pts = [];
     for (var i = 0; i < P.n; i++) { var B = P.bounds(i); curves.push({ f: P.piece(i), a: B[0], b: B[1], col: (cols || [])[i] || COLS[0] }); }
     P.c.forEach(function (c, k) {
-      var L = sideAt(P.piece(k), c, -1), R = sideAt(P.piece(k + 1), c, 1), fc = P.f(c);
+      if (k > 0 && P.c[k - 1] === c) return;
+      var k2 = k; while (k2 + 1 < P.c.length && P.c[k2 + 1] === c) k2++;
+      var L = sideAt(P.piece(k), c, -1), R = sideAt(P.piece(k2 + 1), c, 1), fc = P.f(c);
       var col = COLS[0];
       if (L.k === "num" && R.k === "num" && sameLim(L, R) && Math.abs(fc - L.v) < 1e-6 * (1 + Math.abs(fc))) return;
       if (isFinite(fc)) pts.push({ x: c, y: fc, col: col });
@@ -486,9 +506,9 @@
   }
   function condTex(lo, loIn, hi, hiIn) {
     var L = isFinite(lo), R = isFinite(hi);
-    if (L && R) return numTex(lo) + (loIn ? "\\leq " : "\\lt ") + "x" + (hiIn ? "\\leq " : "\\lt ") + numTex(hi);
-    if (L) return "x" + (loIn ? "\\geq " : "\\gt ") + numTex(lo);
-    if (R) return "x" + (hiIn ? "\\leq " : "\\lt ") + numTex(hi);
+    if (L && R) return piTex(lo) + (loIn ? "\\leq " : "\\lt ") + "x" + (hiIn ? "\\leq " : "\\lt ") + piTex(hi);
+    if (L) return "x" + (loIn ? "\\geq " : "\\gt ") + piTex(lo);
+    if (R) return "x" + (hiIn ? "\\leq " : "\\lt ") + piTex(hi);
     return "x\\in\\mathbb R";
   }
   function pwTex(def, name) {
@@ -535,7 +555,8 @@
     asV: function () { return { v: [-5, 5, -6, 6], va: [-2, 2], ha: [0], curves: [{ f: F("(x+1)/(x^2-4)") }] }; },
     asH: function () { return { v: [-8, 8, -1.5, 4.5], ha: [3], curves: [{ f: F("(3x^2-1)/(x^2+2)") }] }; },
     asO: function () { return { v: [-6, 8, -8, 12], va: [1], oa: [{ m: 1, n: 1 }], curves: [{ f: F("(x^2+3)/(x-1)") }] }; },
-    pau30: function () { var def = PW.pau30, P = pwMake(def), v = [-3.5, 3.5, -1, 5], d = pwDraw(P, v); return { v: v, curves: d.curves, pts: d.pts }; }
+    asR: function () { return { v: [-7, 6, -1, 7], oa: [{ m: 1, n: 1 }, { m: -1, n: -1 }], curves: [{ f: F("sqrt(x^2+2x)"), b: -2 }, { f: F("sqrt(x^2+2x)"), a: 0 }], pts: [{ x: -2, y: 0 }, { x: 0, y: 0 }] }; },
+    asE: function () { return { v: [-6, 6, -1, 6], va: [0], ha: [1], curves: [{ f: F("e^(1/x)"), b: 0 }, { f: F("e^(1/x)"), a: 0 }], pts: [{ x: 0, y: 0, o: true }] }; }
   };
   function wFigs() {
     document.querySelectorAll("[data-g]").forEach(function (el) {
@@ -550,14 +571,16 @@
 
   /* ---------- funcions a trossos dels exemples i de la PAU ---------- */
   var PW = {
-    pau30: { p: ["3x+10", "x^2", "(x+3)/2"], c: [-2, 1], inc: ["R", "R"], dom: [-3, 3], din: [true, true] },
-    pau34: { p: ["2", "x^2", "1"], c: [-3, 1], inc: ["L", "R"], dom: [-4, 2], din: [true, true] },
-    pau44: { p: ["-x", "x-1", "x^2-2x-6"], c: [-1, 4], inc: ["R", "R"], dom: [-2, 6], din: [false, false] },
-    pau63: { p: ["-x+15", "x^2-8x+26", "2x+2"], c: [3, 6], inc: ["L", "L"], dom: [0, 8], din: [true, true] },
-    pau31: { p: ["3x", "2", "(2x-11)/(x-3)"], c: [-1, 1], inc: ["R", "R"] },
-    pau70: { p: ["15.5-1.1x", "(5x+45)/(x+2)"], c: [5], inc: ["L"], dom: [0, Infinity], din: [true, false] },
-    pau50: { p: ["2/x", "1", "-x^2+6x-8", "0"], c: [2, 3, 4], inc: ["L", "L", "L"], dom: [1, 5], din: [true, true] }
+    e1: { p: ["sin(x)/x", "x^2+1", "sqrt(x+7)+2"], c: [0, 2], inc: ["R", "R"] },
+    e2: { p: ["ln(2-x)", "tan(pi x/4)", "(x-4)/(x-2)"], c: [1, 3], inc: ["R", "R"] },
+    clm20: { p: ["3/(x-2)", "cos(pi x)", "ln(x-2)/(3-x)"], c: [2, 3], inc: ["R", "L"] },
+    e4: { p: ["e^(1/x)", "sqrt(x)", "abs(x-6)"], c: [0, 4], inc: ["R", "L"] },
+    pa: { p: ["cos(x)", "(e^x-1)/x", "ln(x+2)/ln(2)"], c: [0, 2], inc: ["L", "R"] },
+    pb: { p: ["3/(x+2)", "2-abs(x)", "sqrt(x+3)-1"], c: [-1, 1], inc: ["R", "L"] },
+    pc: { p: ["sin(2x)/x", "x+2", "cos(x)+pi+3"], c: [0, Math.PI], inc: ["R", "R"] },
+    mad23: { p: ["x^2/(2+x^2)", "2x^2/(3-3x)"], c: [-1], inc: ["L"] }
   };
+
 
   /* ---------- widget: límits a l'infinit ---------- */
   function presetBtns(box, n, key, onPick) {
@@ -798,6 +821,7 @@
   function denoms(n, out) {
     if (!n || typeof n !== "object") return out;
     if (n.t === "/") out.push(compile(n.b));
+    if (n.t === "f" && n.n === "tan") out.push(compile({ t: "f", n: "cos", a: n.a }));
     ["a", "b"].forEach(function (k) { if (n[k]) denoms(n[k], out); });
     return out;
   }
@@ -822,7 +846,9 @@
     P.c.forEach(function (c, k) {
       var inside = (c > P.dom[0] || (c === P.dom[0] && P.din[0])) && (c < P.dom[1] || (c === P.dom[1] && P.din[1]));
       if (!inside) return;
-      var L = sideAt(P.piece(k), c, -1), R = sideAt(P.piece(k + 1), c, 1), fa = P.f(c), cl = classify(L, R, fa);
+      if (k > 0 && P.c[k - 1] === c) return;
+      var k2 = k; while (k2 + 1 < P.c.length && P.c[k2 + 1] === c) k2++;
+      var L = sideAt(P.piece(k), c, -1), R = sideAt(P.piece(k2 + 1), c, 1), fa = P.f(c), cl = classify(L, R, fa);
       out.cuts.push({ x: c, L: L, R: R, fa: fa, cl: cl });
       if (cl !== "ok") out.bad.push(c);
     });
@@ -843,8 +869,8 @@
   }
   function wPw() {
     var w = document.getElementById("w-pw"); if (!w) return;
-    var KEYS = ["pau30", "pau34", "pau44", "pau63", "pau31", "pau70", "pau50"];
-    var VIEWS = { pau30: [-3.5, 3.5, -1, 5], pau34: [-4.5, 2.5, -1, 10], pau44: [-2.5, 6.5, -3, 20], pau63: [-0.5, 8.5, 0, 20], pau31: [-4, 8, -8, 12], pau70: [-0.5, 20, 0, 18], pau50: [0.5, 5.5, -0.5, 2.5] };
+    var KEYS = ["e1", "e2", "clm20", "e4", "pa", "pb", "pc", "mad23"];
+    var VIEWS = { e1: [-8, 5, -1, 7], e2: [-3, 6, -4, 4], clm20: [-1, 6, -5, 3], e4: [-5, 9, -0.5, 4], pa: [-4, 6, -1, 5], pb: [-5, 5, -6, 6], pc: [-5, 7, -1, 8], mad23: [-5, 4, -6, 6] };
     var box = $(w, "pcs"), svg = w.querySelector("svg"), info = w.querySelector(".info"), def = null, cur = null, view = null, rows = [];
     presetBtns($(w, "presets"), KEYS.length, "pPw", function (i) { cur = null; load(PW[KEYS[i]], VIEWS[KEYS[i]]); });
     function inp(v, cls) { var i = document.createElement("input"); i.type = "text"; i.className = "tin " + cls; i.value = v; i.autocomplete = "off"; i.spellcheck = false; i.addEventListener("input", read); return i; }
@@ -862,7 +888,7 @@
         var dot = document.createElement("span"); dot.className = "dot"; dot.style.background = COLS[i % COLS.length];
         var ie = inp(e, "w"); r.appendChild(dot); r.appendChild(ie);
         var o = { e: ie };
-        if (i < def.c.length) { r.appendChild(document.createTextNode(u("pc") + " x ")); o.s = sel(def.inc[i]); o.c = inp(numTxt(def.c[i]), "s"); r.appendChild(o.s); r.appendChild(o.c); }
+        if (i < def.c.length) { r.appendChild(document.createTextNode(u("pc") + " x ")); o.s = sel(def.inc[i]); o.c = inp(piSrc(def.c[i]), "s"); r.appendChild(o.s); r.appendChild(o.c); }
         else r.appendChild(document.createTextNode(u("rest")));
         box.appendChild(r); rows.push(o);
       });
@@ -871,7 +897,7 @@
     }
     function read() {
       var bad = false;
-      function num(i, blank) { var s = i.value.trim(); if (!s && blank !== undefined) { i.classList.remove("bad"); return blank; } var v = parseFr(s); i.classList.toggle("bad", !v); if (!v) bad = true; return v ? v.val() : 0; }
+      function num(i, blank) { var s = i.value.trim(); if (!s && blank !== undefined) { i.classList.remove("bad"); return blank; } var v = readNum(s); i.classList.toggle("bad", v !== v); if (v !== v) bad = true; return v === v ? v : 0; }
       var d = { p: [], c: [], inc: [], dom: [num(rows.lo, -Infinity), num(rows.hi, Infinity)], din: [true, true] };
       rows.forEach(function (o, i) {
         try { parse(o.e.value); o.e.classList.remove("bad"); } catch (e) { o.e.classList.add("bad"); bad = true; }
@@ -888,7 +914,7 @@
       var h = "<p>" + tex(pwTex(d)) + "</p>";
       if (S.cuts.length) {
         h += '<div class="tbl-wrap"><table class="data sm"><thead><tr><th>' + tex("a") + "</th><th>" + tex("f(a)") + "</th><th>" + tex("\\lim\\limits_{x\\to a^-}") + "</th><th>" + tex("\\lim\\limits_{x\\to a^+}") + "</th><th></th></tr></thead><tbody>";
-        S.cuts.forEach(function (q) { h += "<tr><td>" + tex(numTex(q.x)) + "</td><td>" + tex(niceTex(isFinite(q.fa) ? q.fa : NaN)) + "</td><td>" + tex(limTex(q.L)) + "</td><td>" + tex(limTex(q.R)) + "</td><td>" + badge(q.cl) + "</td></tr>"; });
+        S.cuts.forEach(function (q) { h += "<tr><td>" + tex(piTex(q.x)) + "</td><td>" + tex(niceTex(isFinite(q.fa) ? q.fa : NaN)) + "</td><td>" + tex(limTex(q.L)) + "</td><td>" + tex(limTex(q.R)) + "</td><td>" + badge(q.cl) + "</td></tr>"; });
         h += "</tbody></table></div>";
       }
       h += "<p>" + (S.zeros.length ? u("pzero") + ": " + S.zeros.map(function (q) { return tex("x=" + niceTex(q.x)) + " " + badge(q.cl); }).join(", ") : u("noDen")) + "</p>";
@@ -897,19 +923,19 @@
       var dr = pwDraw(P, view, P.fs.map(function (_, i) { return COLS[i % COLS.length]; }));
       plot(svg, { v: view, curves: dr.curves, pts: dr.pts, va: S.zeros.filter(function (q) { return q.cl === "as" || q.cl === "si"; }).map(function (q) { return q.x; }) });
     }
-    onLang(function () { load(cur || PW.pau30, view || VIEWS.pau30); });
+    onLang(function () { load(cur || PW.e1, view || VIEWS.e1); });
   }
 
   /* ---------- widget: paràmetres ---------- */
   function wPar() {
     var w = document.getElementById("w-par"); if (!w) return;
     var PRE = [
-      { d: { p: ["a x^2-6", "2x/(x+3)+x"], c: [1], inc: ["L"] }, tex: "f(x)=\\begin{cases}ax^2-6&\\SI x\\leq1\\\\\\dfrac{2x}{x+3}+x&\\SI x\\gt1\\end{cases}", a: [0, 12, 0.1, 5], sol: "a=\\frac{15}{2}", v: [-2, 4, -8, 8] },
-      { d: { p: ["x+2", "x^2-6x+12", "-2x+a"], c: [2, 4], inc: ["R", "L"], dom: [0, 8], din: [true, true] }, tex: "f(x)=\\begin{cases}x+2&\\SI 0\\leq x\\lt2\\\\x^2-6x+12&\\SI 2\\leq x\\leq4\\\\-2x+a&\\SI 4\\lt x\\leq8\\end{cases}", a: [0, 20, 0.5, 8], sol: "a=12", v: [-0.5, 8.5, -10, 12] },
-      { d: { p: ["x^3-3x-20", "2/(a-x)"], c: [3], inc: ["L"] }, tex: "f(x)=\\begin{cases}x^3-3x-20&\\SI x\\leq3\\\\\\dfrac{2}{a-x}&\\SI x\\gt3\\end{cases}", a: [-2, 6, 0.1, 0], sol: "a=2", v: [0, 6, -10, 6] },
-      { d: { p: ["3x+a", "a x+2", "(2x-11)/(x-3)"], c: [-1, 1], inc: ["R", "R"] }, tex: "f(x)=\\begin{cases}3x+a&\\SI x\\lt-1\\\\ax+2&\\SI -1\\leq x\\lt1\\\\\\dfrac{2x-11}{x-3}&\\SI x\\geq1\\end{cases}", a: [-3, 6, 0.1, 0], sol: "a=\\frac52", v: [-4, 2.8, -8, 8] },
-      { d: { p: ["x^2+a", "b x+1", "2x-a"], c: [1, 3], inc: ["R", "R"] }, tex: "f(x)=\\begin{cases}x^2+a&\\SI x\\lt1\\\\bx+1&\\SI 1\\leq x\\lt3\\\\2x-a&\\SI x\\geq3\\end{cases}", a: [-2, 4, 0.05, 0], b: [-2, 4, 0.05, 2], sol: "a=b=\\frac54", v: [-2, 6, -3, 10] },
-      { d: { p: ["ln(x^2+a)", "(x+1)^2", "5x+b/(x+1)"], c: [1, 4], inc: ["R", "L"] }, tex: "f(x)=\\begin{cases}\\ln(x^2+a)&\\SI x\\lt1\\\\(x+1)^2&\\SI 1\\leq x\\leq4\\\\5x+\\dfrac{b}{x+1}&\\SI x\\gt4\\end{cases}", a: [1, 80, 0.1, 20], b: [0, 50, 1, 10], sol: "a=e^4-1\\approx53{,}6,\\ b=25", v: [-1, 6, 0, 40] }
+      { d: { p: ["sin(a x)/x", "x^2+3"], c: [0], inc: ["R"] }, tex: "f(x)=\\begin{cases}\\dfrac{\\sin(ax)}{x}&\\SI x\\lt0\\\\x^2+3&\\SI x\\geq0\\end{cases}", a: [-2, 6, 0.05, 1], sol: "a=3", v: [-6, 3, -2, 8] },
+      { d: { p: ["-2sin(x)", "a sin(x)+b", "cos(x)"], c: [-Math.PI / 2, Math.PI / 2], inc: ["L", "R"] }, tex: "f(x)=\\begin{cases}-2\\sin x&\\SI x\\leq-\\frac\\pi2\\\\a\\sin x+b&\\SI -\\frac\\pi2\\lt x\\lt\\frac\\pi2\\\\\\cos x&\\SI x\\geq\\frac\\pi2\\end{cases}", a: [-3, 3, 0.05, 1], b: [-3, 3, 0.05, 0], sol: "a=-1,\\ b=1", v: [-5, 5, -3, 3.5] },
+      { d: { p: ["a e^x", "ln(1+3x)/x", "b sqrt(x+3)"], c: [0, 1], inc: ["L", "L"] }, tex: "f(x)=\\begin{cases}a\\,e^x&\\SI x\\leq0\\\\\\dfrac{\\ln(1+3x)}{x}&\\SI 0\\lt x\\leq1\\\\b\\sqrt{x+3}&\\SI x\\gt1\\end{cases}", a: [0, 5, 0.05, 1], b: [0, 2, 0.01, 1], sol: "a=3,\\ b=\\ln2", v: [-3, 4, -0.5, 4.5] },
+      { d: { p: ["sqrt(-x)+e^3", "(1-x)^(a/x)"], c: [0], inc: ["L"], dom: [-Infinity, 0.95], din: [true, true] }, tex: "f(x)=\\begin{cases}\\sqrt{-x}+e^3&\\SI x\\leq0\\\\(1-x)^{a/x}&\\SI x\\gt0\\end{cases}", a: [-5, 1, 0.05, -1], sol: "a=-3", v: [-4, 1, 0, 26] },
+      { d: { p: ["(cos(x)-a)/(b x^2)", "1", "(cos(x)-a)/(b x^2)"], c: [0, 0], inc: ["R", "L"] }, tex: "f(x)=\\begin{cases}\\dfrac{\\cos x-a}{bx^2}&\\SI x\\neq0\\\\1&\\SI x=0\\end{cases}", a: [0, 2, 0.05, 0.5], b: [-2, -0.1, 0.05, -1], sol: "a=1,\\ b=-\\frac12", v: [-4, 4, -3, 3] },
+      { d: { p: ["x^2+a", "b x+1", "2x-a"], c: [1, 3], inc: ["R", "R"] }, tex: "f(x)=\\begin{cases}x^2+a&\\SI x\\lt1\\\\bx+1&\\SI 1\\leq x\\lt3\\\\2x-a&\\SI x\\geq3\\end{cases}", a: [-2, 4, 0.05, 0], b: [-2, 4, 0.05, 2], sol: "a=b=\\frac54", v: [-2, 6, -3, 10] }
     ];
     var st = 0, svg = w.querySelector("svg"), fn = $(w, "fn"), out = $(w, "out"), ra = $(w, "a"), rb = $(w, "b"), av = $(w, "av"), bv = $(w, "bv");
     presetBtns($(w, "presets"), PRE.length, "pPar", function (i) { st = i; setup(); });
@@ -929,7 +955,7 @@
       var S = study(P.d, env), ok = S.cuts.every(function (q) { return q.cl === "ok"; });
       var near = S.cuts.every(function (q) { return q.L.k === "num" && q.R.k === "num" && Math.abs(q.L.v - q.R.v) < 0.01 && isFinite(q.fa) && Math.abs(q.fa - q.L.v) < 0.01; });
       var h = S.cuts.map(function (q) {
-        return "<div>" + tex("x=" + numTex(q.x) + ":\\ \\lim_{x\\to" + numTex(q.x) + "^-}f=" + limTex(q.L) + ",\\ \\lim_{x\\to" + numTex(q.x) + "^+}f=" + limTex(q.R)) + " " + badge(q.cl) + "</div>";
+        return "<div>" + tex("x=" + piTex(q.x) + ":\\ \\lim_{x\\to" + piTex(q.x) + "^-}f=" + limTex(q.L) + ",\\ \\lim_{x\\to" + piTex(q.x) + "^+}f=" + limTex(q.R)) + " " + badge(q.cl) + "</div>";
       }).join("");
       h += '<p class="' + (ok ? "msg-ok" : near ? "msg-ok" : "msg-bad") + '">' + (ok ? "✓ " + u("isCont") + " " + tex(P.sol) : near ? "≈ " + u("almost") + " " + tex(P.sol) : u("notYet")) + "</p>";
       out.innerHTML = h;
@@ -942,7 +968,7 @@
   /* ---------- calculadora de límits ---------- */
   function wLab() {
     var w = document.getElementById("w-lab"); if (!w) return;
-    var PRE = [["(x^2-x-2)/(x^2-4)", "2"], ["sqrt(x^2+4x)-x", "inf"], ["((2x+1)/(2x-3))^x", "inf"], ["x^2/e^x", "inf"], ["abs(x)/x", "0"], ["4x^2/(x^2-1)", "1"]];
+    var PRE = [["(x^2-x-2)/(x^2-4)", "2"], ["sqrt(x^2+4x)-x", "inf"], ["((2x+1)/(2x-3))^x", "inf"], ["x^2/e^x", "inf"], ["sin(3x)/tan(5x)", "0"], ["(1-cos(x))/x^2", "0"], ["abs(x)/x", "0"], ["4x^2/(x^2-1)", "1"]];
     var fi = $(w, "f"), ai = $(w, "a"), svg = w.querySelector("svg"), tb = w.querySelector(".vtbl"), info = w.querySelector(".info");
     presetBtns($(w, "presets"), PRE.length, "pLab", function (i) { fi.value = PRE[i][0]; ai.value = PRE[i][1]; draw(); });
     [fi, ai].forEach(function (i) { i.addEventListener("input", draw); });
@@ -950,9 +976,9 @@
       var f, a, s = ai.value.trim().toLowerCase().replace(/\s/g, "").replace("∞", "inf").replace("−", "-");
       try { f = fnOf(fi.value); fi.classList.remove("bad"); } catch (e) { fi.classList.add("bad"); info.textContent = u("bad"); return; }
       if (/^\+?inf/.test(s)) a = Infinity; else if (/^-inf/.test(s)) a = -Infinity;
-      else { var q = parseFr(s); if (!q) { ai.classList.add("bad"); info.textContent = u("aBad"); return; } a = q.val(); }
+      else { a = readNum(s); if (a !== a) { ai.classList.add("bad"); info.textContent = u("aBad"); return; } }
       ai.classList.remove("bad");
-      var ft = texOf(fi.value), at = isFinite(a) ? numTex(a) : a > 0 ? "+\\infty" : "-\\infty", rows = "", h;
+      var ft = texOf(fi.value), at = isFinite(a) ? piTex(a) : a > 0 ? "+\\infty" : "-\\infty", rows = "", h;
       if (isFinite(a)) {
         for (var k = 1; k <= 6; k++) { var hk = Math.pow(10, -k); rows += "<tr><td>" + tex(numTex(a - hk)) + "</td><td>" + tex(numTex(f(a - hk))) + "</td><td>" + tex(numTex(a + hk)) + "</td><td>" + tex(numTex(f(a + hk))) + "</td></tr>"; }
         tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + '</th><th>' + tex("f(x)") + '</th><th>' + tex("x") + '</th><th>' + tex("f(x)") + '</th></tr></thead><tbody>' + rows + "</tbody></table>";
@@ -976,6 +1002,118 @@
       info.innerHTML = h;
     }
     onLang(draw);
+  }
+
+  /* ---------- MII: textos dels ginys nous ---------- */
+  var UI2 = {
+    va: { pEq: ["sin x ~ x", "tan x ~ x", "1 − cos x ~ x²/2", "eˣ − 1 ~ x", "ln(1+x) ~ x"], pPlim: ["√(x²+ax) − x", "1^∞", "0/0", "1 − cos(ax)", "Discussió"], pBolz: ["x³ + x − 1", "cos x − x", "e^(−x) − x", "x⁵ + x³ − 1", "tan x", "1/(x − 1)"],
+      quot: "quocient", eqTo1: "El quocient s'acosta a 1: són infinitèsims equivalents.", aVal: "Valor de a", goal: "Objectiu", now: "Ara", bisStep: "pas", noSign: "f(a) i f(b) tenen el mateix signe (o algun és 0): Bolzano no assegura res.", noCont: "Compte: la funció no és contínua en [a, b] (té un salt o una asímptota). Bolzano no es pot aplicar!", rootIn: "L'arrel és dins de", width: "amplada", fBad: "Revisa f(x), a i b (cal a < b)." },
+    es: { pEq: ["sin x ~ x", "tan x ~ x", "1 − cos x ~ x²/2", "eˣ − 1 ~ x", "ln(1+x) ~ x"], pPlim: ["√(x²+ax) − x", "1^∞", "0/0", "1 − cos(ax)", "Discusión"], pBolz: ["x³ + x − 1", "cos x − x", "e^(−x) − x", "x⁵ + x³ − 1", "tan x", "1/(x − 1)"],
+      quot: "cociente", eqTo1: "El cociente se acerca a 1: son infinitésimos equivalentes.", aVal: "Valor de a", goal: "Objetivo", now: "Ahora", bisStep: "paso", noSign: "f(a) y f(b) tienen el mismo signo (o alguno es 0): Bolzano no asegura nada.", noCont: "Cuidado: la función no es continua en [a, b] (tiene un salto o una asíntota). ¡Bolzano no se puede aplicar!", rootIn: "La raíz está dentro de", width: "anchura", fBad: "Revisa f(x), a y b (debe ser a < b)." },
+    en: { pEq: ["sin x ~ x", "tan x ~ x", "1 − cos x ~ x²/2", "eˣ − 1 ~ x", "ln(1+x) ~ x"], pPlim: ["√(x²+ax) − x", "1^∞", "0/0", "1 − cos(ax)", "Discussion"], pBolz: ["x³ + x − 1", "cos x − x", "e^(−x) − x", "x⁵ + x³ − 1", "tan x", "1/(x − 1)"],
+      quot: "ratio", eqTo1: "The ratio tends to 1: they are equivalent infinitesimals.", aVal: "Value of a", goal: "Goal", now: "Now", bisStep: "step", noSign: "f(a) and f(b) have the same sign (or one is 0): Bolzano guarantees nothing.", noCont: "Careful: the function is not continuous on [a, b] (it has a jump or an asymptote). Bolzano does not apply!", rootIn: "The root lies in", width: "width", fBad: "Check f(x), a and b (we need a < b)." }
+  };
+  LANGS.forEach(function (k) { for (var q in UI2[k]) UI[k][q] = UI2[k][q]; });
+
+  /* ---------- widget: infinitèsims equivalents ---------- */
+  function wEq() {
+    var w = document.getElementById("w-eq"); if (!w) return;
+    var PRE = [["sin(x)", "x"], ["tan(x)", "x"], ["1-cos(x)", "x^2/2"], ["e^x-1", "x"], ["ln(1+x)", "x"]];
+    var st = 0, svg = w.querySelector("svg"), rng = $(w, "n"), nv = $(w, "nv"), tb = w.querySelector(".vtbl"), info = w.querySelector(".info");
+    presetBtns($(w, "presets"), PRE.length, "pEq", function (i) { st = i; draw(); });
+    rng.addEventListener("input", draw);
+    function draw() {
+      var P = PRE[st], f = F(P[0]), g = F(P[1]), t = +rng.value, x = Math.pow(10, -t), rows = "";
+      nv.textContent = numTxt(+x.toPrecision(3));
+      for (var k = 0; k <= 5; k++) {
+        var xk = Math.pow(10, -k), c = Math.abs(k - t) < 0.5 ? ' class="hl"' : "";
+        rows += "<tr><td" + c + ">" + tex(numTex(xk)) + "</td><td" + c + ">" + tex(numTex(+f(xk).toPrecision(6))) + "</td><td" + c + ">" + tex(numTex(+g(xk).toPrecision(6))) + "</td><td" + c + ">" + tex(numTex(+(f(xk) / g(xk)).toPrecision(7))) + "</td></tr>";
+      }
+      var tf = texOf(P[0]), tg = texOf(P[1]);
+      tb.innerHTML = '<table class="data sm"><thead><tr><th>' + tex("x") + "</th><th>" + tex(tf) + "</th><th>" + tex(tg) + "</th><th>" + u("quot") + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      info.innerHTML = tex("\\lim_{x\\to0}\\dfrac{" + tf + "}{" + tg + "}=1") + "<br>" + u("eqTo1");
+      var yy = autoY([f, g], -1.6, 1.6);
+      plot(svg, { v: [-1.6, 1.6, yy[0], yy[1]], curves: [{ f: f }, { f: g, col: COLS[1] }], mark: [{ x: x, y: f(x) }], guides: [{ x: x, y: f(x) }] });
+    }
+    onLang(draw);
+  }
+
+  /* ---------- widget: límits que depenen d'un paràmetre ---------- */
+  function wPlim() {
+    var w = document.getElementById("w-plim"); if (!w) return;
+    var PRE = [
+      { e: "sqrt(x^2+a x)-x", at: Infinity, a: [-4, 10, 0.5, 2], goal: "=3\\iff a=6", v: [-1, 40] },
+      { e: "((x+a)/(x-1))^x", at: Infinity, a: [-2, 5, 0.25, 0], goal: "=e^3\\iff a=2", v: [1.5, 40] },
+      { e: "(x^2+a x-6)/(x^2-4)", at: 2, a: [-2, 3, 0.25, 0], goal: "\\text{finit}\\iff a=1\\ \\left(\\tfrac54\\right)", v: [-1, 5] },
+      { e: "(1-cos(a x))/(x sin(x))", at: 0, a: [0, 6, 0.1, 1], goal: "=8\\iff a=4", v: [-2.5, 2.5] },
+      { e: "sqrt(x^2+1)-a x", at: Infinity, a: [0, 2, 0.05, 0.5], goal: "a\\lt1:+\\infty,\\ a=1:0,\\ a\\gt1:-\\infty", v: [-1, 30] }
+    ];
+    var st = 0, svg = w.querySelector("svg"), fn = $(w, "fn"), out = $(w, "out"), ra = $(w, "a"), av = $(w, "av");
+    presetBtns($(w, "presets"), PRE.length, "pPlim", function (i) { st = i; setup(); });
+    ra.addEventListener("input", draw);
+    function setup() { var P = PRE[st]; ra.min = P.a[0]; ra.max = P.a[1]; ra.step = P.a[2]; ra.value = P.a[3]; draw(); }
+    function draw() {
+      var P = PRE[st], env = { a: +ra.value, b: 0 }, c = compile(parse(P.e)), f = function (x) { return c(x, env); };
+      av.textContent = numTxt(env.a);
+      var at = isFinite(P.at) ? numTex(P.at) : "+\\infty", ft = texOf(P.e);
+      fn.innerHTML = tex("\\lim_{x\\to" + at + "}" + ft) + "<br><small>" + u("goal") + ": " + tex(P.goal) + "</small>";
+      var h;
+      if (isFinite(P.at)) {
+        var L = limSide(f, P.at, -1), R = limSide(f, P.at, 1);
+        h = sameLim(L, R) ? tex("\\lim=" + limTex(L)) : tex("\\lim_{x\\to" + at + "^-}=" + limTex(L) + ",\\ \\lim_{x\\to" + at + "^+}=" + limTex(R));
+      } else h = tex("\\lim=" + limTex(limSide(f, Infinity, 1)));
+      out.innerHTML = "<p><strong>a = " + numTxt(env.a) + "</strong> → " + h + "</p>";
+      var x0 = isFinite(P.at) ? P.v[0] : P.v[0], x1 = P.v[1], yy = autoY([f], x0, x1);
+      plot(svg, { v: [x0, x1, yy[0], yy[1]], curves: [{ f: f }], guides: isFinite(P.at) ? [{ x: P.at }] : [] });
+    }
+    onLang(setup);
+  }
+
+  /* ---------- widget: Bolzano i bisecció ---------- */
+  function wBolz() {
+    var w = document.getElementById("w-bolz"); if (!w) return;
+    var PRE = [["x^3+x-1", "0", "1"], ["cos(x)-x", "0", "pi/2"], ["e^(-x)-x", "0", "1"], ["x^5+x^3-1", "0", "1"], ["tan(x)", "pi/4", "3pi/4"], ["1/(x-1)", "0", "2"]];
+    var fi = $(w, "f"), ai = $(w, "a"), bi = $(w, "b"), svg = w.querySelector("svg"), tb = w.querySelector(".vtbl"), info = w.querySelector(".info");
+    var S = null;
+    presetBtns($(w, "presets"), PRE.length, "pBolz", function (i) { fi.value = PRE[i][0]; ai.value = PRE[i][1]; bi.value = PRE[i][2]; reset(); });
+    [fi, ai, bi].forEach(function (i) { i.addEventListener("input", reset); });
+    $(w, "step").addEventListener("click", function () { if (S && S.ok && S.rows.length < 30) { step(); draw(); } });
+    $(w, "reset").addEventListener("click", reset);
+    function reset() {
+      var f, a = readNum(ai.value.trim()), b = readNum(bi.value.trim());
+      try { f = fnOf(fi.value); } catch (e) { f = null; }
+      if (!f || a !== a || b !== b || !(a < b)) { S = null; info.textContent = u("fBad"); tb.innerHTML = ""; return; }
+      var fa = f(a), fb = f(b), cont = true, xs = [], ys = [];
+      for (var i = 0; i <= 600; i++) { var x = a + (b - a) * i / 600, y = f(x); xs.push(x); ys.push(y); if (!isFinite(y)) cont = false; }
+      if (cont) {
+        var big = Math.max(Math.abs(fa), Math.abs(fb), 1) * 20;
+        for (var j = 1; j < ys.length; j++) if (ys[j] * ys[j - 1] < 0 && Math.min(Math.abs(ys[j]), Math.abs(ys[j - 1])) > big / 4 && Math.abs(ys[j] - ys[j - 1]) > big) cont = false;
+      }
+      S = { f: f, a0: a, b0: b, lo: a, hi: b, flo: fa, fhi: fb, rows: [], cont: cont, ok: cont && isFinite(fa) && isFinite(fb) && fa * fb < 0 };
+      draw();
+    }
+    function step() {
+      var m = (S.lo + S.hi) / 2, fm = S.f(m);
+      S.rows.push({ lo: S.lo, hi: S.hi, m: m, fm: fm });
+      if (fm === 0) { S.lo = S.hi = m; S.ok = false; return; }
+      if (fm * S.flo < 0) { S.hi = m; S.fhi = fm; } else { S.lo = m; S.flo = fm; }
+    }
+    function sg(v) { return v > 0 ? "+" : v < 0 ? "−" : "0"; }
+    function draw() {
+      if (!S) return;
+      var rows = "<tr><td>" + tex("0") + "</td><td>" + tex(piTex(S.a0)) + "</td><td>" + tex(piTex(S.b0)) + "</td><td></td><td>" + sg(S.f(S.a0)) + " / " + sg(S.f(S.b0)) + "</td></tr>";
+      S.rows.forEach(function (r, i) { rows += "<tr><td>" + (i + 1) + "</td><td>" + tex(numTex(+r.lo.toPrecision(6))) + "</td><td>" + tex(numTex(+r.hi.toPrecision(6))) + "</td><td>" + tex(numTex(+r.m.toPrecision(6))) + "</td><td>" + sg(r.fm) + "</td></tr>"; });
+      tb.innerHTML = '<table class="data sm"><thead><tr><th>' + u("bisStep") + "</th><th>" + tex("a") + "</th><th>" + tex("b") + "</th><th>" + tex("m") + "</th><th>" + tex("f(m)") + "</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      var fa = S.f(S.a0), fb = S.f(S.b0), h = "<p>" + tex("f(" + piTex(S.a0) + ")=" + numTex(+fa.toPrecision(5)) + ",\\quad f(" + piTex(S.b0) + ")=" + numTex(+fb.toPrecision(5))) + "</p>";
+      if (!S.cont) h += '<p class="msg-bad">' + u("noCont") + "</p>";
+      else if (!(fa * fb < 0)) h += '<p class="msg-bad">' + u("noSign") + "</p>";
+      else h += '<p class="msg-ok">' + u("rootIn") + " " + tex("\\left(" + numTex(+S.lo.toPrecision(7)) + ",\\ " + numTex(+S.hi.toPrecision(7)) + "\\right)") + " · " + u("width") + " " + tex(numTex(+(S.hi - S.lo).toPrecision(3))) + "</p>";
+      info.innerHTML = h;
+      var pad = (S.b0 - S.a0) * 0.25, x0 = S.a0 - pad, x1 = S.b0 + pad, yy = autoY([S.f], S.a0, S.b0);
+      var mk = S.rows.length ? [{ x: S.rows[S.rows.length - 1].m, y: S.rows[S.rows.length - 1].fm }] : [];
+      plot(svg, { v: [x0, x1, yy[0], yy[1]], curves: [{ f: S.f }], guides: [{ x: S.lo }, { x: S.hi }], mark: mk, va: S.cont ? [] : [] });
+    }
+    onLang(function () { if (!S) reset(); else draw(); });
   }
 
   /* ---------- qüestionari ---------- */
@@ -1016,7 +1154,25 @@
       e: { va: "El denominador s'anul·la en $x=\\pm3$ i el numerador no: $\\frac{k}{0}$.", es: "El denominador se anula en $x=\\pm3$ y el numerador no: $\\frac{k}{0}$.", en: "The denominator vanishes at $x=\\pm3$ and the numerator does not: $\\frac{k}{0}$." } },
     { q: { va: "L'asímptota obliqua de $f(x)=\\dfrac{x^2+1}{x}$ és…", es: "La asíntota oblicua de $f(x)=\\dfrac{x^2+1}{x}$ es…", en: "The oblique asymptote of $f(x)=\\dfrac{x^2+1}{x}$ is…" },
       o: [{ va: "$y=x+1$", es: "$y=x+1$", en: "$y=x+1$" }, { va: "$y=1$", es: "$y=1$", en: "$y=1$" }, { va: "$y=x$", es: "$y=x$", en: "$y=x$" }], a: 2,
-      e: { va: "$f(x)=x+\\frac1x$: el quocient és $x$.", es: "$f(x)=x+\\frac1x$: el cociente es $x$.", en: "$f(x)=x+\\frac1x$: the quotient is $x$." } }
+      e: { va: "$f(x)=x+\\frac1x$: el quocient és $x$.", es: "$f(x)=x+\\frac1x$: el cociente es $x$.", en: "$f(x)=x+\\frac1x$: the quotient is $x$." } },
+    { q: { va: "$\\lim_{x\\to0}\\dfrac{\\sin 5x}{2x}$ val…", es: "$\\lim_{x\\to0}\\dfrac{\\sin 5x}{2x}$ vale…", en: "$\\lim_{x\\to0}\\dfrac{\\sin 5x}{2x}$ equals…" },
+      o: [{ va: "$0$", es: "$0$", en: "$0$" }, { va: "$\\frac52$", es: "$\\frac52$", en: "$\\frac52$" }, { va: "$1$", es: "$1$", en: "$1$" }], a: 1,
+      e: { va: "$\\sin5x\\sim5x$: $\\frac{5x}{2x}=\\frac52$.", es: "$\\sin5x\\sim5x$: $\\frac{5x}{2x}=\\frac52$.", en: "$\\sin5x\\sim5x$: $\\frac{5x}{2x}=\\frac52$." } },
+    { q: { va: "Quin infinitèsim és equivalent a $1-\\cos x$ quan $x\\to0$?", es: "¿Qué infinitésimo es equivalente a $1-\\cos x$ cuando $x\\to0$?", en: "Which infinitesimal is equivalent to $1-\\cos x$ as $x\\to0$?" },
+      o: [{ va: "$x$", es: "$x$", en: "$x$" }, { va: "$\\frac{x^2}{2}$", es: "$\\frac{x^2}{2}$", en: "$\\frac{x^2}{2}$" }, { va: "$x^2$", es: "$x^2$", en: "$x^2$" }], a: 1,
+      e: { va: "$\\frac{1-\\cos x}{x^2}\\to\\frac12$.", es: "$\\frac{1-\\cos x}{x^2}\\to\\frac12$.", en: "$\\frac{1-\\cos x}{x^2}\\to\\frac12$." } },
+    { q: { va: "Perquè $\\lim_{x\\to+\\infty}\\left(\\sqrt{x^2+ax}-x\\right)=2$, cal que $a$ valga…", es: "Para que $\\lim_{x\\to+\\infty}\\left(\\sqrt{x^2+ax}-x\\right)=2$, $a$ debe valer…", en: "For $\\lim_{x\\to+\\infty}\\left(\\sqrt{x^2+ax}-x\\right)=2$, $a$ must be…" },
+      o: [{ va: "$2$", es: "$2$", en: "$2$" }, { va: "$4$", es: "$4$", en: "$4$" }, { va: "$1$", es: "$1$", en: "$1$" }], a: 1,
+      e: { va: "Pel conjugat, el límit és $\\frac a2$.", es: "Por el conjugado, el límite es $\\frac a2$.", en: "Using the conjugate, the limit is $\\frac a2$." } },
+    { q: { va: "$\\lim_{x\\to+\\infty}\\dfrac{\\sin x}{x}$ val…", es: "$\\lim_{x\\to+\\infty}\\dfrac{\\sin x}{x}$ vale…", en: "$\\lim_{x\\to+\\infty}\\dfrac{\\sin x}{x}$ equals…" },
+      o: [{ va: "$1$", es: "$1$", en: "$1$" }, { va: "no existeix", es: "no existe", en: "does not exist" }, { va: "$0$", es: "$0$", en: "$0$" }], a: 2,
+      e: { va: "Fitada per infinitèsim: $|\\sin x|\\leq1$ i $\\frac1x\\to0$.", es: "Acotada por infinitésimo: $|\\sin x|\\leq1$ y $\\frac1x\\to0$.", en: "Bounded times infinitesimal: $|\\sin x|\\leq1$ and $\\frac1x\\to0$." } },
+    { q: { va: "$f$ és contínua en $[a,b]$ i $f(a)\\cdot f(b)\\lt0$. Què podem assegurar?", es: "$f$ es continua en $[a,b]$ y $f(a)\\cdot f(b)\\lt0$. ¿Qué podemos asegurar?", en: "$f$ is continuous on $[a,b]$ and $f(a)\\cdot f(b)\\lt0$. What can we be sure of?" },
+      o: [{ va: "Que té exactament una arrel en $(a,b)$", es: "Que tiene exactamente una raíz en $(a,b)$", en: "Exactly one root in $(a,b)$" }, { va: "Que té almenys una arrel en $(a,b)$", es: "Que tiene al menos una raíz en $(a,b)$", en: "At least one root in $(a,b)$" }, { va: "Res", es: "Nada", en: "Nothing" }], a: 1,
+      e: { va: "És el teorema de Bolzano: almenys una (pot haver-n'hi més).", es: "Es el teorema de Bolzano: al menos una (puede haber más).", en: "That is Bolzano's theorem: at least one (there may be more)." } },
+    { q: { va: "Per què no es pot aplicar Bolzano a $\\frac1x$ en $[-1,1]$?", es: "¿Por qué no se puede aplicar Bolzano a $\\frac1x$ en $[-1,1]$?", en: "Why can't Bolzano be applied to $\\frac1x$ on $[-1,1]$?" },
+      o: [{ va: "Perquè no canvia de signe", es: "Porque no cambia de signo", en: "It does not change sign" }, { va: "Perquè no és contínua en $x=0$", es: "Porque no es continua en $x=0$", en: "It is not continuous at $x=0$" }, { va: "Sí que es pot aplicar", es: "Sí se puede aplicar", en: "It can be applied" }], a: 1,
+      e: { va: "Canvia de signe, però té una asímptota en $x=0$: no és contínua en $[-1,1]$.", es: "Cambia de signo, pero tiene una asíntota en $x=0$: no es continua en $[-1,1]$.", en: "It changes sign, but it has an asymptote at $x=0$: not continuous on $[-1,1]$." } }
   ];
   /*@@GENERIC@@*/
   var TITLES = { va: "Límits i continuïtat · FentMates", es: "Límites y continuidad · FentMates", en: "Limits and continuity · FentMates" };
@@ -1034,7 +1190,7 @@
       window.renderMathInElement(document.body, { delimiters: D, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, #w-lab label").forEach(function (el) { window.renderMathInElement(el, { delimiters: D, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wFigs, wInf, wDeg, wRace, wOne, wSide, wFact, wType, wPw, wPar, wLab, wQuiz];
+    var all = [wChrome, wSteps, wNav, wFigs, wInf, wDeg, wRace, wOne, wSide, wFact, wType, wPw, wPar, wEq, wPlim, wBolz, wLab, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
   }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);

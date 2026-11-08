@@ -413,6 +413,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 108 exercicis, 59 de la PAU de 16 comunitats autònomes", es: "PDF · 108 ejercicios, 59 de la PAU de 16 comunidades autónomas", en: "PDF · 108 exercises, 59 from the PAU of 16 Spanish regions" }, url: "materials/2batx-mii/t4-fitxa-exercicis.pdf", download: true, date: "2026-11-08" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 108 exercicis", es: "PDF · Soluciones de los 108 ejercicios", en: "PDF · Solutions to all 108 exercises" }, url: "materials/2batx-mii/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-08" }
         ]
+      },
+      {
+        ill: "limits", block: "an",
+        title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Indeterminacions, límits trigonomètrics i infinitèsims, paràmetres, funcions a trossos, teorema de Bolzano i asímptotes", es: "Indeterminaciones, límites trigonométricos e infinitésimos, parámetros, funciones a trozos, teorema de Bolzano y asíntotas", en: "Indeterminate forms, trigonometric limits and infinitesimals, parameters, piecewise functions, Bolzano's theorem and asymptotes" }, url: "materials/2batx-mii/t5-limits-continuitat.html", date: "2026-11-08" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 106 exercicis, 75 de la PAU de 16 comunitats autònomes", es: "PDF · 106 ejercicios, 75 de la PAU de 16 comunidades autónomas", en: "PDF · 106 exercises, 75 from the PAU of 16 Spanish regions" }, url: "materials/2batx-mii/t5-fitxa-exercicis.pdf", download: true, date: "2026-11-08" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 106 exercicis", es: "PDF · Soluciones de los 106 ejercicios", en: "PDF · Solutions to all 106 exercises" }, url: "materials/2batx-mii/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-08" }
+        ]
       }
     ]
   },
