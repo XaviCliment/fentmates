@@ -422,6 +422,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 106 exercicis, 75 de la PAU de 16 comunitats autònomes", es: "PDF · 106 ejercicios, 75 de la PAU de 16 comunidades autónomas", en: "PDF · 106 exercises, 75 from the PAU of 16 Spanish regions" }, url: "materials/2batx-mii/t5-fitxa-exercicis.pdf", download: true, date: "2026-11-08" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 106 exercicis", es: "PDF · Soluciones de los 106 ejercicios", en: "PDF · Solutions to all 106 exercises" }, url: "materials/2batx-mii/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-08" }
         ]
+      },
+      {
+        ill: "derivades", block: "an",
+        title: { va: "Càlcul de derivades. Derivabilitat d'una funció", es: "Cálculo de derivadas. Derivabilidad de una función", en: "Computing derivatives. Differentiability" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Definició, tangent i normal, regles i regla de la cadena, derivació logarítmica, derivació implícita i derivabilitat de funcions a trossos", es: "Definición, tangente y normal, reglas y regla de la cadena, derivación logarítmica, derivación implícita y derivabilidad de funciones a trozos", en: "Definition, tangent and normal, rules and the chain rule, logarithmic differentiation, implicit differentiation and differentiability of piecewise functions" }, url: "materials/2batx-mii/t6-derivades.html", date: "2026-11-09" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis, 36 de la PAU d'11 comunitats autònomes", es: "PDF · 63 ejercicios, 36 de la PAU de 11 comunidades autónomas", en: "PDF · 63 exercises, 36 from the PAU of 11 Spanish regions" }, url: "materials/2batx-mii/t6-fitxa-exercicis.pdf", download: true, date: "2026-11-09" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: "materials/2batx-mii/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-09" }
+        ]
       }
     ]
   },
