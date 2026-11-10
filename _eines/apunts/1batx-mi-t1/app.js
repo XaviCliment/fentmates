@@ -273,11 +273,24 @@
     onLang(draw);
   }
 
-  /* ---------- 1.3 dibuixos petits de la taula ---------- */
+  /* ---------- 1.3 dibuixos petits de la taula: només els extrems a i b, el tros marcat damunt de la recta ---------- */
   function wMini() {
     document.querySelectorAll("svg.nl-mini[data-iv]").forEach(function (s) {
-      var I = parseIv(s.dataset.iv), res = nline([{ S: [I], c: COL.r }], { W: 200, range: [-4, 4], rowH: 10 });
-      paint(s, res, 200);
+      var I = parseIv(s.dataset.iv), y = 14, xa = 64, xb = 136, L = 10, R = 186, c = COL.r;
+      var x1 = isFinite(I.a) ? xa : L + 4, x2 = isFinite(I.b) ? xb : R - 4;
+      // si l'interval és una semirecta, el seu extrem va al centre
+      if (!isFinite(I.a) && isFinite(I.b)) x2 = 100;
+      if (isFinite(I.a) && !isFinite(I.b)) x1 = 100;
+      var g = '<line class="ax" x1="' + L + '" x2="' + R + '" y1="' + y + '" y2="' + y + '"/><path d="M' + (R + 6) + " " + y + ' l-8 -4 v8 z" fill="var(--muted)"/>';
+      g += '<line x1="' + x1 + '" x2="' + x2 + '" y1="' + y + '" y2="' + y + '" stroke="' + c + '" stroke-width="4"/>';
+      if (!isFinite(I.a)) g += '<path d="M' + (x1 - 6) + " " + y + ' l9 -6 v12 z" fill="' + c + '"/>';
+      if (!isFinite(I.b)) g += '<path d="M' + (x2 + 6) + " " + y + ' l-9 -6 v12 z" fill="' + c + '"/>';
+      [[I.a, I.ac, x1, "a"], [I.b, I.bc, x2, "b"]].forEach(function (e) {
+        if (!isFinite(e[0])) return;
+        g += '<circle cx="' + e[2] + '" cy="' + y + '" r="4.5" stroke="' + c + '" stroke-width="2"' + (e[1] ? ' fill="' + c + '"' : ' class="op"') + "/>";
+        g += '<text class="ab" x="' + e[2] + '" y="' + (y + 17) + '" text-anchor="middle">' + e[3] + "</text>";
+      });
+      s.setAttribute("viewBox", "0 0 200 34"); s.innerHTML = g;
     });
   }
 
