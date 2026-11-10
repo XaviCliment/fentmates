@@ -1,0 +1,563 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 10: Probabilitat. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={probabilitat, successos, regla de Laplace, combinatòria, probabilitat condicionada, independència, probabilitat total, teorema de Bayes, variable aleatòria, distribució binomial, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 10: Probabilitat · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+\setlength{\emergencystretch}{3em}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+% successos contraris i probabilitat condicionada
+\newcommand{\co}[1]{\overline{#1}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Fitxa d'exercicis · Unitat 10}{\raggedright Probabilitat}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern justificant cada pas. Defineix sempre els successos amb lletres i escriu les dades amb la notació de probabilitats ($P(A)$, $P(A\cap B)$, $P(A\,|\,B)$\dots); fes un diagrama de Venn, una taula de contingència o un diagrama d'arbre quan t'ajude. Els 65 exercicis marcats amb {\color{teal}\bfseries\faUniversity\ PAU} són de les proves d'accés a la universitat (Matemàtiques II) de 16 comunitats autònomes, traduïts al valencià; els de la PAU valenciana els tens a la pàgina d'exercicis tipus PAU de la unitat.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Experiments aleatoris, regla de Laplace i recompte}
+
+\ex{1} Siguen $A$, $B$ i $C$ tres successos d'un mateix experiment. Expressa amb operacions:\begin{tasks}(2)
+  \task Ocorre només $B$.
+  \task N'ocorre almenys un.
+  \task No n'ocorre cap.
+  \task N'ocorre exactament un.
+  \task N'ocorren almenys dos.
+  \task N'ocorren com a molt dos.
+\end{tasks}\recorda{De Morgan: $\overline{A\cup B}=\co A\cap\co B$ i $\overline{A\cap B}=\co A\cup\co B$; també valen per a tres successos.}
+
+\ex{1} Llancem dos daus. Calcula la probabilitat que:\begin{tasks}(2)
+  \task el resultat més alt siga un 4;
+  \task els dos resultats es diferencien com a molt en 1;
+  \task el primer siga més gran que el segon;
+  \task el producte siga múltiple de 3.
+\end{tasks}
+
+\ex{1} En un grup hi ha 6 xiques i 5 xics. Es trien a l'atzar 4 persones per a fer un treball. Calcula la probabilitat que hi haja dues xiques i dos xics, i la que hi haja almenys una xica.\recorda{si triem un grup (no importa l'ordre), comptem amb combinacions: $\binom nk=\frac{n!}{k!\,(n-k)!}$.}
+
+\ex{1} Col·loquem a l'atzar en una prestatgeria 5 llibres diferents, 3 dels quals són de matemàtiques. Quina és la probabilitat que els tres de matemàtiques queden junts?
+
+\ex{2} En la Loteria Primitiva s'extrauen 6 números de l'1 al 49. Una persona fa una aposta de 6 números. Calcula la probabilitat que encerte els 6 números i la que n'encerte exactament 5.
+
+\ex{2} \emph{Problema dels aniversaris.} Suposem que tots els dies de l'any (365) són igual de probables per a nàixer. Calcula la probabilitat que, en un grup de 5 persones, almenys dues facen anys el mateix dia. Repeteix el càlcul per a un grup de 23 persones (amb la calculadora).
+
+\ex{1} Un dau està trucat de manera que la probabilitat de cada cara és proporcional al número que hi apareix. Calcula la probabilitat de cada cara, la d'obtindre un nombre parell i la d'obtindre més de 2.
+
+\ex{1} \pau{Astúries, extraordinària 2025} En un moneder hi ha 5 monedes d'1 euro, 3 de 2 euros i 2 de 10 cèntims.\begin{tasks}(1)
+  \task Si traiem 3 monedes a l'atzar, quina és la probabilitat que almenys una siga d'1 euro?
+  \task Traiem dues monedes, una darrere l'altra (sense reemplaçament). Quina és la probabilitat que la segona siga de 10 cèntims?
+\end{tasks}
+
+\ex{2} \pau{Navarra, ordinària 2026} Sobre la Pedra de Sant Martí es troben 5 bearnesos, 5 roncalesos i 2 suletins. Els bearnesos parlen entre ells en bearnés; els roncalesos, en basc; els suletins parlen entre ells en basc, però també es poden comunicar en bearnés amb els bearnesos.\begin{tasks}(1)
+  \task Agafant dues persones a l'atzar, quina és la probabilitat que es comuniquen en basc?
+  \task Agafant dues persones a l'atzar, quina és la probabilitat que es comuniquen en bearnés?
+  \task Els 5 roncalesos i els 5 bearnesos se'n van a celebrar la pau. Si se n'asseuen tres a l'atzar en una taula, quina és la probabilitat que no parlen tots el mateix idioma?
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Fórmules de la probabilitat}
+
+\ex{1} De dos successos se sap que $P(A)=0{,}5$, $P(B)=0{,}4$ i $P(\co A\cup\co B)=0{,}8$. Calcula:\begin{tasks}(3)
+  \task $P(A\cap B)$
+  \task $P(A\cup B)$
+  \task $P(\text{només un})$
+  \task $P(\co A\cap B)$
+  \task $P(\co A\cap\co B)$
+\end{tasks}\recorda{$P(A\cup B)=P(A)+P(B)-P(A\cap B)$; \ $P(\co A)=1-P(A)$; \ $P(A\cap\co B)=P(A)-P(A\cap B)$.}
+
+\ex{2} Siguen $A$ i $B$ dos successos amb $P(A)=0{,}7$ i $P(B)=0{,}6$.\begin{tasks}(1)
+  \task Poden ser incompatibles?
+  \task Entre quins valors pot estar $P(A\cap B)$? I $P(A\cup B)$?
+  \task Demostra que, en general, $P(A\cap B)\geq P(A)+P(B)-1$ per a dos successos qualssevol.
+\end{tasks}
+
+\ex{2} Tres successos compleixen $P(A)=0{,}5$, $P(B)=0{,}4$, $P(C)=0{,}3$, $P(A\cap B)=0{,}2$, $P(A\cap C)=0{,}15$, $P(B\cap C)=0{,}1$ i $P(A\cap B\cap C)=0{,}05$. Calcula la probabilitat que:\begin{tasks}(2)
+  \task n'ocórrega almenys un;
+  \task no n'ocórrega cap;
+  \task ocórrega només $A$;
+  \task n'ocórrega exactament un.
+\end{tasks}
+
+\ex{1} En una enquesta a 200 persones, 120 s'informen per les xarxes socials, 90 per la televisió i 40 per tots dos mitjans. Construeix la taula de contingència i calcula la probabilitat que una persona triada a l'atzar s'informe per algun dels dos mitjans, per cap i només per un.
+
+\ex{1} \pau{Illes Balears, extraordinària 2025} Siguen $A$ i $B$ dos successos d'un experiment aleatori i $A'$, $B'$ els seus contraris. Sabent que $P(A)=0{,}75$, $P(B')=0{,}45$ i $P(A-B)=0{,}3$, calcula:\begin{tasks}(3)
+  \task $P(A\cap B)$
+  \task $P(B-A)$
+  \task $P(A'\cap B')$
+\end{tasks}
+
+\ex{1} \pau{La Rioja, ordinària 2024} De dos successos $A$ i $B$ se sap que $P(A)=0{,}27$, $P(B')=0{,}82$ i $P(A\cup B)=0{,}4$. Determina si són compatibles o incompatibles i calcula $P\big((A\cup B)'\big)$ i $P(A'\cup B')$.
+
+
+% =====================================================
+\seccio{3}{Probabilitat condicionada i independència}
+
+\ex{1} De dos successos se sap que $P(A)=0{,}6$, $P(B\cond A)=0{,}5$ i $P(B\cond\co A)=0{,}25$. Calcula $P(A\cap B)$, $P(B)$, $P(A\cond B)$ i $P(A\cup B)$. Són independents?\recorda{$P(A\cond B)=\dfrac{P(A\cap B)}{P(B)}$. $A$ i $B$ són independents si $P(A\cap B)=P(A)P(B)$, és a dir, si $P(A\cond B)=P(A)$.}
+
+\ex{2} Demostra que si $A$ i $B$ són independents, també ho són $A$ i $\co B$. Dedueix que també ho són $\co A$ i $\co B$.
+
+\ex{1} Dos successos independents tenen la mateixa probabilitat i $P(A\cup B)=0{,}75$. Calcula $P(A)$ i la probabilitat que n'ocórrega exactament un.
+
+\ex{1} Tres tiradors disparen una vegada cadascun a un blanc, de manera independent. Les probabilitats que encerten són $0{,}6$, $0{,}5$ i $0{,}4$. Calcula la probabilitat que el blanc reba algun impacte i la que en reba exactament dos.
+
+\ex{1} \pau{Astúries, ordinària 2026} En una fàbrica de pantalons texans, el 10\,\% de les peces no passa el test de longitud, el 5\,\% no passa el de les costures i el 0,8\,\% no passa cap dels dos.\begin{tasks}(1)
+  \task Calcula la probabilitat que una peça triada a l'atzar no passe almenys un dels tests.
+  \task Si una peça no ha passat el test de longitud, quina probabilitat hi ha que tampoc passe el de les costures?
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, extraordinària 2026} En un institut de 60 alumnes, el 60\,\% juga a bàsquet, el 35\,\% forma part d'un equip federat i el 25\,\% juga a bàsquet i està federat.\begin{tasks}(1)
+  \task Hi ha algun alumne federat que no jugue a bàsquet? Si n'hi ha, quants?
+  \task Quina és la probabilitat que un alumne siga d'un equip federat sabent que juga a bàsquet?
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, ordinària 2025} En un col·legi s'ofereixen atletisme ($A$) i bàsquet ($B$) com a activitats extraescolars, amb $P(A)=0{,}4$ i $P(B)=0{,}65$. Només un 10\,\% de l'alumnat no es matricula en cap esport.\begin{tasks}(1)
+  \task Calcula la probabilitat que un alumne es matricule en els dos esports.
+  \task Calcula $P(A\cond B)$, $P(B\cond A)$ i $P(A\cond B^c)$.
+\end{tasks}
+
+\ex{1} \pau{Extremadura, ordinària 2024} En una residència, el 80\,\% dels residents té correu electrònic, el 60\,\% té xarxes socials i el 10\,\% no té ni l'un ni les altres. Calcula la probabilitat que un resident:\begin{tasks}(1)
+  \task use correu electrònic i xarxes socials;
+  \task use només una de les dues coses;
+  \task use correu electrònic sabent que no usa xarxes socials.
+\end{tasks}
+
+\ex{2} \pau{Galícia, ordinària 2024} Se sap que $P(A)=\frac13$ i $P(B)=\frac12$.\begin{tasks}(1)
+  \task Suposant que $A$ i $B$ són independents, calcula $P(A\cup B)$ i $P\big(\co A\,/\,(\co A\cup\co B)\big)$.
+  \task Suposant que $A$ i $B$ són incompatibles, calcula $P(A\cup B)$ i $P\big(\co A\,/\,(\co A\cup\co B)\big)$.
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, ordinària 2024} Siguen $A$ i $B$ dos successos tals que $P(A)=0{,}2$, $P(A\cap B)=0{,}1$ i $P(A\cup B)=0{,}3$. Calcula $P(B)$, $P(A\cap\co B)$, $P(A\cond B)$ i $P(B\cond A)$.
+
+\ex{2} \pau{Madrid, ordinària 2026} Sabent que $P(B)=0{,}4$, $P\big(\overline{A\cup B}\big)=0{,}4$ i $P(B\cond A)=0{,}2$, calcula:\begin{tasks}(1)
+  \task $P(\co A)$ i $P(A\cap B)$.
+  \task $P\big((A\cap B)\cond(A\cup B)\big)$.
+\end{tasks}
+
+\ex{1} \pau{Madrid, ordinària 2025 (coincidències)} Se sap que $P(A)=0{,}7$, $P(\co B)=0{,}2$ i $P(\co A\cap\co B)=0{,}1$.\begin{tasks}(1)
+  \task Raona si $\co A$ i $\co B$ són independents.
+  \task Calcula $P(A\cap B)$.
+  \task Calcula $P(\co A\cond B)$.
+\end{tasks}
+
+\ex{1} \pau{País Basc, extraordinària 2024} Siguen $A$ i $B$ successos independents amb $P(A)=0{,}7$ i $P(B)=0{,}1$. Calcula raonadament:\begin{tasks}(3)
+  \task $P(A\cup B)$
+  \task $P(\co A\cup\co B)$
+  \task $P(\co A\cap\co B)$
+  \task $P(A\cap\co B)$
+  \task $P(\co A\cond B)$
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, ordinària 2024} Siguen $A$ i $B$ dos successos amb $P(A\cup B)=0{,}7$, $P(A\cap B)=0{,}1$ i $P(A\cap B^c)=0{,}35$. Calcula:\begin{tasks}(4)
+  \task $P(A)$
+  \task $P(B)$
+  \task $P(A^c\cup B^c)$
+  \task Són independents?
+\end{tasks}
+
+\ex{1} \pau{Múrcia, extraordinària 2024} El 60\,\% dels habitants d'una població consumeix pa integral, el 40\,\% pa blanc i el 20\,\% tots dos.\begin{tasks}(1)
+  \task Són independents els successos «consumir pa integral» i «consumir pa blanc»?
+  \task Sabent que un habitant consumeix pa integral, quina és la probabilitat que consumisca pa blanc?
+  \task Quin percentatge de la població no consumeix cap dels dos tipus de pa?
+  \task Sabent que un habitant no consumeix pa integral, quina és la probabilitat que consumisca pa blanc?
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2025} De dos successos se sap que $P(A\cond B)=\frac23$ i $P(B\cond A)=\frac34$.\begin{tasks}(1)
+  \task Si $A$ i $B$ fóren independents, quant valdria $P(A\cup B)$?
+  \task Si $P(A\cup B)=\frac56$, quines són les probabilitats $P(A)$, $P(B)$ i $P(A\cup\co B)$?
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, extraordinària 2025} En un grup de WhatsApp d'un gimnàs de judo, el 55\,\% són dones i la resta homes. El 15\,\% del grup és cinturó verd, i una cinquena part de les dones és cinturó verd.\begin{tasks}(1)
+  \task Quin percentatge dels homes és cinturó verd?
+  \task Si el grup rep un missatge d'un cinturó verd, quina és la probabilitat que l'haja enviat una dona?
+  \task Si no sabem res del remitent, quina és la probabilitat que siga home i cinturó verd?
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, ordinària 2026} En un criador de cobais n'hi ha de pèl curt i de pèl llarg, blancs o marrons. El 60\,\% dels cobais és de pèl curt i només el 8\,\% són blancs de pèl llarg.\begin{tasks}(1)
+  \task Calcula la probabilitat que un cobai de pèl llarg triat a l'atzar siga marró.
+  \task Si la probabilitat que un cobai siga blanc és 0,2, calcula la probabilitat que un cobai marró siga de pèl llarg.
+  \task Amb la mateixa dada, calcula la probabilitat que un cobai de pèl curt siga marró.
+\end{tasks}
+
+\ex{2} \pau{Galícia, extraordinària 2025} L'Antón té 60 parells de sabatilles, cadascun en la seua caixa: el 80\,\% són tradicionals i el 20\,\% de disseny. Entre les de disseny, el 75\,\% estan en bon estat, però només el 50\,\% de les tradicionals ho estan. Un dia agafa una caixa a l'atzar.\begin{tasks}(1)
+  \task Quina és la probabilitat que porte sabatilles tradicionals o en bon estat?
+  \task L'Antón no vol portar sabatilles que no estiguen en bon estat ni sabatilles tradicionals. Quina és la probabilitat que no haja de canviar-se?
+  \task L'Antón té 8 parells de sabatilles tradicionals blanques. Sabent que, en triar una caixa a l'atzar, els successos «ser blanques» i «ser de disseny» són independents, quants parells de sabatilles blanques de disseny té?
+\end{tasks}
+
+\ex{1} \pau{La Rioja, ordinària 2026} Les probabilitats d'aprovar tres assignatures d'un grau són 60\,\%, 75\,\% i 80\,\% (Mètodes Algorítmics, Estadística i Bases de Dades), de manera independent.\begin{tasks}(1)
+  \task Calcula la probabilitat que un estudiant aprove les tres.
+  \task Calcula la probabilitat que en suspenga només una.
+  \task Si un estudiant n'ha suspés només una, quina és la probabilitat que siga Mètodes Algorítmics?
+\end{tasks}
+
+\ex{1} \pau{Aragó, ordinària 2024} En una assignatura hi ha 99 persones matriculades (54 dones i 45 homes). En primera convocatòria aproven 49 persones (28 dones i 21 homes).\begin{tasks}(1)
+  \task Quin percentatge de les dones aprova en primera convocatòria? I dels homes?
+  \task Si triem a l'atzar una persona que ha aprovat, quina és la probabilitat que siga una dona?
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Experiments compostos. Extraccions amb i sense reemplaçament}
+
+\ex{2} Una urna conté 2 boles blanques i 3 de negres. L'Anna i en Pau trauen boles alternadament, començant per l'Anna; guanya qui trau la primera bola blanca. Calcula la probabilitat que guanye l'Anna:\begin{tasks}(1)
+  \task si les boles no es tornen a l'urna;
+  \task si cada bola es torna a l'urna abans de la tirada següent.
+\end{tasks}\recorda{en un diagrama d'arbre multipliquem al llarg de cada camí i sumem els camins que formen el succés.}
+
+\ex{1} D'una urna amb 5 boles roges i 3 de verdes se'n trauen dues sense reemplaçament. Calcula la probabilitat que la segona siga roja i, sabent que la segona ha sigut roja, la probabilitat que la primera també ho haja sigut.
+
+\ex{1} Llancem un dau fins que isca un 6. Calcula la probabilitat que el primer 6 isca en la tercera tirada i la que calguen més de tres tirades.
+
+\ex{1} \pau{Castella i Lleó, ordinària 2026} D'una bossa amb 20 fitxes numerades de l'1 al 20 se n'extrauen successivament 2 sense reemplaçament. Calcula la probabilitat que:\begin{tasks}(1)
+  \task els dos números siguen múltiples de 3;
+  \task el primer siga múltiple de 6 i el segon múltiple de 3;
+  \task cap dels dos siga múltiple de 2;
+  \task la segona fitxa siga senar, sabent que la primera també ho ha sigut.
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, ordinària 2025} D'una baralla espanyola de 40 cartes (amb 4 asos), un jugador va traient cartes una a una fins que troba un as. Després, l'altre jugador ajunta totes les cartes, les barreja i fa el mateix. Guanya qui haja tret més cartes (comptant l'as); si en trauen les mateixes, empaten.\begin{tasks}(1)
+  \task Calcula les probabilitats que l'as isca en traure 1, 2 i 3 cartes, respectivament.
+  \task Si el primer jugador ha tret dues cartes (comptant l'as), quina és la probabilitat que el segon jugador guanye?
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, extraordinària 2024} En un mall de 40 cartes, 4 estan marcades només amb un punt verd, 5 només amb un punt roig i 7 amb els dos punts. (Una carta «té punt verd» si en té només un de verd o si en té un de verd i un de roig.)\begin{tasks}(1)
+  \task Quina és la probabilitat de traure dues cartes sense reemplaçament i que totes dues tinguen punt verd?
+  \task Si traiem una carta i té punt verd, quina és la probabilitat que també tinga punt roig?
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2026} L'urna A té dues boles roges i tres de blaves, i l'urna B, dues de blaves i tres de roges.\begin{tasks}(1)
+  \task Si traiem a l'atzar una bola de cada urna, què és més probable, que isquen del mateix color o de color diferent?
+  \task Les boles extretes en l'apartat anterior es posen en l'urna contrària (la de A en la B i al revés). Si ara traiem una bola de l'urna B, quina és la probabilitat que siga blava?
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2025} Una fitxa es mou en un tauler de tres caselles en fila (1, 2, 3). En cada torn es llança una moneda equilibrada: si ix cara s'intenta moure la fitxa a l'esquerra i si ix creu, a la dreta; si no es pot fer el moviment, la fitxa es queda on és.\begin{tasks}(1)
+  \task Construeix una taula amb les probabilitats de passar d'una casella a una altra en un torn.
+  \task Si la fitxa és en la casella 1, quina és la probabilitat que, després de tres torns, torne a estar en la casella 1?
+  \task La fitxa comença en la casella 1 amb probabilitat $\frac12$ i en la 2 i en la 3 amb probabilitat $\frac14$ cadascuna. Quina és la probabilitat que estiga en cada casella després de dos torns?
+\end{tasks}
+
+\ex{1} \pau{Canàries, ordinària 2024} En un avió s'han instal·lat tres paracaigudes $A$, $B$ i $C$: si falla $A$ s'activa $B$, i si també falla $B$ s'activa $C$. Les probabilitats que funcionen correctament són $0{,}96$, $0{,}98$ i $0{,}99$.\begin{tasks}(1)
+  \task Dibuixa un diagrama d'arbre amb tots els casos possibles.
+  \task Calcula la probabilitat que s'active el paracaigudes $B$ i funcione correctament.
+  \task Calcula la probabilitat que funcione algun paracaigudes.
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Probabilitat total i teorema de Bayes}
+
+\ex{2} Una malaltia afecta el 2\,\% d'una població. Un test dona positiu en el 90\,\% dels malalts i en el 5\,\% dels sans.\begin{tasks}(1)
+  \task Si el test d'una persona dona positiu, quina és la probabilitat que estiga malalta?
+  \task Per a confirmar-ho, es repeteix el test (de manera independent). Si dona positiu les dues vegades, quina és ara la probabilitat que estiga malalta?
+\end{tasks}\recorda{probabilitat total: $P(D)=\sum P(A_i)\,P(D\cond A_i)$. Bayes: $P(A_i\cond D)=\dfrac{P(A_i)\,P(D\cond A_i)}{P(D)}$.}
+
+\ex{1} \pau{Andalusia, extraordinària 2026} Tres màquines, $A$, $B$ i $C$, produeixen el 45\,\%, el 30\,\% i el 25\,\% dels cotxes d'una fàbrica, amb un 3\,\%, un 4\,\% i un 5\,\% de cotxes defectuosos, respectivament.\begin{tasks}(1)
+  \task Triem un cotxe a l'atzar. Calcula la probabilitat que siga defectuós.
+  \task Un cotxe triat a l'atzar resulta defectuós. Quina màquina té la probabilitat més gran d'haver-lo produït?
+\end{tasks}
+
+\ex{1} \pau{Astúries, extraordinària 2026} Una jugadora de tennis de taula comença els partits restant en el 75\,\% de les ocasions. Quan comença restant guanya el 80\,\% dels partits, i quan comença traent, el 65\,\%.\begin{tasks}(1)
+  \task Calcula la probabilitat que guanye un partit.
+  \task Calcula la probabilitat que haja començat restant en un partit, sabent que l'ha guanyat.
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, ordinària 2026} En una plataforma de \emph{streaming} de videojocs, el 40\,\% dels usuaris juga principalment a jocs competitius en línia; d'aquests, el 30\,\% participa en tornejos oficials. Entre els que no juguen principalment a jocs competitius, el 20\,\% també participa en tornejos.\begin{tasks}(1)
+  \task Si triem un usuari que no juga principalment a jocs competitius, quina és la probabilitat que no participe en tornejos?
+  \task Si un usuari participa en tornejos, què és més probable, que jugue principalment a jocs competitius o que no?
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, ordinària 2025} La probabilitat de tindre tuberculosi és 0,0005. La probabilitat que una prova done positiu si la malaltia és present és del 99\,\%, i la que done negatiu si no és present també és del 99\,\%.\begin{tasks}(1)
+  \task Quina és la probabilitat que la prova done positiu si la persona no té la malaltia?
+  \task Quina és la probabilitat de tindre tuberculosi si el resultat de la prova és negatiu?
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2025} Una prova detecta una malaltia rara que afecta l'1\,\% de la població adulta. La sensibilitat de la prova (donar positiu si la persona està malalta) és del 95\,\% i l'especificitat (donar negatiu si està sana), del 98\,\%.\begin{tasks}(1)
+  \task Calcula la probabilitat que una persona estiga malalta si la prova dona positiu.
+  \task Si 35\,000 persones es fan la prova, podem afirmar que s'espera que hi haja més de 50 persones malaltes amb resultat negatiu?
+\end{tasks}
+
+\ex{1} \pau{Canàries, extraordinària 2024} Una malaltia la poden produir tres virus, $A$, $B$ i $C$. En un laboratori hi ha tres tubs amb el virus $A$, dos amb el $B$ i cinc amb el $C$. La probabilitat que el virus $A$ produïsca la malaltia és $\frac13$; la del $B$, $\frac23$, i la del $C$, $\frac17$.\begin{tasks}(1)
+  \task Es tria un tub a l'atzar i s'inocula el virus a un animal. Quina és la probabilitat que li produïsca la malaltia?
+  \task Si no li la produeix, quina és la probabilitat que s'haja injectat el virus $C$?
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2026} Un observatori rep 120 sensors: 20 són per al telescopi LST-1 i la resta es reparteixen per igual entre els telescopis MAGIC-I i MAGIC-II. Després del transport, un sensor dels MAGIC s'ha de recalibrar amb probabilitat 0,016 i un del LST-1, amb probabilitat 0,009. Es tria un sensor a l'atzar.\begin{tasks}(1)
+  \task Calcula la probabilitat que s'haja de recalibrar.
+  \task Si el sensor triat no s'ha de recalibrar, és la probabilitat que siga del MAGIC-II més gran que el doble de la probabilitat que siga del LST-1?
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, ordinària 2024} D'entre els vehicles que revisa un taller, el 48\,\% són cotxes (tres quartes parts requereixen reparació), el 28\,\% motocicletes (la meitat en requereix) i el 24\,\% furgonetes (un terç en requereix). Siguen $C$, $M$, $F$ i $R$ els successos «cotxe», «motocicleta», «furgoneta» i «requereix reparació».\begin{tasks}(1)
+  \task Indica quines probabilitats dona l'enunciat.
+  \task Calcula $P(R\cap F)$, $P(R)$ i $P(C\cond R)$.
+  \task Són independents $C$ i $R$?
+\end{tasks}
+
+\ex{1} \pau{La Rioja, extraordinària 2024} El 2\,\% de la població mundial pateix una malaltia. Una prova per a detectar-la dona positiu en el 98\,\% dels malalts i en el 4\,\% de les persones sanes. Calcula:\begin{tasks}(1)
+  \task la probabilitat que una persona estiga sana, si la prova ha donat positiu;
+  \task la probabilitat que una persona estiga malalta, si la prova ha donat negatiu.
+\end{tasks}
+
+\ex{2} \pau{Madrid, extraordinària 2025} La probabilitat que un corredor patisca una caiguda un dia de pluja és 0,08, i un dia sec, 0,004. La probabilitat de ploure i caure és 0,032. Avui un corredor ha eixit a córrer.\begin{tasks}(1)
+  \task Calcula la probabilitat que torne a casa sense haver caigut.
+  \task Calcula la probabilitat que no estiga plovent, sabent que ha caigut.
+\end{tasks}
+
+\ex{3} \pau{Madrid, ordinària 2024} En la secció d'idiomes d'una biblioteca hi ha llibres en francés o en anglés de tres categories: el 50\,\% són contes infantils, el 30\,\% novel·les històriques i la resta, manuals tècnics. Un de cada cinc contes està en francés i una de cada tres novel·les, en anglés. A més, un de cada set llibres en francés és un manual tècnic. Es tria un llibre a l'atzar.\begin{tasks}(1)
+  \task Calcula la probabilitat que estiga en francés si no és un manual tècnic.
+  \task Calcula la probabilitat que estiga en francés, i la probabilitat que siga una novel·la històrica si està en anglés.
+\end{tasks}
+
+\ex{3} \pau{Madrid, extraordinària 2024} En un espai mostral hi ha dos successos incompatibles $A_1$ i $A_2$, de probabilitat 0,4 cadascun, i $A_3=\overline{A_1\cup A_2}$ (de probabilitat 0,2). D'un succés $B$ se sap que $P(B\cond A_1)=P(B\cond A_2)$ i $P(B\cond A_3)=2P(B\cond A_1)$; i d'un succés $C$ independent d'$A_1$, que $P(C\cond A_2)=0{,}3$ i $P(C\cond A_3)=0{,}6$.\begin{tasks}(1)
+  \task Calcula $P(B)$ si $P(B\cond A_1)=0{,}25$.
+  \task Calcula $P(C)$ i determina si $C$ és independent d'$A_2$.
+\end{tasks}
+
+\ex{1} \pau{Múrcia, ordinària 2025} L'urna $U_1$ té 2 boles roges i 3 de verdes, i l'urna $U_2$, 6 de roges i 3 de verdes. Es trau una bola de $U_1$, es posa en $U_2$ i, a continuació, es trau una bola de $U_2$. Calcula la probabilitat que:\begin{tasks}(1)
+  \task isca roja en $U_2$ sabent que ha eixit roja en $U_1$;
+  \task isca verda en $U_2$ sabent que ha eixit roja en $U_1$;
+  \task isca verda en $U_2$;
+  \task haja eixit roja en $U_1$ sabent que ha eixit roja en $U_2$.
+\end{tasks}
+
+\ex{1} \pau{País Basc, ordinària 2026} El 2025 es van vendre a Espanya 1\,148\,650 cotxes: el 10\,\% totalment elèctrics (tots de canvi automàtic), el 52\,\% híbrids (el 6\,\% d'ells de canvi manual) i, de la resta, el 53\,\% de canvi automàtic.\begin{tasks}(1)
+  \task Calcula la quantitat de cotxes de canvi automàtic venuts el 2025.
+  \task Triem a l'atzar un cotxe venut el 2025 que té canvi automàtic. Calcula la probabilitat que siga híbrid.
+\end{tasks}
+
+\ex{1} \pau{País Basc, ordinària 2024} L'urna A té 3 boles verdes, 5 de roges i 4 de blaves, i l'urna B, 2 de verdes, 2 de roges i 3 de blaves. Es trau a l'atzar una bola d'A, es posa en B i, després, es trau una bola de B.\begin{tasks}(1)
+  \task Fes el diagrama d'arbre.
+  \task Calcula la probabilitat que la bola extreta de B siga verda.
+  \task Calcula la probabilitat que la bola de B siga verda sabent que la d'A ha sigut roja.
+  \task Sabent que la bola de B és verda, calcula la probabilitat que la d'A haja sigut roja.
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2026} En un hospital es fan dues tècniques per a operar una mateixa lesió. Aquestes són les intervencions dels últims anys i, entre parèntesis, les que van ser efectives:
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $\text{Tècnica 1}$ & $\text{Tècnica 2}$ & \textbf{Total}\\\hline
+$\text{Greus}$ & $44\ (30)$ & $140\ (102)$ & $184$\\
+$\text{Lleus}$ & $136\ (120)$ & $40\ (36)$ & $176$\\
+\hline
+\textbf{Total} & $180\ (150)$ & $180\ (138)$ & $360$\\
+\end{tabular}}\end{center}
+\begin{tasks}(1)
+  \task Es tria a l'atzar l'expedient d'una intervenció efectiva. Quina de les dues tècniques és més probable que s'haja usat?
+  \task Un cirurgià vol triar la tècnica amb més probabilitat d'èxit. Quina triarà per a una lesió lleu? I per a una greu?
+  \task Quan no se sap la gravetat de la lesió, el protocol de l'hospital és aplicar la tècnica 1. Justifica per què no és el més adequat.
+\end{tasks}
+
+\ex{1} \pau{Aragó, extraordinària 2025} La Universitat de Saragossa té tres centres a Terol, amb 1550, 250 i 150 estudiants (Ciències Socials, Politècnica i Infermeria). El 74\,\% dels estudiants de Ciències Socials són dones, el 18\,\% dels de la Politècnica i el 76\,\% dels d'Infermeria.\begin{tasks}(1)
+  \task Si es tria un estudiant a l'atzar, quina és la probabilitat que siga dona?
+  \task Si és dona, quina és la probabilitat que estudie a la Politècnica?
+  \task Si és home, quina és la probabilitat que estudie a la Politècnica?
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, extraordinària 2026} La caixa A té 10 boles, 4 de les quals són blanques; la B en té 6, una de blanca, i la C té 3 blanques de 8. La resta són roges.\begin{tasks}(1)
+  \task Calcula la probabilitat que, en traure una bola d'una caixa triada a l'atzar, siga blanca.
+  \task Si la bola triada és blanca, quina és la probabilitat que siga de la caixa B?
+  \task Calcula la probabilitat d'obtindre dues boles blanques si es trauen dues boles d'una caixa triada a l'atzar entre la A i la B.
+\end{tasks}
+
+\ex{2} \pau{Canàries, ordinària 2025} En una fira, un participant tria una de tres caixes sorpresa: una té premi i les altres dues estan buides. Si tria una caixa buida, trau una bola d'una urna amb 2 boles verdes i 3 de negres: si és negra, acaba sense premi; si és verda, pot triar una nova caixa entre les dues que no havia triat, i acaba.\begin{tasks}(1)
+  \task Dibuixa un diagrama d'arbre del joc.
+  \task Calcula la probabilitat d'obtindre premi.
+  \task Si el participant ha obtingut premi, quina és la probabilitat que haja tret bola verda?
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, ordinària 2025} D'una urna amb quatre boles roges i dues de blaves se'n trau una i, sense tornar-la, se'n trau una altra.\begin{tasks}(1)
+  \task Calcula la probabilitat que siguen de color diferent.
+  \task Calcula la probabilitat que la segona bola siga blava.
+  \task Si la segona bola és blava, calcula la probabilitat que la primera siga roja.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Variables aleatòries discretes i distribució binomial}
+
+\ex{1} Una variable aleatòria $X$ pren els valors 0, 1, 2 i 3 amb probabilitats $0{,}1$, $a$, $2a$ i $0{,}3$. Calcula $a$, la mitjana i la desviació típica de $X$, i $P(X\geq2)$.\recorda{$\sum p_i=1$; \ $\mu=\sum x_ip_i$; \ $\sigma^2=\sum x_i^2p_i-\mu^2$.}
+
+\ex{2} Un joc consisteix a pagar 1 € i traure dues boles, sense reemplaçament, d'una urna amb 3 boles blanques i 2 de negres. Si les dues són blanques es cobren 3 €. Calcula el guany esperat del jugador. Quant hauria de pagar-se per dues blanques perquè el joc fóra equitatiu?
+
+\ex{1} Raona si les variables següents són binomials i, si ho són, indica'n els paràmetres:\begin{tasks}(1)
+  \task nombre de cinquets en 12 llançaments d'un dau;
+  \task nombre de boles roges en traure 3 boles sense reemplaçament d'una urna amb 4 roges i 6 blanques;
+  \task nombre de llançaments d'una moneda fins que ix la primera cara;
+  \task nombre de peces defectuoses en una mostra de 50 d'una producció enorme amb un 2\,\% de defectuoses.
+\end{tasks}
+
+\ex{1} Si $X\sim B\left(6,\frac13\right)$, calcula $P(X=2)$, $P(X\leq1)$, $P(X\geq2)$, la mitjana i la desviació típica.\recorda{$P(X=k)=\binom nk p^k q^{n-k}$, \ $\mu=np$, \ $\sigma=\sqrt{npq}$. Per a «almenys», sovint és més curt el contrari.}
+
+\ex{2} Una variable $X\sim B(5,p)$ compleix $P(X=1)=P(X=2)$. Calcula $p$ i $P(X\geq1)$.
+
+\ex{2} Una màquina fa un 2\,\% de peces defectuoses. Quantes peces cal revisar, com a mínim, perquè la probabilitat de trobar-ne almenys una de defectuosa supere 0,5?
+
+\ex{1} \pau{Aragó, extraordinària 2024} El 84\,\% dels exàmens de Matemàtiques II de la convocatòria ordinària de 2022 a Aragó van traure una nota igual o superior a 5.\begin{tasks}(1)
+  \task Si se seleccionen 15 d'aquests exàmens a l'atzar, quina és la probabilitat que exactament 2 tinguen una nota inferior a 5?
+  \task Amb els 15 exàmens, és més probable que menys de 2 tinguen nota inferior a 5 o que més de 2 la tinguen?
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, extraordinària 2025} Una inspectora de sanitat sap que el 5\,\% dels restaurants no passarà una inspecció. Si en tria 8 a l'atzar, calcula la probabilitat que:\begin{tasks}(1)
+  \task tres restaurants no passen la inspecció;
+  \task tots els restaurants passen la inspecció;
+  \task almenys dos restaurants passen la inspecció.
+\end{tasks}
+
+\ex{1} \pau{Extremadura, extraordinària 2024} La probabilitat que un jugador de golf faça forat des de certa distància és 0,4. Si fa 5 llançaments, calcula:\begin{tasks}(1)
+  \task la probabilitat que no faça cap forat;
+  \task la probabilitat de fer com a molt 2 forats;
+  \task el nombre mitjà de forats.
+\end{tasks}
+
+\ex{1} \pau{Extremadura, ordinària 2024} La tutora d'en Lluís li proposa un tracte: si en els pròxims 10 dies arriba tard com a molt 3 dies, li pujarà 1 punt la nota. La probabilitat que arribe tard cada dia és 0,5.\begin{tasks}(1)
+  \task Quina distribució segueix el nombre de dies que arriba tard? Quins en són els paràmetres?
+  \task Quina és la mitjana i la desviació típica?
+  \task Quina és la probabilitat que en Lluís aconseguisca el punt?
+\end{tasks}
+
+\ex{1} \pau{Galícia, extraordinària 2024} En una colònia de corbs marins, cada ou té un 13\,\% de probabilitat de ser infèrtil. Si s'observa una posta de 7 ous, calcula la probabilitat que n'hi haja almenys 2 d'infèrtils.
+
+\ex{1} \pau{Múrcia, ordinària 2026} Una fàbrica de bombetes sap que el 5\,\% són defectuoses. Calcula la probabilitat que en 9 bombetes triades a l'atzar n'hi haja exactament 3 de defectuoses.
+
+\ex{1} \pau{Múrcia, ordinària 2025} El 2\,\% de les peces que fa una màquina són defectuoses. Considera el nombre de peces en bon estat d'un lot de 10 peces. Quina distribució segueix? Indica'n la mitjana i la desviació típica i calcula la probabilitat que hi haja exactament una peça defectuosa.
+
+\ex{1} \pau{Navarra, ordinària 2026} En un examen tipus test de 10 preguntes, cada pregunta té 4 respostes de les quals només una és correcta. Si es respon a l'atzar:\begin{tasks}(1)
+  \task Quina és la probabilitat de fallar-les totes?
+  \task Quina és la probabilitat d'encertar-ne exactament 7?
+  \task Per a aprovar cal respondre bé almenys 7 preguntes. Quina és la probabilitat d'aprovar?
+\end{tasks}
+
+\ex{1} \pau{Canàries, extraordinària 2026} Una acadèmia de surf garanteix que, després del curs, un surfista principiant agafa una ona amb una probabilitat del 70\,\%.\begin{tasks}(1)
+  \task Si un alumne intenta agafar 5 ones, quina és la probabilitat que n'agafe alguna?
+  \task Per a contractar un monitor s'avalua un surfista experimentat que agafa una ona amb una probabilitat del 90\,\%. El contracten si n'agafa almenys 14 de 15. Quina és la probabilitat que el contracten?
+\end{tasks}
+
+\ex{1} \pau{Catalunya, setembre 2026} Un parc eòlic té 10 aerogeneradors de 100 MW cadascun. Cada aerogenerador té una probabilitat del 10\,\% d'estar parat, independentment dels altres.\begin{tasks}(1)
+  \task Quina és la probabilitat d'arribar als 1000 MW de potència total?
+  \task Quina és la probabilitat que la potència total supere els 150 MW?
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2026} Un test té 4 preguntes amb 5 respostes possibles cadascuna. Cada resposta correcta suma 2,5 punts i cada resposta incorrecta en resta 0,625. Es contesten les quatre preguntes a l'atzar.\begin{tasks}(1)
+  \task Quina és la probabilitat de traure un excel·lent (nota igual o superior a 9)?
+  \task Quina és la probabilitat de suspendre (nota inferior a 5)?
+\end{tasks}
+
+\ex{1} \pau{Extremadura, extraordinària 2025} El 30\,\% de la població d'una comarca veu el programa de televisió «La Revuelta». La productora telefona a l'atzar a 10 persones de la comarca.\begin{tasks}(1)
+  \task Calcula la probabilitat que més de 8 persones estigueren veient el programa.
+  \task Calcula la probabilitat que alguna de les 10 persones estiguera veient el programa.
+  \task Se sap que el 35\,\% de la població veu «El Hormiguero» i que el 40\,\% no veu cap dels dos programes. Quina és la probabilitat que una persona veja els dos programes?
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemes de síntesi}
+
+\ex{2} Una bossa conté dues monedes: una d'equilibrada i una de trucada, amb probabilitat de cara 0,8. Se'n tria una a l'atzar i es llança 5 vegades. Si han eixit exactament 4 cares, quina és la probabilitat que siga la moneda trucada?
+
+\ex{1} \pau{Castella-la Manxa, extraordinària 2024} Tenim tres caixes: la A té dues cartes d'espases i tres de copes; la B, tres d'espases i dues de copes; i la C, quatre d'espases i una de copes. Es llança un dau: si ix senar es trau una carta de la caixa A; si ix 4 o 6, de la B; i si ix 2, de la C.\begin{tasks}(1)
+  \task Calcula la probabilitat d'obtindre una carta de copes.
+  \task Sabent que la carta és de copes, quina és la probabilitat que siga de la caixa B?
+  \task La probabilitat que un paracaigudista novell caiga en el punt correcte és 0,25. Si es llança 5 vegades, quina és la probabilitat que caiga en el punt correcte exactament dues vegades? I almenys una vegada?
+\end{tasks}
+
+\ex{2} \pau{Madrid, ordinària 2025 (coincidències)} En una empresa tecnològica, el 70\,\% dels empleats són europeus. Una tercera part dels no europeus es dedica a desenvolupar programari, i també tres de cada set dels europeus.\begin{tasks}(1)
+  \task En un sorteig entre els empleats, calcula la probabilitat que el premiat siga europeu i no desenvolupe programari.
+  \task En un segon sorteig es trien a l'atzar 10 empleats, que rebran un premi si com a molt 2 d'ells desenvolupen programari. Calcula la probabilitat que l'empresa haja de donar aquest segon premi.
+\end{tasks}
+
+\ex{1} \pau{Astúries, ordinària 2025} El 6\,\% de les peces que fabrica una empresa són defectuoses. En el control de qualitat, un sistema de prova dona error amb probabilitat 0,95 si la peça és defectuosa i 0,04 si no ho és.\begin{tasks}(1)
+  \task Si es trien 10 peces a l'atzar, quina és la probabilitat que almenys una siga defectuosa?
+  \task Calcula la probabilitat que, en provar una peça triada a l'atzar, el sistema no done error.
+\end{tasks}
+
+\ex{2} \pau{Catalunya, setembre 2024} S'estima que el 20\,\% dels habitants d'una regió pateix arrítmia. Un monitor Holter la detecta en el 95\,\% dels casos de persones que la pateixen, però també dona falsos positius en el 0,5\,\% de les persones que no en pateixen.\begin{tasks}(1)
+  \task Si es trien 4 persones a l'atzar, quina és la probabilitat que almenys una patisca arrítmia?
+  \task Quina és la probabilitat que una persona triada a l'atzar obtinga un diagnòstic positiu?
+  \task Si una persona obté un diagnòstic negatiu, quina és la probabilitat que realment patisca arrítmia?
+\end{tasks}
+
+\ex{2} \pau{Catalunya, juny 2025} Una empresa produeix peces de ferro (el 60\,\%) i d'acer (la resta). El 95\,\% de les de ferro no té cap defecte, mentre que el 3\,\% de les d'acer és defectuosa.\begin{tasks}(1)
+  \task Si prenem una peça a l'atzar, quina és la probabilitat que siga defectuosa?
+  \task L'empresa produirà també peces de titani, que es vendran en paquets de 5. Cada peça de titani és defectuosa amb una probabilitat $p$, independentment de les altres. Comprova que la probabilitat que en un paquet hi haja exactament 4 peces defectuoses és $f(p)=5p^4-5p^5$.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, ordinària 2024} El joc dels daus d'Efron té 4 daus equilibrats de 6 cares, numerats així: dau A: 0, 0, 4, 4, 4, 4; dau B: 3, 3, 3, 3, 3, 3; dau C: 2, 2, 2, 2, 6, 6; dau D: 1, 1, 1, 5, 5, 5. L'Anna tria el dau A, la Bea el B, la Ceci el C i la Dèlia el D. Cada jugadora llança el seu dau: guanya qui trau la puntuació més alta i perd qui trau la més baixa.\begin{tasks}(1)
+  \task Si l'Anna juga contra la Bea, quina és la probabilitat que guanye l'Anna?
+  \task Si l'Anna juga 8 vegades contra la Bea, quina és la probabilitat que la Bea guanye almenys 3 vegades?
+  \task Si l'Anna juga contra la Ceci, quina és la probabilitat que guanye la Ceci?
+  \task Si juguen totes contra totes, quina és la probabilitat que l'Anna ni guanye ni perda?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\end{center}
+
+\end{document}

@@ -1,0 +1,639 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 10: Probabilitat. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={probabilitat, successos, regla de Laplace, combinatòria, probabilitat condicionada, independència, probabilitat total, teorema de Bayes, variable aleatòria, distribució binomial, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 10: Probabilitat · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+\setlength{\emergencystretch}{3em}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+% successos contraris i probabilitat condicionada
+\newcommand{\co}[1]{\overline{#1}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Solucions de la fitxa · Unitat 10}{\raggedright Probabilitat}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Les probabilitats s'han calculat de manera exacta; quan el resultat no és un decimal exacte, es dona la fracció i el valor aproximat amb quatre decimals. Pots comprovar els exercicis de dos successos amb la calculadora dels apunts interactius, i els de la binomial amb el giny de la distribució binomial.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Experiments aleatoris, regla de Laplace i recompte}
+
+\ex{1} \begin{tasks}(1)
+  \task $\res{\co A\cap B\cap\co C}$
+  \task $\res{A\cup B\cup C}$
+  \task $\res{\co A\cap\co B\cap\co C=\overline{A\cup B\cup C}}$
+  \task $\res{(A\cap\co B\cap\co C)\cup(\co A\cap B\cap\co C)\cup(\co A\cap\co B\cap C)}$
+  \task $\res{(A\cap B)\cup(A\cap C)\cup(B\cap C)}$
+  \task $\res{\overline{A\cap B\cap C}=\co A\cup\co B\cup\co C}$
+\end{tasks}
+
+\ex{1} Hi ha $36$ parelles equiprobables.\begin{tasks}(2)
+  \task $(1,4),\dots,(4,4)$ i $(4,1),(4,2),(4,3)$: $\frac{7}{36}=\res{\frac{7}{36}\approx 0{,}1944}$
+  \task $6+5+5=16$ parelles: $\res{\frac{4}{9}\approx 0{,}4444}$
+  \task per simetria, $\frac{36-6}{2}=15$ parelles: $\res{\frac{5}{12}\approx 0{,}4167}$
+  \task $1-\frac{4\cdot4}{36}=\frac{20}{36}=\res{\frac{5}{9}\approx 0{,}5556}$ (cap dels dos és 3 o 6)
+\end{tasks}
+
+\ex{1} Casos possibles: $\binom{11}{4}=330$.\begin{tasks}(1)
+  \task $\dfrac{\binom62\binom52}{\binom{11}4}=\dfrac{15\cdot10}{330}=\res{\frac{5}{11}\approx 0{,}4545}$
+  \task $1-\dfrac{\binom54}{\binom{11}{4}}=1-\dfrac{5}{330}=\res{\frac{65}{66}\approx 0{,}9848}$
+\end{tasks}
+
+\ex{1} Casos possibles: $5!=120$. Favorables: el bloc de matemàtiques i els altres dos llibres es poden ordenar de $3!$ maneres, i dins del bloc, de $3!$ maneres: $36$. $\ P=\frac{36}{120}=\res{0{,}3}$.
+
+\ex{2} Casos possibles: $\binom{49}{6}=13\,983\,816$.\begin{tasks}(1)
+  \task $P(6)=\dfrac{1}{13\,983\,816}\approx\res{7{,}15\cdot10^{-8}}$
+  \task $P(5)=\dfrac{\binom65\binom{43}1}{\binom{49}6}=\dfrac{258}{13\,983\,816}\approx\res{1{,}85\cdot10^{-5}}$ (5 dels 6 premiats i 1 dels 43 restants)
+\end{tasks}
+
+\ex{2} El contrari és que tots facen anys en dies diferents: $P=1-\dfrac{V_{365,5}}{365^5}=1-\dfrac{365\cdot364\cdot363\cdot362\cdot361}{365^5}\approx\res{0{,}0271}$. Per a 23 persones: $1-\dfrac{V_{365,23}}{365^{23}}\approx\res{0{,}5073}$: ja és més probable que sí que no!
+
+\ex{1} $P(k)=c\,k$ i $c(1+2+\dots+6)=21c=1\Rightarrow\res{P(k)=\frac{k}{21}}$. \ $P(\text{parell})=\frac{2+4+6}{21}=\res{\frac{4}{7}\approx 0{,}5714}$; \ $P(X>2)=1-\frac{1+2}{21}=\res{\frac{6}{7}\approx 0{,}8571}$.
+
+\ex{1} \pau{Astúries, extraordinària 2025}\begin{tasks}(1)
+  \task $1-P(\text{cap d'1 euro})=1-\dfrac{\binom53}{\binom{10}3}=1-\dfrac{10}{120}=\res{\frac{11}{12}\approx 0{,}9167}$
+  \task $\frac{2}{10}\cdot\frac19+\frac{8}{10}\cdot\frac29=\frac{18}{90}=\res{0{,}2}$ (com la primera: l'ordre no afavoreix cap posició)
+\end{tasks}
+
+\ex{2} \pau{Navarra, ordinària 2026}Parelles possibles: $\binom{12}{2}=66$.\begin{tasks}(1)
+  \task Parlen basc entre ells els $5+2=7$ roncalesos i suletins: $\frac{\binom72}{66}=\frac{21}{66}=\res{\frac{7}{22}\approx 0{,}3182}$
+  \task Dos bearnesos o un bearnés i un suletí: $\frac{\binom52+5\cdot2}{66}=\frac{20}{66}=\res{\frac{10}{33}\approx 0{,}303}$
+  \task $1-P(\text{tots tres del mateix poble})=1-\dfrac{2\binom53}{\binom{10}3}=1-\dfrac{20}{120}=\res{\frac{5}{6}\approx 0{,}8333}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Fórmules de la probabilitat}
+
+\ex{1} De Morgan: $P(A\cap B)=1-P(\co A\cup\co B)$.\begin{tasks}(3)
+  \task $1-0{,}8=\res{0{,}2}$
+  \task $0{,}5+0{,}4-0{,}2=\res{0{,}7}$
+  \task $0{,}7-0{,}2=\res{0{,}5}$
+  \task $0{,}4-0{,}2=\res{0{,}2}$
+  \task $1-0{,}7=\res{0{,}3}$
+\end{tasks}
+
+\begin{center}\begin{tikzpicture}[scale=.62,baseline=(current bounding box.center)]\draw[muted,rounded corners=3pt] (-2.9,-1.75) rectangle (2.9,1.75);\fill[accent!12] (-0.65,0) circle (1.35); \fill[teal!14] (0.65,0) circle (1.35);\draw[navy,thick] (-0.65,0) circle (1.35); \draw[navy,thick] (0.65,0) circle (1.35);\node[font=\small\bfseries] at (-1.75,1.25) {$A$}; \node[font=\small\bfseries] at (1.75,1.25) {$B$};\node[font=\scriptsize] at (-1.25,0) {$0{,}3$}; \node[font=\scriptsize] at (0,0) {$0{,}2$}; \node[font=\scriptsize] at (1.25,0) {$0{,}2$};\node[font=\scriptsize] at (2.25,-1.45) {$0{,}3$};\end{tikzpicture}\end{center}
+
+
+\ex{2} \begin{tasks}(1)
+  \task \rest{No}: si ho foren, $P(A\cup B)=1{,}3>1$.
+  \task $P(A\cap B)=1{,}3-P(A\cup B)\geq0{,}3$ i $A\cap B\subset B\Rightarrow P(A\cap B)\leq0{,}6$: \ $\res{0{,}3\leq P(A\cap B)\leq0{,}6}$ \ i \ $\res{0{,}7\leq P(A\cup B)\leq1}$.
+  \task Com que $P(A\cup B)\leq1$: $P(A\cap B)=P(A)+P(B)-P(A\cup B)\geq P(A)+P(B)-1$. \rest{(Desigualtat de Bonferroni.)}
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $0{,}5+0{,}4+0{,}3-0{,}2-0{,}15-0{,}1+0{,}05=\res{0{,}8}$
+  \task $1-0{,}8=\res{0{,}2}$
+  \task $0{,}5-0{,}2-0{,}15+0{,}05=\res{0{,}2}$
+  \task $0{,}2+0{,}15+0{,}05=\res{0{,}45}$ (només $A$, només $B$ i només $C$)
+\end{tasks}
+
+\ex{1} 
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $T$ & $\overline{T}$ & \textbf{Total}\\\hline
+$X$ & $40$ & $80$ & $120$\\
+$\overline{X}$ & $50$ & $30$ & $80$\\
+\hline
+\textbf{Total} & $90$ & $110$ & $200$\\
+\end{tabular}}\end{center}
+\begin{tasks}(3)
+  \task $\frac{170}{200}=\res{0{,}85}$
+  \task $\frac{30}{200}=\res{0{,}15}$
+  \task $\frac{80+50}{200}=\res{0{,}65}$
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, extraordinària 2025}$P(B)=0{,}55$.\begin{tasks}(3)
+  \task $P(A)-P(A-B)=\res{0{,}45}$
+  \task $0{,}55-0{,}45=\res{0{,}1}$
+  \task $1-(0{,}75+0{,}55-0{,}45)=\res{0{,}15}$
+\end{tasks}
+
+\ex{1} \pau{La Rioja, ordinària 2024}$P(A\cap B)=0{,}27+0{,}18-0{,}4=0{,}05\neq0$: \rest{són compatibles}. \ $P\big((A\cup B)'\big)=1-0{,}4=\res{0{,}6}$; \ $P(A'\cup B')=1-P(A\cap B)=\res{0{,}95}$.
+
+
+% =====================================================
+\seccio{3}{Probabilitat condicionada i independència}
+
+\ex{1} $P(A\cap B)=0{,}6\cdot0{,}5=\res{0{,}3}$; \ $P(B)=0{,}3+0{,}4\cdot0{,}25=\res{0{,}4}$; \ $P(A\cond B)=\frac{0{,}3}{0{,}4}=\res{0{,}75}$; \ $P(A\cup B)=0{,}6+0{,}4-0{,}3=\res{0{,}7}$. Com que $P(B\cond A)=0{,}5\neq P(B)=0{,}4$, \rest{no són independents}.
+
+\ex{2} $P(A\cap\co B)=P(A)-P(A\cap B)=P(A)-P(A)P(B)=P(A)\big(1-P(B)\big)=P(A)\,P(\co B)$. \ Aplicant el mateix resultat a la parella $\co B$, $A$ (que són independents), també són independents $\co B$ i $\co A$.
+
+\ex{1} $2x-x^2=0{,}75\Rightarrow x^2-2x+0{,}75=0\Rightarrow x=0{,}5$ (l'altra solució, $1{,}5$, no és una probabilitat): $\res{P(A)=0{,}5}$. \ $P(\text{exactament un})=2\cdot0{,}5\cdot0{,}5=\res{0{,}5}$.
+
+\ex{1} $P(\text{almenys un})=1-0{,}4\cdot0{,}5\cdot0{,}6=\res{0{,}88}$. \ Exactament dos: $0{,}6\cdot0{,}5\cdot0{,}6+0{,}6\cdot0{,}5\cdot0{,}4+0{,}4\cdot0{,}5\cdot0{,}4=\res{0{,}38}$.
+
+\ex{1} \pau{Astúries, ordinària 2026}\begin{tasks}(1)
+  \task $0{,}1+0{,}05-0{,}008=\res{0{,}142}$
+  \task $\frac{0{,}008}{0{,}1}=\res{0{,}08}$
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, extraordinària 2026}\begin{tasks}(1)
+  \task $0{,}35-0{,}25=0{,}1$ i $0{,}1\cdot60=\res{6\text{ alumnes}}$.
+  \task $P(F\cond B)=\frac{0{,}25}{0{,}6}=\res{\frac{5}{12}\approx 0{,}4167}$
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, ordinària 2025}\begin{tasks}(1)
+  \task $P(A\cap B)=0{,}4+0{,}65-0{,}9=\res{0{,}15}$
+  \task $\frac{0{,}15}{0{,}65}=\res{\frac{3}{13}\approx 0{,}2308}$; \ $\frac{0{,}15}{0{,}4}=\res{0{,}375}$; \ $\frac{0{,}25}{0{,}35}=\res{\frac{5}{7}\approx 0{,}7143}$
+\end{tasks}
+
+\ex{1} \pau{Extremadura, ordinària 2024}
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $X$ & $\overline{X}$ & \textbf{Total}\\\hline
+$C$ & $0{,}5$ & $0{,}3$ & $0{,}8$\\
+$\overline{C}$ & $0{,}1$ & $0{,}1$ & $0{,}2$\\
+\hline
+\textbf{Total} & $0{,}6$ & $0{,}4$ & $1$\\
+\end{tabular}}\end{center}
+\begin{tasks}(3)
+  \task $0{,}8+0{,}6-0{,}9=\res{0{,}5}$
+  \task $0{,}9-0{,}5=\res{0{,}4}$
+  \task $\frac{0{,}3}{0{,}4}=\res{0{,}75}$
+\end{tasks}
+
+\ex{2} \pau{Galícia, ordinària 2024}\begin{tasks}(1)
+  \task $P(A\cup B)=\frac13+\frac12-\frac16=\res{\frac{2}{3}\approx 0{,}6667}$. Com que $\co A\subset\co A\cup\co B$: $\dfrac{P(\co A)}{1-P(A\cap B)}=\dfrac{2/3}{5/6}=\res{0{,}8}$
+  \task $P(A\cup B)=\frac13+\frac12=\res{\frac{5}{6}\approx 0{,}8333}$. Ara $\co A\cup\co B=\overline{A\cap B}=E$: $P(\co A)=\res{\frac{2}{3}\approx 0{,}6667}$
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, ordinària 2024}$P(B)=0{,}3-0{,}2+0{,}1=\res{0{,}2}$; \ $P(A\cap\co B)=0{,}2-0{,}1=\res{0{,}1}$; \ $P(A\cond B)=\frac{0{,}1}{0{,}2}=\res{0{,}5}$; \ $P(B\cond A)=\res{0{,}5}$.
+
+\ex{2} \pau{Madrid, ordinària 2026}\begin{tasks}(1)
+  \task Si $P(A)=x$: $P(A\cap B)=0{,}2x$ i $P(A\cup B)=x+0{,}4-0{,}2x=0{,}6\Rightarrow x=0{,}25$. \ $P(\co A)=\res{0{,}75}$, \ $P(A\cap B)=\res{0{,}05}$
+  \task $A\cap B\subset A\cup B$: \ $\frac{0{,}05}{0{,}6}=\res{\frac{1}{12}\approx 0{,}0833}$
+\end{tasks}
+
+\ex{1} \pau{Madrid, ordinària 2025 (coincidències)}\begin{tasks}(1)
+  \task $P(\co A)P(\co B)=0{,}3\cdot0{,}2=0{,}06\neq0{,}1$: \rest{no són independents}.
+  \task $P(A\cup B)=0{,}9\Rightarrow P(A\cap B)=0{,}7+0{,}8-0{,}9=\res{0{,}6}$
+  \task $\frac{P(B)-P(A\cap B)}{P(B)}=\frac{0{,}2}{0{,}8}=\res{0{,}25}$
+\end{tasks}
+
+\ex{1} \pau{País Basc, extraordinària 2024}\begin{tasks}(2)
+  \task $0{,}7+0{,}1-0{,}07=\res{0{,}73}$
+  \task $1-P(A\cap B)=\res{0{,}93}$
+  \task $0{,}3\cdot0{,}9=\res{0{,}27}$ (independents)
+  \task $0{,}7\cdot0{,}9=\res{0{,}63}$
+  \task $P(\co A)=\res{0{,}3}$ (independents)
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, ordinària 2024}\begin{tasks}(2)
+  \task $0{,}1+0{,}35=\res{0{,}45}$
+  \task $0{,}7-0{,}35=\res{0{,}35}$
+  \task $1-0{,}1=\res{0{,}9}$
+  \task $0{,}45\cdot0{,}35=0{,}1575\neq0{,}1$: \rest{no}
+\end{tasks}
+
+\ex{1} \pau{Múrcia, extraordinària 2024}\begin{tasks}(2)
+  \task $0{,}6\cdot0{,}4=0{,}24\neq0{,}2$: \rest{no}
+  \task $\frac{0{,}2}{0{,}6}=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $1-0{,}8=0{,}2$: \ $\res{20\,\%}$
+  \task $\frac{0{,}4-0{,}2}{0{,}4}=\res{0{,}5}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2025}\begin{tasks}(1)
+  \task Independents: $P(A)=\frac23$ i $P(B)=\frac34$; \ $P(A\cup B)=\frac23+\frac34-\frac12=\res{\frac{11}{12}\approx 0{,}9167}$
+  \task Si $x=P(A\cap B)$: $P(B)=\frac{3x}{2}$, $P(A)=\frac{4x}{3}$ i $\frac{4x}{3}+\frac{3x}{2}-x=\frac{11x}{6}=\frac56\Rightarrow x=\frac{5}{11}$. \ $P(A)=\res{\frac{20}{33}\approx 0{,}6061}$, \ $P(B)=\res{\frac{15}{22}\approx 0{,}6818}$, \ $P(A\cup\co B)=1-P(\co A\cap B)=1-\left(\frac{15}{22}-\frac{5}{11}\right)=\res{\frac{17}{22}\approx 0{,}7727}$
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, extraordinària 2025}$P(D\cap V)=0{,}55\cdot0{,}2=0{,}11$ i $P(H\cap V)=0{,}15-0{,}11=0{,}04$.\begin{tasks}(1)
+  \task $P(V\cond H)=\frac{0{,}04}{0{,}45}=\res{\frac{4}{45}\approx 0{,}0889}$: \ $\res{8{,}89\,\%}$
+  \task $\frac{0{,}11}{0{,}15}=\res{\frac{11}{15}\approx 0{,}7333}$
+  \task $\res{0{,}04}$
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, ordinària 2026}
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $Bl$ & $M$ & \textbf{Total}\\\hline
+$C$ & $0{,}12$ & $0{,}48$ & $0{,}6$\\
+$L$ & $0{,}08$ & $0{,}32$ & $0{,}4$\\
+\hline
+\textbf{Total} & $0{,}2$ & $0{,}8$ & $1$\\
+\end{tabular}}\end{center}
+\begin{tasks}(3)
+  \task $\frac{0{,}32}{0{,}4}=\res{0{,}8}$
+  \task $\frac{0{,}32}{0{,}8}=\res{0{,}4}$
+  \task $\frac{0{,}48}{0{,}6}=\res{0{,}8}$
+\end{tasks}
+
+\ex{2} \pau{Galícia, extraordinària 2025}\begin{tasks}(1)
+  \task $P(T\cup Bo)=P(T)+P(D\cap Bo)=0{,}8+0{,}2\cdot0{,}75=\res{0{,}95}$
+  \task $P(D\cap Bo)=\res{0{,}15}$
+  \task Si en té $x$: $\frac{x}{60}=\frac{8+x}{60}\cdot\frac{12}{60}\Rightarrow60x=96+12x\Rightarrow\res{x=2}$ parells.
+\end{tasks}
+
+\ex{1} \pau{La Rioja, ordinària 2026}\begin{tasks}(1)
+  \task $0{,}6\cdot0{,}75\cdot0{,}8=\res{0{,}36}$
+  \task $0{,}4\cdot0{,}75\cdot0{,}8+0{,}6\cdot0{,}25\cdot0{,}8+0{,}6\cdot0{,}75\cdot0{,}2=0{,}24+0{,}12+0{,}09=\res{0{,}45}$
+  \task $\frac{0{,}24}{0{,}45}=\res{\frac{8}{15}\approx 0{,}5333}$
+\end{tasks}
+
+\ex{1} \pau{Aragó, ordinària 2024}\begin{tasks}(1)
+  \task Dones: $\frac{28}{54}\approx\res{51{,}85\,\%}$; \ homes: $\frac{21}{45}\approx\res{46{,}67\,\%}$
+  \task $\frac{28}{49}=\res{\frac{4}{7}\approx 0{,}5714}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Experiments compostos. Extraccions amb i sense reemplaçament}
+
+\ex{2} \begin{tasks}(1)
+  \task L'Anna guanya en la 1a o en la 3a extracció (en la 5a ja no pot ser, perquè només hi ha 3 negres): $\frac25+\frac35\cdot\frac24\cdot\frac23=\frac25+\frac15=\res{0{,}6}$
+  \task Guanya en la tirada 1, 3, 5\dots: $\frac25\left(1+\frac{9}{25}+\left(\frac{9}{25}\right)^2+\cdots\right)=\dfrac{2/5}{1-9/25}=\res{0{,}625}$ (sèrie geomètrica de raó $\frac{9}{25}$)
+\end{tasks}
+
+\ex{1} $P(R_2)=\frac58\cdot\frac47+\frac38\cdot\frac57=\frac{35}{56}=\res{0{,}625}$; \ $P(R_1\cond R_2)=\dfrac{20/56}{35/56}=\res{\frac{4}{7}\approx 0{,}5714}$.
+
+\ex{1} $P(\text{1r 6 en la 3a})=\left(\frac56\right)^2\frac16=\res{\frac{25}{216}\approx 0{,}1157}$; \ $P(\text{més de 3})=P(\text{cap 6 en les 3 primeres})=\left(\frac56\right)^3=\res{\frac{125}{216}\approx 0{,}5787}$.
+
+\ex{1} \pau{Castella i Lleó, ordinària 2026}\begin{tasks}(2)
+  \task $\frac{6}{20}\cdot\frac{5}{19}=\res{\frac{3}{38}\approx 0{,}0789}$
+  \task $\frac{3}{20}\cdot\frac{5}{19}=\res{\frac{3}{76}\approx 0{,}0395}$
+  \task $\frac{10}{20}\cdot\frac{9}{19}=\res{\frac{9}{38}\approx 0{,}2368}$
+  \task $\frac{9}{19}\approx0{,}4737$ \ ($\res{\frac{9}{19}}$)
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, ordinària 2025}\begin{tasks}(1)
+  \task $P(1)=\frac{4}{40}=\res{0{,}1}$; \ $P(2)=\frac{36}{40}\cdot\frac{4}{39}=\res{\frac{6}{65}\approx 0{,}0923}$; \ $P(3)=\frac{36}{40}\cdot\frac{35}{39}\cdot\frac{4}{38}=\res{\frac{21}{247}\approx 0{,}085}$
+  \task Ha de traure'n més de 2: $1-\frac1{10}-\frac{6}{65}=\res{\frac{21}{26}\approx 0{,}8077}$
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, extraordinària 2024}Tenen punt verd $4+7=11$ cartes.\begin{tasks}(1)
+  \task $\frac{11}{40}\cdot\frac{10}{39}=\frac{11}{156}\approx\res{0{,}0705}$
+  \task $\frac{7}{11}=\res{\frac{7}{11}\approx 0{,}6364}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, extraordinària 2026}\begin{tasks}(1)
+  \task $P(\text{mateix color})=\frac25\cdot\frac35+\frac35\cdot\frac25=\res{0{,}48}<\frac12$: \rest{és més probable que siguen de color diferent} ($0{,}52$).
+  \task Si de A ix blava i de B roja, B queda amb 3 blaves; si ixen del mateix color, B no canvia (2 blaves); si de A ix roja i de B blava, B queda amb 1 blava: $\frac35\cdot\frac35\cdot\frac35+\frac{12}{25}\cdot\frac25+\frac25\cdot\frac25\cdot\frac15=\res{0{,}44}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2025}\begin{tasks}(1)
+  \task Des de l'1: a l'1 o al 2 amb $\frac12$; des del 2: a l'1 o al 3 amb $\frac12$; des del 3: al 2 o al 3 amb $\frac12$.
+  \task Camins 1-1-1-1, 1-1-2-1 i 1-2-1-1, cadascun amb probabilitat $\frac18$: $\res{0{,}375}$
+  \task $P(1)=\res{0{,}375}$, \ $P(2)=\res{0{,}3125}$, \ $P(3)=\res{0{,}3125}$
+\end{tasks}
+
+\ex{1} \pau{Canàries, ordinària 2024}
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.2cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$A$}
+    edge from parent node[above] {\scriptsize$0{,}96$}}
+  child {node {$\overline{A}$}
+    child {node[anchor=west] {$B$\ \ {\color{teal}\scriptsize$0{,}0392$}} edge from parent node[above] {\scriptsize$0{,}98$}}
+    child {node[anchor=west] {$\overline{B}\to C$} edge from parent node[below] {\scriptsize$0{,}02$}}
+    edge from parent node[below] {\scriptsize$0{,}04$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(1)
+  \task Si falla $B$, s'activa $C$ ($0{,}99$ funciona, $0{,}01$ falla).
+  \task $0{,}04\cdot0{,}98=\res{0{,}0392}$
+  \task $1-0{,}04\cdot0{,}02\cdot0{,}01=\res{0{,}999992}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Probabilitat total i teorema de Bayes}
+
+\ex{2} \begin{tasks}(1)
+  \task $\dfrac{0{,}02\cdot0{,}9}{0{,}02\cdot0{,}9+0{,}98\cdot0{,}05}=\dfrac{0{,}018}{0{,}067}\approx\res{0{,}2687}$
+  \task $\dfrac{0{,}02\cdot0{,}9^2}{0{,}02\cdot0{,}9^2+0{,}98\cdot0{,}05^2}=\dfrac{0{,}0162}{0{,}01865}\approx\res{0{,}8686}$: el segon positiu fa molt més fiable el diagnòstic.
+\end{tasks}
+
+\ex{1} \pau{Andalusia, extraordinària 2026}\begin{tasks}(1)
+  \task $0{,}45\cdot0{,}03+0{,}3\cdot0{,}04+0{,}25\cdot0{,}05=0{,}0135+0{,}012+0{,}0125=\res{0{,}038}$
+  \task $P(A\cond D)=\frac{0{,}0135}{0{,}038}\approx0{,}3553$, \ $P(B\cond D)\approx0{,}3158$, \ $P(C\cond D)\approx0{,}3289$: \rest{la màquina $A$}.
+\end{tasks}
+
+\ex{1} \pau{Astúries, extraordinària 2026}\begin{tasks}(1)
+  \task $0{,}75\cdot0{,}8+0{,}25\cdot0{,}65=\res{0{,}7625}$
+  \task $\frac{0{,}6}{0{,}7625}=\res{\frac{48}{61}\approx 0{,}7869}$
+\end{tasks}
+
+\ex{1} \pau{Illes Balears, ordinària 2026}\begin{tasks}(1)
+  \task $1-0{,}2=\res{0{,}8}$
+  \task $P(T)=0{,}12+0{,}12=0{,}24$; $P(C\cond T)=\frac{0{,}12}{0{,}24}=0{,}5=P(\co C\cond T)$: \rest{són igual de probables}.
+\end{tasks}
+
+\ex{2} \pau{Illes Balears, ordinària 2025}\begin{tasks}(1)
+  \task $1-0{,}99=\res{0{,}01}$
+  \task $\dfrac{0{,}0005\cdot0{,}01}{0{,}0005\cdot0{,}01+0{,}9995\cdot0{,}99}=\dfrac{1}{197\,902}\approx\res{5{,}05\cdot10^{-6}}$
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2025}\begin{tasks}(1)
+  \task $\dfrac{0{,}01\cdot0{,}95}{0{,}01\cdot0{,}95+0{,}99\cdot0{,}02}=\dfrac{0{,}0095}{0{,}0293}=\res{\frac{95}{293}\approx 0{,}3242}$
+  \task $P(M\cap\text{neg})=0{,}01\cdot0{,}05=0{,}0005$ i $35\,000\cdot0{,}0005=17{,}5$: \rest{no}, se n'esperen unes 17 o 18.
+\end{tasks}
+
+\ex{1} \pau{Canàries, extraordinària 2024}\begin{tasks}(1)
+  \task $\frac{3}{10}\cdot\frac13+\frac{2}{10}\cdot\frac23+\frac{5}{10}\cdot\frac17=\res{\frac{32}{105}\approx 0{,}3048}$
+  \task $\dfrac{\frac12\cdot\frac67}{1-\frac{32}{105}}=\dfrac{3/7}{73/105}=\res{\frac{45}{73}\approx 0{,}6164}$
+\end{tasks}
+
+\ex{2} \pau{Canàries, extraordinària 2026}\begin{tasks}(1)
+  \task $\frac{100}{120}\cdot0{,}016+\frac{20}{120}\cdot0{,}009=\frac{1{,}78}{120}\approx\res{0{,}0148}$
+  \task Les dues probabilitats tenen el mateix denominador $P(\co R)$; comparem els numeradors: $\frac{50}{120}\cdot0{,}984=0{,}41$ i $\frac{20}{120}\cdot0{,}991\approx0{,}165$. Com que $0{,}41>2\cdot0{,}165$, \rest{sí}.
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, ordinària 2024}\begin{tasks}(1)
+  \task $P(C)=0{,}48$, $P(M)=0{,}28$, $P(F)=0{,}24$; $P(R\cond C)=\frac34$, $P(R\cond M)=\frac12$, $P(R\cond F)=\frac13$.
+  \task $P(R\cap F)=0{,}24\cdot\frac13=\res{0{,}08}$; \ $P(R)=0{,}36+0{,}14+0{,}08=\res{0{,}58}$; \ $P(C\cond R)=\frac{0{,}36}{0{,}58}=\res{\frac{18}{29}\approx 0{,}6207}$
+  \task $P(R\cond C)=0{,}75\neq P(R)=0{,}58$: \rest{no}.
+\end{tasks}
+
+\ex{1} \pau{La Rioja, extraordinària 2024}\begin{tasks}(1)
+  \task $\dfrac{0{,}98\cdot0{,}04}{0{,}02\cdot0{,}98+0{,}98\cdot0{,}04}=\dfrac{0{,}0392}{0{,}0588}=\res{\frac{2}{3}\approx 0{,}6667}$
+  \task $\dfrac{0{,}02\cdot0{,}02}{1-0{,}0588}=\dfrac{0{,}0004}{0{,}9412}=\res{\frac{1}{2353}\approx 0{,}0004}$
+\end{tasks}
+
+\ex{2} \pau{Madrid, extraordinària 2025}$P(Ll)\cdot0{,}08=0{,}032\Rightarrow P(Ll)=0{,}4$; \ $P(C)=0{,}032+0{,}6\cdot0{,}004=0{,}0344$.\begin{tasks}(1)
+  \task $1-0{,}0344=\res{0{,}9656}$
+  \task $\frac{0{,}0024}{0{,}0344}=\res{\frac{3}{43}\approx 0{,}0698}$
+\end{tasks}
+
+\ex{3} \pau{Madrid, ordinària 2024}$P(Fr\cap C)=0{,}5\cdot\frac15=0{,}1$, \ $P(Fr\cap N)=0{,}3\cdot\frac23=0{,}2$. Si $x=P(Fr\cap M)$: $x=\frac17(0{,}3+x)\Rightarrow x=0{,}05$.\begin{tasks}(1)
+  \task $P(Fr\cond\co M)=\frac{0{,}1+0{,}2}{0{,}8}=\res{0{,}375}$
+  \task $P(Fr)=0{,}35$; \ $P(N\cond An)=\frac{0{,}3\cdot\frac13}{0{,}65}=\frac{0{,}1}{0{,}65}=\res{\frac{2}{13}\approx 0{,}1538}$
+\end{tasks}
+
+\ex{3} \pau{Madrid, extraordinària 2024}\begin{tasks}(1)
+  \task $P(B)=0{,}4\cdot0{,}25+0{,}4\cdot0{,}25+0{,}2\cdot0{,}5=\res{0{,}3}$
+  \task Com que $C$ i $A_1$ són independents, $P(C\cond A_1)=P(C)=c$: \ $c=0{,}4c+0{,}4\cdot0{,}3+0{,}2\cdot0{,}6\Rightarrow0{,}6c=0{,}24\Rightarrow\res{0{,}4}$. Com que $P(C\cond A_2)=0{,}3\neq0{,}4$, \rest{no és independent d'$A_2$}.
+\end{tasks}
+
+\ex{1} \pau{Múrcia, ordinària 2025}
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.4cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$R_1$}
+    child {node[anchor=west] {$R_2$\ \ {\color{teal}\scriptsize$0{,}28$}} edge from parent node[above] {\scriptsize$0{,}7$}}
+    child {node[anchor=west] {$V_2$\ \ {\color{teal}\scriptsize$0{,}12$}} edge from parent node[below] {\scriptsize$0{,}3$}}
+    edge from parent node[above] {\scriptsize$0{,}4$}}
+  child {node {$V_1$}
+    child {node[anchor=west] {$R_2$\ \ {\color{teal}\scriptsize$0{,}36$}} edge from parent node[above] {\scriptsize$0{,}6$}}
+    child {node[anchor=west] {$V_2$\ \ {\color{teal}\scriptsize$0{,}24$}} edge from parent node[below] {\scriptsize$0{,}4$}}
+    edge from parent node[below] {\scriptsize$0{,}6$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(2)
+  \task $\frac{7}{10}=\res{0{,}7}$
+  \task $\frac{3}{10}=\res{0{,}3}$
+  \task $0{,}12+0{,}24=\res{0{,}36}$
+  \task $\frac{0{,}28}{0{,}64}=\res{0{,}4375}$
+\end{tasks}
+
+\ex{1} \pau{País Basc, ordinària 2026}$P(Au)=0{,}1+0{,}52\cdot0{,}94+0{,}38\cdot0{,}53=0{,}7902$.\begin{tasks}(1)
+  \task $0{,}7902\cdot1\,148\,650\approx\res{907\,663\text{ cotxes}}$
+  \task $\frac{0{,}4888}{0{,}7902}=\res{\frac{2444}{3951}\approx 0{,}6186}$
+\end{tasks}
+
+\ex{1} \pau{País Basc, ordinària 2024}
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=1.7cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$V_A$}
+    child {node[anchor=west] {$V_B$} edge from parent node[above] {\scriptsize$0{,}375$}}
+    edge from parent node[above] {\scriptsize$0{,}25$}}
+  child {node {$R_A$}
+    child {node[anchor=west] {$V_B$} edge from parent node[above] {\scriptsize$0{,}25$}}
+    edge from parent node[above] {\scriptsize$\frac{5}{12}$}}
+  child {node {$B_A$}
+    child {node[anchor=west] {$V_B$} edge from parent node[above] {\scriptsize$0{,}25$}}
+    edge from parent node[below] {\scriptsize$\frac{1}{3}$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(2)
+  \task (Només hi dibuixem les branques de $V_B$.)
+  \task $\frac{3}{12}\cdot\frac38+\frac{5}{12}\cdot\frac28+\frac{4}{12}\cdot\frac28=\res{0{,}28125}$
+  \task $\frac28=\res{0{,}25}$
+  \task $\dfrac{\frac{5}{12}\cdot\frac28}{9/32}=\res{\frac{10}{27}\approx 0{,}3704}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2026}\begin{tasks}(1)
+  \task Hi ha $150+138=288$ intervencions efectives: $P(T_1\cond E)=\frac{150}{288}\approx0{,}52>P(T_2\cond E)=\frac{138}{288}$: \rest{la tècnica 1}.
+  \task Lleu: $\frac{120}{136}\approx0{,}88<\frac{36}{40}=0{,}9$; greu: $\frac{30}{44}\approx0{,}68<\frac{102}{140}\approx0{,}73$: \rest{la tècnica 2 en tots dos casos}.
+  \task En total, $P(E\cond T_1)=\frac{150}{180}\approx0{,}83>P(E\cond T_2)=\frac{138}{180}\approx0{,}77$ només perquè la tècnica 1 s'ha aplicat sobretot a lesions lleus. Però la tècnica 2 és millor tant en les lleus com en les greus: \rest{s'hauria d'aplicar la 2} (paradoxa de Simpson).
+\end{tasks}
+
+\ex{1} \pau{Aragó, extraordinària 2025}Dones: $1147+45+114=1306$ de 1950.\begin{tasks}(3)
+  \task $\frac{1306}{1950}\approx\res{0{,}6697}$
+  \task $\frac{45}{1306}\approx\res{0{,}0345}$
+  \task $\frac{205}{644}\approx\res{0{,}3183}$
+\end{tasks}
+
+\ex{1} \pau{Cantàbria, extraordinària 2026}\begin{tasks}(1)
+  \task $\frac13\left(\frac4{10}+\frac16+\frac38\right)=\res{\frac{113}{360}\approx 0{,}3139}$
+  \task $\dfrac{\frac13\cdot\frac16}{113/360}=\res{\frac{20}{113}\approx 0{,}177}$
+  \task $\frac12\cdot\frac{4}{10}\cdot\frac39+\frac12\cdot0=\res{\frac{1}{15}\approx 0{,}0667}$ (a la B només hi ha una blanca)
+\end{tasks}
+
+\ex{2} \pau{Canàries, ordinària 2025}
+
+\begin{center}\begin{tikzpicture}[grow'=right,sloped,level 1/.style={level distance=2.4cm,sibling distance=2.2cm},level 2/.style={level distance=2.6cm,sibling distance=1.3cm},every node/.style={font=\small},edge from parent/.style={draw=muted,thick},baseline=(current bounding box.center)]
+\node[circle,fill=navy,inner sep=1.6pt,label=left:{\scriptsize }] {}
+  child {node {$P$}
+    edge from parent node[above] {\scriptsize$\frac{1}{3}$}}
+  child {node {$\overline{P}$}
+    child {node[anchor=west] {$V\to P$\ \ {\color{teal}\scriptsize$\frac{2}{15}$}} edge from parent node[above] {\scriptsize$0{,}2$}}
+    child {node[anchor=west] {$\text{no}$} edge from parent node[below] {\scriptsize$0{,}8$}}
+    edge from parent node[below] {\scriptsize$\frac{2}{3}$}}
+;\end{tikzpicture}\end{center}
+\begin{tasks}(1)
+  \task Després de la verda, encerta la caixa amb probabilitat $\frac12$: la branca $V\to P$ té $\frac25\cdot\frac12=\frac15$.
+  \task $\frac13+\frac23\cdot\frac15=\res{\frac{7}{15}\approx 0{,}4667}$
+  \task $\dfrac{2/15}{7/15}=\res{\frac{2}{7}\approx 0{,}2857}$
+\end{tasks}
+
+\ex{1} \pau{Castella i Lleó, ordinària 2025}\begin{tasks}(3)
+  \task $2\cdot\frac46\cdot\frac25=\res{\frac{8}{15}\approx 0{,}5333}$
+  \task $\frac46\cdot\frac25+\frac26\cdot\frac15=\res{\frac{1}{3}\approx 0{,}3333}$
+  \task $\dfrac{8/30}{1/3}=\res{0{,}8}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Variables aleatòries discretes i distribució binomial}
+
+\ex{1} $0{,}1+3a+0{,}3=1\Rightarrow\res{a=0{,}2}$. \ $\mu=0{,}2+0{,}8+0{,}9=\res{1{,}9}$; \ $\sigma^2=0{,}2+1{,}6+2{,}7-1{,}9^2=0{,}89\Rightarrow\sigma\approx\res{0{,}9434}$; \ $P(X\geq2)=\res{0{,}7}$.
+
+\ex{2} $P(BB)=\frac35\cdot\frac24=\frac{3}{10}$. El guany net és $2$ € (prob. $0{,}3$) o $-1$ € (prob. $0{,}7$): $E=0{,}6-0{,}7=\res{-0{,}10\text{ €}}$ (perd 10 cèntims per partida). Equitatiu si $0{,}3\,x=1$: $\res{x=\frac{10}{3}\approx3{,}33\text{ €}}$.
+
+\ex{1} \begin{tasks}(1)
+  \task \rest{Sí}: $B\left(12,\frac16\right)$.
+  \task \rest{No}: la probabilitat canvia d'una extracció a una altra (no són independents).
+  \task \rest{No}: el nombre de proves no està fixat.
+  \task \rest{Sí} (població molt gran): $B(50;\ 0{,}02)$.
+\end{tasks}
+
+\ex{1} $P(X=2)=\binom{6}{2}\frac{1}{3}^{2}\,\frac{2}{3}^{4}=\res{\frac{80}{243}\approx 0{,}3292}$; \ $P(X\leq1)=\left(\frac23\right)^6+6\cdot\frac13\left(\frac23\right)^5=\res{\frac{256}{729}\approx 0{,}3512}$; \ $P(X\geq2)=1-P(X\leq1)=\res{\frac{473}{729}\approx 0{,}6488}$; \ $\mu=\res{2}$, \ $\sigma=\sqrt{6\cdot\frac13\cdot\frac23}=\res{\frac{2}{\sqrt3}\approx1{,}1547}$.
+
+\ex{2} $5pq^4=10p^2q^3\Rightarrow q=2p\Rightarrow1-p=2p\Rightarrow\res{p=\frac13}$ ($p=0$ no té sentit). \ $P(X\geq1)=1-\left(\frac23\right)^5=\res{\frac{211}{243}\approx 0{,}8683}$.
+
+\ex{2} $1-0{,}98^n>0{,}5\iff0{,}98^n<0{,}5\iff n>\dfrac{\ln0{,}5}{\ln0{,}98}\approx34{,}31$ (en dividir per $\ln0{,}98<0$ la desigualtat gira): \ $\res{n=35}$ peces.
+
+\ex{1} \pau{Aragó, extraordinària 2024}$X=$ «nombre d'exàmens amb nota inferior a 5» $\sim B(15;\ 0{,}16)$.\begin{tasks}(1)
+  \task $\binom{15}{2}0{,}16^2\,0{,}84^{13}\approx\res{0{,}27865}$
+  \task $P(X<2)=0{,}84^{15}+15\cdot0{,}16\cdot0{,}84^{14}\approx0{,}2821$ i $P(X>2)=1-P(X\leq2)\approx0{,}4392$: \rest{és més probable que més de 2}.
+\end{tasks}
+
+\ex{1} \pau{Castella-la Manxa, extraordinària 2025}$X=$ «nombre que no la passen» $\sim B(8;\ 0{,}05)$.\begin{tasks}(1)
+  \task $\binom83\,0{,}05^3\,0{,}95^5\approx\res{0{,}0054}$
+  \task $0{,}95^8\approx\res{0{,}6634}$
+  \task Ho passen almenys 2 si $X\leq6$: $1-P(X=7)-P(X=8)=1-8\cdot0{,}05^7\cdot0{,}95-0{,}05^8\approx\res{1}$ ($0{,}99999999$)
+\end{tasks}
+
+\ex{1} \pau{Extremadura, extraordinària 2024}$X\sim B(5;\ 0{,}4)$.\begin{tasks}(3)
+  \task $0{,}6^5=\res{0{,}07776}$
+  \task $0{,}07776+0{,}2592+0{,}3456=\res{0{,}68256}$
+  \task $\mu=5\cdot0{,}4=\res{2}$
+\end{tasks}
+
+\ex{1} \pau{Extremadura, ordinària 2024}\begin{tasks}(1)
+  \task $\res{X\sim B(10;\ 0{,}5)}$
+  \task $\mu=\res{5}$ dies; \ $\sigma=\sqrt{2{,}5}\approx\res{1{,}58}$ dies
+  \task $P(X\leq3)=\frac{1+10+45+120}{1024}=\frac{176}{1024}\approx\res{0{,}1719}$
+\end{tasks}
+
+\ex{1} \pau{Galícia, extraordinària 2024}$X\sim B(7;\ 0{,}13)$: \ $P(X\geq2)=1-0{,}87^7-7\cdot0{,}13\cdot0{,}87^6\approx\res{0{,}2281}$.
+
+\ex{1} \pau{Múrcia, ordinària 2026}$X\sim B(9;\ 0{,}05)$: \ $\binom93\,0{,}05^3\,0{,}95^6\approx\res{0{,}0077}$.
+
+\ex{1} \pau{Múrcia, ordinària 2025}$\res{Y\sim B(10;\ 0{,}98)}$, \ $\mu=\res{9{,}8}$, \ $\sigma=\sqrt{10\cdot0{,}98\cdot0{,}02}\approx\res{0{,}4427}$. \ Una defectuosa és $Y=9$: $\binom{10}{9}0{,}98^9\,0{,}02\approx\res{0{,}1667}$.
+
+\ex{1} \pau{Navarra, ordinària 2026}$X\sim B(10;\ 0{,}25)$.\begin{tasks}(3)
+  \task $0{,}75^{10}\approx\res{0{,}0563}$
+  \task $\binom{10}{7}0{,}25^7\,0{,}75^3\approx\res{0{,}0031}$
+  \task $P(X\geq7)\approx\res{0{,}0035}$
+\end{tasks}
+
+\ex{1} \pau{Canàries, extraordinària 2026}\begin{tasks}(1)
+  \task $1-0{,}3^5=\res{0{,}99757}$
+  \task $X\sim B(15;\ 0{,}9)$: \ $0{,}9^{15}+15\cdot0{,}9^{14}\cdot0{,}1\approx\res{0{,}5490}$
+\end{tasks}
+
+\ex{1} \pau{Catalunya, setembre 2026}$X=$ «aerogeneradors en marxa» $\sim B(10;\ 0{,}9)$.\begin{tasks}(1)
+  \task Tots en marxa: $0{,}9^{10}\approx\res{0{,}3487}$
+  \task Almenys 2 en marxa: $1-0{,}1^{10}-10\cdot0{,}9\cdot0{,}1^{9}=\res{0{,}9999999909}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2026}Amb $k$ encerts, la nota és $2{,}5k-0{,}625(4-k)$: val $10$, $6{,}875$, $3{,}75$\dots\ per a $k=4,3,2\dots$ i $X\sim B\left(4;\ \frac15\right)$.\begin{tasks}(1)
+  \task Cal encertar-les totes: $\left(\frac15\right)^4=\res{0{,}0016}$
+  \task Cal $X\leq2$: $1-P(X=3)-P(X=4)=1-\frac{16}{625}-\frac{1}{625}=\res{0{,}9728}$
+\end{tasks}
+
+\ex{1} \pau{Extremadura, extraordinària 2025}\begin{tasks}(1)
+  \task $X\sim B(10;\ 0{,}3)$: \ $P(X=9)+P(X=10)=10\cdot0{,}3^9\cdot0{,}7+0{,}3^{10}\approx\res{0{,}00014}$
+  \task $1-0{,}7^{10}\approx\res{0{,}9718}$
+  \task $0{,}3+0{,}35-0{,}6=\res{0{,}05}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemes de síntesi}
+
+\ex{2} Per a cada moneda, el nombre de cares és binomial: $P(4\cond E)=\binom54\left(\frac12\right)^5=\frac{5}{32}$ i $P(4\cond T)=\binom54\,0{,}8^4\cdot0{,}2=0{,}4096$. \ Bayes: $P(T\cond4)=\dfrac{\frac12\cdot0{,}4096}{\frac12\cdot\frac{5}{32}+\frac12\cdot0{,}4096}\approx\res{0{,}7239}$.
+
+\ex{1} \pau{Castella-la Manxa, extraordinària 2024}\begin{tasks}(1)
+  \task $\frac12\cdot\frac35+\frac13\cdot\frac25+\frac16\cdot\frac15=\res{\frac{7}{15}\approx 0{,}4667}$
+  \task $\dfrac{2/15}{7/15}=\res{\frac{2}{7}\approx 0{,}2857}$
+  \task $X\sim B(5;\ 0{,}25)$: \ $\binom52\,0{,}25^2\,0{,}75^3\approx\res{0{,}2637}$; \ $1-0{,}75^5\approx\res{0{,}7627}$
+\end{tasks}
+
+\ex{2} \pau{Madrid, ordinària 2025 (coincidències)}\begin{tasks}(1)
+  \task $0{,}7\cdot\frac47=\res{0{,}4}$
+  \task $P(\text{desenvolupa})=0{,}7\cdot\frac37+0{,}3\cdot\frac13=0{,}4$ i $X\sim B(10;\ 0{,}4)$: \ $P(X\leq2)=0{,}6^{10}+10\cdot0{,}4\cdot0{,}6^9+45\cdot0{,}4^2\cdot0{,}6^8\approx\res{0{,}1673}$
+\end{tasks}
+
+\ex{1} \pau{Astúries, ordinària 2025}\begin{tasks}(1)
+  \task $X\sim B(10;\ 0{,}06)$: \ $1-0{,}94^{10}\approx\res{0{,}4614}$
+  \task $0{,}06\cdot0{,}05+0{,}94\cdot0{,}96=\res{0{,}9054}$
+\end{tasks}
+
+\ex{2} \pau{Catalunya, setembre 2024}\begin{tasks}(1)
+  \task $1-0{,}8^4=\res{0{,}5904}$
+  \task $0{,}2\cdot0{,}95+0{,}8\cdot0{,}005=\res{0{,}194}$
+  \task $\frac{0{,}2\cdot0{,}05}{1-0{,}194}=\frac{0{,}01}{0{,}806}\approx\res{0{,}0124}$
+\end{tasks}
+
+\ex{2} \pau{Catalunya, juny 2025}\begin{tasks}(1)
+  \task $0{,}6\cdot0{,}05+0{,}4\cdot0{,}03=\res{0{,}042}$
+  \task $X\sim B(5,p)$: $P(X=4)=\binom54p^4(1-p)=5p^4-5p^5$. \rest{\checkmark}
+\end{tasks}
+
+\ex{2} \pau{Múrcia, ordinària 2024}\begin{tasks}(1)
+  \task L'Anna guanya si trau 4: $\res{\frac{2}{3}\approx 0{,}6667}$
+  \task $X\sim B\left(8,\frac13\right)$: \ $P(X\geq3)=1-P(X\leq2)\approx\res{0{,}5318}$
+  \task La Ceci guanya si trau 6, o si trau 2 i l'Anna 0: $\frac13+\frac23\cdot\frac13=\res{\frac{5}{9}\approx 0{,}5556}$
+  \task Si l'Anna trau 0 perd segur; si trau 4, ha de no ser la més alta (C o D superen el 4: $1-\frac23\cdot\frac12=\frac23$): $\frac23\cdot\frac23=\res{\frac{4}{9}\approx 0{,}4444}$
+\end{tasks}
+
+
+\end{document}

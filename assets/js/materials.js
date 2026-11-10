@@ -463,6 +463,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 56 exercicis, 48 apartats de la PAU de 14 comunitats autònomes", es: "PDF · 56 ejercicios, 48 apartados de la PAU de 14 comunidades autónomas", en: "PDF · 56 exercises, 48 PAU items from 14 Spanish regions" }, url: "materials/2batx-mii/t9-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 56 exercicis, amb gràfiques", es: "PDF · Soluciones de los 56 ejercicios, con gráficas", en: "PDF · Solutions to all 56 exercises, with graphs" }, url: "materials/2batx-mii/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
         ]
+      },
+      {
+        ill: "probabilitat", block: "pr",
+        title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2batx-mii/t10-probabilitat.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Exercicis tipus PAU", es: "Ejercicios tipo PAU", en: "Exam-style exercises" }, desc: { va: "13 exercicis resolts de la PAU valenciana (2023–2026)", es: "13 ejercicios resueltos de la PAU valenciana (2023–2026)", en: "13 solved past Valencian PAU exercises (2023–2026)" }, url: "materials/2batx-mii/pau-u10-probabilitat.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 91 exercicis, 65 de la PAU de 16 comunitats autònomes", es: "PDF · 91 ejercicios, 65 de la PAU de 16 comunidades autónomas", en: "PDF · 91 exercises, 65 from the PAU of 16 Spanish regions" }, url: "materials/2batx-mii/t10-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 91 exercicis, amb arbres i taules", es: "PDF · Soluciones de los 91 ejercicios, con árboles y tablas", en: "PDF · Solutions to all 91 exercises, with trees and tables" }, url: "materials/2batx-mii/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+        ]
       }
     ]
   },
