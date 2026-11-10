@@ -1,0 +1,349 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 9: Integrals. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={integrals, primitives, integrals immediates, canvi de variable, integració per parts, funcions racionals, integral definida, regla de Barrow, teorema fonamental del càlcul, àrees, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 9: Integrals · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+\setlength{\emergencystretch}{3em}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Fitxa d'exercicis · Unitat 9}{\raggedright Integrals}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern justificant cada pas. Els exercicis marcats amb {\color{teal}\bfseries\faUniversity\ PAU} són de les proves d'accés a la universitat de València i d'altres comunitats autònomes, traduïts al valencià. Pots comprovar els resultats amb les eines dels apunts interactius (comprovació de primitives, per parts pas a pas, fraccions simples, calculadora d'àrees\dots).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Primitiva i integral indefinida}
+
+\ex{1} Comprova, derivant, que $F$ és una primitiva de $f$:\begin{tasks}(2)
+  \task $f(x)=xe^x$, \ $F(x)=xe^x-e^x$
+  \task $f(x)=\dfrac{1}{\sin x}$, \ $F(x)=\ln\left(\tan\dfrac x2\right)$
+  \task $f(x)=\dfrac{2}{\left(1+x^2\right)^2}$, \ $F(x)=\arctan x+\dfrac{x}{1+x^2}$
+  \task $f(x)=\dfrac{x}{\sqrt{x^2+1}}$, \ $F(x)=\sqrt{x^2+1}$
+\end{tasks}\recorda{$\displaystyle\int f(x)\,dx=F(x)+C\iff F'(x)=f(x)$. Una primitiva sempre es pot comprovar derivant-la.}
+
+\ex{2} \pau{Astúries, extraordinària 2025} $G(x)=\frac13x^3+ax^2+bx+5$ és una primitiva d'una funció $g$, on $a$ i $b$ són constants.\begin{tasks}(1)
+  \task Determina $g(x)$ en funció de $a$ i $b$.
+  \task Escriu totes les primitives de $g$.
+\end{tasks}
+
+\ex{2} Troba la funció $f$ que compleix $f''(x)=12x^2-6$ i la recta tangent de la qual en $x=1$ és $y=2x-3$.
+
+\ex{3} \pau{Aragó, ordinària 2024} Calcula $a$, $b$ i $c$ perquè $f(x)=ax+b\sin x\cos x+c$ siga una primitiva de $g(x)=\sin^2x$.
+
+
+% =====================================================
+\seccio{2}{Integrals immediates}
+
+\ex{1} Calcula:\begin{tasks}(2)
+  \task $\displaystyle\int\left(4x^3-6x+2\right)dx$
+  \task $\displaystyle\int\frac{x^2+1}{\sqrt x}\,dx$
+  \task $\displaystyle\int\left(e^x-3^x\right)dx$
+  \task $\displaystyle\int\left(\frac2x-\frac{5}{1+x^2}\right)dx$
+  \task $\displaystyle\int(3\cos x-2\sin x)\,dx$
+  \task $\displaystyle\int\left(1+\tan^2x\right)dx$
+  \task $\displaystyle\int\frac{4}{\sqrt{1-x^2}}\,dx$
+  \task $\displaystyle\int\frac{dx}{x^3}$
+\end{tasks}\recorda{$\int x^n\,dx=\frac{x^{n+1}}{n+1}$ ($n\neq-1$), $\int\frac{dx}x=\ln|x|$, $\int a^x\,dx=\frac{a^x}{\ln a}$, $\int\frac{dx}{\cos^2x}=\tan x$, $\int\frac{dx}{1+x^2}=\arctan x$, $\int\frac{dx}{\sqrt{1-x^2}}=\arcsin x$.}
+
+\ex{2} Transforma l'integrand (operacions o identitats trigonomètriques) i calcula:\begin{tasks}(2)
+  \task $\displaystyle\int\cos^2x\,dx$
+  \task $\displaystyle\int\tan^2x\,dx$
+  \task $\displaystyle\int(\sin x+\cos x)^2dx$
+  \task $\displaystyle\int\frac{(x+1)^2}{x}\,dx$
+  \task $\displaystyle\int\frac{2x-1}{\sqrt[3]{x}}\,dx$
+\end{tasks}\recorda{$\cos^2x=\frac{1+\cos2x}{2}$, $\sin^2x=\frac{1-\cos2x}{2}$, $1+\tan^2x=\frac{1}{\cos^2x}$, $2\sin x\cos x=\sin2x$.}
+
+
+% =====================================================
+\seccio{3}{Integrals quasi immediates}
+
+\ex{1} Calcula:\begin{tasks}(2)
+  \task $\displaystyle\int(3x-2)^5dx$
+  \task $\displaystyle\int\frac{x^2}{x^3+1}\,dx$
+  \task $\displaystyle\int e^{-x/2}\,dx$
+  \task $\displaystyle\int\cos(3x+1)\,dx$
+  \task $\displaystyle\int\frac{dx}{\cos^2(2x)}$
+  \task $\displaystyle\int xe^{x^2}dx$
+  \task $\displaystyle\int\frac{\sin x}{\cos^3x}\,dx$
+  \task $\displaystyle\int\frac{dx}{9+x^2}$
+  \task $\displaystyle\int\frac{x}{\sqrt{1-x^4}}\,dx$
+  \task $\displaystyle\int\frac{\cos x}{\sin x}\,dx$
+\end{tasks}\recorda{Si apareixen $u$ i $u'$ (o $u'$ multiplicada per una constant): $\int u'u^n=\frac{u^{n+1}}{n+1}$, $\int\frac{u'}u=\ln|u|$, $\int u'e^u=e^u$, $\int u'\cos u=\sin u$, $\int\frac{u'}{1+u^2}=\arctan u$…}
+
+\ex{2} Calcula les integrals següents:\begin{tasks}(1)
+  \task \pau{Castella i Lleó, juny 2018} $\displaystyle\int\frac{(\ln x)^2}{x}\,dx$
+  \task \pau{Navarra, extraordinària 2026} $\displaystyle\int\frac{e^2\,e^{\tan x}}{4\cos^2x}\,dx$
+  \task \pau{Astúries, ordinària 2025} $\displaystyle\int x\cos\left(4x^2-1\right)dx$
+\end{tasks}
+
+\ex{2} \pau{Múrcia, extraordinària 2021}\begin{tasks}(1)
+  \task Calcula $\displaystyle\int x\sin\left(x^2\right)dx$.
+  \task Troba el menor valor de $a>0$ per al qual $\displaystyle\int_0^ax\sin\left(x^2\right)dx=1$.
+\end{tasks}
+
+\ex{2} \pau{Múrcia, extraordinària 2023} Sigui $f(x)=\dfrac{\sin x}{1+\cos^2x}$.\begin{tasks}(1)
+  \task Calcula la integral indefinida de $f$.
+  \task Calcula $\displaystyle\int_0^{\pi/2}f(x)\,dx$.
+  \task Determina la primitiva de $f$ que passa pel punt $(\pi,1)$.
+\end{tasks}
+
+\ex{3} Calcula:\begin{tasks}(1)
+  \task $\displaystyle\int\frac{dx}{x^2+6x+13}$
+  \task $\displaystyle\int\frac{2x+3}{x^2+1}\,dx$
+  \task $\displaystyle\int\frac{dx}{e^x+e^{-x}}$ (multiplica dalt i baix per $e^x$)
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Integració per canvi de variable}
+
+\ex{1} Calcula amb el canvi indicat:\begin{tasks}(1)
+  \task $\displaystyle\int\frac{x}{\sqrt{x+2}}\,dx$ \quad ($t=\sqrt{x+2}$)
+  \task $\displaystyle\int\frac{dx}{x\ln x}$ \quad ($t=\ln x$)
+  \task $\displaystyle\int\frac{dx}{\sqrt x+\sqrt[4]x}$ \quad ($x=t^4$)
+\end{tasks}\recorda{Canvi $t=g(x)$, $dt=g'(x)\,dx$; tot ha de quedar en $t$. Al final desfem el canvi (o, en una integral definida, canviem els límits).}
+
+\ex{2} \pau{Astúries, ordinària 2022} Sigui $f(x)=x\sqrt{1-x^2}$.\begin{tasks}(1)
+  \task Calcula una primitiva de $f$ que passe pel punt $(-1,0)$ (canvi $t=1-x^2$).
+  \task Calcula $\displaystyle\int_0^1f(x)\,dx$.
+\end{tasks}
+
+\ex{2} \pau{Andalusia, extraordinària 2022} Calcula $\displaystyle\int_3^8\frac{dx}{\sqrt{1+x}-1}$ (canvi $t=\sqrt{1+x}-1$).
+
+\ex{2} Calcula les integrals següents amb el canvi $t=e^x$:\begin{tasks}(1)
+  \task \pau{Navarra, juliol 2018} $\displaystyle\int\frac{e^x}{1+2e^x+e^{2x}}\,dx$
+  \task \pau{Castella-la Manxa, juny 2018} $\displaystyle\int\frac{e^x}{e^{2x}+e^x-2}\,dx$
+\end{tasks}
+
+\ex{2} \pau{Astúries, extraordinària 2023} Calcula la primitiva de $f(x)=xe^{2x^2}$ que passa pel punt $(0,-1)$ (pots fer el canvi $t=2x^2$).
+
+\ex{3} Calcula $\displaystyle\int\sqrt{1-x^2}\,dx$ amb el canvi $x=\sin t$ i dedueix l'àrea d'un quart de cercle de radi 1.
+
+
+% =====================================================
+\seccio{5}{Integració per parts}
+
+\ex{1} Calcula per parts:\begin{tasks}(2)
+  \task $\displaystyle\int x\sin x\,dx$
+  \task $\displaystyle\int xe^{-x}\,dx$
+  \task $\displaystyle\int x^3\ln x\,dx$
+  \task $\displaystyle\int\ln(x+1)\,dx$
+\end{tasks}\recorda{$\int u\,dv=uv-\int v\,du$. Tria com a $u$ la funció que se simplifica en derivar-la (logaritmes, arctan, polinomis) i com a $dv$ la que sabem integrar (exponencials, sinus, cosinus).}
+
+\ex{2} Calcula:\begin{tasks}(1)
+  \task \pau{Navarra, ordinària 2022} $\displaystyle\int(3-2x)e^{-2x}dx$
+  \task \pau{Castella i Lleó, extraordinària 2021} $\displaystyle\int x\ln\left(x^2\right)dx$
+  \task \pau{País Basc, juliol 2018} $\displaystyle\int x^2e^{-3x}dx$
+\end{tasks}
+
+\ex{2} Troba les primitives que compleixen la condició donada:\begin{tasks}(1)
+  \task \pau{Extremadura, ordinària 2024} $f(x)=(2x+5)e^{-2x}$, \ amb $F(0)=0$
+  \task \pau{Extremadura, extraordinària 2026} $g(x)=\left(x^2-3x\right)e^x$, \ que passe per $P(0,1)$
+\end{tasks}
+
+\ex{3} \pau{País Basc, extraordinària 2022} Calcula $\displaystyle\int\ln\left(x^2-1\right)dx$.
+
+\ex{3} \pau{Galícia, extraordinària 2023} Calcula $\displaystyle\int\frac{\ln x}{x}\,dx$ per parts i troba algun valor de $B$ tal que $\displaystyle\int_e^B\frac{\ln x}{x}\,dx=\frac32$.
+
+\ex{3} Calcula $\displaystyle\int e^{2x}\cos x\,dx$ (integral cíclica).
+
+\ex{2} Calcula:\begin{tasks}(1)
+  \task \pau{Aragó, setembre 2019} $\displaystyle\int x(\ln x)^2dx$
+  \task $\displaystyle\int x\arctan x\,dx$
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Integració de funcions racionals}
+
+\ex{1} Calcula (arrels reals simples):\begin{tasks}(1)
+  \task $\displaystyle\int\frac{dx}{x^2-4}$
+  \task $\displaystyle\int\frac{x+1}{x^2-3x+2}\,dx$
+  \task \pau{Extremadura, ordinària 2021} $\displaystyle\int\frac{3x}{x^2+x-2}\,dx$
+  \task \pau{Navarra, juliol 2017} $\displaystyle\int\frac{dx}{x^2-x-2}$
+\end{tasks}\recorda{Si grau $P\geq$ grau $Q$, primer dividim. Després factoritzem $Q$: $\frac{A}{x-a}$ per a cada arrel simple, $\frac{A}{x-a}+\frac{B}{(x-a)^2}$ per a una de doble i $\frac{Mx+N}{x^2+px+q}$ per a un factor sense arrels.}
+
+\ex{2} \pau{Extremadura, extraordinària 2024} Calcula $\displaystyle\int\frac{-x^2+7x+6}{x^3+x^2-2x}\,dx$.
+
+\ex{2} Calcula (grau del numerador més gran o igual):\begin{tasks}(1)
+  \task \pau{Castella-la Manxa, setembre 2017} $\displaystyle\int\frac{x^3+2x^2+x-10}{x^2+x-2}\,dx$
+  \task \pau{Balears, extraordinària 2023} $\displaystyle\int\frac{x^4+2x-6}{x^2+x-2}\,dx$
+\end{tasks}
+
+\ex{2} \pau{País Basc, juny 2018} Calcula $\displaystyle\int\frac{2x-1}{x(x+1)^2}\,dx$ (arrel doble).
+
+\ex{3} Calcula $\displaystyle\int\frac{x+3}{x^3+4x}\,dx$ (factor de segon grau sense arrels).
+
+\ex{2} \pau{València, extraordinària 2023} Sigui $f(x)=\dfrac{-2x^2+x+1}{2x^2+5x+2}$.\begin{tasks}(1)
+  \task Comprova que $x=-\frac12$ és una discontinuïtat evitable.
+  \task Calcula $\displaystyle\int f(x)\,dx$.
+\end{tasks}
+
+\ex{2} \pau{València, ordinària 2020} Sigui $f(x)=\dfrac{2x^2+1}{x(x-1)}$. Calcula $\displaystyle\int f(x)\,dx$ i la primitiva de $f$ la gràfica de la qual passa pel punt $(2,0)$.
+
+\ex{3} \pau{València, juliol 2019} Sigui $h(x)=\dfrac{x^3+x^2+5x-3}{x^2+2x+5}$. Calcula l'asímptota de la corba $y=h(x)$ i la primitiva $\int h(x)\,dx$.
+
+
+% =====================================================
+\seccio{7}{La integral definida i la regla de Barrow}
+
+\ex{1} Calcula:\begin{tasks}(2)
+  \task $\displaystyle\int_0^1\left(x^3-2x\right)dx$
+  \task $\displaystyle\int_1^e\left(\frac1x+x\right)dx$
+  \task $\displaystyle\int_0^{\pi/2}\cos x\,dx$
+  \task $\displaystyle\int_0^{\pi/4}\frac{dx}{\cos^2x}$
+  \task $\displaystyle\int_0^1\frac{x}{x^2+1}\,dx$
+  \task $\displaystyle\int_{-1}^1e^{2x}dx$
+\end{tasks}\recorda{Regla de Barrow: $\int_a^bf(x)\,dx=F(b)-F(a)$, amb $F$ una primitiva qualsevol de $f$ (contínua en $[a,b]$).}
+
+\ex{2} Calcula:\begin{tasks}(1)
+  \task \pau{Galícia, ordinària 2020} $\displaystyle\int_1^2x(\ln x-1)\,dx$
+  \task \pau{Canàries, extraordinària 2020} $\displaystyle\int_0^{\pi/2}x\cos x\,dx$
+  \task \pau{Castella-la Manxa, juliol 2019} $\displaystyle\int_0^1(x+1)e^{-x}dx$
+  \task \pau{Cantàbria, juny 2019} $\displaystyle\int_0^5(x+10)e^{2x}dx$
+\end{tasks}
+
+\ex{3} \pau{Andalusia, setembre 2018} Sigui $f(x)=ax\ln x-bx$ ($x>0$). Determina $a$ i $b$ sabent que $f$ té un extrem relatiu en $x=1$ i que $\displaystyle\int_1^2f(x)\,dx=8\ln2-9$.
+
+\ex{2} \pau{Múrcia, extraordinària 2024} Sigui $f(x)=\dfrac{\ln x}{\sqrt x}$. Calcula $\displaystyle\int f(x)\,dx$ i el valor de $a>0$ per al qual $\displaystyle\int_1^af(x)\,dx=4$.
+
+\ex{2} Troba el valor mitjà de $f(x)=x^2$ en $[0,3]$ i el punt $c$ que dona el teorema del valor mitjà del càlcul integral.
+
+
+% =====================================================
+\seccio{8}{Teorema fonamental del càlcul}
+
+\ex{2} Calcula la derivada de:\begin{tasks}(2)
+  \task $F(x)=\displaystyle\int_0^x\frac{dt}{1+t^4}$
+  \task $G(x)=\displaystyle\int_1^{x^3}\ln t\,dt$ \ ($x>0$)
+  \task $H(x)=\displaystyle\int_0^{x^2}e^{-t}\,dt$
+  \task $K(x)=\displaystyle\int_{x}^{1}\cos\left(t^2\right)dt$
+\end{tasks}\recorda{$\dfrac{d}{dx}\displaystyle\int_a^{x}f(t)\,dt=f(x)$ i, amb la regla de la cadena, $\dfrac{d}{dx}\displaystyle\int_a^{g(x)}f(t)\,dt=f\big(g(x)\big)\,g'(x)$.}
+
+\ex{2} Troba els extrems relatius de $F(x)=\displaystyle\int_0^x\left(t^2-4\right)e^{t}\,dt$.
+
+\ex{2} \pau{Aragó, extraordinària 2026} No tota funció té una primitiva expressable amb funcions elementals; per exemple $f(x)=\sin\left(x^2\right)$. Sigui $F$ la primitiva de $f$ amb $F(0)=0$.\begin{tasks}(1)
+  \task Quina és la derivada de $F$?
+  \task Calcula $\displaystyle\lim_{x\to0}\frac{F(x)}{x^3}$ amb la regla de L'Hôpital.
+\end{tasks}
+
+\ex{3} Calcula $\displaystyle\lim_{x\to0}\frac{\int_0^xe^{t^2}dt-x}{x^3}$.
+
+\ex{3} Troba una funció contínua $f$ tal que $\displaystyle\int_0^xf(t)\,dt=x^2e^x$ per a tot $x$.
+
+
+% =====================================================
+\seccio{9}{Àrea entre una corba i l'eix OX}
+
+\ex{1} \pau{Cantàbria, extraordinària 2021} Sigui $f(x)=-x^2+4x$. Calcula'n una primitiva i l'àrea del recinte limitat per $f$, les rectes $x=1$, $x=3$ i l'eix OX.\recorda{Busca els talls amb OX dins de l'interval, integra en cada tros i suma els valors absoluts. Fes un esbós!}
+
+\ex{2} \pau{Castella-la Manxa, setembre 2017} Calcula l'àrea de la regió determinada per $f(x)=(x-1)(x+2)$, les rectes $x=-3$, $x=2$ i l'eix d'abscisses. Esbossa-la.
+
+\ex{2} \pau{Astúries, extraordinària 2024} Sigui $f(x)=\sin(\pi-2x)$.\begin{tasks}(1)
+  \task Calcula una primitiva que passe pel punt $\left(\frac\pi2,1\right)$.
+  \task Calcula l'àrea limitada per $f$, l'eix $X$ i les rectes $x=-\frac\pi4$ i $x=\frac\pi4$.
+\end{tasks}
+
+\ex{2} \pau{Astúries, ordinària 2025} Calcula l'àrea acotada entre $f(x)=4\sin(x-\pi)$ i les rectes $y=0$, $x=0$ i $x=\pi$.
+
+\ex{2} Calcula l'àrea entre $f(x)=x\ln x$, l'eix OX i la recta $x=e$.
+
+\ex{3} Troba $b>0$ perquè l'àrea del recinte limitat per $y=x^2-bx$ i l'eix OX valga 36.
+
+\ex{2} Calcula l'àrea del recinte limitat per $f(x)=x^3-x$ i l'eix OX. Per què $\int_{-1}^1f(x)\,dx=0$?
+
+
+% =====================================================
+\seccio{10}{Àrea entre dues corbes}
+
+\ex{1} \pau{País Basc, ordinària 2020} Dibuixa la regió tancada per $f(x)=x^2-2x+1$ i $g(x)=-x^2+5$, i calcula'n l'àrea.\recorda{Talls: $f(x)=g(x)$. Àrea $=\int_a^b|f-g|\,dx$: en cada tros, «la de dalt menys la de baix».}
+
+\ex{2} \pau{Andalusia, juny 2018} Esbossa el recinte limitat per $f(x)=6x-x^2$ i $g(x)=x^2-2x$, troba'n els punts de tall i calcula'n l'àrea.
+
+\ex{2} Calcula l'àrea del recinte limitat per les dues corbes:\begin{tasks}(1)
+  \task \pau{Castella i Lleó, ordinària 2022} $y=\sqrt{3x}$ \ i \ $y=\frac13x^2$
+  \task \pau{Astúries, juny 2017} $f(x)=\frac{x^2}{4}$ \ i \ $g(x)=2\sqrt x$
+  \task \pau{Castella i Lleó, extraordinària 2023} $f(x)=-x^2$ \ i \ $g(x)=x^3$, en $[-1,0]$
+\end{tasks}
+
+\ex{2} \pau{Castella-la Manxa, juny 2018} Calcula l'àrea del recinte tancat per $f(x)=2xe^{-x}$ i $g(x)=x^2e^{-x}$.
+
+\ex{2} \pau{Canàries, extraordinària 2022} Representa el recinte que tanquen $y=3x-x^2$ i $y=x-3$ i calcula'n l'àrea.
+
+\ex{2} \pau{Extremadura, ordinària 2020} Representa la regió delimitada per $f(x)=x^2-4x+1$ i $g(x)=-x+1$ i calcula'n l'àrea.
+
+\ex{3} Calcula l'àrea del recinte del primer quadrant limitat per $y=\frac4x$, $y=x$ i la recta $x=4$.
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova les teues primitives derivant-les i les àrees amb les eines dels apunts interactius.\end{center}
+
+\end{document}

@@ -229,6 +229,25 @@ python3 _eines/apunts/2batx-mii-t7/build.py
 cd _eines/fonts-latex/2batx-mii-t7 && python3 genera.py && pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex
 ```
 
+## 2n Batx MII: unitats 8 (Representació gràfica de funcions) i 9 (Integrals)
+
+Segueixen l'estructura de les unitats 7 i 8 de CCSS, amb més dificultat i amb funcions radicals, trigonomètriques i a trossos.
+Els apunts es generen amb `_eines/apunts/2batx-mii-t8/build.py` i `_eines/apunts/2batx-mii-t9/build.py` (contingut a
+`contingut-*.html`, ginys a `app.js`, estil a `extra.css`). La unitat 8 reaprofita de l'`app.js` de la unitat 7 de MII els
+textos de la interfície, l'estudi numèric (domini, asímptotes, monotonia, curvatura, periodicitat), els ginys de monotonia i
+curvatura i l'estudi complet pas a pas; la unitat 9 n'agafa els nombres exactes i les arrels numèriques, i hi afegeix les àrees
+ombrejades i els rectangles de Riemann de la unitat 8 de CCSS, la descomposició exacta en fraccions simples i els passos guiats
+de canvi de variable i per parts. Les fitxes es generen amb els `genera.py` de `_eines/fonts-latex/2batx-mii-t8` i `-t9`
+(sympy comprova totes les solucions; les gràfiques i els recintes es dibuixen amb TikZ), amb exercicis PAU del mateix recull
+de tota Espanya (ebaumatematicas.com):
+
+```
+python3 _eines/apunts/2batx-mii-t8/build.py
+python3 _eines/apunts/2batx-mii-t9/build.py
+cd _eines/fonts-latex/2batx-mii-t8 && python3 genera.py && pdflatex t8-fitxa-exercicis.tex && pdflatex t8-fitxa-solucions.tex
+cd _eines/fonts-latex/2batx-mii-t9 && python3 genera.py && pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex
+```
+
 ## Treballar des de casa i des de l'institut
 
 El repositori de GitHub és la còpia de referència. Abans de començar, baixa els canvis (`git pull` o *Fetch/Pull*

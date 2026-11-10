@@ -440,6 +440,24 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 93 exercicis, 102 apartats de la PAU de 16 comunitats autònomes", es: "PDF · 93 ejercicios, 102 apartados de la PAU de 16 comunidades autónomas", en: "PDF · 93 exercises, 102 PAU items from 16 Spanish regions" }, url: "materials/2batx-mii/t7-fitxa-exercicis.pdf", download: true, date: "2026-11-09" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 93 exercicis, amb gràfiques", es: "PDF · Soluciones de los 93 ejercicios, con gráficas", en: "PDF · Solutions to all 93 exercises, with graphs" }, url: "materials/2batx-mii/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-09" }
         ]
+      },
+      {
+        ill: "grafiques", block: "an",
+        title: { va: "Representació gràfica de funcions", es: "Representación gráfica de funciones", en: "Graphing functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Domini, talls i signe, simetries i periodicitat, asímptotes i branques parabòliques, i representació de funcions racionals, radicals, exponencials, logarítmiques, trigonomètriques i a trossos", es: "Dominio, cortes y signo, simetrías y periodicidad, asíntotas y ramas parabólicas, y representación de funciones racionales, radicales, exponenciales, logarítmicas, trigonométricas y a trozos", en: "Domain, intercepts and sign, symmetry and periodicity, asymptotes and parabolic branches, and graphing rational, radical, exponential, logarithmic, trigonometric and piecewise functions" }, url: "materials/2batx-mii/t8-representacio-funcions.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 60 exercicis, 31 de la PAU de 13 comunitats autònomes", es: "PDF · 60 ejercicios, 31 de la PAU de 13 comunidades autónomas", en: "PDF · 60 exercises, 31 from the PAU of 13 Spanish regions" }, url: "materials/2batx-mii/t8-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis, amb gràfiques", es: "PDF · Soluciones de los 60 ejercicios, con gráficas", en: "PDF · Solutions to all 60 exercises, with graphs" }, url: "materials/2batx-mii/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+        ]
+      },
+      {
+        ill: "integrals", block: "an",
+        title: { va: "Integrals", es: "Integrales", en: "Integrals" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, desc: { va: "Immediates i quasi immediates (també trigonomètriques), canvi de variable, per parts, funcions racionals, regla de Barrow, teorema fonamental del càlcul i àrees", es: "Inmediatas y casi inmediatas (también trigonométricas), cambio de variable, por partes, funciones racionales, regla de Barrow, teorema fundamental del cálculo y áreas", en: "Standard and almost-standard (trigonometric too), substitution, by parts, rational functions, Barrow's rule, fundamental theorem of calculus and areas" }, url: "materials/2batx-mii/t9-integrals.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 56 exercicis, 48 apartats de la PAU de 14 comunitats autònomes", es: "PDF · 56 ejercicios, 48 apartados de la PAU de 14 comunidades autónomas", en: "PDF · 56 exercises, 48 PAU items from 14 Spanish regions" }, url: "materials/2batx-mii/t9-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 56 exercicis, amb gràfiques", es: "PDF · Soluciones de los 56 ejercicios, con gráficas", en: "PDF · Solutions to all 56 exercises, with graphs" }, url: "materials/2batx-mii/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+        ]
       }
     ]
   },
