@@ -111,6 +111,13 @@ assert_(sp.solve([((a_ * x + b_) / (x**2 + 1)).subs(x, 0) - 1, sp.diff((a_ * x +
 hh = x**3 + a_ * x**2 + 3 * x + b_
 assert_(sp.solve([hh.subs(x, 1) - 2, sp.diff(hh, x).subs(x, 1)], [a_, b_]) == {a_: -3, b_: 1})
 assert_(sorted(sp.solve(2 * a_ - a_**2 + 3, a_)) == [-1, 3]); tang(x**2, 3, 6, -9); tang(x**2, -1, -2, -1)
+# (afegits del recull de PAU de tota Espanya, curs 2026/27)
+tang(1 / x, 3, -R(1, 9), R(2, 3))
+tang((2 * x**2 + 2 * x - 2) / (3 * x**2 + 3), 1, R(2, 3), -R(1, 3)); eq(R(1, 3) + R(3, 2), R(11, 6))
+c3 = sp.symbols('c3'); _f = a_ + b_ * cos(x) + c3 * sin(x)
+assert_(sp.solve([_f.subs(x, pi / 2) - 1, sp.diff(_f, x).subs(x, pi / 2), _f.subs(x, 0) + 1], [a_, b_, c3]) == {a_: -1, b_: 0, c3: 2})
+tang(-x * sp.exp(-x), -1, -2 * E, -E); eq(lim(sp.diff(-x * sp.exp(-x), x), 0, '-'), -1); eq(lim(sp.diff(x * sp.exp(-x), x), 0, '+'), 1)
+tang(sq(-x) + E**3, -4, -R(1, 4), 1 + E**3)
 sec("Rectes tangent i normal",
  (1, r"Escriu les equacions de les rectes tangent i normal a la gràfica de cada funció en el punt indicat:" + tasks(2, [r"$f(x)=x^3-3x+1$ en $x=2$", r"$g(x)=\ln(x^2-3)$ en $x=2$"])
      + recorda(r"Tangent: $y-f(a)=f'(a)(x-a)$. \ Normal (perpendicular a la tangent): $y-f(a)=-\dfrac{1}{f'(a)}(x-a)$; si $f'(a)=0$, la normal és la recta vertical $x=a$."),
@@ -134,6 +141,16 @@ sec("Rectes tangent i normal",
                                                     r"\pau{Andalusia, ordinària 2024} $a$ i $b$ perquè siga horitzontal la recta tangent a la gràfica de $h(x)=x^3+ax^2+3x+b$ en el punt $P(1,2)$."]),
      tasks(1, [r"$2a+\frac b2=4$, \ $a-\frac b4=0$: \ $\res{a=1,\ b=4}$", r"$f(0)=b=1$; \ $f'(x)=\frac{a(x^2+1)-(ax+b)2x}{(x^2+1)^2}$, $f'(0)=a=1$: \ $\res{a=1,\ b=1}$",
                r"$h'(1)=6+2a=0\Rightarrow a=-3$; \ $h(1)=1+a+3+b=2\Rightarrow\res{a=-3,\ b=1}$"])),
+ (2, r"\pau{La Rioja, ordinària 2024} Escriu la recta tangent a $y=\dfrac1x$ en el punt $\left(3,\frac13\right)$ i comprova que el segment d'aquesta recta comprés entre els eixos queda dividit en dues parts iguals pel punt de tangència.",
+     r"$y'=-\frac{1}{x^2}$, $y'(3)=-\frac19$: \ $\res{y=-\frac19x+\frac23}$. Talla els eixos en $(6,0)$ i $\left(0,\frac23\right)$, i el punt mitjà del segment és $\left(\frac{6+0}{2},\frac{0+2/3}{2}\right)=\left(3,\frac13\right)$."),
+ (2, r"\pau{Castella-la Manxa, extraordinària 2021} Calcula les rectes tangent i normal a la gràfica de $f(x)=\dfrac{2x^2+2x-2}{3x^2+3}$ en el punt d'abscissa $x=1$.",
+     r"$f(1)=\frac13$, $f'(x)=\frac{-6x^2+24x+6}{(3x^2+3)^2}\Rightarrow f'(1)=\frac23$: \ tangent $\res{y=\frac23x-\frac13}$; \ normal $\res{y=-\frac32x+\frac{11}{6}}$."),
+ (2, r"\pau{Andalusia, extraordinària 2024} Troba $a$, $b$ i $c$ sabent que la gràfica de $f(x)=a+b\cos x+c\sin x$ té per recta tangent $y=1$ en el punt d'abscissa $x=\frac\pi2$, i que la recta $y=x-1$ talla la gràfica en el punt d'abscissa $x=0$.",
+     r"$f\left(\frac\pi2\right)=a+c=1$, \ $f'\left(\frac\pi2\right)=-b=0$, \ $f(0)=a+b=-1$: \ $\res{a=-1,\ b=0,\ c=2}$."),
+ (3, r"\pau{La Rioja, extraordinària 2024} Escriu, si existeixen, les rectes tangents a la corba $f(x)=|x|\,e^{-x}$ en els punts d'abscissa $x=0$ i $x=-1$." + recorda(r"Escriu primer la funció a trossos: $|x|=-x$ si $x<0$."),
+     r"En $x=0$: $f'(0^-)=-1\neq1=f'(0^+)$, punt anguló: \rest{no hi ha tangent}. En $x=-1$: $f(x)=-xe^{-x}$, $f(-1)=e$, $f'(-1)=-2e$: \ $\res{y=-2ex-e}$."),
+ (2, r"\pau{Aragó, ordinària 2022} Per a la funció " + '$' + pw((r'\sqrt{-x}+e^3', r'x\leq0'), (r'(1-x)^{a/x}', 'x>0')) + '$' + r" (que és contínua per a $a=-3$), calcula la recta tangent en $x=-4$.",
+     r"$f(-4)=2+e^3$, $f'(x)=\frac{-1}{2\sqrt{-x}}\Rightarrow f'(-4)=-\frac14$: \ $\res{y=-\frac14x+1+e^3}$."),
 )
 
 # =====================================================================
@@ -358,6 +375,15 @@ assert_(sorted(sp.solve(5 - a_ - 6 / a_, a_)) == [2, 3])
 assert_(solve2([a_ + b_, 2 * a_ + b_ - 1], [a_, b_]) == [{a_: 1, b_: -1}]); assert_(solve2([a_ + b_ - 1, 2 * a_ + 1], [a_, b_]) == [{a_: -R(1, 2), b_: R(3, 2)}])
 assert_(solve2([1 + b_ - 3, a_ - 2], [a_, b_]) == [{a_: 2, b_: 2}]); chk_pw(sp.exp(2 * x) + 2, sin(2 * x) + 3, 0, True, 2, 2)
 chk_pw(sp.Integer(0) + x, atan(x), 0, True, 1, 1)
+# (afegits del recull de PAU de tota Espanya, curs 2026/27)
+k2, m2, k_ = sp.symbols('k2 m2 k')
+assert_(solve2([k2 + 2 - (1 - m2), 2 * k2 + 2 - 2], [k2, m2]) == [{k2: 0, m2: -1}])
+assert_(lim(-x * sp.exp(x) / x, 0, '+') == -1); chk_pw(x**2 - x - 1, -sp.exp(x), 0, True, -1, -1)
+assert_(solve2([a_ - 1 - b_, -1 - (-b_ - 1)], [a_, b_]) == [{a_: 1, b_: 0}]); chk_pw(1 - x, -ln(x), 1, True, -1, -1)
+assert_(solve2([1 - b_, -a_ - b_], [a_, b_]) == [{a_: -1, b_: 1}]); chk_pw(x**2 + x + 1, sp.exp(x), 0, True, 1, 1)
+assert_(solve2([a_ + b_ - 2, a_ - 1], [a_, b_]) == [{a_: 1, b_: 1}]); chk_pw((x**2 - 1) / (x - 1), x + 1, 1, True, 1, 1)
+_g = 2 * sp.exp(x) / (1 + x**2); chk_pw(3 * x**2 - sin(-2 * x) + 2, _g, 0, True, 2, 2); tang(_g, 2, 2 * E**2 / 25, 6 * E**2 / 25)
+assert_(sorted(sp.solve(3 - k_ - 2 / k_, k_)) == [1, 2]); assert_(sorted(sp.solve(-2 * k_ + 2 / k_, k_)) == [-1, 1]); chk_pw(3 - x**2, 2 / x, 1, True, -2, -2)
 sec("Funcions a trossos amb paràmetres",
  (2, r"\pau{Andalusia, ordinària 2022} Determina $a$ i $b$ perquè $f$ siga contínua i derivable en tot el seu domini:" + dm(pw((r'6x-3', r'x\leq1'), (r'ax^2+bx+2', 'x>1')))
      + recorda(r"En cada punt de canvi: continuïtat ($\lim^-=\lim^+=f(a)$) i derivabilitat ($f'(a^-)=f'(a^+)$). Amb dos paràmetres, un sistema de dues equacions."),
@@ -381,6 +407,20 @@ sec("Funcions a trossos amb paràmetres",
  (2, r"Troba els paràmetres perquè cada funció siga derivable en el seu domini:" + tasks(2, ['$' + pw((r'ax^2+bx', r'x\leq1'), (r'\ln x', 'x>1')) + '$', '$' + pw((r'ax^2+b', 'x<1'), (r'\dfrac1x', r'x\geq1'), name='g(x)') + '$',
                                                                                      '$' + pw((r'e^{ax}+b', r'x\leq0'), (r'\sin2x+3', 'x>0'), name='h(x)') + '$', '$' + pw((r'a+bx', r'x\leq0'), (r'\arctan x', 'x>0'), name='k(x)') + '$']),
      tasks(2, [r"$a+b=0$, $2a+b=1$: $\res{a=1,\ b=-1}$", r"$a+b=1$, $2a=-1$: $\res{a=-\frac12,\ b=\frac32}$", r"$1+b=3$, $a=2$: $\res{a=2,\ b=2}$", r"$a=0$, $b=\frac{1}{1+0}$: $\res{a=0,\ b=1}$"])),
+ (2, r"Troba els paràmetres en cada cas:" + tasks(1, [r"\pau{Galícia, ordinària 2025} Quina condició han de complir $k$ i $m$ perquè " + '$' + pw((r'kx^2+2x', r'x\leq1'), (r'x^2-m', 'x>1')) + '$' + r" siga contínua en $x=1$? I per a quins valors és derivable en $x=1$?",
+                                                  r"\pau{Galícia, extraordinària 2024} Si " + '$' + pw((r'x^2+bx-1', r'x\leq0'), (r'\dfrac{k-xe^x}{x}', 'x>0')) + '$' + r", quin valor de $k$ la fa contínua en $x=0$ per a qualsevol $b$? Per a quins $b$ i $k$ és derivable en $x=0$?",
+                                                  r"\pau{Canàries, juny 2019} Troba $a$ i $b$ perquè " + '$' + pw((r'a-x', r'x\leq1'), (r'\dfrac bx-\ln x', 'x>1')) + '$' + r" siga derivable en tot el seu domini i escriu la funció resultant."])
+     + recorda(r"Si un tros té la forma $\frac{\dots}{x}$ i ha de ser continu en 0, el numerador s'ha d'anul·lar en 0 (si no, el límit és infinit)."),
+     tasks(1, [r"Contínua si $k+2=1-m$, és a dir, $\res{m=-k-1}$. Derivable si, a més, $2k+2=2$: $\res{k=0,\ m=-1}$.",
+               r"$f(0)=-1$; el límit per la dreta és finit només si $k=0$, i aleshores $\lim_{x\to0^+}(-e^x)=-1$: $\res{k=0}$. $f'(0^-)=b$, $f'(0^+)=-1$: $\res{b=-1,\ k=0}$.",
+               r"$a-1=b$, $\ -1=-b-1$: $\res{a=1,\ b=0}$; \ $f(x)=1-x$ si $x\leq1$ i $-\ln x$ si $x>1$."])),
+ (2, r"Troba els paràmetres perquè cada funció siga contínua i derivable en el punt de canvi:" + tasks(1, [r"\pau{Castella-la Manxa, ordinària 2021} " + '$' + pw((r'x^2-ax+1', 'x<0'), (r'be^x', r'x\geq0')) + '$',
+                                                  r"\pau{Castella-la Manxa, ordinària 2026} " + '$' + pw((r'\dfrac{x^2-1}{x-1}', 'x<1'), (r'ax+b', r'x\geq1')) + '$',
+                                                  r"\pau{Andalusia, juny 2018} $k\neq0$ perquè siga derivable " + '$' + pw((r'3-kx^2', r'x\leq1'), (r'\dfrac{2}{kx}', 'x>1')) + '$']),
+     tasks(1, [r"$b=1$, $\ -a=b$: $\res{a=-1,\ b=1}$", r"$\frac{x^2-1}{x-1}=x+1$: continuïtat $a+b=2$, derivabilitat $a=1$: $\res{a=b=1}$",
+               r"Continuïtat: $3-k=\frac2k\Rightarrow k=1$ o $k=2$; derivabilitat: $-2k=-\frac2k\Rightarrow k=\pm1$: $\res{k=1}$"])),
+ (3, r"\pau{Madrid, ordinària 2026} Sigui " + '$' + pw((r'3x^2-\sin(ax)+b', 'x<0'), (r'\dfrac{2e^x}{1+x^2}', r'x\geq0')) + '$.' + tasks(1, [r"Calcula $a$ i $b$ perquè siga contínua i derivable en $x=0$.", r"Troba la recta tangent a la gràfica en $x=2$."]),
+     tasks(1, [r"Continuïtat: $b=2$. $f'(0^-)=-a$, $f'(0^+)=\frac{2e^0(1+0)-2e^0\cdot0}{1}=2$: $\res{a=-2,\ b=2}$.", r"$f(2)=\frac{2e^2}{5}$, $f'(x)=\frac{2e^x(x-1)^2}{(1+x^2)^2}\Rightarrow f'(2)=\frac{2e^2}{25}$: $\res{y=\frac{2e^2}{25}x+\frac{6e^2}{25}}$."])),
 )
 
 # =====================================================================

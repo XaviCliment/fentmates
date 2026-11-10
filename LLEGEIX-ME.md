@@ -216,6 +216,19 @@ perquè algun apartat és d'aquestes unitats. Les solucions són a `sol_a.py`, `
 python3 _eines/pau/an/build.py
 ```
 
+## 2n Batx MII: unitat 7 (Aplicacions de la derivada)
+
+Els apunts es generen amb `_eines/apunts/2batx-mii-t7/build.py` (contingut a `contingut-*.html`, ginys a `app.js`,
+estil a `extra.css`). Reaprofita el nucli de la unitat 5 de MII i la derivació simbòlica de la unitat 6 de MII; l'estudi
+numèric (domini, asímptotes, monotonia, curvatura i periodicitat de les trigonomètriques) està copiat i ampliat a `app.js`.
+La fitxa i les solucions es generen amb `_eines/fonts-latex/2batx-mii-t7/genera.py` (sympy comprova totes les solucions i
+dibuixa les gràfiques); els exercicis PAU són del recull de tota Espanya del curs 2026/27 (ebaumatematicas.com):
+
+```
+python3 _eines/apunts/2batx-mii-t7/build.py
+cd _eines/fonts-latex/2batx-mii-t7 && python3 genera.py && pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex
+```
+
 ## Treballar des de casa i des de l'institut
 
 El repositori de GitHub és la còpia de referència. Abans de començar, baixa els canvis (`git pull` o *Fetch/Pull*

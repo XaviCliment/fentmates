@@ -1,0 +1,411 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 7: Aplicacions de la derivada. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={L'Hôpital, indeterminacions, monotonia, extrems, curvatura, punts d'inflexió, Rolle, valor mitjà, optimització, representació de funcions, PAU}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 7: Aplicacions de la derivada · 2n Batxillerat MII}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+\setlength{\emergencystretch}{3em}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques II}{2n Batx}{Fitxa d'exercicis · Unitat 7}{\raggedright Aplicacions de la derivada}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern justificant cada pas. Els exercicis marcats amb {\color{teal}\bfseries\faUniversity\ PAU} són de les proves d'accés a la universitat de València i d'altres comunitats autònomes, traduïts al valencià. Pots comprovar els resultats amb les eines dels apunts interactius (L'Hôpital pas a pas, estudi complet d'una funció, optimització\dots).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Rectes tangent i normal}
+
+\ex{1} Calcula:\begin{tasks}(1)
+  \task \pau{Castella-la Manxa, juny 2017} La recta normal a la gràfica de $g(x)=x^2-2x-4$ en el punt d'abscissa $x=-3$.
+  \task \pau{Aragó, ordinària 2020} La recta tangent a $f(x)=\ln(2x+1)$ en $x=\frac12$.
+  \task \pau{Catalunya, extraordinària 2024} La recta tangent a $y=e^{-2x}$ en $x=0$ i el punt on talla l'eix d'abscisses.
+  \task \pau{Aragó, extraordinària 2021} La recta tangent a $f(x)=\dfrac{e^x}{x^3-x}$ en $x=2$.
+\end{tasks}\recorda{Tangent: $y-f(a)=f'(a)(x-a)$. Normal: $y-f(a)=-\dfrac{1}{f'(a)}(x-a)$.}
+
+\ex{2} \pau{Catalunya, setembre 2019} Considera la funció $f(x)=\dfrac{1}{1+x^2}$.\begin{tasks}(1)
+  \task Calcula l'equació de la recta tangent a la gràfica en els punts en què és horitzontal.
+  \task Calcula les coordenades del punt de la gràfica en què el pendent de la recta tangent és màxim.
+\end{tasks}\recorda{El pendent de la tangent és $m(x)=f'(x)$: per a fer-lo màxim, derivem $f'$ i igualem a zero (és a dir, $f''(x)=0$).}
+
+\ex{2} \pau{Astúries, juny 2019} Donada la corba $y=\dfrac{1}{3+x^2}$, escriu la funció $m(x)$ que dona el pendent de la recta tangent en cada punt i troba en quin $x$ el pendent és màxim.
+
+\ex{2} \pau{La Rioja, ordinària 2022} Donada la corba $f(x)=\frac14x^2+4x+4$, troba els punts en què la recta tangent passa per l'origen i escriu-ne les equacions.\recorda{Si el punt no és de la corba, escriu la tangent en un punt genèric $(a,f(a))$ i imposa que passe pel punt donat.}
+
+\ex{2} Quantes rectes tangents a $f(x)=x^3-3x$ passen pel punt $(0,2)$? Escriu-les.
+
+\ex{2} Troba $a$ perquè la recta $y=2x+a$ siga tangent a la paràbola $f(x)=x^2-4x+10$. En quin punt?\recorda{Una recta és tangent a una paràbola si, en tallar-les, l'equació de segon grau té una arrel doble (discriminant zero).}
+
+\ex{2} \pau{Galícia, extraordinària 2022} Troba els vèrtexs del triangle rectangle que té la hipotenusa sobre la recta tangent a $f(x)=x^2$ en $x=2$ i un catet de longitud 2 sobre l'eix $X$ (a la dreta del punt on la tangent talla l'eix).
+
+
+% =====================================================
+\seccio{2}{Regla de L'Hôpital}
+
+\ex{1} Calcula els límits següents:\begin{tasks}(1)
+  \task \pau{Castella-la Manxa, extraordinària 2021} $\displaystyle\lim_{x\to1}\frac{x-1}{e^{x-1}-1}$
+  \task \pau{Castella-la Manxa, ordinària 2021} $\displaystyle\lim_{x\to2}\frac{e^{x-2}-1}{2x-4}$
+  \task \pau{Galícia, ordinària 2022} $\displaystyle\lim_{x\to0}\frac{x\cos x}{\sin x}$
+  \task \pau{Múrcia, setembre 2018} $\displaystyle\lim_{x\to0}\frac{\ln(\cos x+\sin x)}{x}$
+  \task \pau{Cantàbria, setembre 2018} $\displaystyle\lim_{x\to0}\frac{\sin(2x^2)+x}{\ln(x+1)+x}$
+  \task \pau{Castella i Lleó, ordinària 2022} $\displaystyle\lim_{x\to0}\frac{x\sin x}{2-2\cos x}$
+\end{tasks}\recorda{Si $\lim\frac fg$ és $\left[\frac00\right]$ o $\left[\frac\infty\infty\right]$, aleshores $\lim\frac{f}{g}=\lim\frac{f'}{g'}$. Derivem el numerador i el denominador \textbf{per separat}.}
+
+\ex{2} Calcula aquests límits del tipus $\left[\frac\infty\infty\right]$:\begin{tasks}(1)
+  \task $\displaystyle\lim_{x\to+\infty}\frac{x^3}{e^{2x}}$
+  \task $\displaystyle\lim_{x\to+\infty}\frac{(\ln x)^2}{x}$
+  \task $\displaystyle\lim_{x\to0^+}\frac{\ln(\sin x)}{\ln x}$
+  \task \pau{Castella-la Manxa, ordinària 2024} $\displaystyle\lim_{x\to+\infty}\frac{e^x-1}{x^2+3}$
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2025} Calcula $\displaystyle\lim_{x\to0}\frac{x^2-\sin(x^2)}{1-\cos x}$.
+
+\ex{2} Límits amb paràmetres:\begin{tasks}(1)
+  \task \pau{Aragó, extraordinària 2023} Calcula $a$ perquè $\displaystyle L=\lim_{x\to0}\frac{\ln(x+1)-a\sin x+3x\cos(2x)}{x^2}$ siga finit, i calcula $L$.
+  \task \pau{Castella i Lleó, extraordinària 2021} Calcula $m>0$ perquè $\displaystyle\lim_{x\to0}\frac{1-\cos(mx)}{x^2}=2$.
+  \task \pau{Galícia, ordinària 2023} Si $f(x)=ae^x+b$, troba $a$ i $b$ perquè $f(0)=0$ i $\displaystyle\lim_{x\to0}\frac{f(x)}{x}=3$.
+\end{tasks}\recorda{Si el denominador tendeix a 0 i el límit ha de ser finit, el numerador també ha de tendir a 0: això dona una equació.}
+
+\ex{3} \pau{Aragó, extraordinària 2022} Calcula $a,b\in\mathbb R$ perquè existisca $\displaystyle\lim_{x\to1}\frac{2x^3+ax^2+bx+3}{-x^3+4x^2-5x+2}=L$ (finit) i calcula el límit.
+
+\ex{2} On és l'error? \ $\displaystyle\lim_{x\to1}\frac{x^2+1}{x+1}\overset{\text{L'H}}{=}\lim_{x\to1}\frac{2x}{1}=2$. \ I en aquest altre: \ $\displaystyle\lim_{x\to+\infty}\frac{x+\sin x}{x}\overset{\text{L'H}}{=}\lim_{x\to+\infty}(1+\cos x)$, que no existeix, ``per tant el límit no existeix''.
+
+
+% =====================================================
+\seccio{3}{Altres indeterminacions}
+
+\ex{1} Calcula (tipus $0\cdot\infty$ i $\infty-\infty$):\begin{tasks}(1)
+  \task $\displaystyle\lim_{x\to0^+}x^2\ln x$
+  \task \pau{Múrcia, ordinària 2021} $\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+1}-x\right)$
+  \task $\displaystyle\lim_{x\to0}\left(\frac{1}{\sin x}-\frac1x\right)$
+  \task \pau{Aragó, ordinària 2022} $\displaystyle\lim_{x\to+\infty}\left[\sqrt{3x^2-2}-\left(\sqrt3x+5\right)\right]$
+  \task \pau{La Rioja, ordinària 2023} $\displaystyle\lim_{x\to\infty}\left(\frac{x^2-1}{x+2}-\frac{x^2+1}{x-2}\right)$
+\end{tasks}\recorda{$0\cdot\infty$: escriu $f\cdot g=\frac{f}{1/g}$. \ $\infty-\infty$: fes denominador comú o multiplica pel conjugat.}
+
+\ex{2} Calcula aquests límits del tipus $1^\infty$:\begin{tasks}(1)
+  \task \pau{Castella-la Manxa, ordinària 2022} $\displaystyle\lim_{x\to+\infty}\left(\frac{x+1}{x}\right)^{\frac{x^2+1}{x}}$
+  \task \pau{Castella-la Manxa, ordinària 2026} $\displaystyle\lim_{x\to\infty}\left(\frac{2x+1}{2x-3}\right)^{x}$
+  \task \pau{Aragó, setembre 2018} $\displaystyle\lim_{x\to+\infty}\left(\frac{x^2+1}{x}-\frac{x^3-x^2-x+2}{x^2}\right)^{\frac{3+x^2}{x}}$
+  \task $\displaystyle\lim_{x\to0}\left(\cos x\right)^{1/x^2}$
+\end{tasks}\recorda{$1^\infty$: $\displaystyle\lim f^g=e^{\lim g\,(f-1)}$, o bé prenent logaritmes: $\ln L=\lim g\ln f$.}
+
+\ex{2} Calcula (tipus $1^\infty$, $\infty^0$ i $0^0$):\begin{tasks}(2)
+  \task $\displaystyle\lim_{x\to\frac\pi2^-}\left(\sin x\right)^{\tan x}$
+  \task $\displaystyle\lim_{x\to0^+}\left(\frac1x\right)^{\sin x}$
+  \task $\displaystyle\lim_{x\to0^+}\left(\sin x\right)^{x}$
+  \task $\displaystyle\lim_{x\to+\infty}\left(x^2+1\right)^{\frac{1}{\ln x}}$
+\end{tasks}\recorda{Prenem logaritmes: $\ln L=\lim g\cdot\ln f$ (que és $0\cdot\infty$) i al final $L=e^{\ln L}$.}
+
+\ex{2} \pau{Aragó, ordinària 2020} Calcula $\displaystyle\lim_{x\to0^+}\left(1+x-\sin x\right)^{1/x^3}$ \ i \ \pau{Madrid, ordinària 2024} $\displaystyle\lim_{x\to\frac\pi2}\left(\tan\frac x2\right)^{\frac{1}{\cos x}}$.
+
+\ex{3} \pau{Castella-la Manxa, setembre 2017} Calcula $k$ perquè sigui contínua en $x=0$ la funció $f(x)=\begin{cases}\left(\dfrac{x+1}{2x+1}\right)^{1/x}&\text{si }x<0\\[3pt]6x+k&\text{si }x\geq0\end{cases}$.
+
+\ex{2} Troba $a$ perquè $\displaystyle\lim_{x\to0}\left(1+ax\right)^{\frac{1}{\sin x}}=e^3$.
+
+
+% =====================================================
+\seccio{4}{Monotonia i extrems relatius}
+
+\ex{1} Estudia la monotonia i calcula els extrems relatius de les funcions següents:\begin{tasks}(1)
+  \task \pau{València, juny 2017} $f(x)=\dfrac{x^2+1}{x}$
+  \task \pau{València, juny 2018} $f(x)=\dfrac{1}{x^2-x}$
+  \task \pau{Múrcia, ordinària 2022} $f(x)=x\ln x$
+  \task \pau{Castella i Lleó, extraordinària 2020} $f(x)=\dfrac{\ln x}{x}$
+  \task \pau{Andalusia, setembre 2017} $f(x)=\dfrac{e^x+e^{-x}}{2}$
+  \task \pau{Aragó, extraordinària 2020} $f(x)=-\dfrac{x^2}{2}+2\ln(x+1)$
+\end{tasks}\recorda{Domini $\to$ $f'$ $\to$ zeros de $f'$ i punts fora del domini $\to$ taula de signes de $f'$. Els extrems es donen com a punts $(a,f(a))$.}
+
+\ex{2} Estudia la monotonia i els extrems relatius de:\begin{tasks}(1)
+  \task \pau{València, ordinària 2021} $f(x)=\dfrac{x-1}{x(x+2)}$
+  \task \pau{Extremadura, extraordinària 2024} $f(x)=\dfrac{4x+4}{x^2}$
+  \task \pau{País Basc, extraordinària 2025} $f(x)=\dfrac{x}{x^2-3x-4}$
+  \task \pau{Aragó, setembre 2018} $f(x)=\dfrac{x^2-3x+3}{x-1}$
+\end{tasks}
+
+\ex{2} Monotonia i extrems de funcions trigonomètriques en $[0,2\pi]$:\begin{tasks}(2)
+  \task $f(x)=\sin x+\cos x$
+  \task $g(x)=x-2\sin x$
+\end{tasks}
+
+\ex{2} \pau{Aragó, ordinària 2021} Donada $f(x)=\begin{cases}x^3+bx+2&\text{si }x\leq0\\[3pt]\dfrac{\ln(x+1)}{ax}&\text{si }x>0\end{cases}$, troba $a$ perquè siga contínua en $\mathbb R$ i, a més, $b$ perquè tinga un extrem relatiu en $x=-1$. De quin tipus és?
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2021} Troba i classifica els extrems relatius de $f(x)=\dfrac{2x^2+2x-2}{3x^2+3}$.
+
+\ex{3} Estudia la monotonia i els extrems de $f(x)=\sqrt[3]{(x^2-1)^2}$. Quins punts crítics no són de derivada nul·la?
+
+\ex{2} Classifica els punts crítics de $f(x)=x^5-5x^4$ amb el criteri de les derivades successives.
+
+\ex{2} \pau{Aragó, ordinària 2023} Sigui $f(x)=ax-\dfrac{\sin x}{x}+2$ si $x\neq0$ i $f(0)=2$. Troba $a$ perquè $f$ tinga un extrem relatiu en $x=-\frac\pi2$ i digues de quin tipus és.
+
+
+% =====================================================
+\seccio{5}{Curvatura i punts d'inflexió}
+
+\ex{1} Estudia la curvatura i troba els punts d'inflexió de:\begin{tasks}(1)
+  \task \pau{Astúries, ordinària 2020} $f(x)=x^3-6x^2+9x$
+  \task \pau{Extremadura, ordinària 2021} $f(x)=e^{-x^2}$
+  \task \pau{València, extraordinària 2025} $f(x)=\dfrac{x}{x^2+1}$
+  \task $f(x)=\ln\left(x^2+1\right)$
+\end{tasks}\recorda{$f''>0$: convexa $\cup$; $\ f''<0$: còncava $\cap$. Hi ha punt d'inflexió on $f''$ canvia de signe (i $f$ és contínua).}
+
+\ex{2} \pau{Castella i Lleó, ordinària 2022} Dada $f(x)=xe^x$, determina'n el domini, les asímptotes, la monotonia, els extrems, la curvatura i els punts d'inflexió.
+
+\ex{2} Troba la recta tangent a la gràfica de $f(x)=x^3-3x^2+2x+1$ en el seu punt d'inflexió. La corba queda per damunt o per davall de la tangent?
+
+\ex{2} Estudia la monotonia i la curvatura de $f(x)=e^x\sin x$ en $[0,2\pi]$.
+
+\ex{2} \pau{La Rioja, extraordinària 2022} Troba els intervals de creixement i decreixement, els extrems i els punts d'inflexió de $f(x)=\dfrac{x^3}{(1+x)^2}$.
+
+\ex{3} Demostra que tota funció polinòmica de tercer grau $f(x)=ax^3+bx^2+cx+d$ ($a\neq0$) té exactament un punt d'inflexió. Per a quin valor de $x$?
+
+
+% =====================================================
+\seccio{6}{Funcions amb paràmetres}
+
+\ex{1} \pau{Madrid, extraordinària 2024}\begin{tasks}(1)
+  \task Proposa una funció polinòmica de grau 2 la gràfica de la qual siga tangent a la recta $y=x$ en $(0,0)$.
+  \task Proposa una funció polinòmica de grau 2 que tinga un màxim relatiu en $(1,1)$.
+  \task Justifica si una funció polinòmica de grau 2 pot tindre dos extrems relatius.
+\end{tasks}
+
+\ex{2} Troba el polinomi de tercer grau que té un màxim relatiu en $(-1,4)$ i un mínim relatiu en $(1,0)$.\recorda{Quatre condicions: $f'(-1)=0$, $f'(1)=0$, $f(-1)=4$, $f(1)=0$.}
+
+\ex{2} Resol:\begin{tasks}(1)
+  \task \pau{Andalusia, extraordinària 2026} $f(x)=x^3+ax^2+bx+c$ compleix $f(1)=0$, $x=0$ és un punt crític i la tangent en $x=-1$ és paral·lela a $y+3x=0$. Troba $a$, $b$ i $c$.
+  \task \pau{Castella i Lleó, extraordinària 2020} Determina $f(x)=x^3+ax^2+bx+c$ si té un punt d'inflexió en $x=1$ i la tangent en $(-1,0)$ és l'eix d'abscisses.
+  \task \pau{Castella-la Manxa, ordinària 2024} Troba $a$, $b$, $c$ perquè $f(x)=x^3+ax^2+bx+c$ tinga un extrem relatiu en $x=2$ i un punt d'inflexió en $P(1,2)$.
+\end{tasks}
+
+\ex{2} Troba $a$ i $b$ perquè $f(x)=(ax+b)\,e^{-x}$ tinga un extrem relatiu en el punt $\left(2,\frac{1}{e^2}\right)$. És màxim o mínim?
+
+\ex{3} Troba $a$ i $b$ perquè $f(x)=x^4+ax^3+bx^2$ tinga en $x=1$ un punt d'inflexió amb tangent horitzontal.
+
+\ex{2} \pau{Galícia, extraordinària 2021} Troba $a,b,c$ perquè $f(x)=ax^3+bx^2-3x+c$ complisca $f(0)=1$ i tinga extrems relatius en $x=\pm1$. De quin tipus són?
+
+\ex{2} \pau{Aragó, extraordinària 2023} Sigui $f(x)=\left(e^{ax}+b\right)x-e$, $a\neq0$. Calcula $a$ i $b$ sabent que té un extrem relatiu en $x=0$ i un punt d'inflexió en $x=2$.
+
+\ex{3} \pau{Canàries, juny 2018} Determina $a$ i $b$ perquè $f(x)=a\sqrt{3x+3}+b\sqrt{x-1}$ tinga un punt d'inflexió en $(2,8)$.
+
+
+% =====================================================
+\seccio{7}{Teoremes de Rolle i del valor mitjà}
+
+\ex{1} Comprova si es compleixen les hipòtesis del teorema indicat i, si és així, troba els valors de $c$:\begin{tasks}(1)
+  \task Rolle: $f(x)=x^3-4x$ en $[-2,2]$.
+  \task Valor mitjà: $f(x)=x^2+2x$ en $[0,2]$.
+  \task Valor mitjà: $f(x)=\dfrac1x$ en $[1,4]$.
+  \task Rolle: $f(x)=|x|-1$ en $[-1,1]$.
+\end{tasks}\recorda{Rolle: $f$ contínua en $[a,b]$, derivable en $(a,b)$ i $f(a)=f(b)$ $\Rightarrow$ $\exists c\in(a,b)$ amb $f'(c)=0$. Valor mitjà: $f'(c)=\frac{f(b)-f(a)}{b-a}$.}
+
+\ex{2} Troba els paràmetres perquè es complisquen les hipòtesis del teorema de Rolle:\begin{tasks}(1)
+  \task \pau{Extremadura, extraordinària 2024} $f(x)=\begin{cases}x^2+ax-b&\text{si }x<0\\[3pt]a+cx&\text{si }x\geq0\end{cases}$ en $[-2,2]$.
+  \task \pau{Extremadura, ordinària 2023} $f(x)=\begin{cases}x^2+ax+b&\text{si }0\leq x<1\\[3pt]cx&\text{si }1\leq x\leq4\end{cases}$ en $[0,4]$.
+  \task \pau{Galícia, setembre 2018} $f(x)=\begin{cases}2x^2+ax&\text{si }x\leq1\\[3pt]bx+c&\text{si }x>1\end{cases}$ en $[0,2]$; troba també el punt on es compleix la tesi.
+\end{tasks}\recorda{Tres condicions: continuïtat en el punt de canvi, derivabilitat en el punt de canvi i $f(a)=f(b)$.}
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2021} Enuncia el teorema de Rolle i usa'l per a raonar si $f(x)=x\sin x-\cos x$ té almenys un extrem relatiu en $[-1,1]$.
+
+\ex{2} \pau{Madrid, ordinària 2024} Prova que $f(x)=x^4+\pi x^3+\pi^2x^2+\pi^3x+\pi^4$ té almenys un punt de derivada nul·la en $(-\pi,0)$ usant el teorema de Rolle. Prova-ho de nou amb el teorema de Bolzano.
+
+\ex{2} \pau{La Rioja, ordinària 2026} Sigui $f(x)=x^3(x-1)^2+1$. Demostra que l'equació $f'(x)=0$ té alguna solució en $(0,1)$.
+
+\ex{3} \pau{Navarra, extraordinària 2021} Considera $f(x)=\sqrt{x+\sin\frac{\pi x}{2}}$. Demostra que és contínua en $[1,3]$ i que existeixen $\alpha\in(1,2)$ i $\beta\in(2,3)$ tals que $f'(\alpha)=f'(\beta)=0$.
+
+\ex{3} Demostra que l'equació $x^3+x-1=0$ té exactament una solució real i que és a l'interval $(0,1)$.
+
+\ex{3} \pau{Extremadura, juliol 2017} Enuncia el teorema del valor mitjà i, aplicant-lo a $f(x)=\dfrac{1}{x^2}$, prova que si $1<a<b$, aleshores $a+b<2a^2b^2$.
+
+
+% =====================================================
+\seccio{8}{Extrems absoluts}
+
+\ex{1} Troba els extrems absoluts de cada funció en l'interval indicat:\begin{tasks}(2)
+  \task $f(x)=x^3-3x$ en $[-2,3]$
+  \task $f(x)=x\,e^{-x}$ en $[0,3]$
+  \task $f(x)=x-2\ln x$ en $[1,e]$
+  \task $f(x)=\sin x+\cos x$ en $[0,2\pi]$
+\end{tasks}\recorda{Candidats: els extrems de l'interval, els punts crítics de dins ($f'=0$) i els punts no derivables. El valor més gran és el màxim absolut i el més xicotet, el mínim.}
+
+\ex{2} \pau{València, extraordinària 2026} El coeficient de gravetat d'un brot de grip $t$ dies després de començar compleix $F'(t)=t^2(10-t)$. Calcula $F(t)$ si $F(0)=6$, i quants dies després s'arriba al màxim i quin és.
+
+\ex{2} \pau{València, ordinària 2026} Calcula els valors màxims i mínims, relatius i absoluts, de $f(x)=\dfrac{x+1}{x^2+1}$.
+
+\ex{2} \pau{Astúries, extraordinària 2025} La quantitat d'aigua d'un dipòsit és $f(t)=2\cos\left(t+\frac\pi2\right)+10$, $t\in[0,4]$ hores. Calcula'n els màxims i mínims, demostra que no es buida mai i digues durant quant de temps augmenta.
+
+\ex{2} \pau{Madrid, extraordinària 2023} El consum d'un vehicle (litres/100 km) a velocitat $v$ (desenes de km/h) és $c(v)=\frac{5v}{3}$ si $0\leq v<3$ i $c(v)=14-4v+\frac{v^2}{3}$ si $v\geq3$.\begin{tasks}(1)
+  \task Si ha de circular a més de 3 desenes de km/h, a quina velocitat el consum és mínim?
+  \task Si $1\leq v\leq8$, quins són el consum màxim i el mínim?
+\end{tasks}
+
+\ex{3} \pau{Navarra, ordinària 2025} El preu del kWh entre $t=0$ i $t=1$ és $p(t)=0{,}15+\sin^2\left(\frac\pi2t\right)\cos\left(\frac\pi2t\right)$. Calcula els instants en què el preu és màxim i mínim.
+
+\ex{2} \pau{Castella-la Manxa, ordinària 2025} La concentració de virus actius és $f(t)=5(t+1)e^{-t}$, $t\geq0$. En quin instant la derivada $f'(t)$ pren el valor més xicotet? Quin és el valor a llarg termini?
+
+
+% =====================================================
+\seccio{9}{Problemes d'optimització}
+
+\ex{2} \pau{València, ordinària 2025} Una empresa vol fer caixes de 80 cm$^3$ amb base i tapa quadrades. El material de les parets laterals costa 1 cèntim per cm$^2$ i el de la base i la tapa és un 25\,\% més car.\begin{tasks}(1)
+  \task Escriu el preu del material $P(x)$ en funció del costat $x$ de la base.
+  \task Troba les dimensions de la caixa més barata.
+  \task Quin és el preu en aquest cas?
+\end{tasks}\recorda{Volum: $x^2h=80$. Àrea lateral: $4xh$; base i tapa: $2x^2$.}
+
+\ex{2} \pau{València, ordinària 2023} El tall vertical de l'entrada a una plaça emmurallada té forma de paràbola $y=-x^2+12$ ($x$, $y$ en metres; $y=0$ és el terra). Volem posar-hi una porta rectangular amb els dos cantons de dalt sobre la paràbola i els de baix a terra. Calcula les dimensions de la porta de superfície màxima i l'àrea de la part de l'entrada que queda tapada amb pedra.
+
+\ex{2} \pau{València, ordinària 2022} Es vol construir un quadrat i un triangle equilàter tallant en dues parts un cable d'acer de 240 m.\begin{tasks}(1)
+  \task Calcula la suma de les àrees en funció del costat $x$ del triangle.
+  \task Calcula la longitud de cable que cal per al triangle perquè la suma de les àrees siga mínima.
+\end{tasks}
+
+\ex{2} \pau{València, ordinària 2021} Un espill quadrat de 80 cm de costat s'ha trencat per un cantó; el tros caigut és un triangle rectangle de catets 32 cm (horitzontal) i 40 cm (vertical). Retallem una peça rectangular $R$ amb un vèrtex $(x,y)$ sobre la línia de trencament i el vèrtex oposat en el cantó contrari de l'espill. Troba l'àrea de $R$ en funció de $x$ ($0\leq x\leq32$), les dimensions de $R$ d'àrea màxima i aquesta àrea.
+
+\ex{2} \pau{València, ordinària 2020} En un triangle isòsceles els dos costats iguals mesuren 10 cm. Expressa l'àrea en funció de la longitud $x$ del tercer costat, estudia'n la monotonia en $[0,20]$ i troba el valor de $x$ que fa màxima l'àrea.
+
+\ex{2} \pau{València, juliol 2019} Un projectil unit al punt $(0,2)$ per una corda elàstica recorre la corba $y=4-x^2$ entre $(-2,0)$ i $(2,0)$. Troba la distància entre un punt de la corba i $(0,2)$ en funció de $x$, i els punts de la corba més allunyats i més pròxims a $(0,2)$.
+
+\ex{2} \pau{València, juliol 2018} Dins d'una cartolina rectangular es vol fer un dibuix rectangular $R$ de 600 cm$^2$, amb marges de 3 cm dalt i baix i de 2 cm als costats. Calcula l'àrea de la cartolina en funció de la base $x$ de $R$ i les dimensions de la cartolina d'àrea mínima.
+
+\ex{3} \pau{València, juliol 2017} Es considera el triangle de vèrtexs $O(0,0)$, $A(x,y)$ i $B(0,y)$, amb $x,y>0$, tal que $\overline{OA}+\overline{AB}=30$ m. Troba l'àrea en funció de $x$, el valor de $x$ per al qual és màxima i aquesta àrea.
+
+\ex{2} \pau{Andalusia, ordinària 2026} Una finestra té forma de rectangle coronat per un semicercle. Si el perímetre de la finestra mesura 8 m, troba les dimensions que permeten la màxima entrada de llum.
+
+\ex{2} \pau{Aragó, extraordinària 2021} Es vol construir un dipòsit obert (sense tapa) en forma de prisma de base quadrada i 64 m$^3$ de capacitat. Els laterals costen 70 €/m$^2$ i la base, 140 €/m$^2$. Troba les dimensions del dipòsit més econòmic.
+
+\ex{2} \pau{Aragó, setembre 2018} De tots els triangles rectangles que tenen una àrea d'1 cm$^2$, troba el que té la hipotenusa més curta i dona les longituds dels tres costats.
+
+\ex{2} \pau{Canàries, ordinària 2023} Es vol construir una Casa de la Joventut de 240 m$^2$ envoltada d'una zona enjardinada que deixa 3 m dalt, 3 m baix, 3 m a l'esquerra i 7 m a la dreta. Quines dimensions ha de tindre la casa perquè la zona enjardinada siga mínima? Quina és aquesta àrea?
+
+\ex{2} \pau{Castella-la Manxa, extraordinària 2023} Un aparcament té forma de rectangle de costats $h$ i $r$ amb un semicercle de radi $\frac h2$ adossat al costat $h$. Si la tanca fa 80 m de perímetre, quant han de valdre $h$ i $r$ perquè l'àrea siga màxima?
+
+\ex{2} \pau{Galícia, juliol 2019} De tots els triangles rectangles del primer quadrant que tenen un vèrtex en l'origen, un altre sobre la paràbola $y=4-x^2$, un catet sobre l'eix $X$ i l'altre paral·lel a l'eix $Y$, troba els catets i la hipotenusa del d'àrea màxima.
+
+\ex{2} \pau{La Rioja, extraordinària 2024} Un nedador està a 2 km de la platja, enfront del lloc de la Creu Roja. Vol anar a les dutxes, a la platja i a 3 km de la Creu Roja. Neda a 3 km/h i camina per l'arena a 5 km/h. On ha d'arribar nadant per a tardar el mínim?
+
+\ex{3} \pau{Múrcia, juny 2019} En un triangle isòsceles de base 12 cm (costat desigual) i altura 5 cm, busquem un punt $A$ de l'altura, a distància $x$ de la base, tal que la suma de les distàncies d'$A$ als tres vèrtexs siga mínima. Comprova que aquesta suma és $f(x)=5-x+2\sqrt{x^2+36}$, troba $x$ i el valor mínim.
+
+\ex{2} \pau{Navarra, ordinària 2026} D'un full de 20 cm $\times$ 30 cm es retalla un quadrat en cada cantó per a fer una caixa sense tapa doblegant les solapes. Calcula el costat del quadrat perquè el volum siga màxim.
+
+\ex{2} \pau{País Basc, extraordinària 2024} Una empresa fabrica tasses cilíndriques (sense tapa) de $216\pi$ cm$^3$ i vol que siguen tan econòmiques com siga possible. Quines dimensions han de tindre?
+
+\ex{2} \pau{Catalunya, extraordinària 2024} Per a cada punt $(x,y)$ de la corba $y=e^{-2x}$ amb $x>0$, considera el rectangle de vèrtexs $(0,0)$, $(x,0)$, $(0,y)$ i $(x,y)$. Comprova que el d'àrea màxima és el de $x=\frac12$ i calcula'n l'àrea.
+
+\ex{3} \pau{Canàries, juny 2018} Un fil de 140 m es divideix en tres trossos, un dels quals fa el doble que un altre. Amb cada tros es fa un quadrat. Quina longitud ha de tindre cada tros perquè la suma de les àrees siga mínima?
+
+\ex{2} \pau{Astúries, extraordinària 2025} Es vol construir una caixa sense tapa amb dues cares paral·leles quadrades de costat $x$ i tres cares rectangulars de costats $x$ i $y$. Si es volen gastar 3 m$^2$ de material, quins valors de $x$ i $y$ fan màxima la capacitat?
+
+
+% =====================================================
+\seccio{10}{Representació de funcions polinòmiques i racionals}
+
+\ex{1} Fes l'estudi complet i representa \pau{Andalusia, ordinària 2021} $f(x)=4x^3-x^4$.\recorda{Domini, simetria, talls, asímptotes, monotonia i extrems, curvatura i inflexió; després situem tota la informació i dibuixem.}
+
+\ex{2} Fes l'estudi complet i representa \pau{València, extraordinària 2025} $f(x)=\dfrac{x}{x^2+1}$.
+
+\ex{2} Fes l'estudi complet i representa \pau{València, ordinària 2022} $f(x)=\dfrac{x^2+3}{x^2-4}$.
+
+\ex{2} Fes l'estudi complet i representa \pau{València, juny 2017} $f(x)=\dfrac{x^2+1}{x}$.
+
+\ex{3} Fes l'estudi complet i representa \pau{Astúries, extraordinària 2022} $f(x)=\dfrac{2x^2}{1-x}$.
+
+
+% =====================================================
+\seccio{11}{Representació de funcions radicals, exponencials i logarítmiques}
+
+\ex{2} Fes l'estudi complet i representa \pau{València, extraordinària 2021} $f(x)=x\,e^{1-x^2}$.\recorda{Domini, simetria, talls, asímptotes, monotonia i extrems, curvatura i inflexió; després situem tota la informació i dibuixem.}
+
+\ex{2} Fes l'estudi complet i representa \pau{València, ordinària 2023} $f(x)=\dfrac1x+\ln(x+1)$.
+
+\ex{2} Fes l'estudi complet i representa \pau{Madrid, extraordinària 2026} $f(x)=\dfrac{x}{\ln x}$.
+
+\ex{2} Fes l'estudi complet i representa \pau{País Basc, juliol 2018} $f(x)=x^2e^{-x}$.
+
+\ex{3} Fes l'estudi complet i representa \pau{Múrcia, setembre 2018} $f(x)=x\sqrt{18-x^2}$ (en tot el seu domini).
+
+
+% =====================================================
+\seccio{12}{Representació de funcions trigonomètriques i a trossos}
+
+\ex{2} Fes l'estudi complet i representa $f(x)=2\sin x+\sin2x$.\recorda{Domini, simetria, talls, asímptotes, monotonia i extrems, curvatura i inflexió; després situem tota la informació i dibuixem.}
+
+\ex{2} \pau{València, ordinària 2026 · Madrid, ordinària 2025} Un decorador pinta en una paret de 12 m de llarg i 3 m d'alt la corba $f(x)=\cos\frac{\pi x}{9}+2$. Dibuixa-la en $[0,12]$ amb els talls amb els eixos, els extrems absoluts i la monotonia. Està la corba dins de la paret?
+
+\ex{2} \pau{Galícia, ordinària 2023} Estudia si $f(x)=x+\sin x$ té extrems o punts d'inflexió en $(0,2\pi)$ i esbossa'n la gràfica.
+
+\ex{2} Fes l'estudi complet i representa $f(x)=\sin^2x$.
+
+\ex{2} \pau{Andalusia, ordinària 2022} Sigui $f(x)=\begin{cases}2x+4&\text{si }x<0\\[3pt](x-2)^2&\text{si }x\geq0\end{cases}$. Calcula els punts de tall amb l'eix d'abscisses, estudia'n la continuïtat, la derivabilitat i els extrems, i esbossa la gràfica.
+
+\ex{3} Fes l'estudi complet i representa $f(x)=\left|x^2-4x\right|$.
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus estudis amb les eines dels apunts interactius.\end{center}
+
+\end{document}
