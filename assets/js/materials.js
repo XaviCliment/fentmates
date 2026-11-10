@@ -325,7 +325,7 @@ window.LEVELS = {
     },
     units: [
       {
-        // num: el número de la unitat als apunts del departament (les unitats 2-4 encara no estan penjades)
+        // num: el número de la unitat als apunts del departament (les unitats 3 i 4 encara no estan penjades)
         num: "1",
         ill: "reals", block: "ari",
         title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
@@ -333,6 +333,16 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t1-nombres-reals.html", date: "2026-11-10" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis, de la classificació dels nombres als logaritmes", es: "PDF · 54 ejercicios, de la clasificación de los números a los logaritmos", en: "PDF · 54 exercises, from classifying numbers to logarithms" }, url: "materials/1batx-mi/t1-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/1batx-mi/t1-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+        ]
+      },
+      {
+        num: "2",
+        ill: "polinomis", block: "alg",
+        title: { va: "Àlgebra", es: "Álgebra", en: "Algebra" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t2-algebra.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 103 exercicis, dels polinomis a les inequacions i els problemes", es: "PDF · 103 ejercicios, de los polinomios a las inecuaciones y los problemas", en: "PDF · 103 exercises, from polynomials to inequalities and word problems" }, url: "materials/1batx-mi/t2-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 103 exercicis", es: "PDF · Soluciones de los 103 ejercicios", en: "PDF · Solutions to all 103 exercises" }, url: "materials/1batx-mi/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
         ]
       },
       {

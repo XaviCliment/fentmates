@@ -1,0 +1,999 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 2: Àlgebra. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={polinomis, Ruffini, teorema del residu, factorització, fraccions algebraiques, equacions, sistemes, Gauss, inequacions}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 2: Àlgebra · 1r Batxillerat MI}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+\providecommand{\lt}{<}\providecommand{\gt}{>}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{1batx-mi}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques I}{1r Batx}{Solucions de la fitxa · Unitat 2}{\raggedright Àlgebra}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Els resultats es donen de manera exacta (fraccions i arrels) i, quan cal, amb el valor aproximat. Pots comprovar les divisions, la factorització, Gauss, les inequacions i les regions amb les eines interactives dels apunts de la unitat.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Polinomis. Operacions}
+
+\exf{1} \begin{tasks}(1)
+  \task $\res{- 16 x^{2} - 17 x + 10}$
+  \task $\res{15 x^{2} + 3 x - 3}$
+  \task $\res{6 x^{4} - 10 x^{3} - 35 x^{2} + 23 x}$
+  \task $\res{3 x^{5} - 2 x^{4} - 20 x^{2} - 16 x + 32}$
+  \task $\res{x^{3} - \frac{9 x^{2}}{10} + \frac{4 x}{15}}$
+\end{tasks}
+
+\ex{2} $(x+y+z)^2=\big((x+y)+z\big)^2=(x+y)^2+2(x+y)z+z^2=x^2+2xy+y^2+2xz+2yz+z^2$. \rest{Queda demostrada.}
+
+\ex{1} $\res{16 x^{4} - 24 x^{3} + 25 x^{2} - 12 x + 4}$ \ (amb la identitat de l'exercici anterior).
+
+\ex{2} \begin{tasks}(1)
+  \task $6x^4+(3b-10)x^3+(2a-5b)x^2+abx$: \ $3b-10=-19$, $ab=-6\Rightarrow \res{a=2,\ b=-3}$
+  \task $2x^2+9x+18-3a$: \ $\res{b=9},\ \ 18-3a=3\Rightarrow \res{a=5}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $c(x)=\res{x + \frac{2}{3}},\ \ r(x)=\res{- x - \frac{19}{3}}$
+  \task $c(x)=\res{3 x^{2} - 3 x - 5},\ \ r(x)=\res{10 x + 14}$
+  \task $c(x)=\res{\frac{1}{2}},\ \ r(x)=\res{- 3 x^{2} + \frac{9}{2}}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task ${\def\arraystretch{1.5}\begin{array}{r|rrr|r} & 3 & 2 & 1 & -5\\-2 &  & -6 & 8 & -18\\\hline & 3 & -4 & 9 & -23\end{array}}$\\[2pt]$c(x)=\res{3 x^{2} - 4 x + 9},\ \ r=\res{-23}$
+  \task ${\def\arraystretch{1.5}\begin{array}{r|rrrr|r} & 3 & 0 & -2 & -1 & 4\\-2 &  & -6 & 12 & -20 & 42\\\hline & 3 & -6 & 10 & -21 & 46\end{array}}$\\[2pt]$c(x)=\res{3 x^{3} - 6 x^{2} + 10 x - 21},\ \ r=\res{46}$
+  \task ${\def\arraystretch{1.5}\begin{array}{r|rrr|r} & 1 & -3 & -1 & 6\\- \frac{3}{2} &  & - \frac{3}{2} & \frac{27}{4} & - \frac{69}{8}\\\hline & 1 & - \frac{9}{2} & \frac{23}{4} & - \frac{21}{8}\end{array}}$\\[2pt]$c(x)=\res{\frac{x^{2}}{2} - \frac{9 x}{4} + \frac{23}{8}},\ \ r=\res{- \frac{21}{8}}\ \ \text{(quocient de Ruffini dividit entre }2)$
+  \task ${\def\arraystretch{1.5}\begin{array}{r|rrrr|r} & 4 & 0 & -3 & 0 & 5\\5 &  & 20 & 100 & 485 & 2425\\\hline & 4 & 20 & 97 & 485 & 2430\end{array}}$\\[2pt]$c(x)=\res{- 4 x^{3} - 20 x^{2} - 97 x - 485},\ \ r=\res{2430}\ \ \text{(quocient de Ruffini dividit entre }-1)$
+  \task ${\def\arraystretch{1.5}\begin{array}{r|rrrrr|r} & 2 & 0 & -12 & -6 & 0 & -117\\3 &  & 6 & 18 & 18 & 36 & 108\\\hline & 2 & 6 & 6 & 12 & 36 & -9\end{array}}$\\[2pt]$c(x)=\res{2 x^{4} + 6 x^{3} + 6 x^{2} + 12 x + 36},\ \ r=\res{-9}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $P(-3)=a - 3=0\Rightarrow \res{a=3}$
+  \task $P(- \frac{3}{2})=\frac{3 a}{2} - \frac{3}{2}=0\Rightarrow \res{a=1}$
+  \task $P(\frac{4}{3})=\frac{16 a}{9} + \frac{160}{9}=0\Rightarrow \res{a=-10}$
+  \task $P(5)=b + 2930=0\Rightarrow \res{b=-2930}$
+\end{tasks}(Amb el teorema del residu, $P(r)$ ha de ser 0, on $r$ és l'arrel del divisor; és el mateix que obtenir residu 0 a Ruffini.)
+
+\ex{1} $M(2)=16-20+8-4=0$: \rest{sí que és divisible}.\par Per Ruffini: ${\def\arraystretch{1.5}\begin{array}{r|rrr|r} & 2 & -5 & 4 & -4\\2 &  & 4 & -2 & 4\\\hline & 2 & -1 & 2 & 0\end{array}}\Rightarrow \res{N(x)=2x^2-x+2}$
+
+
+% =====================================================
+\seccio{2}{Factorització d'un polinomi. Teorema del residu}
+
+\exf{1} \begin{tasks}(5)
+  \task $P(1)=0$: \rest{sí}
+  \task $P(2)=36$: \rest{no}
+  \task $P(-1)=-18$: \rest{no}
+  \task $P(-4)=0$: \rest{sí}
+  \task $P(-3)=-44$: \rest{no}
+\end{tasks}
+
+\ex{1} $P(-1)=1+2-3=\res{0}$, \ $P(3)=9-6-3=\res{0}$. \rest{No}: un polinomi de grau 2 té com a màxim dues arrels, i ja les hem trobades: $P(x)=(x+1)(x-3)$.
+
+\ex{1} \begin{tasks}(1)
+  \task $\res{x=-5,\ x=2,\ x=3}$
+  \task $\res{x=- \frac{1}{2},\ x=0,\ x=2\ (\text{triple})}$
+  \task $\res{x=-1\ (\text{triple}),\ x=- \frac{2}{3},\ x=\frac{1}{2}}$
+  \task $\res{x=-2,\ x=1,\ x=4}$ \ $\big((x - 4) (x - 1) (x + 2)\big)$
+  \task $\res{x=-5,\ x=-2,\ x=-1}$ \ $\big((x + 1) (x + 2) (x + 5)\big)$
+  \task $\res{x=0,\ x=\frac{1}{2},\ x=1,\ x=2\ (\text{doble})}$ \ $\big(x (x - 2)^{2} (x - 1) (2 x - 1)\big)$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\res{(x - 3) (x - 1) (x + 2)}$ \ \small(arrels: $x=-2,\ x=1,\ x=3$)
+  \task $\res{(x - 1)^{2} (x + 3)}$ \ \small(arrels: $x=-3,\ x=1\ (\text{doble})$)
+  \task $\res{(x - 1) (x + 1)^{2} (2 x - 3)}$ \ \small(arrels: $x=-1\ (\text{doble}),\ x=1,\ x=\frac{3}{2}$)
+  \task $\res{(x - 2) (2 x - 1) (2 x + 3)}$ \ \small(arrels: $x=- \frac{3}{2},\ x=\frac{1}{2},\ x=2$)
+  \task $\res{x^{2} (x - 2) (x + 2)}$ \ \small(arrels: $x=-2,\ x=0\ (\text{doble}),\ x=2$)
+  \task $\res{x (x + 1)^{2} (2 x - 1) (3 x + 1)}$ \ \small(arrels: $x=-1\ (\text{doble}),\ x=- \frac{1}{3},\ x=0,\ x=\frac{1}{2}$)
+  \task $\res{(x - 2) (x - 1) (x + 1) (x + 2) (x^{2} + 1)}$ \ \small(arrels: $x=-2,\ x=-1,\ x=1,\ x=2$)
+  \task $t=x^2$: $\frac{t^2}{4}+\frac34t+\frac9{16}=0\Rightarrow\Delta=\frac9{16}-\frac9{16}=0$, $t=-\frac32\lt0$: \rest{no té arrels reals}. $P(x)=\res{\frac{1}{16}(2x^2+3)^2}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $P(2)=k + 8=0\Rightarrow \res{k=-8}$
+  \task $P(-2)=- 2 k - 12=0\Rightarrow \res{k=-6}$
+  \task $P(-4)=- 63 k + 252=0\Rightarrow \res{k=4}$
+  \task $P(3)=- 6 k + 36=0\Rightarrow \res{k=6}$
+\end{tasks}
+
+\ex{2} $P(-3)=-27-9(3k+2)-3=-48-27k$.\begin{tasks}(2)
+  \task $-48-27k=0\Rightarrow \res{k=-\frac{16}{9}}$
+  \task $-48-27k=15\Rightarrow \res{k=-\frac73}$
+\end{tasks}
+
+\ex{2} $P(x)=ax^2+bx+c$: \ $c=-3$, \ $a+b-3=-6$, \ $9a+3b-3=0\Rightarrow a=2,\ b=-5$: \ $\res{P(x)=2x^2-5x-3}$
+
+\ex{1} $P(2)=8m-24-8+8=8m-24=0\Rightarrow \res{m=3}$
+
+\ex{2} $P(2)=0$: $4a+2b=-2$; \ $P(-3)=0$: $9a-3b=33$. \ $\res{a=2,\ b=-5}$ \ (i aleshores $P(x)=(x-2)(x+3)(x+1)$).
+
+\ex{1} Teorema del residu: $P(-2)=32-72+8+12+3m=-20+3m=12\Rightarrow \res{m=\frac{32}{3}}$
+
+
+% =====================================================
+\seccio{3}{Fraccions algebraiques}
+
+\exf{2} \begin{tasks}(1)
+  \task $\dfrac{2 (x - 2) (x + 2)}{x (x - 1) (x + 2)}=\res{\frac{2 (x - 2)}{x (x - 1)}}$
+  \task $\dfrac{x (x - 1) (x + 1)}{x (x + 1) (x + 2)}=\res{\frac{x - 1}{x + 2}}$
+  \task $\dfrac{x^{2} (x - 3) (x + 1)}{x^{2} (x - 3) (x + 3)}=\res{\frac{x + 1}{x + 3}}$
+  \task $\dfrac{(x - 1)^{3}}{x (x - 1)^{2}}=\res{\frac{x - 1}{x}}$
+  \task $\dfrac{(x - 1)^{2} (x + 1) (2 x - 3)}{(x - 1) (x + 2) (2 x - 3)}=\res{\frac{(x - 1) (x + 1)}{x + 2}}$
+  \task $\dfrac{(x - 1)^{2} (x + 3) (2 x - 1)}{(x - 1) (x + 3) (2 x - 1)}=\res{x - 1}$
+  \task $\dfrac{(x - 3) (x - 2) (x + 3)}{(x - 3) (x - 2)^{2}}=\res{\frac{x + 3}{x - 2}}$
+  \task $\dfrac{(x - 2) (x - 1)^{3}}{(x - 2)^{2} (x - 1)^{2}}=\res{\frac{x - 1}{x - 2}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $\res{\frac{x + 2}{(x - 1) (x + 1)}}$
+  \task $\res{\frac{3 x + 1}{x (x + 1)}}$
+  \task $\res{\frac{2 x - 5}{4 x (x - 1)}}$
+  \task $\res{\frac{2 (2 x + 1)}{x (x - 1) (x + 1)}}$
+  \task $\res{\frac{5 x^{2} - 3 x + 1}{(x - 2) (x + 2)}}$
+  \task $\res{\frac{2 (x^{2} + x - 1)}{(x - 1)^{2} (x + 1)}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $\res{\frac{1}{4}}$
+  \task $\res{\frac{x + 3}{(x - 2) (x + 1)}}$
+  \task $\res{\frac{(3 x + 2) (4 x + 1)}{(x - 2) (x + 2)}}$
+  \task $\res{- \frac{2}{3 x^{2}}}$
+  \task $\res{- \frac{2 x^{2} - 3 x - 3}{x - 1}}$
+  \task $\res{\frac{x^{2} - 6 x - 1}{2 (x + 1)^{2}}}$
+  \task $\res{x}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(2)
+  \task $\res{\frac{3 x^{4} + 3 x^{3} + 3 x^{2} + 4 x + 2}{x (x + 2) (x^{2} + 1)}}$
+  \task $\res{\frac{3 x (x + 1)}{x^{2} + 1}}$
+  \task $\res{- \frac{a + b}{b^{2}}}$
+  \task $\res{- \frac{a (b^{2} - b - 1)}{b^{2}}}$
+  \task $\res{\frac{2 (5 x + 6)}{(x - 2) (x + 2)}}$
+  \task $\res{\frac{(x - 2) (x + 5)}{x + 1}}$
+  \task $\res{x y (x - y)}$
+  \task $\res{\frac{1}{a + x}}$
+  \task $\res{\frac{3 x + 2}{2 x + 1}}$
+  \task $\res{\frac{3 x^{2} + 3 x + 2}{x^{2} + 1}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Equacions polinòmiques}
+
+\exf{2} \begin{tasks}(1)
+  \task $\res{x=\frac{9}{32}}$
+  \task $\res{x=-5,\ x=0}$
+  \task $\res{x=- \frac{\sqrt{30}}{6},\ x=\frac{\sqrt{30}}{6}}$
+  \task $\res{x=-2,\ x=\frac{11}{4}}$
+  \task $(x - 1) (x + 2) (2 x + 3) (3 x - 1)=0$: \ $\res{x=-2,\ x=- \frac{3}{2},\ x=\frac{1}{3},\ x=1}$
+  \task $(x - 2) (2 x + 3) (x^{2} + 3)=0$: \ $\res{x=- \frac{3}{2},\ x=2}$
+  \task $x (x + 1) (2 x - 1) (3 x + 1)=0$: \ $\res{x=-1,\ x=- \frac{1}{3},\ x=0,\ x=\frac{1}{2}}$
+  \task $(x - 2) (x - 1) (x + 3)=0$: \ $\res{x=-3,\ x=1,\ x=2}$
+  \task $(x - 3)^{2} (x + 3)=0$: \ $\res{x=-3,\ x=3}$
+  \task $(x - 3) (x + 2) (x^{2} + 1)=0$: \ $\res{x=-2,\ x=3}$
+  \task $(x - 1) (x + 1) (x^{2} + 1)=0$: \ $\res{x=-1,\ x=1}$
+  \task $x (x - 3) (x + 1) (x + 3)=0$: \ $\res{x=-3,\ x=-1,\ x=0,\ x=3}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $t=x^2$: $t^2-17t+16=0\Rightarrow t=16,\ t=1$: \ $\res{x=\pm4,\ x=\pm1}$
+  \task $t=x^3$: $t^2-9t+8=0\Rightarrow t=8,\ t=1$: \ $\res{x=2,\ x=1}$
+  \task $t^2-8t-9=0\Rightarrow t=9$ ($t=-1$ no dona solucions): \ $\res{x=\pm3}$
+  \task $t=x^3$: $t^2+2t-3=0\Rightarrow t=1,\ t=-3$: \ $\res{x=1,\ x=-\sqrt[3]{3}}$
+  \task Desenvolupant: $2x^4+12x^2-14=0\Rightarrow t^2+6t-7=0\Rightarrow t=1$ ($t=-7$ no dona solucions): \ $\res{x=\pm1}$
+  \task Multipliquem per $x^2$: $x^4-10x^2+9=0\Rightarrow t=9,\ t=1$: \ $\res{x=\pm3,\ x=\pm1}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task $\res{x=-2,\ x=- \sqrt{3},\ x=\sqrt{3},\ x=2}$
+  \task $\res{x=-3,\ x=- \frac{2}{3},\ x=0,\ x=3,\ x=4}$
+  \task $\res{x=-3,\ x=2}$
+  \task $\res{x=-1,\ x=2,\ x=\frac{7}{2}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Equacions racionals}
+
+\exf{2} \begin{tasks}(1)
+  \task $8x^2+8x+8=7x^3\Rightarrow(x-2)(7x^2+6x+4)=0$ ($\Delta\lt0$): \ $\res{x=2}$
+  \task Multipliquem per $3(x-1)$: $2x^2+4x+9=11\Rightarrow x^2+2x-1=0$: \ $\res{x=-1\pm\sqrt2}$
+  \task $2x(x+2)+3x(x-2)=6x^2\Rightarrow x^2+2x=0\Rightarrow x=0,\ x=-2$; \ $x=-2$ anul·la un denominador: \ $\res{x=0}$
+  \task m.c.m. $=(x-1)(x-2)(x-4)$: $3(x-1)+(x-5)(x-2)=(x-1)(x-2)\Rightarrow x^2-4x+7=x^2-3x+2$: \ $\res{x=5}$
+  \task Multipliquem per $\sqrt2\,x$: $x^2+2=2x^2\Rightarrow$ $\res{x=\pm\sqrt2}$
+  \task $-\dfrac{x}{x-2}=-x\Rightarrow x=x(x-2)\Rightarrow x^2-3x=0$: \ $\res{x=0,\ x=3}$
+  \task Simplificant: $\dfrac{2x(x+1)}{(x-1)(x+3)}=2\Rightarrow x^2+x=x^2+2x-3$: \ $\res{x=3}$
+  \task El primer membre és $\dfrac{x+1}{x}$: és una \rest{identitat}, es compleix per a tot $x\neq0,\ x\neq-1$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Equacions amb radicals}
+
+\exf{2} \begin{tasks}(1)
+  \task $2x-3=(1-x)^2\Rightarrow(x-2)^2=0$; \ $x=2$: $-1+1=0\neq2$: \ $\res{\text{no té solució}}$
+  \task $2x^2+2x-3=(x+1)^2\Rightarrow x^2=4$; \ $x=2$ no val ($-1-2\lt0$): \ $\res{x=-2}$
+  \task $9(7x+1)=(5x-7)^2\Rightarrow25x^2-133x+40=0\Rightarrow x=5,\ x=\frac{8}{25}$; \ $x=\frac8{25}$ no val: \ $\res{x=5}$
+  \task $2x-1=12$: \ $\res{x=\frac{13}{2}}$
+  \task $2-5x=3x^2\Rightarrow3x^2+5x-2=0\Rightarrow x=-2,\ x=\frac13$; \ $x=\frac13$ no val: \ $\res{x=-2}$
+  \task $2+\sqrt{x-4}=12-x\Rightarrow x-4=(10-x)^2\Rightarrow x^2-21x+104=0\Rightarrow x=8,\ x=13$; \ $x=13$ no val: \ $\res{x=8}$
+  \task $x=4-4\sqrt{x-4}+x-4\Rightarrow\sqrt{x-4}=0$: \ $\res{x=4}$
+  \task $x-46=-14\sqrt{x+5}\Rightarrow x^2-288x+1136=0\Rightarrow x=4,\ x=284$; \ $x=284$ no val: \ $\res{x=4}$
+  \task $10\sqrt{x-1}=20\Rightarrow\sqrt{x-1}=2$: \ $\res{x=5}$
+  \task $2\sqrt{2x^2-14x}=8-2x\Rightarrow x^2-6x-16=0\Rightarrow x=8,\ x=-2$; cap no val: \ $\res{\text{no té solució}}$
+  \task $\sqrt{1-4x}=3\sqrt{3+x}\Rightarrow1-4x=27+9x$: \ $\res{x=-2}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $x^2-1=(x-1)^3\Rightarrow x(x-1)(x-3)=0$; totes valen ($\sqrt[3]{-1}=-1$): \ $\res{x=0,\ x=1,\ x=3}$
+  \task $\sqrt{3x+7}=x+1\Rightarrow x^2-x-6=0\Rightarrow x=3,\ x=-2$; \ $x=-2$ no val: \ $\res{x=3}$
+  \task $4x-1=(x-4)^3\Rightarrow(x-7)(x^2-5x+9)=0$: \ $\res{x=7}$
+  \task $(4-2x)^2=8x^2-16x\Rightarrow4x^2=16$; totes dues valen: \ $\res{x=2,\ x=-2}$
+  \task $(2x+2)^2=6x+10\Rightarrow2x^2+x-3=0\Rightarrow x=1,\ x=-\frac32$; \ $x=-\frac32$ no val: \ $\res{x=1}$
+\end{tasks}
+
+\ex{2} $\sqrt{x+1}=2\sqrt{x-11}\Rightarrow x+1=4x-44$: \ $\res{x=15}$ \ (comprovació: $\sqrt{16}=4=2\sqrt4$).
+
+
+% =====================================================
+\seccio{7}{Equacions logarítmiques}
+
+\exf{2} \begin{tasks}(1)
+  \task $2(x+3)=x+5$: \ $\res{x=-1}$
+  \task $15-2x=x^2\Rightarrow x=3,\ x=-5$; \ $x=-5$ no val: \ $\res{x=3}$
+  \task $\dfrac{2x+3}{x-1}=36\Rightarrow34x=39$: \ $\res{x=\frac{39}{34}}$
+  \task $x^2-3x+2=x^2\Rightarrow$ $\res{x=\frac23}$ (val: $x\gt0$ i $x^2-3x+2=\frac49\gt0$)
+  \task $\dfrac{2x-2}{x}=\dfrac{(x-1)^2}{x}\Rightarrow(x-1)(x-3)=0$; \ $x=1$ no val: \ $\res{x=3}$
+  \task $\log x^2=\log\dfrac{x}{20}\Rightarrow x^2=\dfrac x{20}$; \ $x=0$ no val: \ $\res{x=\frac1{20}}$
+  \task $2x(4-5x)=3(2x-x^2)\Rightarrow7x^2-2x=0$; \ $x=0$ no val: \ $\res{x=\frac27}$
+  \task $\dfrac{5(x+1)(x+2)}{x+2}=4\Rightarrow5x+5=4$: \ $\res{x=-\frac15}$
+  \task $4-x=(x+2)^2\Rightarrow x^2+5x=0$; \ $x=-5$ no val: \ $\res{x=0}$
+  \task Canvi de base: $\dfrac{2\log3}{\log(x+3)}=\dfrac{\log3}{\log5}\Rightarrow\log(x+3)=2\log5\Rightarrow x+3=25$: \ $\res{x=22}$
+  \task En base 3: $\log_332-\log_3(6-x)=2\log_3x\Rightarrow x^2(6-x)=32\Rightarrow(x+2)(x-4)^2=0$: \ $\res{x=4}$
+\end{tasks}
+
+\ex{1} $\log x+\log2=1\Rightarrow\log(2x)=\log10$: \ $\res{x=5}$
+
+\ex{1} $2\log x=\log4+\log9\Rightarrow x^2=36$ ($x\gt0$): \ $\res{x=6}$
+
+
+% =====================================================
+\seccio{8}{Equacions exponencials}
+
+\exf{2} \begin{tasks}(1)
+  \task $2^{2x^2+2}=2^{5x+5}\Rightarrow2x^2-5x-3=0$: \ $\res{x=3,\ x=-\frac12}$
+  \task $262144=4^9\Rightarrow(x-2)^2=9$: \ $\res{x=5,\ x=-1}$
+  \task $x+4=\dfrac{\log5}{\log3}$: \ $\res{x=\frac{\log5}{\log3}-4\approx-2,535}$
+  \task $2^{-x}=2^{2x(x-1)}\Rightarrow2x^2-x=0$: \ $\res{x=0,\ x=\frac12}$
+  \task $13^{x^2+2x}=13^{-1}\Rightarrow(x+1)^2=0$: \ $\res{x=-1}$
+  \task $2x^2-4x-2=4\Rightarrow x^2-2x-3=0$: \ $\res{x=3,\ x=-1}$
+  \task $6^{4x-3}=12\Rightarrow4x-3=\dfrac{\log12}{\log6}$: \ $\res{x=\frac{3+\log_612}{4}\approx1,097}$
+  \task $\left(\dfrac32\right)^x=\dfrac32$: \ $\res{x=1}$
+  \task $3^{3/x}=3^{x+2}\Rightarrow x^2+2x-3=0$: \ $\res{x=1,\ x=-3}$
+  \task $2^{x+4}=2^{3x}\Rightarrow x+4=3x$: \ $\res{x=2}$
+  \task $x^2-5x+6=0$: \ $\res{x=2,\ x=3}$
+  \task $7^{\frac{2(x-5)}{3}}=7^{-\frac{x-1}{2}}\Rightarrow4(x-5)=-3(x-1)$: \ $\res{x=\frac{23}{7}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $2^x\left(2+1+\frac12\right)=28\Rightarrow2^x=8$: \ $\res{x=3}$
+  \task $5^x\left(125-\frac15\right)=3120\Rightarrow5^x=25$: \ $\res{x=2}$
+  \task $4^x\cdot\frac{21}{16}=336\Rightarrow4^x=256$: \ $\res{x=4}$
+  \task $3^x\left(9+3+1+\frac13\right)=120\Rightarrow3^x=9$: \ $\res{x=2}$
+  \task $2^x\cdot\frac{15}{16}=960\Rightarrow2^x=1024$: \ $\res{x=10}$
+  \task $t=6^x$: $t^2+8t-9=0\Rightarrow t=1$ ($t=-9$ no val): \ $\res{x=0}$
+\end{tasks}
+
+\ex{3} \begin{tasks}(1)
+  \task $t=3^x$: $3t^2-10t+3=0\Rightarrow t=3,\ t=\frac13$: \ $\res{x=1,\ x=-1}$
+  \task $t=10^{x+2}$: $2t^2+3t-5=0\Rightarrow t=1$ ($t=-\frac52$ no val) $\Rightarrow x+2=0$: \ $\res{x=-2}$
+  \task $t=3^x$: $t^2+5t-24=0\Rightarrow t=3$ ($t=-8$ no val): \ $\res{x=1}$
+  \task $t=3^x$: $t^2+\frac{t^2}{3}+\frac t3=111\Rightarrow4t^2+t-333=0\Rightarrow t=9$: \ $\res{x=2}$
+  \task $t=3^x$: $9t+\frac{t^2}{9}=90\Rightarrow t^2+81t-810=0\Rightarrow t=9$ ($t=-90$ no val): \ $\res{x=2}$
+  \task $t=2^x$: $\frac{t^2}{16}-\frac{5t}{8}+1=0\Rightarrow t^2-10t+16=0\Rightarrow t=8,\ t=2$: \ $\res{x=3,\ x=1}$
+  \task $t=3^x$: $81t^2+27t-810=0\Rightarrow3t^2+t-30=0\Rightarrow t=3$ ($t=-\frac{10}{3}$ no val): \ $\res{x=1}$
+  \task $t=2^x$: $4t^2+8t-320=0\Rightarrow t^2+2t-80=0\Rightarrow t=8$ ($t=-10$ no val): \ $\res{x=3}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{9}{Problemes d'equacions}
+
+\exf{2} $5x+2\cdot50+0\cdot50=4(x+100)\Rightarrow$ $\res{x=300\ \text{L}}$
+
+\ex{1} $30\cdot5+10x=7(30+x)\Rightarrow3x=60$: \ $\res{20\ \text{L}}$
+
+\ex{2} En 1 kg, $x$ kg de te blanc: $18x+14(1-x)=16,4\Rightarrow x=0,6$: \ $\res{60\,\%\ \text{blanc i }40\,\%\ \text{verd}}$
+
+\ex{1} El 10\,\% són 15: \ $\res{150\ \text{alumnes}}$
+
+\ex{2} A la venda queda el $75\,\%$ del $20\,\%$, és a dir, el $15\,\%$: $0,15x=18\,000\Rightarrow$ $\res{120\,000\ \text{entrades}}$
+
+\ex{1} Àfrica és el 15\,\%: $0,15x=3\Rightarrow$ $\res{20\ \text{milions d'euros}}$
+
+\ex{2} $5x-2(20-x)=58\Rightarrow7x=98$: \ $\res{14\ \text{encerts i }6\ \text{errades}}$
+
+\ex{3} $(x-20)\left(\dfrac{125}{x}+0,4\right)=147\Rightarrow x^2-75x-6250=0\Rightarrow x=125$ ($x=-50$ no té sentit): \ $\res{125\ \text{kg}}$
+
+\ex{1} $x^2+(x+1)^2=25\Rightarrow x^2+x-12=0\Rightarrow x=3$: \ $\res{3\ \text{cm i }4\ \text{cm}}$
+
+\ex{2} $x^2+(x+2)^2=(x+4)^2\Rightarrow x^2-4x-12=0\Rightarrow x=6$: \ $\res{6,\ 8\ \text{i }10\ \text{cm}}$
+
+\ex{2} $x+y=70,\ x^2+y^2=2500\Rightarrow x^2-70x+1200=0$: \ $\res{40\ \text{m}\times30\ \text{m}}$
+
+\ex{1} $\frac15+\frac1{20}=\frac14$: \ $\res{T=4\ \text{h}}$
+
+\ex{1} $\frac12+\frac13=\frac56\Rightarrow T=\frac65$ h: \ $\res{1\ \text{h}\ 12\ \text{min}}$
+
+\ex{2} $\dfrac1t+\dfrac1{2t}=\dfrac1{10}\Rightarrow t=15$: \ $\res{15\ \text{h i }30\ \text{h}}$
+
+\ex{2} $\frac1{10}+\frac1{20}+\frac1{30}+\frac1{40}+\frac1{50}=\frac{137}{600}\Rightarrow T=\frac{600}{137}\approx\res{4,38\ \text{h}\approx4\ \text{h}\ 23\ \text{min}}$
+
+\ex{3} $\dfrac{600}{x-10}=\dfrac{600}{x}+5\Rightarrow x^2-10x-1200=0\Rightarrow x=40$: \ $\res{40\ \text{persones}}$
+
+\ex{2} \begin{tasks}(1)
+  \task $\res{y(0)=300\ \text{malalts}}$
+  \task $200e^{0,2t}=800\Rightarrow t=5\ln4\approx6,93$: \ $\res{\text{el 7 de gener (cap al final del dia)}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $e^{-0,1t}=\frac12\Rightarrow t=10\ln2\approx\res{6,93\ \text{dies}}$
+  \task $27e^{-1}\approx\res{9,93\ \text{mg}}$
+\end{tasks}
+
+\ex{2} $2^t=\dfrac{100}{9}\Rightarrow t=\dfrac{\log(100/9)}{\log2}\approx\res{3,47\ \text{h}\approx3\ \text{h}\ 28\ \text{min}}$
+
+\ex{3} \begin{tasks}(1)
+  \task $1+Ka=4$, \ $1+Ka^2=2,5\Rightarrow Ka=3,\ Ka^2=1,5$: \ $\res{a=\frac12,\ K=6}$
+  \task $1+6\cdot0,5^{x/10}=\frac43\Rightarrow0,5^{x/10}=\frac1{18}\Rightarrow x=10\log_218\approx\res{41,7\ \text{anys}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{10}{Sistemes d'equacions lineals. Mètode de Gauss}
+
+\exf{1} \begin{tasks}(2)
+  \task $2x+10=\frac{x+1}{2}+3$: \ $\res{x=-\frac{13}{3},\ y=\frac43}$
+  \task $-5x+8y=-34,\ 3x-2y=12$: \ $\res{x=2,\ y=-3}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task \rest{SCD}: \ $\res{(x,y,z)=(2,\ 1,\ {-}1)}$
+  \task \rest{SI}: incompatible (apareix una equació $0=k\neq0$)
+  \task \rest{SCI}: \ $\res{(x,y,z)=(- \lambda + 2,\ \lambda + 1,\ \lambda),\ \lambda\in\mathbb R}$
+  \task \rest{SCI}: \ $\res{(x,y,z)=(\frac{3 \lambda}{5} + \frac{4}{5},\ \frac{7 \lambda}{5} - \frac{4}{5},\ \lambda),\ \lambda\in\mathbb R}$
+  \task \rest{SI}: incompatible (apareix una equació $0=k\neq0$)
+  \task \rest{SCI}: \ $\res{(x,y,z)=(- \frac{7 \lambda}{4},\ \frac{5 \lambda}{4},\ \lambda),\ \lambda\in\mathbb R}$
+  \task \rest{SCD}: \ $\res{(x,y,z)=(1,\ 0,\ 1)}$
+  \task \rest{SCD}: \ $\res{(x,y,z)=(-2,\ 3,\ 1)}$
+  \task \rest{SI}: incompatible (apareix una equació $0=k\neq0$)
+  \task \rest{SCD}: \ $\res{(x,y,z,w)=(4,\ 2,\ {-}1,\ 0)}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{11}{Sistemes d'equacions no lineals}
+
+\exf{2} \begin{tasks}(1)
+  \task $x=\frac{-4-3y}{2}$ i substituïm: \ $\res{(- \frac{15}{7},\,\frac{2}{21}),\ (1,\,{-}2)}$
+  \task $\frac{y+2x}{xy}=4\Rightarrow y+2x=\frac{18}{5}$: \ $\res{(\frac{3}{10},\,3),\ (\frac{3}{2},\,\frac{3}{5})}$
+  \task Reducció: $7x^2=28$: \ $\res{(-2,\,{-}1),\ (-2,\,1),\ (2,\,{-}1),\ (2,\,1)}$
+  \task Restant: $3y^2-y-14=0$: \ $\res{(\frac{17}{6},\,\frac{7}{3}),\ (5,\,{-}2)}$
+  \task $x=\frac{-8-5y}{2}$ i substituïm: \ $\res{(-2,\,{-} \frac{4}{5}),\ (1,\,{-}2)}$
+  \task $-x^2=1$: \ $\res{\text{no té solució real}}$
+  \task $y=2x-3\Rightarrow x^2-4x+4=0$: \ $\res{(2,\,1)}$
+  \task $y+1=12-x\Rightarrow x^2-7x+12=0$: \ $\res{(3,\,8),\ (4,\,7)}$
+  \task $y=-\frac3x\Rightarrow x^4-19x^2+18=0$: \ $\res{(- 3 \sqrt{2},\,\frac{\sqrt{2}}{2}),\ (-1,\,3),\ (1,\,{-}3),\ (3 \sqrt{2},\,{-} \frac{\sqrt{2}}{2})}$
+  \task Reducció: $17y^2=0$: \ $\res{(-4,\,0),\ (4,\,0)}$
+  \task $(\sqrt x-\sqrt y)(\sqrt x+\sqrt y)=105\Rightarrow\sqrt x-\sqrt y=7$: \ $\res{(121,\,16)}$
+  \task $(x-y)^2=16\Rightarrow x-y=\pm4$: \ $\res{(-11,\,{-}7),\ (11,\,7)}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $u+v=9,\ 4u+5v=41\Rightarrow u=4,\ v=5$: \ $\res{x=2,\ y=1}$
+  \task $u+v=5,\ 2u-v=7\Rightarrow u=4,\ v=1$: \ $\res{x=2,\ y=0}$
+  \task $2^x=128\cdot2^y\Rightarrow127\cdot2^y=1016\Rightarrow2^y=8$: \ $\res{x=10,\ y=3}$
+  \task $u+v=16,\ \frac u3-49v=-340\Rightarrow u=9,\ v=7$: \ $\res{x=2,\ y=1}$
+  \task $y=5-x$ i $t=2^x$: $\frac1t+\frac{3t}{32}=\frac58\Rightarrow3t^2-20t+32=0\Rightarrow t=4,\ t=\frac83$:\par $\res{(2,\,3)}$ \ i \ $\res{\left(\log_2\tfrac83,\ 5-\log_2\tfrac83\right)\approx(1,415;\ 3,585)}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $2u-3v=7,\ u+v=1\Rightarrow u=2,\ v=-1$: \ $\res{x=100,\ y=\frac1{10}}$
+  \task $xy=100,\ x=21+y\Rightarrow y^2+21y-100=0\Rightarrow y=4$ ($y=-25$ no val): \ $\res{x=25,\ y=4}$
+  \task $u+3v=5,\ u-v=3\Rightarrow u=\frac72,\ v=\frac12$: \ $\res{x=10^{7/2}=1000\sqrt{10},\ y=\sqrt{10}}$
+  \task $xy=3^7=2187$ i $x=27+2y\Rightarrow2y^2+27y-2187=0\Rightarrow y=27$: \ $\res{x=81,\ y=27}$
+  \task $x=10y\Rightarrow32y=64$: \ $\res{x=20,\ y=2}$
+  \task $2u-2v=6,\ 2u+2v=2\Rightarrow u=2,\ v=-1$: \ $\res{x=100,\ y=\frac1{10}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{12}{Inequacions i sistemes amb una incògnita}
+
+\exf{1} \begin{tasks}(1)
+  \task $-8+4-2=-6\le6$: \rest{sí}
+  \task $\frac1e-1\approx-0,63\not\ge0$: \rest{no}
+  \task $2^{-0,5}-2,5\approx-1,79\lt3^{-0,5}\approx0,58$: \rest{sí}
+\end{tasks}
+
+\ex{1} \begin{tasks}(1)
+  \task $4x-12-x+2\le4x\Rightarrow-x\le10$: \ $\res{x\in [-10,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-13.6,0)--(-6.3,0);
+\draw[muted] (-13,0.1)--(-13,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-13$};
+\draw[muted] (-12,0.1)--(-12,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-12$};
+\draw[muted] (-11,0.1)--(-11,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-11$};
+\draw[muted] (-10,0.1)--(-10,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-10$};
+\draw[muted] (-9,0.1)--(-9,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-9$};
+\draw[muted] (-8,0.1)--(-8,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-8$};
+\draw[muted] (-7,0.1)--(-7,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-7$};
+\draw[accent,line width=2.6pt] (-10,0)--(-6.55,0);
+\fill[accent] (-6.25,0)--(-6.65,0.17)--(-6.65,-0.17)--cycle;
+\fill[accent] (-10,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $9x-18\gt9x+1\Rightarrow-18\gt1$, fals: \ $\res{\text{no té solució}}$
+  \task $6x+8\lt\frac{x+38}{2}\Rightarrow11x\lt22$: \ $\res{x\in (-\infty,\, 2)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-1.6,0)--(5.7,0);
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[muted] (5,0.1)--(5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$5$};
+\draw[accent,line width=2.6pt] (-1.45,0)--(2,0);
+\fill[accent] (-1.75,0)--(-1.35,0.17)--(-1.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (2,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $2x^2-8x\le0\Rightarrow2x(x-4)\le0$: \ $\res{x\in [0,\, 4]}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-1.6,0)--(5.7,0);
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[muted] (5,0.1)--(5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$5$};
+\draw[accent,line width=2.6pt] (0,0)--(4,0);
+\fill[accent] (0,0) circle (2.3pt);
+\fill[accent] (4,0) circle (2.3pt);
+\end{tikzpicture}
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $- x (2 x^{2} - 3)\gt0$: \ $\res{x\in (-\infty,\, {-} \frac{\sqrt{6}}{2})\cup(0,\, \frac{\sqrt{6}}{2})}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-3.45,0)--(-1.22474,0);
+\fill[accent] (-3.75,0)--(-3.35,0.17)--(-3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-1.22474,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (-1.22474,0) {$- \frac{\sqrt{6}}{2}$};
+\draw[accent,line width=2.6pt] (0,0)--(1.22474,0);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (0,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1.22474,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (1.22474,0) {$\frac{\sqrt{6}}{2}$};
+\end{tikzpicture}
+  \task $(x + 3) (3 x - 8)\ge0$: \ $\res{x\in (-\infty,\, {-}3]\cup[\frac{8}{3},\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-4.6,0)--(4.7,0);
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[accent,line width=2.6pt] (-4.45,0)--(-3,0);
+\fill[accent] (-4.75,0)--(-4.35,0.17)--(-4.35,-0.17)--cycle;
+\fill[accent] (-3,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (2.66667,0)--(4.45,0);
+\fill[accent] (4.75,0)--(4.35,0.17)--(4.35,-0.17)--cycle;
+\fill[accent] (2.66667,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (2.66667,0) {$\frac{8}{3}$};
+\end{tikzpicture}
+  \task $x (x - 2) (x + 2)\gt0$: \ $\res{x\in (-2,\, 0)\cup(2,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-2,0)--(0,0);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-2,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (0,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (2,0)--(3.45,0);
+\fill[accent] (3.75,0)--(3.35,0.17)--(3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (2,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $(x - 1) (x + 1)^{2}\le0$: \ $\res{x\in (-\infty,\, 1]}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-2.6,0)--(4.7,0);
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[accent,line width=2.6pt] (-2.45,0)--(1,0);
+\fill[accent] (-2.75,0)--(-2.35,0.17)--(-2.35,-0.17)--cycle;
+\fill[accent] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $(x - 1) (7 x - 1)\ge0$: \ $\res{x\in (-\infty,\, \frac{1}{7}]\cup[1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(4.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[accent,line width=2.6pt] (-3.45,0)--(0.142857,0);
+\fill[accent] (-3.75,0)--(-3.35,0.17)--(-3.35,-0.17)--cycle;
+\fill[accent] (0.142857,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (0.142857,0) {$\frac{1}{7}$};
+\draw[accent,line width=2.6pt] (1,0)--(4.45,0);
+\fill[accent] (4.75,0)--(4.35,0.17)--(4.35,-0.17)--cycle;
+\fill[accent] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $- (x - 1) (x + 1) (x + 2)\le0$: \ $\res{x\in [-2,\, {-}1]\cup[1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-4.6,0)--(3.7,0);
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-2,0)--(-1,0);
+\fill[accent] (-2,0) circle (2.3pt);
+\fill[accent] (-1,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (1,0)--(3.45,0);
+\fill[accent] (3.75,0)--(3.35,0.17)--(3.35,-0.17)--cycle;
+\fill[accent] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $(x - 1) (x + 1) (x^{2} + 1)\gt0$: \ $\res{x\in (-\infty,\, {-}1)\cup(1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-3.45,0)--(-1,0);
+\fill[accent] (-3.75,0)--(-3.35,0.17)--(-3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-1,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (1,0)--(3.45,0);
+\fill[accent] (3.75,0)--(3.35,0.17)--(3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $(x + 1) (x + 2)\lt0$: \ $\res{x\in (-2,\, {-}1)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-5.6,0)--(2.7,0);
+\draw[muted] (-5,0.1)--(-5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-5$};
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[accent,line width=2.6pt] (-2,0)--(-1,0);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-2,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-1,0) circle (2.3pt);
+\end{tikzpicture}
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\dfrac{5 x - 2}{2 x + 1}\ge0$: \ $\res{x\in (-\infty,\, {-} \frac{1}{2})\cup[\frac{2}{5},\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-3.45,0)--(-0.5,0);
+\fill[accent] (-3.75,0)--(-3.35,0.17)--(-3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-0.5,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (-0.5,0) {$- \frac{1}{2}$};
+\draw[accent,line width=2.6pt] (0.4,0)--(3.45,0);
+\fill[accent] (3.75,0)--(3.35,0.17)--(3.35,-0.17)--cycle;
+\fill[accent] (0.4,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (0.4,0) {$\frac{2}{5}$};
+\end{tikzpicture}
+  \task $\dfrac{(x - 2) (x + 1)}{(x - 1) (x + 2)}\ge0$: \ $\res{x\in (-\infty,\, {-}2)\cup[-1,\, 1)\cup[2,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-3.45,0)--(-2,0);
+\fill[accent] (-3.75,0)--(-3.35,0.17)--(-3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-2,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (-1,0)--(1,0);
+\fill[accent] (-1,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (2,0)--(3.45,0);
+\fill[accent] (3.75,0)--(3.35,0.17)--(3.35,-0.17)--cycle;
+\fill[accent] (2,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $\dfrac{4 x - 5}{(x + 1) (4 x - 5)}\lt0$: \ $\res{x\in (-\infty,\, {-}1)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-4.6,0)--(2.7,0);
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[accent,line width=2.6pt] (-4.45,0)--(-1,0);
+\fill[accent] (-4.75,0)--(-4.35,0.17)--(-4.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $\dfrac{x^{3}}{x - 9}\ge0$: \ $\res{x\in (-\infty,\, 0]\cup(9,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-1.6,0)--(10.7,0);
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[muted] (5,0.1)--(5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$5$};
+\draw[muted] (6,0.1)--(6,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$6$};
+\draw[muted] (7,0.1)--(7,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$7$};
+\draw[muted] (8,0.1)--(8,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$8$};
+\draw[muted] (9,0.1)--(9,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$9$};
+\draw[muted] (10,0.1)--(10,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$10$};
+\draw[accent,line width=2.6pt] (-1.45,0)--(0,0);
+\fill[accent] (-1.75,0)--(-1.35,0.17)--(-1.35,-0.17)--cycle;
+\fill[accent] (0,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (9,0)--(10.45,0);
+\fill[accent] (10.75,0)--(10.35,0.17)--(10.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (9,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $\dfrac{(x - 1) (x + 5)}{x (x - 1) (x + 1)}\ge0$: \ $\res{x\in [-5,\, {-}1)\cup(0,\, 1)\cup(1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-6.6,0)--(2.7,0);
+\draw[muted] (-6,0.1)--(-6,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-6$};
+\draw[muted] (-5,0.1)--(-5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-5$};
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[accent,line width=2.6pt] (-5,0)--(-1,0);
+\fill[accent] (-5,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-1,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (0,0)--(1,0);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (0,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (1,0)--(2.45,0);
+\fill[accent] (2.75,0)--(2.35,0.17)--(2.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $\dfrac{2 x + 3}{(x + 1) (x^{2} - x + 1)}\ge0$: \ $\res{x\in (-\infty,\, {-} \frac{3}{2}]\cup(-1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-5.6,0)--(2.7,0);
+\draw[muted] (-5,0.1)--(-5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-5$};
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[accent,line width=2.6pt] (-5.45,0)--(-1.5,0);
+\fill[accent] (-5.75,0)--(-5.35,0.17)--(-5.35,-0.17)--cycle;
+\fill[accent] (-1.5,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (-1.5,0) {$- \frac{3}{2}$};
+\draw[accent,line width=2.6pt] (-1,0)--(2.45,0);
+\fill[accent] (2.75,0)--(2.35,0.17)--(2.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-1,0) circle (2.3pt);
+\end{tikzpicture}
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $x\le\frac32$ i $x\gt-\frac13$: \ $\res{x\in (- \frac{1}{3},\, \frac{3}{2}]}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(4.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[accent,line width=2.6pt] (-0.333333,0)--(1.5,0);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-0.333333,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (-0.333333,0) {$- \frac{1}{3}$};
+\fill[accent] (1.5,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (1.5,0) {$\frac{3}{2}$};
+\end{tikzpicture}
+  \task $x\le0$, $x\le-1$ i $x\in(-\infty,\,{-}4)\cup(2,+\infty)$: \ $\res{x\in (-\infty,\, {-}4)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-7.6,0)--(-0.3,0);
+\draw[muted] (-7,0.1)--(-7,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-7$};
+\draw[muted] (-6,0.1)--(-6,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-6$};
+\draw[muted] (-5,0.1)--(-5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-5$};
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[accent,line width=2.6pt] (-7.45,0)--(-4,0);
+\fill[accent] (-7.75,0)--(-7.35,0.17)--(-7.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-4,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $x\lt1$ i $x\ge-1$: \ $\res{x\in [-1,\, 1)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-1,0)--(1,0);
+\fill[accent] (-1,0) circle (2.3pt);
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $x\gt2$ i $x\le1$: \ $\res{\text{no té solució}}$
+  \task $(-\infty,\,{-}3]\cup[1,+\infty)$ i $x\gt0$: \ $\res{x\in [1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-2.6,0)--(4.7,0);
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[accent,line width=2.6pt] (1,0)--(4.45,0);
+\fill[accent] (4.75,0)--(4.35,0.17)--(4.35,-0.17)--cycle;
+\fill[accent] (1,0) circle (2.3pt);
+\end{tikzpicture}
+  \task $(-\infty,\,{-}2)\cup(1,+\infty)$ i $(-\infty,-1]\cup[1,+\infty)$: \ $\res{x\in (-\infty,\, {-}2)\cup(1,\, +\infty)}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-4.6,0)--(3.7,0);
+\draw[muted] (-4,0.1)--(-4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-4$};
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-4.45,0)--(-2,0);
+\fill[accent] (-4.75,0)--(-4.35,0.17)--(-4.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (-2,0) circle (2.3pt);
+\draw[accent,line width=2.6pt] (1,0)--(3.45,0);
+\fill[accent] (3.75,0)--(3.35,0.17)--(3.35,-0.17)--cycle;
+\filldraw[fill=white,draw=accent,line width=1.1pt] (1,0) circle (2.3pt);
+\end{tikzpicture}
+\end{tasks}
+
+
+% =====================================================
+\seccio{13}{Inequacions i sistemes amb dues incògnites}
+
+\exf{1} \begin{tasks}(2)
+  \task Recta contínua per $(4,0)$ i $(0,3)$; $O$: $0\le12$ \checkmark: semiplà de $O$.\par\begin{tikzpicture}[x=0.4500cm,y=0.4500cm,baseline=(current bounding box.center)]\begin{scope}\clip (-2,-2) rectangle (6,5);\foreach \i in {-2,0,...,6} \draw[muted!25,very thin] (\i,-2)--(\i,5);\foreach \i in {-2,-1,...,5} \draw[muted!25,very thin] (-2,\i)--(6,\i);\fill[teal!22] (-2.0000,-2.0000)--(6.0000,-2.0000)--(6.0000,-1.5000)--(-2.0000,4.5000)--cycle;\end{scope}\draw[-latex,thick] (-2,0)--(6.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-2)--(0,5.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,5) {$5$};\begin{scope}\clip (-2,-2) rectangle (6,5);\draw[accent,line width=1.1pt] (-3.0000,5.2500)--(7.0000,-2.2500);\end{scope}\end{tikzpicture}
+  \task Recta contínua per $(0,1)$ i $(-\frac43,0)$; $O$: $0\ge4$ fals: semiplà que \rest{no} conté $O$.\par\begin{tikzpicture}[x=0.4500cm,y=0.4500cm,baseline=(current bounding box.center)]\begin{scope}\clip (-4,-2) rectangle (4,4);\foreach \i in {-4,-2,...,4} \draw[muted!25,very thin] (\i,-2)--(\i,4);\foreach \i in {-2,-1,...,4} \draw[muted!25,very thin] (-4,\i)--(4,\i);\fill[teal!22] (-4.0000,-2.0000)--(4.0000,4.0000)--(-4.0000,4.0000)--cycle;\end{scope}\draw[-latex,thick] (-4,0)--(4.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-2)--(0,4.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-4,0) {$-4$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\begin{scope}\clip (-4,-2) rectangle (4,4);\draw[accent,line width=1.1pt] (-5.0000,-2.7500)--(5.0000,4.7500);\end{scope}\end{tikzpicture}
+  \task Recta discontínua per $(1,0)$ i $(0,2)$; $O$: $0\lt2$ \checkmark: semiplà de $O$.\par\begin{tikzpicture}[x=0.6000cm,y=0.6000cm,baseline=(current bounding box.center)]\begin{scope}\clip (-2,-3) rectangle (4,4);\foreach \i in {-2,-1,...,4} \draw[muted!25,very thin] (\i,-3)--(\i,4);\foreach \i in {-3,-2,...,4} \draw[muted!25,very thin] (-2,\i)--(4,\i);\fill[teal!22] (-2.0000,-3.0000)--(2.5000,-3.0000)--(-1.0000,4.0000)--(-2.0000,4.0000)--cycle;\end{scope}\draw[-latex,thick] (-2,0)--(4.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-3)--(0,4.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[left,font=\tiny,text=muted] at (0,-3) {$-3$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\begin{scope}\clip (-2,-3) rectangle (4,4);\draw[accent,line width=1.1pt,dashed] (3.0000,-4.0000)--(-1.5000,5.0000);\end{scope}\end{tikzpicture}
+  \task $x-y\gt-2$: recta discontínua per $(-2,0)$ i $(0,2)$; $O$: $0\gt-2$ \checkmark: semiplà de $O$.\par\begin{tikzpicture}[x=0.5143cm,y=0.5143cm,baseline=(current bounding box.center)]\begin{scope}\clip (-4,-2) rectangle (3,5);\foreach \i in {-4,-3,...,3} \draw[muted!25,very thin] (\i,-2)--(\i,5);\foreach \i in {-2,-1,...,5} \draw[muted!25,very thin] (-4,\i)--(3,\i);\fill[teal!22] (-4.0000,-2.0000)--(3.0000,-2.0000)--(3.0000,5.0000)--cycle;\end{scope}\draw[-latex,thick] (-4,0)--(3.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-2)--(0,5.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-4,0) {$-4$};\node[below,font=\tiny,text=muted] at (-3,0) {$-3$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,5) {$5$};\begin{scope}\clip (-4,-2) rectangle (3,5);\draw[accent,line width=1.1pt,dashed] (-5.0000,-3.0000)--(4.0000,6.0000);\end{scope}\end{tikzpicture}
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task Triangle de vèrtexs $(2,0)$, $(3,0)$ i $\left(\frac52,\frac12\right)$ (la condició $y\lt2$ no hi influeix).\par\begin{tikzpicture}[x=0.7200cm,y=0.7200cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (4,3);\foreach \i in {-1,0,...,4} \draw[muted!25,very thin] (\i,-1)--(\i,3);\foreach \i in {-1.0,0.0,...,3} \draw[muted!25,very thin] (-1,\i)--(4,\i);\fill[teal!22] (2.0000,0.0000)--(3.0000,0.0000)--(2.5000,0.5000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(4.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,3.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[left,font=\tiny,text=muted] at (0,-1.0) {$-1$};\node[left,font=\tiny,text=muted] at (0,1.0) {$1$};\node[left,font=\tiny,text=muted] at (0,2.0) {$2$};\node[left,font=\tiny,text=muted] at (0,3.0) {$3$};\begin{scope}\clip (-1,-1) rectangle (4,3);\draw[accent,line width=1.1pt] (-2.0000,0.0000)--(5.0000,0.0000);\draw[blue!70!black,line width=1.1pt,dashed] (-2.0000,2.0000)--(5.0000,2.0000);\draw[violet,line width=1.1pt] (5.0000,-2.0000)--(-1.0000,4.0000);\draw[orange!85!black,line width=1.1pt] (0.0000,-2.0000)--(6.0000,4.0000);\draw[teal,line width=1.1pt] (0.0000,-2.0000)--(0.0000,4.0000);\end{scope}\filldraw[fill=white,draw=navy] (2.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(2.0000,0.0000)+(-161.6:0.36cm)$) {$(2,\,0)$};\filldraw[fill=white,draw=navy] (3.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(3.0000,0.0000)+(-18.4:0.36cm)$) {$(3,\,0)$};\filldraw[fill=white,draw=navy] (2.5000,0.5000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(2.5000,0.5000)+(90.0:0.36cm)$) {$(\frac{5}{2},\,\frac{1}{2})$};\end{tikzpicture}
+  \task Regió \rest{no fitada} amb un sol vèrtex, $\left(\frac43,\frac43\right)$ (la vora de $y\lt-2x+4$ no s'inclou).\par\begin{tikzpicture}[x=0.5143cm,y=0.5143cm,baseline=(current bounding box.center)]\begin{scope}\clip (-3,-3) rectangle (4,5);\foreach \i in {-3,-2,...,4} \draw[muted!25,very thin] (\i,-3)--(\i,5);\foreach \i in {-2,0,...,5} \draw[muted!25,very thin] (-3,\i)--(4,\i);\fill[teal!22] (-3.0000,-3.0000)--(1.3333,1.3333)--(-0.5000,5.0000)--(-3.0000,5.0000)--cycle;\end{scope}\draw[-latex,thick] (-3,0)--(4.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-3)--(0,5.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-3,0) {$-3$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\begin{scope}\clip (-3,-3) rectangle (4,5);\draw[accent,line width=1.1pt,dashed] (4.0000,-4.0000)--(-1.0000,6.0000);\draw[blue!70!black,line width=1.1pt] (-4.0000,-4.0000)--(6.0000,6.0000);\end{scope}\filldraw[fill=white,draw=navy] (1.3333,1.3333) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(1.3333,1.3333)+(45.0:0.36cm)$) {$(\frac{4}{3},\,\frac{4}{3})$};\end{tikzpicture}
+  \task Triangle de vèrtexs $(-4,\,{-}1)$, $(-4,2)$ i $(-1,2)$; només el costat $y=2$ és de la regió.\par\begin{tikzpicture}[x=0.6000cm,y=0.6000cm,baseline=(current bounding box.center)]\begin{scope}\clip (-5,-2) rectangle (1,4);\foreach \i in {-5,-4,...,1} \draw[muted!25,very thin] (\i,-2)--(\i,4);\foreach \i in {-2,-1,...,4} \draw[muted!25,very thin] (-5,\i)--(1,\i);\fill[teal!22] (-1.0000,2.0000)--(-4.0000,2.0000)--(-4.0000,-1.0000)--cycle;\end{scope}\draw[-latex,thick] (-5,0)--(1.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-2)--(0,4.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-5,0) {$-5$};\node[below,font=\tiny,text=muted] at (-4,0) {$-4$};\node[below,font=\tiny,text=muted] at (-3,0) {$-3$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\begin{scope}\clip (-5,-2) rectangle (1,4);\draw[accent,line width=1.1pt] (-6.0000,2.0000)--(2.0000,2.0000);\draw[blue!70!black,line width=1.1pt,dashed] (-4.0000,-3.0000)--(-4.0000,5.0000);\draw[violet,line width=1.1pt,dashed] (-6.0000,-3.0000)--(2.0000,5.0000);\end{scope}\filldraw[fill=white,draw=navy] (-1.0000,2.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(-1.0000,2.0000)+(26.6:0.36cm)$) {$(-1,\,2)$};\filldraw[fill=white,draw=navy] (-4.0000,2.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(-4.0000,2.0000)+(135.0:0.36cm)$) {$(-4,\,2)$};\filldraw[fill=white,draw=navy] (-4.0000,-1.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(-4.0000,-1.0000)+(-116.6:0.36cm)$) {$(-4,\,{-}1)$};\end{tikzpicture}
+  \task Regió \rest{no fitada} (cap avall) amb vèrtexs $(0,0)$ i $(4,2)$.\par\begin{tikzpicture}[x=0.4500cm,y=0.4500cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-3) rectangle (7,4);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (\i,-3)--(\i,4);\foreach \i in {-3,-2,...,4} \draw[muted!25,very thin] (-1,\i)--(7,\i);\fill[teal!22] (0.0000,-3.0000)--(7.0000,-3.0000)--(7.0000,-1.0000)--(4.0000,2.0000)--(0.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(7.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-3)--(0,4.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,-3) {$-3$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\begin{scope}\clip (-1,-3) rectangle (7,4);\draw[accent,line width=1.1pt] (10.0000,-4.0000)--(1.0000,5.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,-1.0000)--(8.0000,4.0000);\draw[violet,line width=1.1pt] (0.0000,-4.0000)--(0.0000,5.0000);\end{scope}\filldraw[fill=white,draw=navy] (4.0000,2.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(4.0000,2.0000)+(26.6:0.36cm)$) {$(4,\,2)$};\filldraw[fill=white,draw=navy] (0.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,0.0000)+(-153.4:0.36cm)$) {$(0,\,0)$};\end{tikzpicture}
+  \task Triangle de vèrtexs $(0,0)$, $(1,0)$ i $(0,2)$, sense les vores ($x\gt y-2$ no hi influeix).\par\begin{tikzpicture}[x=0.9000cm,y=0.9000cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (3,3);\foreach \i in {-1.0,0.0,...,3} \draw[muted!25,very thin] (\i,-1)--(\i,3);\foreach \i in {-1.0,0.0,...,3} \draw[muted!25,very thin] (-1,\i)--(3,\i);\fill[teal!22] (1.0000,0.0000)--(0.0000,2.0000)--(0.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(3.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,3.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-1.0,0) {$-1$};\node[below,font=\tiny,text=muted] at (1.0,0) {$1$};\node[below,font=\tiny,text=muted] at (2.0,0) {$2$};\node[below,font=\tiny,text=muted] at (3.0,0) {$3$};\node[left,font=\tiny,text=muted] at (0,-1.0) {$-1$};\node[left,font=\tiny,text=muted] at (0,1.0) {$1$};\node[left,font=\tiny,text=muted] at (0,2.0) {$2$};\node[left,font=\tiny,text=muted] at (0,3.0) {$3$};\begin{scope}\clip (-1,-1) rectangle (3,3);\draw[accent,line width=1.1pt,dashed] (2.0000,-2.0000)--(-1.0000,4.0000);\draw[blue!70!black,line width=1.1pt,dashed] (-4.0000,-2.0000)--(2.0000,4.0000);\draw[violet,line width=1.1pt,dashed] (0.0000,-2.0000)--(0.0000,4.0000);\draw[orange!85!black,line width=1.1pt,dashed] (-2.0000,0.0000)--(4.0000,0.0000);\end{scope}\filldraw[fill=white,draw=navy] (1.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(1.0000,0.0000)+(-45.0:0.36cm)$) {$(1,\,0)$};\filldraw[fill=white,draw=navy] (0.0000,2.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,2.0000)+(104.0:0.36cm)$) {$(0,\,2)$};\filldraw[fill=white,draw=navy] (0.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,0.0000)+(-116.6:0.36cm)$) {$(0,\,0)$};\end{tikzpicture}
+  \task Rectangle de vèrtexs $(4,3)$, $(6,3)$, $(6,5)$ i $(4,5)$.\par\begin{tikzpicture}[x=0.4500cm,y=0.4500cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (7,6);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (\i,-1)--(\i,6);\foreach \i in {-1,0,...,6} \draw[muted!25,very thin] (-1,\i)--(7,\i);\fill[teal!22] (6.0000,5.0000)--(4.0000,5.0000)--(4.0000,3.0000)--(6.0000,3.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(7.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,6.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,5) {$5$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\begin{scope}\clip (-1,-1) rectangle (7,6);\draw[accent,line width=1.1pt] (-2.0000,3.0000)--(8.0000,3.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,5.0000)--(8.0000,5.0000);\draw[violet,line width=1.1pt] (6.0000,-2.0000)--(6.0000,7.0000);\draw[orange!85!black,line width=1.1pt] (4.0000,-2.0000)--(4.0000,7.0000);\end{scope}\filldraw[fill=white,draw=navy] (6.0000,5.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(6.0000,5.0000)+(45.0:0.36cm)$) {$(6,\,5)$};\filldraw[fill=white,draw=navy] (4.0000,5.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(4.0000,5.0000)+(135.0:0.36cm)$) {$(4,\,5)$};\filldraw[fill=white,draw=navy] (4.0000,3.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(4.0000,3.0000)+(-135.0:0.36cm)$) {$(4,\,3)$};\filldraw[fill=white,draw=navy] (6.0000,3.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(6.0000,3.0000)+(-45.0:0.36cm)$) {$(6,\,3)$};\end{tikzpicture}
+\end{tasks}
+
+
+% =====================================================
+\seccio{14}{Problemes de sistemes i inequacions}
+
+\exf{1} $x+y=250,\ 4x+2y=800$: \ $\res{150\ \text{conills i }100\ \text{gallines}}$
+
+\ex{3} $x^2h=2,\ 2x^2+4xh=10\Rightarrow2x^2+\frac8x=10\Rightarrow x^3-5x+4=0\Rightarrow(x-1)(x^2+x-4)=0$. L'única arrel entera és $x=1$: \ $\res{1\ \text{dm}\times1\ \text{dm}\times2\ \text{dm}}$
+
+\ex{2} $x+y+z=21,\ 50x+100y+200z=1800,\ x=5z$: \ $\res{10\ \text{de }50\,€,\ 9\ \text{de }100\,€,\ 2\ \text{de }200\,€}$
+
+\ex{2} $L+C+P=60,\ L=3(C+P),\ 2C=3P$: \ $\res{\text{Lluís }45\,€,\ \text{Carme }9\,€,\ \text{Pere }6\,€}$
+
+\ex{2} $b+t+c=50,\ b+t=4c,\ 2b+3t+4c=140$: \ $\res{20\ \text{bicicletes},\ 20\ \text{tricicles},\ 10\ \text{cotxes}}$
+
+\ex{2} $10a+15b+30c=775,\ b=c+5,\ c=0,2(a+b+c)$: \ $\res{25\ \text{A},\ 15\ \text{B},\ 10\ \text{C}}$
+
+\ex{2} $x+y+z=8,\ 10x+20y+50z=290,\ x=2y$: \ $\res{2\ \text{de }10\,€,\ 1\ \text{de }20\,€,\ 5\ \text{de }50\,€}$
+
+\ex{2} $x+y+z=800,\ 10x+20y+50z=21000,\ x=y+z$: \ $\res{400\ \text{de }10\,€,\ 100\ \text{de }20\,€,\ 300\ \text{de }50\,€}$
+
+\ex{3} $n+e+j=1405,\ 6n+4e+3j=7920,\ 4e+3j=0,1\cdot6n$:\par $\res{1200\ \text{normals},\ 105\ \text{de l'espectador},\ 100\ \text{de jubilats}}$
+
+\ex{2} $a+b+c=200,\ b=a+c,\ 200a+500b+250c=73500$: \ $\res{30\ \text{A},\ 100\ \text{B},\ 70\ \text{C}}$
+
+\ex{2} $m+l+t=9,\ 100m+120l+150t=1160,\ t=l+1$: \ $\res{2\ \text{memòries},\ 3\ \text{lectors},\ 4\ \text{tauletes}}$
+
+\ex{2} $0,9(r+q+c)=3,96,\ q=\frac r2,\ c=q+0,2r$: \ $\res{\text{retolador }2\,€,\ \text{quadern }1\,€,\ \text{carpeta }1,40\,€}$
+
+\ex{3} $a+b+d=7000,\ 0,05a+0,03b+0,01d=202,\ a+b=d+2600$: \ $\res{\text{A }1800\,€,\ \text{B }3000\,€,\ \text{dipòsit }2200\,€}$
+
+\ex{2} $l+p+r=60,\ p=2(l+r),\ r=\frac l2+2$: \ $\res{\text{Londres }12,\ \text{París }40,\ \text{Roma }8}$
+
+\ex{3} $200b+100p+300q=830,\ 1,25(200b+100p)+1,4\cdot300q=1087,\ b=q+0,5$:\par $\res{\text{bresquilles }1,60\,€/\text{kg},\ \text{pomes }1,80\,€/\text{kg},\ \text{peres }1,10\,€/\text{kg}}$
+
+\ex{3} \begin{tasks}(1)
+  \task $l=d+s,\ 4d+8l+10s=1116,\ 8l-10s=156$: \ $\res{30\ \text{desdejunis},\ 72\ \text{dinars},\ 42\ \text{sopars}}$
+  \task $30\cdot2,5+72\cdot4+42\cdot5=$ $\res{573\,€}$
+\end{tasks}
+
+\ex{2} $p_1+p_2+p_3=7,5,\ p_3=p_2+1,\ p_1=5(p_3-p_1)$: \ $\res{2,5;\ \ 2;\ \ 3\ \text{punts}}$
+
+\ex{3} $a+b+c=42000,\ 0,05a+0,07b+0,09c=2600,\ 0,05a=0,07b+0,09c-200$: \ $\res{24\,000\,€,\ 11\,000\,€,\ 7000\,€}$
+
+\ex{1} $10+0,05x\lt0,12x\Rightarrow x\gt\frac{1000}{7}\approx142,9$: \ $\res{\text{a partir de 143 minuts}}$
+
+\ex{1} $1,2+0,7x\ge5\Rightarrow x\ge\frac{38}{7}\approx5,43$: \ $\res{x\in [\frac{38}{7},\, 10]}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (3.4,0)--(11.7,0);
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[muted] (5,0.1)--(5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$5$};
+\draw[muted] (6,0.1)--(6,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$6$};
+\draw[muted] (7,0.1)--(7,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$7$};
+\draw[muted] (8,0.1)--(8,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$8$};
+\draw[muted] (9,0.1)--(9,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$9$};
+\draw[muted] (10,0.1)--(10,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$10$};
+\draw[muted] (11,0.1)--(11,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$11$};
+\draw[accent,line width=2.6pt] (5.42857,0)--(10,0);
+\fill[accent] (5.42857,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (5.42857,0) {$\frac{38}{7}$};
+\fill[accent] (10,0) circle (2.3pt);
+\end{tikzpicture}
+
+\ex{2} $20\le2(x+2x+1)\le30\Rightarrow20\le6x+2\le30$: \ $\res{x\in [3,\, \frac{14}{3}]}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (0.4,0)--(7.7,0);
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[muted] (4,0.1)--(4,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$4$};
+\draw[muted] (5,0.1)--(5,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$5$};
+\draw[muted] (6,0.1)--(6,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$6$};
+\draw[muted] (7,0.1)--(7,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$7$};
+\draw[accent,line width=2.6pt] (3,0)--(4.66667,0);
+\fill[accent] (3,0) circle (2.3pt);
+\fill[accent] (4.66667,0) circle (2.3pt);
+\node[above=1pt,font=\scriptsize,text=accent] at (4.66667,0) {$\frac{14}{3}$};
+\end{tikzpicture} \ (en cm)
+
+\ex{2} \begin{tasks}(1)
+  \task $2x+y\le40,\ x+2y\le50,\ x\ge0,\ y\ge0$. Vèrtexs $(0,0)$, $(20,0)$, $(10,20)$ i $(0,25)$.\par\begin{tikzpicture}[x=0.1400cm,y=0.1400cm,baseline=(current bounding box.center)]\begin{scope}\clip (-2,-2) rectangle (28,28);\foreach \i in {0,5,...,28} \draw[muted!25,very thin] (\i,-2)--(\i,28);\foreach \i in {0,5,...,28} \draw[muted!25,very thin] (-2,\i)--(28,\i);\fill[teal!22] (20.0000,0.0000)--(10.0000,20.0000)--(0.0000,25.0000)--(0.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-2,0)--(29.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-2)--(0,29.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (5,0) {$5$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[below,font=\tiny,text=muted] at (15,0) {$15$};\node[below,font=\tiny,text=muted] at (20,0) {$20$};\node[below,font=\tiny,text=muted] at (25,0) {$25$};\node[left,font=\tiny,text=muted] at (0,5) {$5$};\node[left,font=\tiny,text=muted] at (0,10) {$10$};\node[left,font=\tiny,text=muted] at (0,15) {$15$};\node[left,font=\tiny,text=muted] at (0,20) {$20$};\node[left,font=\tiny,text=muted] at (0,25) {$25$};\begin{scope}\clip (-2,-2) rectangle (28,28);\draw[accent,line width=1.1pt] (21.5000,-3.0000)--(5.5000,29.0000);\draw[blue!70!black,line width=1.1pt] (-3.0000,26.5000)--(29.0000,10.5000);\draw[violet,line width=1.1pt] (0.0000,-3.0000)--(0.0000,29.0000);\draw[orange!85!black,line width=1.1pt] (-3.0000,0.0000)--(29.0000,0.0000);\end{scope}\filldraw[fill=white,draw=navy] (20.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(20.0000,0.0000)+(-42.0:0.36cm)$) {$(20,\,0)$};\filldraw[fill=white,draw=navy] (10.0000,20.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(10.0000,20.0000)+(74.1:0.36cm)$) {$(10,\,20)$};\filldraw[fill=white,draw=navy] (0.0000,25.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,25.0000)+(118.6:0.36cm)$) {$(0,\,25)$};\filldraw[fill=white,draw=navy] (0.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,0.0000)+(-123.7:0.36cm)$) {$(0,\,0)$};\fill[red!70!black] (15,12) circle (2.2pt);\fill[teal] (10,20) circle (2.2pt);\end{tikzpicture}
+  \task $(15,12)$: $2\cdot15+12=42\gt40$: \rest{no} (falten hores). \ $(10,20)$: $40\le40$ i $50\le50$: \rest{sí}, i aprofita totes les hores i tot el material.
+\end{tasks}
+
+\ex{2} $20t-5t^2\gt15\Rightarrow t^2-4t+3\lt0\Rightarrow t\in(1,3)$: \ $\res{2\ \text{segons}}$
+
+
+% =====================================================
+\seccio{15}{Ampliació i problemes}
+
+\exf{1} $P(-1)=1+2+1=$ $\res{4}$
+
+\ex{2} $P(x)=a(x-1)(x+2)(x-3)$; \ $P(0)=6a=12\Rightarrow a=2$: \ $\res{2 x^{3} - 4 x^{2} - 10 x + 12}$
+
+\ex{2} \begin{tasks}(2)
+  \task $\dfrac{(x-3)(x^2+3x+9)}{(x-3)(x+3)}=\res{\frac{x^2+3x+9}{x+3}}$
+  \task $\dfrac{\frac{x-1}{x}}{\frac{(x-1)(x+1)}{x^2}}=\res{\frac{x}{x+1}}$
+\end{tasks}
+
+\ex{2} $2x^2+2(x+1)^2=5x(x+1)\Rightarrow x^2+x-2=0$: \ $\res{x=1,\ x=-2}$ (cap anul·la els denominadors).
+
+\ex{2} $x+3=1+2\sqrt{x-2}+x-2\Rightarrow\sqrt{x-2}=2$: \ $\res{x=6}$ \ ($3-2=1$ \checkmark).
+
+\ex{2} $t=2^x$: $2t^2-5t+2=0\Rightarrow t=2,\ t=\frac12$: \ $\res{x=1,\ x=-1}$
+
+\ex{2} $x^2-1=8\Rightarrow x=\pm3$; \ $x=-3$ no val: \ $\res{x=3}$
+
+\ex{3} $\left(\begin{array}{rrr|r}1&1&1&3\\1&-1&1&1\\2&0&a&4\end{array}\right)\to\left(\begin{array}{rrr|r}1&1&1&3\\0&-2&0&-2\\0&-2&a-2&-2\end{array}\right)\to\left(\begin{array}{rrr|r}1&1&1&3\\0&-2&0&-2\\0&0&a-2&0\end{array}\right)$\par Si $a\neq2$: \rest{SCD}, $\res{(2,\ 1,\ 0)}$. \ Si $a=2$: \rest{SCI}, $\res{(2-\lambda,\ 1,\ \lambda)}$. (Mai no és incompatible.)
+
+\ex{2} $x+y=5,\ xy=6\Rightarrow x^2-5x+6=0$: \ $\res{2\ \text{cm}\times3\ \text{cm}}$
+
+\ex{2} $x^2+1\gt0$ sempre, així que només cal $x^2-4\le0$: \ $\res{x\in [-2,\, 2]}$\\[2pt]\begin{tikzpicture}[x=0.420cm,baseline=-3pt]
+\draw[-latex,muted] (-3.6,0)--(3.7,0);
+\draw[muted] (-3,0.1)--(-3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-3$};
+\draw[muted] (-2,0.1)--(-2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-2$};
+\draw[muted] (-1,0.1)--(-1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$-1$};
+\draw[muted] (0,0.1)--(0,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$0$};
+\draw[muted] (1,0.1)--(1,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$1$};
+\draw[muted] (2,0.1)--(2,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$2$};
+\draw[muted] (3,0.1)--(3,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$3$};
+\draw[accent,line width=2.6pt] (-2,0)--(2,0);
+\fill[accent] (-2,0) circle (2.3pt);
+\fill[accent] (2,0) circle (2.3pt);
+\end{tikzpicture}
+
+\ex{2} $5000\cdot1,04^t\ge8000\Rightarrow t\ge\dfrac{\log1,6}{\log1,04}\approx11,98$: \ $\res{12\ \text{anys}}$
+
+\ex{2} $p-2=3(f-2),\ p+10=2(f+10)$: \ $\res{\text{pare }38,\ \text{fill }14\ \text{anys}}$
+
+\ex{3} $\res{x\ge0,\ \ y\ge0,\ \ x+2y\le4}$ \ (la recta per $(4,0)$ i $(0,2)$ és $x+2y=4$, i $O$ la compleix).\par\begin{tikzpicture}[x=0.6000cm,y=0.6000cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (5,3);\foreach \i in {-1,0,...,5} \draw[muted!25,very thin] (\i,-1)--(\i,3);\foreach \i in {-1.0,0.0,...,3} \draw[muted!25,very thin] (-1,\i)--(5,\i);\fill[teal!22] (0.0000,2.0000)--(0.0000,0.0000)--(4.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(5.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,3.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (5,0) {$5$};\node[left,font=\tiny,text=muted] at (0,-1.0) {$-1$};\node[left,font=\tiny,text=muted] at (0,1.0) {$1$};\node[left,font=\tiny,text=muted] at (0,2.0) {$2$};\node[left,font=\tiny,text=muted] at (0,3.0) {$3$};\begin{scope}\clip (-1,-1) rectangle (5,3);\draw[accent,line width=1.1pt] (0.0000,-2.0000)--(0.0000,4.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,0.0000)--(6.0000,0.0000);\draw[violet,line width=1.1pt] (-2.0000,3.0000)--(6.0000,-1.0000);\end{scope}\filldraw[fill=white,draw=navy] (0.0000,2.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,2.0000)+(135.0:0.36cm)$) {$(0,\,2)$};\filldraw[fill=white,draw=navy] (0.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,0.0000)+(-153.4:0.36cm)$) {$(0,\,0)$};\filldraw[fill=white,draw=navy] (4.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(4.0000,0.0000)+(-14.0:0.36cm)$) {$(4,\,0)$};\end{tikzpicture}
+
+
+\end{document}

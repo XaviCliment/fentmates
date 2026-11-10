@@ -210,6 +210,20 @@ python3 _eines/apunts/1batx-mi-t1/build.py
 cd _eines/fonts-latex/1batx-mi-t1 && python3 genera.py && pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex
 ```
 
+Els apunts de 1r Batx MI de la unitat 2 (Àlgebra, carpeta `1batx-mi-t2`) segueixen els 14 apartats dels apunts del departament
+(2.1-2.14) i funcionen com els de la unitat 1. Els ginys de `app.js` treballen amb fraccions exactes: operacions i divisió llarga de
+polinomis, Ruffini pas a pas (també amb divisors `ax+b`), factorització pas a pas, simplificació de fraccions algebraiques, segon grau i
+biquadrades, solucions estranyes de les equacions amb radicals, exponencials amb canvi de variable, Gauss pas a pas (SCD, SCI i SI),
+recta i circumferència, taula de signes d'inequacions polinòmiques i racionals, semiplans i regions, i aixetes. A `materials.js` la
+unitat porta `num: "2"` i és del bloc d'àlgebra. La fitxa (`_eines/fonts-latex/1batx-mi-t2/genera.py`) té els 90 exercicis de la fitxa
+del departament amb la mateixa numeració i una secció 15 amb 13 exercicis nous; sympy calcula o comprova totes les solucions (les de
+radicals, logaritmes i exponencials, numèricament) i es dibuixen les taules de Ruffini, les rectes de les inequacions i les regions:
+
+```
+python3 _eines/apunts/1batx-mi-t2/build.py
+cd _eines/fonts-latex/1batx-mi-t2 && python3 genera.py && pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i

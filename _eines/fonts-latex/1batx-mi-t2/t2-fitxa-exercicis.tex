@@ -1,0 +1,634 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 2: Àlgebra. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={polinomis, Ruffini, teorema del residu, factorització, fraccions algebraiques, equacions, sistemes, Gauss, inequacions}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 2: Àlgebra · 1r Batxillerat MI}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+\providecommand{\lt}{<}\providecommand{\gt}{>}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{1batx-mi}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques I}{1r Batx}{Fitxa d'exercicis · Unitat 2}{\raggedright Àlgebra}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern mostrant tots els passos. Dona els resultats de manera exacta i, si cal, també aproximats. En les equacions amb denominadors, radicals o logaritmes, comprova sempre les solucions. Els exercicis 1--90 són els de la fitxa del departament; la secció 15 en té de nous per a ampliar i aplicar el que has aprés.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Polinomis. Operacions}
+
+\exf{1} Simplifica les següents expressions polinòmiques.\begin{tasks}(1)
+  \task $2(x-2)^2-3(3x+2)-2(3x-2)(3x+2)$
+  \task $(3x+2)^2+2(2x-3)^2-(x-5)(2x-5)$
+  \task $(2x^2-2x-13)(3x^2-2x)-3x$
+  \task $(x^2+4)(x^2-4)(x-2)+2x(x^3-10)x$
+  \task $\left(\frac23x-\frac35\right)\left(\frac32x^2+\frac25\right)+\frac{6}{25}$
+\end{tasks}\recorda{$(a\pm b)^2=a^2\pm2ab+b^2$, \ $(a+b)(a-b)=a^2-b^2$. Desenvolupa cada producte i redueix els termes semblants.}
+
+\ex{2} Demostra la igualtat algebraica: \[(x+y+z)^2=x^2+y^2+z^2+2xy+2xz+2yz\]
+
+\ex{1} Calcula $(4x^2-3x+2)^2$.
+
+\ex{2} Calcula els valors de $a$ i $b$ perquè es verifiquen les següents igualtats.\begin{tasks}(1)
+  \task $(3x^2-5x+a)(2x^2+bx)=6x^4-19x^3+19x^2-6x$
+  \task $2(x+3)^2-3(x+a)=2x^2+bx+3$
+\end{tasks}
+
+\ex{1} Efectua les següents divisions:\begin{tasks}(1)
+  \task $(3x^3+2x^2+x-5):(3x^2+2)$
+  \task $(3x^4-2x^2-x+4):(x^2+x+2)$
+  \task $(x^3-3x^2-x+6):(2x^3-2x+3)$
+\end{tasks}
+
+\ex{1} Efectua les següents divisions aplicant la regla de Ruffini:\begin{tasks}(2)
+  \task $(3x^3+2x^2+x-5):(x+2)$
+  \task $(3x^4-2x^2-x+4):(x+2)$
+  \task $(x^3-3x^2-x+6):(2x+3)$
+  \task $(4x^4-3x^2+5):(-x+5)$
+  \task $(2x^5-12x^3-6x^2-117):(x-3)$
+\end{tasks}\recorda{Si el divisor és $ax+b$, fes Ruffini amb $-\frac ba$ i divideix el quocient entre $a$; el residu no canvia.}
+
+\ex{2} Utilitza Ruffini per a calcular el valor de $a$ i $b$ que fa que les següents divisions siguen exactes:\begin{tasks}(1)
+  \task $(2x^3+5x^2-2x+a):(x+3)$
+  \task $(2x^4+3x^3-2x^2-ax+3):(2x+3)$
+  \task $(-6x^4+11x^3+ax^2+5x+4):(-3x+4)$
+  \task $(4x^4+6x^3-13x^2+x+b):(-x+5)$
+\end{tasks}
+
+\ex{1} Comprova si $M(x)=2x^3-5x^2+4x-4$ és divisible per $x-2$ i, si ho és, troba un polinomi $N(x)$ que permeta escriure $M(x)=(x-2)\cdot N(x)$.
+
+
+% =====================================================
+\seccio{2}{Factorització d'un polinomi. Teorema del residu}
+
+\exf{1} Comprova si són arrels del polinomi $P(x)=x^4+3x^3-2x^2+6x-8$ els nombres següents:\begin{tasks}(5)
+  \task $x=1$
+  \task $x=2$
+  \task $x=-1$
+  \task $x=-4$
+  \task $x=-3$
+\end{tasks}
+
+\ex{1} Calcula el valor numèric del polinomi $P(x)=x^2-2x-3$ per a $x=-1$ i $x=3$. Podries trobar un altre valor de $x$ per al qual el valor del polinomi siga zero? Raona la resposta.
+
+\ex{1} Determina les arrels dels polinomis següents:\begin{tasks}(2)
+  \task $(x-3)(x+5)(x-2)$
+  \task $x(x-2)^3(2x+1)$
+  \task $(2x-1)(3x+2)(x+1)^3$
+  \task $x^3-3x^2-6x+8$
+  \task $x^3+8x^2+17x+10$
+  \task $2x^5-11x^4+21x^3-16x^2+4x$
+\end{tasks}
+
+\ex{2} Determina, si existeixen, les arrels enteres de cadascun dels següents polinomis i factoritza'ls.\begin{tasks}(2)
+  \task $P(x)=x^3-2x^2-5x+6$
+  \task $P(x)=x^3+x^2-5x+3$
+  \task $P(x)=2x^4-x^3-5x^2+x+3$
+  \task $P(x)=4x^3-4x^2-11x+6$
+  \task $P(x)=x^4-4x^2$
+  \task $P(x)=6x^5+11x^4+3x^3-3x^2-x$
+  \task $P(x)=x^6-4x^4-x^2+4$
+  \task $P(x)=\frac{x^4}{4}+\frac34x^2+\frac{9}{16}$ \ (comprova que no té arrels reals)
+\end{tasks}\recorda{Les arrels enteres són divisors del terme independent. Prova-les amb Ruffini fins que quede un polinomi de grau 2.}
+
+\ex{1} Calcula el valor de $k$ perquè el polinomi:\begin{tasks}(1)
+  \task $P(x)=x^3+x^2-2x+k$ siga divisible per $x-2$
+  \task $P(x)=x^3-2x^2+kx+4$ siga divisible per $x+2$
+  \task $P(x)=(k-3)x^3-15x+k$ siga divisible per $x+4$
+  \task $P(x)=x^3-(k-3)x^2+(k-5)x-3$ siga divisible per $x-3$
+\end{tasks}
+
+\ex{2} Calcula el valor de $k$ perquè la divisió de $x^3-(3k+2)x^2-3$ entre $(x+3)$:\begin{tasks}(2)
+  \task Siga exacta.
+  \task Tinga residu 15.
+\end{tasks}
+
+\ex{2} D'un polinomi de segon grau, $P(x)$, sabem que $P(1)=-6$, $P(0)=-3$ i una de les seues arrels és 3. Determina'l.
+
+\ex{1} Troba el valor de $m$ perquè el polinomi $mx^3-6x^2-4x+8$ tinga 2 com a arrel.
+
+\ex{2} Determina $a$ i $b$ de manera que el polinomi $x^3+ax^2+bx-6$ siga divisible per $x-2$ i per $x+3$.
+
+\ex{1} Troba el valor de $m$ perquè el polinomi $2x^4+9x^3+2x^2-6x+3m$ tinga residu 12 en dividir-lo per $x+2$, sense fer la divisió.
+
+
+% =====================================================
+\seccio{3}{Fraccions algebraiques}
+
+\exf{2} Simplifica les següents fraccions algebraiques.\begin{tasks}(2)
+  \task $\dfrac{2x^2-8}{x^3+x^2-2x}$
+  \task $\dfrac{x^3-x}{x^3+3x^2+2x}$
+  \task $\dfrac{x^4-2x^3-3x^2}{x^4-9x^2}$
+  \task $\dfrac{x^3-3x^2+3x-1}{x^3-2x^2+x}$
+  \task $\dfrac{2x^4-5x^3+x^2+5x-3}{2x^3-x^2-7x+6}$
+  \task $\dfrac{2x^4+x^3-11x^2+11x-3}{2x^3+3x^2-8x+3}$
+  \task $\dfrac{x^3-2x^2-9x+18}{x^3-7x^2+16x-12}$
+  \task $\dfrac{x^4-5x^3+9x^2-7x+2}{x^4-6x^3+13x^2-12x+4}$
+\end{tasks}\recorda{Factoritza el numerador i el denominador i simplifica només els \emph{factors} comuns.}
+
+\ex{2} Efectua les següents sumes i restes reduint prèviament a comú denominador:\begin{tasks}(2)
+  \task $\dfrac{1}{x+1}+\dfrac{3}{x^2-1}$
+  \task $\dfrac{1}{x^2+x}+\dfrac{3}{x+1}$
+  \task $\dfrac{1}{2x}-\dfrac{3}{4x^2-4x}$
+  \task $\dfrac{1}{x^2+x}+\dfrac{3}{x^2-x}$
+  \task $\dfrac{2x}{x-2}+\dfrac{3x-1}{x+2}-\dfrac{1}{x^2-4}$
+  \task $\dfrac{1}{(x-1)^2}+\dfrac{2}{x-1}+\dfrac{1}{x^2-1}$
+\end{tasks}
+
+\ex{2} Opera i simplifica les fraccions algebraiques:\begin{tasks}(2)
+  \task $\dfrac{3x+3}{12x-12}:\dfrac{(x+1)^2}{x^2-1}$
+  \task $\dfrac{x^2+2x-3}{(x-2)^3}\cdot\dfrac{(x-2)^2}{x^2-1}$
+  \task $\dfrac{6x+4}{x-2}\cdot\dfrac{4x+1}{2x+4}$
+  \task $\dfrac{-6x^2}{x^2+2x+1}\cdot\dfrac{x+1}{3x^3}\cdot\dfrac{x+1}{3x}$
+  \task $\left(\dfrac3x-\dfrac{2x}{x+1}\right)\cdot\dfrac{x^2+x}{x-1}$
+  \task $\dfrac{(x-1)^2}{2}\cdot\dfrac{1}{x^2-1}-\dfrac{3x}{(x+1)^2}$
+  \task $\left(\dfrac{2x-1}{x+1}-\dfrac{3x}{x-1}\right)\cdot\dfrac{x^3-x}{-x^2-6x+1}$
+\end{tasks}
+
+\ex{3} Calcula i simplifica el resultat de les operacions següents:\begin{tasks}(2)
+  \task $\dfrac{x+1}{x}+\dfrac{2x+1}{x+2}-\dfrac{x}{x^2+1}$
+  \task $\dfrac{1+\frac{2x+1}{x-1}}{\frac{1}{x-1}+\frac{x}{x+1}}$
+  \task $\dfrac{ba-a^2}{a^3b-ab^3}:\dfrac{b}{a^2+2ab+b^2}$
+  \task $\dfrac{a^2}{ab}+\dfrac{ab^2}{b^4}-a$
+  \task $\dfrac{6}{2+x}-\dfrac{4}{2-x}+\dfrac{16}{x^2-4}$
+  \task $\dfrac{2x^2-7x+6}{x^2+2x+1}\cdot\dfrac{x^2+6x+5}{2x-3}$
+  \task $(x^2-y^2):\left(\dfrac1x+\dfrac1y\right)$
+  \task $\dfrac{a+x}{x^2-a^2}\cdot\dfrac{x-a}{x+a}$
+  \task $1+\cfrac{1}{1+\cfrac{1}{1+\frac1x}}$
+  \task $1+\dfrac{\frac{2x+1}{x-1}}{\frac{1}{x-1}+\frac{x}{x+1}}$
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Equacions polinòmiques}
+
+\exf{2} Resol les següents equacions polinòmiques:\begin{tasks}(2)
+  \task $\dfrac{2x-3}{4}+\dfrac x2-\dfrac{3x-1}{5}=2x-1$
+  \task $2(3x-2)+x(x-1)=-4$
+  \task $(x+1)^3-(x-1)^3=7$
+  \task $\dfrac{x^2+1}{2}-\dfrac{2x-3}{4}+\dfrac{x^2}{6}=\dfrac{59}{12}$
+  \task $6x^4+13x^3-8x^2-17x+6=0$
+  \task $2x^4-x^3-3x-18=0$
+  \task $6x^4+5x^3=2x^2+x$
+  \task $x^3-7x+6=0$
+  \task $x^3-3x^2-9x+27=0$
+  \task $x^4-x^3-5x^2-x-6=0$
+  \task $x^4-1=0$
+  \task $x^4+x^3-9x^2-9x=0$
+\end{tasks}\recorda{Passa-ho tot a un membre i factoritza (factor comú, Ruffini…): un producte val zero si algun factor val zero.}
+
+\ex{2} Resol les següents equacions biquadrades (o que es resolen amb un canvi de variable):\begin{tasks}(2)
+  \task $x^4-17x^2+16=0$
+  \task $x^6-9x^3+8=0$
+  \task $x^4-8x^2-9=0$
+  \task $4x^6+8x^3-12=0$
+  \task $2(x+1)^4-8x^3-8(x+3)+8=0$
+  \task $\dfrac{9}{x^2}=10-x^2$
+\end{tasks}
+
+\ex{1} Resol les següents equacions factoritzades:\begin{tasks}(2)
+  \task $(x^2-3)(x^2-4)=0$
+  \task $(3x+2)(x^2-4x)(x^2-9)=0$
+  \task $(x^2-4x+4)(x^2+6x+9)=0$
+  \task $(x-2)^2(x+1)^3(2x-7)=0$
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Equacions racionals}
+
+\exf{2} Resol les equacions racionals següents:\begin{tasks}(2)
+  \task $\dfrac1x+\dfrac1{x^2}+\dfrac1{x^3}=\dfrac78$
+  \task $\dfrac{2x}{3}+\dfrac{2x+3}{x-1}=\dfrac{11}{3x-3}$
+  \task $\dfrac{2x}{x-2}+\dfrac{3x}{x+2}=\dfrac{6x^2}{x^2-4}$
+  \task $\dfrac{3}{x^2-6x+8}+\dfrac{x-5}{x^2-5x+4}=\dfrac{1}{x-4}$
+  \task $\dfrac{x}{\sqrt2}+\dfrac{\sqrt2}{x}=\sqrt2\,x$
+  \task $\dfrac{x}{x-2}+\dfrac{2x}{2-x}=-x$
+  \task $\dfrac{1+\frac{x+1}{x-1}}{2-\frac{x-1}{x+1}}=2$
+  \task $\dfrac{1}{1-\frac{1}{x+1}}=\dfrac{x+1}{x}$
+\end{tasks}\recorda{Multiplica pel m.c.m. dels denominadors i, al final, descarta les solucions que anul·len algun denominador.}
+
+
+% =====================================================
+\seccio{6}{Equacions amb radicals}
+
+\exf{2} Resol les següents equacions amb radicals:\begin{tasks}(2)
+  \task $-\sqrt{2x-3}+1=x$
+  \task $x+\sqrt{2x^2+2x-3}=-1$
+  \task $\sqrt{\dfrac{7x+1}{4}}=\dfrac{5x-7}{6}$
+  \task $\dfrac{\sqrt{2x-1}}{4}=\dfrac{3}{\sqrt{2x-1}}$
+  \task $\sqrt{2-5x}+x\sqrt3=0$
+  \task $\sqrt{2+\sqrt{x-4}}=\sqrt{12-x}$
+  \task $\sqrt x+\sqrt{x-4}=2$
+  \task $\sqrt{x+5}+\sqrt{2x+8}=7$
+  \task $\sqrt{x+4}+\sqrt{x-1}=5$
+  \task $\sqrt{x-7}+\sqrt{2x}=\sqrt{x+1}$
+  \task $\sqrt{1-4x}-2\sqrt{3+x}=\sqrt{3+x}$
+\end{tasks}\recorda{Aïlla un radical, eleva al quadrat i repeteix si cal. Comprova \emph{sempre} les solucions en l'equació inicial.}
+
+\ex{2} Resol les següents equacions amb radicals no quadrats:\begin{tasks}(2)
+  \task $\sqrt[3]{x^2-1}+1=x$
+  \task $\dfrac{\sqrt{3x+7}}{\sqrt[3]{x+1}}=\sqrt[3]{x^2+2x+1}$
+  \task $\sqrt[3]{4x-1}=x-4$
+  \task $\sqrt[3]{4-2x}=\sqrt[6]{8x^2-16x}$
+  \task $\sqrt{2x+2}-\sqrt[4]{6x+10}=0$
+\end{tasks}\recorda{Eleva els dos membres a l'índex de l'arrel (o al m.c.m. dels índexs).}
+
+\ex{2} Calcula el valor d'un nombre tal que, si se li suma una unitat i després s'extrau l'arrel quadrada, s'obté el doble que en restar-li 11 unitats i extraure l'arrel quadrada.
+
+
+% =====================================================
+\seccio{7}{Equacions logarítmiques}
+
+\exf{2} Resol les següents equacions logarítmiques:\begin{tasks}(2)
+  \task $\log2+\log(x+3)=\log(x+5)$
+  \task $\log(15-2x)=2\log x$
+  \task $\log(2x+3)-\log(x-1)=2\log2+2\log3$
+  \task $\frac12\log(x^2-3x+2)=\log x$
+  \task $\log\left(\dfrac{2x-2}{x}\right)=2\log(x-1)-\log x$
+  \task $2\log x=\log\dfrac x2-1$
+  \task $\log(4-5x)+\log(2x)=\log(2x-x^2)+\log3$
+  \task $\log_2(5x^2+15x+10)-\log_2(x+2)=2$
+  \task $\dfrac{\log(4-x)}{\log(x+2)}=2$
+  \task $\log_{x+3}9=\log_53$
+  \task $\log_332+\log_{\frac13}(6-x)=\log_{\sqrt3}x$
+\end{tasks}\recorda{Agrupa els logaritmes amb les propietats fins a arribar a $\log A=\log B$ (i aleshores $A=B$). Comprova que tots els arguments són positius.}
+
+\ex{1} Troba el nombre que compleix que, en afegir al seu logaritme decimal el logaritme decimal de 2, el resultat és 1.
+
+\ex{1} Calcula el valor d'un nombre sabent que el doble del seu logaritme decimal és igual a la suma dels logaritmes decimals de 4 i de 9.
+
+
+% =====================================================
+\seccio{8}{Equacions exponencials}
+
+\exf{2} Resol les següents equacions exponencials:\begin{tasks}(2)
+  \task $4^{x^2+1}=2^{5x+5}$
+  \task $4^{(x-2)^2}=262144$
+  \task $3^{x+4}=5$
+  \task $\dfrac{1}{2^x}=16^{\frac{x(x-1)}{2}}$
+  \task $13^{x^2+2x}-\dfrac1{13}=0$
+  \task $2^{2x^2-4x-2}=16$
+  \task $2\cdot6^{4x-3}=24$
+  \task $3\cdot2^x=2\cdot3^x$
+  \task $\sqrt[x]{27}=3^{x+2}$
+  \task $2^{x+4}-8^x=0$
+  \task $7^{x^2-5x+6}=1$
+  \task $49^{\frac{x-5}{3}}=\dfrac{1}{\sqrt{7^{x-1}}}$
+\end{tasks}\recorda{Si pots, escriu els dos membres amb la mateixa base i iguala els exponents; si no, pren logaritmes.}
+
+\ex{2} Resol les següents equacions exponencials:\begin{tasks}(2)
+  \task $2^{x+1}+2^x+2^{x-1}=28$
+  \task $5^{x+3}-5^{x-1}-3120=0$
+  \task $4^x+4^{x-1}+4^{x-2}=336$
+  \task $3^{x+2}+3^{x+1}+3^x+3^{x-1}=120$
+  \task $2^{x-1}+2^{x-2}+2^{x-3}+2^{x-4}=960$
+  \task $6^x-9\cdot6^{-x}+8=0$
+\end{tasks}\recorda{Descompon les potències ($a^{x+1}=a\cdot a^x$, $a^{x-1}=\frac{a^x}{a}$) i trau factor comú $a^x$.}
+
+\ex{3} Resol les següents equacions exponencials:\begin{tasks}(2)
+  \task $3^{2x}-3^{x-1}=3^{x+1}-1$
+  \task $2\cdot10^{2x+4}+3\cdot10^{x+2}-5=0$
+  \task $9^x+5\cdot3^x-24=0$
+  \task $9^x+3^{2x-1}+3^{x-1}=111$
+  \task $3^{x+2}+9^{x-1}=90$
+  \task $2^{2x-4}-5\cdot2^{x-3}+1=0$
+  \task $9^{x+2}+3^{x+3}-810=0$
+  \task $4^{x+1}+2^{x+3}=320$
+\end{tasks}\recorda{Si hi ha $a^{2x}$ i $a^x$, fes el canvi $t=a^x$; les solucions $t\le0$ no valen.}
+
+
+% =====================================================
+\seccio{9}{Problemes d'equacions}
+
+\exf{2} Un comerciant té un tonell de vi de la classe A de preu 5\,€/L. Afig 50 litres de vi de la classe B de 2\,€/L i 50 litres d'aigua i la mescla resulta a 4\,€/L. Quants litres de la classe A tenia el tonell?
+
+\ex{1} Tenim 30 litres de vi a 5\,€/L i volem afegir-hi vi de 10\,€/L per a obtindre una mescla que isca a 7\,€/L. Quants litres hem d'afegir?
+
+\ex{2} En una botiga es ven te blanc a 18\,€/kg i te verd a 14\,€/kg. També s'hi ven una mescla de tots dos a 16,4\,€/kg. Quina és la composició de la mescla?
+
+\ex{1} En un col·legi hi ha tres cursos. El 60\,\% dels alumnes estudia primer, el 30\,\% estudia segon i la resta, que són 15 alumnes, estudia tercer. Quants alumnes hi ha al col·legi?
+
+\ex{2} El 80\,\% de les entrades d'un partit es reservaren per als socis del club; de les restants, el 25\,\% s'enviaren als socis del club contrari i les altres, 18\,000, es posaren a la venda. Quantes entrades hi havia?
+
+\ex{1} Una fàbrica exporta el 30\,\% de la producció a Àsia, el 40\,\% a Europa, el 15\,\% a Amèrica i la resta, que suposa una facturació de 3 milions d'euros, a Àfrica. Quina és la facturació total?
+
+\ex{2} Un examen consta de 20 preguntes. Cada encert suma 5 punts i cada error resta 2 punts. Una alumna va traure 58 punts. Quantes preguntes va encertar i quantes va errar, si no se'n pot deixar cap sense contestar?
+
+\ex{3} Un botiguer inverteix 125\,€ en la compra d'una partida de pomes. En rebutja 20 quilos per defectuoses i ven la resta per 147\,€, guanyant 0,40\,€ per quilo sobre el preu de compra. Quants quilos en va comprar?
+
+\ex{1} Calcula la base i l'altura d'un triangle rectangle si són nombres enters consecutius i la hipotenusa mesura 5 cm.
+
+\ex{2} Calcula la longitud dels tres costats d'un triangle rectangle si són nombres parells consecutius.
+
+\ex{2} Calcula les dimensions d'una finca rectangular si el perímetre mesura 140 m i la diagonal 50 m.
+
+\ex{1} Una bassa tarda 5 hores a omplir-se amb la presa d'aigua habitual i 20 hores amb una mànega. Quant de temps cal si usem tots dos mètodes alhora?
+
+\ex{1} Un home tarda 2 hores a agranar una casa i un altre en tarda 3. Quant tardarien treballant junts?
+
+\ex{2} Dues persones treballant juntes tarden 10 hores a fer un treball, però una treballa el doble de ràpid que l'altra. Quant tardaria cadascuna per separat?
+
+\ex{2} Una piscina es pot omplir amb 5 fonts que, per separat, tarden 10, 20, 30, 40 i 50 hores respectivament. Quant tardaran les cinc juntes?
+
+\ex{3} Un grup de persones contracta un autobús per 600\,€ a pagar a parts iguals; al final 10 persones no poden anar al viatge i cada persona que hi va ha de pagar 5\,€ més. Quantes persones anaven inicialment?
+
+\ex{2} El nombre de malalts de grip en una ciutat al llarg del passat gener ve donat per $y(t)=100+200\cdot e^{0,2t}$, on $t$ són els dies transcorreguts des de l'1 de gener.\begin{tasks}(1)
+  \task Quants malalts hi havia l'1 de gener?
+  \task Quin dia el nombre de malalts era de 900?
+\end{tasks}
+
+\ex{2} La quantitat que queda d'una substància radioactiva després de $t$ dies és $q(t)=M\cdot e^{-0,1t}$.\begin{tasks}(1)
+  \task Després de quant de temps la massa s'haurà reduït a la meitat?
+  \task Si la massa inicial és de 27 mg, quanta substància quedarà després de 10 dies?
+\end{tasks}
+
+\ex{2} Si inicialment hi ha $n$ bacteris en un cultiu i el nombre es duplica cada hora, després de $t$ hores n'hi ha $N=n\cdot2^t$. Si inicialment n'hi ha 4500, quant de temps tardarà el cultiu a arribar a 50\,000 bacteris?
+
+\ex{3} La biomassa $C$ (en kg) per unitat de superfície d'una regió segueix la funció $C(x)=\dfrac{4}{1+K\cdot a^{x/10}}$, amb $x\ge0$ el temps en anys.\begin{tasks}(1)
+  \task Calcula $K$ i $a$ perquè als 10 anys hi haja 1 kg de biomassa i als 20 anys, 1,6 kg.
+  \task Quants anys han de passar perquè la biomassa siga de 3 kg?
+\end{tasks}
+
+
+% =====================================================
+\seccio{10}{Sistemes d'equacions lineals. Mètode de Gauss}
+
+\exf{1} Resol els següents sistemes d'equacions lineals:\begin{tasks}(2)
+  \task $\left\{\begin{array}{l}y=\dfrac{x+1}{2}+3\\y=2x+10\end{array}\right.$
+  \task $\left\{\begin{array}{l}2(2x+y)-3(3x-2y)=-34\\\dfrac x2-\dfrac y3=2\end{array}\right.$
+\end{tasks}
+
+\ex{2} Resol els següents sistemes d'equacions lineals pel mètode de Gauss i classifica'ls:\begin{tasks}(2)
+  \task $\left\{\begin{array}{l}x+2y-3z=7\\2x+y-z=6\\3x-y-z=6\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+y-z=5\\3x-2y-2z=5\\2x-3y-z=3\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x+y+z=5\\2x-y+3z=3\\3x+2y+z=8\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+y-2z=0\\2x-3y+3z=4\\5x-5y+4z=8\end{array}\right.$
+  \task $\left\{\begin{array}{l}5x+2y-2z=0\\3x-y+3z=0\\8x+y+z=-1\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+3y-2z=0\\x-y+3z=0\\2x+2y+z=0\end{array}\right.$
+  \task $\left\{\begin{array}{l}2y-z=-1\\5x-y-3z=2\\x-y+2z=3\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+2y-2z=2\\3x-3y+z=-14\\5x-y-2z=-15\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+y+z=1\\2x-3z=5\\2y+5z=2\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+3y-2z+2w=12\\2x-2y-z+w=5\\3x+y-2z-4w=16\\3x-3z-3w=15\end{array}\right.$
+\end{tasks}\recorda{Fes zeros davall de la diagonal. L'última fila $(0\ \ 0\ \ m\,|\,n)$ decideix: $m\neq0$ SCD; $m=n=0$ SCI; $m=0,\ n\neq0$ SI.}
+
+
+% =====================================================
+\seccio{11}{Sistemes d'equacions no lineals}
+
+\exf{2} Resol els següents sistemes d'equacions no lineals:\begin{tasks}(3)
+  \task $\left\{\begin{array}{l}2x+3y=-4\\x^2-2xy=5\end{array}\right.$
+  \task $\left\{\begin{array}{l}\frac1x+\frac2y=4\\10xy=9\end{array}\right.$
+  \task $\left\{\begin{array}{l}x^2+2y^2=6\\3x^2-y^2=11\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x+y=8\\2x+3y^2=22\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x+5y=-8\\xy-3y=4\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+y=0\\xy=1\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x-y=3\\x^2-y^2=3\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+y=11\\\frac1x+\frac6{y+1}=1\end{array}\right.$
+  \task $\left\{\begin{array}{l}xy=-3\\x^2+2y^2=19\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x^2+3y^2=32\\-3x^2+4y^2=-48\end{array}\right.$
+  \task $\left\{\begin{array}{l}\sqrt x+\sqrt y=15\\x-y=105\end{array}\right.$
+  \task $\left\{\begin{array}{l}x^2-2xy=16-y^2\\x^2-y^2=72\end{array}\right.$
+\end{tasks}
+
+\ex{2} Resol els següents sistemes d'equacions exponencials:\begin{tasks}(2)
+  \task $\left\{\begin{array}{l}2^x+5^y=9\\2^{x+2}+5^{y+1}=41\end{array}\right.$
+  \task $\left\{\begin{array}{l}2^x+3^y=5\\2^{x+1}-3^y=7\end{array}\right.$
+  \task $\left\{\begin{array}{l}2^x-2^y=1016\\2^{x-y}=128\end{array}\right.$
+  \task $\left\{\begin{array}{l}3^x+7^y=16\\3^{x-1}-7^{y+2}=-340\end{array}\right.$
+  \task $\left\{\begin{array}{l}\dfrac{1}{2^x}+\dfrac{3}{2^y}=\dfrac{x+y}{8}\\x+y=5\end{array}\right.$
+\end{tasks}\recorda{Canvi de variable: $u=2^x$, $v=5^y$\ldots\ i resol el sistema lineal en $u$ i $v$.}
+
+\ex{2} Troba les solucions dels següents sistemes d'equacions logarítmiques:\begin{tasks}(2)
+  \task $\left\{\begin{array}{l}2\log x-3\log y=7\\\log x+\log y=1\end{array}\right.$
+  \task $\left\{\begin{array}{l}x-y=21\\\log x+\log y=2\end{array}\right.$
+  \task $\left\{\begin{array}{l}\log x+3\log y=5\\\log x-\log y=3\end{array}\right.$
+  \task $\left\{\begin{array}{l}\log_3x=7-\log_3y\\x-2y=27\end{array}\right.$
+  \task $\left\{\begin{array}{l}3x+2y=64\\\log x-\log y=1\end{array}\right.$
+  \task $\left\{\begin{array}{l}\log x^2-2\log y=6\\2\log x+\log y^2=2\end{array}\right.$
+\end{tasks}\recorda{Amb $u=\log x$, $v=\log y$ s'obté un sistema lineal; o bé agrupa els logaritmes. Comprova que $x\gt0$ i $y\gt0$.}
+
+
+% =====================================================
+\seccio{12}{Inequacions i sistemes amb una incògnita}
+
+\exf{1} Comprova si els nombres reals indicats pertanyen a la solució de les inequacions corresponents:\begin{tasks}(1)
+  \task $x=-2$ de la inequació $x^3+x^2+x\le6$
+  \task $x=\dfrac1e$ de la inequació $x+\ln x\ge0$
+  \task $x=-0,5$ de la inequació $2^x+x-2\lt3^x$
+\end{tasks}
+
+\ex{1} Resol les següents inequacions:\begin{tasks}(2)
+  \task $\dfrac{x-3}{2}-\dfrac{x-2}{8}\le\dfrac x2$
+  \task $2x-3-\dfrac x2\gt x+\dfrac{3x+1}{6}$
+  \task $x+2(x+1)+3(x+2)\lt\dfrac{x+38}{2}$
+  \task $\dfrac{x^2-1}{2}-\dfrac{3x-2}{3}\le\dfrac{(x+1)^2}{6}$
+\end{tasks}
+
+\ex{2} Resol les següents inequacions:\begin{tasks}(2)
+  \task $-2x^3+3x\gt0$
+  \task $3x^2+x-24\ge0$
+  \task $x^3-4x\gt0$
+  \task $x^3+x^2-x-1\le0$
+  \task $3x(2x-1)+x^2\ge5x-1$
+  \task $-x^3-2x^2+x+2\le0$
+  \task $x^4-1\gt0$
+  \task $(x-1)(x+4)\lt-6$
+\end{tasks}\recorda{Passa-ho tot a un membre, factoritza i fes la taula de signes. Els extrems s'inclouen si la desigualtat és $\le$ o $\ge$.}
+
+\ex{2} Resol les inequacions racionals següents:\begin{tasks}(2)
+  \task $\dfrac{5x-2}{2x+1}\ge0$
+  \task $\dfrac{x^2-x-2}{x^2+x-2}\ge0$
+  \task $\dfrac{4x-5}{4x^2-x-5}\lt0$
+  \task $\dfrac{x^3}{x-9}\ge0$
+  \task $\dfrac{x^2+4x-5}{x^3-x}\ge0$
+  \task $\dfrac{2x+3}{x^3+1}\ge0$
+\end{tasks}\recorda{Les arrels del denominador no s'inclouen mai en la solució.}
+
+\ex{2} Resol els sistemes d'inequacions següents:\begin{tasks}(3)
+  \task $\left\{\begin{array}{l}2x-3\le0\\3x+1\gt0\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+2\le2\\2x-\frac{x-1}{3}\le x-\frac13\\x^2+2x-8\gt0\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x+1\lt x+2\\3x-1\le4x\end{array}\right.$
+  \task $\left\{\begin{array}{l}3x-4\gt x\\x\ge2x-1\end{array}\right.$
+  \task $\left\{\begin{array}{l}x^2+2x-3\ge0\\2(x-3)\gt-6\end{array}\right.$
+  \task $\left\{\begin{array}{l}\dfrac{x-1}{x+2}\gt0\\x^2\ge1\end{array}\right.$
+\end{tasks}
+
+
+% =====================================================
+\seccio{13}{Inequacions i sistemes amb dues incògnites}
+
+\exf{1} Resol les següents inequacions amb dues incògnites:\begin{tasks}(2)
+  \task $3x+4y\le12$
+  \task $-3x+4y\ge4$
+  \task $2x+y\lt2$
+  \task $x\gt y-2$
+\end{tasks}\recorda{Dibuixa la recta (contínua si és $\le,\ge$; discontínua si és $\lt,\gt$) i prova un punt que no hi estiga, com $O(0,0)$.}
+
+\ex{2} Resol els sistemes d'inequacions amb dues incògnites:\begin{tasks}(3)
+  \task $\left\{\begin{array}{l}0\le y\lt2\\x+y\le3\\x-y\ge2\\x\ge0,\ y\ge0\end{array}\right.$
+  \task $\left\{\begin{array}{l}y\lt-2x+4\\y\ge x\end{array}\right.$
+  \task $\left\{\begin{array}{l}y\le2\\x\gt-4\\x-y\lt-3\end{array}\right.$
+  \task $\left\{\begin{array}{l}x+y\le6\\2y\le x\\x\ge0\end{array}\right.$
+  \task $\left\{\begin{array}{l}2x+y\lt2\\x\gt y-2\\x\gt0,\ y\gt0\end{array}\right.$
+  \task $\left\{\begin{array}{l}3\le y\le5\\x-6\le0\\x-4\ge0\end{array}\right.$
+\end{tasks}
+
+
+% =====================================================
+\seccio{14}{Problemes de sistemes i inequacions}
+
+\exf{1} En una granja hi ha 250 animals entre conills i gallines. Si el nombre total de potes és 800, quants animals hi ha de cada tipus?
+
+\ex{3} Hem necessitat 10 dm$^2$ de cartó per a construir una caixa amb tapa, de base quadrada i 2 dm$^3$ de volum. Quines són les dimensions de la caixa si el costat de la base és un nombre enter de decímetres?
+
+\ex{2} En una caixa registradora hi ha bitllets de 50\,€, 100\,€ i 200\,€: 21 bitllets en total i 1\,800\,€. El nombre de bitllets de 50\,€ és el quíntuple dels de 200\,€. Quants n'hi ha de cada classe?
+
+\ex{2} Tres néts volen fer un regal de 60\,€ a la seua àvia: Lluís, el major, aporta el triple del que aporten els altres dos junts, i Carme aporta 3\,€ per cada 2 que aporta Pere. Quant aporta cadascun?
+
+\ex{2} Calcula quantes bicicletes, tricicles i cotxes té una botiga de joguets si en total hi ha 50 vehicles, el nombre de bicicletes i tricicles quadruplica el de cotxes i hi ha 140 rodes.
+
+\ex{2} Per a un espectacle hi ha entrades A, B i C, de 10, 15 i 30\,€. La recaptació va ser de 775\,€, es van vendre 5 entrades més del tipus B que del C i el 20\,\% de les entrades eren del tipus C. Quantes se'n van vendre de cada tipus?
+
+\ex{2} Un caixer només té bitllets de 10, 20 i 50\,€. Traiem 290\,€ i ens dona exactament 8 bitllets; el nombre de bitllets de 10\,€ és el doble dels de 20\,€. Planteja i resol el sistema.
+
+\ex{2} Un caixer automàtic conté 800 bitllets de 10, 20 i 50\,€ amb un import de 21\,000\,€. El nombre de bitllets de 10\,€ és igual que el de 20\,€ i 50\,€ junts. Quants bitllets hi ha de cada tipus?
+
+\ex{3} En un cinema s'han venut 1405 entrades i s'han recaptat 7920\,€. L'entrada normal costa 6\,€, la del dia de l'espectador 4\,€ i la dels jubilats 3\,€. La recaptació de les entrades de preu reduït és el 10\,\% de la de les entrades normals. Quantes entrades de cada tipus s'han venut?
+
+\ex{2} Un comerciant ven rellotges A a 200\,€, B a 500\,€ i C a 250\,€. Un mes en ven 200; els del tipus B són tants com els de A i C junts, i la recaptació és de 73\,500\,€. Quants n'ha venut de cada tipus?
+
+\ex{2} Una persona compra memòries externes, lectors de llibres electrònics i tauletes gràfiques a 100, 120 i 150\,€ la unitat. Paga 1160\,€ per 9 unitats i compra una tauleta més que lectors. Quantes unitats de cada producte compra?
+
+\ex{2} Després d'un descompte del 10\,\% en cada preu, s'ha pagat 3,96\,€ per un retolador, un quadern i una carpeta. El quadern val la meitat que el retolador i la carpeta, el que val el quadern més el 20\,\% del retolador. Calcula el preu original de cada objecte.
+
+\ex{3} Una persona inverteix 7000\,€ en accions de les empreses A i B i en un dipòsit a l'1\,\%. Amb les accions obté un 5\,\% (A) i un 3\,\% (B), i el benefici total és de 202\,€. Els diners en accions superen en 2600\,€ els del dipòsit. Quant va destinar a cada inversió?
+
+\ex{2} Una agència de viatges ven 60 bitllets a Londres, París i Roma. Els de París són el doble dels altres dos destins junts i a Roma se n'emeten dos més que la meitat dels de Londres. Quants bitllets s'han venut per a cada destí?
+
+\ex{3} Un comerciant compra 200 kg de bresquilles, 100 de pomes i 300 de peres. Els ven apujant un 25\,\% el preu de les bresquilles i les pomes i un 40\,\% el de les peres, i obté 1087\,€, dels quals 257 són de benefici. Si el quilo de bresquilles li va costar 50 cèntims més que el de peres, quin va ser el preu de compra de cada fruita?
+
+\ex{3} Un restaurant ofereix desdejunis a 4\,€, dinars a 8\,€ i sopars a 10\,€. L'últim dissabte es van servir tants dinars com desdejunis i sopars junts, la recaptació total va ser de 1116\,€ i la dels dinars va superar la dels sopars en 156\,€.\begin{tasks}(1)
+  \task Quants desdejunis, dinars i sopars es van servir?
+  \task Quin benefici es va obtindre si els guanys són de 2,5\,€ per desdejuni, 4\,€ per dinar i 5\,€ per sopar?
+\end{tasks}
+
+\ex{2} Un estudiant va traure 7,5 punts en un examen de tres preguntes. En la tercera va traure un punt més que en la segona, i els punts de la primera quintuplicaven la diferència entre els de la tercera i la primera. Quina puntuació va traure en cada pregunta?
+
+\ex{3} Un inversor reparteix 42\,000\,€ entre un compte d'estalvis al 5\,\%, un dipòsit a termini fix al 7\,\% i uns bons al 9\,\% anual. En un any obté 2600\,€ d'interessos, i els del compte d'estalvis són 200\,€ menys que la suma dels de les altres dues inversions. Quant va invertir en cada producte?
+
+\ex{1} Una companyia telefònica ofereix dues tarifes: la A té una quota fixa de 10\,€ al mes més 0,05\,€ per minut, i la B no té quota fixa però cobra 0,12\,€ per minut. A partir de quants minuts mensuals és més econòmica la tarifa A?
+
+\ex{1} La nota final d'una assignatura es calcula amb el 30\,\% de la nota del primer examen i el 70\,\% de la del segon. Si una alumna ha tret un 4 en el primer, quina nota ha de traure en el segon per a aprovar (nota final $\ge5$)? Les notes van de 0 a 10.
+
+\ex{2} La llargària d'un rectangle és 1 cm més que el doble de l'amplària. Volem que el perímetre siga com a mínim de 20 cm i com a màxim de 30 cm. Entre quins valors pot estar l'amplària?
+
+\ex{2} Un artesà fabrica collarets i polseres. Un collaret necessita 2 hores de treball i 1 unitat de material, i una polsera, 1 hora i 2 unitats de material. Cada setmana disposa, com a màxim, de 40 hores i 50 unitats de material.\begin{tasks}(1)
+  \task Planteja el sistema d'inequacions i representa la regió de les possibles combinacions de collarets i polseres.
+  \task Pot fabricar 15 collarets i 12 polseres en una setmana? I 10 collarets i 20 polseres?
+\end{tasks}
+
+\ex{2} Es llança una pilota cap amunt i la seua altura, en metres, és $h(t)=20t-5t^2$, amb $t$ en segons $(0\le t\le4)$. Durant quant de temps està la pilota per damunt dels 15 metres?
+
+
+% =====================================================
+\seccio{15}{Ampliació i problemes}
+
+\exf{1} Calcula, sense fer la divisió, el residu de $(x^{100}-2x^{51}+1):(x+1)$.
+
+\ex{2} Troba el polinomi de grau 3 que té les arrels $1$, $-2$ i $3$ i que compleix $P(0)=12$.
+
+\ex{2} Simplifica:\begin{tasks}(2)
+  \task $\dfrac{x^3-27}{x^2-9}$
+  \task $\dfrac{1-\frac1x}{1-\frac1{x^2}}$
+\end{tasks}
+
+\ex{2} Resol $\dfrac{x}{x+1}+\dfrac{x+1}{x}=\dfrac52$.
+
+\ex{2} Resol $\sqrt{x+3}-\sqrt{x-2}=1$.
+
+\ex{2} Resol $2^{2x+1}-5\cdot2^x+2=0$.
+
+\ex{2} Resol $\log_2(x+1)+\log_2(x-1)=3$.
+
+\ex{3} Classifica el sistema segons els valors de $a$ i resol-lo quan siga compatible: \ $\left\{\begin{array}{l}x+y+z=3\\x-y+z=1\\2x+az=4\end{array}\right.$
+
+\ex{2} Un rectangle té 10 cm de perímetre i 6 cm$^2$ d'àrea. Quines en són les dimensions?
+
+\ex{2} Resol $\dfrac{x^2-4}{x^2+1}\le0$. Per què no cal estudiar el signe del denominador?
+
+\ex{2} Ingressem 5000\,€ en un compte al 4\,\% d'interés compost anual. Quants anys complets han de passar perquè hi haja almenys 8000\,€?
+
+\ex{2} Fa 2 anys l'edat d'un pare era el triple de la del fill i d'ací a 10 anys serà el doble. Quants anys tenen ara?
+
+\ex{3} Escriu un sistema d'inequacions la solució del qual siga el triangle de vèrtexs $(0,0)$, $(4,0)$ i $(0,2)$, amb les vores incloses.
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\end{center}
+
+\end{document}
