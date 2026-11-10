@@ -197,6 +197,19 @@ totes les solucions amb fraccions i en dibuixa algunes figures:
 python3 _eines/apunts/1batx-mi-t5/build.py
 ```
 
+Els apunts de 1r Batx MI de la unitat 1 (Nombres reals, carpeta `1batx-mi-t1`) funcionen com els de la unitat 5: el contingut és a
+`contingut-*.html`, els ginys a `app.js` (classificador de nombres, fracció generatriu, valor absolut, entorns, constructor d'intervals,
+operacions amb intervals, extracció de factors i explorador de logaritmes) i l'estil a `extra.css`. Les rectes reals s'adapten a
+l'ample de la pantalla perquè es lligen bé al mòbil. A `materials.js` la unitat porta `num: "1"` i és del bloc d'aritmètica.
+La fitxa (`_eines/fonts-latex/1batx-mi-t1/genera.py`) té els 42 exercicis de la fitxa del departament amb la mateixa numeració i
+una secció 6 amb 12 exercicis nous; comprova amb fraccions exactes els decimals periòdics, les operacions i els intervals, i
+dibuixa les rectes de les solucions:
+
+```
+python3 _eines/apunts/1batx-mi-t1/build.py
+cd _eines/fonts-latex/1batx-mi-t1 && python3 genera.py && pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i

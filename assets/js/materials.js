@@ -325,7 +325,17 @@ window.LEVELS = {
     },
     units: [
       {
-        // num: la unitat 5 del departament (les unitats anteriors encara no estan penjades)
+        // num: el número de la unitat als apunts del departament (les unitats 2-4 encara no estan penjades)
+        num: "1",
+        ill: "reals", block: "ari",
+        title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t1-nombres-reals.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis, de la classificació dels nombres als logaritmes", es: "PDF · 54 ejercicios, de la clasificación de los números a los logaritmos", en: "PDF · 54 exercises, from classifying numbers to logarithms" }, url: "materials/1batx-mi/t1-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/1batx-mi/t1-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+        ]
+      },
+      {
         num: "5",
         ill: "geometria", block: "geo",
         title: { va: "Geometria analítica en el pla", es: "Geometría analítica en el plano", en: "Coordinate geometry in the plane" },

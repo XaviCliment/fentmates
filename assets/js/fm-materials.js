@@ -54,7 +54,7 @@
     if (course === "2batx-mii" && n >= 5 && n <= 9) return "an";
     if (course === "2batx-mii" && n >= 10) return "pr";
     if (/^2batx/.test(course)) return "alg";
-    if (course === "1batx-mi") return n === 5 ? "geo" : "all";
+    if (course === "1batx-mi") return n === 1 ? "ari" : n === 5 ? "geo" : "all";
     return "all";
   }
 
