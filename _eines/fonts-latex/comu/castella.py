@@ -4,10 +4,13 @@
 #   p = preambul(pre, pdftitle="Ficha de ejercicios de la unidad 4: ...", capcalera="Ficha de ejercicios · Unidad 4: ...")
 #
 # Canvia el babel, la llicència, el títol del PDF i la capçalera de les pàgines del preamble.tex (en valencià).
-# Les metadades del PDF van a \AtBeginDocument: amb «3.º» dins de les opcions de hyperref no compila.
+# El curs s'escriu «3º ESO». Al text, la «o» volada es fa amb \textsuperscript{o}, perquè el caràcter «º»
+# de Fira Sans porta un guió baix; a les metadades del PDF (que no es veuen) es deixa el caràcter «º».
+# Les metadades del PDF van a \AtBeginDocument: dins de les opcions de hyperref, «º» no compila.
 import re
 
-ASSIGNATURA = r"\capcalera{Matemáticas}{3.º ESO}"
+CURS = r"3\textsuperscript{o} ESO"
+ASSIGNATURA = r"\capcalera{Matemáticas}{%s}" % CURS
 
 
 def preambul(pre, pdftitle, capcalera, pdfkeywords):
@@ -21,8 +24,8 @@ def preambul(pre, pdftitle, capcalera, pdfkeywords):
         pre = pre.replace(a, b)
     m = re.search(r"\\usepackage\[hidelinks,.*\]\{hyperref\}\n", pre)
     assert m
-    pre = pre.replace(m.group(0), "\\usepackage[hidelinks]{hyperref}\n\\AtBeginDocument{\\hypersetup{pdftitle={%s. 3.º de ESO},"
-                      "pdfsubject={Matemáticas 3.º ESO},pdfkeywords={%s}}}\n" % (pdftitle, pdfkeywords))
-    pre, n = re.subn(r"(\\fancyhead\[C\]\{\\small\\color\{muted\})[^\n]*\}\n", lambda m: m.group(1) + capcalera + " · 3.º de ESO}\n", pre)
+    pre = pre.replace(m.group(0), "\\usepackage[hidelinks]{hyperref}\n\\AtBeginDocument{\\hypersetup{pdftitle={%s. 3º ESO},"
+                      "pdfsubject={Matemáticas 3º ESO},pdfkeywords={%s}}}\n" % (pdftitle, pdfkeywords))
+    pre, n = re.subn(r"(\\fancyhead\[C\]\{\\small\\color\{muted\})[^\n]*\}\n", lambda m: m.group(1) + capcalera + " · " + CURS + "}\n", pre)
     assert n == 1
     return pre

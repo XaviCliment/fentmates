@@ -234,8 +234,8 @@ window.LEVELS = {
         title: { va: "Funcions", es: "Funciones", en: "Functions" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t7-funcions.html", date: "2026-10-30" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 60 exercicis graduats per nivells de dificultat", es: "PDF · 60 ejercicios graduados por niveles de dificultad", en: "PDF · 60 exercises graded by difficulty" }, url: "materials/3eso/t7-fitxa-exercicis.pdf", download: true, date: "2026-10-30" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: "materials/3eso/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-30" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 60 exercicis graduats per nivells de dificultat", es: "PDF · 60 ejercicios graduados por niveles de dificultad", en: "PDF · 60 exercises graded by difficulty" }, url: { va: "materials/3eso/t7-fitxa-exercicis.pdf", es: "materials/3eso/t7-fitxa-exercicis-es.pdf" }, download: true, date: "2026-10-30" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 60 exercicis", es: "PDF · Soluciones de los 60 ejercicios", en: "PDF · Solutions to all 60 exercises" }, url: { va: "materials/3eso/t7-fitxa-solucions.pdf", es: "materials/3eso/t7-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-10-30" }
         ]
       },
       {
@@ -243,8 +243,8 @@ window.LEVELS = {
         title: { va: "Funció lineal i quadràtica", es: "Función lineal y cuadrática", en: "Linear and quadratic functions" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t8-funcio-lineal-quadratica.html", date: "2026-10-30" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 62 exercicis graduats per nivells de dificultat", es: "PDF · 62 ejercicios graduados por niveles de dificultad", en: "PDF · 62 exercises graded by difficulty" }, url: "materials/3eso/t8-fitxa-exercicis.pdf", download: true, date: "2026-10-30" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 62 exercicis", es: "PDF · Soluciones de los 62 ejercicios", en: "PDF · Solutions to all 62 exercises" }, url: "materials/3eso/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-30" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 62 exercicis graduats per nivells de dificultat", es: "PDF · 62 ejercicios graduados por niveles de dificultad", en: "PDF · 62 exercises graded by difficulty" }, url: { va: "materials/3eso/t8-fitxa-exercicis.pdf", es: "materials/3eso/t8-fitxa-exercicis-es.pdf" }, download: true, date: "2026-10-30" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 62 exercicis", es: "PDF · Soluciones de los 62 ejercicios", en: "PDF · Solutions to all 62 exercises" }, url: { va: "materials/3eso/t8-fitxa-solucions.pdf", es: "materials/3eso/t8-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-10-30" }
         ]
       },
       {
@@ -252,8 +252,8 @@ window.LEVELS = {
         title: { va: "Perímetres i àrees. Teorema de Pitàgores", es: "Perímetros y áreas. Teorema de Pitágoras", en: "Perimeters and areas. Pythagoras' theorem" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t9-perimetres-arees-pitagores.html", date: "2026-10-31" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 71 exercicis graduats per nivells de dificultat", es: "PDF · 71 ejercicios graduados por niveles de dificultad", en: "PDF · 71 exercises graded by difficulty" }, url: "materials/3eso/t9-fitxa-exercicis.pdf", download: true, date: "2026-10-31" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 71 exercicis", es: "PDF · Soluciones de los 71 ejercicios", en: "PDF · Solutions to all 71 exercises" }, url: "materials/3eso/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-31" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 71 exercicis graduats per nivells de dificultat", es: "PDF · 71 ejercicios graduados por niveles de dificultad", en: "PDF · 71 exercises graded by difficulty" }, url: { va: "materials/3eso/t9-fitxa-exercicis.pdf", es: "materials/3eso/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-10-31" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 71 exercicis", es: "PDF · Soluciones de los 71 ejercicios", en: "PDF · Solutions to all 71 exercises" }, url: { va: "materials/3eso/t9-fitxa-solucions.pdf", es: "materials/3eso/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-10-31" }
         ]
       },
       {
@@ -261,8 +261,8 @@ window.LEVELS = {
         title: { va: "Proporcionalitat. Teorema de Tales", es: "Proporcionalidad. Teorema de Tales", en: "Proportionality. Thales' theorem" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t10-tales-semblanca.html", date: "2026-10-31" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 58 exercicis graduats per nivells de dificultat", es: "PDF · 58 ejercicios graduados por niveles de dificultad", en: "PDF · 58 exercises graded by difficulty" }, url: "materials/3eso/t10-fitxa-exercicis.pdf", download: true, date: "2026-10-31" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 58 exercicis", es: "PDF · Soluciones de los 58 ejercicios", en: "PDF · Solutions to all 58 exercises" }, url: "materials/3eso/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-31" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 58 exercicis graduats per nivells de dificultat", es: "PDF · 58 ejercicios graduados por niveles de dificultad", en: "PDF · 58 exercises graded by difficulty" }, url: { va: "materials/3eso/t10-fitxa-exercicis.pdf", es: "materials/3eso/t10-fitxa-exercicis-es.pdf" }, download: true, date: "2026-10-31" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 58 exercicis", es: "PDF · Soluciones de los 58 ejercicios", en: "PDF · Solutions to all 58 exercises" }, url: { va: "materials/3eso/t10-fitxa-solucions.pdf", es: "materials/3eso/t10-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-10-31" }
         ]
       },
       {
@@ -270,8 +270,8 @@ window.LEVELS = {
         title: { va: "Cossos geomètrics", es: "Cuerpos geométricos", en: "Solids" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t11-cossos-geometrics.html", date: "2026-10-31" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis graduats per nivells de dificultat", es: "PDF · 63 ejercicios graduados por niveles de dificultad", en: "PDF · 63 exercises graded by difficulty" }, url: "materials/3eso/t11-fitxa-exercicis.pdf", download: true, date: "2026-10-31" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: "materials/3eso/t11-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-31" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis graduats per nivells de dificultat", es: "PDF · 63 ejercicios graduados por niveles de dificultad", en: "PDF · 63 exercises graded by difficulty" }, url: { va: "materials/3eso/t11-fitxa-exercicis.pdf", es: "materials/3eso/t11-fitxa-exercicis-es.pdf" }, download: true, date: "2026-10-31" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: { va: "materials/3eso/t11-fitxa-solucions.pdf", es: "materials/3eso/t11-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-10-31" }
         ]
       },
       {
@@ -279,8 +279,8 @@ window.LEVELS = {
         title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/3eso/t12-probabilitat.html", date: "2026-11-01" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 52 exercicis graduats per nivells de dificultat", es: "PDF · 52 ejercicios graduados por niveles de dificultad", en: "PDF · 52 exercises graded by difficulty" }, url: "materials/3eso/t12-fitxa-exercicis.pdf", download: true, date: "2026-11-01" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 52 exercicis", es: "PDF · Soluciones de los 52 ejercicios", en: "PDF · Solutions to all 52 exercises" }, url: "materials/3eso/t12-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-01" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 52 exercicis graduats per nivells de dificultat", es: "PDF · 52 ejercicios graduados por niveles de dificultad", en: "PDF · 52 exercises graded by difficulty" }, url: { va: "materials/3eso/t12-fitxa-exercicis.pdf", es: "materials/3eso/t12-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-01" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 52 exercicis", es: "PDF · Soluciones de los 52 ejercicios", en: "PDF · Solutions to all 52 exercises" }, url: { va: "materials/3eso/t12-fitxa-solucions.pdf", es: "materials/3eso/t12-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-01" }
         ]
       }
     ]

@@ -1,0 +1,309 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 12: Probabilidad. 3º ESO},pdfsubject={Matemáticas 3º ESO},pdfkeywords={probabilidad, experimento aleatorio, espacio muestral, sucesos, ley de Laplace, ley de los grandes números, frecuencia relativa, diagrama de árbol, reemplazamiento}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 12: Probabilidad · 3\textsuperscript{o} ESO}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\stepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{pifont}
+\usetikzlibrary{trees}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}
+\newcommand{\rest}[1]{#1}
+
+\def\fmneed{14}
+\input{../comu/fentmates.tex}
+\fmcurs{3eso}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas}{3\textsuperscript{o} ESO}{Ficha de ejercicios · Unidad 12}{Probabilidad}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Ejercicios graduados por niveles de dificultad:\quad \estrelles{1}\ básico \qquad \estrelles{2}\ medio \qquad \estrelles{3}\ avanzado.\\[2pt] Resuélvelos en el cuaderno mostrando todos los pasos: escribe el espacio muestral, haz un diagrama de árbol o una tabla cuando haga falta y da las probabilidades en forma de fracción irreducible (o en decimal, si los datos lo son).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Experimentos aleatorios. Espacio muestral y sucesos}
+
+\ex{1} Indica si son experimentos aleatorios o deterministas:\begin{tasks}(2)
+  \task Lanzar un dado y anotar el resultado.
+  \task Medir la temperatura a la que hierve el agua al nivel del mar.
+  \task Sacar una carta de una baraja sin mirar.
+  \task Calcular cuánto pagaremos por 3 kg de manzanas a 2 €/kg.
+  \task Adivinar el número ganador de la lotería.
+  \task Dejar caer una pelota y mirar si cae al suelo.
+\end{tasks}\recorda{Un experimento es \textbf{aleatorio} si no podemos predecir su resultado, aunque lo repitamos en las mismas condiciones. El \textbf{espacio muestral} $E$ es el conjunto de todos los resultados posibles, y un \textbf{suceso} es un subconjunto de $E$.}
+
+\ex{1} Escribe el espacio muestral de estos experimentos:\begin{tasks}(2)
+  \task Lanzar una moneda.
+  \task Lanzar un dado de cuatro caras (tetraedro) numeradas del 1 al 4.
+  \task Girar una ruleta con 5 sectores iguales: rojo, azul, verde, amarillo y negro.
+  \task Sacar una bola de una bolsa con bolas rojas (R) y azules (A).
+  \task Elegir al azar un día de la semana.
+  \task Preguntar a alguien cuántas hermanas tiene (como máximo, 3).
+\end{tasks}
+
+\ex{1} Sacamos una bola de una urna con 12 bolas numeradas del 1 al 12. Escribe estos sucesos y di de qué tipo es cada uno (elemental, compuesto, seguro o imposible):\begin{tasks}(3)
+  \task $A=$ «par»
+  \task $B=$ «múltiplo de 5»
+  \task $C=$ «mayor que 12»
+  \task $D=$ «divisor de 12»
+  \task $F=$ «menor que 13»
+  \task $G=$ «múltiplo de 11»
+\end{tasks}
+
+\ex{2} Lanzamos dos monedas. Haz un diagrama de árbol y escribe el espacio muestral y los sucesos $A=$ «al menos una cara», $B=$ «ninguna cara» y $C=$ «las dos iguales».
+
+\ex{2} Lanzamos una moneda y un dado. Haz una tabla de doble entrada con todos los resultados. ¿Cuántos hay? Escribe los sucesos «cara y número par» y «cruz y menor que 3».
+
+\ex{2} Una familia tiene tres hijos. Anotamos si cada uno es chica (A) o chico (O), por orden de nacimiento. Haz un diagrama de árbol, escribe el espacio muestral y el suceso «exactamente dos chicas».
+
+\ex{3} Formamos números de tres cifras distintas con las cifras 1, 2 y 3. Escribe el espacio muestral y los sucesos «el número es par» y «el número es mayor que 200».
+
+\ex{3} Lanzamos dos dados (uno rojo y uno azul). ¿Cuántos resultados tiene el espacio muestral? Escribe los sucesos «la suma es 5» y «sale el mismo número (doble)».
+
+
+% =====================================================
+\seccio{2}{Probabilidad de un suceso. Propiedades}
+
+\ex{1} Hemos lanzado un dado 50 veces y hemos obtenido estos resultados. Completa la tabla con las frecuencias relativas (en decimal) y calcula la frecuencia relativa de «sacar par».\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|cccccc}
+\rowcolor{soft} Resultado & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+Frec. absoluta & 7 & 9 & 8 & 10 & 6 & 10\\
+Frec. relativa &  &  &  &  &  & \\
+\end{tabular}}\end{center}\recorda{Si un suceso ocurre $f$ veces en $n$ repeticiones, su \textbf{frecuencia relativa} es $h=\frac{f}{n}$.}
+
+\ex{1} ¿Cuáles de estos números pueden ser la probabilidad de un suceso?\begin{tasks}(4)
+  \task $0{,}7$
+  \task $1{,}2$
+  \task $-0{,}1$
+  \task $\frac32$
+  \task $0$
+  \task $100\,\%$
+  \task $\frac54$
+  \task $\frac{99}{100}$
+\end{tasks}
+
+\ex{1} Una ruleta tiene tres colores. Sabemos que $P(\text{rojo})=0{,}5$ y $P(\text{azul})=0{,}3$. Calcula $P(\text{verde})$ y la probabilidad de que salga rojo o verde.\recorda{Las probabilidades de todos los resultados elementales suman 1, y la probabilidad de un suceso es la suma de las probabilidades de sus resultados elementales.}
+
+\ex{2} Una ruleta tiene sectores de cuatro colores. Sabemos que $P(\text{rojo})=0{,}35$, $P(\text{azul})=0{,}25$ y $P(\text{verde})=0{,}1$. Calcula $P(\text{amarillo})$, $P(\text{no rojo})$ y $P(\text{azul o amarillo})$.
+
+\ex{2} Un dado está trucado: las caras del 1 al 5 tienen la misma probabilidad y $P(6)=0{,}5$. Calcula $P(1)$, la probabilidad de sacar par y la de sacar menos de 3.
+
+\ex{3} Un dado está trucado de manera que la probabilidad de cada cara es proporcional a su número: $P(k)=k\cdot p$. Calcula $p$, $P(6)$ y $P(\text{par})$.
+
+\ex{3} En una bolsa hay bolas rojas, azules y verdes. La probabilidad de sacar roja es el doble que la de sacar azul, y $P(\text{verde})=0{,}4$. Calcula $P(\text{roja})$ y $P(\text{azul})$. Si en la bolsa hay 20 bolas, ¿cuántas hay de cada color?
+
+
+% =====================================================
+\seccio{3}{Experimentos regulares. Ley de Laplace}
+
+\ex{1} Lanzamos un dado. Calcula la probabilidad de:\begin{tasks}(3)
+  \task sacar un 5
+  \task sacar par
+  \task sacar más de 2
+  \task sacar un múltiplo de 3
+  \task sacar un 7
+  \task sacar menos de 7
+\end{tasks}\recorda{En un experimento \textbf{regular} (resultados equiprobables): \ $P(A)=\dfrac{\text{número de casos favorables}}{\text{número de casos posibles}}$.}
+
+\ex{1} En una bolsa hay 6 bolas rojas (R), 4 azules (A) y 5 verdes (V). Sacamos una bola al azar. Calcula $P(R)$, $P(A)$, $P(V)$ y $P(\text{no verde})$.\par\smallskip\begin{center}\begin{tikzpicture}[x=0.42cm,y=0.42cm,baseline=(current bounding box.center)]
+\draw[muted,thick,fill=soft] (-0.2,0.1) -- (-0.2,-1.70) to[out=-90,in=180] (4.00,-2.30) to[out=0,in=-90] (8.20,-1.70) -- (8.20,0.1);
+\draw[muted,line width=1.6pt,line cap=round] (-0.4,0.1) -- (8.40,0.1);
+\filldraw[draw=black!50,fill=red!75!black] (0.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (1.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (2.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (3.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (4.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (5.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (6.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (7.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (0.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (1.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (2.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (3.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (4.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (5.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (6.50,-1.45) circle (0.38);
+\end{tikzpicture}\end{center}
+
+\ex{1} Giramos una ruleta de 12 sectores iguales numerados del 1 al 12. Calcula la probabilidad de sacar: a) un múltiplo de 4; b) un número primo; c) un divisor de 12.
+
+\ex{2} Sacamos una carta de una baraja española de 40 cartas. Calcula la probabilidad de que sea:\begin{tasks}(3)
+  \task de copas
+  \task un as
+  \task una figura de espadas
+  \task que no sea figura
+  \task un as o un oro
+  \task el caballo de bastos
+\end{tasks}
+
+\ex{2} Escribimos cada letra de la palabra MATEMÁTICAS en una tarjeta y sacamos una al azar. ¿Cuál es la probabilidad de que sea una vocal? ¿Y una M? ¿Y una consonante?
+
+\ex{2} En una rifa hay 100 papeletas numeradas del 00 al 99. Calcula la probabilidad de que la papeleta premiada: a) acabe en 7; b) tenga las dos cifras iguales; c) sea mayor que 89.
+
+\ex{2} Sacamos una bola de un bombo con bolas numeradas del 1 al 20. ¿Cuál es la probabilidad de que sea múltiplo de 3 o de 5?
+
+\ex{2} Pablo y María juegan con un dado: Pablo gana si sale 5 o 6, y María si sale 1, 2, 3 o 4. ¿Es justo el juego? ¿Cómo lo cambiarías para que lo fuera?
+
+\ex{3} En una bolsa hay 5 bolas rojas y unas cuantas azules. Si la probabilidad de sacar una bola azul es $\frac23$, ¿cuántas bolas azules hay?
+
+\ex{3} En una bolsa hay bolas rojas, azules y 10 verdes. Si $P(R)=\frac14$ y $P(A)=\frac13$, ¿cuántas bolas hay de cada color?
+
+\ex{3} Esta ruleta tiene tres sectores de 180°, 120° y 60°. ¿Es un experimento regular? Calcula la probabilidad de cada color.\par\smallskip\begin{center}\begin{tikzpicture}[scale=0.75,baseline=(current bounding box.center)]\fill[red!60] (0,0) -- (0:1.3) arc[start angle=0,end angle=180,radius=1.3] -- cycle;\fill[blue!55] (0,0) -- (180:1.3) arc[start angle=180,end angle=300,radius=1.3] -- cycle;\fill[teal!60] (0,0) -- (300:1.3) arc[start angle=300,end angle=360,radius=1.3] -- cycle;\draw[thick] (0,0) circle (1.3);\draw (0,0)--(0:1.3) (0,0)--(180:1.3) (0,0)--(300:1.3);\node[font=\scriptsize\bfseries] at (90:0.7) {180°};\node[font=\scriptsize\bfseries,white] at (240:0.75) {120°};\node[font=\scriptsize\bfseries] at (330:0.8) {60°};\end{tikzpicture}\end{center}
+
+
+% =====================================================
+\seccio{4}{Experimentos irregulares. Ley de los grandes números}
+
+\ex{1} Clasifica estos experimentos en regulares o irregulares:\begin{tasks}(2)
+  \task Lanzar una moneda de 1 €.
+  \task Lanzar una chincheta y mirar si cae con la punta hacia arriba.
+  \task Lanzar un tapón de corcho y mirar si cae de pie.
+  \task Sacar una carta de una baraja.
+  \task Girar la ruleta del ejercicio anterior.
+  \task Lanzar un vaso de plástico y mirar cómo cae.
+\end{tasks}
+
+\ex{1} Hemos lanzado una chincheta varias veces y hemos anotado cuántas ha caído con la punta hacia arriba. Completa la tabla y estima la probabilidad de que caiga con la punta hacia arriba.\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|cccc}
+\rowcolor{soft} Lanzamientos & 20 & 100 & 500 & 1000\\\hline
+Punta arriba & 13 & 58 & 297 & 601\\
+Frec. relativa &  &  &  & \\
+\end{tabular}}\end{center}\recorda{\textbf{Ley de los grandes números}: cuando repetimos un experimento muchas veces, la frecuencia relativa de un suceso se estabiliza alrededor de su probabilidad.}
+
+\ex{2} Un jugador de balonmano ha marcado 45 de los 60 penaltis que ha lanzado. Estima la probabilidad de que marque un penalti. ¿Cuántos penaltis esperas que marque de los 20 próximos?
+
+\ex{2} Juan ha lanzado una moneda 10 veces y han salido 7 caras. Dice que la moneda está trucada porque la frecuencia relativa de cara es 0,7. ¿Tiene razón?
+
+\ex{2} Lanzamos un dado 600 veces. ¿Cuántas veces esperas que salga cada resultado? Si obtenemos 1 → 95, 2 → 104, 3 → 98, 4 → 101, 5 → 106 y 6 → 96, ¿crees que el dado está trucado?
+
+\ex{2} En una bolsa hay 30 bolas, rojas y blancas. Sacamos una bola, anotamos su color y la devolvemos a la bolsa. Después de 300 extracciones han salido 120 rojas. ¿Cuántas bolas rojas debe de haber?
+
+\ex{3} Hemos lanzado un dado 1200 veces: 1 → 150, 2 → 150, 3 → 150, 4 → 150, 5 → 200 y 6 → 400. Estima $P(6)$ y $P(\text{par})$. ¿Cuántos seises esperas en 300 lanzamientos más? ¿Está trucado?
+
+
+% =====================================================
+\seccio{5}{Experimentos compuestos. Diagramas de árbol}
+
+\ex{1} Lanzamos una moneda y un dado. Calcula la probabilidad de: a) cara y un 3; b) cruz y un número par; c) un número primo (con cara o cruz).\recorda{En un \textbf{diagrama de árbol}, la probabilidad de un camino es el \textbf{producto} de las probabilidades de sus ramas; si un suceso tiene varios caminos, las \textbf{sumamos}.}
+
+\ex{1} Lanzamos dos monedas. Haz el diagrama de árbol con las probabilidades y calcula $P(\text{dos caras})$ y $P(\text{al menos una cruz})$.
+
+\ex{1} Lanzamos dos dados y sumamos los puntos. Completa la tabla de doble entrada y calcula la probabilidad de que la suma sea: a) 8; b) 2; c) 10 o más; d) impar.
+
+\ex{2} Lanzamos dos dados. Calcula la probabilidad de que: a) salga el mismo número; b) la diferencia entre el mayor y el menor sea 2; c) el producto sea par.
+
+\ex{2} Lanzamos tres monedas. Calcula la probabilidad de: a) tres caras; b) exactamente una cara; c) al menos una cara.
+
+\ex{2} Una jugadora de fútbol marca el 80 % de los penaltis. Lanza dos. Haz el diagrama de árbol y calcula la probabilidad de que marque los dos, de que no marque ninguno y de que marque exactamente uno.
+
+\ex{2} Lanzamos un dado dos veces. Calcula la probabilidad de sacar: a) dos seises; b) ningún seis; c) al menos un seis.
+
+\ex{3} Un examen tipo test tiene 3 preguntas con 4 opciones cada una (solo una correcta). Si las contestas todas al azar, ¿cuál es la probabilidad de acertarlas todas? ¿Y de no acertar ninguna? ¿Y de acertar exactamente una?
+
+\ex{3} Lanzamos un dado tres veces. ¿Cuál es la probabilidad de que salga tres veces el mismo número? ¿Y de que no salga ningún seis?
+
+\ex{3} Lanzamos dos dados. Calcula la probabilidad de que: a) la suma sea 7; b) alguno de los dados sea un 6; c) la suma sea 7 y algún dado sea un 6; d) la suma sea 7 o algún dado sea un 6.
+
+
+% =====================================================
+\seccio{6}{Extracciones con y sin reemplazamiento. Problemas}
+
+\ex{1} En una bolsa hay 3 bolas blancas (B) y 2 negras (N). Sacamos dos \textbf{con reemplazamiento}. Haz el diagrama de árbol y calcula la probabilidad de que: a) las dos sean blancas; b) las dos sean negras; c) salga una de cada color.\recorda{\textbf{Con reemplazamiento} devolvemos la bola a la bolsa: la segunda extracción tiene las mismas probabilidades. \textbf{Sin reemplazamiento} no la devolvemos: en la segunda extracción hay una bola menos.}
+
+\ex{1} Resuelve el ejercicio anterior sacando las dos bolas \textbf{sin reemplazamiento}.
+
+\ex{2} Sacamos dos cartas de una baraja española de 40 cartas, sin reemplazamiento. Calcula la probabilidad de que: a) las dos sean ases; b) ninguna sea un as.
+
+\ex{2} En una bolsa hay 5 bolas rojas, 3 azules y 2 verdes. Sacamos dos sin reemplazamiento. Calcula la probabilidad de que: a) las dos sean rojas; b) las dos sean del mismo color.\par\smallskip\begin{center}\begin{tikzpicture}[x=0.42cm,y=0.42cm,baseline=(current bounding box.center)]
+\draw[muted,thick,fill=soft] (-0.2,0.1) -- (-0.2,-1.70) to[out=-90,in=180] (2.50,-2.30) to[out=0,in=-90] (5.20,-1.70) -- (5.20,0.1);
+\draw[muted,line width=1.6pt,line cap=round] (-0.4,0.1) -- (5.40,0.1);
+\filldraw[draw=black!50,fill=red!75!black] (0.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (1.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (2.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (3.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=red!75!black] (4.50,-0.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (0.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (1.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=blue!70!black] (2.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (3.50,-1.45) circle (0.38);
+\filldraw[draw=black!50,fill=teal] (4.50,-1.45) circle (0.38);
+\end{tikzpicture}\end{center}
+
+\ex{2} En un instituto hay 400 alumnos, de los cuales 180 son chicos. Hacen deporte federado 120 alumnos, 70 de los cuales son chicos. Completa la tabla y, si elegimos una persona al azar, calcula: a) $P(\text{deporte federado})$; b) $P(\text{chica y deporte federado})$; c) $P(\text{chica o deporte federado})$; d) si sabemos que es una chica, la probabilidad de que haga deporte federado.\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & Deporte federado & No federado & Total\\\hline
+Chicos & 70 &  & 180\\
+Chicas &  &  & \\
+Total & 120 &  & 400\\
+\end{tabular}}\end{center}
+
+\ex{2} La urna I tiene 3 bolas rojas (R) y 1 azul (A); la urna II tiene 1 bola roja y 3 azules. Lanzamos un dado: si sale 1 o 2, sacamos una bola de la urna I, y si no, de la urna II. ¿Cuál es la probabilidad de sacar una bola roja?
+
+\ex{3} En una caja hay 10 bombillas, 3 de las cuales son defectuosas. Probamos dos al azar (sin reemplazamiento). ¿Cuál es la probabilidad de que al menos una sea defectuosa?
+
+\ex{3} En una bolsa hay 4 bolas rojas y 2 azules. Sacamos tres, una detrás de otra, sin reemplazamiento. ¿Cuál es la probabilidad de que las tres sean rojas?
+
+\ex{3} Ana y Biel lanzan una moneda por turnos y gana quien saca cara primero. Empieza Ana. Calcula la probabilidad de que: a) Ana gane en la primera tirada; b) Biel gane en su primera tirada; c) alguien gane en las dos primeras tiradas.
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Si te cuesta algún ejercicio, repasa los apuntes interactivos de la unidad.\end{center}
+
+\end{document}

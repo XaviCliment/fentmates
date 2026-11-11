@@ -222,7 +222,7 @@ S_.append(("Ecuaciones e identidades", [
  (1, r"Comprueba si los valores indicados son solución de cada ecuación:" + tasks(2, [r'$3x-5=x+1$, \ $x=3$', r'$x^2-4x=5$, \ $x=-1$ y $x=5$', r'$2(x-1)=x+4$, \ $x=5$', r'$x^3-2x=4$, \ $x=2$']),
      tasks(2, [r'$4=4$: \rest{sí}', r'$5=5$ y $5=5$: \rest{las dos}', r'$8\neq9$: \rest{no}', r'$8-4=4$: \rest{sí}'])),
  (1, r"En la ecuación $5x^2-3x+1=2x-7$, indica el primer y el segundo miembro, los términos, la incógnita y el grado.",
-     r"1.er miembro: $5x^2-3x+1$; 2.º miembro: $2x-7$; términos: $5x^2,\ -3x,\ 1,\ 2x,\ -7$; incógnita: $x$; \rest{grado 2}."),
+     r"Primer miembro: $5x^2-3x+1$; segundo miembro: $2x-7$; términos: $5x^2,\ -3x,\ 1,\ 2x,\ -7$; incógnita: $x$; \rest{grado 2}."),
  (2, r"Indica el grado de cada ecuación una vez reducida:" + tasks(2, [r'$x(x+4)=x^2-8$', r'$(x-2)^2=x^2+4$', r'$x^3-x(x^2+1)=2$', r'$(x+1)(x-1)=3x$'])
      + recorda(r"Antes de decir el grado, opera y reduce: los términos de grado alto se pueden anular."),
      tasks(2, [r'$4x=-8$: \rest{grado 1}', r'$-4x=0$: \rest{grado 1}', r'$-x=2$: \rest{grado 1}', r'$x^2-3x-1=0$: \rest{grado 2}'])),

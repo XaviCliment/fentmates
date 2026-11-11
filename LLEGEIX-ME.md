@@ -135,14 +135,15 @@ si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log
 
 ### Versió en castellà de les fitxes
 
-Algunes fitxes tenen versió en castellà (de moment, les de 3r ESO de les unitats 1 a 6): la font és
+Algunes fitxes tenen versió en castellà (totes les de 3r ESO, unitats 1 a 12): la font és
 el mateix nom acabat en `-es.tex` (p. ex. `t1-fitxa-exercicis-es.tex`) i el PDF es copia a
-`materials/<curs>/` acabat en `-es.pdf`. A les unitats que es generen amb `genera.py` (4, 5 i 6), la versió en
+`materials/<curs>/` acabat en `-es.pdf`. A les unitats que es generen amb `genera.py` (de la 4 a la 12), la versió en
 castellà té el seu propi `genera-es.py` (mateixos exercicis i càlculs, amb els textos traduïts, i el preàmbul en
 castellà el fa `comu/castella.py`): executa `python3 genera-es.py` i compila els dos `-es.tex`. Si canvies un
 exercici a `genera.py`, fes el mateix canvi a `genera-es.py`. Usen `\usepackage[spanish,es-minimal,es-noshorthands]{babel}` i
-les metadades del PDF van dins de `\AtBeginDocument{\hypersetup{...}}` (amb «3.º» a les opcions de
-`hyperref` no compila). A `materials.js`, l'`url` porta els dos fitxers i la web mostra el de l'idioma triat
+les metadades del PDF van dins de `\AtBeginDocument{\hypersetup{...}}` (amb «º» a les opcions de
+`hyperref` no compila). El curs s'escriu «3º ESO»: al text, `3\textsuperscript{o} ESO` (el caràcter «º» de
+Fira Sans porta un guió baix). A `materials.js`, l'`url` porta els dos fitxers i la web mostra el de l'idioma triat
 (en anglés, el valencià):
 
 ```js
