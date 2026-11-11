@@ -360,7 +360,7 @@
     return i >= 0 && i < L.units.length ? i : -1;
   }
   function countLabel(u) {
-    var k = visible(u.items).filter(function (it) { return it.url; }).length;
+    var k = visible(u.items).filter(function (it) { return tx(it.url); }).length;
     return k ? k + " " + t(k === 1 ? "level.item1" : "level.items") : t("level.soon");
   }
   function itemIll(it) {
@@ -392,14 +392,14 @@
   }
 
   function icardHTML(it, b) {
-      var soon = !it.url;
+      var soon = !tx(it.url);
       var inner = '<span class="side"></span><span class="body"><span class="kind">' + esc(t("kind." + it.type)) + "</span>" +
         '<span class="h">' + esc(tx(it.title)) + '</span><span class="d">' + esc(soon ? t("level.soon") : (tx(it.desc) || t("level.open"))) + "</span></span>" +
         '<span class="ill" aria-hidden="true">' + itemIll(it) + "</span>";
       if (soon) return '<div class="icard soon" style="--c:' + b.c + '">' + inner + "</div>";
-      var id = ytId(it.url);
+      var id = ytId(tx(it.url));
       var attrs = id ? ' data-yt="' + id + '"' : ' target="_blank" rel="noopener"';
-      return '<a class="icard" href="' + esc(it.url) + '"' + attrs + ' style="--c:' + b.c + '">' + inner + "</a>";
+      return '<a class="icard" href="' + esc(tx(it.url)) + '"' + attrs + ' style="--c:' + b.c + '">' + inner + "</a>";
   }
 
   function renderCards(L, box) {
@@ -473,13 +473,13 @@
         items.map(function (it) {
           var inner = '<span class="ico">' + (ICONS[it.type] || ICONS.resource) + "</span>" +
             '<span class="meta"><span class="t">' + esc(tx(it.title)) + "</span>" +
-            (it.url ? (it.desc ? '<span class="d">' + esc(tx(it.desc)) + "</span>" : "") : '<span class="d">' + esc(t("level.soon")) + "</span>") +
+            (tx(it.url) ? (it.desc ? '<span class="d">' + esc(tx(it.desc)) + "</span>" : "") : '<span class="d">' + esc(t("level.soon")) + "</span>") +
             '</span><span class="kind">' + esc(t("kind." + it.type)) + "</span>";
-          if (!it.url) return '<li><div class="item soon">' + inner + "</div></li>";
-          var id = ytId(it.url);
+          if (!tx(it.url)) return '<li><div class="item soon">' + inner + "</div></li>";
+          var id = ytId(tx(it.url));
           var attrs = id ? ' data-yt="' + id + '"' : ' target="_blank" rel="noopener"';
-          var link = '<a class="item" href="' + esc(it.url) + '"' + attrs + ">" + inner + "</a>";
-          if (it.download) return '<li class="has-dl">' + link + '<a class="dl" href="' + esc(it.url) + '" download title="' + esc(t("item.download")) + '" aria-label="' + esc(t("item.download")) + '">' + ICONS.download + "</a></li>";
+          var link = '<a class="item" href="' + esc(tx(it.url)) + '"' + attrs + ">" + inner + "</a>";
+          if (it.download) return '<li class="has-dl">' + link + '<a class="dl" href="' + esc(tx(it.url)) + '" download title="' + esc(t("item.download")) + '" aria-label="' + esc(t("item.download")) + '">' + ICONS.download + "</a></li>";
           return "<li>" + link + "</li>";
         }).join("") + "</ul></details>";
     });

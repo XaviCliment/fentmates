@@ -1,0 +1,355 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Soluciones de la ficha de repaso de la unidad 2: Números reales. 3.º de ESO},pdfsubject={Matemáticas 3.º ESO},pdfkeywords={números reales, potencias, radicales, notación científica, intervalos}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\AtBeginDocument{\setlength{\abovedisplayskip}{5pt}\setlength{\belowdisplayskip}{5pt}\setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{4pt}}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.8em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small\color{muted}Soluciones de la ficha de repaso · Unidad 2}
+\fancyfoot[L]{\scriptsize\color{muted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ CC BY-NC-SA 4.0 · fentmates.org}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\newcommand{\seccio}[2]{}
+
+% ---------- recta real ----------
+% \seg{color}{altura}{x1}{x2}{estil esquerra}{estil dreta}: estil = p (ple), b (buit), i (infinit)
+\newcommand{\extrem}[4]{\ifx#3p\fill[#4] (#1,#2) circle (0.13);\else\ifx#3b\filldraw[fill=white,draw=#4,line width=1.2pt] (#1,#2) circle (0.13);\fi\fi}
+\newcommand{\seg}[6]{\draw[#1,line width=3pt] (#3,#2)--(#4,#2);
+  \ifx#5i\fill[#1] (#3-0.25,#2)--(#3+0.15,#2+0.2)--(#3+0.15,#2-0.2)--cycle;\else\extrem{#3}{#2}{#5}{#1}\fi
+  \ifx#6i\fill[#1] (#4+0.25,#2)--(#4-0.15,#2+0.2)--(#4-0.15,#2-0.2)--cycle;\else\extrem{#4}{#2}{#6}{#1}\fi}
+\newcommand{\recta}[1]{\begin{tikzpicture}[x=0.42cm,baseline=0]
+  \draw[-latex,muted] (-6.7,0)--(6.8,0);
+  \foreach \i in {-6,...,6}{\draw[muted] (\i,0.12)--(\i,-0.12) node[below=-1pt,font=\scriptsize,text=muted]{$\i$};}
+  #1\end{tikzpicture}}
+\newcommand{\rectaint}[4]{\recta{\seg{accent}{0}{#1}{#2}{#3}{#4}}}
+% dos intervals en la mateixa recta: el primer (taronja) damunt del segon (verd)
+\newcommand{\rectados}[2]{\recta{\seg{accent}{0.75}#1\seg{teal}{0.38}#2}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+% claudàtors oberts dels intervals: ]a,b[ (amb l'espaiat de parèntesi, perquè ]-3 no siga una resta)
+\newcommand{\lo}{\mathopen{]}}
+\newcommand{\ro}{\mathclose{[}}
+\input{../comu/fentmates.tex}
+\fmcurs{3eso}
+
+% ---------- exercicis, recordatoris i explicacions ----------
+\newcounter{exer}
+\newcommand{\ex}[2]{\par\needspace{7\baselineskip}\bigskip\stepcounter{exer}\noindent
+  {\color{cursfosc}\bfseries\theexer.}\ \ {\scriptsize\bfseries\color{curs}\MakeUppercase{#1}}\par\nopagebreak\smallskip
+  \noindent{\small\color{muted}#2}\par}
+\newcommand{\recorda}[1]{\par\smallskip
+  \begin{tcolorbox}[colback=curs!7,colframe=curs!55,boxrule=0.5pt,arc=1.5mm,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]
+  \small{\bfseries\color{cursfosc}\faLightbulb[regular]\ Recuerda.}\ #1
+  \end{tcolorbox}}
+\newcommand{\res}[1]{\boxed{#1}}
+% apartat amb explicació: \ap{text}{càlculs}
+\newcommand{\ap}[1]{\par\needspace{3\baselineskip}\smallskip\noindent{\color{navy}\bfseries #1)}\ \ }
+\newcommand{\pas}[1]{{\color{muted}\small #1}}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas}{3.º ESO}{Soluciones de la ficha de repaso · Unidad 2}{Números reales}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Antes de cada ejercicio tienes un recuadro \textbf{Recuerda} con la regla que hay que aplicar. Compara tus pasos con los de aquí, no solo el resultado: el resultado final está dentro de un recuadro. Si te has equivocado, vuelve a hacer el apartado sin mirar la solución.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{A}{Potencias y notación científica}
+
+\ex{Cálculo de potencias}{Calcula las siguientes potencias.}
+\recorda{Si la base es negativa y va entre paréntesis, el resultado es positivo con exponente par y negativo con exponente impar. Si el signo \emph{no} está dentro del paréntesis ($-3^{4}$), el exponente no le afecta. Un exponente negativo invierte la base: $a^{-n}=\dfrac{1}{a^{n}}$ y $\left(\dfrac ab\right)^{-n}=\left(\dfrac ba\right)^{n}$. Cualquier base (no nula) elevada a 0 vale 1.}
+
+\ap{a} \pas{La base es $-3$ y el exponente es par, por tanto el resultado es positivo.}
+\[(-3)^{4}=(-3)\cdot(-3)\cdot(-3)\cdot(-3)=\res{81}\]
+\ap{b} \pas{Sin paréntesis, el exponente solo afecta al 3. El signo menos se queda fuera.}
+\[-3^{4}=-(3\cdot3\cdot3\cdot3)=\res{-81}\]
+\ap{c} \pas{Exponente negativo: hacemos el inverso. Después, base negativa con exponente impar da negativo.}
+\[(-2)^{-3}=\frac{1}{(-2)^{3}}=\frac{1}{-8}=\res{-\frac18}\]
+\ap{d} \pas{Exponente negativo en una fracción: damos la vuelta a la fracción y el exponente pasa a ser positivo.}
+\[\left(\frac25\right)^{-2}=\left(\frac52\right)^{2}=\frac{5^{2}}{2^{2}}=\res{\frac{25}{4}}\]
+\ap{e} \pas{Elevamos numerador y denominador. Exponente impar con base negativa: el resultado es negativo.}
+\[\left(-\frac34\right)^{3}=-\frac{3^{3}}{4^{3}}=\res{-\frac{27}{64}}\]
+\ap{f} \pas{Primero escribimos el decimal en forma de fracción: $0,1=\frac{1}{10}$. Después damos la vuelta por el exponente negativo.}
+\[0,1^{-3}=\left(\frac{1}{10}\right)^{-3}=10^{3}=\res{1000}\]
+\ap{g} \pas{Toda base distinta de 0 elevada a 0 vale 1 (también las negativas).}
+\[(-7)^{0}=\res{1}\]
+\ap{h} \pas{Calculamos primero la potencia (dando la vuelta a la fracción) y, al final, ponemos el signo menos que hay delante.}
+\[-\left(\frac12\right)^{-4}=-\,2^{4}=\res{-16}\]
+
+% -----------------------------------------------------
+\ex{Propiedades de las potencias}{Expresa como una sola potencia y calcula su valor.}
+\recorda{\textbf{Misma base:} $a^{m}\cdot a^{n}=a^{m+n}$, \ $a^{m}:a^{n}=a^{m-n}$, \ $\left(a^{m}\right)^{n}=a^{m\cdot n}$. \ \textbf{Mismo exponente:} $a^{n}\cdot b^{n}=(a\cdot b)^{n}$, \ $a^{n}:b^{n}=(a:b)^{n}$. Cuidado con los signos cuando restas exponentes negativos: $-3-(-4)=-3+4=1$. Un factor sin exponente, como el $3$, tiene exponente 1.}
+
+\ap{a} \pas{Misma base: sumamos los exponentes. El $3$ solo es $3^{1}$.}
+\[3^{5}\cdot3^{-2}\cdot3^{1}=3^{5+(-2)+1}=3^{4}=\res{81}\]
+\ap{b} \pas{Potencia de una potencia: multiplicamos exponentes. Después, división de la misma base: restamos.}
+\[\left(2^{3}\right)^{4}:2^{10}=2^{12}:2^{10}=2^{12-10}=2^{2}=\res{4}\]
+\ap{c} \pas{En el numerador sumamos los exponentes; después restamos el exponente del denominador.}
+\[\frac{5^{-3}\cdot5^{7}}{5^{2}}=\frac{5^{-3+7}}{5^{2}}=\frac{5^{4}}{5^{2}}=5^{4-2}=5^{2}=\res{25}\]
+\ap{d} \pas{$(-2)\cdot(-3)=6$. Después restamos exponentes.}
+\[\left(7^{-2}\right)^{-3}:7^{5}=7^{(-2)\cdot(-3)}:7^{5}=7^{6}:7^{5}=7^{6-5}=7^{1}=\res{7}\]
+\ap{e} \pas{La base es la fracción $\frac23$: sumamos los exponentes y, al final, elevamos numerador y denominador.}
+\[\left(\frac23\right)^{-2}\cdot\left(\frac23\right)^{5}=\left(\frac23\right)^{-2+5}=\left(\frac23\right)^{3}=\frac{2^{3}}{3^{3}}=\res{\frac{8}{27}}\]
+\ap{f} \pas{Primero el producto (sumamos), después la división (restamos). Atención al doble signo menos.}
+\[6^{-2}\cdot6^{-1}:6^{-4}=6^{-3}:6^{-4}=6^{-3-(-4)}=6^{-3+4}=6^{1}=\res{6}\]
+\ap{g} \pas{Ahora las bases son distintas pero el exponente es el mismo: multiplicamos las bases y mantenemos el exponente.}
+\[2^{5}\cdot5^{5}=(2\cdot5)^{5}=10^{5}=\res{100\,000}\]
+\ap{h} \pas{Mismo exponente: dividimos las bases.}
+\[12^{3}:4^{3}=(12:4)^{3}=3^{3}=\res{27}\]
+\ap{i} \pas{Mismo exponente: multiplicamos las fracciones de la base. Exponente par, por tanto positivo.}
+\[\left(-\frac23\right)^{4}\cdot\left(\frac32\right)^{4}=\left(-\frac23\cdot\frac32\right)^{4}=\left(-\frac66\right)^{4}=(-1)^{4}=\res{1}\]
+
+% -----------------------------------------------------
+\ex{Propiedades con descomposición de bases}{Descompón, simplifica y calcula.}
+\recorda{Seguimos siempre tres pasos: \textbf{1)} escribimos cada base como producto de primos ($8=2^{3}$, $12=2^{2}\cdot3$, \ldots); \textbf{2)} aplicamos $\left(a\cdot b\right)^{n}=a^{n}\cdot b^{n}$ y $\left(a^{m}\right)^{n}=a^{m\cdot n}$; \textbf{3)} agrupamos cada primo: sumamos los exponentes de arriba y restamos los de abajo. Un exponente negativo final pasa al denominador.}
+
+\ap{a} \pas{Todas las bases son potencias de 2: $8=2^{3}$, \ $4=2^{2}$, \ $16=2^{4}$.}
+\[\frac{8^{2}\cdot4^{3}}{2^{5}\cdot16}=\frac{\left(2^{3}\right)^{2}\cdot\left(2^{2}\right)^{3}}{2^{5}\cdot2^{4}}=\frac{2^{6}\cdot2^{6}}{2^{5}\cdot2^{4}}=\frac{2^{12}}{2^{9}}=2^{12-9}=2^{3}=\res{8}\]
+\ap{b} \pas{Todas son potencias de 3: $9=3^{2}$, \ $27=3^{3}$.}
+\[\frac{9^{3}\cdot27^{-1}}{3^{5}}=\frac{\left(3^{2}\right)^{3}\cdot\left(3^{3}\right)^{-1}}{3^{5}}=\frac{3^{6}\cdot3^{-3}}{3^{5}}=\frac{3^{3}}{3^{5}}=3^{3-5}=3^{-2}=\res{\frac19}\]
+\ap{c} \pas{$6=2\cdot3$, \ $10=2\cdot5$, \ $15=3\cdot5$, \ $4=2^{2}$. Cada potencia de un producto se reparte entre los factores.}
+\[\frac{6^{4}\cdot10^{2}}{15^{3}\cdot4^{2}}=\frac{(2\cdot3)^{4}\cdot(2\cdot5)^{2}}{(3\cdot5)^{3}\cdot\left(2^{2}\right)^{2}}=\frac{2^{4}\cdot3^{4}\cdot2^{2}\cdot5^{2}}{3^{3}\cdot5^{3}\cdot2^{4}}=\frac{2^{6}\cdot3^{4}\cdot5^{2}}{2^{4}\cdot3^{3}\cdot5^{3}}\]
+\pas{Ahora restamos los exponentes de cada primo:}
+\[=2^{6-4}\cdot3^{4-3}\cdot5^{2-3}=2^{2}\cdot3\cdot5^{-1}=\frac{4\cdot3}{5}=\res{\frac{12}{5}}\]
+\ap{d} \pas{$12=2^{2}\cdot3$, \ $18=2\cdot3^{2}$, \ $27=3^{3}$. Cuidado: el exponente $-2$ multiplica todos los exponentes de dentro.}
+\[\frac{12^{-2}\cdot18^{3}}{2\cdot27}=\frac{\left(2^{2}\cdot3\right)^{-2}\cdot\left(2\cdot3^{2}\right)^{3}}{2\cdot3^{3}}=\frac{2^{-4}\cdot3^{-2}\cdot2^{3}\cdot3^{6}}{2\cdot3^{3}}=\frac{2^{-1}\cdot3^{4}}{2^{1}\cdot3^{3}}\]
+\[=2^{-1-1}\cdot3^{4-3}=2^{-2}\cdot3=\frac{3}{2^{2}}=\res{\frac34}\]
+
+% -----------------------------------------------------
+\ex{Escribir en notación científica}{Escribe estos números en notación científica.}
+\recorda{Un número en notación científica es $a\cdot10^{n}$ con $1\le|a|<10$ (una sola cifra no nula delante de la coma) y $n$ entero. Contamos cuántos lugares se mueve la coma: si el número es \textbf{grande} ($\ge10$), el exponente es \textbf{positivo}; si es \textbf{pequeño} (entre 0 y 1), el exponente es \textbf{negativo}.}
+
+\ap{a} \pas{La coma, que está al final, se mueve 9 lugares hacia la izquierda hasta dejar solo el 4 delante: número grande, exponente positivo.}
+\quad $4\,560\,000\,000=\res{4,56\cdot10^{9}}$
+\ap{b} \pas{La coma se mueve 6 lugares hacia la derecha hasta pasar el 7: número pequeño, exponente negativo.}
+\quad $0,000\,007\,2=\res{7,2\cdot10^{-6}}$
+\ap{c} \pas{5 lugares hacia la izquierda. Los ceros del medio (el de $3,02$) se mantienen; los del final desaparecen.}
+\quad $302\,000=\res{3,02\cdot10^{5}}$
+\ap{d} \pas{7 lugares hacia la derecha hasta pasar el 1.}
+\quad $0,000\,000\,105=\res{1,05\cdot10^{-7}}$
+\ap{e} \pas{El signo menos se mantiene delante. 3 lugares hacia la derecha hasta pasar el 8.}
+\quad $-0,008\,3=\res{-8,3\cdot10^{-3}}$
+\ap{f} \pas{Hay 14 cifras; la coma se mueve 13 lugares hacia la izquierda.}
+\quad $61\,000\,000\,000\,000=\res{6,1\cdot10^{13}}$
+
+% -----------------------------------------------------
+\ex{De notación científica a decimal}{Escribe estos números en forma decimal.}
+\recorda{Si el exponente es \textbf{positivo}, movemos la coma hacia la \textbf{derecha} tantos lugares como indica (y rellenamos con ceros). Si es \textbf{negativo}, la movemos hacia la \textbf{izquierda} (y ponemos ceros delante). Compruébalo: exponente positivo $\Rightarrow$ número grande; exponente negativo $\Rightarrow$ número pequeño.}
+
+\ap{a} \pas{6 lugares a la derecha: $3,5\to35\to350\to\cdots$}
+\quad $3,5\cdot10^{6}=\res{3\,500\,000}$
+\ap{b} \pas{5 lugares a la izquierda: delante del 2 quedan cuatro ceros después de la coma.}
+\quad $2,04\cdot10^{-5}=\res{0,000\,020\,4}$
+\ap{c} \pas{3 lugares a la izquierda.}
+\quad $9\cdot10^{-3}=\res{0,009}$
+\ap{d} \pas{8 lugares a la derecha: 3 los ocupan las cifras 2, 3 y 4, y añadimos 5 ceros.}
+\quad $1,234\cdot10^{8}=\res{123\,400\,000}$
+\ap{e} \pas{El signo se mantiene. 4 lugares a la izquierda.}
+\quad $-6,1\cdot10^{-4}=\res{-0,000\,61}$
+\ap{f} \pas{2 lugares a la derecha.}
+\quad $7,08\cdot10^{2}=\res{708}$
+
+% -----------------------------------------------------
+\ex{Corregir la notación científica}{Indica si están bien escritos y, si no, corrígelos.}
+\recorda{Para corregirlos, escribimos el número de delante en notación científica y juntamos las potencias de 10 sumando sus exponentes. Truco: si la coma del número de delante se mueve hacia la \textbf{izquierda}, el exponente \textbf{sube}; si se mueve hacia la \textbf{derecha}, el exponente \textbf{baja}.}
+
+\ap{a} \pas{Mal escrito: $45\ge10$.}
+\quad $45\cdot10^{6}=4,5\cdot10^{1}\cdot10^{6}=\res{4,5\cdot10^{7}}$
+\ap{b} \pas{Mal escrito: $0,32<1$.}
+\quad $0,32\cdot10^{-4}=3,2\cdot10^{-1}\cdot10^{-4}=\res{3,2\cdot10^{-5}}$
+\ap{c} \pas{Mal escrito: $125,7\ge10$.}
+\quad $125,7\cdot10^{-3}=1,257\cdot10^{2}\cdot10^{-3}=\res{1,257\cdot10^{-1}}$
+\ap{d} \pas{Mal escrito: $0,008<1$.}
+\quad $0,008\cdot10^{5}=8\cdot10^{-3}\cdot10^{5}=\res{8\cdot10^{2}}$
+\ap{e} \pas{Mal escrito: $a$ tiene que ser menor que 10, y $10$ no lo es.}
+\quad $10\cdot10^{3}=1\cdot10^{1}\cdot10^{3}=\res{1\cdot10^{4}}$\ \ \pas{(o simplemente $10^{4}$)}
+\ap{f} \pas{\textbf{Bien escrito}: $1\le9,9<10$ y el exponente es entero. No hay que cambiar nada.}
+\quad $\res{9,9\cdot10^{-2}}$
+
+% =====================================================
+\seccio{B}{Radicales}
+
+\ex{Introducir factores en un radical}{Introduce el factor dentro del radical.}
+\recorda{Un factor entra dentro de un radical \textbf{elevado al índice} del radical: $a\sqrt[n]{b}=\sqrt[n]{a^{n}\cdot b}$. En una raíz cuadrada (índice 2) lo elevamos al cuadrado; en una cúbica, al cubo; etc.}
+
+\begin{tasks}(2)
+  \task $3\sqrt{2}=\sqrt{3^{2}\cdot2}=\sqrt{9\cdot2}=\res{\sqrt{18}}$
+  \task $5\sqrt{3}=\sqrt{5^{2}\cdot3}=\sqrt{25\cdot3}=\res{\sqrt{75}}$
+  \task $2\sqrt[3]{3}=\sqrt[3]{2^{3}\cdot3}=\sqrt[3]{8\cdot3}=\res{\sqrt[3]{24}}$
+  \task $2\sqrt[4]{5}=\sqrt[4]{2^{4}\cdot5}=\sqrt[4]{16\cdot5}=\res{\sqrt[4]{80}}$
+  \task $3\sqrt[3]{4}=\sqrt[3]{3^{3}\cdot4}=\sqrt[3]{27\cdot4}=\res{\sqrt[3]{108}}$
+  \task $\dfrac12\sqrt{12}=\sqrt{\left(\dfrac12\right)^{2}\cdot12}=\sqrt{\dfrac{12}{4}}=\res{\sqrt{3}}$
+\end{tasks}
+
+% -----------------------------------------------------
+\ex{Extraer factores de un radical}{Extrae todos los factores posibles.}
+\recorda{\textbf{1)} Descomponemos el radicando en factores primos. \textbf{2)} Para cada factor, dividimos su exponente entre el índice: el \textbf{cociente} es el exponente con el que sale fuera y el \textbf{resto}, el exponente con el que se queda dentro. Por ejemplo, en $\sqrt[3]{2^{7}}$: $7:3$ da 2 y sobra 1, por tanto $\sqrt[3]{2^{7}}=2^{2}\sqrt[3]{2}$.}
+
+\ap{a} \pas{$50=2\cdot5^{2}$. El $5^{2}$ sale como $5$; el $2$ no puede salir.}
+\quad $\sqrt{50}=\sqrt{2\cdot5^{2}}=\res{5\sqrt{2}}$
+\ap{b} \pas{$72=2^{3}\cdot3^{2}=2^{2}\cdot2\cdot3^{2}$. Sale un 2 y un 3; dentro queda un 2.}
+\quad $\sqrt{72}=\sqrt{2^{2}\cdot3^{2}\cdot2}=2\cdot3\sqrt{2}=\res{6\sqrt{2}}$
+\ap{c} \pas{$180=2^{2}\cdot3^{2}\cdot5$. Salen el 2 y el 3; dentro queda el 5.}
+\quad $\sqrt{180}=\sqrt{2^{2}\cdot3^{2}\cdot5}=2\cdot3\sqrt{5}=\res{6\sqrt{5}}$
+\ap{d} \pas{$54=2\cdot3^{3}$. Raíz cúbica: el $3^{3}$ sale como 3.}
+\quad $\sqrt[3]{54}=\sqrt[3]{2\cdot3^{3}}=\res{3\sqrt[3]{2}}$
+\ap{e} \pas{$128=2^{7}$. $7:3=2$ y sobra 1: sale $2^{2}$ y dentro queda $2^{1}$.}
+\quad $\sqrt[3]{128}=\sqrt[3]{2^{7}}=\sqrt[3]{2^{6}\cdot2}=2^{2}\sqrt[3]{2}=\res{4\sqrt[3]{2}}$
+\ap{f} \pas{$162=2\cdot3^{4}$. Raíz cuarta: el $3^{4}$ sale como 3.}
+\quad $\sqrt[4]{162}=\sqrt[4]{2\cdot3^{4}}=\res{3\sqrt[4]{2}}$
+\ap{g} \pas{$5:2=2$ y sobra 1 (sale $2^{2}$, queda $2$); $3:2=1$ y sobra 1 (sale $3$, queda $3$); el 5 no sale.}
+\[\sqrt{2^{5}\cdot3^{3}\cdot5}=\sqrt{2^{4}\cdot2\cdot3^{2}\cdot3\cdot5}=2^{2}\cdot3\sqrt{2\cdot3\cdot5}=\res{12\sqrt{30}}\]
+\ap{h} \pas{$7:3=2$ y sobra 1 (sale $2^{2}$, queda $2$); $4:3=1$ y sobra 1 (sale $5$, queda $5$).}
+\[\sqrt[3]{2^{7}\cdot5^{4}}=\sqrt[3]{2^{6}\cdot2\cdot5^{3}\cdot5}=2^{2}\cdot5\sqrt[3]{2\cdot5}=\res{20\sqrt[3]{10}}\]
+
+% -----------------------------------------------------
+\ex{Sumas y restas de radicales}{Calcula y simplifica.}
+\recorda{Solo se pueden sumar o restar radicales \textbf{semejantes} (mismo índice y mismo radicando): sumamos los números de fuera y el radical se queda igual, como si fuera $3x+2x=5x$. Si no lo parecen, primero \textbf{extraemos factores} de cada radical. \textbf{Nunca} sumes los radicandos: $\sqrt{a}+\sqrt{b}\neq\sqrt{a+b}$.}
+
+\ap{a} \pas{Ya son semejantes: solo operamos los coeficientes $3+2-7$.}
+\quad $3\sqrt{5}+2\sqrt{5}-7\sqrt{5}=(3+2-7)\sqrt{5}=\res{-2\sqrt{5}}$
+\ap{b} \pas{Semejantes. El radical sin número delante tiene coeficiente 1.}
+\quad $4\sqrt[3]{2}-1\sqrt[3]{2}+5\sqrt[3]{2}=(4-1+5)\sqrt[3]{2}=\res{8\sqrt[3]{2}}$
+\ap{c} \pas{Extraemos factores: $18=2\cdot3^{2}$, \ $50=2\cdot5^{2}$, \ $8=2^{2}\cdot2$. Todos pasan a ser múltiplos de $\sqrt2$.}
+\[\sqrt{18}+\sqrt{50}-\sqrt{8}=3\sqrt{2}+5\sqrt{2}-2\sqrt{2}=(3+5-2)\sqrt{2}=\res{6\sqrt{2}}\]
+\ap{d} \pas{$\sqrt{12}=\sqrt{2^{2}\cdot3}=2\sqrt3$, por tanto $2\sqrt{12}=2\cdot2\sqrt3=4\sqrt3$. \ $\sqrt{27}=\sqrt{3^{2}\cdot3}=3\sqrt3$.}
+\[2\sqrt{12}-\sqrt{27}+4\sqrt{3}=4\sqrt{3}-3\sqrt{3}+4\sqrt{3}=(4-3+4)\sqrt{3}=\res{5\sqrt{3}}\]
+\ap{e} \pas{$\sqrt{20}=\sqrt{2^{2}\cdot5}=2\sqrt5$. \ $\sqrt{45}=\sqrt{3^{2}\cdot5}=3\sqrt5$, por tanto $3\sqrt{45}=9\sqrt5$. \ $\sqrt{80}=\sqrt{2^{4}\cdot5}=4\sqrt5$.}
+\[\sqrt{20}-3\sqrt{45}+\sqrt{80}=2\sqrt{5}-9\sqrt{5}+4\sqrt{5}=(2-9+4)\sqrt{5}=\res{-3\sqrt{5}}\]
+\ap{f} \pas{Raíces cúbicas: buscamos cubos. $24=2^{3}\cdot3$ \ y \ $81=3^{3}\cdot3$.}
+\[\sqrt[3]{24}+\sqrt[3]{81}-2\sqrt[3]{3}=2\sqrt[3]{3}+3\sqrt[3]{3}-2\sqrt[3]{3}=(2+3-2)\sqrt[3]{3}=\res{3\sqrt[3]{3}}\]
+\ap{g} \pas{$\sqrt8=2\sqrt2\Rightarrow5\sqrt8=10\sqrt2$. \ $\sqrt{32}=\sqrt{2^{4}\cdot2}=4\sqrt2\Rightarrow2\sqrt{32}=8\sqrt2$. \ $\sqrt{98}=\sqrt{7^{2}\cdot2}=7\sqrt2$.}
+\[5\sqrt{8}-2\sqrt{32}+\sqrt{98}-\sqrt{2}=10\sqrt{2}-8\sqrt{2}+7\sqrt{2}-1\sqrt{2}=(10-8+7-1)\sqrt{2}=\res{8\sqrt{2}}\]
+\ap{h} \pas{$\sqrt{12}=2\sqrt3$, \ $\sqrt8=2\sqrt2$, \ $\sqrt{27}=3\sqrt3$. Ahora hay \emph{dos} tipos de radicales: agrupamos solo los semejantes entre ellos. $\sqrt3$ y $\sqrt2$ no se pueden juntar.}
+\[\sqrt{12}+\sqrt{8}-\sqrt{27}=2\sqrt{3}+2\sqrt{2}-3\sqrt{3}=(2-3)\sqrt{3}+2\sqrt{2}=\res{2\sqrt{2}-\sqrt{3}}\]
+
+% -----------------------------------------------------
+\ex{Producto, cociente y potencia de radicales}{Calcula y simplifica.}
+\recorda{Con el \textbf{mismo índice}: $\sqrt[n]{a}\cdot\sqrt[n]{b}=\sqrt[n]{a\cdot b}$ \ y \ $\sqrt[n]{a}:\sqrt[n]{b}=\sqrt[n]{a:b}$. Si hay números fuera, se multiplican (o dividen) entre ellos y los radicandos entre ellos. Potencia: $\left(\sqrt[n]{a}\right)^{m}=\sqrt[n]{a^{m}}$, y el número de fuera también se eleva. Al final, siempre \textbf{extraemos factores}.}
+
+\ap{a} \pas{Multiplicamos radicandos y extraemos: $90=3^{2}\cdot10$.}
+\quad $\sqrt{6}\cdot\sqrt{15}=\sqrt{6\cdot15}=\sqrt{90}=\sqrt{3^{2}\cdot10}=\res{3\sqrt{10}}$
+\ap{b} \pas{Números de fuera: $2\cdot5=10$. Radicandos: $3\cdot6=18=3^{2}\cdot2$.}
+\quad $2\sqrt{3}\cdot5\sqrt{6}=10\sqrt{18}=10\cdot3\sqrt{2}=\res{30\sqrt{2}}$
+\ap{c} \pas{$4\cdot10=40=2^{3}\cdot5$; en raíz cúbica sale el $2^{3}$.}
+\quad $\sqrt[3]{4}\cdot\sqrt[3]{10}=\sqrt[3]{40}=\sqrt[3]{2^{3}\cdot5}=\res{2\sqrt[3]{5}}$
+\ap{d} \pas{Dividimos radicandos: $120:10=12=2^{2}\cdot3$.}
+\quad $\sqrt{120}:\sqrt{10}=\sqrt{120:10}=\sqrt{12}=\res{2\sqrt{3}}$
+\ap{e} \pas{Fuera: $12:4=3$. Dentro: $15:5=3$.}
+\quad $12\sqrt{15}:\left(4\sqrt{5}\right)=(12:4)\sqrt{15:5}=\res{3\sqrt{3}}$
+\ap{f} \pas{$162:3=54=2\cdot3^{3}$.}
+\quad $\sqrt[3]{162}:\sqrt[3]{3}=\sqrt[3]{54}=\sqrt[3]{3^{3}\cdot2}=\res{3\sqrt[3]{2}}$
+\ap{g} \pas{El exponente entra dentro del radical; después extraemos: $3^{3}=3^{2}\cdot3$.}
+\quad $\left(\sqrt{3}\right)^{3}=\sqrt{3^{3}}=\sqrt{3^{2}\cdot3}=\res{3\sqrt{3}}$
+\ap{h} \pas{Se elevan los dos factores: el 2 de fuera y el radical. $3^{2}=9$ no contiene ningún cubo, por tanto no sale nada.}
+\quad $\left(2\sqrt[3]{3}\right)^{2}=2^{2}\cdot\sqrt[3]{3^{2}}=\res{4\sqrt[3]{9}}$
+\ap{i} \pas{$3^{3}=27$ y $\left(\sqrt2\right)^{3}=\sqrt{2^{3}}=\sqrt{2^{2}\cdot2}=2\sqrt2$.}
+\[\left(3\sqrt{2}\right)^{3}=3^{3}\cdot\sqrt{2^{3}}=27\cdot2\sqrt{2}=\res{54\sqrt{2}}\]
+
+% =====================================================
+\seccio{C}{Intervalos y conjuntos numéricos}
+
+\ex{Intervalos}{Completa la tabla.}
+\recorda{\textbf{Corchete cerrado} $[\ ]$ $\leftrightarrow$ $\le$ o $\ge$ $\leftrightarrow$ \textbf{punto lleno} (el extremo se incluye). \textbf{Corchete abierto} $]\ [$ $\leftrightarrow$ $<$ o $>$ $\leftrightarrow$ \textbf{punto vacío} (el extremo no se incluye). Al lado de $\infty$ siempre va corchete abierto: $\lo -\infty,\ 2]$, $[5,\ +\infty\ro $. Para escribir la desigualdad, la $x$ va en medio de los extremos (o a un lado si uno es infinito) y el número pequeño siempre a la izquierda.}
+
+\smallskip
+{\renewcommand{\arraystretch}{1.9}\centering
+\begin{tabular}{|C{0.6cm}|C{3cm}|C{3.4cm}|C{6.4cm}|}
+\hline
+\rowcolor{soft} & \textbf{Intervalo} & \textbf{Desigualdad} & \textbf{Representación} \\ \hline
+a) & $[-2,\ 4\ro $ & $-2\le x<4$ & \rectaint{-2}{4}{p}{b} \\ \hline
+b) & $\lo -3,\ +\infty\ro $ & $x>-3$ & \rectaint{-3}{6.4}{b}{i} \\ \hline
+c) & $\lo -\infty,\ 1]$ & $x\le1$ & \rectaint{-6.4}{1}{i}{p} \\ \hline
+d) & $\lo -5,\ 0]$ & $-5<x\le0$ & \rectaint{-5}{0}{b}{p} \\ \hline
+e) & $[-4,\ 3]$ & $-4\le x\le3$ & \rectaint{-4}{3}{p}{p} \\ \hline
+f) & $\lo -\infty,\ -2\ro $ & $x<-2$ & \rectaint{-6.4}{-2}{i}{b} \\ \hline
+\end{tabular}\par}
+\smallskip
+\pas{a) El $-2$ está incluido (corchete cerrado, $\le$, punto lleno) y el 4 no (corchete abierto, $<$, punto vacío). \ b) Son los números mayores que $-3$, sin incluirlo. \ c) La flecha hacia la izquierda indica $-\infty$; el 1 tiene punto lleno, por tanto se incluye. \ d) El $-5$ no se incluye y el 0 sí. \ e) Los dos puntos son llenos: intervalo cerrado. \ f) Números menores que $-2$, sin el $-2$.}
+
+% -----------------------------------------------------
+\ex{Unión e intersección de intervalos}{Representa y calcula la unión y la intersección.}
+\recorda{Dibujamos los dos intervalos en la misma recta, uno encima del otro. La \textbf{unión} $\cup$ son los puntos que están en \emph{al menos uno} de los dos (todo lo que está pintado). La \textbf{intersección} $\cap$ son los puntos que están en \emph{los dos a la vez} (la parte donde se solapan). En cada extremo, miramos si ese punto está incluido en el intervalo que lo determina.}
+
+\ap{a} \pas{$A$ va de $-3$ (incluido) a 2 (no incluido) y $B$ de 0 (no incluido) a 5 (incluido). Se solapan entre 0 y 2. La unión empieza donde empieza $A$ (en $-3$, punto lleno) y acaba donde acaba $B$ (en 5, punto lleno). La intersección va de 0 a 2 y ninguno de los dos extremos pertenece a ella: el 0 no es de $B$ y el 2 no es de $A$.}
+\par\smallskip
+{\centering
+\begin{tabular}{@{}r@{\quad}l@{}}
+{\color{accent}$A$}, {\color{teal}$B$} & \rectados{{-3}{2}{p}{b}}{{0}{5}{b}{p}} \\[22pt]
+$A\cup B=\res{[-3,\ 5]}$ & \rectaint{-3}{5}{p}{p} \\[14pt]
+$A\cap B=\res{\lo 0,\ 2\ro }$ & \rectaint{0}{2}{b}{b}
+\end{tabular}\par}
+
+\ap{b} \pas{$C$ llega desde $-\infty$ hasta 1 (incluido) y $D$ va desde $-2$ (no incluido) hasta $+\infty$. Entre los dos cubren toda la recta, por tanto la unión es $\mathbb{R}$. Se solapan entre $-2$ y 1: el $-2$ no es de $D$ (punto vacío) y el 1 sí es de $C$ (punto lleno).}
+\par\smallskip
+{\centering
+\begin{tabular}{@{}r@{\quad}l@{}}
+{\color{accent}$C$}, {\color{teal}$D$} & \rectados{{-6.4}{1}{i}{p}}{{-2}{6.4}{b}{i}} \\[22pt]
+$C\cup D=\res{\lo -\infty,\ +\infty\ro =\mathbb{R}}$ & \rectaint{-6.4}{6.4}{i}{i} \\[14pt]
+$C\cap D=\res{\lo -2,\ 1]}$ & \rectaint{-2}{1}{b}{p}
+\end{tabular}\par}
+
+\ap{c} \pas{$E$ y $F$ están separados: entre $-1$ y 1 no hay ningún punto pintado. La unión no se puede escribir como un solo intervalo: se escriben los dos con el símbolo $\cup$. Como no tienen ningún punto en común, la intersección es el conjunto vacío.}
+\par\smallskip
+{\centering
+\begin{tabular}{@{}r@{\quad}l@{}}
+{\color{accent}$E$}, {\color{teal}$F$} & \rectados{{-5}{-1}{p}{b}}{{1}{4}{p}{b}} \\[22pt]
+$E\cup F=\res{[-5,\ -1\ro \cup[1,\ 4\ro }$ & \recta{\seg{accent}{0}{-5}{-1}{p}{b}\seg{accent}{0}{1}{4}{p}{b}} \\[14pt]
+$E\cap F=\res{\varnothing}$ & \recta{}
+\end{tabular}\par}
+
+% -----------------------------------------------------
+\ex{Conjuntos numéricos}{Indica el conjunto más pequeño al que pertenece cada número.}
+\recorda{$\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}$ \ y \ $\mathbb{I}\subset\mathbb{R}$. \textbf{Primero simplifica} el número (haz la raíz, la división\ldots) y después clasifícalo. $\mathbb{N}$: $1,2,3,\ldots$ \ $\mathbb{Z}$: también los negativos. \ $\mathbb{Q}$: se pueden escribir como fracción (decimales exactos y periódicos). \ $\mathbb{I}$: infinitas cifras decimales \emph{sin} periodo (raíces no exactas, $\pi$, \ldots). Un racional sumado o multiplicado por un irracional (no nulo) da irracional.}
+
+\begin{tasks}(2)
+  \task $-\dfrac{12}{4}=-3$: entero negativo $\Rightarrow\res{\mathbb{Z}}$
+  \task $\sqrt{49}=7$: natural $\Rightarrow\res{\mathbb{N}}$
+  \task $0,\overline{4}=\dfrac49$: decimal periódico puro $\Rightarrow\res{\mathbb{Q}}$
+  \task $\sqrt{20}=2\sqrt5$: 20 no es cuadrado perfecto, raíz no exacta $\Rightarrow\res{\mathbb{I}}$
+  \task $-\dfrac56$: fracción que no da un entero $\Rightarrow\res{\mathbb{Q}}$
+  \task $2\pi$: racional por irracional $\Rightarrow\res{\mathbb{I}}$
+  \task $\sqrt[3]{-8}=-2$, porque $(-2)^{3}=-8$ $\Rightarrow\res{\mathbb{Z}}$
+  \task $3,010\,010\,001\ldots$: infinitas cifras sin periodo (cada vez hay un cero más) $\Rightarrow\res{\mathbb{I}}$
+  \task $\sqrt{\dfrac{9}{16}}=\dfrac{\sqrt9}{\sqrt{16}}=\dfrac34$: fracción $\Rightarrow\res{\mathbb{Q}}$
+  \task $1+\sqrt2$: racional más irracional $\Rightarrow\res{\mathbb{I}}$
+  \task $7,25=\dfrac{725}{100}=\dfrac{29}{4}$: decimal exacto $\Rightarrow\res{\mathbb{Q}}$
+  \task $\dfrac{18}{6}=3$: natural $\Rightarrow\res{\mathbb{N}}$
+\end{tasks}
+
+\end{document}

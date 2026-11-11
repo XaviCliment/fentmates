@@ -133,6 +133,21 @@ edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
 
+### Versió en castellà de les fitxes
+
+Algunes fitxes tenen versió en castellà (de moment, les de 3r ESO de les unitats 1, 2 i 3): la font és
+el mateix nom acabat en `-es.tex` (p. ex. `t1-fitxa-exercicis-es.tex`) i el PDF es copia a
+`materials/<curs>/` acabat en `-es.pdf`. Usen `\usepackage[spanish,es-minimal,es-noshorthands]{babel}` i
+les metadades del PDF van dins de `\AtBeginDocument{\hypersetup{...}}` (amb «3.º» a les opcions de
+`hyperref` no compila). A `materials.js`, l'`url` porta els dos fitxers i la web mostra el de l'idioma triat
+(en anglés, el valencià):
+
+```js
+url: { va: "materials/3eso/t1-fitxa-exercicis.pdf", es: "materials/3eso/t1-fitxa-exercicis-es.pdf" }
+```
+
+Si canvies una fitxa que té versió en castellà, recorda canviar també el `-es.tex`.
+
 ## Apunts interactius generats
 
 Els apunts de 1r ESO es generen amb `_eines/apunts/1eso-tN/build.py` (contingut), `app.js` (ginys)
