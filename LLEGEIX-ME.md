@@ -222,8 +222,8 @@ python3 _eines/apunts/1batx-mi-t2/build.py
 cd _eines/fonts-latex/1batx-mi-t2 && python3 genera.py && pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex
 ```
 
-Els apunts de 1r Batx MI de la unitat 3 (Sistemes d'equacions i inequacions, carpeta `1batx-mi-t3`) tenen 5 apartats (3.1-3.5) i funcionen com els de la unitat 2.
-Els ginys de `app.js`: Gauss pas a pas (SCD, SCI i SI), recta i circumferència, i semiplans i regions. A `materials.js` la unitat porta `num: "3"` i és del bloc d'àlgebra.
+Els apunts de 1r Batx MI de la unitat 3 (Sistemes d'equacions i inequacions, carpeta `1batx-mi-t3`) tenen 6 apartats (3.1-3.6) i funcionen com els de la unitat 2.
+Els ginys de `app.js`: Gauss pas a pas (SCD, SCI i SI), recta i circumferència, inequació amb dues incògnites pas a pas, i semiplans i regions. Les rectes reals apilades dels exemples de 3.3 es defineixen a `STACKS` i les figures de 3.4 i 3.5, amb l'atribut `data-half` del contingut. A `materials.js` la unitat porta `num: "3"` i és del bloc d'àlgebra.
 La fitxa (`_eines/fonts-latex/1batx-mi-t3/genera.py`) té 32 exercicis (1-28 de la fitxa del departament, i una secció 6 amb 4 de nous); sympy calcula o comprova totes les solucions
 i es dibuixen les rectes de les inequacions i les regions:
 

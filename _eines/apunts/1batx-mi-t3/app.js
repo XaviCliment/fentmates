@@ -241,6 +241,51 @@
     return { upd: upd, reset: function (v) { shown = v == null ? 1 : v; upd(); } };
   }
 
+  /* ---------- 3.3 rectes reals una sobre l'altra ---------- */
+  // cada interval és [a, a inclòs, b, b inclòs]
+  var INF = Infinity, STACKS = {
+    a: { range: [-4, 5], rows: [{ l: "2x − 1 &lt; 5", S: [[-INF, 0, 3, 0]] }, { l: "x² − 4 ≥ 0", S: [[-INF, 0, -2, 1], [2, 1, INF, 0]] }], sol: [[-INF, 0, -2, 1], [2, 1, 3, 0]] },
+    b: { range: [-3, 4], rows: [{ l: "x − 2 &gt; 0", S: [[2, 0, INF, 0]] }, { l: "x + 1 &lt; 0", S: [[-INF, 0, -1, 0]] }], sol: [] }
+  };
+  function svgW(svg) { var w = svg.getBoundingClientRect().width; return w ? Math.max(300, Math.min(600, Math.round(w))) : 600; }
+  function nstack(d, showSol, W) {
+    var L = 92, R = W - 24, rowH = 36, top = 8, lo = d.range[0], hi = d.range[1];
+    var rows = d.rows.map(function (r, i) { return { l: r.l, S: r.S, c: [COL.a, COL.b][i] }; });
+    if (showSol) rows.push({ l: t3("Solució", "Solución", "Solution"), S: d.sol, c: COL.r, sol: true });
+    function X(v) { return L + (Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo) * (R - L); }
+    var ay = top + rows.length * rowH + 8, H = ay + 26, g = "", marks = {};
+    if (showSol) d.sol.forEach(function (I) { g += '<rect x="' + X(I[0]) + '" y="' + top + '" width="' + (X(I[2]) - X(I[0])) + '" height="' + (ay - top) + '" fill="' + COL.r + '" fill-opacity=".12"/>'; });
+    d.rows.forEach(function (r) { r.S.forEach(function (I) { [I[0], I[2]].forEach(function (v) { if (isFinite(v)) marks[v] = 1; }); }); });
+    Object.keys(marks).forEach(function (v) { g += '<line class="gd" x1="' + X(+v) + '" x2="' + X(+v) + '" y1="' + top + '" y2="' + ay + '"/>'; });
+    rows.forEach(function (r, i) {
+      var y = top + i * rowH + 18;
+      g += '<text class="lb" x="6" y="' + (y + 4) + '">' + r.l + "</text>";
+      g += '<line class="gl" x1="' + L + '" x2="' + R + '" y1="' + y + '" y2="' + y + '"/>';
+      if (r.sol && !r.S.length) g += '<text class="lb" x="' + (L + R) / 2 + '" y="' + (y - 5) + '" text-anchor="middle">∅</text>';
+      r.S.forEach(function (I) {
+        var x1 = X(I[0]), x2 = X(I[2]);
+        g += '<line x1="' + x1 + '" x2="' + x2 + '" y1="' + y + '" y2="' + y + '" stroke="' + r.c + '" stroke-width="5"/>';
+        if (I[0] === -INF) g += '<path d="M' + (L - 9) + " " + y + ' l11 -7 v14 z" fill="' + r.c + '"/>';
+        if (I[2] === INF) g += '<path d="M' + (R + 9) + " " + y + ' l-11 -7 v14 z" fill="' + r.c + '"/>';
+        [[I[0], I[1], x1], [I[2], I[3], x2]].forEach(function (e) {
+          if (isFinite(e[0])) g += '<circle cx="' + e[2] + '" cy="' + y + '" r="5.5" stroke="' + r.c + '" stroke-width="2.2"' + (e[1] ? ' fill="' + r.c + '"' : ' class="op"') + "/>";
+        });
+      });
+    });
+    g += '<line class="ax" x1="' + (L - 6) + '" x2="' + (R + 12) + '" y1="' + ay + '" y2="' + ay + '"/><path d="M' + (R + 16) + " " + ay + ' l-8 -4 v8 z" fill="var(--muted)"/>';
+    for (var v = lo; v <= hi; v++) g += '<line class="tk" x1="' + X(v) + '" x2="' + X(v) + '" y1="' + (ay - 5) + '" y2="' + (ay + 5) + '"/><text x="' + X(v) + '" y="' + (ay + 18) + '" text-anchor="middle">' + String(v).replace("-", "−") + "</text>";
+    return { svg: g, H: H };
+  }
+  function wStacks() {
+    document.querySelectorAll("svg[data-stack]").forEach(function (svg) {
+      var d = STACKS[svg.getAttribute("data-stack")], sol = svg.getAttribute("data-sol") === "1", last = 0;
+      function draw(force) { var W = svgW(svg); if (W === last && !force) return; last = W; var r = nstack(d, sol, W); svg.setAttribute("viewBox", "0 0 " + W + " " + r.H); svg.innerHTML = r.svg; }
+      onLang(function () { draw(true); });
+      // els passos amagats no tenen amplària: es torna a dibuixar quan apareixen o canvia la pantalla
+      if (window.ResizeObserver) new ResizeObserver(function () { draw(false); }).observe(svg);
+    });
+  }
+
   /* ---------- 3.1 mètode de Gauss ---------- */
   function wGauss() {
     var w = byId("w-gauss"); if (!w) return;
@@ -369,7 +414,7 @@
   }
 
 
-  /* ---------- 3.4 semiplans i sistemes ---------- */
+  /* ---------- 3.5 semiplans i sistemes ---------- */
   var OPT = { "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " };
   function clipHalf(P, A, B, C, s) {
     var out = [], n = P.length; if (!n) return out;
@@ -412,12 +457,11 @@
       [[1, 1, "<=", 4], [-1, 1, ">=", -2], [1, 0, ">=", 0], [0, 1, ">=", 0]],
       [[2, 1, "<", 4], [-1, 1, ">=", 0], null, null],
       [[1, 1, "<=", 6], [-1, 2, "<=", 0], [1, 0, ">=", 0], null],
-      [[0, 1, ">=", 3], [0, 1, "<=", 5], [1, 0, "<=", 6], [1, 0, ">=", 4]],
-      [[3, 4, "<=", 12], null, null, null]
+      [[0, 1, ">=", 3], [0, 1, "<=", 5], [1, 0, "<=", 6], [1, 0, ">=", 4]]
     ];
     function applyPre(k) { PRE[k].forEach(function (c, i) { R[i].cb.checked = !!c; if (c) { R[i].a.value = c[0]; R[i].b.value = c[1]; R[i].op.value = c[2]; R[i].c.value = c[3]; } }); }
     applyPre(0);
-    presetBtns($(w, "pre"), function () { return [t3("Exemple dels apunts", "Ejemplo de los apuntes", "Notes example"), "8 b)", "8 d)", "8 f)", "7 a)"]; }, function (k) { applyPre(k); draw(); }, 0);
+    presetBtns($(w, "pre"), function () { return [t3("Exemple dels apunts", "Ejemplo de los apuntes", "Notes example"), "8 b)", "8 d)", "8 f)"]; }, function (k) { applyPre(k); draw(); }, 0);
     function draw() {
       var cons = [], bad = false;
       R.forEach(function (r, i) {
@@ -456,6 +500,89 @@
     onLang(draw);
   }
 
+  /* ---------- 3.4 i 3.5: figures dels exemples ---------- */
+  function halfLine(G, c, V, col) {
+    var pts = Math.abs(c.b) > 1e-12 ? [[V[0] - 1, (c.c - c.a * (V[0] - 1)) / c.b], [V[1] + 1, (c.c - c.a * (V[1] + 1)) / c.b]] : [[c.c / c.a, V[2] - 1], [c.c / c.a, V[3] + 1]];
+    return '<line x1="' + G.X(pts[0][0]) + '" y1="' + G.Y(pts[0][1]) + '" x2="' + G.X(pts[1][0]) + '" y2="' + G.Y(pts[1][1]) + '" stroke="' + col + '" stroke-width="2.4"' + (c.op.length === 1 ? ' stroke-dasharray="7 5"' : "") + "/>";
+  }
+  function halfFill(G, P) { return P.length >= 3 ? '<path d="M' + P.map(function (p) { return G.X(p[0]).toFixed(1) + " " + G.Y(p[1]).toFixed(1); }).join("L") + 'Z" fill="' + COL.r + '" fill-opacity=".22"/>' : ""; }
+  function wFigs() {
+    var OP = { lt: "<", le: "<=", gt: ">", ge: ">=" }, CS = [COL.a, COL.b, COL.v, COL.k];
+    document.querySelectorAll("svg[data-half]").forEach(function (svg) {
+      var V = svg.getAttribute("data-view").split(",").map(Number);
+      var cons = svg.getAttribute("data-half").split(";").map(function (s) { var p = s.split(","); return { a: +p[0], b: +p[1], op: OP[p[2]], c: +p[3] }; });
+      var G = gview({ x0: V[0], x1: V[1], y0: V[2], y1: V[3], W: 320, H: 320, sx: 1, sy: 1 }), Cl = clipSvg(svg, G), g = G.g + Cl.open + halfFill(G, region(cons, V));
+      cons.forEach(function (c, i) { g += halfLine(G, c, V, CS[i % 4]); });
+      var pt = svg.getAttribute("data-pt");
+      if (pt) { var q = pt.split(",").map(Number); g += dot(G, q[0], q[1], q[2] ? COL.k : COL.r, 6); }
+      svg.setAttribute("viewBox", "0 0 320 320"); svg.innerHTML = g + Cl.close;
+    });
+  }
+
+  /* ---------- 3.4 inequació amb dues incògnites pas a pas ---------- */
+  function wSemi() {
+    var w = byId("w-semi"); if (!w) return;
+    var info = w.querySelector(".info"), svg = w.querySelector("svg"), ia = $(w, "a"), ib = $(w, "b"), ic = $(w, "c"), sel = $(w, "op"), st, res;
+    var SYM = { "<": "<", "<=": "≤", ">": ">", ">=": "≥" };
+    Object.keys(SYM).forEach(function (o) { sel.add(new Option(SYM[o], o)); });
+    var PRE = [[3, 4, "<=", 12], [-3, 4, ">=", 4], [2, 1, "<", 2], [1, -1, ">", -2]];
+    function set(p) { ia.value = p[0]; ib.value = p[1]; sel.value = p[2]; ic.value = p[3]; }
+    set(PRE[0]);
+    presetBtns($(w, "pre"), function () { return ["a", "b", "c", "d"].map(function (l) { return t3("Exercici 7", "Ejercicio 7", "Exercise 7") + l; }); }, function (k) { set(PRE[k]); read(); }, 0);
+    function calc(a, b, c, op) {
+      var P, x0;
+      if (b.zero()) { x0 = c.div(a); P = [[x0, F0], [x0, F1]]; }
+      else if (a.zero()) { x0 = c.div(b); P = [[F0, x0], [F1, x0]]; }
+      else if (c.zero()) P = [[F0, F0], [b, a.neg()]];
+      else P = [[c.div(a), F0], [F0, c.div(b)]];
+      var t = !c.zero() ? [0, 0] : !a.zero() ? [1, 0] : [0, 1], v = a.val() * t[0] + b.val() * t[1], cv = c.val();
+      return { a: a, b: b, c: c, op: op, P: P, t: t, v: v, holds: { "<": v < cv, "<=": v <= cv, ">": v > cv, ">=": v >= cv }[op] };
+    }
+    function read() {
+      var a = parseFr(ia.value || "0"), b = parseFr(ib.value || "0"), c = parseFr(ic.value || "0");
+      ia.classList.toggle("bad", !a); ib.classList.toggle("bad", !b); ic.classList.toggle("bad", !c);
+      res = a && b && c && !(a.zero() && b.zero()) ? calc(a, b, c, sel.value) : null;
+      st.reset(1);
+    }
+    function draw(k) {
+      var m = 6;
+      if (res) res.P.forEach(function (p) { m = Math.max(m, Math.ceil(Math.abs(p[0].val())) + 1, Math.ceil(Math.abs(p[1].val())) + 1); });
+      var V = [-m, m, -m, m], fine = m <= 8, G = gview({ x0: -m, x1: m, y0: -m, y1: m, W: 340, H: 340, sx: fine ? 1 : undefined, sy: fine ? 1 : undefined }), Cl = clipSvg(svg, G), g = G.g + Cl.open;
+      if (res) {
+        var c = { a: res.a.val(), b: res.b.val(), c: res.c.val(), op: res.op };
+        if (k >= 4) g += halfFill(G, region([c], V));
+        if (k >= 2) {
+          g += halfLine(G, c, V, COL.a);
+          res.P.forEach(function (p) { var x = p[0].val(), y = p[1].val(); var lb = y === 0 && x !== 0 ? ' x="' + G.X(x) + '" y="' + (G.Y(y) + 24) + '" text-anchor="middle"' : ' x="' + (G.X(x) + 7) + '" y="' + (G.Y(y) - 7) + '"';
+            g += dot(G, x, y, "var(--text)", 4) + "<text" + lb + ' style="fill:var(--text)">(' + nS(x) + ", " + nS(y) + ")</text>"; });
+        }
+        if (k >= 3) g += dot(G, res.t[0], res.t[1], res.holds ? COL.k : COL.r, 6);
+      }
+      svg.setAttribute("viewBox", "0 0 " + G.W + " " + G.H); svg.innerHTML = g + Cl.close;
+    }
+    function ptT(p) { return "(" + frT(p[0]) + ",\\," + frT(p[1]) + ")"; }
+    function subT() {
+      return [[res.a, res.t[0]], [res.b, res.t[1]]].filter(function (e) { return !e[0].zero(); }).map(function (e) { return (e[0].sgn() < 0 ? "(" + frT(e[0]) + ")" : frT(e[0])) + "\\cdot " + e[1]; }).join("+");
+    }
+    function show(k) {
+      if (!res) { info.innerHTML = t3("Revisa els coeficients (a i b no poden ser tots dos 0).", "Revisa los coeficientes (a y b no pueden ser ambos 0).", "Check the coefficients (a and b can't both be 0)."); draw(0); return; }
+      var c = { a: res.a.val(), b: res.b.val(), c: res.c.val(), op: res.op }, solid = res.op.length === 2, L = function (i) { return u("step") + " " + i; };
+      var rows = [[L(1), t3("Recta frontera: canviem la desigualtat per un igual.", "Recta frontera: cambiamos la desigualdad por un igual.", "Boundary line: replace the inequality sign with an equals sign.") + "<br>" + tex(consT({ a: c.a, b: c.b, c: c.c, op: "<=" }).replace("\\le ", "="))]];
+      if (k >= 2) rows.push([L(2), t3("Dos punts de la recta: ", "Dos puntos de la recta: ", "Two points on the line: ") + tex(ptT(res.P[0])) + t3(" i ", " y ", " and ") + tex(ptT(res.P[1])) + ".<br>" +
+        (solid ? t3("Recta contínua: la desigualtat inclou l'igual, els punts de la recta són solució.", "Recta continua: la desigualdad incluye el igual, los puntos de la recta son solución.", "Solid line: the inequality includes equality, so points on the line are solutions.")
+          : t3("Recta discontínua: la desigualtat és estricta, els punts de la recta no són solució.", "Recta discontinua: la desigualdad es estricta, los puntos de la recta no son solución.", "Dashed line: the inequality is strict, so points on the line are not solutions."))]);
+      if (k >= 3) rows.push([L(3), t3("Punt de prova ", "Punto de prueba ", "Test point ") + tex("(" + res.t.join(",\\,") + ")") + ":<br>" + tex(subT() + "=" + nT(res.v) + OPT[res.op] + nT(c.c)) + " " + ok(res.holds)]);
+      if (k >= 4) rows.push([L(4), res.holds ? t3("El punt compleix la inequació: la solució és el semiplà que el conté.", "El punto cumple la inecuación: la solución es el semiplano que lo contiene.", "The point satisfies the inequality: the solution is the half-plane containing it.")
+        : t3("El punt no compleix la inequació: la solució és el semiplà que no el conté.", "El punto no cumple la inecuación: la solución es el semiplano que no lo contiene.", "The point does not satisfy the inequality: the solution is the half-plane not containing it.")]);
+      info.innerHTML = kv(rows);
+      draw(k);
+    }
+    [ia, ib, ic].forEach(function (e) { e.addEventListener("input", read); });
+    sel.addEventListener("change", read);
+    st = stepper(w, function () { return res ? 4 : 0; }, show);
+    read(); onLang(function () { st.upd(); });
+  }
+
   /* ---------- autoavaluació ---------- */
   function q3(va, es, en) { return { va: va, es: es === undefined ? va : es, en: en === undefined ? va : en }; }
   var QUIZ = [
@@ -491,7 +618,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wGauss, wNl, wHalf, wQuiz];
+    var all = [wChrome, wSteps, wNav, wStacks, wFigs, wGauss, wNl, wSemi, wHalf, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
   }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);

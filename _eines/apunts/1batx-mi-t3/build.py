@@ -3,7 +3,7 @@ import os, re, sys, glob
 # Genera materials/1batx-mi/t3-sistemes-inequacions.html. Ús: python3 _eines/apunts/1batx-mi-t3/build.py
 # Com les unitats 1, 2 i 4 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
-# taules, botons). Els ginys (Gauss, recta i circumferència, i semiplans)
+# taules, botons). Els ginys (Gauss, recta i circumferència, rectes reals apilades, inequació pas a pas i semiplans)
 # són a app.js i l'estil propi a extra.css.
 # El contingut és a contingut-*.html (en ordre). Les convencions ⟪va‖es‖en⟫, ⟦va‖es‖en⟧ i \SI són les mateixes que a la unitat 4.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -12,7 +12,7 @@ T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/1batx-mi/t3-sistemes-inequacions.html")
-NSEC = 5
+NSEC = 6
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'
