@@ -350,7 +350,7 @@
       var A = fld.get(), C = consOf(A, []), S = solveSet(C), G = plane(-8, 8, -6, 6, 2), h = G.g + G.open;
       h += curve(G, function (x) { return ev(A, x); }, AC, { n: 1600 });
       var rows = [["\\(f\\)".replace(/\\\(|\\\)/g, ""), tex("f(x)=" + toT(A))]];
-      if (!S) rows.push([t3("Domini", "Dominio", "Domain"), t3("Té funcions trigonomètriques: el domini es treballa a l'apartat 7.13.", "Tiene funciones trigonométricas: el dominio se trabaja en el apartado 7.13.", "It has trigonometric functions: see section 7.13 for the domain.")]);
+      if (!S) rows.push([t3("Domini", "Dominio", "Domain"), t3("Té funcions trigonomètriques: el domini d'aquestes funcions es veu a la unitat 8 (apartat 8.7).", "Tiene funciones trigonométricas: el dominio de estas funciones se ve en la unidad 8 (apartado 8.7).", "It has trigonometric functions: their domain is covered in unit 8 (section 8.7).")]);
       else {
         if (!C.length) rows.push([t3("Condicions", "Condiciones", "Conditions"), t3("Cap: no hi ha denominadors amb x, ni arrels d'índex parell, ni logaritmes.", "Ninguna: no hay denominadores con x, ni raíces de índice par, ni logaritmos.", "None: no denominators containing x, even roots or logarithms.")]);
         C.forEach(function (c, i) { var one = solveSet([c]); rows.push([t3("Condició ", "Condición ", "Condition ") + (i + 1), tex(toT(c.g) + NM[c.k] + "0") + small(why(c)) + "<br>" + tex("\\Rightarrow\\ " + setT(one))]); });
@@ -498,242 +498,53 @@
     onLang(draw);
   }
 
-  /* ---------- 7.7 recta per dos punts ---------- */
-  function wLin() {
-    var w = byId("w-lin"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), P = [{ x: 1, y: 3 }, { x: 3, y: 7 }];
-    var G = plane(-6, 6, -6, 8, 1);
-    dragger(svg, function () { return G; }, function () { return P; }, function (i, d) { var x = Math.max(-6, Math.min(6, Math.round(d.x))), y = Math.max(-6, Math.min(8, Math.round(d.y))); if (P[i].x !== x || P[i].y !== y) { P[i].x = x; P[i].y = y; draw(); } });
-    function draw() {
-      var A = P[0], B = P[1], h = G.g + G.open, dx = B.x - A.x, dy = B.y - A.y, rows = [["A", tex("(" + A.x + ",\\," + A.y + ")")], ["B", tex("(" + B.x + ",\\," + B.y + ")")]];
-      if (!dx) {
-        h += vdash(G, A.x);
-        rows.push([t3("Recta", "Recta", "Line"), tex(dy ? "x=" + A.x : "\\text{A = B}") + small(t3("Una recta vertical no és una funció: el pendent no existeix.", "Una recta vertical no es una función: la pendiente no existe.", "A vertical line isn't a function: the slope doesn't exist."))]);
-      } else {
-        var m = Fr(dy, dx), n = fSub(A.y, fMul(m, A.x)), mv = fVal(m), nv = fVal(n);
-        h += curve(G, function (x) { return mv * x + nv; }, AC, { n: 20 }) + '<line class="gd" x1="' + f1(G.X(A.x)) + '" y1="' + f1(G.Y(A.y)) + '" x2="' + f1(G.X(B.x)) + '" y2="' + f1(G.Y(A.y)) + '"/><line class="gd" x1="' + f1(G.X(B.x)) + '" y1="' + f1(G.Y(A.y)) + '" x2="' + f1(G.X(B.x)) + '" y2="' + f1(G.Y(B.y)) + '"/>';
-        var pp = "y=" + A.y + (m.n ? (m.n > 0 ? "+" : "-") + (Math.abs(fVal(m)) === 1 ? "" : fT(Fr(Math.abs(m.n), m.d))) + "\\left(x" + sgnT(-A.x) + "\\right)" : "");
-        rows.push([t3("Pendent", "Pendiente", "Slope"), tex("m=\\dfrac{" + B.y + (A.y < 0 ? "+" + -A.y : "-" + A.y) + "}{" + B.x + (A.x < 0 ? "+" + -A.x : "-" + A.x) + "}=" + fT(m))]);
-        rows.push([t3("Punt-pendent", "Punto-pendiente", "Point-slope"), tex(pp)]);
-        rows.push([t3("Explícita", "Explícita", "Slope-intercept"), "<strong>" + tex("y=" + polyT([n, m])) + "</strong>"]);
-        rows.push([t3("Tipus", "Tipo", "Type"), !m.n ? t3("Constant", "Constante", "Constant") : !n.n ? t3("Lineal, ", "Lineal, ", "Linear, ") + (m.n > 0 ? t3("creixent", "creciente", "increasing") : t3("decreixent", "decreciente", "decreasing")) : t3("Afí, ", "Afín, ", "Affine, ") + (m.n > 0 ? t3("creixent", "creciente", "increasing") : t3("decreixent", "decreciente", "decreasing"))]);
-      }
-      P.forEach(function (p, i) { h += '<circle class="halo" cx="' + f1(G.X(p.x)) + '" cy="' + f1(G.Y(p.y)) + '" r="16"/><circle class="pt drag" cx="' + f1(G.X(p.x)) + '" cy="' + f1(G.Y(p.y)) + '" r="7" style="fill:' + BL + '"/>' + gtext(G, p.x, p.y, "AB"[i], BL, 12, -8); });
-      svg.innerHTML = h + G.close; info.innerHTML = kv(rows);
-    }
-    onLang(draw);
-  }
-
-  /* ---------- 7.8 quadràtica i cúbica ---------- */
-  function wQuad() {
-    var w = byId("w-quad"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), S = {};
-    ["a", "b", "c"].forEach(function (k) { S[k] = $(w, k); S[k].addEventListener("input", draw); });
-    function draw() {
-      var a = +S.a.value, b = +S.b.value, c = +S.c.value; if (!a) { a = .5; S.a.value = .5; }
-      ["a", "b", "c"].forEach(function (k) { $(w, k + "v").innerHTML = dT(+S[k].value, 1); });
-      var af = Fr(Math.round(a * 2), 2), vx = fDiv(-b, fMul(2, af)), vy = fAdd(fAdd(fMul(af, fMul(vx, vx)), fMul(b, vx)), c), xv = fVal(vx), yv = fVal(vy), D = b * b - 4 * a * c;
-      var G = plane(-8, 8, -8, 8, 2), f = function (x) { return a * x * x + b * x + c; }, h = G.g + G.open + vdash(G, xv) + curve(G, f, GR, { n: 500 });
-      var rts = D > 1e-9 ? [(-b - Math.sqrt(D)) / (2 * a), (-b + Math.sqrt(D)) / (2 * a)].sort(function (p, q) { return p - q; }) : Math.abs(D) <= 1e-9 ? [-b / (2 * a)] : [];
-      h += gdot(G, 0, c, GR); rts.forEach(function (r) { h += gdot(G, r, 0, BL); }); h += gdot(G, xv, yv, VI);
-      svg.innerHTML = h + G.close;
-      info.innerHTML = kv([
-        ["", tex("f(x)=" + polyT([Fr(c), Fr(b), af]))],
-        [t3("Forma", "Forma", "Shape"), a > 0 ? t3("Còncava ∪ (a > 0)", "Cóncava ∪ (a > 0)", "Concave up ∪ (a > 0)") : t3("Convexa ∩ (a < 0)", "Convexa ∩ (a < 0)", "Concave down ∩ (a < 0)")],
-        [t3("Vèrtex", "Vértice", "Vertex"), tex("V_x=\\dfrac{-b}{2a}=" + fT(vx) + ",\\ \\ V_y=f(V_x)=" + fT(vy))],
-        [t3("Eix de simetria", "Eje de simetría", "Axis"), tex("x=" + fT(vx))],
-        [t3("Tall eix OY", "Corte eje OY", "y-intercept"), tex("(0,\\ " + dT(c, 1) + ")")],
-        [t3("Talls eix OX", "Cortes eje OX", "x-intercepts"), rts.length ? rts.map(function (r) { return tex("(" + niceT(snap(r)) + ",\\ 0)"); }).join(", ") : t3("No en té (Δ < 0)", "No tiene (Δ < 0)", "None (Δ < 0)")],
-        [t3("Recorregut", "Recorrido", "Range"), tex(a > 0 ? "\\left[" + fT(vy) + ",\\,+\\infty\\right[" : "\\left]-\\infty,\\," + fT(vy) + "\\right]")]
-      ]);
-    }
-    onLang(draw);
-  }
-  function wCub() {
-    var w = byId("w-cub"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), S = {};
-    ["a", "b", "c", "d"].forEach(function (k) { S[k] = $(w, k); S[k].addEventListener("input", draw); });
-    function draw() {
-      var a = +S.a.value, b = +S.b.value, c = +S.c.value, d = +S.d.value; if (!a) { a = .5; S.a.value = .5; }
-      ["a", "b", "c", "d"].forEach(function (k) { $(w, k + "v").innerHTML = dT(+S[k].value, 1); });
-      var f = function (x) { return ((a * x + b) * x + c) * x + d; }, G = plane(-6, 6, -8, 8, 2), h = G.g + G.open + curve(G, f, GR, { n: 500 }), rts = rootsF(f, -40, 40);
-      rts.forEach(function (r) { h += gdot(G, r, 0, BL); }); h += gdot(G, 0, d, OR);
-      var D2 = b * b - 3 * a * c;
-      svg.innerHTML = h + G.close;
-      info.innerHTML = kv([
-        ["", tex("f(x)=" + polyT([Fr(Math.round(d * 2), 2), Fr(Math.round(c * 2), 2), Fr(Math.round(b * 2), 2), Fr(Math.round(a * 2), 2)]))],
-        [t3("Extrems de la gràfica", "Extremos de la gráfica", "Ends of the graph"), a > 0 ? t3("Baixa a l'esquerra i puja a la dreta (a > 0)", "Baja a la izquierda y sube a la derecha (a > 0)", "Falls on the left, rises on the right (a > 0)") : t3("Puja a l'esquerra i baixa a la dreta (a < 0)", "Sube a la izquierda y baja a la derecha (a < 0)", "Rises on the left, falls on the right (a < 0)")],
-        [t3("Domini i recorregut", "Dominio y recorrido", "Domain and range"), tex("D(f)=\\mathbb R,\\ \\ R(f)=\\mathbb R")],
-        [t3("Talls eix OX", "Cortes eje OX", "x-intercepts"), "<strong>" + rts.length + "</strong> " + (rts.length ? tex("x\\approx " + rts.map(function (r) { return dT(r, 2); }).join(",\\ ")) : "")],
-        [t3("Màxim i mínim relatius", "Máximo y mínimo relativos", "Turning points"), D2 > 1e-9 ? t3("Sí: té un màxim i un mínim relatius", "Sí: tiene un máximo y un mínimo relativos", "Yes: one local max and one local min") : t3("No: sempre " + (a > 0 ? "creixent" : "decreixent"), "No: siempre " + (a > 0 ? "creciente" : "decreciente"), "No: always " + (a > 0 ? "increasing" : "decreasing"))]
-      ]);
-    }
-    onLang(draw);
-  }
-
-  /* ---------- 7.9-7.12 laboratoris de translacions ---------- */
-  var BASES = [{ v: 1 / 3, t: "\\frac13" }, { v: .5, t: "\\frac12" }, { v: 2, t: "2" }, { v: 3, t: "3" }, { v: Math.E, t: "e" }, { v: 10, t: "10" }];
-  function wTrans(id, kind) {
-    var w = byId(id); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), ctl = [].slice.call(w.querySelectorAll("[data-role]")).filter(function (e) { return e.tagName === "INPUT"; }), v = {};
-    ctl.forEach(function (e) { e.addEventListener(e.type === "checkbox" ? "change" : "input", draw); });
-    function inc() { return t3("Creixent", "Creciente", "Increasing"); } function dec() { return t3("Decreixent", "Decreciente", "Decreasing"); }
-    var IR = "\\mathbb R", MO = t3("Monotonia", "Monotonía", "Monotonicity"), DO = t3("Domini", "Dominio", "Domain"), RE = t3("Recorregut", "Recorrido", "Range");
-    function draw() {
-      IR = "\\mathbb R"; MO = t3("Monotonia", "Monotonía", "Monotonicity"); DO = t3("Domini", "Dominio", "Domain"); RE = t3("Recorregut", "Recorrido", "Range");
-      ctl.forEach(function (e) { var r = e.getAttribute("data-role"); v[r] = e.type === "checkbox" ? e.checked : +e.value; var o = $(w, r + "v"); if (o) o.innerHTML = kind !== "rad" && r === "a" ? tex(BASES[v.a].t) : numT(v[r]); });
-      var G = plane(-8, 8, -8, 8, 2), h = G.g + G.open, f, base, rows, h0 = v.h, v0 = v.v, ref;
-      var xh = function (s) { return "x" + sgnT(s); };
-      if (kind === "rac") {
-        if (!v.k) { v.k = 1; $(w, "k").value = 1; $(w, "kv").innerHTML = "1"; }
-        f = function (x) { return Math.abs(x - h0) < 1e-9 ? NaN : v.k / (x - h0) + v0; }; base = function (x) { return x ? v.k / x : NaN; };
-        h += vdash(G, h0) + hdash(G, v0);
-        rows = [["", tex("y=\\dfrac{" + v.k + "}{" + xh(-h0) + "}" + sgnT(v0))], [t3("Asímptota vertical", "Asíntota vertical", "Vertical asymptote"), tex("x=" + h0)], [t3("Asímptota horitzontal", "Asíntota horizontal", "Horizontal asymptote"), tex("y=" + v0)], [DO, tex(IR + "-\\{" + h0 + "\\}")], [RE, tex(IR + "-\\{" + v0 + "\\}")], [MO, (v.k > 0 ? dec() : inc()) + t3(" a cada branca", " en cada rama", " on each branch")]];
-      } else if (kind === "rad") {
-        var sx = v.sx ? -1 : 1, sy = v.sy ? -1 : 1;
-        f = function (x) { var u = sy * (x - h0); return u < -1e-9 ? NaN : sx * Math.sqrt(Math.max(u, 0)) + v0; }; base = function (x) { return x < 0 ? NaN : Math.sqrt(x); };
-        ref = [h0, v0];
-        rows = [["", tex("y=" + (sx < 0 ? "-" : "") + "\\sqrt{" + (sy < 0 ? "-x" : "x") + sgnT(-sy * h0) + "}" + sgnT(v0))], [t3("Punt inicial", "Punto inicial", "Starting point"), tex("(" + h0 + ",\\ " + v0 + ")")], [DO, tex(sy > 0 ? "\\left[" + h0 + ",\\,+\\infty\\right[" : "\\left]-\\infty,\\," + h0 + "\\right]")], [RE, tex(sx > 0 ? "\\left[" + v0 + ",\\,+\\infty\\right[" : "\\left]-\\infty,\\," + v0 + "\\right]")], [MO, sx * sy > 0 ? inc() : dec()]];
-      } else if (kind === "exp") {
-        var a = BASES[v.a], s = v.s ? -1 : 1, bt = a.v < 1 ? "\\left(" + a.t + "\\right)" : a.t;
-        f = function (x) { return s * Math.pow(a.v, x + h0) + v0; }; base = function (x) { return Math.pow(a.v, x); };
-        h += hdash(G, v0); ref = [-h0, s + v0];
-        rows = [["", tex("y=" + (s < 0 ? "-" : "") + bt + "^{" + xh(h0) + "}" + sgnT(v0))], [t3("Asímptota horitzontal", "Asíntota horizontal", "Horizontal asymptote"), tex("y=" + v0)], [t3("Punt de referència", "Punto de referencia", "Reference point"), tex("(" + -h0 + ",\\ " + (s + v0) + ")")], [DO, tex(IR)], [RE, tex(s > 0 ? "\\left]" + v0 + ",\\,+\\infty\\right[" : "\\left]-\\infty,\\," + v0 + "\\right[")], [MO, s * (a.v > 1 ? 1 : -1) > 0 ? inc() : dec()]];
-      } else {
-        var b = BASES[v.a], sg = v.s ? -1 : 1;
-        f = function (x) { return x + h0 <= 1e-9 ? NaN : sg * Math.log(x + h0) / Math.log(b.v) + v0; }; base = function (x) { return x <= 0 ? NaN : Math.log(x) / Math.log(b.v); };
-        h += vdash(G, -h0); ref = [1 - h0, v0];
-        var nm = b.v === Math.E ? "\\ln" : b.v === 10 ? "\\log" : "\\log_{" + b.t + "}";
-        rows = [["", tex("y=" + (sg < 0 ? "-" : "") + nm + "\\left(" + xh(h0) + "\\right)" + sgnT(v0))], [t3("Asímptota vertical", "Asíntota vertical", "Vertical asymptote"), tex("x=" + -h0)], [t3("Punt de referència", "Punto de referencia", "Reference point"), tex("(" + (1 - h0) + ",\\ " + v0 + ")")], [DO, tex("\\left]" + -h0 + ",\\,+\\infty\\right[")], [RE, tex(IR)], [MO, sg * (b.v > 1 ? 1 : -1) > 0 ? inc() : dec()]];
-      }
-      h += curve(G, base, MU, { dash: "5 5", w: 1.8, n: 1500 }) + curve(G, f, AC, { n: 1800 });
-      if (ref) h += gdot(G, ref[0], ref[1], BL);
-      svg.innerHTML = h + G.close;
-      info.innerHTML = kv(rows);
-    }
-    onLang(draw);
-  }
-  function wDiv() {
-    var w = byId("w-div"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), S = {};
-    ["a", "b", "c", "d"].forEach(function (k) { S[k] = $(w, k); S[k].addEventListener("input", draw); });
-    function draw() {
-      var a = parseInt(S.a.value, 10), b = parseInt(S.b.value, 10), c = parseInt(S.c.value, 10), d = parseInt(S.d.value, 10);
-      if ([a, b, c, d].some(isNaN) || !c) { info.innerHTML = t3("Escriu quatre enters, amb c ≠ 0.", "Escribe cuatro enteros, con c ≠ 0.", "Type four integers, with c ≠ 0."); return; }
-      var q = Fr(a, c), r = fSub(b, fMul(q, d)), h0 = Fr(-d, c), k = fDiv(r, c), qv = fVal(q), hv = fVal(h0), kv0 = fVal(k), G = plane(-8, 8, -8, 8, 2), h = G.g + G.open;
-      var num = polyT([Fr(b), Fr(a)]), den = polyT([Fr(d), Fr(c)]), rows = [["", tex("y=\\dfrac{" + num + "}{" + den + "}")]];
-      if (!r.n) { h += curve(G, function (x) { return Math.abs(x - hv) < 1e-6 ? NaN : qv; }, AC, { n: 800 }) + odot(G, hv, qv, AC); rows.push([t3("Divisió", "División", "Division"), t3("El residu és 0: la funció és constant, amb un forat.", "El resto es 0: la función es constante, con un agujero.", "The remainder is 0: the function is constant with a hole.")]); rows.push(["", tex("y=" + fT(q) + ",\\ x\\neq " + fT(h0))]); }
-      else {
-        var shift = "x" + (h0.n ? (h0.n > 0 ? "-" : "+") + fT(Fr(Math.abs(h0.n), h0.d)) : ""), form = "\\dfrac{" + fT(k) + "}{" + shift + "}" + (q.n ? (q.n > 0 ? "+" : "-") + fT(Fr(Math.abs(q.n), q.d)) : "");
-        h += vdash(G, hv) + hdash(G, qv) + curve(G, function (x) { return Math.abs(x - hv) < 1e-9 ? NaN : kv0 / (x - hv) + qv; }, AC, { n: 1600 });
-        rows.push([t3("Quocient", "Cociente", "Quotient"), tex("\\dfrac{a}{c}=" + fT(q))]);
-        rows.push([t3("Residu", "Resto", "Remainder"), tex(fT(r))]);
-        rows.push([t3("Translació", "Traslación", "Translation"), "<strong>" + tex("y=" + form) + "</strong>"]);
-        rows.push([t3("Asímptotes", "Asíntotas", "Asymptotes"), tex("x=" + fT(h0) + ",\\ \\ y=" + fT(q))]);
-      }
-      svg.innerHTML = h + G.close; info.innerHTML = kv(rows);
-    }
-    onLang(draw);
-  }
-
-  /* ---------- 7.13 trigonomètriques ---------- */
-  function wTrig() {
-    var w = byId("w-trig"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), sl = $(w, "x"), cur = 0, PI = Math.PI;
-    var FN = [{ f: Math.sin, n: "\\sin x", c: GR }, { f: Math.cos, n: "\\cos x", c: BL }, { f: function (x) { return Math.abs(Math.cos(x)) < 1e-9 ? NaN : Math.tan(x); }, n: "\\tan x", c: OR }];
-    presetBtns($(w, "pre"), function () { return FN.map(function (o) { return tex("y=" + o.n); }); }, function (i) { cur = i; draw(); }, 0);
-    sl.addEventListener("input", draw);
-    function draw() {
-      var o = FN[cur], k = +sl.value, x = k * PI / 12, y = o.f(x), G = gview({ x0: -2 * PI - .3, x1: 2 * PI + .3, y0: -4, y1: 4, sy: 1, W: 360, H: 240, xt: piTicks(-2 * PI, 2 * PI, .5).map(function (t) { return [t[0], Math.round(Math.abs(t[0] / PI) * 2) % 2 ? "" : t[1]]; }) });
-      var h = G.g + G.open; if (cur === 2) [-3, -1, 1, 3].forEach(function (q) { h += vdash(G, q * PI / 2); });
-      h += curve(G, o.f, o.c, { n: 1800 });
-      if (isFinite(y)) h += '<line class="gd" x1="' + f1(G.X(x)) + '" y1="' + f1(G.Y(0)) + '" x2="' + f1(G.X(x)) + '" y2="' + f1(G.Y(y)) + '"/>' + gdot(G, x, y, AC);
-      svg.innerHTML = h + G.close;
-      var xt = piT(Fr(k, 12)), D = ["\\mathbb R", "\\mathbb R", "\\mathbb R-\\left\\{\\dfrac\\pi2+\\pi k\\right\\}"][cur], R = ["[-1,\\,1]", "[-1,\\,1]", "\\mathbb R"][cur];
-      info.innerHTML = kv([
-        [t3("Punt", "Punto", "Point"), tex("x=" + xt) + (isFinite(y) ? "<br>" + tex("y" + apx(y, 3)) : "<br>" + t3("La tangent no existeix ací.", "La tangente no existe aquí.", "The tangent is undefined here."))],
-        [t3("Domini", "Dominio", "Domain"), tex(D)], [t3("Recorregut", "Recorrido", "Range"), tex(R)],
-        [t3("Període", "Periodo", "Period"), tex(cur === 2 ? "\\pi" : "2\\pi")],
-        [t3("Màxims", "Máximos", "Maxima"), [tex("\\left(\\dfrac\\pi2+2\\pi k,\\ 1\\right)"), tex("\\left(2\\pi k,\\ 1\\right)"), t3("No en té", "No tiene", "None")][cur]],
-        [t3("Mínims", "Mínimos", "Minima"), [tex("\\left(\\dfrac{3\\pi}2+2\\pi k,\\ -1\\right)"), tex("\\left(\\pi+2\\pi k,\\ -1\\right)"), t3("No en té", "No tiene", "None")][cur]],
-        [t3("Simetria", "Simetría", "Symmetry"), [t3("Senar", "Impar", "Odd"), t3("Parella", "Par", "Even"), t3("Senar", "Impar", "Odd")][cur]]
-      ]);
-    }
-    onLang(draw);
-  }
-
-  /* ---------- 7.14 a trossos i valor absolut ---------- */
-  function wTros() {
-    var w = byId("w-tros"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), nx = $(w, "next"), rs = $(w, "reset"), cur = 0, st = 0, I = Infinity;
-    var PR = [
-      [{ s: "-x+1", a: -I, b: -2, ac: false, bc: false }, { s: "x^2-x-2", a: -2, b: 3, ac: true, bc: true }, { s: "2", a: 3, b: I, ac: false, bc: false }],
-      [{ s: "x^2", a: -I, b: 2, ac: false, bc: false }, { s: "4", a: 2, b: I, ac: false, bc: false }],
-      [{ s: "x+3", a: -I, b: -1, ac: false, bc: true }, { s: "x^2", a: -1, b: 2, ac: false, bc: false }, { s: "6-x", a: 2, b: I, ac: true, bc: false }]
+  /* ---------- 7.7 translacions ---------- */
+  function wTr() {
+    var w = byId("w-tr"); if (!w) return;
+    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), sh = $(w, "h"), sk = $(w, "k"), cur = 0;
+    function P(s) { return "\\left(" + s + "\\right)"; }
+    function iv(a, b, ca, cb) { return (ca ? "\\left[" : "\\left]") + a + ",\\," + b + (cb ? "\\right]" : "\\right["); }
+    var B = [
+      { t: "x^2", e: function (u, h) { return (h ? P(u) : u) + "^2"; }, f: function (x) { return x * x; }, p: [0, 0], pn: function () { return t3("Vèrtex", "Vértice", "Vertex"); },
+        D: function () { return "\\mathbb R"; }, R: function (h, k) { return iv(numT(k), "+\\infty", true, false); } },
+      { t: "|x|", e: function (u) { return "\\left|" + u + "\\right|"; }, f: Math.abs, p: [0, 0], pn: function () { return t3("Vèrtex", "Vértice", "Vertex"); },
+        D: function () { return "\\mathbb R"; }, R: function (h, k) { return iv(numT(k), "+\\infty", true, false); } },
+      { t: "\\sqrt x", e: function (u) { return "\\sqrt{" + u + "}"; }, f: function (x) { return x < 0 ? NaN : Math.sqrt(x); }, p: [0, 0], pn: function () { return t3("Punt inicial", "Punto inicial", "Starting point"); },
+        D: function (h) { return iv(numT(h), "+\\infty", true, false); }, R: function (h, k) { return iv(numT(k), "+\\infty", true, false); } },
+      { t: "\\dfrac1x", e: function (u) { return "\\dfrac{1}{" + u + "}"; }, f: function (x) { return Math.abs(x) < 1e-9 ? NaN : 1 / x; }, p: null, as: [0, 0],
+        D: function (h) { return "\\mathbb R-\\{" + numT(h) + "\\}"; }, R: function (h, k) { return "\\mathbb R-\\{" + numT(k) + "\\}"; } },
+      { t: "x^3", e: function (u, h) { return (h ? P(u) : u) + "^3"; }, f: function (x) { return x * x * x; }, p: [0, 0], pn: function () { return t3("Punt (0, 0)", "Punto (0, 0)", "Point (0, 0)"); },
+        D: function () { return "\\mathbb R"; }, R: function () { return "\\mathbb R"; } },
+      { t: "2^x", e: function (u) { return "2^{" + u + "}"; }, f: function (x) { return Math.pow(2, x); }, p: [0, 1], ah: 0, pn: function () { return t3("Punt (0, 1)", "Punto (0, 1)", "Point (0, 1)"); },
+        D: function () { return "\\mathbb R"; }, R: function (h, k) { return iv(numT(k), "+\\infty", false, false); } }
     ];
-    PR.forEach(function (p) { p.forEach(function (q) { q.ast = parseF(q.s); q.t = toT(q.ast); }); });
-    presetBtns($(w, "pre"), function () { return PR.map(function (p, i) { return t3("Exemple ", "Ejemplo ", "Example ") + (i + 1); }); }, function (i) { cur = i; st = 0; draw(); }, 0);
-    nx.addEventListener("click", function () { if (st < PR[cur].length + 1) { st++; draw(); } });
-    rs.addEventListener("click", function () { st = 0; draw(); });
-    function cond(q) { var a = isFinite(q.a), b = isFinite(q.b), SI = t3("\\text{si }", "\\text{si }", "\\text{if }"); if (a && !b) return SI + "x" + (q.ac ? "\\ge " : "\\gt ") + niceT(q.a); return SI + (a ? niceT(q.a) + (q.ac ? "\\le " : "\\lt ") : "") + "x" + (b ? (q.bc ? "\\le " : "\\lt ") + niceT(q.b) : ""); }
+    presetBtns($(w, "pre"), function () { return B.map(function (b) { return tex("y=" + b.t); }); }, function (i) { cur = i; draw(); }, 0);
+    sh.addEventListener("input", draw); sk.addEventListener("input", draw);
+    function mv(v, pos, neg) { return !v ? t3("cap", "ninguna", "none") : numT(Math.abs(v)) + " " + (v > 0 ? pos : neg); }
     function draw() {
-      var P = PR[cur], G = plane(-7, 8, -5, 10, 1), h = G.g + G.open, rows = [["", tex("f(x)=\\begin{cases}" + P.map(function (q) { return q.t + ", & " + cond(q); }).join("\\\\") + "\\end{cases}")]];
-      var brk = []; P.forEach(function (q) { if (isFinite(q.b)) brk.push(q.b); });
-      if (st >= 1) brk.forEach(function (c) { h += vdash(G, c); });
-      var shown = Math.max(0, Math.min(P.length, st - 1));
-      P.slice(0, shown).forEach(function (q) {
-        var f = function (x) { return ev(q.ast, x); }, a = Math.max(q.a, -7), b = Math.min(q.b, 8);
-        h += curve(G, f, AC, { a: a, b: b, n: 400 });
-        if (isFinite(q.a)) h += q.ac ? gdot(G, q.a, f(q.a), AC) : odot(G, q.a, f(q.a), AC);
-        if (isFinite(q.b)) h += q.bc ? gdot(G, q.b, f(q.b), AC) : odot(G, q.b, f(q.b), AC);
-      });
-      var msg;
-      if (st === 0) msg = t3("Prem «Següent pas» per a començar.", "Pulsa «Siguiente paso» para empezar.", "Press “Next step” to start.");
-      else if (st === 1) msg = t3("1r pas: marquem els punts on hi ha un canvi de funció: ", "1.er paso: marcamos los puntos donde hay un cambio de función: ", "Step 1: mark the points where the function changes: ") + tex("x=" + brk.map(niceT).join(",\\ x="));
-      else if (st <= P.length + 1) {
-        var q = P[st - 2], f = function (x) { return ev(q.ast, x); }, ends = [];
-        if (isFinite(q.a)) ends.push(tex("f(" + niceT(q.a) + ")=" + niceT(f(q.a))) + (q.ac ? t3(" (punt ple)", " (punto lleno)", " (filled)") : t3(" (punt buit)", " (punto vacío)", " (open)")));
-        if (isFinite(q.b)) ends.push(tex("f(" + niceT(q.b) + ")=" + niceT(f(q.b))) + (q.bc ? t3(" (punt ple)", " (punto lleno)", " (filled)") : t3(" (punt buit)", " (punto vacío)", " (open)")));
-        msg = t3("2n pas: dibuixem ", "2.º paso: dibujamos ", "Step 2: draw ") + tex("y=" + q.t) + t3(" només on toca, ", " solo donde toca, ", " only where it applies, ") + tex(cond(q)) + ".<br>" + ends.join("; ");
+      var b = B[cur], h = +sh.value, k = +sk.value, G = plane(-7, 7, -6, 7, 1), H = G.g + G.open;
+      $(w, "hv").innerHTML = numT(h); $(w, "kv").innerHTML = numT(k);
+      var g = function (x) { return b.f(x - h) + k; }, inner = h ? "x" + sgnT(-h) : "x";
+      if (b.as) H += vdash(G, h) + hdash(G, k);
+      if (b.ah != null) H += hdash(G, k);
+      H += curve(G, b.f, MU, { dash: "5 5", w: 1.8, n: 1500 }) + curve(G, g, AC, { n: 1500 });
+      var rows = [["", tex("y=" + b.e(inner, h) + sgnT(k))],
+        [t3("Horitzontal", "Horizontal", "Horizontal"), mv(h, t3("cap a la dreta", "hacia la derecha", "to the right"), t3("cap a l'esquerra", "hacia la izquierda", "to the left"))],
+        [t3("Vertical", "Vertical", "Vertical"), mv(k, t3("cap amunt", "hacia arriba", "up"), t3("cap avall", "hacia abajo", "down"))]];
+      if (b.p) {
+        var q = [b.p[0] + h, b.p[1] + k];
+        H += '<line class="gd" x1="' + f1(G.X(b.p[0])) + '" y1="' + f1(G.Y(b.p[1])) + '" x2="' + f1(G.X(q[0])) + '" y2="' + f1(G.Y(q[1])) + '"/>' + gdot(G, b.p[0], b.p[1], MU) + gdot(G, q[0], q[1], BL);
+        rows.push([b.pn(), tex("(" + b.p[0] + ",\\," + b.p[1] + ")\\to(" + numT(q[0]) + ",\\," + numT(q[1]) + ")")]);
       }
-      rows.push([t3("Pas", "Paso", "Step"), msg]);
-      if (st === P.length + 1) {
-        var cs = [];
-        for (var i = 0; i < P.length - 1; i++) { var c = P[i].b, L = ev(P[i].ast, c), R = ev(P[i + 1].ast, c), hasV = P[i].bc || P[i + 1].ac; cs.push(tex("x=" + niceT(c)) + ": " + (Math.abs(L - R) > 1e-9 ? t3("salt finit", "salto finito", "finite jump") : hasV ? t3("contínua", "continua", "continuous") : t3("discontinuïtat evitable", "discontinuidad evitable", "removable discontinuity"))); }
-        rows.push([t3("Continuïtat", "Continuidad", "Continuity"), cs.join("<br>")]);
-      }
-      nx.disabled = st >= P.length + 1;
-      svg.innerHTML = h + G.close; info.innerHTML = kv(rows);
-    }
-    onLang(draw);
-  }
-  function wAbs() {
-    var w = byId("w-abs"); if (!w) return;
-    var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), S = {};
-    ["a", "b", "c"].forEach(function (k) { S[k] = $(w, k); S[k].addEventListener("input", draw); });
-    function draw() {
-      var a = +S.a.value, b = +S.b.value, c = +S.c.value;
-      ["a", "b", "c"].forEach(function (k) { $(w, k + "v").innerHTML = numT(+S[k].value); });
-      var f = function (x) { return (a * x + b) * x + c; }, G = plane(-7, 7, -6, 8, 2), h = G.g + G.open + curve(G, f, VI, { dash: "6 5", w: 2, n: 500 }) + curve(G, function (x) { return Math.abs(f(x)); }, AC, { n: 1200 });
-      var P = polyT([Fr(c), Fr(b), Fr(a)]), N = polyT([Fr(-c), Fr(-b), Fr(-a)]), rts = a ? (b * b - 4 * a * c > 1e-9 ? [(-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a), (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a)].sort(function (p, q) { return p - q; }) : []) : b ? [-c / b] : [];
-      rts = rts.map(snap); rts.forEach(function (r) { h += gdot(G, r, 0, BL); });
-      var SI = t3("\\text{si }", "\\text{si }", "\\text{if }"), rows = [["", tex("y=\\left|" + P + "\\right|")]], cases;
-      var sgnAt = function (x) { return f(x) >= 0; };
-      if (!rts.length) { rows.push([t3("Talls eix OX", "Cortes eje OX", "x-intercepts"), t3("No en té: el signe no canvia.", "No tiene: el signo no cambia.", "None: the sign doesn't change.")]); cases = "y=" + (sgnAt(0) ? P : N); }
-      else {
-        rows.push([t3("Talls eix OX", "Cortes eje OX", "x-intercepts"), tex("x=" + rts.map(niceT).join(",\\ x="))]);
-        var xs = [rts[0] - 1].concat(rts.length === 2 ? [(rts[0] + rts[1]) / 2, rts[1] + 1] : [rts[0] + 1]);
-        rows.push([t3("Signe de f", "Signo de f", "Sign of f"), xs.map(function (x) { return sgnAt(x) ? '<span class="sp">+</span>' : '<span class="sm">−</span>'; }).join(" &nbsp; ")]);
-        var cn = rts.length === 2 ? [SI + "x\\lt " + niceT(rts[0]), SI + niceT(rts[0]) + "\\le x\\le " + niceT(rts[1]), SI + "x\\gt " + niceT(rts[1])] : [SI + "x\\lt " + niceT(rts[0]), SI + "x\\ge " + niceT(rts[0])];
-        cases = "y=\\begin{cases}" + xs.map(function (x, i) { return (sgnAt(x) ? P : N) + ", & " + cn[i]; }).join("\\\\") + "\\end{cases}";
-      }
-      rows.push([t3("A trossos", "A trozos", "Piecewise"), tex(cases)]);
-      svg.innerHTML = h + G.close; info.innerHTML = kv(rows);
+      if (b.as) rows.push([t3("Asímptotes", "Asíntotas", "Asymptotes"), tex("x=" + numT(h) + ",\\ \\ y=" + numT(k))]);
+      if (b.ah != null) rows.push([t3("Asímptota", "Asíntota", "Asymptote"), tex("y=" + numT(k))]);
+      rows.push([t3("Domini", "Dominio", "Domain"), tex(b.D(h))], [t3("Recorregut", "Recorrido", "Range"), tex(b.R(h, k))]);
+      svg.innerHTML = H + G.close; info.innerHTML = kv(rows);
     }
     onLang(draw);
   }
 
-  /* ---------- 7.15 composició ---------- */
+  /* ---------- 7.8 composició ---------- */
   function wComp() {
     var w = byId("w-comp"); if (!w) return;
     var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), fi = $(w, "ff"), gi = $(w, "gf"), xi = $(w, "x0"), f = parseF(fi.value), g = parseF(gi.value);
@@ -758,7 +569,7 @@
     onLang(draw);
   }
 
-  /* ---------- 7.16 inversa ---------- */
+  /* ---------- 7.9 inversa ---------- */
   function wInv() {
     var w = byId("w-inv"); if (!w) return;
     var svg = w.querySelector("svg.tg-svg"), info = w.querySelector(".info"), sl = $(w, "t"), cur = 0;
@@ -802,20 +613,12 @@
       o: [q3("evitable", "evitable", "removable"), q3("de salt finit", "de salto finito", "a finite jump"), q3("asimptòtica", "asintótica", "asymptotic")], a: 0, e: q3("Es podria evitar definint la funció en aquest punt.", "Se podría evitar definiendo la función en ese punto.", "It could be removed by defining the function at that point.") },
     { q: q3("La funció $f(x)=x^3-x$ és…", "La función $f(x)=x^3-x$ es…", "The function $f(x)=x^3-x$ is…"),
       o: [q3("parella", "par", "even"), q3("senar", "impar", "odd"), q3("ni parella ni senar", "ni par ni impar", "neither")], a: 1, e: q3("$f(-x)=-x^3+x=-f(x)$.") },
-    { q: q3("El pendent de la recta que passa per $(1,2)$ i $(3,8)$ és…", "La pendiente de la recta que pasa por $(1,2)$ y $(3,8)$ es…", "The slope of the line through $(1,2)$ and $(3,8)$ is…"),
-      o: [q3("$2$"), q3("$3$"), q3("$\\frac13$")], a: 1, e: q3("$m=\\frac{8-2}{3-1}=3$.") },
-    { q: q3("El vèrtex de $y=x^2-4x+1$ és…", "El vértice de $y=x^2-4x+1$ es…", "The vertex of $y=x^2-4x+1$ is…"),
-      o: [q3("$(2,-3)$"), q3("$(-2,13)$"), q3("$(4,1)$")], a: 0, e: q3("$V_x=\\frac{4}{2}=2$ i $f(2)=-3$.", "$V_x=\\frac{4}{2}=2$ y $f(2)=-3$.", "$V_x=\\frac{4}{2}=2$ and $f(2)=-3$.") },
-    { q: q3("Les asímptotes de $y=\\dfrac{3}{x-2}+1$ són…", "Las asíntotas de $y=\\dfrac{3}{x-2}+1$ son…", "The asymptotes of $y=\\dfrac{3}{x-2}+1$ are…"),
-      o: [q3("$x=-2$, $y=1$"), q3("$x=2$, $y=1$"), q3("$x=2$, $y=3$")], a: 1, e: q3("La vertical es desplaça a $x=2$ i l'horitzontal a $y=1$.", "La vertical se desplaza a $x=2$ y la horizontal a $y=1$.", "The vertical one moves to $x=2$, the horizontal one to $y=1$.") },
-    { q: q3("On comença la gràfica de $y=\\sqrt{x+2}-3$?", "¿Dónde empieza la gráfica de $y=\\sqrt{x+2}-3$?", "Where does the graph of $y=\\sqrt{x+2}-3$ start?"),
-      o: [q3("$(2,-3)$"), q3("$(-2,-3)$"), q3("$(-2,3)$")], a: 1, e: q3("L'arrel comença quan $x+2=0$; allí $y=-3$.", "La raíz empieza cuando $x+2=0$; allí $y=-3$.", "The root starts when $x+2=0$, where $y=-3$.") },
-    { q: q3("El recorregut de $y=2^x+3$ és…", "El recorrido de $y=2^x+3$ es…", "The range of $y=2^x+3$ is…"),
-      o: [q3("$]3,+\\infty[$"), q3("$[3,+\\infty[$"), q3("$\\mathbb R$")], a: 0, e: q3("$2^x\\gt0$ sempre, per tant $y\\gt3$.", "$2^x\\gt0$ siempre, por tanto $y\\gt3$.", "$2^x\\gt0$ always, so $y\\gt3$.") },
-    { q: q3("L'asímptota vertical de $y=\\log_2(x+1)$ és…", "La asíntota vertical de $y=\\log_2(x+1)$ es…", "The vertical asymptote of $y=\\log_2(x+1)$ is…"),
-      o: [q3("$x=1$"), q3("$x=-1$"), q3("$x=0$")], a: 1, e: q3("$x+1=0$.") },
-    { q: q3("El període de $y=\\tan x$ és…", "El periodo de $y=\\tan x$ es…", "The period of $y=\\tan x$ is…"),
-      o: [q3("$\\pi$"), q3("$2\\pi$"), q3("$\\frac\\pi2$")], a: 0, e: q3("La tangent es repeteix cada $\\pi$.", "La tangente se repite cada $\\pi$.", "The tangent repeats every $\\pi$.") },
+    { q: q3("La gràfica de $y=f(x-3)$ s'obté desplaçant la de $y=f(x)$…", "La gráfica de $y=f(x-3)$ se obtiene desplazando la de $y=f(x)$…", "The graph of $y=f(x-3)$ is the graph of $y=f(x)$ moved…"),
+      o: [q3("3 unitats cap a la dreta", "3 unidades hacia la derecha", "3 units to the right"), q3("3 unitats cap a l'esquerra", "3 unidades hacia la izquierda", "3 units to the left"), q3("3 unitats cap avall", "3 unidades hacia abajo", "3 units down")], a: 0, e: q3("El que valia $f$ en $a$ ara ho val en $a+3$: la gràfica va cap a la dreta (signe contrari al que es veu).", "Lo que valía $f$ en $a$ ahora lo vale en $a+3$: la gráfica va hacia la derecha (signo contrario al que se ve).", "What $f$ took at $a$ now happens at $a+3$: the graph moves right (opposite to the sign you see).") },
+    { q: q3("Si $f$ té un mínim en $(1,2)$, la funció $y=f(x)+4$ el té en…", "Si $f$ tiene un mínimo en $(1,2)$, la función $y=f(x)+4$ lo tiene en…", "If $f$ has a minimum at $(1,2)$, $y=f(x)+4$ has it at…"),
+      o: [q3("$(1,6)$"), q3("$(5,2)$"), q3("$(1,-2)$")], a: 0, e: q3("Sumar 4 puja tota la gràfica 4 unitats; la $x$ no canvia.", "Sumar 4 sube toda la gráfica 4 unidades; la $x$ no cambia.", "Adding 4 lifts the whole graph 4 units; $x$ stays the same.") },
+    { q: q3("$y=(x+2)^2-1$ és la paràbola $y=x^2$ desplaçada…", "$y=(x+2)^2-1$ es la parábola $y=x^2$ desplazada…", "$y=(x+2)^2-1$ is $y=x^2$ moved…"),
+      o: [q3("2 a la dreta i 1 avall", "2 a la derecha y 1 abajo", "2 right and 1 down"), q3("2 a l'esquerra i 1 avall", "2 a la izquierda y 1 abajo", "2 left and 1 down"), q3("2 a l'esquerra i 1 amunt", "2 a la izquierda y 1 arriba", "2 left and 1 up")], a: 1, e: q3("$x+2=x-(-2)$: 2 cap a l'esquerra; $-1$: 1 cap avall. El vèrtex és $(-2,-1)$.", "$x+2=x-(-2)$: 2 hacia la izquierda; $-1$: 1 hacia abajo. El vértice es $(-2,-1)$.", "$x+2=x-(-2)$: 2 left; $-1$: 1 down. The vertex is $(-2,-1)$.") },
     { q: q3("Si $f(x)=x^2$ i $g(x)=x+1$, $(f\\circ g)(x)$ és…", "Si $f(x)=x^2$ y $g(x)=x+1$, $(f\\circ g)(x)$ es…", "If $f(x)=x^2$ and $g(x)=x+1$, $(f\\circ g)(x)$ is…"),
       o: [q3("$x^2+1$"), q3("$(x+1)^2$"), q3("$x^3+x^2$")], a: 1, e: q3("$f(g(x))=f(x+1)=(x+1)^2$.") },
     { q: q3("La inversa de $f(x)=2x+6$ és…", "La inversa de $f(x)=2x+6$ es…", "The inverse of $f(x)=2x+6$ is…"),
@@ -851,9 +654,8 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wVert, wDom, wCut, wMono, wDisc, wSym, wPer, wLin, wQuad, wCub, wDiv, wTrig, wTros, wAbs, wComp, wInv, wQuiz];
+    var all = [wChrome, wSteps, wNav, wVert, wDom, wCut, wMono, wDisc, wSym, wPer, wTr, wComp, wInv, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
-    [["w-rac", "rac"], ["w-rad", "rad"], ["w-exp", "exp"], ["w-log", "log"]].forEach(function (p) { try { wTrans(p[0], p[1]); } catch (e) { if (window.console) console.error(p[0], e); } });
     window.FM7 = { parseF: parseF, ev: ev, toT: toT, consOf: consOf, solveSet: solveSet, setT: setT, rootsF: rootsF, niceT: niceT, polyOf: polyOf, polyT: polyT, sub: sub };
   }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);

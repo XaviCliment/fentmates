@@ -6,7 +6,7 @@ import fig
 # Com les altres unitats de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS. Els ginys són a app.js,
 # l'estil propi a extra.css i el contingut a contingut-*.html (en ordre). Les figures fixes es defineixen a fig.py i s'insereixen
-# amb el marcador @@FIG:nom@@. 16 apartats (7.1-7.16).
+# amb el marcador @@FIG:nom@@. 9 apartats (7.1-7.9); els apartats de funcions elementals són a la unitat 8 (1batx-mi-t8).
 # Convencions: ⟪va‖es‖en⟫ per al text, ⟦va‖es‖en⟧ dins d'una fórmula i \SI com a la unitat 4. A més, dins de les fórmules
 # «{,}» és la coma decimal: en anglés es converteix en un punt (0{,}86 → 0.86).
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -15,7 +15,7 @@ T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/1batx-mi/t7-estudi-funcions.html")
-NSEC = 16
+NSEC = 9
 LANGS = ("va", "es", "en")
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
@@ -61,11 +61,11 @@ def cut(a, b, s=src):
 
 # ---------- capçalera i estil ----------
 # fm-materials.js sap que la unitat 7 de 1r Batx MI és d'anàlisi des del 11/11/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261111v"
+VER = r"fm-materials.\1?v=20261111w"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
 head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Estudi de funcions · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 7 (Estudi de funcions: domini i recorregut, punts de tall, monotonia, continuïtat, simetries, periodicitat, tipus de funcions, composició i funció inversa) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 7 (Estudi de funcions: domini i recorregut, punts de tall, monotonia, continuïtat, simetries, periodicitat, translacions, composició i funció inversa) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

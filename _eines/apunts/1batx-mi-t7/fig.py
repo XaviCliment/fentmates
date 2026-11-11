@@ -414,6 +414,31 @@ def figures():
     F["t5"] = t().fn(lambda x: -x + 1, -7, -2).dot(-2, 3, open=True).fn(lambda x: x * x - x - 2, -2, 3).dot(-2, 4).dot(3, 4).seg(3, 2, 8, 2).dot(3, 2, open=True)
     F["a1"] = P(-4.5, 4, -4, 3.5, W=230).fn(lambda x: -x * x - x + 2, col="v")
     F["a2"] = P(-4.5, 4, -3, 5.5, W=230).fn(lambda x: -x * x - x + 2, col="v", dash=True).fn(lambda x: abs(-x * x - x + 2), col="a")
+    # 7.7 transformacions (translacions): f és una poligonal amb punts clau
+    FP = [(-3, 0), (-1, 2), (1, 1), (2, 3)]
+
+    def fpol(t):
+        for (a_, b_), (c_, d_) in zip(FP, FP[1:]):
+            if a_ <= t <= c_: return b_ + (d_ - b_) * (t - a_) / (c_ - a_)
+        return None
+
+    def trf(h, k, x0=-6, x1=6, y0=-4, y1=6):
+        p = Plot(x0, x1, y0, y1, W=210, lx=2, ly=2).fn(fpol, -3, 2, "m", dash=True)
+        p.fn(lambda t: fpol(t - h) + k if fpol(t - h) is not None else None, -3 + h, 2 + h)
+        for a_, b_ in FP: p.dot(a_ + h, b_ + k)
+        return p
+    F["trb"] = trf(0, 0)
+    F["trv"] = trf(0, 2)
+    F["trh"] = trf(3, 0)
+    F["trd"] = trf(-2, -3, -7, 5, -5, 5)
+    F["trq"] = (P(-6, 6, -4, 8, W=260, ly=2).fn(lambda t: t * t, col="m", dash=True).fn(lambda t: (t - 3) ** 2, col="a")
+                .fn(lambda t: t * t - 2, col="b").fn(lambda t: (t + 2) ** 2 + 1, col="g").dot(3, 0, "a").dot(0, -2, "b").dot(-2, 1, "g"))
+    F["trex"] = P(-2, 6, -1, 8, W=230).fn(lambda t: t * t, col="m", dash=True).fn(lambda t: (t - 2) ** 2 + 1).dot(2, 1, "b").gd(0, 0, 2, 1)
+    # 8.9 problemes de màxims i mínims amb funcions quadràtiques
+    F["opt1"] = (Plot(-4, 64, -500, 5000, sx=10, sy=1000, lx=10, ly=1000, W=300).fn(lambda t: t * (300 - 5 * t), 0, 60)
+                 .gd(35, 0, 35, 4375).gd(50, 0, 50, 2500).fn(lambda t: t * (300 - 5 * t), 35, 50, "b", w=4).dot(30, 4500, "v").dot(35, 4375, "g"))
+    F["opt2"] = (Plot(-3, 4, -5, 6, W=240).fn(lambda t: t * t - 2 * t - 3, col="m", dash=True).fn(lambda t: t * t - 2 * t - 3, -2, 2)
+                 .gd(-2, 0, -2, 5).gd(2, 0, 2, -3).dot(-2, 5, "g").dot(1, -4, "o").dot(2, -3, "b"))
     # 7.16 inversa
     I = lambda: P(-3, 6, -3, 6, W=240).seg(-3, -3, 6, 6, "m", True)
     F["i1"] = I().fn(lambda x: 2 ** x + 1, col="a").fn(lambda x: lg(2, x - 1), 1.001, 6, "g")

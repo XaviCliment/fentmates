@@ -1,6 +1,7 @@
 # Genera t7-fitxa-exercicis.tex i t7-fitxa-solucions.tex (1r Batxillerat MI, Unitat 7: Estudi de funcions)
 # a partir d'una sola llista d'exercicis: cada exercici és (estrelles, enunciat, solució); a Batxillerat no es mostren les estrelles.
-# La fitxa segueix els apartats dels apunts (7.1-7.16) i acaba amb problemes i estudis complets.
+# La fitxa segueix els apartats dels apunts (7.1-7.9). Els exercicis de funcions elementals són a la fitxa de la unitat 8
+# (_eines/fonts-latex/1batx-mi-t8) i els estudis complets aniran en una unitat posterior.
 # Comprovacions: sympy calcula els talls, els vèrtexs, les composicions i les inverses; els dominis es comproven numèricament
 # (la funció ha d'existir exactament en els punts del domini donat, en una malla fina i al voltant de cada extrem).
 # Les gràfiques es dibuixen amb la classe Plot de _eines/apunts/1batx-mi-t7/fig.py (la mateixa dels apunts).
@@ -83,7 +84,11 @@ S_.append(("Concepte de funció", [
      tasks(1, [R('\\text{Sí}'), R('\\text{No}') + r': el 4 té dues arrels, $2$ i $-2$.', R('\\text{Sí}'), R('\\text{No}') + ': un alumne pot tindre dos o més germans.'])),
  (1, r"Donada $f(x)=x^2-3x+1$, calcula $f(-2)$, $f(0)$, $f\left(\frac12\right)$ i $f(a+1)$. Per a quins valors de $x$ val $f(x)=1$?",
      r'$f(-2)=\res{11}$, $f(0)=\res{1}$, $f\left(\frac12\right)=\res{-\frac14}$, $f(a+1)=\res{a^2-a-1}$. \ $x^2-3x=0\Rightarrow\res{x=0,\ x=3}$'),
+ (2, r"Amb 40 m de tela metàl·lica volem tancar un corral rectangular. Si un costat mesura $x$ metres, escriu la funció $A(x)$ que dona l'àrea del corral. Quins valors pot prendre $x$ (domini en aquest context)? Calcula $A(5)$ i $A(10)$.",
+     r'L\'altre costat mesura $20-x$: $\res{A(x)=x(20-x)=20x-x^2}$. Cal $0\lt x\lt20$: $D=\res{\oo{0}{20}}$. $A(5)=\res{75\text{ m}^2}$, $A(10)=\res{100\text{ m}^2}$.'),
 ]))
+Acorral = lambda t: t * (20 - t)
+ck(Acorral(5) == 75 and Acorral(10) == 100)
 
 # =====================================================================
 # 2. Domini i recorregut
@@ -117,7 +122,11 @@ S_.append(("Domini i recorregut", [
      tasks(3, [R(e[4]) for e in e5])),
  (1, r"Pertanyen $x=2$ i $x=3$ al domini de $f(x)=\sqrt{x^2-5}$? Justifica-ho substituint, i després calcula el domini complet.",
      r'$f(2)=\sqrt{-1}$ no existeix: $\res{2\notin D(f)}$. $f(3)=\sqrt4=2$: $\res{3\in D(f)}$. $D(f)=\res{\oc{-\infty}{-\sqrt5}\cup\co{\sqrt5}{+\infty}}$'),
+ (2, r"Raonant quins valors pot prendre $y$, calcula el recorregut de:" + tasks(4, [r'$f(x)=x^2+2$', r'$g(x)=\sqrt{x-1}+3$', r'$h(x)=\dfrac2x$', r'$k(x)=5-x^2$']),
+     tasks(2, [r'$x^2\geq0\Rightarrow R=\res{\co{2}{+\infty}}$', r'$\sqrt{x-1}\geq0\Rightarrow R=\res{\co{3}{+\infty}}$', r'$\frac2x$ no val mai 0: $R=\res{\R-\{0\}}$', r'$-x^2\le0\Rightarrow R=\res{\oc{-\infty}{5}}$'])),
 ]))
+for t in [i / 7 for i in range(-200, 201)]:
+    ck(t * t + 2 >= 2 and 5 - t * t <= 5 and (t == 0 or 2 / t != 0))
 ckdom(lambda t: math.sqrt(t * t - 5), lambda t: abs(t) >= math.sqrt(5), (-math.sqrt(5), math.sqrt(5)))
 
 # =====================================================================
@@ -137,7 +146,10 @@ s3 = [tall(rr, y) for (_, _, rr), y in zip(c3, ['4', '0', '-2', '1', '-8', r'\lo
 S_.append(("Punts de tall amb els eixos", [
  (1, r"Troba els punts de tall amb els eixos de coordenades:" + tasks(4, ['$f(x)=%s$' % c[0] for c in c3])
      + recorda(r"tall amb $OY$: fem $x=0$; talls amb $OX$: resolem $f(x)=0$."), tasks(2, s3)),
+ (2, r"Troba el valor de $a$ perquè la funció $f(x)=x^2+ax-6$ talle l'eix $OX$ en $x=2$. On el talla l'altra vegada? I on talla l'eix $OY$?",
+     r'$f(2)=4+2a-6=0\Rightarrow\res{a=1}$. $x^2+x-6=0\Rightarrow$ l\'altre tall és $\res{(-3,\,0)}$. $OY$: $\res{(0,\,-6)}$.'),
 ]))
+ckroots('x**2+x-6', [-3, 2])
 
 # =====================================================================
 # 4. Monotonia, màxims i mínims
@@ -152,7 +164,11 @@ S_.append(("Monotonia. Màxims i mínims", [
      r'$D=\res{\cc{-5}{6}}$, $R=\res{\cc{-3}{4}}$. Creixent en $\res{\oo{-5}{-3}\cup\oo{-1}{1}\cup\oo{3}{6}}$; decreixent en $\res{\oo{-3}{-1}\cup\oo{1}{3}}$. Màxims: $\res{(-3,3)}$ relatiu i $\res{(1,4)}$ absolut. Mínims: $\res{(-1,1)}$ relatiu i $\res{(3,-3)}$ absolut.'),
  (2, r"Dibuixa la gràfica d'una funció amb domini $\R$, decreixent en $\oo{-\infty}{1}$, creixent en $\oo{1}{+\infty}$, amb mínim absolut en $(1,-2)$ i que talle l'eix $OX$ en $x=-1$ i en $x=3$. Pots trobar-ne una expressió?",
      r'Per exemple, la paràbola $\res{f(x)=\frac12(x-1)^2-2}$:' + G(Plot(-3, 5, -3, 4, W=220).fn(sol8).dot(1, -2, 'b').dot(-1, 0, 'b').dot(3, 0, 'b'))),
+ (1, r"La gràfica és la de $f(x)=x^3-3x$. Indica'n els intervals de creixement i de decreixement i els extrems relatius. Té màxim o mínim absolut?" + G(Plot(-3, 3, -4, 4, W=230).fn(lambda t: t ** 3 - 3 * t).dot(-1, 2).dot(1, -2), 4),
+     r'Creixent en $\res{\oo{-\infty}{-1}\cup\oo{1}{+\infty}}$; decreixent en $\res{\oo{-1}{1}}$. Màxim relatiu $\res{(-1,2)}$ i mínim relatiu $\res{(1,-2)}$. No té extrems absoluts: per la dreta puja fins a $+\infty$ i per l\'esquerra baixa fins a $-\infty$.'),
 ]))
+fc = lambda t: t ** 3 - 3 * t
+ck(fc(-1) == 2 and fc(1) == -2); ckroots('3*x**2-3', [-1, 1])
 
 # =====================================================================
 # 5. Continuïtat
@@ -170,7 +186,10 @@ S_.append(("Continuïtat", [
      r'$x=-3$: $\res{\text{evitable}}$ (el punt està fora de lloc). $x=0$: $\res{\text{salt finit}}$ (de 3 a 1). $x=2$: $\res{\text{salt infinit}}$ (per l\'esquerra arriba a 0 i per la dreta tendeix a $+\infty$).'),
  (2, r"Estudia la continuïtat d'aquestes funcions i classifica les discontinuïtats:" + tasks(2, ['$%s$' % c[0] for c in c5]),
      tasks(1, [c[1] for c in c5])),
+ (2, r"Troba el valor de $a$ perquè la funció $f(x)=\begin{cases}x^2+a, & \text{si } x\lt1\\ 2x+3, & \text{si } x\geq1\end{cases}$ siga contínua. Quin tipus de discontinuïtat té si $a=0$?",
+     r'Per l\'esquerra arriba a $1+a$ i per la dreta a $f(1)=5$: $1+a=5\Rightarrow\res{a=4}$. Si $a=0$: $\res{\text{salt finit}}$ en $x=1$ (de 1 a 5).'),
 ]))
+ck(1 + 4 == 2 * 1 + 3)
 
 # =====================================================================
 # 6. Simetries i periodicitat
@@ -197,156 +216,42 @@ S_.append(("Simetries i periodicitat", [
 ]))
 
 # =====================================================================
-# 7. Funcions lineals i afins
-ckeq(sympify('1+Rational(1,2)*(x+2)'), sympify('x/2+2')); ckeq(sympify('-1-3*(x-2)'), sympify('-3*x+5'))
-l7 = [Plot(-3, 4, -4, 3, W=190).fn(lambda t: 2 * t - 3).dot(0, -3, 'b').dot(2, 1, 'b'),
-      Plot(-2, 7, -1, 4, W=190).fn(lambda t: -t / 3 + 2).dot(0, 2, 'b').dot(3, 1, 'b'),
-      Plot(-4, 4, -3, 2, W=190).fn(lambda t: -2)]
-cknum(1.2 * 12 + 3.5, 17.9); cknum((23 - 3.5) / 1.2, 16.25)
-S_.append(("Funcions lineals i afins", [
- (1, r"Troba l'equació de la recta que passa per $A(-2,1)$ i $B(4,4)$. És creixent o decreixent?",
-     r'$m=\frac{4-1}{4+2}=\frac12$; \ $y=1+\frac12(x+2)\Rightarrow\res{y=\frac12x+2}$. \ $\res{\text{Creixent}}$ ($m\gt0$).'),
- (1, r"Troba l'equació de la recta de pendent $-3$ que passa per $(2,-1)$ i els seus punts de tall amb els eixos.",
-     r'$y=-1-3(x-2)\Rightarrow\res{y=-3x+5}$. \ $OY$: $\res{(0,5)}$; \ $OX$: $\res{\left(\frac53,\,0\right)}$'),
- (1, r"Escriu l'equació de cadascuna d'aquestes rectes:" + tasks(3, [Gi(p, 3.4) for p in l7]),
-     tasks(3, [R('y=2x-3'), R(r'y=-\frac13x+2'), R('y=-2')])),
- (2, r"Un taxi cobra $3{,}50$~€ de baixada de bandera i $1{,}20$~€ per quilòmetre. Escriu la funció que dona el preu en funció dels quilòmetres. Quant costa un viatge de 12 km? Quants quilòmetres has fet si has pagat 23~€?",
-     r'$\res{f(x)=1{,}2x+3{,}5}$. \ $f(12)=\res{17{,}90\text{ €}}$. \ $1{,}2x+3{,}5=23\Rightarrow\res{x=16{,}25\text{ km}}$'),
+# 7. Transformacions de funcions (translacions)
+FP = [(-3, 0), (-1, 2), (1, 1), (2, 3)]
+def fpol(t):
+    for (a_, b_), (c_, d_) in zip(FP, FP[1:]):
+        if a_ <= t <= c_: return b_ + (d_ - b_) * (t - a_) / (c_ - a_)
+    return None
+def trp(h, k, base=True):
+    p = Plot(-6, 6, -4, 6, W=200, lx=2, ly=2)
+    if base: p.fn(fpol, -3, 2, 'm', dash=True)
+    if (h, k) != (0, 0) or not base:
+        for (a_, b_), (c_, d_) in zip(FP, FP[1:]): p.seg(a_ + h, b_ + k, c_ + h, d_ + k)
+        for a_, b_ in FP: p.dot(a_ + h, b_ + k)
+    return p
+T2 = [('f(x)-2', 0, -2), ('f(x+3)', -3, 0), ('f(x-1)+4', 1, 4)]
+s72 = []
+for tx, h, k in T2:  # D=[-2,4], R=[-1,3], màxim (1,3)
+    s72.append(r'$%s$: $D=\res{\cc{%d}{%d}}$, $R=\res{\cc{%d}{%d}}$, màxim $\res{(%d,%d)}$' % (tx, -2 + h, 4 + h, -1 + k, 3 + k, 1 + h, 3 + k))
+ck(s72[0].count('-4') == 0 and '(1,1)' in s72[0] and '(-2,3)' in s72[1] and '(2,7)' in s72[2])
+q73 = [('x^2-6x+11', '(x-3)**2+2', '(x-3)^2+2', '(3,\\,2)'), ('x^2+4x', '(x+2)**2-4', '(x+2)^2-4', '(-2,\\,-4)'), ('x^2+2x+5', '(x+1)**2+4', '(x+1)^2+4', '(-1,\\,4)')]
+for a_, b_ in [('x**2-6*x+11', '(x-3)**2+2'), ('x**2+4*x', '(x+2)**2-4'), ('x**2+2*x+5', '(x+1)**2+4')]: ckeq(sympify(a_), expand(sympify(b_)))
+S_.append(("Transformacions de funcions", [
+ (1, r"A partir de la gràfica de $f$, dibuixa les gràfiques de $f(x)+2$, $f(x-3)$ i $f(x+1)-2$." + G(trp(0, 0), 3.6),
+     tasks(3, [r'$f(x)+2$: 2 amunt' + G(trp(0, 2), 3.2), r'$f(x-3)$: 3 a la dreta' + G(trp(3, 0), 3.2), r'$f(x+1)-2$: 1 a l\'esquerra i 2 avall' + G(trp(-1, -2), 3.2)])),
+ (1, r"Una funció $f$ té domini $[-2,4]$, recorregut $[-1,3]$ i un màxim en $(1,3)$. Indica el domini, el recorregut i el màxim de:" + tasks(3, ['$y=%s$' % t[0] for t in T2]),
+     tasks(1, s72)),
+ (1, r"Escriu cada paràbola com una translació de $y=x^2$ (completant el quadrat), explica el desplaçament i dona'n el vèrtex:" + tasks(3, ['$y=%s$' % q[0] for q in q73]),
+     tasks(1, [r'$y=\res{%s}$: vèrtex $\res{%s}$' % (q[2], q[3]) for q in q73]) + r'Per exemple, $(x-3)^2+2$ és $x^2$ desplaçada 3 a la dreta i 2 amunt.'),
+ (2, r"Escriu l'expressió de la funció que s'obté en desplaçar:" + tasks(1, [r"$y=|x|$ 3 unitats cap a la dreta i 1 cap amunt;", r"$y=\sqrt x$ 5 unitats cap a l'esquerra i 2 cap avall;", r"$y=\dfrac1x$ 4 unitats cap a la dreta i 1 cap amunt. Quines són les asímptotes de la nova funció?"]),
+     tasks(1, [R(r'y=|x-3|+1'), R(r'y=\sqrt{x+5}-2'), R(r'y=\dfrac{1}{x-4}+1') + r'; asímptotes $\res{x=4}$ i $\res{y=1}$'])),
+ (2, r"La gràfica és una translació de $y=|x|$. Escriu-ne l'expressió." + G(Plot(-7, 3, -4, 4, W=220).fn(lambda t: abs(t + 2) - 3).dot(-2, -3, 'b'), 3.8),
+     r'El vèrtex passa de $(0,0)$ a $(-2,-3)$: $\res{y=|x+2|-3}$'),
 ]))
+ck(abs(-2 + 2) - 3 == -3)
 
 # =====================================================================
-# 8. Funcions quadràtiques i cúbiques
-q8 = [('x^2-6x+5', 1, -6, 5), ('-x^2-2x+3', -1, -2, 3), ('2x^2+4x+3', 2, 4, 3), (r'-\frac12x^2+2', Rational(-1, 2), 0, 2)]
-qs, qg = [], []
-for tx, A, B, C in q8:
-    f = A * x ** 2 + B * x + C; vx = Rational(-B, 1) / (2 * A); vy = f.subs(x, vx); rr = sorted(solve(f, x), key=float)
-    qs.append((vx, vy, rr))
-ck([(q[0], q[1]) for q in qs] == [(3, -4), (-1, 4), (-1, 1), (0, 2)]); ck([q[2] for q in qs] == [[1, 5], [-3, 1], [], [-2, 2]])
-qplot = [Plot(-1, 7, -5, 6, W=180).fn(lambda t: t * t - 6 * t + 5).dot(3, -4, 'v').dot(1, 0, 'b').dot(5, 0, 'b').dot(0, 5, 'g'),
-         Plot(-5, 3, -6, 5, W=180).fn(lambda t: -t * t - 2 * t + 3).dot(-1, 4, 'v').dot(-3, 0, 'b').dot(1, 0, 'b').dot(0, 3, 'g'),
-         Plot(-4, 2, -1, 9, W=180).fn(lambda t: 2 * t * t + 4 * t + 3).dot(-1, 1, 'v').dot(0, 3, 'g'),
-         Plot(-4, 4, -5, 3, W=180).fn(lambda t: -t * t / 2 + 2).dot(0, 2, 'v').dot(-2, 0, 'b').dot(2, 0, 'b')]
-qtxt = [r'Còncava $\cup$; $V\res{(3,-4)}$; $OX$: $(1,0)$, $(5,0)$; $OY$: $(0,5)$',
-        r'Convexa $\cap$; $V\res{(-1,4)}$; $OX$: $(-3,0)$, $(1,0)$; $OY$: $(0,3)$',
-        r'Còncava $\cup$; $V\res{(-1,1)}$; no talla $OX$; $OY$: $(0,3)$',
-        r'Convexa $\cap$; $V\res{(0,2)}$; $OX$: $(-2,0)$, $(2,0)$']
-ckeq(sympify('x**2-4*x+3').subs(x, 0), 3); ckeq(sympify('x**2-4*x+3').subs(x, 1), 0); ckeq(-Rational(-4) / 2, 2)
-th = sympify('-5*x**2+20*x+1'); ck(th.subs(x, 2) == 21)
-tg = [v for v in solve(th, x) if float(v) > 0][0]; ckeq(tg, 2 + Ssqrt(105) / 5); cknum(float(tg), 4.05, 1e-3)
-ckroots('x**3-4*x**2+3*x', [0, 1, 3])
-S_.append(("Funcions quadràtiques i cúbiques", [
- (1, r"Representa aquestes paràboles calculant-ne la forma, el vèrtex i els punts de tall:" + tasks(4, ['$y=%s$' % q[0] for q in q8])
-     + recorda(r"$V_x=\dfrac{-b}{2a}$, $V_y=f(V_x)$. Si $a\gt0$, còncava $\cup$; si $a\lt0$, convexa $\cap$."),
-     tasks(2, [t + G(p, 3.2) for t, p in zip(qtxt, qplot)])),
- (2, r"Troba la paràbola $y=ax^2+bx+c$ que talla l'eix $OY$ en $(0,3)$, té el vèrtex en $x=2$ i passa pel punt $(1,0)$.",
-     r'$c=3$; \ $\frac{-b}{2a}=2\Rightarrow b=-4a$; \ $a+b+3=0\Rightarrow a=1,\ b=-4$: \ $\res{y=x^2-4x+3}$'),
- (2, r"Es llança una pilota cap amunt i la seua altura (en metres) als $t$ segons és $h(t)=-5t^2+20t+1$. Quina altura màxima arriba a tindre i quan? Quan cau a terra?",
-     r'Vèrtex: $t=\frac{-20}{-10}=2$ s, $h(2)=\res{21\text{ m}}$ \ (als $\res{2\text{ s}}$). \ $h(t)=0\Rightarrow t=2+\frac{\sqrt{105}}{5}\approx\res{4{,}05\text{ s}}$'),
- (2, r"Troba els punts de tall amb els eixos de $f(x)=x^3-4x^2+3x$ i explica com acaba la gràfica per l'esquerra i per la dreta. Fes-ne un esbós.",
-     r'$x(x-1)(x-3)=0$: $OX$ en $\res{(0,0),\ (1,0),\ (3,0)}$; $OY$ en $(0,0)$. Com que $a=1\gt0$, baixa per l\'esquerra i puja per la dreta.' + G(Plot(-1.5, 4.5, -4, 4, W=220).fn(lambda t: t ** 3 - 4 * t * t + 3 * t).dot(0, 0, 'b').dot(1, 0, 'b').dot(3, 0, 'b'))),
-]))
-
-# =====================================================================
-# 9. Funcions racionals
-r9 = [(r'y=\dfrac{2}{x-3}+1', '2/(x-3)+1', None), (r'y=-\dfrac{3}{x+2}', '-3/(x+2)', None),
-      (r'y=\dfrac{2x+1}{x-1}', '(2*x+1)/(x-1)', '3/(x-1)+2'), (r'y=\dfrac{x-4}{x-2}', '(x-4)/(x-2)', '-2/(x-2)+1')]
-for _, e, tr in r9:
-    if tr: ckeq(sympify(e), sympify(tr))
-s9 = [r'AV $\res{x=3}$, AH $\res{y=1}$; $D=\R-\{3\}$, $R=\R-\{1\}$; decreixent a cada branca.',
-      r'AV $\res{x=-2}$, AH $\res{y=0}$; $D=\R-\{-2\}$, $R=\R-\{0\}$; creixent a cada branca.',
-      r'$y=\res{\dfrac{3}{x-1}+2}$: AV $x=1$, AH $y=2$; $D=\R-\{1\}$, $R=\R-\{2\}$; decreixent a cada branca.',
-      r'$y=\res{-\dfrac{2}{x-2}+1}$: AV $x=2$, AH $y=1$; $D=\R-\{2\}$, $R=\R-\{1\}$; creixent a cada branca.']
-hp = lambda f, h, v: Plot(-6, 6, -5, 6, W=170, lx=2, ly=2).fn(f).vl(h).hl(v)
-cknum(600 / 20, 30); cknum(600 / 24, 25)
-S_.append(("Funcions racionals", [
- (1, r"Per a cada funció, escriu-la (si cal) com a translació de $y=\frac kx$, indica'n les asímptotes, el domini, el recorregut i la monotonia, i dibuixa-la:" + tasks(4, ['$%s$' % r[0] for r in r9]),
-     tasks(2, [s + G(p, 3) for s, p in zip(s9, [hp(lambda t: 2 / (t - 3) + 1 if t != 3 else None, 3, 1), hp(lambda t: -3 / (t + 2) if t != -2 else None, -2, 0),
-                                              hp(lambda t: 3 / (t - 1) + 2 if t != 1 else None, 1, 2), hp(lambda t: -2 / (t - 2) + 1 if t != 2 else None, 2, 1)])])),
- (2, r"Un grup lloga un autobús per 600~€ i se'n reparteix el preu a parts iguals. Escriu la funció $p(n)$ que dona el que paga cada persona si hi van $n$ persones. Quant paga cadascú si hi van 20 persones? Quantes persones hi van si cadascuna paga 24~€? Què passa amb $p(n)$ quan $n$ es fa molt gran?",
-     r'$\res{p(n)=\frac{600}{n}}$ (proporcionalitat inversa). \ $p(20)=\res{30\text{ €}}$. \ $\frac{600}{n}=24\Rightarrow\res{n=25}$. \ Quan $n$ creix, $p(n)$ s\'acosta a 0 (asímptota horitzontal $y=0$).'),
-]))
-
-# =====================================================================
-# 10. Funcions radicals
-r10 = [(r'y=\sqrt{x-3}+1', (3, 1), r'\co{3}{+\infty}', r'\co{1}{+\infty}', 'creixent', lambda t: sq(t - 3) + 1 if t >= 3 else None),
-       (r'y=-\sqrt{x+2}', (-2, 0), r'\co{-2}{+\infty}', r'\oc{-\infty}{0}', 'decreixent', lambda t: -sq(t + 2) if t >= -2 else None),
-       (r'y=\sqrt{4-x}', (4, 0), r'\oc{-\infty}{4}', r'\co{0}{+\infty}', 'decreixent', lambda t: sq(4 - t) if t <= 4 else None),
-       (r'y=-\sqrt{-x-1}+3', (-1, 3), r'\oc{-\infty}{-1}', r'\oc{-\infty}{3}', 'creixent', lambda t: -sq(-t - 1) + 3 if t <= -1 else None)]
-for _, (a_, b_), _, _, _, f in r10: cknum(f(a_), b_)
-rp = lambda f, s: Plot(-6, 7, -4, 5, W=170, lx=2, ly=2).fn(f).dot(*s, col='b')
-S_.append(("Funcions radicals", [
- (1, r"Indica el punt on comença cada funció, el domini, el recorregut i la monotonia, i dibuixa-les:" + tasks(4, ['$%s$' % r[0] for r in r10]),
-     tasks(2, [r'Comença en $\res{(%d,%d)}$; $D=%s$, $R=%s$; %s.' % (r[1][0], r[1][1], r[2], r[3], r[4]) + G(rp(r[5], r[1]), 3) for r in r10])),
- (2, r"Escriu l'expressió de la funció radical representada, que és una translació de $y=\sqrt x$." + G(Plot(-3, 8, -3, 2, W=220).fn(lambda t: sq(t + 1) - 2 if t >= -1 else None, -1, 8).dot(-1, -2, 'b').dot(3, 0, 'b'), 4),
-     r'Comença en $(-1,-2)$: $\res{y=\sqrt{x+1}-2}$ (comprovació: passa per $(3,0)$).'),
-]))
-cknum(sq(3 + 1) - 2, 0)
-
-# =====================================================================
-# 11. Exponencials i logarítmiques
-ex11 = [(r'y=2^{x-1}+3', 'y=3', '(1,4)', r'\oo{3}{+\infty}', 'creixent', lambda t: 2 ** (t - 1) + 3, (1, 4)),
-        (r'y=\left(\frac13\right)^x-2', 'y=-2', '(0,-1)', r'\oo{-2}{+\infty}', 'decreixent', lambda t: (1 / 3) ** t - 2, (0, -1)),
-        (r'y=-3^{x+1}', 'y=0', '(-1,-1)', r'\oo{-\infty}{0}', 'decreixent', lambda t: -3 ** (t + 1), (-1, -1)),
-        (r'y=1-2^x', 'y=1', '(0,0)', r'\oo{-\infty}{1}', 'decreixent', lambda t: 1 - 2 ** t, (0, 0))]
-for e in ex11: cknum(e[5](e[6][0]), e[6][1])
-lg11 = [(r'y=\log_2(x+3)', 'x=-3', '(-2,0)', r'\oo{-3}{+\infty}', 'creixent', lambda t: lg(2, t + 3), (-2, 0)),
-        (r'y=\log_3x-1', 'x=0', '(1,-1)', r'\oo{0}{+\infty}', 'creixent', lambda t: lg(3, t) - 1, (1, -1)),
-        (r'y=\log_{\frac12}(x-1)+2', 'x=1', '(2,2)', r'\oo{1}{+\infty}', 'decreixent', lambda t: lg(.5, t - 1) + 2, (2, 2)),
-        (r'y=\log(x-2)+1', 'x=2', '(3,1)', r'\oo{2}{+\infty}', 'creixent', lambda t: lg(10, t - 2) + 1, (3, 1))]
-for e in lg11: cknum(e[5](e[6][0]), e[6][1])
-P30 = 5000 * 1.03 ** 10; T30 = math.log(2) / math.log(1.03); M31 = 200 * .8 ** 3; T31 = math.log(.25) / math.log(.8)
-cknum(round(P30), 6720); cknum(round(T30, 2), 23.45); cknum(M31, 102.4); cknum(round(T31, 2), 6.21)
-ep = lambda f, s, h: Plot(-5, 5, -5, 6, W=170, lx=2, ly=2).fn(f).dot(*s, col='b').hl(h)
-lp = lambda f, s, v: Plot(-4, 8, -4, 5, W=170, lx=2, ly=2).fn(f).dot(*s, col='b').vl(v)
-S_.append(("Funcions exponencials i logarítmiques", [
- (1, r"Indica l'asímptota horitzontal, el punt de referència (la imatge del $(0,1)$ de $y=a^x$), el recorregut i la monotonia, i dibuixa-les:" + tasks(4, ['$%s$' % e[0] for e in ex11]),
-     tasks(2, [r'AH $\res{%s}$; punt $%s$; $R=%s$; %s.' % (e[1], e[2], e[3], e[4]) + G(ep(e[5], e[6], float(e[1][2:])), 3) for e in ex11])),
- (1, r"Indica l'asímptota vertical, el punt de referència (la imatge del $(1,0)$ de $y=\log_ax$), el domini i la monotonia, i dibuixa-les:" + tasks(4, ['$%s$' % e[0] for e in lg11]),
-     tasks(2, [r'AV $\res{%s}$; punt $%s$; $D=%s$; %s.' % (e[1], e[2], e[3], e[4]) + G(lp(e[5], e[6], float(e[1][2:])), 3) for e in lg11])),
- (2, r"La població d'un poble, que ara té 5\,000 habitants, creix un 3\,\% cada any: $P(t)=5\,000\cdot1{,}03^t$. Quants habitants tindrà d'ací a 10 anys? Quant de temps tardarà a duplicar-se?",
-     r'$P(10)=5\,000\cdot1{,}03^{10}\approx\res{6\,720}$ habitants. \ $1{,}03^t=2\Rightarrow t=\frac{\log2}{\log1{,}03}\approx\res{23{,}45\text{ anys}}$'),
- (2, r"Un pacient pren 200 mg d'un medicament i cada hora se n'elimina el 20\,\%. Escriu la funció que dona la quantitat que queda al cap de $t$ hores. Quant en queda al cap de 3 hores? Quan quedaran menys de 50 mg?",
-     r'$\res{m(t)=200\cdot0{,}8^t}$. \ $m(3)=\res{102{,}4\text{ mg}}$. \ $0{,}8^t\lt0{,}25\Rightarrow t\gt\frac{\log0{,}25}{\log0{,}8}\approx\res{6{,}21\text{ h}}$'),
-]))
-
-# =====================================================================
-# 12. Trigonomètriques
-for v in (PI / 2, 3 * PI / 2): cknum(math.cos(v), 0)
-ck(abs(math.sin(PI) * math.cos(PI)) < 1e-12)
-S_.append(("Funcions trigonomètriques", [
- (1, r"Respon fent servir les gràfiques de les funcions trigonomètriques:" + tasks(1, [
-     r"En quins punts de $[0,2\pi]$ talla l'eix $OX$ la funció $y=\cos x$? On té els màxims i els mínims en $[0,4\pi]$?",
-     r"Quin és el domini de $y=\tan x$? I el període?",
-     r"Indica el recorregut i el període de $y=3\sin x-1$ i de $y=2+\cos x$.",
-     r"Estudia la simetria de $f(x)=\sin x\cdot\cos x$ i de $g(x)=x\sin x$."]),
-     tasks(1, [r'$x=\res{\frac\pi2,\ \frac{3\pi}2}$. Màxims: $\res{(0,1),\ (2\pi,1),\ (4\pi,1)}$; mínims: $\res{(\pi,-1),\ (3\pi,-1)}$.',
-               r'$D=\res{\R-\left\{\frac\pi2+\pi k,\ k\in\mathbb Z\right\}}$; període $\res{\pi}$.',
-               r'$y=3\sin x-1$: $R=\res{\cc{-4}{2}}$, $T=2\pi$. \ $y=2+\cos x$: $R=\res{\cc{1}{3}}$, $T=2\pi$.',
-               r'$f(-x)=-\sin x\cos x=-f(x)$: $\res{\text{senar}}$. \ $g(-x)=(-x)(-\sin x)=g(x)$: $\res{\text{parella}}$.'])),
-]))
-
-# =====================================================================
-# 13. A trossos i valor absolut
-fp = lambda t: 2 * t + 4 if t < -1 else (t * t - 1 if t < 2 else 3)
-ck([fp(-3), fp(0), fp(2), fp(5)] == [-2, -1, 3, 3])
-g13 = Plot(-5, 5, -4, 5, W=230).fn(lambda t: 2 * t + 4, -5, -1).dot(-1, 2, open=True).fn(lambda t: t * t - 1, -1, 2).dot(-1, 0).seg(2, 3, 5, 3).dot(2, 3)
-gq = Plot(-4, 5, -1, 5, W=230).fn(lambda t: -t, -4, 0).fn(lambda t: t * t, 0, 2).dot(2, 4).seg(2, 1, 5, 1).dot(2, 1, open=True)
-ab = [('|x-3|', r'\begin{cases}-x+3, & \text{si } x\lt3\\ x-3, & \text{si } x\geq3\end{cases}', None),
-      ('|x^2-4x|', r'\begin{cases}x^2-4x, & \text{si } x\lt0\\ -x^2+4x, & \text{si } 0\le x\le4\\ x^2-4x, & \text{si } x\gt4\end{cases}', lambda t: abs(t * t - 4 * t)),
-      ('|x^2-x-2|', r'\begin{cases}x^2-x-2, & \text{si } x\lt-1\\ -x^2+x+2, & \text{si } -1\le x\le2\\ x^2-x-2, & \text{si } x\gt2\end{cases}', lambda t: abs(t * t - t - 2)),
-      ('|2x+1|', r'\begin{cases}-2x-1, & \text{si } x\lt-\frac12\\ 2x+1, & \text{si } x\geq-\frac12\end{cases}', None)]
-ckroots('x**2-4*x', [0, 4]); ckroots('x**2-x-2', [-1, 2])
-S_.append(("Funcions a trossos i valor absolut", [
- (1, r"Representa $f(x)=\begin{cases}2x+4, & \text{si } x\lt-1\\ x^2-1, & \text{si } -1\le x\lt2\\ 3, & \text{si } x\geq2\end{cases}$, calcula $f(-3)$, $f(0)$, $f(2)$ i $f(5)$, i estudia'n la continuïtat i el recorregut.",
-     r'$f(-3)=\res{-2}$, $f(0)=\res{-1}$, $f(2)=\res{3}$, $f(5)=\res{3}$. En $x=-1$: $\res{\text{salt finit}}$ (de 2 a 0); en $x=2$: $\res{\text{contínua}}$ (els dos costats arriben a 3). $R=\res{\oc{-\infty}{3}}$.' + G(g13, 4.2)),
- (2, r"Escriu l'expressió de la funció a trossos representada:" + G(gq, 4.2),
-     r'$\res{f(x)=\begin{cases}-x, & \text{si } x\lt0\\ x^2, & \text{si } 0\le x\le2\\ 1, & \text{si } x\gt2\end{cases}}$'),
- (1, r"Escriu a trossos i representa:" + tasks(4, ['$y=%s$' % a_[0] for a_ in ab]) + recorda(r"troba on s'anul·la l'expressió de dins, estudia'n el signe i canvia-li el signe on és negativa."),
-     tasks(2, ['$y=%s$' % a_[1] + (G(Plot(-2, 6, -1, 6, W=170).fn(a_[2]).fn(lambda t: t * t - 4 * t, col='v', dash=True), 2.8) if i == 1 else G(Plot(-3, 4, -1, 6, W=170).fn(a_[2]).fn(lambda t: t * t - t - 2, col='v', dash=True), 2.8) if i == 2 else '') for i, a_ in enumerate(ab)])),
-]))
-
-# =====================================================================
-# 14. Composició i inversa
+# 8. Composició i inversa
 f14, g14, h14 = sympify('x**2+1'), sympify('2*x-3'), sympify('1/(x+1)')
 ckeq(expand(f14.subs(x, g14)), sympify('4*x**2-12*x+10')); ckeq(expand(g14.subs(x, f14)), sympify('2*x**2-1'))
 ckeq(h14.subs(x, g14), sympify('1/(2*x-2)')); ckeq(g14.subs(x, h14), sympify('(-3*x-1)/(x+1)')); ckeq(expand(f14.subs(x, f14)), sympify('x**4+2*x**2+2'))
@@ -370,34 +275,20 @@ S_.append(("Composició de funcions i funció inversa", [
      tasks(2, [r'$f^{-1}(x)=\res{%s}$' % i[3] for i in inv]) + r'Fixa\'t que la funció d) és la seua pròpia inversa.'),
  (2, r"Dibuixa en uns mateixos eixos $f(x)=2^x$, la recta $y=x$ i la inversa de $f$. Quina funció és?",
      r'$f^{-1}(x)=\res{\log_2x}$, simètrica de $2^x$ respecte de $y=x$.' + G(Plot(-3, 6, -3, 6, W=210).seg(-3, -3, 6, 6, 'm', True).fn(lambda t: 2 ** t).fn(lambda t: lg(2, t), .01, 6, 'g'), 3.6)),
+ (2, r"Amb $f(x)=\sqrt x$ i $g(x)=x-4$, calcula $(f\circ g)(x)$ i $(g\circ f)(x)$ i el domini de cadascuna. Calcula $(f\circ g)(13)$ i $(g\circ f)(9)$.",
+     r'$(f\circ g)(x)=\res{\sqrt{x-4}}$, $D=\res{\co{4}{+\infty}}$. \ $(g\circ f)(x)=\res{\sqrt x-4}$, $D=\res{\co{0}{+\infty}}$. \ $(f\circ g)(13)=\res{3}$, $(g\circ f)(9)=\res{-1}$.'),
+ (2, r"D'una funció $f$ que té inversa sabem que $f(1)=3$, $f(2)=5$ i $f(4)=-1$. Calcula $f^{-1}(5)$, $f^{-1}(-1)$ i $(f^{-1}\circ f)(2)$. Quins punts de la gràfica de $f^{-1}$ coneixes?",
+     r'$f^{-1}(5)=\res{2}$, $f^{-1}(-1)=\res{4}$, $(f^{-1}\circ f)(2)=\res{2}$. La gràfica de $f^{-1}$ passa per $\res{(3,1),\ (5,2),\ (-1,4)}$ (s\'intercanvien les coordenades).'),
 ]))
-
-# =====================================================================
-# 15. Estudis complets i problemes
-f15 = sympify('(x+1)/(x-2)'); ckeq(f15, sympify('3/(x-2)+1')); ck(f15.subs(x, 0) == Rational(-1, 2)); ckroots('x+1', [-1])
-g15 = lambda t: t * t - 2 * abs(t)
-ck([g15(-2), g15(0), g15(2), g15(1), g15(-1)] == [0, 0, 0, -1, -1])
-tarifa = lambda t: 10 if t <= 5 else 10 + 2 * (t - 5)
-ck([tarifa(3), tarifa(8), tarifa(5)] == [10, 16, 10])
-S_.append(("Estudis complets i problemes", [
- (2, r"Fes l'estudi complet de $f(x)=\dfrac{x+1}{x-2}$: domini, talls amb els eixos, expressió com a translació de $y=\frac kx$, asímptotes, monotonia, recorregut, simetria i gràfica.",
-     r'$D=\res{\R-\{2\}}$; $OY$: $\res{\left(0,-\frac12\right)}$; $OX$: $\res{(-1,0)}$. $f(x)=\res{\frac{3}{x-2}+1}$: AV $x=2$, AH $y=1$. Decreixent a cada branca; $R=\res{\R-\{1\}}$; sense simetria.'
-     + G(Plot(-6, 8, -5, 7, W=220, lx=2, ly=2).fn(lambda t: (t + 1) / (t - 2) if t != 2 else None).vl(2).hl(1).dot(0, -.5, 'g').dot(-1, 0, 'b'), 4)),
- (2, r"Escriu a trossos $f(x)=x^2-2|x|$ i fes-ne l'estudi: domini, talls, simetria, monotonia, extrems i recorregut.",
-     r'$f(x)=\res{\begin{cases}x^2+2x, & \text{si } x\lt0\\ x^2-2x, & \text{si } x\geq0\end{cases}}$. $D=\R$; talls $(-2,0)$, $(0,0)$, $(2,0)$; $\res{\text{parella}}$. Decreixent en $\oo{-\infty}{-1}\cup\oo{0}{1}$ i creixent en $\oo{-1}{0}\cup\oo{1}{+\infty}$; mínims absoluts $\res{(-1,-1),\ (1,-1)}$, màxim relatiu $\res{(0,0)}$; $R=\res{\co{-1}{+\infty}}$.'
-     + G(Plot(-3.5, 3.5, -2, 4, W=220).fn(g15).dot(-1, -1, 'v').dot(1, -1, 'v').dot(0, 0, 'v').dot(-2, 0, 'b').dot(2, 0, 'b'), 4)),
- (2, r"Una companyia de telefonia cobra 10~€ al mes si es gasten com a molt 5 GB de dades, i 2~€ més per cada GB que passe de 5. Escriu la funció que dona el preu segons els GB gastats, $x\geq0$, representa-la i calcula el preu si es gasten 3 GB i 8 GB. És contínua?",
-     r'$\res{f(x)=\begin{cases}10, & \text{si } 0\le x\le5\\ 2x, & \text{si } x\gt5\end{cases}}$ \ ($10+2(x-5)=2x$). \ $f(3)=\res{10\text{ €}}$, $f(8)=\res{16\text{ €}}$. És $\res{\text{contínua}}$: en $x=5$ els dos trossos valen 10.'
-     + G(Plot(-1, 10, -2, 22, W=220, sy=2, ly=4).seg(0, 10, 5, 10).fn(lambda t: 2 * t, 5, 10).dot(0, 10), 4)),
-]))
-ck(all(2 * t == 10 + 2 * (t - 5) for t in range(6, 12)))
+ck(math.sqrt(13 - 4) == 3 and math.sqrt(9) - 4 == -1)
+ckdom(lambda t: math.sqrt(t - 4), lambda t: t >= 4, (4,))
 
 assert all(CHK)
 
 # =====================================================================
 pre = open(os.path.join(HERE, 'preamble.tex'), encoding='utf-8').read()
 pre = pre.split('% ---------- recta real ----------')[0]
-KW = "pdfkeywords={funcions, domini, recorregut, punts de tall, monotonia, màxims i mínims, continuïtat, simetria, periodicitat, funció lineal, paràbola, hipèrbola, funció radical, exponencial, logaritme, funcions a trossos, valor absolut, composició, funció inversa}"
+KW = "pdfkeywords={funcions, domini, recorregut, punts de tall, monotonia, màxims i mínims, continuïtat, simetria, periodicitat, translacions, composició, funció inversa}"
 pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda mm: KW, pre)
 pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques I}')
 pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
@@ -452,7 +343,7 @@ def build(sol):
 
 \begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
 \small ''' + (r"Intenta resoldre cada exercici abans de mirar-ne la solució. Els intervals s'escriuen com als apunts: $\left]a,b\right[$ obert i $[a,b]$ tancat. Pots comprovar dominis, talls, translacions, composicions i inverses amb els ginys dels apunts interactius de la unitat."
-             if sol else r"Resol els exercicis al quadern mostrant tots els passos i fes un dibuix sempre que t'ajude. Escriu els intervals com als apunts ($\left]a,b\right[$ obert, $[a,b]$ tancat). Les seccions segueixen l'ordre dels apunts i la darrera té estudis complets i problemes.") + r'''
+             if sol else r"Resol els exercicis al quadern mostrant tots els passos i fes un dibuix sempre que t'ajude. Escriu els intervals com als apunts ($\left]a,b\right[$ obert, $[a,b]$ tancat). Les seccions segueixen l'ordre dels apunts de la unitat.") + r'''
 \end{tcolorbox}
 ''')
     for i, (title, exs) in enumerate(S_, 1):

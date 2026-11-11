@@ -249,18 +249,27 @@ cd _eines/fonts-latex/1batx-mi-t6 && python3 genera.py && pdflatex t6-fitxa-exer
 ```
 
 Els apunts de 1r Batx MI de la unitat 7 (Estudi de funcions, carpeta `1batx-mi-t7`) parteixen dels apunts «Funcions i
-característiques» del departament (que allí eren la unitat 6) i tenen 16 apartats (7.1-7.16): concepte de funció, domini i
-recorregut, talls, monotonia, continuïtat, simetries i periodicitat, les famílies de funcions amb les seues translacions, funcions
-a trossos i valor absolut, composició i inversa. Les 106 figures fixes es defineixen a `fig.py` (classe `Plot`, que dibuixa la
-mateixa gràfica en SVG per als apunts i en TikZ per a la fitxa) i es posen al contingut amb el marcador `@@FIG:nom@@`. Els ginys de
-`app.js` tenen un analitzador d'expressions propi: calculadora de dominis (condicions i intervals), talls, simetria, composició, i
-laboratoris de translacions, recta per dos punts, paràbola, a trossos pas a pas, valor absolut i inversa. A `materials.js` la
-unitat porta `num: "7"` i és del bloc d'anàlisi. La fitxa (`_eines/fonts-latex/1batx-mi-t7/genera.py`) té 41 exercicis en 15
-seccions; sympy comprova talls, vèrtexs, composicions i inverses, i els dominis es comproven numèricament:
+característiques» del departament (que allí eren la unitat 6) i tenen 9 apartats (7.1-7.9): concepte de funció, domini i
+recorregut, talls, monotonia, continuïtat, simetries i periodicitat, transformacions (translacions), composició i inversa. Les
+figures fixes de les unitats 7 i 8 es defineixen a `1batx-mi-t7/fig.py` (classe `Plot`, que dibuixa la mateixa gràfica en SVG per
+als apunts i en TikZ per a les fitxes) i es posen al contingut amb el marcador `@@FIG:nom@@`. Els ginys de `app.js` tenen un
+analitzador d'expressions propi: calculadora de dominis, talls, simetria, translacions, composició i inversa. La fitxa
+(`_eines/fonts-latex/1batx-mi-t7/genera.py`) té 30 exercicis en 8 seccions; sympy comprova talls, composicions i inverses, i els
+dominis es comproven numèricament. Els estudis complets de funcions aniran en una unitat posterior.
+
+Els apunts de la unitat 8 (Funcions elementals, carpeta `1batx-mi-t8`) tenen 9 apartats (8.1-8.9): lineals i afins, quadràtiques i
+cúbiques, racionals, radicals, exponencials, logarítmiques, trigonomètriques, a trossos i valor absolut, i problemes de màxims i
+mínims amb funcions quadràtiques (vèrtex i extrems de l'interval, sense límits ni derivades). `build.py` agafa `fig.py` de la carpeta
+de la unitat 7; `app.js` repeteix la part comuna (analitzador i gràfiques) de la unitat 7. La fitxa
+(`_eines/fonts-latex/1batx-mi-t8/genera.py`) té 35 exercicis en 8 seccions, l'última amb problemes d'ingressos, costos, beneficis i
+àrees; els màxims i mínims en un interval es comproven també amb una malla fina. Les dues unitats porten `num: "7"` i `num: "8"` a
+`materials.js` i són del bloc d'anàlisi:
 
 ```
 python3 _eines/apunts/1batx-mi-t7/build.py
+python3 _eines/apunts/1batx-mi-t8/build.py
 cd _eines/fonts-latex/1batx-mi-t7 && python3 genera.py && pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex
+cd _eines/fonts-latex/1batx-mi-t8 && python3 genera.py && pdflatex t8-fitxa-exercicis.tex && pdflatex t8-fitxa-solucions.tex
 ```
 
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
