@@ -325,7 +325,7 @@ window.LEVELS = {
     },
     units: [
       {
-        // num: el número de la unitat als apunts del departament (les unitats 3 i 4 encara no estan penjades)
+        // num: el número de la unitat als apunts del departament. Les unitats 3 i 4 dels apunts (Trigonometria 1 i 2) són una sola unitat, la 3
         num: "1",
         ill: "reals", block: "ari",
         title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
@@ -343,6 +343,16 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t2-algebra.html", date: "2026-11-10" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 103 exercicis, dels polinomis a les inequacions i els problemes", es: "PDF · 103 ejercicios, de los polinomios a las inecuaciones y los problemas", en: "PDF · 103 exercises, from polynomials to inequalities and word problems" }, url: "materials/1batx-mi/t2-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 103 exercicis", es: "PDF · Soluciones de los 103 ejercicios", en: "PDF · Solutions to all 103 exercises" }, url: "materials/1batx-mi/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+        ]
+      },
+      {
+        num: "3",
+        ill: "trigonometria", block: "geo",
+        title: { va: "Trigonometria", es: "Trigonometría", en: "Trigonometry" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t3-trigonometria.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 73 exercicis, dels radians a les funcions trigonomètriques", es: "PDF · 73 ejercicios, de los radianes a las funciones trigonométricas", en: "PDF · 73 exercises, from radians to the trigonometric functions" }, url: "materials/1batx-mi/t3-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 73 exercicis", es: "PDF · Soluciones de los 73 ejercicios", en: "PDF · Solutions to all 73 exercises" }, url: "materials/1batx-mi/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
         ]
       },
       {

@@ -224,6 +224,22 @@ python3 _eines/apunts/1batx-mi-t2/build.py
 cd _eines/fonts-latex/1batx-mi-t2 && python3 genera.py && pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex
 ```
 
+Els apunts de 1r Batx MI de la unitat 3 (Trigonometria, carpeta `1batx-mi-t3`) ajunten en una sola unitat les dues parts dels apunts
+del departament (Trigonometria 1 i 2): 13 apartats (3.1-3.13), del radian a les funcions trigonomètriques. Funcionen com els de la
+unitat 2; a més, dins de les fórmules `{,}` és la coma decimal i en anglés es converteix sola en un punt. Els ginys de `app.js`:
+radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una (exactes amb arrels), reducció al primer quadrant,
+triangles rectangles, laboratori del triangle (teoremes del sinus i del cosinus), resolució de triangles pas a pas (amb el cas ambigu),
+fórmules de la suma amb valors exactes, comprovador d'identitats, equacions elementals, de la circumferència a la gràfica i
+`y = A·f(Bx+C)+D`. A `materials.js` la unitat porta `num: "3"` i és del bloc de geometria. La fitxa
+(`_eines/fonts-latex/1batx-mi-t3/genera.py`) té els exercicis de les dues fitxes del departament (1-41 i 42-60, en el mateix ordre)
+i una secció 13 amb 13 exercicis nous; calcula tots els valors numèrics, compara les solucions exactes amb el valor numèric i
+comprova que les equacions i els sistemes tenen exactament les solucions donades:
+
+```
+python3 _eines/apunts/1batx-mi-t3/build.py
+cd _eines/fonts-latex/1batx-mi-t3 && python3 genera.py && pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i
