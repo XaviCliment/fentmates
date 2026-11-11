@@ -374,6 +374,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 73 exercicis, dels radians a les funcions trigonomètriques", es: "PDF · 73 ejercicios, de los radianes a las funciones trigonométricas", en: "PDF · 73 exercises, from radians to the trigonometric functions" }, url: "materials/1batx-mi/t6-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 73 exercicis", es: "PDF · Soluciones de los 73 ejercicios", en: "PDF · Solutions to all 73 exercises" }, url: "materials/1batx-mi/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
         ]
+      },
+      {
+        num: "7",
+        ill: "grafiques", block: "an",
+        title: { va: "Estudi de funcions", es: "Estudio de funciones", en: "Studying functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t7-estudi-funcions.html", date: "2026-11-11" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 41 exercicis, del domini a la funció inversa", es: "PDF · 41 ejercicios, del dominio a la función inversa", en: "PDF · 41 exercises, from domains to inverse functions" }, url: "materials/1batx-mi/t7-fitxa-exercicis.pdf", download: true, date: "2026-11-11" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 41 exercicis", es: "PDF · Soluciones de los 41 ejercicios", en: "PDF · Solutions to all 41 exercises" }, url: "materials/1batx-mi/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-11" }
+        ]
       }
     ]
   },

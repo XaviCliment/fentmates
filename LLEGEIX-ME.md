@@ -248,6 +248,21 @@ python3 _eines/apunts/1batx-mi-t6/build.py
 cd _eines/fonts-latex/1batx-mi-t6 && python3 genera.py && pdflatex t6-fitxa-exercicis.tex && pdflatex t6-fitxa-solucions.tex
 ```
 
+Els apunts de 1r Batx MI de la unitat 7 (Estudi de funcions, carpeta `1batx-mi-t7`) parteixen dels apunts «Funcions i
+característiques» del departament (que allí eren la unitat 6) i tenen 16 apartats (7.1-7.16): concepte de funció, domini i
+recorregut, talls, monotonia, continuïtat, simetries i periodicitat, les famílies de funcions amb les seues translacions, funcions
+a trossos i valor absolut, composició i inversa. Les 106 figures fixes es defineixen a `fig.py` (classe `Plot`, que dibuixa la
+mateixa gràfica en SVG per als apunts i en TikZ per a la fitxa) i es posen al contingut amb el marcador `@@FIG:nom@@`. Els ginys de
+`app.js` tenen un analitzador d'expressions propi: calculadora de dominis (condicions i intervals), talls, simetria, composició, i
+laboratoris de translacions, recta per dos punts, paràbola, a trossos pas a pas, valor absolut i inversa. A `materials.js` la
+unitat porta `num: "7"` i és del bloc d'anàlisi. La fitxa (`_eines/fonts-latex/1batx-mi-t7/genera.py`) té 41 exercicis en 15
+seccions; sympy comprova talls, vèrtexs, composicions i inverses, i els dominis es comproven numèricament:
+
+```
+python3 _eines/apunts/1batx-mi-t7/build.py
+cd _eines/fonts-latex/1batx-mi-t7 && python3 genera.py && pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i
