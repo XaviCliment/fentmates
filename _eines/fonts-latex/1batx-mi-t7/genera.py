@@ -175,21 +175,32 @@ ck(fc(-1) == 2 and fc(1) == -2); ckroots('3*x**2-3', [-1, 1])
 g5 = Plot(-6, 6, -2, 5, W=320)
 g5.fn(lambda t: t / 2 + 3, -6, 0).dot(-3, 1.5, open=True).dot(-3, 3.5).dot(0, 3, open=True)
 g5.fn(lambda t: 1 - t / 2, 0, 2).dot(0, 1).dot(2, 0, open=True).fn(lambda t: 1 / (t - 2), 2.02, 6).vl(2)
-c5 = [(r'f(x)=\dfrac{x^2-4}{x-2}', 'evitable en $x=2$ (els dos costats arriben a 4, però $f(2)$ no existeix)'),
-      (r'g(x)=\dfrac{1}{(x-1)^2}', r'asimptòtica en $x=1$ (pels dos costats tendeix a $+\infty$)'),
-      (r'h(x)=\begin{cases}x+1, & \text{si } x\lt1\\ 3-x, & \text{si } x\geq1\end{cases}', 'contínua: els dos trossos arriben a 2 i $h(1)=2$'),
-      (r'k(x)=\begin{cases}x^2, & \text{si } x\le0\\ x+2, & \text{si } x\gt0\end{cases}', 'salt finit en $x=0$ (de 0 a 2)')]
-ckeq(sympify('(x**2-4)/(x-2)').subs(x, 2.0000001) - 4 < 1e-5, True) if False else None
-cknum((2.000001 ** 2 - 4) / (2.000001 - 2), 4, 1e-5)
+# exercici 15: una altra gràfica amb tres discontinuïtats de tipus diferents
+g15 = Plot(-6, 7, -2, 7, W=320)
+g15.fn(lambda t: t + 5, -6, -3).dot(-6, -1).dot(-3, 2, open=True).dot(-3, 4)
+g15.fn(lambda t: 2 - (t + 3) / 2, -3, 1).dot(1, 0)
+g15.fn(lambda t: 2 / (t - 1), 1.05, 3).dot(3, 1, open=True).vl(1)
+g15.fn(lambda t: t - 1, 3, 7).dot(3, 2)
+ck(-3 + 5 == 2 - 0 / 2 and 2 - (1 + 3) / 2 == 0 and 2 / (3 - 1) == 1 and 3 - 1 == 2)
+# exercici 16: quatre gràfiques, totes estudiades en x = 2
+def c16():
+    return Plot(-1, 5, -2, 5, W=170)
+g16 = [c16().fn(lambda t: 3 + (t - 2) / 2 - (t - 2) ** 2 / 4).dot(2, 3, open=True),
+       c16().fn(lambda t: (t - 2) / 2 + 1, -1, 2).dot(2, 1).fn(lambda t: 3 + (t - 2) ** 2 / 3, 2, 5).dot(2, 3, open=True),
+       c16().fn(lambda t: abs(t - 2) + 1).dot(2, 1),
+       c16().fn(lambda t: 1 / (t - 2) + 1 if abs(t - 2) > 1e-9 else None).vl(2)]
+s16 = [r'Discontinuïtat $\res{\text{evitable}}$: els dos costats arriben a 3, però $f(2)$ no existeix. Seria contínua si $\res{f(2)=3}$.',
+       r'Discontinuïtat de $\res{\text{salt finit}}$: per l\'esquerra arriba a 1 (i $f(2)=1$) i per la dreta a 3; el salt és de 2 unitats.',
+       r'$\res{\text{Contínua}}$: els dos costats arriben a 1 i $f(2)=1$. Té un pic, però es dibuixa sense alçar el llapis.',
+       r'Discontinuïtat $\res{\text{asimptòtica}}$: per l\'esquerra tendeix a $-\infty$ i per la dreta a $+\infty$ (asímptota vertical $x=2$).']
 S_.append(("Continuïtat", [
  (1, r"Indica en quins punts és discontínua aquesta funció i classifica cada discontinuïtat." + G(g5, 6.2),
      r'$x=-3$: $\res{\text{evitable}}$ (el punt està fora de lloc). $x=0$: $\res{\text{salt finit}}$ (de 3 a 1). $x=2$: $\res{\text{salt infinit}}$ (per l\'esquerra arriba a 0 i per la dreta tendeix a $+\infty$).'),
- (2, r"Estudia la continuïtat d'aquestes funcions i classifica les discontinuïtats:" + tasks(2, ['$%s$' % c[0] for c in c5]),
-     tasks(1, [c[1] for c in c5])),
- (2, r"Troba el valor de $a$ perquè la funció $f(x)=\begin{cases}x^2+a, & \text{si } x\lt1\\ 2x+3, & \text{si } x\geq1\end{cases}$ siga contínua. Quin tipus de discontinuïtat té si $a=0$?",
-     r'Per l\'esquerra arriba a $1+a$ i per la dreta a $f(1)=5$: $1+a=5\Rightarrow\res{a=4}$. Si $a=0$: $\res{\text{salt finit}}$ en $x=1$ (de 1 a 5).'),
+ (1, r"Indica en quins punts és discontínua aquesta funció i classifica cada discontinuïtat. En quins intervals és contínua?" + G(g15, 6.2),
+     r'$x=-3$: $\res{\text{evitable}}$ (els dos costats arriben a 2, però $f(-3)=4$: el punt està fora de lloc). $x=1$: $\res{\text{salt infinit}}$ (per l\'esquerra arriba a 0 i per la dreta tendeix a $+\infty$). $x=3$: $\res{\text{salt finit}}$ (per l\'esquerra arriba a 1 i $f(3)=2$). És contínua en $\res{\co{-6}{-3}\cup\oo{-3}{1}\cup\oo{1}{3}\cup\cc{3}{7}}$, és a dir, en cada tros entre aquests punts.'),
+ (2, r"Estudia la continuïtat de cada funció en $x=2$. Si és discontínua, classifica la discontinuïtat i, si és evitable, indica quin valor hauria de tindre $f(2)$ perquè fos contínua." + tasks(4, [Gi(p, 3.05) for p in g16]),
+     tasks(1, s16)),
 ]))
-ck(1 + 4 == 2 * 1 + 3)
 
 # =====================================================================
 # 6. Simetries i periodicitat
