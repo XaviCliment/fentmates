@@ -1,0 +1,1413 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistemes d'equacions i inequacions · FentMates</title>
+<meta name="description" content="Apunts interactius de la Unitat 3 (Sistemes d'equacions i inequacions: mètode de Gauss, sistemes no lineals, sistemes d'inequacions, regions del pla i problemes) de 1r de Batxillerat MI, en valencià, castellà i anglés.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+/* Idioma i tema abans de pintar (comparteix preferències amb la web) */
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --def: #1d4f73; --def-bg: #eef4f9; --prop: #3b4252; --prop-bg: #f3f4f7;
+  --ex: #a3203a; --ex-bg: #fbf0f2; --pr: #b7791f; --pr-bg: #fff8e8;
+  --hl-a: rgba(255, 122, 80, .22); --hl-b: rgba(43, 179, 163, .25); --hl-c: rgba(59, 130, 246, .2);
+  --plus: #2563eb; --minus: #dc2626; --ok: #15803d; --bad: #c2410c;
+  --radius: 16px; --header-h: 60px;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+  --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+  --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+    --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+    --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+  }
+}
+
+/* idiomes */
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Outfit", "Inter", system-ui, sans-serif; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 .5em; }
+a { color: inherit; }
+p { margin: .6em 0; }
+strong { font-weight: 650; }
+.katex { font-size: 1.08em; }
+.katex-display { margin: .9em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* capçalera */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .in { max-width: 1240px; margin: 0 auto; height: 100%; padding: 0 16px; display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.15rem; }
+.brand .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+.crumb { color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { text-decoration: none; } .crumb a:hover { color: var(--accent); }
+.spacer { flex: 1; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn svg { width: 18px; height: 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .1s; }
+html[data-embed="1"] .brand, html[data-embed="1"] .crumb { display: none; }
+
+/* portada */
+.hero { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; position: relative; overflow: hidden; }
+.hero::after { content: "|A|"; position: absolute; right: -10px; bottom: -60px; font: 800 15rem/1 "Outfit", sans-serif; color: rgba(255,255,255,.05); pointer-events: none; }
+.hero .in { max-width: 1240px; margin: 0 auto; padding: 44px 16px 40px; position: relative; z-index: 1; }
+.hero .kicker { display: inline-block; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 999px; font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 14px 0 8px; }
+.hero h1 .u { color: var(--yellow); }
+.hero p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: .82rem; padding: 4px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); }
+html[data-embed="1"] .hero .in { padding: 28px 16px 26px; }
+
+/* disposició */
+.layout { max-width: 1240px; margin: 0 auto; padding: 28px 16px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+.toc { position: sticky; top: calc(var(--header-h) + 18px); align-self: start; max-height: calc(100vh - var(--header-h) - 36px); overflow: auto; }
+.toc details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 10px 10px; }
+.toc summary { list-style: none; font: 700 .78rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 8px; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 10px; text-decoration: none; font-size: .9rem; color: var(--muted); line-height: 1.35; }
+.toc a:hover { background: var(--surface-2); color: var(--text); }
+.toc a.active { background: var(--surface-2); color: var(--text); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.toc a .n { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2em; color: var(--accent); }
+.toc a .ck { margin-left: auto; color: var(--ok); visibility: hidden; }
+.toc a.done .ck { visibility: visible; }
+.toc .meter { margin: 10px 8px 4px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.toc .meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.toc .meter-l { font-size: .78rem; color: var(--muted); padding: 2px 8px 0; }
+article { min-width: 0; max-width: 860px; }
+
+/* seccions */
+section.unit { margin-bottom: 56px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.sec-head .num { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 800 1.05rem "Outfit", sans-serif; }
+:root[data-theme="dark"] .sec-head .num { background: var(--accent); }
+.sec-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); flex: 1; min-width: 200px; }
+.done-btn { border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.done-btn[aria-pressed="true"] { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+h3.sub { font-size: 1.2rem; margin: 30px 0 10px; }
+
+/* caixes */
+.box { border-radius: var(--radius); margin: 18px 0; border: 1.5px solid; overflow: hidden; }
+.box > .bh { padding: 9px 18px; font: 700 1rem "Outfit", sans-serif; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+.box > .bb { padding: 6px 20px 14px; }
+.box .tag { font: 700 .68rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.box.def { border-color: var(--def); background: var(--def-bg); }
+.box.def > .bh { background: var(--def); color: #fff; }
+.box.prop { border-color: var(--prop); background: var(--prop-bg); }
+.box.prop > .bh { background: var(--prop); color: var(--bg); justify-content: center; text-transform: uppercase; font-size: .95rem; letter-spacing: .04em; }
+.box.ex { border-color: var(--ex); background: var(--ex-bg); }
+.box.ex > .bh { color: var(--ex); border-bottom: 1px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.box.pr { border-color: var(--pr); background: var(--pr-bg); }
+.box.pr > .bh { color: var(--pr); }
+.box.lab { border-color: var(--accent-2); background: var(--surface); box-shadow: var(--shadow); }
+.box.lab > .bh { background: linear-gradient(90deg, var(--accent-2), #3fc7b6); color: #fff; }
+:root[data-theme="dark"] .box.def > .bh, :root[data-theme="dark"] .box.prop > .bh { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .box.def > .bh, :root:not([data-theme="light"]) .box.prop > .bh { color: #0f1526; } }
+.box ul, .box ol { padding-left: 1.4em; }
+.box li { margin: .45em 0; }
+ol.alpha { list-style: lower-alpha; }
+.key { background: color-mix(in srgb, var(--yellow) 35%, transparent); padding: 0 4px; border-radius: 4px; }
+.u-line { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.note { border-left: 4px solid var(--accent); background: var(--surface); padding: 10px 16px; border-radius: 0 12px 12px 0; margin: 14px 0; }
+.ex-list > li { margin: 1.1em 0; }
+.ex-list > li::marker { font-weight: 700; color: var(--ex); }
+
+/* passos */
+.steps > .step { transition: opacity .3s, transform .3s; }
+.steps.js > .step.hidden { display: none; }
+.steps-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 14px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.step-count { font-size: .8rem; color: var(--muted); align-self: center; }
+
+/* solucions */
+details.sol { margin: 12px 0 4px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--pr); }
+details.sol > summary { cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--pr); list-style: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol > div { padding: 0 16px 12px; }
+
+/* taula COVID */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; }
+table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: .9rem; background: var(--surface); border-radius: 12px; overflow: hidden; }
+table.data th, table.data td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+table.data thead th, table.data tbody th { background: color-mix(in srgb, var(--yellow) 70%, var(--surface)); color: #1b2340; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+table.data tbody tr:hover td { background: var(--hl-a); }
+
+/* matrius interactives */
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--shadow); }
+.widget .wt { font: 700 .75rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-2); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+.wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.mx { display: inline-grid; gap: 2px 4px; padding: 6px 12px; position: relative; font-variant-numeric: tabular-nums; }
+.mx::before, .mx::after { content: ""; position: absolute; top: 0; bottom: 0; width: 9px; border: 2px solid var(--text); }
+.mx::before { left: 0; border-right: 0; border-radius: 10px 0 0 10px; }
+.mx::after { right: 0; border-left: 0; border-radius: 0 10px 10px 0; }
+.mx.det::before, .mx.det::after { width: 0; border-radius: 0; border-width: 0 0 0 2px; }
+.mx.det::after { border-width: 0 2px 0 0; }
+.mx .c { min-width: 2.3em; height: 2.1em; display: grid; place-items: center; border-radius: 8px; transition: background .15s, opacity .15s, color .15s; cursor: default; font-size: .98rem; }
+.mx .c.hot { cursor: pointer; }
+.mx .c.hot:hover { background: var(--surface-2); }
+.mx .c.on { background: var(--hl-a); font-weight: 700; }
+.mx .c.on2 { background: var(--hl-b); font-weight: 700; }
+.mx .c.off { opacity: .25; text-decoration: line-through; }
+.mx .c.plus { background: var(--hl-c); color: var(--plus); font-weight: 700; }
+.mx .c.minus { background: rgba(220, 38, 38, .14); color: var(--minus); font-weight: 700; }
+.mx .c.r1 { color: var(--r1); } .mx .c.r2 { color: var(--r2); } .mx .c.r3 { color: var(--r3); } .mx .c.r4 { color: var(--r4); }
+.mx .c.r1, .mx .c.r2, .mx .c.r3, .mx .c.r4 { font-weight: 700; }
+.mx input { width: 3.1em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.mx input.sel { outline: 2px solid var(--accent); background: var(--hl-a); }
+.mx input.off { opacity: .3; }
+.op { font: 600 1.25rem "Outfit", sans-serif; color: var(--muted); }
+.lbl { font: 700 1.05rem "Outfit", sans-serif; }
+.info { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 2.8em; font-size: .95rem; overflow-x: auto; }
+.terms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.terms button { font: 600 .82rem "Inter", sans-serif; border-radius: 999px; padding: 5px 11px; cursor: pointer; border: 1.5px solid; background: var(--surface); }
+.terms button.p { color: var(--plus); border-color: var(--plus); }
+.terms button.m { color: var(--minus); border-color: var(--minus); }
+.terms button.act.p { background: var(--plus); color: #fff; } .terms button.act.m { background: var(--minus); color: #fff; }
+input[type="range"] { accent-color: var(--accent); width: 180px; }
+select { font: 500 .9rem "Inter", sans-serif; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 .82rem "Inter", sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.lab-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.lab-out .card { background: var(--surface-2); border-radius: 12px; padding: 10px 14px; overflow-x: auto; }
+.lab-out .card h4 { margin: 0 0 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-family: "Inter", sans-serif; }
+
+/* SVG Sarrus */
+.sarrus-fig { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 10px 0; }
+.sarrus-fig svg { width: 210px; height: auto; }
+.sarrus-fig text { font: italic 600 15px "Times New Roman", serif; fill: var(--text); }
+.sarrus-fig text.sgn { font: 700 28px "Inter", sans-serif; font-style: normal; }
+
+/* qüestionari */
+.quiz .q { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 12px 0; }
+.quiz .q p.qt { font-weight: 600; margin: 0 0 8px; }
+.quiz .opts { display: grid; gap: 6px; }
+.quiz .opts button { text-align: left; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; padding: 8px 12px; font: 500 .95rem "Inter", sans-serif; cursor: pointer; }
+.quiz .opts button:hover:not([disabled]) { border-color: var(--accent); }
+.quiz .opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg)); }
+.quiz .opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg)); }
+.quiz .fb { font-size: .9rem; margin-top: 8px; color: var(--muted); }
+.score { font: 700 1.1rem "Outfit", sans-serif; margin-top: 12px; }
+
+footer.foot { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; text-align: center; padding: 24px 16px 40px; }
+html[data-embed="1"] footer.foot { display: none; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; box-shadow: var(--shadow); }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
+  .toc { position: static; max-height: none; }
+  .toc summary { cursor: pointer; }
+  .toc summary::after { content: "▾"; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .box > .bb { padding: 4px 14px 12px; }
+  .crumb { display: none; }
+  .widget { padding: 12px; }
+  .mx .c { min-width: 2em; }
+}
+@media print {
+  .topbar, .toc, .steps-ctl, .done-btn, .to-top, .widget, .quiz-sec, footer.foot { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .steps.js > .step.hidden { display: block; }
+  details.sol { display: none; }
+  .hero { background: none; color: #000; } .hero p, .hero .chips span { color: #333; }
+  .box { break-inside: avoid; }
+}
+
+/* unitat 4: límits i continuïtat */
+.hero::after { content: "lím"; font-size: 12rem; bottom: -40px; }
+figure.lfig { margin: 16px auto; max-width: 460px; }
+figure.lfig.sm { max-width: 300px; margin: 8px auto; }
+figure.lfig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.lp-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.lp-svg .g { stroke: var(--border); stroke-width: 1; }
+.lp-svg .ax { stroke: var(--muted); stroke-width: 1.5; }
+.lp-svg .asy { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 6 5; fill: none; }
+.lp-svg text { font: 600 10.5px "Inter", sans-serif; fill: var(--muted); }
+.lp-svg text.vl { fill: var(--text); font-size: 12px; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+.lp-svg .cv { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.lp-svg .gd { stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 4; }
+.lp-svg circle.open { fill: var(--bg); stroke-width: 2.2; }
+.lp-svg circle.mk { stroke: var(--bg); stroke-width: 2; }
+.two figure.lfig { margin: 8px auto; }
+.fig4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 12px 0; }
+.fig4 figure { margin: 0; }
+.fig4 .ttl { font: 700 .95rem "Outfit", sans-serif; text-align: center; margin: 4px 0 2px; }
+.badge { display: inline-block; font: 700 .78rem "Inter", sans-serif; padding: 3px 10px; border-radius: 999px; color: #fff; letter-spacing: .02em; vertical-align: middle; }
+.badge.ok { background: #15803d; } .badge.ev { background: #2563eb; } .badge.sf { background: #c2410c; } .badge.si { background: #7c3aed; } .badge.as { background: #a3203a; }
+.lw-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .lw-wrap { grid-template-columns: 1fr; } }
+.tin { height: 2.2em; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 8px; min-width: 0; }
+.tin.w { width: 100%; max-width: 320px; }
+.tin.s { width: 4.2em; text-align: center; }
+.tin.bad { outline: 2px solid var(--bad); }
+.wctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 8px 0; font-size: .92rem; }
+.wctl label { display: inline-flex; align-items: center; gap: 6px; }
+.pcs { display: grid; gap: 6px; margin: 8px 0; }
+.pc { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: .9rem; }
+.pc .tin.w { max-width: 210px; flex: 1 1 150px; }
+.pc .tin.s { width: 3.6em; }
+.pc .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+.vtbl { overflow-x: auto; margin-top: 8px; }
+table.data.sm { min-width: 0; font-variant-numeric: tabular-nums; }
+table.data td.hl { background: var(--hl-b); font-weight: 700; }
+table.data.rf td { min-width: 3.2em; }
+.verdict { margin-top: 8px; font-weight: 600; }
+.msg-ok { color: var(--ok); font-weight: 700; }
+.msg-bad { color: var(--bad); font-weight: 700; }
+.hier { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 14px 0; font-size: 1.05rem; }
+.hier .lv { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 14px; text-align: center; line-height: 1.3; }
+.hier .lv small { display: block; font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.hier .lt { color: var(--accent); font: 800 1.3rem "Outfit", sans-serif; }
+table.data.ops td, table.data.ops th { font-size: .95rem; }
+table.data.ops td.ind { background: color-mix(in srgb, var(--bad) 14%, var(--surface)); font-weight: 700; color: var(--bad); }
+.indet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; }
+.indet > span { background: color-mix(in srgb, var(--bad) 12%, var(--surface)); border: 1.5px solid color-mix(in srgb, var(--bad) 50%, transparent); border-radius: 10px; padding: 4px 12px; }
+.pau { display: inline-block; font: 700 .72rem "Inter", sans-serif; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: var(--navy); color: #fff; margin-right: 6px; vertical-align: 2px; }
+:root[data-theme="dark"] .pau { background: var(--accent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pau { background: var(--accent); } }
+.rf { border-collapse: collapse; margin: 6px 0; font-variant-numeric: tabular-nums; }
+.rf td { padding: 3px 10px; text-align: center; }
+.rf tr:first-child td:first-child { border-right: 2px solid var(--text); }
+.rf tr:nth-child(2) td { border-bottom: 2px solid var(--text); }
+.rf tr td:first-child { border-right: 2px solid var(--text); }
+.rf .rz { color: var(--ok); font-weight: 700; }
+table.data th .katex, .widget .wt .katex { text-transform: none; }
+.kv-tbl td:first-child { white-space: nowrap; }
+input[type="range"].wide { width: min(320px, 100%); }
+
+/* unitat 9: probabilitat (s'afegeix després de l'extra.css de la unitat 4) */
+.hero::after { content: "P(A)"; font-size: 11rem; bottom: -40px; right: 10px; font-style: italic; }
+.pr-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.pr-svg text { font: 600 13px "Inter", sans-serif; fill: var(--text); }
+.pr-svg text.sm { font-size: 11px; fill: var(--muted); }
+.pr-svg text.pb { font-size: 12px; fill: var(--accent-2); font-weight: 700; }
+.pr-svg .omega { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+.pr-svg .set { fill: none; stroke: var(--text); stroke-width: 1.8; }
+.pr-svg .reg { fill: var(--accent); fill-opacity: 0; transition: fill-opacity .2s; }
+.pr-svg .reg.on { fill-opacity: .55; }
+.pr-svg .hit { cursor: pointer; }
+.pr-svg .br { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.pr-svg .br.on { stroke: var(--accent); stroke-width: 3; }
+.pr-svg .nd { fill: var(--surface); stroke: var(--border); stroke-width: 1.2; }
+.pr-svg .nd.on { stroke: var(--accent); stroke-width: 2.2; }
+.pr-svg circle.ball { stroke: var(--bg); stroke-width: 1.5; }
+.pr-svg .cell { fill: var(--surface); stroke: var(--border); }
+.pr-svg .cell.on { fill: var(--accent); fill-opacity: .45; }
+.venn-fig { max-width: 300px; margin: 8px auto; }
+.venn-fig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.venn6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.venn6 figure { margin: 0; }
+.venn6 figcaption { text-align: center; font-size: .9rem; margin-top: 2px; }
+.ops-btns { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.ops-btns .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.big-p { font: 700 1.15rem "Outfit", sans-serif; }
+table.data.ct td, table.data.ct th { font-variant-numeric: tabular-nums; }
+table.data.ct td.on { background: var(--hl-a); font-weight: 700; }
+table.data.ct td.on2 { background: var(--hl-b); font-weight: 700; }
+table.data.ct td.tot, table.data.ct th.tot { font-weight: 700; }
+table.data.ct input { width: 4.6em; text-align: center; }
+.sim-bar { display: flex; height: 26px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 6px 0; }
+.sim-bar > span { display: grid; place-items: center; color: #fff; font: 700 .78rem "Inter", sans-serif; min-width: 0; transition: width .25s; }
+.ballrow { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; min-height: 22px; }
+.ballrow i { width: 18px; height: 18px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+.kvs { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; align-items: baseline; }
+.kvs > :nth-child(odd) { color: var(--muted); }
+.dat-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+.dat-row select { height: 2.2em; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 6px; font: 500 .9rem "Inter", sans-serif; }
+.info h4 { margin: 10px 0 2px; font: 700 .8rem "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.info h4:first-child { margin-top: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--muted); margin-top: 6px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 5px; }
+.chk { display: inline-block; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+.chk.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.chk.no { background: color-mix(in srgb, var(--bad) 14%, transparent); color: var(--bad); }
+.info .katex-display { margin: 4px 0; }
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .cmp { grid-template-columns: 1fr; } }
+.cmp > div { border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; background: var(--surface); }
+.cmp h4 { margin: 0 0 4px; font: 700 .95rem "Outfit", sans-serif; }
+.seg-ctl { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.seg-ctl .btn.on, .steps-ctl .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+@media (max-width: 560px) {
+  table.data.ct th, table.data.ct td { padding: 6px 4px; }
+  table.data.ct input { width: 3.4em; padding: 0 2px; }
+}
+
+/* 1r Batx MI, unitat 3: sistemes d'equacions i inequacions (s'afegeix després dels extra.css de les unitats 4 i 9 de 2n Batx CCSS) */
+.hero::after { content: "{x,y}"; font-size: 8rem; bottom: -30px; right: 18px; font-style: italic; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.two > .box { margin: 0; }
+@media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+.info .kv { display: grid; grid-template-columns: fit-content(36%) minmax(0, 1fr); gap: 4px 10px; align-items: baseline; }
+.info .kv > :nth-child(odd) { color: var(--muted); font-size: .88rem; }
+.info .kv > span { min-width: 0; overflow-x: auto; overflow-y: hidden; }
+.info { overflow-x: auto; }
+.bh .katex, .info h4 .katex { text-transform: none; }
+/* gràfiques */
+.gp-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.gp-svg .g { stroke: var(--border); stroke-width: 1; }
+.gp-svg .ax { stroke: var(--muted); stroke-width: 1.5; }
+.gp-svg text { font: 600 10px "Inter", sans-serif; fill: var(--muted); }
+.lw-wrap > svg, .lw-wrap > div > svg { max-width: 420px; margin: 0 auto; }
+/* Gauss */
+.ggrid { display: grid; grid-template-columns: repeat(3, 4.2em) 4.6em; gap: 6px; margin: 8px 0; }
+.ggrid .tin.s { width: 100%; }
+.ggrid .tin.rhs { border-left: 3px solid var(--text); }
+.gsteps { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; overflow-x: auto; margin: 8px 0; }
+.gstep { display: inline-flex; align-items: center; gap: 6px; }
+/* semiplans */
+.hrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 5px 0; font-size: .92rem; }
+.hrow.off { opacity: .45; }
+.hrow .tin.s { width: 3.4em; }
+.hrow select { height: 2.2em; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 6px; font: 600 .95rem "Inter", sans-serif; }
+.hrow .dot, .kv .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 4px; }
+@media (max-width: 560px) { .hero::after { font-size: 5rem; } .ggrid { grid-template-columns: repeat(3, 3.4em) 3.8em; } }
+
+/* FentMates: 80% de l'ample en ordinador (marc i text) */
+@media (min-width: 1101px) {
+  .topbar .in, .hero .in, .layout { max-width: 80vw; }
+  article { max-width: none; }
+  .slide > .in, .overview .in { max-width: 80vw; }
+}
+</style>
+<link rel="stylesheet" href="../../assets/css/fm-materials.css?v=20261111u"><script defer src="../../assets/js/fm-materials.js?v=20261111u"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../1batx-mi.html"><span data-l="va">1r Batxillerat MI</span><span data-l="es">1º Bachillerato MI</span><span data-l="en">1st Baccalaureate Maths I</span></a> / <span data-l="va">Unitat 3</span><span data-l="es">Unidad 3</span><span data-l="en">Unit 3</span></span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker"><span data-l="va">Apunts de teoria · 1r Batxillerat · Matemàtiques I</span><span data-l="es">Apuntes de teoría · 1º Bachillerato · Matemáticas I</span><span data-l="en">Theory notes · 1st Baccalaureate · Mathematics I</span></span>
+    <h1><span class="u"><span data-l="va">Unitat 3</span><span data-l="es">Unidad 3</span><span data-l="en">Unit 3</span></span> · <span data-l="va">Sistemes d'equacions i inequacions</span><span data-l="es">Sistemas de ecuaciones e inecuaciones</span><span data-l="en">Systems of equations and inequalities</span></h1>
+    <p><span data-l="va">Teoria, exemples resolts pas a pas i eines interactives: els sistemes lineals pel mètode de Gauss i els no lineals, els sistemes d'inequacions amb una incògnita, les inequacions i els sistemes amb dues incògnites i la resolució de problemes.</span><span data-l="es">Teoría, ejemplos resueltos paso a paso y herramientas interactivas: los sistemas lineales por el método de Gauss y los no lineales, los sistemas de inecuaciones con una incógnita, las inecuaciones y los sistemas con dos incógnitas y la resolución de problemas.</span><span data-l="en">Theory, step-by-step worked examples and interactive tools: linear systems by Gaussian elimination and non-linear systems, systems of inequalities in one unknown, inequalities and systems in two unknowns, and problem solving.</span></p>
+    <div class="chips"><span><span data-l="va">5 apartats</span><span data-l="es">5 apartados</span><span data-l="en">5 sections</span></span><span><span data-l="va">3 eines interactives</span><span data-l="es">3 herramientas interactivas</span><span data-l="en">3 interactive tools</span></span><span><span data-l="va">Gauss pas a pas</span><span data-l="es">Gauss paso a paso</span><span data-l="en">Gauss step by step</span></span><span><span data-l="va">Autoavaluació final</span><span data-l="es">Autoevaluación final</span><span data-l="en">Final self-check</span></span></div>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="toc" aria-label="Índex">
+    <details open id="toc-d">
+      <summary><span data-l="va">Índex</span><span data-l="es">Índice</span><span data-l="en">Contents</span></summary>
+      <ol id="toc-list">
+        <li><a href="#s1"><span class="n">3.1</span><span data-l="va">Sistemes lineals. Gauss</span><span data-l="es">Sistemas lineales. Gauss</span><span data-l="en">Linear systems. Gauss</span><span class="ck">✓</span></a></li>
+        <li><a href="#s2"><span class="n">3.2</span><span data-l="va">Sistemes no lineals</span><span data-l="es">Sistemas no lineales</span><span data-l="en">Non-linear systems</span><span class="ck">✓</span></a></li>
+        <li><a href="#s3"><span class="n">3.3</span><span data-l="va">Sistemes d'inequacions amb una incògnita</span><span data-l="es">Sistemas de inecuaciones con una incógnita</span><span data-l="en">Systems of inequalities in one unknown</span><span class="ck">✓</span></a></li>
+        <li><a href="#s4"><span class="n">3.4</span><span data-l="va">Inequacions amb dues incògnites</span><span data-l="es">Inecuaciones con dos incógnitas</span><span data-l="en">Inequalities in two unknowns</span><span class="ck">✓</span></a></li>
+        <li><a href="#s5"><span class="n">3.5</span><span data-l="va">Resolució de problemes</span><span data-l="es">Resolución de problemas</span><span data-l="en">Problem solving</span><span class="ck">✓</span></a></li>
+        <li><a href="#quiz"><span class="n">?</span><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></a></li>
+      </ol>
+      <div class="meter"><i id="meter"></i></div>
+      <div class="meter-l"><span id="meter-n">0</span>/5 <span data-l="va">apartats estudiats</span><span data-l="es">apartados estudiados</span><span data-l="en">sections studied</span></div>
+    </details>
+  </nav>
+
+<article>
+
+<!-- ======================= 3.1 ======================= -->
+<section class="unit" id="s1">
+  <div class="sec-head"><span class="num">3.1</span><h2><span data-l="va">Sistemes d'equacions lineals. Mètode de Gauss</span><span data-l="es">Sistemas de ecuaciones lineales. Método de Gauss</span><span data-l="en">Systems of linear equations. Gaussian elimination</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Definicions</span><span data-l="es">Definiciones</span><span data-l="en">Definitions</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va">Un <strong>sistema d'equacions lineals</strong> és un conjunt d'equacions de primer grau amb diverses incògnites. Una <strong>solució</strong> és un conjunt de valors de les incògnites que verifica totes les equacions alhora.</span><span data-l="es">Un <strong>sistema de ecuaciones lineales</strong> es un conjunto de ecuaciones de primer grado con varias incógnitas. Una <strong>solución</strong> es un conjunto de valores de las incógnitas que verifica todas las ecuaciones a la vez.</span><span data-l="en">A <strong>system of linear equations</strong> is a set of first-degree equations in several unknowns. A <strong>solution</strong> is a set of values of the unknowns that satisfies every equation at once.</span></li>
+        <li><span data-l="va">Dos sistemes són <strong>equivalents</strong> si tenen les mateixes solucions. N'obtenim un d'equivalent si intercanviem dues equacions, multipliquem una equació per un nombre \(\neq0\) o sumem a una equació un múltiple d'una altra.</span><span data-l="es">Dos sistemas son <strong>equivalentes</strong> si tienen las mismas soluciones. Obtenemos uno equivalente si intercambiamos dos ecuaciones, multiplicamos una ecuación por un número \(\neq0\) o sumamos a una ecuación un múltiplo de otra.</span><span data-l="en">Two systems are <strong>equivalent</strong> if they have the same solutions. We get an equivalent one by swapping two equations, multiplying an equation by a number \(\neq0\), or adding a multiple of one equation to another.</span></li>
+      </ul>
+      <div class="tbl-wrap"><table class="data">
+        <thead><tr><th><span data-l="va">Tipus</span><span data-l="es">Tipo</span><span data-l="en">Type</span></th><th><span data-l="va">Solucions</span><span data-l="es">Soluciones</span><span data-l="en">Solutions</span></th><th><span data-l="va">Significat</span><span data-l="es">Significado</span><span data-l="en">Meaning</span></th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge ok">SCD</span> <span data-l="va">Compatible determinat</span><span data-l="es">Compatible determinado</span><span data-l="en">Consistent, independent</span></td><td><span data-l="va">una única solució</span><span data-l="es">una única solución</span><span data-l="en">exactly one</span></td><td><span data-l="va">les rectes o plans es tallen en un punt</span><span data-l="es">las rectas o planos se cortan en un punto</span><span data-l="en">the lines or planes meet at one point</span></td></tr>
+          <tr><td><span class="badge ev">SCI</span> <span data-l="va">Compatible indeterminat</span><span data-l="es">Compatible indeterminado</span><span data-l="en">Consistent, dependent</span></td><td><span data-l="va">infinites solucions</span><span data-l="es">infinitas soluciones</span><span data-l="en">infinitely many</span></td><td><span data-l="va">depenen d'un o més paràmetres</span><span data-l="es">dependen de uno o más parámetros</span><span data-l="en">they depend on one or more parameters</span></td></tr>
+          <tr><td><span class="badge as">SI</span> <span data-l="va">Incompatible</span><span data-l="es">Incompatible</span><span data-l="en">Inconsistent</span></td><td><span data-l="va">cap solució</span><span data-l="es">ninguna solución</span><span data-l="en">none</span></td><td><span data-l="va">equacions contradictòries</span><span data-l="es">ecuaciones contradictorias</span><span data-l="en">contradictory equations</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Mètode de Gauss</span><span data-l="es">Método de Gauss</span><span data-l="en">Gaussian elimination</span></div>
+    <div class="bb">
+      <p><span data-l="va">Consisteix a transformar el sistema en un altre d'equivalent <strong>esglaonat</strong> (triangular), en què cada equació té una incògnita menys que l'anterior. Treballem amb la <strong>matriu ampliada</strong> (coeficients i termes independents):</span><span data-l="es">Consiste en transformar el sistema en otro equivalente <strong>escalonado</strong> (triangular), en el que cada ecuación tiene una incógnita menos que la anterior. Trabajamos con la <strong>matriz ampliada</strong> (coeficientes y términos independientes):</span><span data-l="en">We turn the system into an equivalent <strong>echelon</strong> (triangular) one, where each equation has one unknown fewer than the one above. We work with the <strong>augmented matrix</strong> (coefficients and constants):</span></p>
+      \[\left(\begin{array}{ccc|c}a&b&c&d\\ a'&b'&c'&d'\\ a''&b''&c''&d''\end{array}\right)\longrightarrow\left(\begin{array}{ccc|c}*&*&*&*\\ 0&*&*&*\\ 0&0&m&n\end{array}\right)\]
+      <ol>
+        <li><span data-l="va">Fem zeros en la primera columna, davall del primer element, combinant cada fila amb la primera: \(F_2\to aF_2-a'F_1\)…</span><span data-l="es">Hacemos ceros en la primera columna, debajo del primer elemento, combinando cada fila con la primera: \(F_2\to aF_2-a'F_1\)…</span><span data-l="en">Make zeros in the first column, below the first entry, combining each row with the first: \(F_2\to aF_2-a'F_1\)…</span></li>
+        <li><span data-l="va">Fem zeros en la segona columna davall del segon element, combinant amb la segona fila.</span><span data-l="es">Hacemos ceros en la segunda columna debajo del segundo elemento, combinando con la segunda fila.</span><span data-l="en">Make zeros in the second column below the second entry, combining with the second row.</span></li>
+        <li><span data-l="va">Mirem l'última fila \(\left(0\ \ 0\ \ m\,|\,n\right)\):</span><span data-l="es">Miramos la última fila \(\left(0\ \ 0\ \ m\,|\,n\right)\):</span><span data-l="en">Look at the last row \(\left(0\ \ 0\ \ m\,|\,n\right)\):</span>
+          <ul>
+            <li>\(m\neq0\): <strong>SCD</strong>. <span data-l="va">S'aïlla \(z=\frac nm\) i se substitueix cap amunt.</span><span data-l="es">Se despeja \(z=\frac nm\) y se sustituye hacia arriba.</span><span data-l="en">Solve \(z=\frac nm\) and substitute upwards.</span></li>
+            <li>\(m=0,\ n=0\): <strong>SCI</strong>. <span data-l="va">L'última equació desapareix (\(0=0\)) i una incògnita passa a ser un paràmetre (\(z=\lambda\)).</span><span data-l="es">La última ecuación desaparece (\(0=0\)) y una incógnita pasa a ser un parámetro (\(z=\lambda\)).</span><span data-l="en">The last equation vanishes (\(0=0\)) and one unknown becomes a parameter (\(z=\lambda\)).</span></li>
+            <li>\(m=0,\ n\neq0\): <strong>SI</strong>. <span data-l="va">L'última equació és \(0=n\), impossible.</span><span data-l="es">La última ecuación es \(0=n\), imposible.</span><span data-l="en">The last equation reads \(0=n\), which is impossible.</span></li>
+          </ul></li>
+      </ol>
+      <p class="note"><span data-l="va"><span class="u-line">Consell</span>: convé posar en primer lloc una equació amb coeficient 1 (o \(-1\)) en la primera incògnita.</span><span data-l="es"><span class="u-line">Consejo</span>: conviene poner en primer lugar una ecuación con coeficiente 1 (o \(-1\)) en la primera incógnita.</span><span data-l="en"><span class="u-line">Tip</span>: put first an equation whose first coefficient is 1 (or \(-1\)).</span></p>
+      <div class="widget" id="w-gauss">
+        <div class="wt">◉ <span data-l="va">Escriu la matriu ampliada d'un sistema \(3\times3\) i aplica Gauss pas a pas</span><span data-l="es">Escribe la matriz ampliada de un sistema \(3\times3\) y aplica Gauss paso a paso</span><span data-l="en">Type the augmented matrix of a \(3\times3\) system and apply Gauss step by step</span></div>
+        <div class="ops-btns" data-role="pre"></div>
+        <div class="ggrid" data-role="grid"></div>
+        <div class="gsteps" data-role="steps"></div>
+        <div class="steps-ctl"><button class="btn primary" type="button" data-role="next"></button><button class="btn" type="button" data-role="all"></button><span class="step-count" data-role="cnt"></span></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple resolt: mètode de Gauss</span><span data-l="es">Ejemplo resuelto: método de Gauss</span><span data-l="en">Worked example: Gaussian elimination</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Resol</span><span data-l="es">Resuelve</span><span data-l="en">Solve</span> \(\begin{cases}x+y+z=6\\ 2x-y+z=3\\ x+2y-z=2\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(\left(\begin{array}{rrr|r}1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-2F_1}\left(\begin{array}{rrr|r}1&1&1&6\\ 0&-3&-1&-9\\ 0&1&-2&-4\end{array}\right)\)</p></div>
+            <div class="step"><p>\(\xrightarrow{F_3\to 3F_3+F_2}\left(\begin{array}{rrr|r}1&1&1&6\\ 0&-3&-1&-9\\ 0&0&-7&-21\end{array}\right)\)</p></div>
+            <div class="step"><p>\(-7z=-21\Rightarrow z=3;\quad -3y-3=-9\Rightarrow y=2;\quad x+2+3=6\Rightarrow x=1\). <strong>SCD</strong>: \((x,y,z)=(1,2,3)\)</p></div>
+          </div></li>
+        <li><span data-l="va">Resol</span><span data-l="es">Resuelve</span><span data-l="en">Solve</span> \(\begin{cases}x-y+z=1\\ 2x+y-z=5\\ x+2y-2z=4\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(\left(\begin{array}{rrr|r}1&-1&1&1\\ 2&1&-1&5\\ 1&2&-2&4\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-2F_1}\left(\begin{array}{rrr|r}1&-1&1&1\\ 0&3&-3&3\\ 0&3&-3&3\end{array}\right)\xrightarrow{F_3\to F_3-F_2}\left(\begin{array}{rrr|r}1&-1&1&1\\ 0&3&-3&3\\ 0&0&0&0\end{array}\right)\)</p></div>
+            <div class="step"><p><span data-l="va">L'última fila és \(0=0\): <strong>SCI</strong>. Fem \(z=\lambda\):</span><span data-l="es">La última fila es \(0=0\): <strong>SCI</strong>. Hacemos \(z=\lambda\):</span><span data-l="en">The last row is \(0=0\): <strong>dependent</strong>. Let \(z=\lambda\):</span> \(\ 3y-3\lambda=3\Rightarrow y=1+\lambda;\ \ x=1+y-z=2\)</p></div>
+            <div class="step"><p>\((x,y,z)=(2,\ 1+\lambda,\ \lambda),\ \lambda\in\mathbb R\). <span data-l="va">Si el terme independent de la tercera equació fora 5, l'última fila quedaria \(\left(0\ \ 0\ \ 0\,|\,1\right)\): \(0=1\), el sistema seria <strong>incompatible</strong>.</span><span data-l="es">Si el término independiente de la tercera ecuación fuera 5, la última fila quedaría \(\left(0\ \ 0\ \ 0\,|\,1\right)\): \(0=1\), el sistema sería <strong>incompatible</strong>.</span><span data-l="en">If the third constant were 5, the last row would be \(\left(0\ \ 0\ \ 0\,|\,1\right)\): \(0=1\), and the system would be <strong>inconsistent</strong>.</span></p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resol i classifica:</span><span data-l="es">Resuelve y clasifica:</span><span data-l="en">Solve and classify:</span></p>
+      <ol class="alpha">
+        <li>\(\begin{cases}x+2y-3z=7\\ 2x+y-z=6\\ 3x-y-z=6\end{cases}\)</li>
+        <li>\(\begin{cases}x+y-z=5\\ 3x-2y-2z=5\\ 2x-3y-z=3\end{cases}\)</li>
+        <li>\(\begin{cases}2x+y+z=5\\ 2x-y+3z=3\\ 3x+2y+z=8\end{cases}\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li><strong>SCD</strong>: \((x,y,z)=(2,1,-1)\)</li>
+          <li><strong>SI</strong> <span data-l="va">(apareix una fila \(0=k\neq0\))</span><span data-l="es">(aparece una fila \(0=k\neq0\))</span><span data-l="en">(a row \(0=k\neq0\) appears)</span></li>
+          <li><strong>SCI</strong>: \((x,y,z)=(2-\lambda,\ 1+\lambda,\ \lambda)\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= 3.2 ======================= -->
+<section class="unit" id="s2">
+  <div class="sec-head"><span class="num">3.2</span><h2><span data-l="va">Sistemes d'equacions no lineals</span><span data-l="es">Sistemas de ecuaciones no lineales</span><span data-l="en">Non-linear systems</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Sistemes no lineals</span><span data-l="es">Sistemas no lineales</span><span data-l="en">Non-linear systems</span></div>
+    <div class="bb">
+      <p><span data-l="va">Són sistemes en què alguna equació no és de primer grau (apareixen productes d'incògnites, quadrats, arrels, logaritmes, exponencials…). Els mètodes més habituals són:</span><span data-l="es">Son sistemas en los que alguna ecuación no es de primer grado (aparecen productos de incógnitas, cuadrados, raíces, logaritmos, exponenciales…). Los métodos más habituales son:</span><span data-l="en">These are systems where some equation is not of first degree (products of unknowns, squares, roots, logarithms, exponentials…). The usual methods are:</span></p>
+      <ul>
+        <li><span data-l="va"><strong>Substitució</strong>: s'aïlla una incògnita (preferiblement d'una equació lineal) i se substitueix en l'altra.</span><span data-l="es"><strong>Sustitución</strong>: se despeja una incógnita (preferiblemente de una ecuación lineal) y se sustituye en la otra.</span><span data-l="en"><strong>Substitution</strong>: solve for one unknown (preferably in a linear equation) and substitute into the other.</span></li>
+        <li><span data-l="va"><strong>Reducció</strong>: si les incògnites apareixen amb la mateixa forma (\(x^2\) i \(y^2\), per exemple), es combinen les equacions per a eliminar-ne una.</span><span data-l="es"><strong>Reducción</strong>: si las incógnitas aparecen con la misma forma (\(x^2\) e \(y^2\), por ejemplo), se combinan las ecuaciones para eliminar una.</span><span data-l="en"><strong>Elimination</strong>: if the unknowns appear in the same form (\(x^2\) and \(y^2\), say), combine the equations to eliminate one.</span></li>
+        <li><span data-l="va"><strong>Canvi de variable</strong>: en sistemes exponencials (\(u=2^x,\ v=3^y\)) o logarítmics (\(u=\log x,\ v=\log y\)) s'obté un sistema lineal en \(u\) i \(v\).</span><span data-l="es"><strong>Cambio de variable</strong>: en sistemas exponenciales (\(u=2^x,\ v=3^y\)) o logarítmicos (\(u=\log x,\ v=\log y\)) se obtiene un sistema lineal en \(u\) y \(v\).</span><span data-l="en"><strong>Change of variable</strong>: in exponential (\(u=2^x,\ v=3^y\)) or logarithmic systems (\(u=\log x,\ v=\log y\)) you get a linear system in \(u\) and \(v\).</span></li>
+      </ul>
+      <p class="note"><span data-l="va">Sempre cal <strong>comprovar</strong> les solucions (denominadors, arrels, logaritmes…).</span><span data-l="es">Siempre hay que <strong>comprobar</strong> las soluciones (denominadores, raíces, logaritmos…).</span><span data-l="en">Always <strong>check</strong> the solutions (denominators, roots, logarithms…).</span></p>
+      <div class="widget" id="w-nl">
+        <div class="wt">◉ <span data-l="va">Una circumferència i una recta: les solucions del sistema són els punts de tall. El discriminant de l'equació que resulta en substituir diu quants n'hi ha.</span><span data-l="es">Una circunferencia y una recta: las soluciones del sistema son los puntos de corte. El discriminante de la ecuación que resulta al sustituir dice cuántos hay.</span><span data-l="en">A circle and a line: the system's solutions are where they cross. The discriminant of the equation you get by substituting tells you how many there are.</span></div>
+        <div class="wctl">
+          <label>\(r^2=\) <input type="range" data-role="r" min="1" max="36" step="1" value="13"> <b data-role="rv"></b></label>
+          <label>\(m=\) <input type="range" data-role="m" min="-3" max="3" step="0.5" value="1"> <b data-role="mv"></b></label>
+          <label>\(n=\) <input type="range" data-role="n" min="-8" max="8" step="0.5" value="-1"> <b data-role="nv"></b></label>
+        </div>
+        <div class="lw-wrap">
+          <div class="info" aria-live="polite"></div>
+          <div><svg class="gp-svg" viewBox="0 0 320 320" role="img" aria-label="Gràfica"></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple resolt: sistemes no lineals</span><span data-l="es">Ejemplo resuelto: sistemas no lineales</span><span data-l="en">Worked example: non-linear systems</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li>\(\begin{cases}x-y=1\\ x^2+y^2=13\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(x=1+y\Rightarrow(1+y)^2+y^2=13\Rightarrow 2y^2+2y-12=0\Rightarrow y^2+y-6=0\)</p></div>
+            <div class="step"><p>\(y=2\Rightarrow x=3;\quad y=-3\Rightarrow x=-2\). <span data-l="va">Solucions:</span><span data-l="es">Soluciones:</span><span data-l="en">Solutions:</span> \((3,2)\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \((-2,-3)\)</p></div>
+          </div></li>
+        <li>\(\begin{cases}2^x+3^y=7\\ 2^{x+1}-3^y=5\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(u=2^x,\ v=3^y:\ \ u+v=7,\ \ 2u-v=5\). <span data-l="va">Sumant:</span><span data-l="es">Sumando:</span><span data-l="en">Adding:</span> \(3u=12\Rightarrow u=4,\ v=3\)</p></div>
+            <div class="step"><p>\(2^x=4\Rightarrow x=2;\quad 3^y=3\Rightarrow y=1\)</p></div>
+          </div></li>
+        <li>\(\begin{cases}\log x+\log y=3\\ x-y=90\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(\log(xy)=\log1000\Rightarrow xy=1000\). <span data-l="va">Amb</span><span data-l="es">Con</span><span data-l="en">With</span> \(x=90+y:\ \ y^2+90y-1000=0\)</p></div>
+            <div class="step"><p>\(y=10\) <span data-l="va">o</span><span data-l="es">o</span><span data-l="en">or</span> \(y=-100\) <span data-l="va">(no vàlida). Solució: \(x=100,\ y=10\)</span><span data-l="es">(no válida). Solución: \(x=100,\ y=10\)</span><span data-l="en">(not valid). Solution: \(x=100,\ y=10\)</span></p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li>\(\begin{cases}x^2+2y^2=6\\ 3x^2-y^2=11\end{cases}\)</li>
+        <li>\(\begin{cases}x+y=0\\ xy=1\end{cases}\)</li>
+        <li>\(\begin{cases}2^x+3^y=5\\ 2^{x+1}-3^y=7\end{cases}\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li><span data-l="va">Reducció:</span><span data-l="es">Reducción:</span><span data-l="en">Elimination:</span> \(7x^2=28\Rightarrow x=\pm2,\ y=\pm1\): \((2,1),(2,-1),(-2,1),(-2,-1)\)</li>
+          <li>\(-x^2=1\): <span data-l="va">no té solució real</span><span data-l="es">no tiene solución real</span><span data-l="en">no real solution</span></li>
+          <li>\(u=4,\ v=1\Rightarrow x=2,\ y=0\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= 3.3 ======================= -->
+<section class="unit" id="s3">
+  <div class="sec-head"><span class="num">3.3</span><h2><span data-l="va">Sistemes d'inequacions amb una incògnita</span><span data-l="es">Sistemas de inecuaciones con una incógnita</span><span data-l="en">Systems of inequalities in one unknown</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Com resoldre'ls</span><span data-l="es">Cómo resolverlos</span><span data-l="en">How to solve them</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va">Es resol cada inequació per separat, com a la unitat 2, i la solució del sistema és la <strong>intersecció</strong> de totes.</span><span data-l="es">Se resuelve cada inecuación por separado, como en la unidad 2, y la solución del sistema es la <strong>intersección</strong> de todas.</span><span data-l="en">Solve each inequality separately, as in unit 2; the solution of the system is the <strong>intersection</strong> of them all.</span></li>
+        <li><span data-l="va">Convé representar les solucions sobre la mateixa recta real per a veure què tenen en comú. Si no tenen cap punt en comú, el sistema <strong>no té solució</strong>.</span><span data-l="es">Conviene representar las soluciones sobre la misma recta real para ver qué tienen en común. Si no tienen ningún punto en común, el sistema <strong>no tiene solución</strong>.</span><span data-l="en">It helps to draw the solutions on the same number line to see what they share. If they share no point, the system <strong>has no solution</strong>.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple resolt: sistemes d'inequacions</span><span data-l="es">Ejemplo resuelto: sistemas de inecuaciones</span><span data-l="en">Worked example: systems of inequalities</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Resol el sistema</span><span data-l="es">Resuelve el sistema</span><span data-l="en">Solve the system</span> \(\begin{cases}2x-1\lt5\\ x^2-4\ge0\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(2x\lt6\Rightarrow x\lt3:\ (-\infty,3).\qquad x^2-4\ge0\Rightarrow(-\infty,-2]\cup[2,+\infty)\)</p></div>
+            <div class="step"><p><span data-l="va">Intersecció:</span><span data-l="es">Intersección:</span><span data-l="en">Intersection:</span> \(x\in(-\infty,-2]\cup[2,3)\)</p></div>
+          </div></li>
+        <li><span data-l="va">Resol el sistema</span><span data-l="es">Resuelve el sistema</span><span data-l="en">Solve the system</span> \(\begin{cases}x-2\gt0\\ x+1\lt0\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(x\gt2:\ (2,+\infty).\qquad x\lt-1:\ (-\infty,-1)\)</p></div>
+            <div class="step"><p><span data-l="va">Els dos intervals no tenen cap punt en comú: el sistema no té solució.</span><span data-l="es">Los dos intervalos no tienen ningún punto en común: el sistema no tiene solución.</span><span data-l="en">The two intervals share no point: the system has no solution.</span></p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Resol:</span><span data-l="es">Resuelve:</span><span data-l="en">Solve:</span></p>
+      <ol class="alpha">
+        <li>\(\begin{cases}2x-3\le0\\ 3x+1\gt0\end{cases}\)</li>
+        <li>\(\begin{cases}x^2-x-6\lt0\\ x\ge0\end{cases}\)</li>
+        <li>\(\begin{cases}x+1\ge0\\ x\lt-3\end{cases}\)</li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(x\le\frac32\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(x\gt-\frac13\): \(\ \left(-\frac13,\frac32\right]\)</li>
+          <li>\((-2,\,3)\cap[0,+\infty)=[0,\,3)\)</li>
+          <li>\(x\ge-1\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \(x\lt-3\): <span data-l="va">no té solució</span><span data-l="es">no tiene solución</span><span data-l="en">no solution</span></li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= 3.4 ======================= -->
+<section class="unit" id="s4">
+  <div class="sec-head"><span class="num">3.4</span><h2><span data-l="va">Inequacions i sistemes amb dues incògnites</span><span data-l="es">Inecuaciones y sistemas con dos incógnitas</span><span data-l="en">Inequalities and systems in two unknowns</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Inequacions lineals amb dues incògnites</span><span data-l="es">Inecuaciones lineales con dos incógnitas</span><span data-l="en">Linear inequalities in two unknowns</span></div>
+    <div class="bb">
+      <p><span data-l="va">Una inequació del tipus \(ax+by+c\lt0\) (o \(\gt,\le,\ge\)) té com a solució un <strong>semiplà</strong>, una de les dues regions en què la recta \(ax+by+c=0\) divideix el pla.</span><span data-l="es">Una inecuación del tipo \(ax+by+c\lt0\) (o \(\gt,\le,\ge\)) tiene como solución un <strong>semiplano</strong>, una de las dos regiones en que la recta \(ax+by+c=0\) divide el plano.</span><span data-l="en">An inequality like \(ax+by+c\lt0\) (or \(\gt,\le,\ge\)) has a <strong>half-plane</strong> as its solution: one of the two regions the line \(ax+by+c=0\) splits the plane into.</span></p>
+      <ol>
+        <li><span data-l="va">Es representa la recta \(ax+by+c=0\) (<strong>contínua</strong> si la desigualtat és \(\le,\ge\); <strong>discontínua</strong> si és \(\lt,\gt\)).</span><span data-l="es">Se representa la recta \(ax+by+c=0\) (<strong>continua</strong> si la desigualdad es \(\le,\ge\); <strong>discontinua</strong> si es \(\lt,\gt\)).</span><span data-l="en">Draw the line \(ax+by+c=0\) (<strong>solid</strong> for \(\le,\ge\); <strong>dashed</strong> for \(\lt,\gt\)).</span></li>
+        <li><span data-l="va">Es pren un <strong>punt de prova</strong> que no estiga en la recta (sovint \(O(0,0)\)) i se substitueix en la inequació.</span><span data-l="es">Se toma un <strong>punto de prueba</strong> que no esté en la recta (a menudo \(O(0,0)\)) y se sustituye en la inecuación.</span><span data-l="en">Take a <strong>test point</strong> not on the line (often \(O(0,0)\)) and substitute it.</span></li>
+        <li><span data-l="va">Si el punt la compleix, la solució és el semiplà que el conté; si no, l'altre.</span><span data-l="es">Si el punto la cumple, la solución es el semiplano que lo contiene; si no, el otro.</span><span data-l="en">If the point satisfies it, the solution is the half-plane containing it; otherwise, the other one.</span></li>
+      </ol>
+      <p><span data-l="va">La solució d'un <strong>sistema</strong> és la <strong>intersecció</strong> dels semiplans solució de cada inequació (<strong>regió factible</strong>). Pot ser <strong>fitada</strong> (un polígon) o <strong>no fitada</strong>.</span><span data-l="es">La solución de un <strong>sistema</strong> es la <strong>intersección</strong> de los semiplanos solución de cada inecuación (<strong>región factible</strong>). Puede ser <strong>acotada</strong> (un polígono) o <strong>no acotada</strong>.</span><span data-l="en">The solution of a <strong>system</strong> is the <strong>intersection</strong> of the half-planes of each inequality (the <strong>feasible region</strong>). It can be <strong>bounded</strong> (a polygon) or <strong>unbounded</strong>.</span></p>
+      <div class="widget" id="w-half">
+        <div class="wt">◉ <span data-l="va">Escriu fins a quatre inequacions \(ax+by\ \square\ c\) i mira la regió solució i els seus vèrtexs</span><span data-l="es">Escribe hasta cuatro inecuaciones \(ax+by\ \square\ c\) y mira la región solución y sus vértices</span><span data-l="en">Type up to four inequalities \(ax+by\ \square\ c\) and see the solution region and its vertices</span></div>
+        <div class="ops-btns" data-role="pre"></div>
+        <div data-role="rows"></div>
+        <div class="lw-wrap">
+          <div class="info" aria-live="polite"></div>
+          <div><svg class="gp-svg" viewBox="0 0 340 340" role="img" aria-label="Regió solució"></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple resolt: sistema amb dues incògnites</span><span data-l="es">Ejemplo resuelto: sistema con dos incógnitas</span><span data-l="en">Worked example: system in two unknowns</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Resol</span><span data-l="es">Resuelve</span><span data-l="en">Solve</span> \(\begin{cases}x+y\le4\\ y\ge x-2\\ x\ge0,\ y\ge0\end{cases}\)
+          <div class="steps">
+            <div class="step"><p>\(x+y\le4\): <span data-l="va">recta \(x+y=4\); amb \(O(0,0)\): \(0\le4\ \checkmark\): semiplà de \(O\).</span><span data-l="es">recta \(x+y=4\); con \(O(0,0)\): \(0\le4\ \checkmark\): semiplano de \(O\).</span><span data-l="en">line \(x+y=4\); with \(O(0,0)\): \(0\le4\ \checkmark\): \(O\)'s side.</span></p></div>
+            <div class="step"><p>\(y\ge x-2\): <span data-l="va">recta \(y=x-2\); amb \(O\): \(0\ge-2\ \checkmark\): semiplà de \(O\).</span><span data-l="es">recta \(y=x-2\); con \(O\): \(0\ge-2\ \checkmark\): semiplano de \(O\).</span><span data-l="en">line \(y=x-2\); with \(O\): \(0\ge-2\ \checkmark\): \(O\)'s side.</span> \(\ x\ge0,\ y\ge0\): <span data-l="va">primer quadrant.</span><span data-l="es">primer cuadrante.</span><span data-l="en">first quadrant.</span></p></div>
+            <div class="step"><p><span data-l="va">La solució és el polígon de vèrtexs</span><span data-l="es">La solución es el polígono de vértices</span><span data-l="en">The solution is the polygon with vertices</span> \((0,0),\ (2,0),\ (3,1)\) <span data-l="va">i</span><span data-l="es">y</span><span data-l="en">and</span> \((0,4)\). <span data-l="va">Ho pots veure en el primer botó de l'eina.</span><span data-l="es">Lo puedes ver en el primer botón de la herramienta.</span><span data-l="en">See it with the tool's first button.</span></p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">Representa la solució de \(2x+y\lt2\).</span><span data-l="es">Representa la solución de \(2x+y\lt2\).</span><span data-l="en">Draw the solution of \(2x+y\lt2\).</span></li>
+        <li><span data-l="va">Resol el sistema \(\begin{cases}y\lt-2x+4\\ y\ge x\end{cases}\) i digues si la regió és fitada.</span><span data-l="es">Resuelve el sistema \(\begin{cases}y\lt-2x+4\\ y\ge x\end{cases}\) y di si la región es acotada.</span><span data-l="en">Solve the system \(\begin{cases}y\lt-2x+4\\ y\ge x\end{cases}\) and say whether the region is bounded.</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li><span data-l="va">Recta discontínua per \((1,0)\) i \((0,2)\); \(O\): \(0\lt2\ \checkmark\): el semiplà que conté l'origen.</span><span data-l="es">Recta discontinua por \((1,0)\) y \((0,2)\); \(O\): \(0\lt2\ \checkmark\): el semiplano que contiene el origen.</span><span data-l="en">Dashed line through \((1,0)\) and \((0,2)\); \(O\): \(0\lt2\ \checkmark\): the half-plane containing the origin.</span></li>
+          <li><span data-l="va">Regió no fitada amb un únic vèrtex en \(\left(\frac43,\frac43\right)\) (s'obri cap avall i a l'esquerra).</span><span data-l="es">Región no acotada con un único vértice en \(\left(\frac43,\frac43\right)\) (se abre hacia abajo y a la izquierda).</span><span data-l="en">Unbounded region with a single vertex at \(\left(\frac43,\frac43\right)\) (opening down and to the left).</span></li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================= 3.5 ======================= -->
+<section class="unit" id="s5">
+  <div class="sec-head"><span class="num">3.5</span><h2><span data-l="va">Resolució de problemes</span><span data-l="es">Resolución de problemas</span><span data-l="en">Problem solving</span></h2></div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Pautes per a resoldre problemes amb sistemes</span><span data-l="es">Pautas para resolver problemas con sistemas</span><span data-l="en">Steps for solving problems with systems</span></div>
+    <div class="bb">
+      <ol>
+        <li><span data-l="va"><strong>Llegir</strong> l'enunciat amb atenció i identificar les dades i el que es demana.</span><span data-l="es"><strong>Leer</strong> el enunciado con atención e identificar los datos y lo que se pide.</span><span data-l="en"><strong>Read</strong> the problem carefully and identify the data and what is asked.</span></li>
+        <li><span data-l="va"><strong>Anomenar les incògnites</strong> (\(x,y,z\)…) i indicar què representa cada una (i en quines unitats).</span><span data-l="es"><strong>Nombrar las incógnitas</strong> (\(x,y,z\)…) e indicar qué representa cada una (y en qué unidades).</span><span data-l="en"><strong>Name the unknowns</strong> (\(x,y,z\)…) and say what each one stands for (and its units).</span></li>
+        <li><span data-l="va"><strong>Plantejar</strong> el sistema: cada condició de l'enunciat és una equació o, si diu «com a màxim» o «com a mínim», una inequació.</span><span data-l="es"><strong>Plantear</strong> el sistema: cada condición del enunciado es una ecuación o, si dice «como máximo» o «como mínimo», una inecuación.</span><span data-l="en"><strong>Set up</strong> the system: each condition in the text is an equation or, if it says "at most" or "at least", an inequality.</span></li>
+        <li><span data-l="va"><strong>Resoldre'l.</strong></span><span data-l="es"><strong>Resolverlo.</strong></span><span data-l="en"><strong>Solve it.</strong></span></li>
+        <li><span data-l="va"><strong>Comprovar i interpretar</strong> les solucions: descartar les que no tenen sentit en el context (valors negatius, no enters…) i respondre amb una frase.</span><span data-l="es"><strong>Comprobar e interpretar</strong> las soluciones: descartar las que no tienen sentido en el contexto (valores negativos, no enteros…) y responder con una frase.</span><span data-l="en"><strong>Check and interpret</strong> the solutions: reject those that make no sense in context (negative or non-whole values…) and answer in a sentence.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple resolt: problemes</span><span data-l="es">Ejemplo resuelto: problemas</span><span data-l="en">Worked example: problems</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">En una botiga hi ha 40 articles entre samarretes de 12 € i pantalons de 25 €. Si el valor total és de 662 €, quants n'hi ha de cada tipus?</span><span data-l="es">En una tienda hay 40 artículos entre camisetas de 12 € y pantalones de 25 €. Si el valor total es de 662 €, ¿cuántos hay de cada tipo?</span><span data-l="en">A shop has 40 items, T-shirts at €12 and trousers at €25. If they are worth €662 in total, how many of each are there?</span>
+          <div class="steps">
+            <div class="step"><p>\(x=\) <span data-l="va">samarretes</span><span data-l="es">camisetas</span><span data-l="en">T-shirts</span>, \(y=\) <span data-l="va">pantalons</span><span data-l="es">pantalones</span><span data-l="en">trousers</span>: \(\ \begin{cases}x+y=40\\ 12x+25y=662\end{cases}\)</p></div>
+            <div class="step"><p>\(12(40-y)+25y=662\Rightarrow13y=182\Rightarrow y=14,\ x=26\)</p></div>
+            <div class="step"><p><span data-l="va">Hi ha 26 samarretes i 14 pantalons.</span><span data-l="es">Hay 26 camisetas y 14 pantalones.</span><span data-l="en">There are 26 T-shirts and 14 pairs of trousers.</span></p></div>
+          </div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">En una granja hi ha 250 animals entre conills i gallines. Si hi ha 800 potes, quants n'hi ha de cada tipus?</span><span data-l="es">En una granja hay 250 animales entre conejos y gallinas. Si hay 800 patas, ¿cuántos hay de cada tipo?</span><span data-l="en">A farm has 250 rabbits and hens with 800 legs in total. How many of each are there?</span></li>
+        <li><span data-l="va">Un caixer només té bitllets de 10, 20 i 50 €. Traiem 290 € i ens dona exactament 8 bitllets; el nombre de bitllets de 10 € és el doble dels de 20 €. Quants n'hi ha de cada classe?</span><span data-l="es">Un cajero solo tiene billetes de 10, 20 y 50 €. Sacamos 290 € y nos da exactamente 8 billetes; el número de billetes de 10 € es el doble de los de 20 €. ¿Cuántos hay de cada clase?</span><span data-l="en">A cash machine only has €10, €20 and €50 notes. We withdraw €290 and get exactly 8 notes; there are twice as many €10 notes as €20 notes. How many of each are there?</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li>\(x+y=250,\ 4x+2y=800\Rightarrow x=150\) <span data-l="va">conills,</span><span data-l="es">conejos,</span><span data-l="en">rabbits,</span> \(y=100\) <span data-l="va">gallines</span><span data-l="es">gallinas</span><span data-l="en">hens</span></li>
+          <li>\(x+y+z=8,\ 10x+20y+50z=290,\ x=2y\Rightarrow x=2,\ y=1,\ z=5\)</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section class="unit quiz-sec" id="quiz">
+  <div class="sec-head"><span class="num">?</span><h2><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></h2></div>
+  <p><span data-l="va">Respon i comprova a l'instant si ho has entés.</span><span data-l="es">Responde y comprueba al instante si lo has entendido.</span><span data-l="en">Answer and instantly check whether you've understood.</span></p>
+  <div class="quiz" id="quiz-box"></div>
+  <div class="score" id="quiz-score"></div>
+  <button class="btn" type="button" id="quiz-reset">↺ <span data-l="va">Torna a començar</span><span data-l="es">Volver a empezar</span><span data-l="en">Start again</span></button>
+</section>
+
+
+</article>
+</div>
+
+<footer class="foot">
+  <p><span data-l="va">Apunts de teoria · Unitat 3: Sistemes d'equacions i inequacions · 1r Batxillerat · Matemàtiques I</span><span data-l="es">Apuntes de teoría · Unidad 3: Sistemas de ecuaciones e inecuaciones · 1º Bachillerato · Matemáticas I</span><span data-l="en">Theory notes · Unit 3: Systems of equations and inequalities · 1st Baccalaureate · Mathematics I</span></p>
+  <p><a href="../../index.html">FentMates</a> · <span data-l="va">Fet amb ♥ per a l'alumnat</span><span data-l="es">Hecho con ♥ para el alumnado</span><span data-l="en">Made with ♥ for students</span></p>
+</footer>
+<button class="icon-btn to-top" type="button" id="to-top" aria-label="↑">↑</button>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var UNIT_KEY = "fm-1batx-mi-u3-sistemes-done";
+
+  /* ---------- textos de la interfície ---------- */
+  var UI = {
+    va: { next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
+      score: "Encerts", right: "Correcte!", wrong: "No és correcte.", theme: "Canvia entre mode clar i fosc", top: "Torna amunt",
+      badP: "No entenc el polinomi. Escriu-lo així: <code>2x^3-x+5</code> o <code>x^4/4</code> → <code>1/4x^4</code>." },
+    es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
+      score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba",
+      badP: "No entiendo el polinomio. Escríbelo así: <code>2x^3-x+5</code> o <code>x^4/4</code> → <code>1/4x^4</code>." },
+    en: { next: "Next step", all: "Show all", reset: "Hide the steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
+      score: "Correct", right: "Correct!", wrong: "Not quite.", theme: "Switch between light and dark mode", top: "Back to top",
+      badP: "I can't read that polynomial. Write it like this: <code>2x^3-x+5</code> or <code>x^4/4</code> → <code>1/4x^4</code>." }
+  };
+  var lang = root.getAttribute("data-lang") || "va";
+  function u(k) { return (UI[lang] || UI.va)[k]; }
+  function t3(va, es, en) { return lang === "es" ? es : lang === "en" ? en : va; }
+  var refreshers = [];
+  function onLang(fn) { refreshers.push(fn); fn(); }
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function tex(s, display) { try { return window.katex.renderToString(s, { throwOnError: false, displayMode: !!display }); } catch (e) { return s; } }
+  function $(w, r) { return w.querySelector('[data-role="' + r + '"]'); }
+  function byId(id) { return document.getElementById(id); }
+  function presetBtns(box, labels, onPick, first) {
+    var bs = [];
+    labels().forEach(function (_, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn";
+      b.addEventListener("click", function () { bs.forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); onPick(i); });
+      box.appendChild(b); bs.push(b);
+    });
+    if (first != null && bs[first]) bs[first].classList.add("on");
+    onLang(function () { var L = labels(); bs.forEach(function (b, i) { b.innerHTML = L[i]; }); });
+    return bs;
+  }
+  function kv(rows) { return '<div class="kv">' + rows.map(function (r) { return "<span>" + r[0] + "</span><span>" + r[1] + "</span>"; }).join("") + "</div>"; }
+  function rt(s) { return s.replace(/\$([^$]+)\$/g, function (_, m) { return tex(m); }); }
+  var COL = { a: "#3b82f6", b: "#f97316", r: "#e11d48", k: "#16a34a", v: "#7c3aed" };
+  function ok(b) { return b ? '<span class="msg-ok">✓</span>' : '<span class="msg-bad">✗</span>'; }
+
+  /* ---------- nombres ---------- */
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a; }
+  function decS(x, k) { var s = String(+x.toFixed(k == null ? 2 : k)); if (s === "-0") s = "0"; return lang === "en" ? s : s.replace(".", ","); }
+  function dT(x, k) { return decS(x, k).replace(",", "{,}"); }
+  function frac(x) { if (!isFinite(x)) return null; for (var d = 1; d <= 12; d++) { var n = Math.round(x * d); if (Math.abs(n / d - x) < 1e-9) return [n, d]; } return null; }
+  function nT(x) {
+    if (x === Infinity) return "+\\infty"; if (x === -Infinity) return "-\\infty";
+    var f = frac(x);
+    if (f) return f[1] === 1 ? String(f[0]) : (f[0] < 0 ? "-" : "") + "\\frac{" + Math.abs(f[0]) + "}{" + f[1] + "}";
+    return dT(x, 3);
+  }
+  function nS(x) { var f = frac(x); if (f && f[1] !== 1) return (f[0] < 0 ? "−" : "") + Math.abs(f[0]) + "/" + f[1]; return decS(x, 2).replace("-", "−"); }
+
+  /* ---------- fraccions exactes ---------- */
+  function Fr(n, d) {
+    if (d === undefined) d = 1;
+    if (d === 0) throw new Error("div0");
+    if (d < 0) { n = -n; d = -d; }
+    var g = gcd(n, d) || 1; this.n = n / g; this.d = d / g; if (this.n === 0) this.d = 1;
+  }
+  function fr(x) { return x instanceof Fr ? x : toFr(x); }
+  Fr.prototype.add = function (o) { o = fr(o); return new Fr(this.n * o.d + o.n * this.d, this.d * o.d); };
+  Fr.prototype.sub = function (o) { o = fr(o); return new Fr(this.n * o.d - o.n * this.d, this.d * o.d); };
+  Fr.prototype.mul = function (o) { o = fr(o); return new Fr(this.n * o.n, this.d * o.d); };
+  Fr.prototype.div = function (o) { o = fr(o); return new Fr(this.n * o.d, this.d * o.n); };
+  Fr.prototype.neg = function () { return new Fr(-this.n, this.d); };
+  Fr.prototype.abs = function () { return new Fr(Math.abs(this.n), this.d); };
+  Fr.prototype.zero = function () { return this.n === 0; };
+  Fr.prototype.eq = function (o) { o = fr(o); return this.n === o.n && this.d === o.d; };
+  Fr.prototype.sgn = function () { return this.n > 0 ? 1 : this.n < 0 ? -1 : 0; };
+  Fr.prototype.val = function () { return this.n / this.d; };
+  var F0 = new Fr(0), F1 = new Fr(1), FM1 = new Fr(-1);
+  function toFr(x) { if (Number.isInteger(x)) return new Fr(x); return new Fr(Math.round(x * 10000), 10000); }
+  function frT(f) { f = fr(f); return f.d === 1 ? String(f.n) : (f.n < 0 ? "-" : "") + "\\frac{" + Math.abs(f.n) + "}{" + f.d + "}"; }
+  function frP(f) { f = fr(f); return f.sgn() < 0 ? "\\left(" + frT(f) + "\\right)" : frT(f); }
+  function parseFr(s) {
+    s = String(s).trim().replace(/[−–]/g, "-").replace(/,/g, ".").replace(/\s/g, "");
+    var m = s.match(/^([+-]?)(\d+(?:\.\d+)?)(?:\/(\d+(?:\.\d+)?))?$/);
+    if (!m) return null;
+    function dec(t) { var i = t.indexOf("."); return i < 0 ? new Fr(+t) : new Fr(+t.replace(".", ""), Math.pow(10, t.length - i - 1)); }
+    var v = dec(m[2]);
+    if (m[3]) { var q = dec(m[3]); if (q.zero()) return null; v = v.div(q); }
+    return m[1] === "-" ? v.neg() : v;
+  }
+  function isq(n) { if (n < 0) return null; var r = Math.round(Math.sqrt(n)); return r * r === n ? r : null; }
+  function sqrtFr(f) { var a = isq(f.n), b = isq(f.d); return a != null && b != null ? new Fr(a, b) : null; }
+  function simpSqrt(N) { var k = 1, m = N; for (var f = 2; f * f <= m; f++) while (m % (f * f) === 0) { m /= f * f; k *= f; } return [k, m]; }
+
+  /* ---------- polinomis: llista de coeficients (Fr), de grau 0 cap amunt ---------- */
+  function pTrim(p) { p = p.slice(); while (p.length > 1 && p[p.length - 1].zero()) p.pop(); return p.length ? p : [F0]; }
+  function pDeg(p) { p = pTrim(p); return p.length === 1 && p[0].zero() ? -Infinity : p.length - 1; }
+  function pAdd(a, b) { var r = []; for (var i = 0; i < Math.max(a.length, b.length); i++) r.push((a[i] || F0).add(b[i] || F0)); return pTrim(r); }
+  function pScale(a, k) { return pTrim(a.map(function (c) { return c.mul(k); })); }
+  function pSub(a, b) { return pAdd(a, pScale(b, FM1)); }
+  function pMul(a, b) {
+    var r = [];
+    for (var i = 0; i < a.length; i++) for (var j = 0; j < b.length; j++) r[i + j] = (r[i + j] || F0).add(a[i].mul(b[j]));
+    return pTrim(r);
+  }
+  function pDivide(D, d) {
+    var dd = pDeg(d), q = [F0], r = pTrim(D), steps = [];
+    while (pDeg(r) >= dd) {
+      var e = pDeg(r) - dd, t = r[r.length - 1].div(d[dd]), mono = [];
+      for (var i = 0; i < e; i++) mono.push(F0);
+      mono.push(t);
+      var prod = pMul(mono, d);
+      q = pAdd(q, mono); r = pSub(r, prod);
+      steps.push({ t: t, e: e, prod: prod, r: r, q: q });
+    }
+    return { q: q, r: r, steps: steps };
+  }
+  function pEval(p, x) { var v = F0; for (var i = p.length - 1; i >= 0; i--) v = v.mul(x).add(p[i]); return v; }
+  function pEvalN(p, x) { var v = 0; for (var i = p.length - 1; i >= 0; i--) v = v * x + p[i].val(); return v; }
+  function monT(c, e, v, first) {
+    var s = c.sgn() < 0 ? "-" : (first ? "" : "+"), a = c.abs();
+    var vp = e === 0 ? "" : e === 1 ? v : v + "^{" + e + "}";
+    return s + ((e > 0 && a.eq(F1)) ? "" : frT(a)) + vp;
+  }
+  function pTex(p, v) { v = v || "x"; p = pTrim(p); var out = ""; for (var i = p.length - 1; i >= 0; i--) if (!p[i].zero()) out += monT(p[i], i, v, out === ""); return out || "0"; }
+  function parsePoly(s) {
+    if (s == null) return null;
+    s = String(s).replace(/[−–]/g, "-").replace(/\s+/g, "").replace(/[·*]/g, "").replace(/²/g, "^2").replace(/³/g, "^3").replace(/⁴/g, "^4")
+      .replace(/⁵/g, "^5").replace(/⁶/g, "^6").replace(/,/g, ".").replace(/X/g, "x");
+    if (!s) return null;
+    var terms = s.replace(/-/g, "+-").split("+"), p = [F0], n = 0;
+    for (var i = 0; i < terms.length; i++) {
+      var t = terms[i]; if (t === "") continue;
+      var m = t.match(/^(-?)(\d+(?:\.\d+)?(?:\/\d+(?:\.\d+)?)?)?(x(?:\^(\d{1,2}))?)?$/);
+      if (!m || (!m[2] && !m[3])) return null;
+      var c = m[2] ? parseFr(m[2]) : F1; if (!c) return null; if (m[1]) c = c.neg();
+      var e = m[3] ? (m[4] ? +m[4] : 1) : 0; if (e > 12) return null;
+      while (p.length <= e) p.push(F0);
+      p[e] = p[e].add(c); n++;
+    }
+    return n ? pTrim(p) : null;
+  }
+  function divisors(n) {
+    n = Math.abs(n); if (n === 0) return [1]; if (n > 1e7) return null;
+    var r = []; for (var i = 1; i * i <= n; i++) if (n % i === 0) { r.push(i); if (i * i !== n) r.push(n / i); }
+    return r.sort(function (a, b) { return a - b; });
+  }
+  // versió amb coeficients enters primers i coeficient principal positiu: p = k·P
+  function intForm(p) {
+    var L = 1; p.forEach(function (c) { L = L / gcd(L, c.d) * c.d; });
+    var q = p.map(function (c) { return c.mul(L); }), g = 0;
+    q.forEach(function (c) { g = gcd(g, c.n); });
+    if (q[q.length - 1].n < 0) g = -g;
+    return { P: q.map(function (c) { return c.div(g); }), k: new Fr(g, L) };
+  }
+
+  /* ---------- equació de segon grau exacta ---------- */
+  function rRat(f) { return { v: f.val(), tex: frT(f), fr: f }; }
+  function bsqT(B, m) { return B.eq(F1) ? "\\sqrt{" + m + "}" : B.d === 1 ? B.n + "\\sqrt{" + m + "}" : "\\frac{" + (B.n === 1 ? "" : B.n) + "\\sqrt{" + m + "}}{" + B.d + "}"; }
+  function irrT(A, B, m, s) {
+    var L = A.d / gcd(A.d, B.d) * B.d, pa = A.mul(L).n, kb = B.mul(L).n;
+    var top = (pa ? pa : "") + (s < 0 ? "-" : pa ? "+" : "") + (kb === 1 ? "" : kb) + "\\sqrt{" + m + "}";
+    return L === 1 ? top : "\\frac{" + top + "}{" + L + "}";
+  }
+  function rIrr(A, B, m, s) { return { v: A.val() + s * B.val() * Math.sqrt(m), tex: irrT(A, B, m, s), A: A, B: B, m: m, s: s }; }
+  function quadRoots(a, b, c) {
+    var D = b.mul(b).sub(new Fr(4).mul(a).mul(c)), res = { D: D, roots: [] };
+    if (D.sgn() < 0) { res.kind = "none"; return res; }
+    var A = b.neg().div(a.mul(2));
+    if (D.zero()) { res.kind = "double"; res.roots = [rRat(A)]; return res; }
+    var sq = sqrtFr(D);
+    if (sq) {
+      res.kind = "rat";
+      res.roots = [rRat(b.neg().sub(sq).div(a.mul(2))), rRat(b.neg().add(sq).div(a.mul(2)))].sort(function (p, q) { return p.v - q.v; });
+      return res;
+    }
+    var s = simpSqrt(D.n * D.d), B = new Fr(s[0], D.d).div(a.mul(2)).abs();
+    res.kind = "irr"; res.sq = s; res.roots = [rIrr(A, B, s[1], -1), rIrr(A, B, s[1], 1)];
+    return res;
+  }
+  function quadFormulaT(a, b, c, Q) {
+    var D = Q.D, sD = "\\sqrt{" + frT(D) + "}";
+    var s = "x=\\dfrac{" + (b.zero() ? "" : frT(b.neg())) + "\\pm" + sD + "}{" + frT(a.mul(2)) + "}";
+    if (Q.kind === "rat") s += "=\\dfrac{" + (b.zero() ? "" : frT(b.neg())) + "\\pm" + frT(sqrtFr(D)) + "}{" + frT(a.mul(2)) + "}";
+    return s;
+  }
+
+  /* ---------- gràfiques cartesianes ---------- */
+  function niceStep(r) { var raw = r / 8, e = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / e; return e * (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10); }
+  function gview(o) {
+    var W = o.W || 360, H = o.H || 280, pl = 28, pr = 12, pt = 12, pb = 22;
+    function X(x) { return pl + (x - o.x0) / (o.x1 - o.x0) * (W - pl - pr); }
+    function Y(y) { return H - pb - (y - o.y0) / (o.y1 - o.y0) * (H - pt - pb); }
+    var g = "", sx = o.sx || niceStep(o.x1 - o.x0), sy = o.sy || niceStep(o.y1 - o.y0), v;
+    for (v = Math.ceil(o.x0 / sx) * sx; v <= o.x1 + 1e-9; v += sx) g += '<line class="g" x1="' + X(v) + '" x2="' + X(v) + '" y1="' + Y(o.y0) + '" y2="' + Y(o.y1) + '"/>';
+    for (v = Math.ceil(o.y0 / sy) * sy; v <= o.y1 + 1e-9; v += sy) g += '<line class="g" x1="' + X(o.x0) + '" x2="' + X(o.x1) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/>';
+    var ay = Math.max(o.y0, Math.min(o.y1, 0)), ax = Math.max(o.x0, Math.min(o.x1, 0));
+    g += '<line class="ax" x1="' + X(o.x0) + '" x2="' + X(o.x1) + '" y1="' + Y(ay) + '" y2="' + Y(ay) + '"/><line class="ax" x1="' + X(ax) + '" x2="' + X(ax) + '" y1="' + Y(o.y0) + '" y2="' + Y(o.y1) + '"/>';
+    function lb(t) { return String(+t.toFixed(6)).replace("-", "−").replace(".", lang === "en" ? "." : ","); }
+    for (v = Math.ceil(o.x0 / sx) * sx; v <= o.x1 + 1e-9; v += sx) if (Math.abs(v) > 1e-9) g += '<text x="' + X(v) + '" y="' + (Y(ay) + 13) + '" text-anchor="middle">' + lb(v) + "</text>";
+    for (v = Math.ceil(o.y0 / sy) * sy; v <= o.y1 + 1e-9; v += sy) if (Math.abs(v) > 1e-9) g += '<text x="' + (X(ax) - 4) + '" y="' + (Y(v) + 3.5) + '" text-anchor="end">' + lb(v) + "</text>";
+    return { g: g, X: X, Y: Y, W: W, H: H, o: o };
+  }
+  function curve(G, f, color, opts) {
+    opts = opts || {};
+    var o = G.o, a = opts.a == null ? o.x0 : Math.max(o.x0, opts.a), b = opts.b == null ? o.x1 : Math.min(o.x1, opts.b), N = 400, d = "", pen = false, M = (o.y1 - o.y0) * 3;
+    for (var i = 0; i <= N; i++) {
+      var x = a + (b - a) * i / N, y = f(x);
+      if (!isFinite(y) || y > o.y1 + M || y < o.y0 - M) { pen = false; continue; }
+      y = Math.max(o.y0 - (o.y1 - o.y0), Math.min(o.y1 + (o.y1 - o.y0), y));
+      d += (pen ? "L" : "M") + G.X(x).toFixed(1) + " " + G.Y(y).toFixed(1); pen = true;
+    }
+    return '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="' + (opts.w || 2.6) + '"' + (opts.dash ? ' stroke-dasharray="' + opts.dash + '"' : "") + ' stroke-linejoin="round"/>';
+  }
+  function dot(G, x, y, color, r) { return '<circle cx="' + G.X(x) + '" cy="' + G.Y(y) + '" r="' + (r || 5.5) + '" fill="' + color + '" stroke="var(--bg)" stroke-width="1.5"/>'; }
+  function clipSvg(svg, G) {
+    var id = "cl" + Math.random().toString(36).slice(2, 8), o = G.o;
+    return { open: '<defs><clipPath id="' + id + '"><rect x="' + G.X(o.x0) + '" y="' + G.Y(o.y1) + '" width="' + (G.X(o.x1) - G.X(o.x0)) + '" height="' + (G.Y(o.y0) - G.Y(o.y1)) + '"/></clipPath></defs><g clip-path="url(#' + id + ')">', close: "</g>" };
+  }
+  function polyView(p, roots) {
+    var xs = roots.map(function (r) { return r.v; }).filter(isFinite);
+    var x0 = Math.min(-3, Math.floor(Math.min.apply(null, xs.concat([0])) - 1.5)), x1 = Math.max(3, Math.ceil(Math.max.apply(null, xs.concat([0])) + 1.5));
+    var ys = [], ym, i, r0 = Math.min.apply(null, xs.concat([0])), r1 = Math.max.apply(null, xs.concat([0]));
+    if (r1 - r0 > 0.5) { for (i = 0; i <= 200; i++) ys.push(Math.abs(pEvalN(p, r0 - 0.4 + (r1 - r0 + 0.8) * i / 200))); ym = Math.max(2, Math.max.apply(null, ys) * 1.25); }
+    else { for (i = 0; i <= 200; i++) ys.push(Math.abs(pEvalN(p, x0 + (x1 - x0) * i / 200))); ys.sort(function (a, b) { return a - b; }); ym = Math.max(2, ys[Math.floor(ys.length * 0.5)] * 1.3); }
+    var e = Math.pow(10, Math.floor(Math.log10(ym))); ym = Math.ceil(ym / e) * e;
+    return { x0: x0, x1: x1, y0: -ym, y1: ym };
+  }
+
+  /* ---------- controls de passos per als ginys ---------- */
+  function stepper(w, getN, onShow) {
+    var shown = 1, nb = $(w, "next"), ab = $(w, "all"), cnt = $(w, "cnt");
+    function upd() {
+      var n = getN(); if (shown > n) shown = n; if (shown < 0) shown = 0;
+      nb.textContent = u("next") + " →"; nb.disabled = shown >= n;
+      ab.textContent = shown >= n ? u("reset") : u("all");
+      cnt.textContent = n ? u("step") + " " + shown + " " + u("of") + " " + n : "";
+      onShow(shown);
+    }
+    nb.addEventListener("click", function () { shown++; upd(); });
+    ab.addEventListener("click", function () { shown = shown >= getN() ? Math.min(1, getN()) : getN(); upd(); });
+    return { upd: upd, reset: function (v) { shown = v == null ? 1 : v; upd(); } };
+  }
+
+  /* ---------- 3.1 mètode de Gauss ---------- */
+  function wGauss() {
+    var w = byId("w-gauss"); if (!w) return;
+    var grid = $(w, "grid"), out = $(w, "steps"), info = w.querySelector(".info"), ins = [], st, res;
+    var PRE = [[[1, 1, 1, 6], [2, -1, 1, 3], [1, 2, -1, 2]], [[1, -1, 1, 1], [2, 1, -1, 5], [1, 2, -2, 4]], [[1, -1, 1, 1], [2, 1, -1, 5], [1, 2, -2, 5]], [[2, 1, 1, 5], [2, -1, 3, 3], [3, 2, 1, 8]]];
+    for (var i = 0; i < 3; i++) for (var j = 0; j < 4; j++) {
+      var inp = document.createElement("input"); inp.className = "tin s" + (j === 3 ? " rhs" : ""); inp.inputMode = "decimal"; inp.autocomplete = "off"; inp.value = PRE[0][i][j];
+      inp.setAttribute("aria-label", (j < 3 ? "xyz"[j] : "=") + " (" + (i + 1) + ")");
+      inp.addEventListener("input", read); grid.appendChild(inp); ins.push(inp);
+    }
+    presetBtns($(w, "pre"), function () { return [t3("Exemple SCD", "Ejemplo SCD", "Example (unique)"), t3("Exemple SCI", "Ejemplo SCI", "Example (infinite)"), t3("Exemple SI", "Ejemplo SI", "Example (none)"), t3("Exercici 2c", "Ejercicio 2c", "Exercise 2c")]; }, function (k) {
+      PRE[k].forEach(function (r, i) { r.forEach(function (v, j) { ins[i * 4 + j].value = v; }); }); read();
+    });
+    function mT(M, piv) {
+      return "\\left(\\begin{array}{rrr|r}" + M.map(function (r) { return r.map(frT).join("&"); }).join("\\\\") + "\\end{array}\\right)";
+    }
+    function opT(i, k, al, be) { // F_i -> al F_i - be F_k
+      var s = "F_" + (i + 1) + "\\to " + (al.eq(F1) ? "" : frT(al)) + "F_" + (i + 1);
+      var b = be.neg(); s += (b.sgn() > 0 ? "+" : "-") + (b.abs().eq(F1) ? "" : frT(b.abs())) + "F_" + (k + 1);
+      return s;
+    }
+    function solve(M0) {
+      var M = M0.map(function (r) { return r.slice(); }), steps = [{ M: M.map(function (r) { return r.slice(); }), ops: [] }], r = 0, pivots = [];
+      for (var c = 0; c < 3 && r < 3; c++) {
+        var p = -1; for (var i = r; i < 3; i++) if (!M[i][c].zero()) { p = i; break; }
+        if (p < 0) continue;
+        var ops = [];
+        if (p !== r) { var t = M[p]; M[p] = M[r]; M[r] = t; ops.push("F_" + (r + 1) + "\\leftrightarrow F_" + (p + 1)); }
+        for (i = r + 1; i < 3; i++) {
+          if (M[i][c].zero()) continue;
+          var pv = M[r][c], q = M[i][c], al, be;
+          if (pv.d === 1 && q.d === 1) { var g = gcd(pv.n, q.n); al = new Fr(pv.n / g); be = new Fr(q.n / g); if (al.sgn() < 0) { al = al.neg(); be = be.neg(); } }
+          else { al = F1; be = q.div(pv); }
+          for (var j = 0; j < 4; j++) M[i][j] = M[i][j].mul(al).sub(M[r][j].mul(be));
+          ops.push(opT(i, r, al, be));
+        }
+        pivots.push(c);
+        if (ops.length) steps.push({ M: M.map(function (x) { return x.slice(); }), ops: ops });
+        r++;
+      }
+      var incompatible = M.some(function (row) { return row[0].zero() && row[1].zero() && row[2].zero() && !row[3].zero(); });
+      var rank = M.filter(function (row) { return !(row[0].zero() && row[1].zero() && row[2].zero()); }).length;
+      var kind = incompatible ? "SI" : rank === 3 ? "SCD" : "SCI", sol = null;
+      if (!incompatible) {
+        // forma reduïda per a escriure la solució
+        var E = M.map(function (x) { return x.slice(); }), pr = 0, pc = [];
+        for (c = 0; c < 3 && pr < 3; c++) {
+          var pp = -1; for (i = pr; i < 3; i++) if (!E[i][c].zero()) { pp = i; break; }
+          if (pp < 0) continue;
+          var tt = E[pp]; E[pp] = E[pr]; E[pr] = tt;
+          var inv = F1.div(E[pr][c]); for (j = 0; j < 4; j++) E[pr][j] = E[pr][j].mul(inv);
+          for (i = 0; i < 3; i++) if (i !== pr && !E[i][c].zero()) { var f = E[i][c]; for (j = 0; j < 4; j++) E[i][j] = E[i][j].sub(E[pr][j].mul(f)); }
+          pc.push(c); pr++;
+        }
+        var free = [0, 1, 2].filter(function (c2) { return pc.indexOf(c2) < 0; }), names = ["\\lambda", "\\mu", "\\nu"], expr = [];
+        free.forEach(function (c2, k2) { expr[c2] = names[k2]; });
+        pc.forEach(function (c2, k2) {
+          var s = frT(E[k2][3]), first = E[k2][3].zero();
+          if (first) s = "";
+          free.forEach(function (fc, k3) {
+            var co = E[k2][fc].neg(); if (co.zero()) return;
+            s += (co.sgn() < 0 ? "-" : s ? "+" : "") + (co.abs().eq(F1) ? "" : frT(co.abs())) + names[k3];
+          });
+          expr[c2] = s || "0";
+        });
+        sol = { expr: expr, free: free.length, names: names };
+      }
+      return { steps: steps, kind: kind, sol: sol, rank: rank, M: M };
+    }
+    function read() {
+      var M = [], good = true;
+      for (var i = 0; i < 3; i++) { M.push([]); for (var j = 0; j < 4; j++) { var f = parseFr(ins[i * 4 + j].value || "0"); ins[i * 4 + j].classList.toggle("bad", !f); if (!f) good = false; M[i].push(f || F0); } }
+      res = good ? solve(M) : null;
+      st.reset(1);
+    }
+    function show(k) {
+      if (!res) { out.innerHTML = ""; info.innerHTML = t3("Escriu nombres enters, decimals o fraccions.", "Escribe números enteros, decimales o fracciones.", "Type whole numbers, decimals or fractions."); return; }
+      var h = "";
+      res.steps.slice(0, k).forEach(function (s, i) {
+        h += '<div class="gstep">' + (i ? tex("\\xrightarrow[" + (s.ops[1] || "") + (s.ops[2] ? "\\\\ " + s.ops[2] : "") + "]{" + s.ops[0] + "}") : "") + tex(mT(s.M), false) + "</div>";
+      });
+      out.innerHTML = h;
+      if (k < res.steps.length) { info.innerHTML = '<span class="step-count">' + t3("Fem zeros davall de la diagonal…", "Hacemos ceros debajo de la diagonal…", "Making zeros below the diagonal…") + "</span>"; return; }
+      var last = res.M[2], rows = [];
+      var le = ""; ["x", "y", "z"].forEach(function (v, i) { if (!last[i].zero()) le += monT(last[i], 1, v, le === ""); });
+      rows.push([t3("Última equació", "Última ecuación", "Last equation"), tex((le || "0") + "=" + frT(last[3]))]);
+      var badge = { SCD: '<span class="badge ok">SCD</span> ' + t3("Compatible determinat: una única solució", "Compatible determinado: una única solución", "Consistent, independent: exactly one solution"),
+        SCI: '<span class="badge ev">SCI</span> ' + t3("Compatible indeterminat: infinites solucions", "Compatible indeterminado: infinitas soluciones", "Consistent, dependent: infinitely many solutions"),
+        SI: '<span class="badge as">SI</span> ' + t3("Incompatible: cap solució (apareix ", "Incompatible: ninguna solución (aparece ", "Inconsistent: no solution (we get ") + tex("0=" + frT(res.M.filter(function (r) { return r[0].zero() && r[1].zero() && r[2].zero() && !r[3].zero(); })[0] ? res.M.filter(function (r) { return r[0].zero() && r[1].zero() && r[2].zero() && !r[3].zero(); })[0][3] : F0)) + ")" };
+      rows.push([t3("Classificació", "Clasificación", "Type"), badge[res.kind]]);
+      if (res.sol) rows.push([t3("Solució", "Solución", "Solution"), tex("(x,y,z)=\\left(" + res.sol.expr.join(",\\ ") + "\\right)" + (res.sol.free ? ",\\ \\ " + res.sol.names.slice(0, res.sol.free).join(",") + "\\in\\mathbb R" : ""))]);
+      info.innerHTML = kv(rows);
+    }
+    st = stepper(w, function () { return res ? res.steps.length : 0; }, show);
+    read(); onLang(function () { st.upd(); });
+  }
+
+  /* ---------- 3.2 recta i circumferència ---------- */
+  function wNl() {
+    var w = byId("w-nl"); if (!w) return;
+    var info = w.querySelector(".info"), svg = w.querySelector("svg");
+    function draw() {
+      var R2 = +$(w, "r").value, m = +$(w, "m").value, n = +$(w, "n").value;
+      $(w, "rv").textContent = R2; $(w, "mv").textContent = decS(m, 1).replace("-", "−"); $(w, "nv").textContent = decS(n, 1).replace("-", "−");
+      var M = toFr(m), N = toFr(n), RR = new Fr(R2), rows = [];
+      rows.push([t3("Sistema", "Sistema", "System"), tex("\\begin{cases}x^2+y^2=" + R2 + "\\\\ y=" + pTex([N, M]) + "\\end{cases}")]);
+      var a = F1.add(M.mul(M)), b = M.mul(N).mul(2), c = N.mul(N).sub(RR);
+      rows.push([t3("Substituïm", "Sustituimos", "Substitute"), tex("x^2+\\left(" + pTex([N, M]) + "\\right)^2=" + R2 + "\\ \\Rightarrow\\ " + pTex([c, b, a]) + "=0")]);
+      var Q = quadRoots(a, b, c), pts = [];
+      rows.push(["Δ", tex("\\Delta=" + frT(Q.D)) + " → " + (Q.kind === "none" ? t3("cap punt de tall", "ningún punto de corte", "no intersection") : Q.kind === "double" ? t3("un punt: la recta és tangent", "un punto: la recta es tangente", "one point: the line is tangent") : t3("dos punts de tall", "dos puntos de corte", "two intersection points"))]);
+      Q.roots.forEach(function (r) {
+        var yT;
+        if (r.fr) yT = frT(M.mul(r.fr).add(N));
+        else { var A2 = M.mul(r.A).add(N), B2 = M.abs().mul(r.B), s2 = M.sgn() < 0 ? -r.s : r.s; yT = M.zero() ? frT(N) : irrT(A2, B2, r.m, s2); }
+        pts.push({ x: r.v, y: m * r.v + n, t: "\\left(" + r.tex + ",\\ " + yT + "\\right)" });
+      });
+      if (pts.length) rows.push([t3("Solucions", "Soluciones", "Solutions"), tex(pts.map(function (p) { return p.t; }).join(",\\ "))]);
+      info.innerHTML = kv(rows);
+      var G = gview({ x0: -7, x1: 7, y0: -7, y1: 7, W: 320, H: 320, sx: 1, sy: 1 }), Cl = clipSvg(svg, G), r0 = Math.sqrt(R2);
+      var g = G.g + Cl.open + '<circle cx="' + G.X(0) + '" cy="' + G.Y(0) + '" r="' + (G.X(r0) - G.X(0)) + '" fill="none" stroke="' + COL.a + '" stroke-width="2.6"/>' + curve(G, function (x) { return m * x + n; }, COL.b);
+      pts.forEach(function (p) { g += dot(G, p.x, p.y, COL.r); });
+      svg.setAttribute("viewBox", "0 0 " + G.W + " " + G.H); svg.innerHTML = g + Cl.close;
+    }
+    ["r", "m", "n"].forEach(function (k) { $(w, k).addEventListener("input", draw); });
+    onLang(draw);
+  }
+
+
+  /* ---------- 3.4 semiplans i sistemes ---------- */
+  var OPT = { "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " };
+  function clipHalf(P, A, B, C, s) {
+    var out = [], n = P.length; if (!n) return out;
+    function val(p) { return s * (A * p[0] + B * p[1] - C); }
+    for (var i = 0; i < n; i++) {
+      var p = P[i], q = P[(i + 1) % n], vp = val(p), vq = val(q);
+      if (vp <= 1e-9) out.push(p);
+      if ((vp < -1e-9 && vq > 1e-9) || (vp > 1e-9 && vq < -1e-9)) { var t = vp / (vp - vq); out.push([p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]); }
+    }
+    var r = []; out.forEach(function (p) { if (!r.length || Math.abs(r[r.length - 1][0] - p[0]) + Math.abs(r[r.length - 1][1] - p[1]) > 1e-7) r.push(p); });
+    while (r.length > 1 && Math.abs(r[0][0] - r[r.length - 1][0]) + Math.abs(r[0][1] - r[r.length - 1][1]) < 1e-7) r.pop();
+    return r;
+  }
+  function region(cons, b) {
+    var P = [[b[0], b[2]], [b[1], b[2]], [b[1], b[3]], [b[0], b[3]]];
+    cons.forEach(function (c) { P = clipHalf(P, c.a, c.b, c.c, c.op.charAt(0) === "<" ? 1 : -1); });
+    return P;
+  }
+  function consT(c) {
+    var s = pTex([F0, toFr(c.a)]).replace(/^0$/, ""), y = c.b ? monT(toFr(c.b), 1, "y", !s) : "";
+    return (s + y || "0") + OPT[c.op] + nT(c.c);
+  }
+  function wHalf() {
+    var w = byId("w-half"); if (!w) return;
+    var info = w.querySelector(".info"), svg = w.querySelector("svg"), rowsBox = $(w, "rows"), R = [];
+    var OPS = ["<", "<=", ">", ">="], SYM = { "<": "<", "<=": "≤", ">": ">", ">=": "≥" };
+    for (var i = 0; i < 4; i++) {
+      var row = document.createElement("div"); row.className = "hrow";
+      var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = true;
+      var ia = mk("1"), ib = mk("1"), ic = mk("4"), sel = document.createElement("select");
+      OPS.forEach(function (o) { sel.add(new Option(SYM[o], o)); });
+      var dotc = document.createElement("i"); dotc.className = "dot"; dotc.style.background = [COL.a, COL.b, COL.v, COL.k][i];
+      [cb, dotc, ia, txt("x +"), ib, txt("y"), sel, ic].forEach(function (e) { row.appendChild(e); });
+      rowsBox.appendChild(row); R.push({ cb: cb, a: ia, b: ib, op: sel, c: ic });
+      [cb, ia, ib, sel, ic].forEach(function (e) { e.addEventListener("input", draw); e.addEventListener("change", draw); });
+    }
+    function mk(v) { var x = document.createElement("input"); x.className = "tin s"; x.inputMode = "decimal"; x.autocomplete = "off"; x.value = v; return x; }
+    function txt(t) { var s = document.createElement("span"); s.textContent = t; return s; }
+    var PRE = [
+      [[1, 1, "<=", 4], [-1, 1, ">=", -2], [1, 0, ">=", 0], [0, 1, ">=", 0]],
+      [[2, 1, "<", 4], [-1, 1, ">=", 0], null, null],
+      [[1, 1, "<=", 6], [-1, 2, "<=", 0], [1, 0, ">=", 0], null],
+      [[0, 1, ">=", 3], [0, 1, "<=", 5], [1, 0, "<=", 6], [1, 0, ">=", 4]],
+      [[3, 4, "<=", 12], null, null, null]
+    ];
+    function applyPre(k) { PRE[k].forEach(function (c, i) { R[i].cb.checked = !!c; if (c) { R[i].a.value = c[0]; R[i].b.value = c[1]; R[i].op.value = c[2]; R[i].c.value = c[3]; } }); }
+    applyPre(0);
+    presetBtns($(w, "pre"), function () { return [t3("Exemple dels apunts", "Ejemplo de los apuntes", "Notes example"), "8 b)", "8 d)", "8 f)", "7 a)"]; }, function (k) { applyPre(k); draw(); }, 0);
+    function draw() {
+      var cons = [], bad = false;
+      R.forEach(function (r, i) {
+        var a = parseFr(r.a.value || "0"), b = parseFr(r.b.value || "0"), c = parseFr(r.c.value || "0");
+        [r.a, r.b, r.c].forEach(function (e) { e.classList.toggle("bad", r.cb.checked && !parseFr(e.value || "0")); });
+        r.a.parentNode.classList.toggle("off", !r.cb.checked);
+        if (!r.cb.checked) return;
+        if (!a || !b || !c || (a.zero() && b.zero())) { bad = true; return; }
+        cons.push({ a: a.val(), b: b.val(), c: c.val(), op: r.op.value, col: [COL.a, COL.b, COL.v, COL.k][i] });
+      });
+      var V = [-3, 9, -3, 9], G = gview({ x0: V[0], x1: V[1], y0: V[2], y1: V[3], W: 340, H: 340, sx: 1, sy: 1 }), Cl = clipSvg(svg, G), g = G.g + Cl.open;
+      var P = region(cons, V);
+      if (P.length >= 3) g += '<path d="M' + P.map(function (p) { return G.X(p[0]).toFixed(1) + " " + G.Y(p[1]).toFixed(1); }).join("L") + 'Z" fill="' + COL.r + '" fill-opacity=".22"/>';
+      cons.forEach(function (c) {
+        var pts = Math.abs(c.b) > 1e-12 ? [[V[0] - 1, (c.c - c.a * (V[0] - 1)) / c.b], [V[1] + 1, (c.c - c.a * (V[1] + 1)) / c.b]] : [[c.c / c.a, V[2] - 1], [c.c / c.a, V[3] + 1]];
+        g += '<line x1="' + G.X(pts[0][0]) + '" y1="' + G.Y(pts[0][1]) + '" x2="' + G.X(pts[1][0]) + '" y2="' + G.Y(pts[1][1]) + '" stroke="' + c.col + '" stroke-width="2.4"' + (c.op.length === 1 ? ' stroke-dasharray="7 5"' : "") + "/>";
+      });
+      var BIG = 1e6, PB = region(cons, [-BIG, BIG, -BIG, BIG]), verts = PB.filter(function (p) { return Math.abs(p[0]) < BIG / 2 && Math.abs(p[1]) < BIG / 2; });
+      verts.forEach(function (p) { g += dot(G, p[0], p[1], "var(--text)", 4); });
+      svg.setAttribute("viewBox", "0 0 " + G.W + " " + G.H); svg.innerHTML = g + Cl.close;
+      if (bad) { info.innerHTML = t3("Revisa els coeficients (a i b no poden ser tots dos 0).", "Revisa los coeficientes (a y b no pueden ser ambos 0).", "Check the coefficients (a and b can't both be 0)."); return; }
+      var rows = cons.map(function (c) {
+        var tp = Math.abs(c.c) > 1e-12 ? [0, 0] : Math.abs(c.a) > 1e-12 ? [1, 0] : [0, 1], v = c.a * tp[0] + c.b * tp[1];
+        var holds = { "<": v < c.c, "<=": v <= c.c, ">": v > c.c, ">=": v >= c.c }[c.op];
+        return ['<i class="dot" style="background:' + c.col + '"></i>' + tex(consT(c)), t3("recta ", "recta ", "line ") + (c.op.length === 1 ? t3("discontínua", "discontinua", "dashed") : t3("contínua", "continua", "solid")) + "; " + tex("(" + tp.join(",") + "):\\ " + nT(v) + OPT[c.op] + nT(c.c)) + " " + ok(holds) + " → " + (holds ? t3("semiplà del punt", "semiplano del punto", "the point's side") : t3("l'altre semiplà", "el otro semiplano", "the other side"))];
+      });
+      if (!cons.length) rows.push(["", t3("Activa alguna inequació.", "Activa alguna inecuación.", "Turn on an inequality.")]);
+      else if (PB.length < 3) rows.push([t3("Solució", "Solución", "Solution"), t3("No hi ha cap punt que complisca totes les inequacions.", "No hay ningún punto que cumpla todas las inecuaciones.", "No point satisfies all the inequalities.")]);
+      else {
+        var bounded = verts.length === PB.length;
+        rows.push([t3("Regió", "Región", "Region"), bounded ? t3("fitada (un polígon)", "acotada (un polígono)", "bounded (a polygon)") : t3("no fitada", "no acotada", "unbounded")]);
+        if (verts.length) rows.push([t3("Vèrtexs", "Vértices", "Vertices"), tex(verts.map(function (p) { return "(" + nT(p[0]) + ",\\," + nT(p[1]) + ")"; }).join(",\\ "))]);
+      }
+      info.innerHTML = kv(rows);
+    }
+    onLang(draw);
+  }
+
+  /* ---------- autoavaluació ---------- */
+  function q3(va, es, en) { return { va: va, es: es === undefined ? va : es, en: en === undefined ? va : en }; }
+  var QUIZ = [
+    { q: q3("En aplicar Gauss, l'última fila queda $\\left(0\\ \\ 0\\ \\ 0\\,|\\,3\\right)$. El sistema és…", "Al aplicar Gauss, la última fila queda $\\left(0\\ \\ 0\\ \\ 0\\,|\\,3\\right)$. El sistema es…", "After Gauss, the last row is $\\left(0\\ \\ 0\\ \\ 0\\,|\\,3\\right)$. The system is…"),
+      o: [q3("SCD"), q3("SCI"), q3("SI")], a: 2, e: q3("L'equació $0=3$ és impossible: incompatible.", "La ecuación $0=3$ es imposible: incompatible.", "The equation $0=3$ is impossible: inconsistent.") },
+    { q: q3("Un sistema amb infinites solucions és…", "Un sistema con infinitas soluciones es…", "A system with infinitely many solutions is…"),
+      o: [q3("SCD"), q3("SCI"), q3("SI")], a: 1, e: q3("Compatible indeterminat: les solucions depenen d'un paràmetre.", "Compatible indeterminado: las soluciones dependen de un parámetro.", "Consistent and dependent: the solutions depend on a parameter.") },
+    { q: q3("El sistema $x+y=0,\\ xy=1$…", "El sistema $x+y=0,\\ xy=1$…", "The system $x+y=0,\\ xy=1$…"),
+      o: [q3("té dues solucions reals", "tiene dos soluciones reales", "has two real solutions"), q3("té una solució real", "tiene una solución real", "has one real solution"), q3("no té solució real", "no tiene solución real", "has no real solution")], a: 2, e: q3("Substituint $y=-x$: $-x^2=1$, que no té solució real.", "Sustituyendo $y=-x$: $-x^2=1$, que no tiene solución real.", "Substituting $y=-x$: $-x^2=1$, which has no real solution.") },
+    { q: q3("La solució del sistema $x\\gt1,\\ x\\le4$ és…", "La solución del sistema $x\\gt1,\\ x\\le4$ es…", "The solution of the system $x\\gt1,\\ x\\le4$ is…"),
+      o: [q3("$[1,4]$"), q3("$(1,4]$"), q3("$(-\\infty,4]$")], a: 1, e: q3("És la intersecció de $(1,+\\infty)$ i $(-\\infty,4]$.", "Es la intersección de $(1,+\\infty)$ y $(-\\infty,4]$.", "It is the intersection of $(1,+\\infty)$ and $(-\\infty,4]$.") },
+    { q: q3("El punt $(0,0)$ compleix $2x-y\\gt3$?", "¿El punto $(0,0)$ cumple $2x-y\\gt3$?", "Does $(0,0)$ satisfy $2x-y\\gt3$?"),
+      o: [q3("Sí", "Sí", "Yes"), q3("No: la solució és el semiplà que no conté l'origen", "No: la solución es el semiplano que no contiene el origen", "No: the solution is the half-plane not containing the origin")], a: 1, e: q3("$0\\gt3$ és fals.", "$0\\gt3$ es falso.", "$0\\gt3$ is false.") },
+    { q: q3("Com es dibuixa la recta frontera de $3x+y\\le6$?", "¿Cómo se dibuja la recta frontera de $3x+y\\le6$?", "How do you draw the boundary line of $3x+y\\le6$?"),
+      o: [q3("Contínua", "Continua", "Solid"), q3("Discontínua", "Discontinua", "Dashed")], a: 0, e: q3("Amb $\\le$ o $\\ge$ els punts de la recta formen part de la solució.", "Con $\\le$ o $\\ge$ los puntos de la recta forman parte de la solución.", "With $\\le$ or $\\ge$ the points on the line are part of the solution.") },
+    { q: q3("Tenim 10 monedes d'1 € i de 2 € que sumen 13 €. Quantes en són de 2 €?", "Tenemos 10 monedas de 1 € y de 2 € que suman 13 €. ¿Cuántas son de 2 €?", "We have 10 coins of €1 and €2 adding up to €13. How many are €2 coins?"),
+      o: [q3("$3$"), q3("$5$"), q3("$7$")], a: 0, e: q3("$x+y=10,\\ x+2y=13$: restant, $y=3$.", "$x+y=10,\\ x+2y=13$: restando, $y=3$.", "$x+y=10,\\ x+2y=13$: subtracting, $y=3$.") }
+  ];
+
+  var answers = {};
+  function rtex(s) { return s.replace(/\$([^$]+)\$/g, function (_, m) { return tex(m); }); }
+  function wQuiz() {
+    var box = document.getElementById("quiz-box"), score = document.getElementById("quiz-score");
+    if (!box) return;
+    function render() {
+      box.innerHTML = ""; var ok = 0, done = 0;
+      QUIZ.forEach(function (q, i) {
+        var d = document.createElement("div"); d.className = "q";
+        d.innerHTML = '<p class="qt">' + (i + 1) + ". " + rtex(q.q[lang]) + '</p><div class="opts"></div><div class="fb"></div>';
+        var opts = d.querySelector(".opts"), fb = d.querySelector(".fb");
+        q.o.forEach(function (o, j) {
+          var b = document.createElement("button"); b.type = "button"; b.innerHTML = rtex(o[lang]);
+          if (answers[i] != null) {
+            b.disabled = true;
+            if (j === q.a) b.classList.add("right"); else if (j === answers[i]) b.classList.add("wrong");
+          }
+          b.addEventListener("click", function () { answers[i] = j; render(); });
+          opts.appendChild(b);
+        });
+        if (answers[i] != null) { done++; if (answers[i] === q.a) ok++; fb.innerHTML = "<strong>" + (answers[i] === q.a ? "✓ " + u("right") : "✗ " + u("wrong")) + "</strong> " + rtex(q.e[lang]); }
+        box.appendChild(d);
+      });
+      score.textContent = done ? u("score") + ": " + ok + " / " + QUIZ.length : "";
+    }
+    document.getElementById("quiz-reset").addEventListener("click", function () { answers = {}; render(); });
+    onLang(render);
+  }
+
+  /* ---------- passos ---------- */
+  function wSteps() {
+    document.querySelectorAll(".steps").forEach(function (s) {
+      var steps = [].slice.call(s.children).filter(function (c) { return c.classList.contains("step"); });
+      if (steps.length < 2) return;
+      s.classList.add("js");
+      var shown = 1, ctl = document.createElement("div"); ctl.className = "steps-ctl";
+      var bn = document.createElement("button"), ba = document.createElement("button"), cnt = document.createElement("span");
+      bn.type = ba.type = "button"; bn.className = "btn primary"; ba.className = "btn"; cnt.className = "step-count";
+      ctl.appendChild(bn); ctl.appendChild(ba); ctl.appendChild(cnt); s.after(ctl);
+      function upd() {
+        steps.forEach(function (st, i) { st.classList.toggle("hidden", i >= shown); });
+        bn.textContent = u("next") + " →"; bn.disabled = shown >= steps.length;
+        ba.textContent = shown >= steps.length ? u("reset") : u("all");
+        cnt.textContent = u("step") + " " + shown + " " + u("of") + " " + steps.length;
+      }
+      bn.addEventListener("click", function () { if (shown < steps.length) { shown++; upd(); steps[shown - 1].scrollIntoView({ block: "nearest", behavior: "smooth" }); } });
+      ba.addEventListener("click", function () { shown = shown >= steps.length ? 1 : steps.length; upd(); });
+      onLang(upd);
+    });
+  }
+
+  /* ---------- índex, progrés i seccions estudiades ---------- */
+  function wNav() {
+    var links = [].slice.call(document.querySelectorAll("#toc-list a")), secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var bar = document.getElementById("progress"), top = document.getElementById("to-top");
+    function onScroll() {
+      var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + "%";
+      top.classList.toggle("show", h.scrollTop > 800);
+      var y = window.scrollY + 140, idx = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    top.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    var done = {}; try { done = JSON.parse(store(UNIT_KEY) || "{}") || {}; } catch (e) {}
+    var heads = document.querySelectorAll("section.unit[id^='s'] .sec-head");
+    heads.forEach(function (hd) {
+      var id = hd.parentNode.id, b = document.createElement("button"); b.type = "button"; b.className = "done-btn";
+      function upd() { b.setAttribute("aria-pressed", String(!!done[id])); b.textContent = (done[id] ? "✓ " + u("studied") : "○ " + u("mark")); }
+      b.addEventListener("click", function () { done[id] = !done[id]; store(UNIT_KEY, JSON.stringify(done)); upd(); meter(); });
+      hd.appendChild(b); onLang(upd);
+    });
+    function meter() {
+      var n = 0; links.forEach(function (a) { var id = a.getAttribute("href").slice(1); a.classList.toggle("done", !!done[id]); if (done[id]) n++; });
+      document.getElementById("meter").style.width = (n / 5 * 100) + "%"; document.getElementById("meter-n").textContent = n;
+    }
+    meter();
+    var d = document.getElementById("toc-d");
+    var mq = window.matchMedia("(max-width: 960px)");
+    d.open = !mq.matches;
+    if (mq.addEventListener) mq.addEventListener("change", function () { d.open = !mq.matches; });
+    links.forEach(function (a) { a.addEventListener("click", function () { if (window.matchMedia("(max-width: 960px)").matches) d.open = false; }); });
+  }
+
+  /* ---------- idioma i tema ---------- */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function wChrome() {
+    var tb = document.getElementById("theme-btn");
+    function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+    tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+    var btns = document.querySelectorAll("[data-setlang]");
+    function paintLang() { btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); }
+    btns.forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.setlang); }); });
+    onLang(function () { paintTheme(); paintLang(); });
+  }
+  var TITLES = { va: "Sistemes d'equacions i inequacions · FentMates", es: "Sistemas de ecuaciones e inecuaciones · FentMates", en: "Systems of equations and inequalities · FentMates" };
+  function setLang(l) {
+    if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }
+
+  function init() {
+    document.title = TITLES[lang];
+    var Dl = [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }];
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
+      document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
+    }
+    var all = [wChrome, wSteps, wNav, wGauss, wNl, wHalf, wQuiz];
+    all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
+  }
+  if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+})();
+</script>
+</body>
+</html>

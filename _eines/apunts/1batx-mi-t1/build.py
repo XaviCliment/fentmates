@@ -1,7 +1,7 @@
 import os, re, sys, glob
 
 # Genera materials/1batx-mi/t1-nombres-reals.html. Ús: python3 _eines/apunts/1batx-mi-t1/build.py
-# Com la unitat 5 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
+# Com la unitat 4 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
 # taules, botons). Els ginys (classificador, fracció generatriu, valor absolut, entorns, intervals, operacions amb intervals,
 # extracció de factors i logaritmes) són a app.js i l'estil propi a extra.css.

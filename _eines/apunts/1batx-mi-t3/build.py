@@ -1,57 +1,44 @@
 import os, re, sys, glob
 
-# Genera materials/1batx-mi/t3-trigonometria.html. Ús: python3 _eines/apunts/1batx-mi-t3/build.py
-# Com les unitats 1, 2 i 5 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
+# Genera materials/1batx-mi/t3-sistemes-inequacions.html. Ús: python3 _eines/apunts/1batx-mi-t3/build.py
+# Com les unitats 1, 2 i 4 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
-# taules, botons). Els ginys (radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una, reducció al primer
-# quadrant, resolució de triangles, laboratori del triangle, fórmules de la suma, identitats, equacions i funcions) són a app.js i
-# l'estil propi a extra.css. El contingut és a contingut-*.html (en ordre). Unifica les dues parts dels apunts del departament
-# (Trigonometria 1 i 2) en una sola unitat amb 13 apartats (3.1-3.13).
-# Convencions: ⟪va‖es‖en⟫ per al text, ⟦va‖es‖en⟧ dins d'una fórmula i \SI com a la unitat 4. A més, dins de les fórmules
-# «{,}» és la coma decimal: en anglés es converteix en un punt (0{,}86 → 0.86).
+# taules, botons). Els ginys (Gauss, recta i circumferència, i semiplans)
+# són a app.js i l'estil propi a extra.css.
+# El contingut és a contingut-*.html (en ordre). Les convencions ⟪va‖es‖en⟫, ⟦va‖es‖en⟧ i \SI són les mateixes que a la unitat 4.
 HERE = os.path.dirname(os.path.abspath(__file__))
 T4 = os.path.join(HERE, "..", "2batx-ccss-t4")
 T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
-OUT = os.path.join(SITE, "materials/1batx-mi/t3-trigonometria.html")
-NSEC = 13
-LANGS = ("va", "es", "en")
+OUT = os.path.join(SITE, "materials/1batx-mi/t3-sistemes-inequacions.html")
+NSEC = 5
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'
 SI = {"va": r"\text{si }", "es": r"\text{si }", "en": r"\text{if }"}
-FORM = re.compile(r"\\\[.*?\\\]|\\\(.*?\\\)", re.S)
-
-def variant(f, i):
-    """versió de la fórmula f en l'idioma i: ⟦va‖es‖en⟧, \\SI i la coma decimal {,}"""
-    k = LANGS[i]
-    f = re.sub(r"⟦(.*?)⟧", lambda n: n.group(1).split("‖")[i], f, flags=re.S).replace(r"\SI", SI[k])
-    return f.replace("{,}", ".") if k == "en" else f
 
 def expand(t):
-    # 1) els blocs de text ⟪va‖es‖en⟫ es guarden a part
-    blocks = []
-    def keep(m):
+    def form(m):
+        f = m.group(0)
+        if "⟦" not in f: return f
+        out = []
+        for i, k in enumerate(("va", "es", "en")):
+            out.append(re.sub(r"⟦(.*?)⟧", lambda n: n.group(1).split("‖")[i], f).replace(r"\SI", SI[k]))
+        return L(*out)
+    t = re.sub(r"\\\[.*?\\\]|\\\(.*?\\\)", form, t, flags=re.S)
+    assert "⟦" not in t
+    def one(m):
         p = m.group(1).split("‖")
         assert len(p) == 3, m.group(0)[:160]
-        assert "⟦" not in m.group(1), m.group(0)[:160]
-        blocks.append(p)
-        return "\x00%d\x00" % (len(blocks) - 1)
-    t = re.sub(r"⟪(.*?)⟫", keep, t, flags=re.S)
-    assert "⟪" not in t and "⟫" not in t, t[t.find("⟪") - 80:t.find("⟪") + 80]
-    # 2) fórmules fora dels blocs: si canvien amb l'idioma, se'n fan tres versions
-    def form(m):
-        f = m.group(0); vs = [variant(f, i) for i in range(3)]
-        return f if vs[0] == vs[1] == vs[2] else L(*vs)
-    t = FORM.sub(form, t)
-    assert "⟦" not in t and "‖" not in t and r"\SI" not in t
-    # 3) es tornen a posar els blocs, amb les fórmules de cada idioma adaptades
-    def put(m):
-        p = blocks[int(m.group(1))]
-        return L(*[FORM.sub(lambda n: variant(n.group(0), i), x) for i, x in enumerate(p)])
-    t = re.sub(r"\x00(\d+)\x00", put, t)
-    assert "‖" not in t and "\x00" not in t
+        return L(*[x.replace(r"\SI", SI[k]) for x, k in zip(p, ("va", "es", "en"))])
+    t = re.sub(r"⟪(.*?)⟫", one, t, flags=re.S)
+    assert "⟪" not in t and "‖" not in t and "⟫" not in t, t[t.find("⟪") - 80:t.find("⟪") + 80]
+    def tri(m):
+        f = m.group(0)
+        return L(*[f.replace(r"\SI", SI[k]) for k in ("va", "es", "en")]) if r"\SI" in f else f
+    t = re.sub(r"\\\[.*?\\\]|\\\(.*?\\\)", tri, t, flags=re.S)
+    assert r"\SI" not in t
     return t
 
 src = open(SRC, encoding="utf-8").read()
@@ -60,12 +47,12 @@ def cut(a, b, s=src):
     return s[i:j]
 
 # ---------- capçalera i estil ----------
-# fm-materials.js sap que la unitat 3 de 1r Batx MI és de geometria des del 10/11/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261110t3"
+# fm-materials.js sap que la unitat 3 de 1r Batx MI és d'àlgebra des del 11/11/2026: la versió força a recarregar-lo
+VER = r"fm-materials.\1?v=20261111u"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
-head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Trigonometria · FentMates</title>")
+head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Sistemes d'equacions i inequacions · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 3 (Trigonometria: radians, raons trigonomètriques, circumferència goniomètrica, resolució de triangles, teoremes del sinus i del cosinus, fórmules, equacions, sistemes i funcions trigonomètriques) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 3 (Sistemes d\'equacions i inequacions: mètode de Gauss, sistemes no lineals, sistemes d\'inequacions, regions del pla i problemes) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

@@ -1,9 +1,9 @@
-# Genera t5-fitxa-exercicis.tex i t5-fitxa-solucions.tex (1r Batxillerat MI, Unitat 5: Geometria analítica en el pla)
+# Genera t4-fitxa-exercicis.tex i t4-fitxa-solucions.tex (1r Batxillerat MI, Unitat 4: Geometria analítica en el pla)
 # a partir d'una sola llista d'exercicis: cada exercici és (estrelles, enunciat, solució); a Batxillerat no es mostren les estrelles.
 # Totes les solucions es calculen ací amb fraccions exactes (rectes, punts de tall, distàncies, àrees…) i CHK (al final)
 # les compara amb els valors esperats. Algunes solucions porten la figura dibuixada amb TikZ.
 # (Les paraules clau del PDF no poden portar «·»: amb hyperref, el preàmbul no compila.)
-# Ús: python3 genera.py && pdflatex t5-fitxa-exercicis.tex (dues vegades) && pdflatex t5-fitxa-solucions.tex (dues vegades)
+# Ús: python3 genera.py && pdflatex t4-fitxa-exercicis.tex (dues vegades) && pdflatex t4-fitxa-solucions.tex (dues vegades)
 import os, re, math
 from fractions import Fraction as F
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -402,9 +402,9 @@ def sp(t): return re.sub(r'\$[^$]*\$', lambda m: re.sub(r'(?<=[0-9a-zA-Z]),(?=-?
 def build(sol):
     t = 'Solucions de la fitxa' if sol else "Fitxa d'exercicis"
     p = pre.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
-                    "pdftitle={%s de la unitat 5: %s. 1r de Batxillerat MI}" % (t, TIT))
-    p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat 5: %s · 1r Batxillerat MI" % (t, TIT))
-    assert 'Unitat 5' in p and 'unitat 5' in p
+                    "pdftitle={%s de la unitat 4: %s. 1r de Batxillerat MI}" % (t, TIT))
+    p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat 4: %s · 1r Batxillerat MI" % (t, TIT))
+    assert 'Unitat 4' in p and 'unitat 4' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
 \def\fmneed{11}% que el títol d'una secció no quede sol al final del full
@@ -414,7 +414,7 @@ def build(sol):
 \begin{document}
 \thispagestyle{primera}
 
-\capcalera{Matemàtiques I}{1r Batx}{''' + ('Solucions de la fitxa · Unitat 5' if sol else "Fitxa d'exercicis · Unitat 5") + r'''}{\raggedright ''' + TIT + r'''}
+\capcalera{Matemàtiques I}{1r Batx}{''' + ('Solucions de la fitxa · Unitat 4' if sol else "Fitxa d'exercicis · Unitat 4") + r'''}{\raggedright ''' + TIT + r'''}
 ''')
     if not sol:
         out.append('\\vspace{10pt}\nNom i cognoms: \\rule{8.4cm}{0.4pt}\\hfill Grup: \\rule{1.6cm}{0.4pt}\\hfill Data: \\rule{2.2cm}{0.4pt}\n')
@@ -434,7 +434,7 @@ def build(sol):
     if not sol:
         out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\\end{center}\n')
     out.append('\n\\end{document}\n')
-    name = 't5-fitxa-solucions.tex' if sol else 't5-fitxa-exercicis.tex'
+    name = 't4-fitxa-solucions.tex' if sol else 't4-fitxa-exercicis.tex'
     open(os.path.join(HERE, name), 'w', encoding='utf-8', newline='\n').write(''.join(out))
     return n
 

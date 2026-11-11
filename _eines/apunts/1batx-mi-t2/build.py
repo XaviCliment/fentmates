@@ -1,10 +1,10 @@
 import os, re, sys, glob
 
 # Genera materials/1batx-mi/t2-algebra.html. Ús: python3 _eines/apunts/1batx-mi-t2/build.py
-# Com les unitats 1 i 5 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
+# Com les unitats 1 i 4 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
 # taules, botons). Els ginys (operacions i divisió de polinomis, Ruffini, factorització, fraccions algebraiques, segon grau i biquadrades,
-# radicals, exponencials, Gauss, sistemes no lineals, taula de signes, semiplans i aixetes) són a app.js i l'estil propi a extra.css.
+# radicals, exponencials, taula de signes i aixetes) són a app.js i l'estil propi a extra.css.
 # El contingut és a contingut-*.html (en ordre). Les convencions ⟪va‖es‖en⟫, ⟦va‖es‖en⟧ i \SI són les mateixes que a la unitat 4.
 HERE = os.path.dirname(os.path.abspath(__file__))
 T4 = os.path.join(HERE, "..", "2batx-ccss-t4")
@@ -12,7 +12,7 @@ T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/1batx-mi/t2-algebra.html")
-NSEC = 14
+NSEC = 11
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'
@@ -47,12 +47,12 @@ def cut(a, b, s=src):
     return s[i:j]
 
 # ---------- capçalera i estil ----------
-# fm-materials.js sap que la unitat 2 de 1r Batx MI és d'àlgebra des del 10/11/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261110a2"
+# fm-materials.js sap que la unitat 2 de 1r Batx MI és d'àlgebra des del 11/11/2026: la versió força a recarregar-lo
+VER = r"fm-materials.\1?v=20261111u"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
-head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Àlgebra · FentMates</title>")
+head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Àlgebra. Equacions i inequacions · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 2 (Àlgebra: polinomis, Ruffini, factorització, fraccions algebraiques, equacions, sistemes i inequacions) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 2 (Àlgebra. Equacions i inequacions: polinomis, Ruffini, factorització, fraccions algebraiques, equacions i inequacions) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

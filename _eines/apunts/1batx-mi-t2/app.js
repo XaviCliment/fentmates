@@ -3,7 +3,7 @@
   var root = document.documentElement;
   var LANGS = ["va", "es", "en"];
   var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
-  var UNIT_KEY = "fm-1batx-mi-u2-done";
+  var UNIT_KEY = "fm-1batx-mi-u2-eq-done";
 
   /* ---------- textos de la interfície ---------- */
   var UI = {
@@ -719,134 +719,7 @@
     onLang(draw);
   }
 
-  /* ---------- 2.10 mètode de Gauss ---------- */
-  function wGauss() {
-    var w = byId("w-gauss"); if (!w) return;
-    var grid = $(w, "grid"), out = $(w, "steps"), info = w.querySelector(".info"), ins = [], st, res;
-    var PRE = [[[1, 1, 1, 6], [2, -1, 1, 3], [1, 2, -1, 2]], [[1, -1, 1, 1], [2, 1, -1, 5], [1, 2, -2, 4]], [[1, -1, 1, 1], [2, 1, -1, 5], [1, 2, -2, 5]], [[2, 1, 1, 5], [2, -1, 3, 3], [3, 2, 1, 8]]];
-    for (var i = 0; i < 3; i++) for (var j = 0; j < 4; j++) {
-      var inp = document.createElement("input"); inp.className = "tin s" + (j === 3 ? " rhs" : ""); inp.inputMode = "decimal"; inp.autocomplete = "off"; inp.value = PRE[0][i][j];
-      inp.setAttribute("aria-label", (j < 3 ? "xyz"[j] : "=") + " (" + (i + 1) + ")");
-      inp.addEventListener("input", read); grid.appendChild(inp); ins.push(inp);
-    }
-    presetBtns($(w, "pre"), function () { return [t3("Exemple SCD", "Ejemplo SCD", "Example (unique)"), t3("Exemple SCI", "Ejemplo SCI", "Example (infinite)"), t3("Exemple SI", "Ejemplo SI", "Example (none)"), t3("Exercici 57c", "Ejercicio 57c", "Exercise 57c")]; }, function (k) {
-      PRE[k].forEach(function (r, i) { r.forEach(function (v, j) { ins[i * 4 + j].value = v; }); }); read();
-    });
-    function mT(M, piv) {
-      return "\\left(\\begin{array}{rrr|r}" + M.map(function (r) { return r.map(frT).join("&"); }).join("\\\\") + "\\end{array}\\right)";
-    }
-    function opT(i, k, al, be) { // F_i -> al F_i - be F_k
-      var s = "F_" + (i + 1) + "\\to " + (al.eq(F1) ? "" : frT(al)) + "F_" + (i + 1);
-      var b = be.neg(); s += (b.sgn() > 0 ? "+" : "-") + (b.abs().eq(F1) ? "" : frT(b.abs())) + "F_" + (k + 1);
-      return s;
-    }
-    function solve(M0) {
-      var M = M0.map(function (r) { return r.slice(); }), steps = [{ M: M.map(function (r) { return r.slice(); }), ops: [] }], r = 0, pivots = [];
-      for (var c = 0; c < 3 && r < 3; c++) {
-        var p = -1; for (var i = r; i < 3; i++) if (!M[i][c].zero()) { p = i; break; }
-        if (p < 0) continue;
-        var ops = [];
-        if (p !== r) { var t = M[p]; M[p] = M[r]; M[r] = t; ops.push("F_" + (r + 1) + "\\leftrightarrow F_" + (p + 1)); }
-        for (i = r + 1; i < 3; i++) {
-          if (M[i][c].zero()) continue;
-          var pv = M[r][c], q = M[i][c], al, be;
-          if (pv.d === 1 && q.d === 1) { var g = gcd(pv.n, q.n); al = new Fr(pv.n / g); be = new Fr(q.n / g); if (al.sgn() < 0) { al = al.neg(); be = be.neg(); } }
-          else { al = F1; be = q.div(pv); }
-          for (var j = 0; j < 4; j++) M[i][j] = M[i][j].mul(al).sub(M[r][j].mul(be));
-          ops.push(opT(i, r, al, be));
-        }
-        pivots.push(c);
-        if (ops.length) steps.push({ M: M.map(function (x) { return x.slice(); }), ops: ops });
-        r++;
-      }
-      var incompatible = M.some(function (row) { return row[0].zero() && row[1].zero() && row[2].zero() && !row[3].zero(); });
-      var rank = M.filter(function (row) { return !(row[0].zero() && row[1].zero() && row[2].zero()); }).length;
-      var kind = incompatible ? "SI" : rank === 3 ? "SCD" : "SCI", sol = null;
-      if (!incompatible) {
-        // forma reduïda per a escriure la solució
-        var E = M.map(function (x) { return x.slice(); }), pr = 0, pc = [];
-        for (c = 0; c < 3 && pr < 3; c++) {
-          var pp = -1; for (i = pr; i < 3; i++) if (!E[i][c].zero()) { pp = i; break; }
-          if (pp < 0) continue;
-          var tt = E[pp]; E[pp] = E[pr]; E[pr] = tt;
-          var inv = F1.div(E[pr][c]); for (j = 0; j < 4; j++) E[pr][j] = E[pr][j].mul(inv);
-          for (i = 0; i < 3; i++) if (i !== pr && !E[i][c].zero()) { var f = E[i][c]; for (j = 0; j < 4; j++) E[i][j] = E[i][j].sub(E[pr][j].mul(f)); }
-          pc.push(c); pr++;
-        }
-        var free = [0, 1, 2].filter(function (c2) { return pc.indexOf(c2) < 0; }), names = ["\\lambda", "\\mu", "\\nu"], expr = [];
-        free.forEach(function (c2, k2) { expr[c2] = names[k2]; });
-        pc.forEach(function (c2, k2) {
-          var s = frT(E[k2][3]), first = E[k2][3].zero();
-          if (first) s = "";
-          free.forEach(function (fc, k3) {
-            var co = E[k2][fc].neg(); if (co.zero()) return;
-            s += (co.sgn() < 0 ? "-" : s ? "+" : "") + (co.abs().eq(F1) ? "" : frT(co.abs())) + names[k3];
-          });
-          expr[c2] = s || "0";
-        });
-        sol = { expr: expr, free: free.length, names: names };
-      }
-      return { steps: steps, kind: kind, sol: sol, rank: rank, M: M };
-    }
-    function read() {
-      var M = [], good = true;
-      for (var i = 0; i < 3; i++) { M.push([]); for (var j = 0; j < 4; j++) { var f = parseFr(ins[i * 4 + j].value || "0"); ins[i * 4 + j].classList.toggle("bad", !f); if (!f) good = false; M[i].push(f || F0); } }
-      res = good ? solve(M) : null;
-      st.reset(1);
-    }
-    function show(k) {
-      if (!res) { out.innerHTML = ""; info.innerHTML = t3("Escriu nombres enters, decimals o fraccions.", "Escribe números enteros, decimales o fracciones.", "Type whole numbers, decimals or fractions."); return; }
-      var h = "";
-      res.steps.slice(0, k).forEach(function (s, i) {
-        h += '<div class="gstep">' + (i ? tex("\\xrightarrow[" + (s.ops[1] || "") + (s.ops[2] ? "\\\\ " + s.ops[2] : "") + "]{" + s.ops[0] + "}") : "") + tex(mT(s.M), false) + "</div>";
-      });
-      out.innerHTML = h;
-      if (k < res.steps.length) { info.innerHTML = '<span class="step-count">' + t3("Fem zeros davall de la diagonal…", "Hacemos ceros debajo de la diagonal…", "Making zeros below the diagonal…") + "</span>"; return; }
-      var last = res.M[2], rows = [];
-      var le = ""; ["x", "y", "z"].forEach(function (v, i) { if (!last[i].zero()) le += monT(last[i], 1, v, le === ""); });
-      rows.push([t3("Última equació", "Última ecuación", "Last equation"), tex((le || "0") + "=" + frT(last[3]))]);
-      var badge = { SCD: '<span class="badge ok">SCD</span> ' + t3("Compatible determinat: una única solució", "Compatible determinado: una única solución", "Consistent, independent: exactly one solution"),
-        SCI: '<span class="badge ev">SCI</span> ' + t3("Compatible indeterminat: infinites solucions", "Compatible indeterminado: infinitas soluciones", "Consistent, dependent: infinitely many solutions"),
-        SI: '<span class="badge as">SI</span> ' + t3("Incompatible: cap solució (apareix ", "Incompatible: ninguna solución (aparece ", "Inconsistent: no solution (we get ") + tex("0=" + frT(res.M.filter(function (r) { return r[0].zero() && r[1].zero() && r[2].zero() && !r[3].zero(); })[0] ? res.M.filter(function (r) { return r[0].zero() && r[1].zero() && r[2].zero() && !r[3].zero(); })[0][3] : F0)) + ")" };
-      rows.push([t3("Classificació", "Clasificación", "Type"), badge[res.kind]]);
-      if (res.sol) rows.push([t3("Solució", "Solución", "Solution"), tex("(x,y,z)=\\left(" + res.sol.expr.join(",\\ ") + "\\right)" + (res.sol.free ? ",\\ \\ " + res.sol.names.slice(0, res.sol.free).join(",") + "\\in\\mathbb R" : ""))]);
-      info.innerHTML = kv(rows);
-    }
-    st = stepper(w, function () { return res ? res.steps.length : 0; }, show);
-    read(); onLang(function () { st.upd(); });
-  }
-
-  /* ---------- 2.11 recta i circumferència ---------- */
-  function wNl() {
-    var w = byId("w-nl"); if (!w) return;
-    var info = w.querySelector(".info"), svg = w.querySelector("svg");
-    function draw() {
-      var R2 = +$(w, "r").value, m = +$(w, "m").value, n = +$(w, "n").value;
-      $(w, "rv").textContent = R2; $(w, "mv").textContent = decS(m, 1).replace("-", "−"); $(w, "nv").textContent = decS(n, 1).replace("-", "−");
-      var M = toFr(m), N = toFr(n), RR = new Fr(R2), rows = [];
-      rows.push([t3("Sistema", "Sistema", "System"), tex("\\begin{cases}x^2+y^2=" + R2 + "\\\\ y=" + pTex([N, M]) + "\\end{cases}")]);
-      var a = F1.add(M.mul(M)), b = M.mul(N).mul(2), c = N.mul(N).sub(RR);
-      rows.push([t3("Substituïm", "Sustituimos", "Substitute"), tex("x^2+\\left(" + pTex([N, M]) + "\\right)^2=" + R2 + "\\ \\Rightarrow\\ " + pTex([c, b, a]) + "=0")]);
-      var Q = quadRoots(a, b, c), pts = [];
-      rows.push(["Δ", tex("\\Delta=" + frT(Q.D)) + " → " + (Q.kind === "none" ? t3("cap punt de tall", "ningún punto de corte", "no intersection") : Q.kind === "double" ? t3("un punt: la recta és tangent", "un punto: la recta es tangente", "one point: the line is tangent") : t3("dos punts de tall", "dos puntos de corte", "two intersection points"))]);
-      Q.roots.forEach(function (r) {
-        var yT;
-        if (r.fr) yT = frT(M.mul(r.fr).add(N));
-        else { var A2 = M.mul(r.A).add(N), B2 = M.abs().mul(r.B), s2 = M.sgn() < 0 ? -r.s : r.s; yT = M.zero() ? frT(N) : irrT(A2, B2, r.m, s2); }
-        pts.push({ x: r.v, y: m * r.v + n, t: "\\left(" + r.tex + ",\\ " + yT + "\\right)" });
-      });
-      if (pts.length) rows.push([t3("Solucions", "Soluciones", "Solutions"), tex(pts.map(function (p) { return p.t; }).join(",\\ "))]);
-      info.innerHTML = kv(rows);
-      var G = gview({ x0: -7, x1: 7, y0: -7, y1: 7, W: 320, H: 320, sx: 1, sy: 1 }), Cl = clipSvg(svg, G), r0 = Math.sqrt(R2);
-      var g = G.g + Cl.open + '<circle cx="' + G.X(0) + '" cy="' + G.Y(0) + '" r="' + (G.X(r0) - G.X(0)) + '" fill="none" stroke="' + COL.a + '" stroke-width="2.6"/>' + curve(G, function (x) { return m * x + n; }, COL.b);
-      pts.forEach(function (p) { g += dot(G, p.x, p.y, COL.r); });
-      svg.setAttribute("viewBox", "0 0 " + G.W + " " + G.H); svg.innerHTML = g + Cl.close;
-    }
-    ["r", "m", "n"].forEach(function (k) { $(w, k).addEventListener("input", draw); });
-    onLang(draw);
-  }
-
-  /* ---------- 2.12 taula de signes ---------- */
+  /* ---------- 2.10 taula de signes ---------- */
   function wSign() {
     var w = byId("w-sign"); if (!w) return;
     var info = w.querySelector(".info"), tbl = $(w, "tbl"), svg = w.querySelector("svg.nl-svg"), op = 3;
@@ -918,94 +791,7 @@
     onLang(draw);
   }
 
-  /* ---------- 2.13 semiplans i sistemes ---------- */
-  var OPT = { "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " };
-  function clipHalf(P, A, B, C, s) {
-    var out = [], n = P.length; if (!n) return out;
-    function val(p) { return s * (A * p[0] + B * p[1] - C); }
-    for (var i = 0; i < n; i++) {
-      var p = P[i], q = P[(i + 1) % n], vp = val(p), vq = val(q);
-      if (vp <= 1e-9) out.push(p);
-      if ((vp < -1e-9 && vq > 1e-9) || (vp > 1e-9 && vq < -1e-9)) { var t = vp / (vp - vq); out.push([p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]); }
-    }
-    var r = []; out.forEach(function (p) { if (!r.length || Math.abs(r[r.length - 1][0] - p[0]) + Math.abs(r[r.length - 1][1] - p[1]) > 1e-7) r.push(p); });
-    while (r.length > 1 && Math.abs(r[0][0] - r[r.length - 1][0]) + Math.abs(r[0][1] - r[r.length - 1][1]) < 1e-7) r.pop();
-    return r;
-  }
-  function region(cons, b) {
-    var P = [[b[0], b[2]], [b[1], b[2]], [b[1], b[3]], [b[0], b[3]]];
-    cons.forEach(function (c) { P = clipHalf(P, c.a, c.b, c.c, c.op.charAt(0) === "<" ? 1 : -1); });
-    return P;
-  }
-  function consT(c) {
-    var s = pTex([F0, toFr(c.a)]).replace(/^0$/, ""), y = c.b ? monT(toFr(c.b), 1, "y", !s) : "";
-    return (s + y || "0") + OPT[c.op] + nT(c.c);
-  }
-  function wHalf() {
-    var w = byId("w-half"); if (!w) return;
-    var info = w.querySelector(".info"), svg = w.querySelector("svg"), rowsBox = $(w, "rows"), R = [];
-    var OPS = ["<", "<=", ">", ">="], SYM = { "<": "<", "<=": "≤", ">": ">", ">=": "≥" };
-    for (var i = 0; i < 4; i++) {
-      var row = document.createElement("div"); row.className = "hrow";
-      var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = true;
-      var ia = mk("1"), ib = mk("1"), ic = mk("4"), sel = document.createElement("select");
-      OPS.forEach(function (o) { sel.add(new Option(SYM[o], o)); });
-      var dotc = document.createElement("i"); dotc.className = "dot"; dotc.style.background = [COL.a, COL.b, COL.v, COL.k][i];
-      [cb, dotc, ia, txt("x +"), ib, txt("y"), sel, ic].forEach(function (e) { row.appendChild(e); });
-      rowsBox.appendChild(row); R.push({ cb: cb, a: ia, b: ib, op: sel, c: ic });
-      [cb, ia, ib, sel, ic].forEach(function (e) { e.addEventListener("input", draw); e.addEventListener("change", draw); });
-    }
-    function mk(v) { var x = document.createElement("input"); x.className = "tin s"; x.inputMode = "decimal"; x.autocomplete = "off"; x.value = v; return x; }
-    function txt(t) { var s = document.createElement("span"); s.textContent = t; return s; }
-    var PRE = [
-      [[1, 1, "<=", 4], [-1, 1, ">=", -2], [1, 0, ">=", 0], [0, 1, ">=", 0]],
-      [[2, 1, "<", 4], [-1, 1, ">=", 0], null, null],
-      [[1, 1, "<=", 6], [-1, 2, "<=", 0], [1, 0, ">=", 0], null],
-      [[0, 1, ">=", 3], [0, 1, "<=", 5], [1, 0, "<=", 6], [1, 0, ">=", 4]],
-      [[3, 4, "<=", 12], null, null, null]
-    ];
-    function applyPre(k) { PRE[k].forEach(function (c, i) { R[i].cb.checked = !!c; if (c) { R[i].a.value = c[0]; R[i].b.value = c[1]; R[i].op.value = c[2]; R[i].c.value = c[3]; } }); }
-    applyPre(0);
-    presetBtns($(w, "pre"), function () { return [t3("Exemple dels apunts", "Ejemplo de los apuntes", "Notes example"), "67 b)", "67 d)", "67 f)", "66 a)"]; }, function (k) { applyPre(k); draw(); }, 0);
-    function draw() {
-      var cons = [], bad = false;
-      R.forEach(function (r, i) {
-        var a = parseFr(r.a.value || "0"), b = parseFr(r.b.value || "0"), c = parseFr(r.c.value || "0");
-        [r.a, r.b, r.c].forEach(function (e) { e.classList.toggle("bad", r.cb.checked && !parseFr(e.value || "0")); });
-        r.a.parentNode.classList.toggle("off", !r.cb.checked);
-        if (!r.cb.checked) return;
-        if (!a || !b || !c || (a.zero() && b.zero())) { bad = true; return; }
-        cons.push({ a: a.val(), b: b.val(), c: c.val(), op: r.op.value, col: [COL.a, COL.b, COL.v, COL.k][i] });
-      });
-      var V = [-3, 9, -3, 9], G = gview({ x0: V[0], x1: V[1], y0: V[2], y1: V[3], W: 340, H: 340, sx: 1, sy: 1 }), Cl = clipSvg(svg, G), g = G.g + Cl.open;
-      var P = region(cons, V);
-      if (P.length >= 3) g += '<path d="M' + P.map(function (p) { return G.X(p[0]).toFixed(1) + " " + G.Y(p[1]).toFixed(1); }).join("L") + 'Z" fill="' + COL.r + '" fill-opacity=".22"/>';
-      cons.forEach(function (c) {
-        var pts = Math.abs(c.b) > 1e-12 ? [[V[0] - 1, (c.c - c.a * (V[0] - 1)) / c.b], [V[1] + 1, (c.c - c.a * (V[1] + 1)) / c.b]] : [[c.c / c.a, V[2] - 1], [c.c / c.a, V[3] + 1]];
-        g += '<line x1="' + G.X(pts[0][0]) + '" y1="' + G.Y(pts[0][1]) + '" x2="' + G.X(pts[1][0]) + '" y2="' + G.Y(pts[1][1]) + '" stroke="' + c.col + '" stroke-width="2.4"' + (c.op.length === 1 ? ' stroke-dasharray="7 5"' : "") + "/>";
-      });
-      var BIG = 1e6, PB = region(cons, [-BIG, BIG, -BIG, BIG]), verts = PB.filter(function (p) { return Math.abs(p[0]) < BIG / 2 && Math.abs(p[1]) < BIG / 2; });
-      verts.forEach(function (p) { g += dot(G, p[0], p[1], "var(--text)", 4); });
-      svg.setAttribute("viewBox", "0 0 " + G.W + " " + G.H); svg.innerHTML = g + Cl.close;
-      if (bad) { info.innerHTML = t3("Revisa els coeficients (a i b no poden ser tots dos 0).", "Revisa los coeficientes (a y b no pueden ser ambos 0).", "Check the coefficients (a and b can't both be 0)."); return; }
-      var rows = cons.map(function (c) {
-        var tp = Math.abs(c.c) > 1e-12 ? [0, 0] : Math.abs(c.a) > 1e-12 ? [1, 0] : [0, 1], v = c.a * tp[0] + c.b * tp[1];
-        var holds = { "<": v < c.c, "<=": v <= c.c, ">": v > c.c, ">=": v >= c.c }[c.op];
-        return ['<i class="dot" style="background:' + c.col + '"></i>' + tex(consT(c)), t3("recta ", "recta ", "line ") + (c.op.length === 1 ? t3("discontínua", "discontinua", "dashed") : t3("contínua", "continua", "solid")) + "; " + tex("(" + tp.join(",") + "):\\ " + nT(v) + OPT[c.op] + nT(c.c)) + " " + ok(holds) + " → " + (holds ? t3("semiplà del punt", "semiplano del punto", "the point's side") : t3("l'altre semiplà", "el otro semiplano", "the other side"))];
-      });
-      if (!cons.length) rows.push(["", t3("Activa alguna inequació.", "Activa alguna inecuación.", "Turn on an inequality.")]);
-      else if (PB.length < 3) rows.push([t3("Solució", "Solución", "Solution"), t3("No hi ha cap punt que complisca totes les inequacions.", "No hay ningún punto que cumpla todas las inecuaciones.", "No point satisfies all the inequalities.")]);
-      else {
-        var bounded = verts.length === PB.length;
-        rows.push([t3("Regió", "Región", "Region"), bounded ? t3("fitada (un polígon)", "acotada (un polígono)", "bounded (a polygon)") : t3("no fitada", "no acotada", "unbounded")]);
-        if (verts.length) rows.push([t3("Vèrtexs", "Vértices", "Vertices"), tex(verts.map(function (p) { return "(" + nT(p[0]) + ",\\," + nT(p[1]) + ")"; }).join(",\\ "))]);
-      }
-      info.innerHTML = kv(rows);
-    }
-    onLang(draw);
-  }
-
-  /* ---------- 2.14 treballs simultanis ---------- */
+  /* ---------- 2.11 treballs simultanis ---------- */
   function wTap() {
     var w = byId("w-tap"); if (!w) return;
     var info = w.querySelector(".info"), bars = $(w, "bars");
@@ -1045,18 +831,14 @@
     { q: q3("$3^{x+1}+3^{x}=36\\Rightarrow x=$"), o: [q3("$2$"), q3("$3$"), q3("$\\tfrac32$")], a: 0, e: q3("$3^x(3+1)=36\\Rightarrow3^x=9\\Rightarrow x=2$.") },
     { q: q3("$\\log x+\\log(x-3)=1$ té com a solució…", "$\\log x+\\log(x-3)=1$ tiene como solución…", "The solution of $\\log x+\\log(x-3)=1$ is…"),
       o: [q3("$x=5$ i $x=-2$", "$x=5$ y $x=-2$", "$x=5$ and $x=-2$"), q3("$x=5$"), q3("$x=-2$")], a: 1, e: q3("$x(x-3)=10$; $x=-2$ no val perquè $\\log(-2)$ no existeix.", "$x(x-3)=10$; $x=-2$ no vale porque $\\log(-2)$ no existe.", "$x(x-3)=10$; $x=-2$ fails because $\\log(-2)$ doesn't exist.") },
-    { q: q3("En aplicar Gauss, l'última fila queda $\\left(0\\ \\ 0\\ \\ 0\\,|\\,3\\right)$. El sistema és…", "Al aplicar Gauss, la última fila queda $\\left(0\\ \\ 0\\ \\ 0\\,|\\,3\\right)$. El sistema es…", "After Gauss, the last row is $\\left(0\\ \\ 0\\ \\ 0\\,|\\,3\\right)$. The system is…"),
-      o: [q3("SCD"), q3("SCI"), q3("SI")], a: 2, e: q3("L'equació $0=3$ és impossible: incompatible.", "La ecuación $0=3$ es imposible: incompatible.", "The equation $0=3$ is impossible: inconsistent.") },
     { q: q3("La solució de $\\dfrac{x-1}{x+3}\\le0$ és…", "La solución de $\\dfrac{x-1}{x+3}\\le0$ es…", "The solution of $\\dfrac{x-1}{x+3}\\le0$ is…"),
       o: [q3("$[-3,1]$"), q3("$(-3,1]$"), q3("$(-\\infty,-3)\\cup[1,+\\infty)$")], a: 1, e: q3("L'arrel del denominador, $-3$, no s'inclou mai.", "La raíz del denominador, $-3$, no se incluye nunca.", "The denominator's root, $-3$, is never included.") },
-    { q: q3("El punt $(0,0)$ compleix $2x-y\\gt3$?", "¿El punto $(0,0)$ cumple $2x-y\\gt3$?", "Does $(0,0)$ satisfy $2x-y\\gt3$?"),
-      o: [q3("Sí", "Sí", "Yes"), q3("No: la solució és el semiplà que no conté l'origen", "No: la solución es el semiplano que no contiene el origen", "No: the solution is the half-plane not containing the origin")], a: 1, e: q3("$0\\gt3$ és fals.", "$0\\gt3$ es falso.", "$0\\gt3$ is false.") },
     { q: q3("Una aixeta omple un dipòsit en 2 h i una altra en 3 h. Juntes tarden…", "Un grifo llena un depósito en 2 h y otro en 3 h. Juntos tardan…", "One tap fills a tank in 2 h and another in 3 h. Together they take…"),
       o: [q3("$5$ h"), q3("$2{,}5$ h", "$2{,}5$ h", "$2.5$ h"), q3("$1{,}2$ h", "$1{,}2$ h", "$1.2$ h")], a: 2, e: q3("$\\tfrac12+\\tfrac13=\\tfrac56$, per tant $T=\\tfrac65=1{,}2$ h.", "$\\tfrac12+\\tfrac13=\\tfrac56$, por tanto $T=\\tfrac65=1{,}2$ h.", "$\\tfrac12+\\tfrac13=\\tfrac56$, so $T=\\tfrac65=1.2$ h.") }
   ];
 
   /*@@GENERIC@@*/
-  var TITLES = { va: "Àlgebra · FentMates", es: "Álgebra · FentMates", en: "Algebra · FentMates" };
+  var TITLES = { va: "Àlgebra. Equacions i inequacions · FentMates", es: "Álgebra. Ecuaciones e inecuaciones · FentMates", en: "Algebra. Equations and inequalities · FentMates" };
   function setLang(l) {
     if (LANGS.indexOf(l) < 0) return;
     lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
@@ -1071,7 +853,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wPop, wDiv, wRuf, wFac, wFrs, wQuad, wRad, wExp, wGauss, wNl, wSign, wHalf, wTap, wQuiz];
+    var all = [wChrome, wSteps, wNav, wPop, wDiv, wRuf, wFac, wFrs, wQuad, wRad, wExp, wSign, wTap, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
     window.FM2 = { parsePoly: parsePoly, factorPoly: factorPoly, facTex: facTex, pTex: pTex, quadRoots: quadRoots, Fr: Fr };
   }

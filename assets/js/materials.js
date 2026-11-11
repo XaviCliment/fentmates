@@ -325,7 +325,7 @@ window.LEVELS = {
     },
     units: [
       {
-        // num: el número de la unitat als apunts del departament. Les unitats 3 i 4 dels apunts (Trigonometria 1 i 2) són una sola unitat, la 3
+        // num: el número de la unitat que es mostra a la targeta. Les dues parts de Trigonometria dels apunts del departament són una sola unitat, la 6
         num: "1",
         ill: "reals", block: "ari",
         title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
@@ -338,31 +338,41 @@ window.LEVELS = {
       {
         num: "2",
         ill: "polinomis", block: "alg",
-        title: { va: "Àlgebra", es: "Álgebra", en: "Algebra" },
+        title: { va: "Àlgebra. Equacions i inequacions", es: "Álgebra. Ecuaciones e inecuaciones", en: "Algebra. Equations and inequalities" },
         items: [
-          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t2-algebra.html", date: "2026-11-10" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 103 exercicis, dels polinomis a les inequacions i els problemes", es: "PDF · 103 ejercicios, de los polinomios a las inecuaciones y los problemas", en: "PDF · 103 exercises, from polynomials to inequalities and word problems" }, url: "materials/1batx-mi/t2-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 103 exercicis", es: "PDF · Soluciones de los 103 ejercicios", en: "PDF · Solutions to all 103 exercises" }, url: "materials/1batx-mi/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t2-algebra.html", date: "2026-11-11" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 71 exercicis, dels polinomis a les inequacions i els problemes", es: "PDF · 71 ejercicios, de los polinomios a las inecuaciones y los problemas", en: "PDF · 71 exercises, from polynomials to inequalities and word problems" }, url: "materials/1batx-mi/t2-fitxa-exercicis.pdf", download: true, date: "2026-11-11" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 71 exercicis", es: "PDF · Soluciones de los 71 ejercicios", en: "PDF · Solutions to all 71 exercises" }, url: "materials/1batx-mi/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-11" }
         ]
       },
       {
         num: "3",
-        ill: "trigonometria", block: "geo",
-        title: { va: "Trigonometria", es: "Trigonometría", en: "Trigonometry" },
+        ill: "sistemes", block: "alg",
+        title: { va: "Sistemes d'equacions i inequacions", es: "Sistemas de ecuaciones e inecuaciones", en: "Systems of equations and inequalities" },
         items: [
-          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t3-trigonometria.html", date: "2026-11-10" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 73 exercicis, dels radians a les funcions trigonomètriques", es: "PDF · 73 ejercicios, de los radianes a las funciones trigonométricas", en: "PDF · 73 exercises, from radians to the trigonometric functions" }, url: "materials/1batx-mi/t3-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 73 exercicis", es: "PDF · Soluciones de los 73 ejercicios", en: "PDF · Solutions to all 73 exercises" }, url: "materials/1batx-mi/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t3-sistemes-inequacions.html", date: "2026-11-11" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 32 exercicis, del mètode de Gauss a les regions del pla i els problemes", es: "PDF · 32 ejercicios, del método de Gauss a las regiones del plano y los problemas", en: "PDF · 32 exercises, from Gaussian elimination to regions of the plane and word problems" }, url: "materials/1batx-mi/t3-fitxa-exercicis.pdf", download: true, date: "2026-11-11" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 32 exercicis", es: "PDF · Soluciones de los 32 ejercicios", en: "PDF · Solutions to all 32 exercises" }, url: "materials/1batx-mi/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-11" }
         ]
       },
       {
-        num: "5",
+        num: "4",
         ill: "geometria", block: "geo",
         title: { va: "Geometria analítica en el pla", es: "Geometría analítica en el plano", en: "Coordinate geometry in the plane" },
         items: [
-          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t5-geometria-pla.html", date: "2026-10-29" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 61 exercicis, dels vectors als problemes mètrics", es: "PDF · 61 ejercicios, de los vectores a los problemas métricos", en: "PDF · 61 exercises, from vectors to metric problems" }, url: "materials/1batx-mi/t5-fitxa-exercicis.pdf", download: true, date: "2026-10-29" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 61 exercicis", es: "PDF · Soluciones de los 61 ejercicios", en: "PDF · Solutions to all 61 exercises" }, url: "materials/1batx-mi/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-29" }
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t4-geometria-pla.html", date: "2026-10-29" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 61 exercicis, dels vectors als problemes mètrics", es: "PDF · 61 ejercicios, de los vectores a los problemas métricos", en: "PDF · 61 exercises, from vectors to metric problems" }, url: "materials/1batx-mi/t4-fitxa-exercicis.pdf", download: true, date: "2026-10-29" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 61 exercicis", es: "PDF · Soluciones de los 61 ejercicios", en: "PDF · Solutions to all 61 exercises" }, url: "materials/1batx-mi/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-29" }
+        ]
+      },
+      {
+        num: "6",
+        ill: "trigonometria", block: "geo",
+        title: { va: "Trigonometria", es: "Trigonometría", en: "Trigonometry" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t6-trigonometria.html", date: "2026-11-10" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 73 exercicis, dels radians a les funcions trigonomètriques", es: "PDF · 73 ejercicios, de los radianes a las funciones trigonométricas", en: "PDF · 73 exercises, from radians to the trigonometric functions" }, url: "materials/1batx-mi/t6-fitxa-exercicis.pdf", download: true, date: "2026-11-10" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 73 exercicis", es: "PDF · Soluciones de los 73 ejercicios", en: "PDF · Solutions to all 73 exercises" }, url: "materials/1batx-mi/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-10" }
         ]
       }
     ]

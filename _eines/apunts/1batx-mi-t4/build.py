@@ -1,6 +1,6 @@
 import os, re, sys, glob
 
-# Genera materials/1batx-mi/t5-geometria-pla.html. Ús: python3 _eines/apunts/1batx-mi-t5/build.py
+# Genera materials/1batx-mi/t4-geometria-pla.html. Ús: python3 _eines/apunts/1batx-mi-t4/build.py
 # Com les unitats de 2n Batx CCSS, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
 # taules, quadres d'informació). Els ginys (pla cartesià amb punts que es poden arrossegar) són a app.js i l'estil propi a extra.css.
@@ -10,7 +10,7 @@ T4 = os.path.join(HERE, "..", "2batx-ccss-t4")
 T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
-OUT = os.path.join(SITE, "materials/1batx-mi/t5-geometria-pla.html")
+OUT = os.path.join(SITE, "materials/1batx-mi/t4-geometria-pla.html")
 NSEC = 10
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
@@ -46,12 +46,12 @@ def cut(a, b, s=src):
     return s[i:j]
 
 # ---------- capçalera i estil ----------
-# fm-materials.js sap que la unitat 5 de 1r Batx MI és de geometria des del 29/10/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261029g5"
+# fm-materials.js sap que la unitat 4 de 1r Batx MI és de geometria des del 11/11/2026: la versió força a recarregar-lo
+VER = r"fm-materials.\1?v=20261111u"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
 head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Geometria analítica en el pla · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 5 (Geometria analítica en el pla: vectors, rectes, angles i distàncies) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 4 (Geometria analítica en el pla: vectors, rectes, angles i distàncies) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

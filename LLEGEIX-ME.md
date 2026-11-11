@@ -128,7 +128,7 @@ pdflatex t3-fitxa-exercicis.tex
 pdflatex t3-fitxa-solucions.tex
 ```
 
-A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `1batx-mi-t5`, `2batx-ccss-t1`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7`, `2batx-ccss-t8`, `2batx-ccss-t9` i `2batx-ccss-t10` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
+A `1eso-t1`, `1eso-t2`, `1eso-t3`, `1eso-t4`, `1batx-mi-t4`, `2batx-ccss-t1`, `2batx-ccss-t5`, `2batx-ccss-t6`, `2batx-ccss-t7`, `2batx-ccss-t8`, `2batx-ccss-t9` i `2batx-ccss-t10` la fitxa i les solucions es generen totes dues des de `genera.py` (una sola llista d'exercicis):
 edita-la, executa `python3 genera.py` i després compila els dos `.tex`.
 Copia els PDF resultants a `materials/<curs>/` i enllaça'ls a `materials.js` (les solucions, amb `hidden: true`
 si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log`, `.pdf`…) no es pugen al repositori.
@@ -187,17 +187,17 @@ curs 2025-26); els ginys llegeixen els valors d'aquestes taules, de manera que e
 python3 _eines/apunts/2batx-ccss-t10/build.py
 ```
 
-Els apunts de 1r Batx MI de la unitat 5 (Geometria analítica en el pla, carpeta `1batx-mi-t5`) reaprofiten l'estil de les
+Els apunts de 1r Batx MI de la unitat 4 (Geometria analítica en el pla, carpeta `1batx-mi-t4`) reaprofiten l'estil de les
 unitats 4 i 9 de 2n Batx CCSS. Els ginys dibuixen un pla cartesià amb punts que es poden arrossegar (vectors, rectes, angles,
-distàncies i el laboratori del triangle) i calculen amb fraccions exactes. A `materials.js` la unitat porta `num: "5"`, el número
-dels apunts del departament (les unitats 1-4 encara no hi són). La fitxa (`_eines/fonts-latex/1batx-mi-t5/genera.py`) comprova
+distàncies i el laboratori del triangle) i calculen amb fraccions exactes. A `materials.js` la unitat porta `num: "4"`.
+La fitxa (`_eines/fonts-latex/1batx-mi-t4/genera.py`) comprova
 totes les solucions amb fraccions i en dibuixa algunes figures:
 
 ```
-python3 _eines/apunts/1batx-mi-t5/build.py
+python3 _eines/apunts/1batx-mi-t4/build.py
 ```
 
-Els apunts de 1r Batx MI de la unitat 1 (Nombres reals, carpeta `1batx-mi-t1`) funcionen com els de la unitat 5: el contingut és a
+Els apunts de 1r Batx MI de la unitat 1 (Nombres reals, carpeta `1batx-mi-t1`) funcionen com els de la unitat 4: el contingut és a
 `contingut-*.html`, els ginys a `app.js` (classificador de nombres, fracció generatriu, valor absolut, entorns, constructor d'intervals,
 operacions amb intervals, extracció de factors i explorador de logaritmes) i l'estil a `extra.css`. Les rectes reals s'adapten a
 l'ample de la pantalla perquè es lligen bé al mòbil. A `materials.js` la unitat porta `num: "1"` i és del bloc d'aritmètica.
@@ -210,34 +210,42 @@ python3 _eines/apunts/1batx-mi-t1/build.py
 cd _eines/fonts-latex/1batx-mi-t1 && python3 genera.py && pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex
 ```
 
-Els apunts de 1r Batx MI de la unitat 2 (Àlgebra, carpeta `1batx-mi-t2`) segueixen els 14 apartats dels apunts del departament
-(2.1-2.14) i funcionen com els de la unitat 1. Els ginys de `app.js` treballen amb fraccions exactes: operacions i divisió llarga de
-polinomis, Ruffini pas a pas (també amb divisors `ax+b`), factorització pas a pas, simplificació de fraccions algebraiques, segon grau i
-biquadrades, solucions estranyes de les equacions amb radicals, exponencials amb canvi de variable, Gauss pas a pas (SCD, SCI i SI),
-recta i circumferència, taula de signes d'inequacions polinòmiques i racionals, semiplans i regions, i aixetes. A `materials.js` la
-unitat porta `num: "2"` i és del bloc d'àlgebra. La fitxa (`_eines/fonts-latex/1batx-mi-t2/genera.py`) té els 90 exercicis de la fitxa
-del departament amb la mateixa numeració i una secció 15 amb 13 exercicis nous; sympy calcula o comprova totes les solucions (les de
-radicals, logaritmes i exponencials, numèricament) i es dibuixen les taules de Ruffini, les rectes de les inequacions i les regions:
+Els apunts de 1r Batx MI de la unitat 2 (Àlgebra. Equacions i inequacions, carpeta `1batx-mi-t2`) tenen 11 apartats (2.1-2.11) i funcionen com els de la unitat 1.
+Els ginys de `app.js` treballen amb fraccions exactes: operacions i divisió llarga de polinomis, Ruffini pas a pas (també amb divisors `ax+b`), factorització pas a pas,
+simplificació de fraccions algebraiques, segon grau i biquadrades, solucions estranyes de les equacions amb radicals, exponencials amb canvi de variable, taula de signes
+d'inequacions polinòmiques i racionals, i aixetes. A `materials.js` la unitat porta `num: "2"` i és del bloc d'àlgebra. La fitxa (`_eines/fonts-latex/1batx-mi-t2/genera.py`)
+té 71 exercicis (1-62 de la fitxa del departament, i una secció 12 amb 9 de nous); sympy calcula o comprova totes les solucions (les de radicals, logaritmes i exponencials,
+numèricament) i es dibuixen les taules de Ruffini i les rectes de les inequacions:
 
 ```
 python3 _eines/apunts/1batx-mi-t2/build.py
 cd _eines/fonts-latex/1batx-mi-t2 && python3 genera.py && pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex
 ```
 
-Els apunts de 1r Batx MI de la unitat 3 (Trigonometria, carpeta `1batx-mi-t3`) ajunten en una sola unitat les dues parts dels apunts
-del departament (Trigonometria 1 i 2): 13 apartats (3.1-3.13), del radian a les funcions trigonomètriques. Funcionen com els de la
-unitat 2; a més, dins de les fórmules `{,}` és la coma decimal i en anglés es converteix sola en un punt. Els ginys de `app.js`:
-radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una (exactes amb arrels), reducció al primer quadrant,
-triangles rectangles, laboratori del triangle (teoremes del sinus i del cosinus), resolució de triangles pas a pas (amb el cas ambigu),
-fórmules de la suma amb valors exactes, comprovador d'identitats, equacions elementals, de la circumferència a la gràfica i
-`y = A·f(Bx+C)+D`. A `materials.js` la unitat porta `num: "3"` i és del bloc de geometria. La fitxa
-(`_eines/fonts-latex/1batx-mi-t3/genera.py`) té els exercicis de les dues fitxes del departament (1-41 i 42-60, en el mateix ordre)
-i una secció 13 amb 13 exercicis nous; calcula tots els valors numèrics, compara les solucions exactes amb el valor numèric i
-comprova que les equacions i els sistemes tenen exactament les solucions donades:
+Els apunts de 1r Batx MI de la unitat 3 (Sistemes d'equacions i inequacions, carpeta `1batx-mi-t3`) tenen 5 apartats (3.1-3.5) i funcionen com els de la unitat 2.
+Els ginys de `app.js`: Gauss pas a pas (SCD, SCI i SI), recta i circumferència, i semiplans i regions. A `materials.js` la unitat porta `num: "3"` i és del bloc d'àlgebra.
+La fitxa (`_eines/fonts-latex/1batx-mi-t3/genera.py`) té 32 exercicis (1-28 de la fitxa del departament, i una secció 6 amb 4 de nous); sympy calcula o comprova totes les solucions
+i es dibuixen les rectes de les inequacions i les regions:
 
 ```
 python3 _eines/apunts/1batx-mi-t3/build.py
 cd _eines/fonts-latex/1batx-mi-t3 && python3 genera.py && pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex
+```
+
+Els apunts de 1r Batx MI de la unitat 6 (Trigonometria, carpeta `1batx-mi-t6`) ajunten en una sola unitat les dues parts dels apunts
+del departament (Trigonometria 1 i 2): 13 apartats (6.1-6.13), del radian a les funcions trigonomètriques. Funcionen com els de la
+unitat 2; a més, dins de les fórmules `{,}` és la coma decimal i en anglés es converteix sola en un punt. Els ginys de `app.js`:
+radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una (exactes amb arrels), reducció al primer quadrant,
+triangles rectangles, laboratori del triangle (teoremes del sinus i del cosinus), resolució de triangles pas a pas (amb el cas ambigu),
+fórmules de la suma amb valors exactes, comprovador d'identitats, equacions elementals, de la circumferència a la gràfica i
+`y = A·f(Bx+C)+D`. A `materials.js` la unitat porta `num: "6"` i és del bloc de geometria. La fitxa
+(`_eines/fonts-latex/1batx-mi-t6/genera.py`) té els exercicis de les dues fitxes del departament (1-41 i 42-60, en el mateix ordre)
+i una secció 13 amb 13 exercicis nous; calcula tots els valors numèrics, compara les solucions exactes amb el valor numèric i
+comprova que les equacions i els sistemes tenen exactament les solucions donades:
+
+```
+python3 _eines/apunts/1batx-mi-t6/build.py
+cd _eines/fonts-latex/1batx-mi-t6 && python3 genera.py && pdflatex t6-fitxa-exercicis.tex && pdflatex t6-fitxa-solucions.tex
 ```
 
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`

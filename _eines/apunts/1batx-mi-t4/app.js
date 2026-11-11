@@ -203,7 +203,7 @@
   function kv(rows) { return '<div class="kv">' + rows.map(function (r) { return "<span>" + r[0] + "</span><span>" + r[1] + "</span>"; }).join("") + "</div>"; }
   function cdot(c) { return '<i class="tag-c" style="background:' + c + '"></i>'; }
 
-  /* ---------- 5.1 vectors ---------- */
+  /* ---------- 4.1 vectors ---------- */
   function wVec() {
     var g = setup("w-vec", { A: [1, -2], B: [-3, 1] }); if (!g) return;
     var P = g.P, pt = P.pts;
@@ -234,7 +234,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.2 operacions ---------- */
+  /* ---------- 4.2 operacions ---------- */
   function wOps() {
     var g = setup("w-ops", { U: [3, 1], V: [1, 3] }, { lim: 5, ok: function (k, w) { return w[0] || w[1]; } }); if (!g) return;
     var P = g.P, pt = P.pts, mode = 0, kIn = $(g.w, "k"), kv_ = $(g.w, "kv");
@@ -278,7 +278,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.3 divisió d'un segment ---------- */
+  /* ---------- 4.3 divisió d'un segment ---------- */
   function wDiv() {
     var g = setup("w-div", { A: [-5, -4], B: [7, 5] }); if (!g) return;
     var P = g.P, pt = P.pts, nIn = $(g.w, "n"), nv = $(g.w, "nv");
@@ -300,7 +300,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.4 producte escalar ---------- */
+  /* ---------- 4.4 producte escalar ---------- */
   function wDot() {
     var g = setup("w-dot", { U: [5, 1], V: [2, 4] }, { lim: 7, ok: function (k, w) { return w[0] || w[1]; } }); if (!g) return;
     var P = g.P, pt = P.pts;
@@ -327,7 +327,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.5 equacions de la recta ---------- */
+  /* ---------- 4.5 equacions de la recta ---------- */
   function eqForms(Pp, d) {
     var a = Pp[0], b = Pp[1], u1 = d[0], u2 = d[1], G = lineDir(Pp, d), o = [], L = "\\lambda";
     o.push([t3("Vectorial", "Vectorial", "Vector"), "(x,y)=" + cT(Pp) + "+" + L + cT(d)]);
@@ -359,7 +359,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.6 posicions relatives ---------- */
+  /* ---------- 4.6 posicions relatives ---------- */
   function coefRow(box, name, col, vals, onIn) {
     box.innerHTML = '<span class="coef">' + cdot(col) + "<i>" + name + "</i>:&nbsp;" +
       '<input class="tin s" inputmode="numeric" value="' + vals[0] + '"> <i>x</i> + <input class="tin s" inputmode="numeric" value="' + vals[1] + '"> <i>y</i> + <input class="tin s" inputmode="numeric" value="' + vals[2] + '"> = 0</span>';
@@ -405,7 +405,7 @@
     onLang(draw);
   }
 
-  /* ---------- 5.7 paral·lela i perpendicular ---------- */
+  /* ---------- 4.7 paral·lela i perpendicular ---------- */
   function wPar() {
     var g = setup("w-par", { A: [-6, -2], B: [4, 3], P: [-3, 5] }); if (!g) return;
     var P = g.P, pt = P.pts;
@@ -429,7 +429,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.8 angle de dues rectes ---------- */
+  /* ---------- 4.8 angle de dues rectes ---------- */
   function wAng() {
     var g = setup("w-ang", { A: [-6, -3], B: [6, 1], C: [-4, 5], D: [3, -5] }); if (!g) return;
     var P = g.P, pt = P.pts;
@@ -458,7 +458,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.9 distància d'un punt a una recta ---------- */
+  /* ---------- 4.9 distància d'un punt a una recta ---------- */
   function wDist() {
     var g = setup("w-dist", { A: [-6, -1], B: [6, 5], P: [3, -4] }); if (!g) return;
     var P = g.P, pt = P.pts;
@@ -479,7 +479,7 @@
     P.onChange = draw; onLang(draw);
   }
 
-  /* ---------- 5.10 projecció i simètric ---------- */
+  /* ---------- 4.10 projecció i simètric ---------- */
   function wSim() {
     var g = setup("w-sim", { A: [-6, -3], B: [6, 3], P: [-2, 5] }); if (!g) return;
     var P = g.P, pt = P.pts;

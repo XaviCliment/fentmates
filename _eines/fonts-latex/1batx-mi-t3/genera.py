@@ -1,619 +1,421 @@
-# Genera t3-fitxa-exercicis.tex i t3-fitxa-solucions.tex (1r Batxillerat MI, Unitat 3: Trigonometria)
+# Genera t3-fitxa-exercicis.tex i t3-fitxa-solucions.tex (1r Batxillerat MI, Unitat 3: Sistemes d'equacions i inequacions)
 # a partir d'una sola llista d'exercicis: cada exercici és (estrelles, enunciat, solució); a Batxillerat no es mostren les estrelles.
-# La unitat ajunta les dues fitxes del departament: els exercicis 1-41 són els de «Trigonometria 1» i els 42-60, els de
-# «Trigonometria 2», en el mateix ordre; la secció 13 n'afegeix 13 de nous (61-73).
-# Els valors numèrics de les solucions es calculen ací (math); les solucions exactes s'escriuen a mà i CHK les compara amb el
-# valor numèric. Les equacions i els sistemes es comproven buscant totes les arrels en [0°, 360°) (no en falta ni en sobra cap).
+# Els exercicis 1-28 són de la fitxa del departament; la secció 6 n'afegeix 4 de nous.
+# Les solucions dels sistemes lineals i de les inequacions es calculen ací amb sympy; les altres s'escriuen a mà i CHK les comprova
+# (numèricament o amb sympy). Les solucions d'inequacions porten la recta dibuixada i les de dues incògnites, la regió (TikZ, aritmètica exacta).
 # Ús: python3 genera.py && pdflatex t3-fitxa-exercicis.tex (dues vegades) && pdflatex t3-fitxa-solucions.tex (dues vegades)
 import os, re, math
+from fractions import Fraction as F
+import sympy as sp
+from sympy import Rational as Q, sqrt, oo
 HERE = os.path.dirname(os.path.abspath(__file__))
-PI = math.pi
-def r(d): return math.radians(d)
-def sin(d): return math.sin(r(d))
-def cos(d): return math.cos(r(d))
-def tan(d): return math.tan(r(d))
-def asin(x): return math.degrees(math.asin(x))
-def acos(x): return math.degrees(math.acos(x))
-def atan(x): return math.degrees(math.atan(x))
-def DMS(d, m=0, s=0): return d + m / 60 + s / 3600
-S2, S3, S5, S6 = math.sqrt(2), math.sqrt(3), math.sqrt(5), math.sqrt(6)
+x, y, z, w, a, b, k, m = sp.symbols('x y z w a b k m')
+xr = sp.Symbol('x', real=True)
 
 def tasks(n, items):
     return '\\begin{tasks}(%d)\n' % n + ''.join('  \\task %s\n' % i for i in items) + '\\end{tasks}'
 def recorda(t): return '\\recorda{%s}' % t
 def R(t): return r'$\res{' + t + '}$'
-def dec(x, k=2, strip=True):
-    s = '%.*f' % (k, x)
-    if strip and '.' in s: s = s.rstrip('0').rstrip('.')
-    if s in ('-0', '-0.0'): s = '0'
-    return s.replace('.', '{,}')
-def dms(x, sec=True):
-    sg = '-' if x < 0 else ''; x = abs(x)
-    t = round(x * 3600) if sec else round(x * 60) * 60
-    d, m, q = t // 3600, (t % 3600) // 60, t % 60
-    return sg + '%d^\\circ' % d + ("%d'" % m if m or q else '') + ("%d''" % q if q else '')
-def degs(l): return r',\ '.join(dms(x) for x in l)
-def degsR(l): return ', '.join(r'$\res{%s}$' % dms(x) for x in sorted(l))
+def L(e):
+    s = sp.latex(e, order='lex')
+    return s.replace(r'\left(', '(').replace(r'\right)', ')').replace(r'\log{(', r'\log(').replace(r'\ln{(', r'\ln(')
+def dec(v, n=3):
+    s = ('%.' + str(n) + 'f') % float(v)
+    s = s.rstrip('0').rstrip('.') if '.' in s else s
+    return s.replace('.', ',')
 def sist(*rows): return r'\left\{\begin{array}{l}' + r'\\'.join(rows) + r'\end{array}\right.'
 
 CHK = []
-def ck(a, b, tol=1e-9, msg=''):
-    ok = abs(a - b) <= tol * max(1, abs(b))
-    CHK.append(ok); assert ok, (msg, a, b)
+def ck(cond, msg=''):
+    CHK.append((bool(cond), msg)); return cond
+def eqn(expr, vals, tol=1e-9):
+    """comprova numèricament que expr(x) = 0 per a cada valor"""
+    for v in vals:
+        val = complex(sp.N(expr.subs(x, v), 30))
+        ck(abs(val) < tol, 'eq %s at %s -> %s' % (expr, v, val))
 
-# ---------- arrels d'equacions en [0, 360) ----------
-def roots(f, a=0, b=360, step=0.02):
-    """totes les arrels de f (graus) en [a, b): mínims locals de |f| que valen ~0"""
-    n = int(round((b - a) / step)); xs = [a + i * step for i in range(n + 1)]
-    def g(x):
-        try: v = f(x)
-        except (ZeroDivisionError, ValueError): return float('inf')
-        return abs(v) if v == v else float('inf')
-    gs = [g(x) for x in xs]; out = []
-    for i in range(n + 1):
-        l = gs[i - 1] if i else gs[1]; rr = gs[i + 1] if i < n else gs[n - 1]
-        if gs[i] <= l and gs[i] <= rr and gs[i] < 0.05:
-            lo, hi = xs[max(0, i - 1)], xs[min(n, i + 1)]
-            for _ in range(80):
-                m1, m2 = lo + (hi - lo) / 3, hi - (hi - lo) / 3
-                if g(m1) < g(m2): hi = m2
-                else: lo = m1
-            x = (lo + hi) / 2
-            if g(x) < 1e-7 and x < b - 1e-6 and not any(abs(x - y) < 1e-3 for y in out): out.append(x)
-    return sorted(round(x, 6) % 360 for x in out)
-def ckeq(f, sol, msg=''):
-    got = roots(f)
-    sol = sorted(x % 360 for x in sol)
-    assert len(got) == len(sol) and all(abs(p - q) < 1e-3 for p, q in zip(got, sol)), (msg, got, sol)
-    CHK.append(True)
-def cksys(eqs, sol, msg='', step=1):
-    got = [(x, y) for x in range(0, 360, step) for y in range(0, 360, step) if all(abs(e(x, y)) < 1e-9 for e in eqs)]
-    assert sorted(got) == sorted(sol), (msg, got, sol)
-    CHK.append(True)
+# ---------- conjunts de la recta ----------
+def ivs(Sset):
+    if Sset == sp.S.EmptySet: return []
+    parts = Sset.args if isinstance(Sset, sp.Union) else [Sset]
+    out = []
+    for I in parts:
+        if isinstance(I, sp.Interval): out.append((I.start, not I.left_open, I.end, not I.right_open))
+        elif isinstance(I, sp.FiniteSet): out += [(v, True, v, True) for v in I]
+        else: raise ValueError(I)
+    return sorted(out, key=lambda t: -1e18 if t[0] == -oo else float(t[0]))
+def ivt(I):
+    a_, ac, b_, bc = I
+    if a_ == b_: return r'\{%s\}' % L(a_)
+    ta = r'-\infty' if a_ == -oo else L(a_)
+    tb = r'+\infty' if b_ == oo else L(b_)
+    return ('[' if ac else '(') + ta + ', ' + tb + (']' if bc else ')')
+def st(Sset):
+    I = ivs(Sset)
+    if not I: return r'\varnothing'
+    if len(I) == 1 and I[0][0] == -oo and I[0][2] == oo: return r'\mathbb R'
+    return r'\cup'.join(ivt(i) for i in I)
+def recta(Sset):
+    S = ivs(Sset)
+    pts = [float(v) for I in S for v in (I[0], I[2]) if v not in (oo, -oo)] or [0]
+    lo, hi = math.floor(min(pts)) - 1, math.ceil(max(pts)) + 1
+    if hi - lo < 6: c = (hi + lo) / 2; lo, hi = math.floor(c - 3), math.ceil(c + 3)
+    step = 2 if hi - lo > 14 else 1
+    sc = min(0.42, 7.2 / (hi - lo + 1.4))
+    o = [r'\begin{tikzpicture}[x=%.3fcm,baseline=-3pt]' % sc, r'\draw[-latex,muted] (%g,0)--(%g,0);' % (lo - 0.6, hi + 0.7)]
+    v = math.ceil(lo / step) * step
+    while v <= hi:
+        o.append(r'\draw[muted] (%d,0.1)--(%d,-0.1) node[below=-1pt,font=\scriptsize,text=muted]{$%d$};' % (v, v, v)); v += step
+    for a_, ac, b_, bc in S:
+        xa = lo - 0.45 if a_ == -oo else float(a_); xb = hi + 0.45 if b_ == oo else float(b_)
+        if a_ != b_: o.append(r'\draw[accent,line width=2.6pt] (%g,0)--(%g,0);' % (xa, xb))
+        if a_ == -oo: o.append(r'\fill[accent] (%g,0)--(%g,0.17)--(%g,-0.17)--cycle;' % (xa - 0.3, xa + 0.1, xa + 0.1))
+        if b_ == oo: o.append(r'\fill[accent] (%g,0)--(%g,0.17)--(%g,-0.17)--cycle;' % (xb + 0.3, xb - 0.1, xb - 0.1))
+        for xv, c, lab in ((a_, ac, True), (b_, bc, a_ != b_)):
+            if xv in (oo, -oo) or not lab: continue
+            o.append((r'\fill[accent] (%g,0) circle (2.3pt);' if c else r'\filldraw[fill=white,draw=accent,line width=1.1pt] (%g,0) circle (2.3pt);') % float(xv))
+            if not xv.is_integer: o.append(r'\node[above=1pt,font=\scriptsize,text=accent] at (%g,0) {$%s$};' % (float(xv), L(xv)))
+    o.append(r'\end{tikzpicture}')
+    return '\n'.join(o)
+def RI(Sset): return R('x\\in ' + st(Sset)) + r'\\[2pt]' + recta(Sset)
+def ineq(e): return sp.solve_univariate_inequality(e, xr, relational=False)
+
+# ---------- semiplans i regions (com a la unitat 3 de 2n Batx CCSS) ----------
+BIG = F(10 ** 6)
+def fr(v): return v if isinstance(v, F) else F(str(v))
+def clip(P, A, B, C, s):
+    out, n = [], len(P)
+    if n == 0: return out
+    val = lambda p: s * (A * p[0] + B * p[1] - C)
+    if n == 1: return P[:] if val(P[0]) <= 0 else []
+    for i in range(n):
+        p, q = P[i], P[(i + 1) % n]; vp, vq = val(p), val(q)
+        if vp <= 0: out.append(p)
+        if (vp < 0 < vq) or (vq < 0 < vp):
+            t = vp / (vp - vq); out.append((p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])))
+    r = []
+    for p in out:
+        if not r or r[-1] != p: r.append(p)
+    while len(r) > 1 and r[0] == r[-1]: r.pop()
+    return r
+def C(A, B, op, c): return (fr(A), fr(B), op, fr(c))
+def region(cons, box):
+    x0, x1, y0, y1 = [fr(v) for v in box]
+    P = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+    for A, B, op, c in cons:
+        if op in ('<=', '<', '='): P = clip(P, A, B, c, 1)
+        if op in ('>=', '>', '='): P = clip(P, A, B, c, -1)
+    return P
+def verts(cons):
+    P = region(cons, (-BIG, BIG, -BIG, BIG))
+    V = [p for p in P if abs(p[0]) < BIG and abs(p[1]) < BIG]
+    return V, len(V) == len(P)
+def tn(v):
+    v = fr(v)
+    if v.denominator == 1: return str(v.numerator)
+    return ('-' if v < 0 else '') + r'\frac{%d}{%d}' % (abs(v.numerator), v.denominator)
+def pt(p): return '(%s,\\,%s)' % (tn(p[0]), tn(p[1]))
+COL = ['accent', 'blue!70!black', 'violet', 'orange!85!black', 'teal']
+def nice(r):
+    e = 10 ** math.floor(math.log10(r / 5)); mm = r / 5 / e
+    return e * (1 if mm < 1.5 else 2 if mm < 3.5 else 5 if mm < 7.5 else 10)
+def fig(cons, view, wd=4.6, hmax=4.4, labels=True, pts=()):
+    x0, x1, y0, y1 = view
+    sx = wd / (x1 - x0); sy = min(sx, hmax / (y1 - y0))
+    stx = nice(x1 - x0); sty = nice(y1 - y0)
+    s = r'\begin{tikzpicture}[x=%.4fcm,y=%.4fcm,baseline=(current bounding box.center)]' % (sx, sy)
+    s += r'\begin{scope}\clip (%s,%s) rectangle (%s,%s);' % (x0, y0, x1, y1)
+    s += r'\foreach \i in {%s,%s,...,%s} \draw[muted!25,very thin] (\i,%s)--(\i,%s);' % (math.ceil(x0 / stx) * stx, math.ceil(x0 / stx) * stx + stx, x1, y0, y1)
+    s += r'\foreach \i in {%s,%s,...,%s} \draw[muted!25,very thin] (%s,\i)--(%s,\i);' % (math.ceil(y0 / sty) * sty, math.ceil(y0 / sty) * sty + sty, y1, x0, x1)
+    Rg = region(cons, view)
+    if len(Rg) >= 3: s += r'\fill[teal!22] ' + '--'.join('(%.4f,%.4f)' % (float(p[0]), float(p[1])) for p in Rg) + '--cycle;'
+    s += r'\end{scope}'
+    if y0 <= 0 <= y1: s += r'\draw[-latex,thick] (%s,0)--(%s,0) node[below left=-1pt,font=\scriptsize]{$x$};' % (x0, x1 + 0.25 * stx)
+    if x0 <= 0 <= x1: s += r'\draw[-latex,thick] (0,%s)--(0,%s) node[below left=-1pt,font=\scriptsize]{$y$};' % (y0, y1 + 0.25 * sty)
+    t = math.ceil(x0 / stx) * stx
+    while t <= x1 + 1e-9:
+        if abs(t) > 1e-9 and y0 <= 0 <= y1: s += r'\node[below,font=\tiny,text=muted] at (%s,0) {$%s$};' % (t, ('%g' % t))
+        t += stx
+    t = math.ceil(y0 / sty) * sty
+    while t <= y1 + 1e-9:
+        if abs(t) > 1e-9 and x0 <= 0 <= x1: s += r'\node[left,font=\tiny,text=muted] at (0,%s) {$%s$};' % (t, ('%g' % t))
+        t += sty
+    s += r'\begin{scope}\clip (%s,%s) rectangle (%s,%s);' % (x0, y0, x1, y1)
+    for j, (A, B, op, c) in enumerate(cons):
+        a_, b_, c_ = float(A), float(B), float(c)
+        if abs(b_) > abs(a_): P = [(x0 - 1, (c_ - a_ * (x0 - 1)) / b_), (x1 + 1, (c_ - a_ * (x1 + 1)) / b_)]
+        else: P = [((c_ - b_ * (y0 - 1)) / a_, y0 - 1), ((c_ - b_ * (y1 + 1)) / a_, y1 + 1)]
+        s += r'\draw[%s,line width=1.1pt%s] (%.4f,%.4f)--(%.4f,%.4f);' % (COL[j % len(COL)], ',dashed' if op in ('<', '>') else '', P[0][0], P[0][1], P[1][0], P[1][1])
+    s += r'\end{scope}'
+    if labels:
+        V, _ = verts(cons)
+        if V:
+            cx = sum(float(v[0]) for v in V) / len(V); cy = sum(float(v[1]) for v in V) / len(V)
+            for v in V:
+                vx, vy = float(v[0]), float(v[1])
+                if not (x0 <= vx <= x1 and y0 <= vy <= y1): continue
+                s += r'\filldraw[fill=white,draw=navy] (%.4f,%.4f) circle (1.5pt);' % (vx, vy)
+                dx, dy = (vx - cx) * sx, (vy - cy) * sy
+                ang = math.degrees(math.atan2(dy, dx)) if abs(dx) + abs(dy) > 1e-6 else 45
+                s += r'\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(%.4f,%.4f)+(%.1f:0.36cm)$) {$%s$};' % (vx, vy, ang, pt(v))
+    for p, okp in pts:
+        s += r'\fill[%s] (%s,%s) circle (2.2pt);' % ('teal' if okp else 'red!70!black', p[0], p[1])
+    s += r'\end{tikzpicture}'
+    return s
+def regck(cons, expect, bounded=None):
+    V, bd = verts(cons)
+    ck(sorted(V) == sorted((fr(p[0]), fr(p[1])) for p in expect), 'vertexs %s' % V)
+    if bounded is not None: ck(bd == bounded, 'fitada %s' % cons)
+    return cons
 
 S = []  # [(títol, [(estrelles, enunciat, solució)])]
 
+# ---------- comprovacions numèriques ----------
+def okf(f, vs, bad=()):
+    for v in vs: ck(abs(f(float(v))) < 1e-9, 'rad ok %s' % v)
+    for v in bad:
+        try: r = f(float(v)); ck(abs(r) > 1e-6, 'rad bad %s' % v)
+        except ValueError: pass
+sq = math.sqrt
+
 # =====================================================================
-# 1. Mesura d'angles
-def pifr(num, den):
-    g = math.gcd(num, den); num //= g; den //= g
-    top = ('' if abs(num) == 1 else str(abs(num))) + r'\pi'
-    return ('-' if num < 0 else '') + (top if den == 1 else r'\frac{%s}{%d}' % (top, den))
-e1 = [r'$225^\circ$', r'$75^\circ$', r'$160^\circ$', r'$-1{,}5$ rad', r'$2$ rad', r'$540^\circ$', r'$-270^\circ$', r"$140^\circ40'$", r'$\frac{\pi}{3}$ rad', r'$0{,}3$ rad', r'$-\frac{6\pi}{5}$ rad', r'$315^\circ$']
-s1 = [R(pifr(225, 180)), R(pifr(75, 180)), R(pifr(160, 180)), R(dms(math.degrees(-1.5))), R(dms(math.degrees(2))), R(pifr(540, 180)), R(pifr(-270, 180)),
-      R(pifr(8440, 10800)) + r'$\approx%s$' % dec(r(DMS(140, 40)), 4), R('60^\\circ'), R(dms(math.degrees(0.3))), R('-216^\\circ'), R(pifr(315, 180))]
-ck(r(DMS(140, 40)), 211 * PI / 270)
-S.append(("Mesura d'angles", [
- (1, r"Transforma aquests angles en graus o radians, segons corresponga." + tasks(4, e1), tasks(4, s1)),
+# 1. Sistemes d'equacions lineals. Mètode de Gauss
+ck(sp.solve([y - (x + 1) / 2 - 3, y - 2 * x - 10], [x, y]) == {x: Q(-13, 3), y: Q(4, 3)})
+ck(sp.solve([2 * (2 * x + y) - 3 * (3 * x - 2 * y) + 34, x / 2 - y / 3 - 2], [x, y]) == {x: 2, y: -3})
+lam = sp.Symbol(r'\lambda')
+def gsol(eqs, vars_=(x, y, z)):
+    S_ = sp.linsolve(eqs, list(vars_))
+    if S_ == sp.S.EmptySet: return r'\rest{SI}: incompatible (apareix una equació $0=k\neq0$)'
+    sol = list(S_)[0]
+    free = [v for v in vars_ if any(s.has(v) for s in sol)]
+    if not free: return r'\rest{SCD}: \ ' + R(r'(%s)=(%s)' % (','.join(L(v) for v in vars_), r',\ '.join(L(s) for s in sol)))
+    sol = [s.subs(free[0], lam) for s in sol]
+    return r'\rest{SCI}: \ ' + R(r'(%s)=(%s),\ \lambda\in\mathbb R' % (','.join(L(v) for v in vars_), r',\ '.join(L(sp.expand(s)) for s in sol)))
+S57 = [[x + 2 * y - 3 * z - 7, 2 * x + y - z - 6, 3 * x - y - z - 6], [x + y - z - 5, 3 * x - 2 * y - 2 * z - 5, 2 * x - 3 * y - z - 3], [2 * x + y + z - 5, 2 * x - y + 3 * z - 3, 3 * x + 2 * y + z - 8],
+       [x + y - 2 * z, 2 * x - 3 * y + 3 * z - 4, 5 * x - 5 * y + 4 * z - 8], [5 * x + 2 * y - 2 * z, 3 * x - y + 3 * z, 8 * x + y + z + 1], [x + 3 * y - 2 * z, x - y + 3 * z, 2 * x + 2 * y + z],
+       [2 * y - z + 1, 5 * x - y - 3 * z - 2, x - y + 2 * z - 3], [x + 2 * y - 2 * z - 2, 3 * x - 3 * y + z + 14, 5 * x - y - 2 * z + 15], [x + y + z - 1, 2 * x - 3 * z - 5, 2 * y + 5 * z - 2]]
+S57j = [x + 3 * y - 2 * z + 2 * w - 12, 2 * x - 2 * y - z + w - 5, 3 * x + y - 2 * z - 4 * w - 16, 3 * x - 3 * z - 3 * w - 15]
+ck(sp.linsolve(S57j, [x, y, z, w]) == sp.FiniteSet((4, 2, -1, 0)))
+T57 = [sist(r"x+2y-3z=7", r"2x+y-z=6", r"3x-y-z=6"), sist(r"x+y-z=5", r"3x-2y-2z=5", r"2x-3y-z=3"), sist(r"2x+y+z=5", r"2x-y+3z=3", r"3x+2y+z=8"), sist(r"x+y-2z=0", r"2x-3y+3z=4", r"5x-5y+4z=8"),
+       sist(r"5x+2y-2z=0", r"3x-y+3z=0", r"8x+y+z=-1"), sist(r"x+3y-2z=0", r"x-y+3z=0", r"2x+2y+z=0"), sist(r"2y-z=-1", r"5x-y-3z=2", r"x-y+2z=3"), sist(r"x+2y-2z=2", r"3x-3y+z=-14", r"5x-y-2z=-15"),
+       sist(r"x+y+z=1", r"2x-3z=5", r"2y+5z=2")]
+S.append(("Sistemes d'equacions lineals. Mètode de Gauss", [
+ (1, r"Resol els següents sistemes d'equacions lineals:" + tasks(2, [r"$" + sist(r"y=\dfrac{x+1}{2}+3", r"y=2x+10") + "$", r"$" + sist(r"2(2x+y)-3(3x-2y)=-34", r"\dfrac x2-\dfrac y3=2") + "$"]),
+     tasks(2, [r"$2x+10=\frac{x+1}{2}+3$: \ " + R(r"x=-\frac{13}{3},\ y=\frac43"), r"$-5x+8y=-34,\ 3x-2y=12$: \ " + R(r"x=2,\ y=-3")])),
+ (2, r"Resol els següents sistemes d'equacions lineals pel mètode de Gauss i classifica'ls:" + tasks(2, ["$" + t + "$" for t in T57] + ["$" + sist(r"x+3y-2z+2w=12", r"2x-2y-z+w=5", r"3x+y-2z-4w=16", r"3x-3z-3w=15") + "$"])
+     + recorda(r"Fes zeros davall de la diagonal. L'última fila $(0\ \ 0\ \ m\,|\,n)$ decideix: $m\neq0$ SCD; $m=n=0$ SCI; $m=0,\ n\neq0$ SI."),
+     tasks(1, [gsol(s_) for s_ in S57] + [r'\rest{SCD}: \ ' + R(r"(x,y,z,w)=(4,\ 2,\ -1,\ 0)")])),
 ]))
 
 # =====================================================================
-# 2. Trigonometria amb la calculadora
-c2 = [(r"\sin(319^\circ12'52'')", sin(DMS(319, 12, 52))), (r"\cos(434^\circ26')", cos(DMS(434, 26))), (r'\text{tg}\,\frac{11\pi}{8}', math.tan(11 * PI / 8)),
-      (r'\sec135^\circ', 1 / cos(135)), (r'\text{tg}\,7{,}03', math.tan(7.03)), (r'\text{cosec}\,5{,}24', 1 / math.sin(5.24)), (r'\sin\frac{8\pi}{5}', math.sin(8 * PI / 5)),
-      (r"\text{cosec}\,(55'45'')", 1 / sin(DMS(0, 55, 45))), (r'\cos\frac{\pi}{3}', 0.5), (r"\text{cosec}\,(200^\circ16')", 1 / sin(DMS(200, 16))), (r'\sec\frac{5\pi}{4}', 1 / math.cos(5 * PI / 4)),
-      (r"\text{tg}\,(183^\circ13'53'')", tan(DMS(183, 13, 53))), (r"\sin(333^\circ0'55'')", sin(DMS(333, 0, 55))), (r'\cos3{,}845', math.cos(3.845)), (r'\text{cotg}\,\frac{11\pi}{6}', 1 / math.tan(11 * PI / 6))]
-a3 = [('\\cos x=0{,}4539', 'cos', 0.4539), ('\\sin x=0{,}9284', 'sin', 0.9284), ('\\text{tg}\\,x=-0{,}5459', 'tan', -0.5459), ('\\cos x=-0{,}3996', 'cos', -0.3996),
-      ('\\text{cotg}\\,x=2{,}1618', 'cot', 2.1618), ('\\cos x=-0{,}2926', 'cos', -0.2926), ('\\sin x=0{,}6862', 'sin', 0.6862), ('\\sin x=-0{,}3308', 'sin', -0.3308)]
-def two(kind, v):
-    if kind == 'sin': a = asin(v); return sorted([a % 360, (180 - a) % 360])
-    if kind == 'cos': a = acos(v); return sorted([a, 360 - a])
-    if kind == 'tan': a = atan(v); return sorted([a % 360, (a + 180) % 360])
-    a = atan(1 / v); return sorted([a % 360, (a + 180) % 360])
-s3 = []
-for t, kind, v in a3:
-    xs = two(kind, v)
-    fn = {'sin': sin, 'cos': cos, 'tan': tan, 'cot': lambda d: 1 / tan(d)}[kind]
-    for x in xs: ck(fn(x), v, 1e-9, t)
-    s3.append(r'$%s$: $\res{%s}$' % (t.split('=')[0], degs(xs)))
-S.append(("Trigonometria amb la calculadora", [
- (1, r"Amb la calculadora, troba aquestes raons (amb quatre decimals). Comprova abans si ha d'estar en mode \texttt{D} (graus) o \texttt{R} (radians)." + tasks(3, ['$%s$' % t for t, _ in c2]),
-     tasks(3, [r'$%s\approx\res{%s}$' % (t, dec(v, 4, False)) for t, v in c2])),
- (1, r"Troba els angles de $[0^\circ,360^\circ)$ que compleixen:" + tasks(4, ['$%s$' % t for t, _, _ in a3])
-     + recorda(r"la calculadora dona un sol angle. L'altre: $180^\circ-\alpha$ (sinus), $360^\circ-\alpha$ (cosinus) o $\alpha+180^\circ$ (tangent)."),
-     tasks(2, s3)),
+# 2. Sistemes d'equacions no lineals
+def nlsol(eqs, expect):
+    r_ = sp.solve(eqs, [x, y], dict=True)
+    got = sorted([(d[x], d[y]) for d in r_ if d[x].is_real and d[y].is_real], key=lambda p: (float(p[0]), float(p[1])))
+    ck(got == sorted(expect, key=lambda p: (float(p[0]), float(p[1]))), 'nl %s %s' % (eqs, got))
+    return R(r',\ '.join('(%s,\\,%s)' % (L(p[0]), L(p[1])) for p in got)) if got else R(r'\text{no té solució real}')
+NL = [([2 * x + 3 * y + 4, x ** 2 - 2 * x * y - 5], [(1, -2), (Q(-15, 7), Q(2, 21))], r"$x=\frac{-4-3y}{2}$ i substituïm"),
+      ([1 / x + 2 / y - 4, 10 * x * y - 9], [(Q(3, 10), 3), (Q(3, 2), Q(3, 5))], r"$\frac{y+2x}{xy}=4\Rightarrow y+2x=\frac{18}{5}$"),
+      ([x ** 2 + 2 * y ** 2 - 6, 3 * x ** 2 - y ** 2 - 11], [(2, 1), (2, -1), (-2, 1), (-2, -1)], r"Reducció: $7x^2=28$"),
+      ([2 * x + y - 8, 2 * x + 3 * y ** 2 - 22], [(5, -2), (Q(17, 6), Q(7, 3))], r"Restant: $3y^2-y-14=0$"),
+      ([2 * x + 5 * y + 8, x * y - 3 * y - 4], [(1, -2), (-2, Q(-4, 5))], r"$x=\frac{-8-5y}{2}$ i substituïm"),
+      ([x + y, x * y - 1], [], r"$-x^2=1$"),
+      ([2 * x - y - 3, x ** 2 - y ** 2 - 3], [(2, 1)], r"$y=2x-3\Rightarrow x^2-4x+4=0$"),
+      ([x + y - 11, 1 / x + 6 / (y + 1) - 1], [(3, 8), (4, 7)], r"$y+1=12-x\Rightarrow x^2-7x+12=0$"),
+      ([x * y + 3, x ** 2 + 2 * y ** 2 - 19], [(1, -3), (-1, 3), (3 * sqrt(2), -sqrt(2) / 2), (-3 * sqrt(2), sqrt(2) / 2)], r"$y=-\frac3x\Rightarrow x^4-19x^2+18=0$"),
+      ([2 * x ** 2 + 3 * y ** 2 - 32, -3 * x ** 2 + 4 * y ** 2 + 48], [(4, 0), (-4, 0)], r"Reducció: $17y^2=0$"),
+      ([sqrt(x) + sqrt(y) - 15, x - y - 105], [(121, 16)], r"$(\sqrt x-\sqrt y)(\sqrt x+\sqrt y)=105\Rightarrow\sqrt x-\sqrt y=7$"),
+      ([x ** 2 - 2 * x * y - 16 + y ** 2, x ** 2 - y ** 2 - 72], [(11, 7), (-11, -7)], r"$(x-y)^2=16\Rightarrow x-y=\pm4$")]
+TN = [sist(r"2x+3y=-4", r"x^2-2xy=5"), sist(r"\frac1x+\frac2y=4", r"10xy=9"), sist(r"x^2+2y^2=6", r"3x^2-y^2=11"), sist(r"2x+y=8", r"2x+3y^2=22"), sist(r"2x+5y=-8", r"xy-3y=4"), sist(r"x+y=0", r"xy=1"),
+      sist(r"2x-y=3", r"x^2-y^2=3"), sist(r"x+y=11", r"\frac1x+\frac6{y+1}=1"), sist(r"xy=-3", r"x^2+2y^2=19"), sist(r"2x^2+3y^2=32", r"-3x^2+4y^2=-48"), sist(r"\sqrt x+\sqrt y=15", r"x-y=105"), sist(r"x^2-2xy=16-y^2", r"x^2-y^2=72")]
+X1, Y1 = sp.symbols('X Y', positive=True)
+ck(sp.solve([X1 + Y1 - 9, 4 * X1 + 5 * Y1 - 41], [X1, Y1]) == {X1: 4, Y1: 5} and sp.solve([X1 + Y1 - 5, 2 * X1 - Y1 - 7], [X1, Y1]) == {X1: 4, Y1: 1})
+ck(sp.solve([X1 - Y1 - 1016, X1 - 128 * Y1], [X1, Y1]) == {X1: 1024, Y1: 8} and sp.solve([X1 + Y1 - 16, X1 / 3 - 49 * Y1 + 340], [X1, Y1]) == {X1: 9, Y1: 7})
+ck(set(sp.solve(3 * x ** 2 - 20 * x + 32, x)) == {4, Q(8, 3)})
+okf(lambda t: 1 / 2 ** t + 3 / 2 ** (5 - t) - 5 / 8, [2, math.log2(8 / 3)])
+p_, q_ = sp.symbols('p q')
+ck(sp.solve([2 * p_ - 3 * q_ - 7, p_ + q_ - 1], [p_, q_]) == {p_: 2, q_: -1} and sp.solve([p_ + 3 * q_ - 5, p_ - q_ - 3], [p_, q_]) == {p_: Q(7, 2), q_: Q(1, 2)})
+ck(sp.solve([x - y - 21, x * y - 100], [x, y]) == [(-4, -25), (25, 4)] and sp.solve([x * y - 2187, x - 2 * y - 27], [x, y]) == [(-54, Q(-81, 2)), (81, 27)])
+ck(sp.solve([3 * x + 2 * y - 64, x - 10 * y], [x, y]) == {x: 20, y: 2})
+S.append(("Sistemes d'equacions no lineals", [
+ (2, r"Resol els següents sistemes d'equacions no lineals:" + tasks(3, ["$" + t + "$" for t in TN]),
+     tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL])),
+ (2, r"Resol els següents sistemes d'equacions exponencials:" + tasks(2, ["$" + sist(r"2^x+5^y=9", r"2^{x+2}+5^{y+1}=41") + "$", "$" + sist(r"2^x+3^y=5", r"2^{x+1}-3^y=7") + "$", "$" + sist(r"2^x-2^y=1016", r"2^{x-y}=128") + "$", "$" + sist(r"3^x+7^y=16", r"3^{x-1}-7^{y+2}=-340") + "$", "$" + sist(r"\dfrac{1}{2^x}+\dfrac{3}{2^y}=\dfrac{x+y}{8}", r"x+y=5") + "$"])
+     + recorda(r"Canvi de variable: $u=2^x$, $v=5^y$\ldots\ i resol el sistema lineal en $u$ i $v$."),
+     tasks(1, [r"$u+v=9,\ 4u+5v=41\Rightarrow u=4,\ v=5$: \ " + R(r"x=2,\ y=1"), r"$u+v=5,\ 2u-v=7\Rightarrow u=4,\ v=1$: \ " + R(r"x=2,\ y=0"), r"$2^x=128\cdot2^y\Rightarrow127\cdot2^y=1016\Rightarrow2^y=8$: \ " + R(r"x=10,\ y=3"), r"$u+v=16,\ \frac u3-49v=-340\Rightarrow u=9,\ v=7$: \ " + R(r"x=2,\ y=1"), r"$y=5-x$ i $t=2^x$: $\frac1t+\frac{3t}{32}=\frac58\Rightarrow3t^2-20t+32=0\Rightarrow t=4,\ t=\frac83$:\par " + R(r"(2,\,3)") + r" \ i \ " + R(r"\left(\log_2\tfrac83,\ 5-\log_2\tfrac83\right)\approx(1,415;\ 3,585)")])),
+ (2, r"Troba les solucions dels següents sistemes d'equacions logarítmiques:" + tasks(2, ["$" + sist(r"2\log x-3\log y=7", r"\log x+\log y=1") + "$", "$" + sist(r"x-y=21", r"\log x+\log y=2") + "$", "$" + sist(r"\log x+3\log y=5", r"\log x-\log y=3") + "$", "$" + sist(r"\log_3x=7-\log_3y", r"x-2y=27") + "$", "$" + sist(r"3x+2y=64", r"\log x-\log y=1") + "$", "$" + sist(r"\log x^2-2\log y=6", r"2\log x+\log y^2=2") + "$"])
+     + recorda(r"Amb $u=\log x$, $v=\log y$ s'obté un sistema lineal; o bé agrupa els logaritmes. Comprova que $x\gt0$ i $y\gt0$."),
+     tasks(1, [r"$2u-3v=7,\ u+v=1\Rightarrow u=2,\ v=-1$: \ " + R(r"x=100,\ y=\frac1{10}"), r"$xy=100,\ x=21+y\Rightarrow y^2+21y-100=0\Rightarrow y=4$ ($y=-25$ no val): \ " + R(r"x=25,\ y=4"), r"$u+3v=5,\ u-v=3\Rightarrow u=\frac72,\ v=\frac12$: \ " + R(r"x=10^{7/2}=1000\sqrt{10},\ y=\sqrt{10}"), r"$xy=3^7=2187$ i $x=27+2y\Rightarrow2y^2+27y-2187=0\Rightarrow y=27$: \ " + R(r"x=81,\ y=27"), r"$x=10y\Rightarrow32y=64$: \ " + R(r"x=20,\ y=2"), r"$2u-2v=6,\ 2u+2v=2\Rightarrow u=2,\ v=-1$: \ " + R(r"x=100,\ y=\frac1{10}")])),
 ]))
 
 # =====================================================================
-# 3. Raons d'un angle agut
-tab4 = r'''\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{|l|*{5}{C{1.55cm}|}}\hline
-\textbf{Graus} & $0^\circ$ & $30^\circ$ & $45^\circ$ & $60^\circ$ & $90^\circ$\\\hline
-\textbf{Radians} & %s\\\hline
-$\sin$ & %s\\\hline $\cos$ & %s\\\hline $\text{tg}$ & %s\\\hline $\text{cosec}$ & %s\\\hline $\sec$ & %s\\\hline $\text{cotg}$ & %s\\\hline
-\end{tabular}\end{center}'''
-blank = ' & '.join([''] * 5)
-rows4 = [['$0$', r'$\frac{\pi}{6}$', r'$\frac{\pi}{4}$', r'$\frac{\pi}{3}$', r'$\frac{\pi}{2}$'],
-         ['$0$', r'$\frac12$', r'$\frac{\sqrt2}{2}$', r'$\frac{\sqrt3}{2}$', '$1$'],
-         ['$1$', r'$\frac{\sqrt3}{2}$', r'$\frac{\sqrt2}{2}$', r'$\frac12$', '$0$'],
-         ['$0$', r'$\frac{\sqrt3}{3}$', '$1$', r'$\sqrt3$', r'$\nexists$'],
-         [r'$\nexists$', '$2$', r'$\sqrt2$', r'$\frac{2\sqrt3}{3}$', '$1$'],
-         ['$1$', r'$\frac{2\sqrt3}{3}$', r'$\sqrt2$', '$2$', r'$\nexists$'],
-         [r'$\nexists$', r'$\sqrt3$', '$1$', r'$\frac{\sqrt3}{3}$', '$0$']]
-num4 = [[0, PI / 6, PI / 4, PI / 3, PI / 2], [0, .5, S2 / 2, S3 / 2, 1], [1, S3 / 2, S2 / 2, .5, 0], [0, S3 / 3, 1, S3, None], [None, 2, S2, 2 * S3 / 3, 1], [1, 2 * S3 / 3, S2, 2, None], [None, S3, 1, S3 / 3, 0]]
-for i, d in enumerate([0, 30, 45, 60, 90]):
-    vals = [r(d), sin(d), cos(d), tan(d) if d != 90 else None, 1 / sin(d) if d else None, 1 / cos(d) if d != 90 else None, cos(d) / sin(d) if d else None]
-    for j in range(7):
-        if num4[j][i] is None: assert vals[j] is None
-        else: ck(vals[j], num4[j][i], 1e-9, 'tab4')
-s5 = [r'$\alpha$: $\sin\alpha=\res{\frac23}$, $\text{tg}\,\alpha=\res{\frac{2\sqrt5}{5}}$; $\sec\alpha=\frac{3\sqrt5}{5}$, $\text{cosec}\,\alpha=\frac32$, $\text{cotg}\,\alpha=\frac{\sqrt5}{2}$',
-      r'$\beta$: $\cos\beta=\res{\frac45}$, $\text{tg}\,\beta=\res{\frac34}$; $\sec\beta=\frac54$, $\text{cosec}\,\beta=\frac53$, $\text{cotg}\,\beta=\frac43$',
-      r'$\gamma$: $\cos\gamma=\res{\frac{\sqrt{10}}{10}}$, $\sin\gamma=\res{\frac{3\sqrt{10}}{10}}$; $\sec\gamma=\sqrt{10}$, $\text{cosec}\,\gamma=\frac{\sqrt{10}}{3}$, $\text{cotg}\,\gamma=\frac13$']
-ck(math.sqrt(1 - 5 / 9), 2 / 3); ck((2 / 3) / (S5 / 3), 2 * S5 / 5); ck(1 / math.sqrt(10), math.sqrt(10) / 10)
-def allr(sn, cs):
-    return r'$\sin\approx\res{%s}$, $\cos\approx\res{%s}$, $\text{tg}\approx\res{%s}$' % (dec(sn, 4, False), dec(cs, 4, False), dec(sn / cs, 4, False))
-sd = math.sqrt(1 - .86 ** 2); ce = 1 / math.sqrt(1 + 2.83 ** 2)
-s5 += [r'$\alpha$: ' + allr(sd, .86), r'$\beta$: ' + allr(2.83 * ce, ce), r'$\gamma=45^\circ$: $\sin\gamma=\cos\gamma=\res{\frac{\sqrt2}{2}}$']
-S.append(("Raons trigonomètriques d'un angle agut", [
- (1, r"Completa la taula següent sense calculadora:" + tab4 % ((blank,) * 7), tab4 % tuple(' & '.join(x) for x in rows4)),
- (1, r"Fes servir les relacions fonamentals per a trobar les altres raons trigonomètriques dels angles aguts $\alpha$, $\beta$ i $\gamma$:"
-     + tasks(3, [r'$\cos\alpha=\frac{\sqrt5}{3}$', r'$\sin\beta=\frac35$', r'$\text{tg}\,\gamma=3$', r'$\cos\alpha=0{,}86$', r'$\text{tg}\,\beta=2{,}83$', r'$\text{tg}\,\gamma=1$'])
-     + recorda(r"$\sin^2\alpha+\cos^2\alpha=1$, \ $\text{tg}\,\alpha=\dfrac{\sin\alpha}{\cos\alpha}$, \ $1+\text{tg}^2\alpha=\dfrac{1}{\cos^2\alpha}$."),
-     tasks(1, s5)),
+# 3. Sistemes d'inequacions amb una incògnita
+def sysI(*es):
+    s_ = sp.S.Reals
+    for e in es: s_ = s_.intersect(ineq(e))
+    return s_
+S65 = [sysI(2 * xr - 3 <= 0, 3 * xr + 1 > 0), sysI(xr + 2 <= 2, 2 * xr - (xr - 1) / 3 <= xr - Q(1, 3), xr ** 2 + 2 * xr - 8 > 0), sysI(2 * xr + 1 < xr + 2, 3 * xr - 1 <= 4 * xr),
+       sysI(3 * xr - 4 > xr, xr >= 2 * xr - 1), sysI(xr ** 2 + 2 * xr - 3 >= 0, 2 * (xr - 3) > -6), sysI((xr - 1) / (xr + 2) > 0, xr ** 2 >= 1)]
+S.append(("Sistemes d'inequacions amb una incògnita", [
+ (2, r"Resol els sistemes d'inequacions següents:" + tasks(3, ["$" + sist(r"2x-3\le0", r"3x+1\gt0") + "$", "$" + sist(r"x+2\le2", r"2x-\frac{x-1}{3}\le x-\frac13", r"x^2+2x-8\gt0") + "$", "$" + sist(r"2x+1\lt x+2", r"3x-1\le4x") + "$",
+      "$" + sist(r"3x-4\gt x", r"x\ge2x-1") + "$", "$" + sist(r"x^2+2x-3\ge0", r"2(x-3)\gt-6") + "$", "$" + sist(r"\dfrac{x-1}{x+2}\gt0", r"x^2\ge1") + "$"]),
+     tasks(1, [r"$x\le\frac32$ i $x\gt-\frac13$: \ " + RI(S65[0]), r"$x\le0$, $x\le-1$ i $x\in(-\infty,\,{-}4)\cup(2,+\infty)$: \ " + RI(S65[1]), r"$x\lt1$ i $x\ge-1$: \ " + RI(S65[2]),
+               r"$x\gt2$ i $x\le1$: \ " + R(r"\text{no té solució}"), r"$(-\infty,\,{-}3]\cup[1,+\infty)$ i $x\gt0$: \ " + RI(S65[4]), r"$(-\infty,\,{-}2)\cup(1,+\infty)$ i $(-\infty,-1]\cup[1,+\infty)$: \ " + RI(S65[5])])),
+]))
+ck(S65[3] == sp.S.EmptySet)
+
+# =====================================================================
+# 4. Inequacions i sistemes amb dues incògnites
+NN = [C(1, 0, '>=', 0), C(0, 1, '>=', 0)]
+H66 = [([C(3, 4, '<=', 12)], (-2, 6, -2, 5), r"Recta contínua per $(4,0)$ i $(0,3)$; $O$: $0\le12$ \checkmark: semiplà de $O$."),
+       ([C(-3, 4, '>=', 4)], (-4, 4, -2, 4), r"Recta contínua per $(0,1)$ i $(-\frac43,0)$; $O$: $0\ge4$ fals: semiplà que \rest{no} conté $O$."),
+       ([C(2, 1, '<', 2)], (-2, 4, -3, 4), r"Recta discontínua per $(1,0)$ i $(0,2)$; $O$: $0\lt2$ \checkmark: semiplà de $O$."),
+       ([C(1, -1, '>', -2)], (-4, 3, -2, 5), r"$x-y\gt-2$: recta discontínua per $(-2,0)$ i $(0,2)$; $O$: $0\gt-2$ \checkmark: semiplà de $O$.")]
+R67 = [(regck([C(0, 1, '>=', 0), C(0, 1, '<', 2), C(1, 1, '<=', 3), C(1, -1, '>=', 2), C(1, 0, '>=', 0)], [(2, 0), (3, 0), (F(5, 2), F(1, 2))], True), (-1, 4, -1, 3), r"Triangle de vèrtexs $(2,0)$, $(3,0)$ i $\left(\frac52,\frac12\right)$ (la condició $y\lt2$ no hi influeix)."),
+       (regck([C(2, 1, '<', 4), C(-1, 1, '>=', 0)], [(F(4, 3), F(4, 3))], False), (-3, 4, -3, 5), r"Regió \rest{no fitada} amb un sol vèrtex, $\left(\frac43,\frac43\right)$ (la vora de $y\lt-2x+4$ no s'inclou)."),
+       (regck([C(0, 1, '<=', 2), C(1, 0, '>', -4), C(1, -1, '<', -3)], [(-4, -1), (-4, 2), (-1, 2)], True), (-5, 1, -2, 4), r"Triangle de vèrtexs $(-4,\,{-}1)$, $(-4,2)$ i $(-1,2)$; només el costat $y=2$ és de la regió."),
+       (regck([C(1, 1, '<=', 6), C(-1, 2, '<=', 0), C(1, 0, '>=', 0)], [(0, 0), (4, 2)], False), (-1, 7, -3, 4), r"Regió \rest{no fitada} (cap avall) amb vèrtexs $(0,0)$ i $(4,2)$."),
+       (regck([C(2, 1, '<', 2), C(1, -1, '>', -2), C(1, 0, '>', 0), C(0, 1, '>', 0)], [(0, 0), (1, 0), (0, 2)], True), (-1, 3, -1, 3), r"Triangle de vèrtexs $(0,0)$, $(1,0)$ i $(0,2)$, sense les vores ($x\gt y-2$ no hi influeix)."),
+       (regck([C(0, 1, '>=', 3), C(0, 1, '<=', 5), C(1, 0, '<=', 6), C(1, 0, '>=', 4)], [(4, 3), (6, 3), (6, 5), (4, 5)], True), (-1, 7, -1, 6), r"Rectangle de vèrtexs $(4,3)$, $(6,3)$, $(6,5)$ i $(4,5)$.")]
+for c_, v_, _ in H66: pass
+S.append(("Inequacions i sistemes amb dues incògnites", [
+ (1, r"Resol les següents inequacions amb dues incògnites:" + tasks(2, [r"$3x+4y\le12$", r"$-3x+4y\ge4$", r"$2x+y\lt2$", r"$x\gt y-2$"])
+     + recorda(r"Dibuixa la recta (contínua si és $\le,\ge$; discontínua si és $\lt,\gt$) i prova un punt que no hi estiga, com $O(0,0)$."),
+     tasks(2, [H66[i][2] + r"\par" + fig(H66[i][0], H66[i][1], wd=3.6, labels=False) for i in range(4)])),
+ (2, r"Resol els sistemes d'inequacions amb dues incògnites:" + tasks(3, ["$" + sist(r"0\le y\lt2", r"x+y\le3", r"x-y\ge2", r"x\ge0,\ y\ge0") + "$", "$" + sist(r"y\lt-2x+4", r"y\ge x") + "$", "$" + sist(r"y\le2", r"x\gt-4", r"x-y\lt-3") + "$",
+      "$" + sist(r"x+y\le6", r"2y\le x", r"x\ge0") + "$", "$" + sist(r"2x+y\lt2", r"x\gt y-2", r"x\gt0,\ y\gt0") + "$", "$" + sist(r"3\le y\le5", r"x-6\le0", r"x-4\ge0") + "$"]),
+     tasks(2, [r[2] + r"\par" + fig(r[0], r[1], wd=3.6) for r in R67])),
 ]))
 
 # =====================================================================
-# 4. Raons d'angles qualssevol
-ANG6 = [120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330, 360]
-EX = {0: ('0', '1', '0'), 30: (r'\frac12', r'\frac{\sqrt3}{2}', r'\frac{\sqrt3}{3}'), 45: (r'\frac{\sqrt2}{2}', r'\frac{\sqrt2}{2}', '1'),
-      60: (r'\frac{\sqrt3}{2}', r'\frac12', r'\sqrt3'), 90: ('1', '0', r'\nexists')}
-def exact(d):
-    d %= 360
-    q = 0 if d <= 90 else 1 if d <= 180 else 2 if d <= 270 else 3
-    ref = [d, 180 - d, d - 180, 360 - d][q]
-    s, c, t = EX[ref]
-    neg = lambda x: x if x in ('0', r'\nexists') else '-' + x
-    if q in (1,): c, t = neg(c), neg(t)
-    if q == 2: s, c = neg(s), neg(c)
-    if q == 3: s, t = neg(s), neg(t)
-    if d in (90, 270): t = r'\nexists'
-    return s, c, t
-def num(sx):
-    sx = sx.replace(r'\frac{\sqrt3}{2}', str(S3 / 2)).replace(r'\frac{\sqrt2}{2}', str(S2 / 2)).replace(r'\frac{\sqrt3}{3}', str(S3 / 3)).replace(r'\frac12', '0.5').replace(r'\sqrt3', str(S3))
-    return float(sx.replace('--', ''))
-for d in ANG6 + [0, 30, 45, 60, 90]:
-    s, c, t = exact(d)
-    ck(num(s), sin(d), 1e-9, d); ck(num(c), cos(d), 1e-9, d)
-    if t != r'\nexists': ck(num(t), tan(d), 1e-9, d)
-    else: assert abs(cos(d)) < 1e-12
-def radT(d): return pifr(d, 180) if d else '0'
-tab6 = r'\begin{center}\renewcommand{\arraystretch}{1.45}\begin{tabular}{|C{1.4cm}|C{1.6cm}|C{1.6cm}|C{1.6cm}|C{1.6cm}|}\hline\textbf{Graus} & \textbf{Radians} & $\sin$ & $\cos$ & $\text{tg}$\\\hline' + \
-    '%s\\end{tabular}\\end{center}'
-t6q = tab6 % ''.join(r'$%d^\circ$ & & & & \\\hline ' % d for d in ANG6)
-t6s = tab6 % ''.join(r'$%d^\circ$ & $%s$ & $%s$ & $%s$ & $%s$\\\hline ' % ((d, radT(d)) + exact(d)) for d in ANG6)
-e7 = [(r'\sin\pi-\text{tg}\,\pi+2\cos\pi', -2, math.sin(PI) - math.tan(PI) + 2 * math.cos(PI)), (r'\cos\frac{\pi}{2}-\sin\frac{3\pi}{2}', 1, math.cos(PI / 2) - math.sin(3 * PI / 2)),
-      (r'\text{tg}\,2\pi-\sin\frac{\pi}{2}-2\cos\frac{3\pi}{2}', -1, math.tan(2 * PI) - 1 - 2 * math.cos(3 * PI / 2)), (r'\cos2\pi-\sin2\pi', 1, 1 - math.sin(2 * PI))]
-for _, a, b in e7: ck(b, a, 1e-9)
-# exercici 8
-t8 = [('Segon', 'sin', .6702), ('Tercer', 'cos', -.4539), ('Quart', 'tan', -.7459), ('Tercer', 'sin', -.7822), ('Segon', 'tan', -1.9004), ('Quart', 'cos', .6983)]
-QS = {'Segon': (1, -1), 'Tercer': (-1, -1), 'Quart': (-1, 1)}
-r8 = []
-for qn, k, v in t8:
-    ss, cs = QS[qn]
-    if k == 'sin': sn = v; c = cs * math.sqrt(1 - v * v)
-    elif k == 'cos': c = v; sn = ss * math.sqrt(1 - v * v)
-    else: c = cs / math.sqrt(1 + v * v); sn = v * c
-    ck(sn * sn + c * c, 1); assert (sn > 0) == (ss > 0) and (c > 0) == (cs > 0)
-    cells = {'sin': dec(sn, 4, False), 'cos': dec(c, 4, False), 'tan': dec(sn / c, 4, False)}
-    r8.append((qn, k, cells))
-def tab8(sol):
-    o = r'\begin{center}\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{2.4cm}|C{2.4cm}|C{2.4cm}|}\hline\textbf{Quadrant} & $\sin$ & $\cos$ & $\text{tg}$\\\hline '
-    for qn, k, cells in r8:
-        o += qn + ''.join(' & ' + ('$%s$' % cells[c] if c == k else (r'$\res{%s}$' % cells[c] if sol else '')) for c in ('sin', 'cos', 'tan')) + r'\\\hline '
-    return o + r'\end{tabular}\end{center}'
-# 10-12: totes les raons
-def six(sn, c):
-    return r'$\sin\alpha\approx%s$, $\cos\alpha\approx%s$, $\text{tg}\,\alpha\approx%s$, $\text{cosec}\,\alpha\approx%s$, $\sec\alpha\approx%s$, $\text{cotg}\,\alpha\approx%s$' % tuple(
-        r'\res{%s}' % dec(x, 2, False) for x in (sn, c, sn / c, 1 / sn, 1 / c, c / sn))
-c10 = -math.sqrt(1 - .62 ** 2); s11 = -math.sqrt(1 - .83 ** 2); c12 = 1 / math.sqrt(1 + .92 ** 2)
-e13 = [(r'\sin13290^\circ', 13290, 'sin', r'\sin330^\circ=-\frac12'), (r'\cos(-1680^\circ)', -1680, 'cos', r'\cos120^\circ=-\frac12'), (r'\text{tg}\,3825^\circ', 3825, 'tan', r'\text{tg}\,225^\circ=1'),
-       (r'\cos4995^\circ', 4995, 'cos', r'\cos315^\circ=\frac{\sqrt2}{2}'), (r'\sin(-1710^\circ)', -1710, 'sin', r'\sin90^\circ=1'), (r'\text{tg}\,3630^\circ', 3630, 'tan', r'\text{tg}\,30^\circ=\frac{\sqrt3}{3}'),
-       (r'\cos(-36000^\circ)', -36000, 'cos', r'\cos0^\circ=1'), (r'\sin(-330^\circ)', -330, 'sin', r'\sin30^\circ=\frac12')]
-for t, d, k, s in e13:
-    v = {'sin': sin, 'cos': cos, 'tan': tan}[k](d)
-    ck(v, num(s.split('=')[-1]), 1e-9, t)
-S.append(("Raons trigonomètriques d'angles qualssevol", [
- (1, r"Completa la taula següent sense calculadora:" + t6q, t6s),
- (1, r"Sense utilitzar la calculadora, calcula:" + tasks(2, ['$%s$' % t for t, _, _ in e7]), tasks(4, [R(str(a)) for _, a, _ in e7])),
- (2, r"La taula mostra raons trigonomètriques d'angles de quadrants diferents. Sense determinar-los, completa-la amb les raons que falten." + tab8(False), tab8(True)),
- (1, r"Calcula el sinus, el cosinus i la tangent de l'angle $\alpha$:" + tasks(2, [r'$\sec\alpha=4$ \ i \ $270^\circ<\alpha<360^\circ$', r'$\text{cotg}\,\alpha=-\frac12$ \ i \ $\frac{\pi}{2}<\alpha<\pi$']),
-     tasks(1, [r'$\cos\alpha=\frac14$, $\sin\alpha=\res{-\frac{\sqrt{15}}{4}}$ (negatiu en el 4t quadrant), $\text{tg}\,\alpha=\res{-\sqrt{15}}$',
-               r'$\text{tg}\,\alpha=-2$, $\cos\alpha=-\frac{1}{\sqrt{1+4}}=\res{-\frac{\sqrt5}{5}}$, $\sin\alpha=\text{tg}\,\alpha\cdot\cos\alpha=\res{\frac{2\sqrt5}{5}}$'])),
- (1, r"Sabent que l'angle $\alpha$ està en el segon quadrant ($90^\circ<\alpha<180^\circ$) i $\sin\alpha=0{,}62$, calcula les altres raons trigonomètriques.", six(.62, c10)),
- (1, r"Sabent que l'angle $\alpha$ està en el tercer quadrant ($180^\circ<\alpha<270^\circ$) i $\cos\alpha=-0{,}83$, calcula les altres raons trigonomètriques.", six(s11, -.83)),
- (1, r"Sabent que l'angle $\alpha$ està en el quart quadrant ($270^\circ<\alpha<360^\circ$) i $\text{tg}\,\alpha=-0{,}92$, calcula les altres raons trigonomètriques.", six(-.92 * c12, c12)),
- (1, r"Determina el valor exacte d'aquestes raons trigonomètriques:" + tasks(4, ['$%s$' % t for t, _, _, _ in e13]),
-     tasks(2, [r'$%s=%s$' % (t, s.rsplit('=', 1)[0] + r'=\res{' + s.rsplit('=', 1)[1] + '}') for t, _, _, s in e13])),
-]))
-ck(math.sqrt(15) / 4, math.sqrt(1 - 1 / 16)); ck(-2 * S5 / 5 / (-S5 / 5) * -1, -2)
-
-# =====================================================================
-# 5. Relacions entre raons
-a14 = 180 - atan(S5 / 2)
-ck(math.tan(r(a14)), -S5 / 2); ck(cos(a14), -2 / 3); ck(sin(a14), S5 / 3)
-e16 = [(r'\cos48^\circ', r'\sin42^\circ', '0{,}67', cos(48), sin(42)), (r'\sin(-48^\circ)', r'-\cos42^\circ', '-0{,}74', sin(-48), -cos(42)), (r'\sin138^\circ', r'\sin42^\circ', '0{,}67', sin(138), sin(42)),
-       (r'\text{tg}\,318^\circ', r'-\text{tg}\,42^\circ', '-0{,}9', tan(318), -tan(42)), (r'\cos222^\circ', r'-\cos42^\circ', '-0{,}74', cos(222), -cos(42)), (r'\text{tg}\,858^\circ', r'\text{tg}\,138^\circ=-\text{tg}\,42^\circ', '-0{,}9', tan(858), -tan(42))]
-for _, _, _, a, b in e16: ck(a, b, 1e-9)
-S.append(("Relacions entre les raons trigonomètriques d'alguns angles", [
- (2, r"\begin{tasks}(1)\task Troba $\sin\alpha$, $\cos\alpha$, $\sin(180^\circ-\alpha)$, $\cos(90^\circ+\alpha)$ i $\text{tg}\,(180^\circ+\alpha)$, sense calcular l'angle $\alpha$, sabent que $\text{tg}\,\alpha=-\frac{\sqrt5}{2}$ i $90^\circ<\alpha<180^\circ$. \task Troba amb la calculadora el valor de l'angle $\alpha$.\end{tasks}",
-     tasks(1, [r'$\cos\alpha=\res{-\frac23}$, $\sin\alpha=\res{\frac{\sqrt5}{3}}$, $\sin(180^\circ-\alpha)=\sin\alpha=\res{\frac{\sqrt5}{3}}$, $\cos(90^\circ+\alpha)=-\sin\alpha=\res{-\frac{\sqrt5}{3}}$, $\text{tg}\,(180^\circ+\alpha)=\text{tg}\,\alpha=\res{-\frac{\sqrt5}{2}}$',
-               r'$\alpha=180^\circ-\text{tg}^{-1}\frac{\sqrt5}{2}\approx\res{%s}$' % dms(a14)])),
- (1, r"Sabent que $\cos\alpha=0{,}8$ i $\sin\alpha=0{,}6$, calcula:" + tasks(3, [r'$\cos(180^\circ+\alpha)$', r'$\sin(180^\circ-\alpha)$', r'$\text{tg}\,(-\alpha)$', r'$\sin(90^\circ-\alpha)$', r'$\cos(90^\circ+\alpha)$', r'$\text{tg}\,(90^\circ-\alpha)$']),
-     tasks(3, [R('-0{,}8'), R('0{,}6'), R(r'-0{,}75'), R('0{,}8'), R('-0{,}6'), R(r'\frac43')])),
- (1, r"Si $\sin42^\circ=0{,}67$, $\cos42^\circ=0{,}74$ i $\text{tg}\,42^\circ=0{,}9$, troba les raons trigonomètriques següents sense utilitzar la calculadora:" + tasks(3, ['$%s$' % t for t, _, _, _, _ in e16]),
-     tasks(2, [r'$%s=%s=\res{%s}$' % (t, a, v) for t, a, v, _, _ in e16])),
+# 5. Problemes de sistemes i inequacions
+def lin(eqs, vars_, expect):
+    got = sp.solve(eqs, vars_)
+    ck(got == dict(zip(vars_, expect)), 'lin %s -> %s' % (eqs, got)); return expect
+A, B, Cc, D = sp.symbols('A B C D')
+lin([x + y - 250, 4 * x + 2 * y - 800], [x, y], [150, 100])
+ck(sp.factor(x ** 3 - 5 * x + 4) == (x - 1) * (x ** 2 + x - 4))
+lin([x + y + z - 21, 50 * x + 100 * y + 200 * z - 1800, x - 5 * z], [x, y, z], [10, 9, 2])
+lin([x + y + z - 60, x - 3 * (y + z), 2 * y - 3 * z], [x, y, z], [45, 9, 6])
+lin([x + y + z - 50, x + y - 4 * z, 2 * x + 3 * y + 4 * z - 140], [x, y, z], [20, 20, 10])
+lin([10 * x + 15 * y + 30 * z - 775, y - z - 5, z - Q(1, 5) * (x + y + z)], [x, y, z], [25, 15, 10])
+lin([x + y + z - 8, 10 * x + 20 * y + 50 * z - 290, x - 2 * y], [x, y, z], [2, 1, 5])
+lin([x + y + z - 800, 10 * x + 20 * y + 50 * z - 21000, x - y - z], [x, y, z], [400, 100, 300])
+lin([x + y + z - 1405, 6 * x + 4 * y + 3 * z - 7920, 4 * y + 3 * z - Q(6, 10) * x], [x, y, z], [1200, 105, 100])
+lin([x + y + z - 200, y - x - z, 200 * x + 500 * y + 250 * z - 73500], [x, y, z], [30, 100, 70])
+lin([x + y + z - 9, 100 * x + 120 * y + 150 * z - 1160, z - y - 1], [x, y, z], [2, 3, 4])
+lin([Q(9, 10) * (x + y + z) - Q(396, 100), y - x / 2, z - y - Q(1, 5) * x], [x, y, z], [2, 1, Q(7, 5)])
+lin([x + y + z - 7000, Q(5, 100) * x + Q(3, 100) * y + Q(1, 100) * z - 202, x + y - z - 2600], [x, y, z], [1800, 3000, 2200])
+lin([x + y + z - 60, y - 2 * (x + z), z - x / 2 - 2], [x, y, z], [12, 40, 8])
+lin([200 * x + 100 * y + 300 * z - 830, Q(5, 4) * (200 * x + 100 * y) + Q(7, 5) * 300 * z - 1087, x - z - Q(1, 2)], [x, y, z], [Q(8, 5), Q(9, 5), Q(11, 10)])
+lin([y - x - z, 4 * x + 8 * y + 10 * z - 1116, 8 * y - 10 * z - 156], [x, y, z], [30, 72, 42])
+ck(30 * Q(5, 2) + 72 * 4 + 42 * 5 == 573)
+lin([x + y + z - Q(15, 2), z - y - 1, x - 5 * (z - x)], [x, y, z], [Q(5, 2), 2, 3])
+lin([x + y + z - 42000, Q(5, 100) * x + Q(7, 100) * y + Q(9, 100) * z - 2600, Q(5, 100) * x - Q(7, 100) * y - Q(9, 100) * z + 200], [x, y, z], [24000, 11000, 7000])
+S88 = sysI(6 * xr + 2 >= 20, 6 * xr + 2 <= 30); ck(S88 == sp.Interval(3, Q(14, 3)))
+R89 = regck([C(2, 1, '<=', 40), C(1, 2, '<=', 50)] + NN, [(0, 0), (20, 0), (10, 20), (0, 25)], True)
+ck(2 * 15 + 12 > 40 and 2 * 10 + 20 <= 40 and 10 + 2 * 20 <= 50)
+S.append(("Problemes de sistemes i inequacions", [
+ (1, r"En una granja hi ha 250 animals entre conills i gallines. Si el nombre total de potes és 800, quants animals hi ha de cada tipus?", r"$x+y=250,\ 4x+2y=800$: \ " + R(r"150\ \text{conills i }100\ \text{gallines}")),
+ (3, r"Hem necessitat 10 dm$^2$ de cartó per a construir una caixa amb tapa, de base quadrada i 2 dm$^3$ de volum. Quines són les dimensions de la caixa si el costat de la base és un nombre enter de decímetres?",
+     r"$x^2h=2,\ 2x^2+4xh=10\Rightarrow2x^2+\frac8x=10\Rightarrow x^3-5x+4=0\Rightarrow(x-1)(x^2+x-4)=0$. L'única arrel entera és $x=1$: \ " + R(r"1\ \text{dm}\times1\ \text{dm}\times2\ \text{dm}")),
+ (2, r"En una caixa registradora hi ha bitllets de 50\,€, 100\,€ i 200\,€: 21 bitllets en total i 1\,800\,€. El nombre de bitllets de 50\,€ és el quíntuple dels de 200\,€. Quants n'hi ha de cada classe?",
+     r"$x+y+z=21,\ 50x+100y+200z=1800,\ x=5z$: \ " + R(r"10\ \text{de }50\,€,\ 9\ \text{de }100\,€,\ 2\ \text{de }200\,€")),
+ (2, r"Tres néts volen fer un regal de 60\,€ a la seua àvia: Lluís, el major, aporta el triple del que aporten els altres dos junts, i Carme aporta 3\,€ per cada 2 que aporta Pere. Quant aporta cadascun?",
+     r"$L+C+P=60,\ L=3(C+P),\ 2C=3P$: \ " + R(r"\text{Lluís }45\,€,\ \text{Carme }9\,€,\ \text{Pere }6\,€")),
+ (2, r"Calcula quantes bicicletes, tricicles i cotxes té una botiga de joguets si en total hi ha 50 vehicles, el nombre de bicicletes i tricicles quadruplica el de cotxes i hi ha 140 rodes.",
+     r"$b+t+c=50,\ b+t=4c,\ 2b+3t+4c=140$: \ " + R(r"20\ \text{bicicletes},\ 20\ \text{tricicles},\ 10\ \text{cotxes}")),
+ (2, r"Per a un espectacle hi ha entrades A, B i C, de 10, 15 i 30\,€. La recaptació va ser de 775\,€, es van vendre 5 entrades més del tipus B que del C i el 20\,\% de les entrades eren del tipus C. Quantes se'n van vendre de cada tipus?",
+     r"$10a+15b+30c=775,\ b=c+5,\ c=0,2(a+b+c)$: \ " + R(r"25\ \text{A},\ 15\ \text{B},\ 10\ \text{C}")),
+ (2, r"Un caixer només té bitllets de 10, 20 i 50\,€. Traiem 290\,€ i ens dona exactament 8 bitllets; el nombre de bitllets de 10\,€ és el doble dels de 20\,€. Planteja i resol el sistema.",
+     r"$x+y+z=8,\ 10x+20y+50z=290,\ x=2y$: \ " + R(r"2\ \text{de }10\,€,\ 1\ \text{de }20\,€,\ 5\ \text{de }50\,€")),
+ (2, r"Un caixer automàtic conté 800 bitllets de 10, 20 i 50\,€ amb un import de 21\,000\,€. El nombre de bitllets de 10\,€ és igual que el de 20\,€ i 50\,€ junts. Quants bitllets hi ha de cada tipus?",
+     r"$x+y+z=800,\ 10x+20y+50z=21000,\ x=y+z$: \ " + R(r"400\ \text{de }10\,€,\ 100\ \text{de }20\,€,\ 300\ \text{de }50\,€")),
+ (3, r"En un cinema s'han venut 1405 entrades i s'han recaptat 7920\,€. L'entrada normal costa 6\,€, la del dia de l'espectador 4\,€ i la dels jubilats 3\,€. La recaptació de les entrades de preu reduït és el 10\,\% de la de les entrades normals. Quantes entrades de cada tipus s'han venut?",
+     r"$n+e+j=1405,\ 6n+4e+3j=7920,\ 4e+3j=0,1\cdot6n$:\par " + R(r"1200\ \text{normals},\ 105\ \text{de l'espectador},\ 100\ \text{de jubilats}")),
+ (2, r"Un comerciant ven rellotges A a 200\,€, B a 500\,€ i C a 250\,€. Un mes en ven 200; els del tipus B són tants com els de A i C junts, i la recaptació és de 73\,500\,€. Quants n'ha venut de cada tipus?",
+     r"$a+b+c=200,\ b=a+c,\ 200a+500b+250c=73500$: \ " + R(r"30\ \text{A},\ 100\ \text{B},\ 70\ \text{C}")),
+ (2, r"Una persona compra memòries externes, lectors de llibres electrònics i tauletes gràfiques a 100, 120 i 150\,€ la unitat. Paga 1160\,€ per 9 unitats i compra una tauleta més que lectors. Quantes unitats de cada producte compra?",
+     r"$m+l+t=9,\ 100m+120l+150t=1160,\ t=l+1$: \ " + R(r"2\ \text{memòries},\ 3\ \text{lectors},\ 4\ \text{tauletes}")),
+ (2, r"Després d'un descompte del 10\,\% en cada preu, s'ha pagat 3,96\,€ per un retolador, un quadern i una carpeta. El quadern val la meitat que el retolador i la carpeta, el que val el quadern més el 20\,\% del retolador. Calcula el preu original de cada objecte.",
+     r"$0,9(r+q+c)=3,96,\ q=\frac r2,\ c=q+0,2r$: \ " + R(r"\text{retolador }2\,€,\ \text{quadern }1\,€,\ \text{carpeta }1,40\,€")),
+ (3, r"Una persona inverteix 7000\,€ en accions de les empreses A i B i en un dipòsit a l'1\,\%. Amb les accions obté un 5\,\% (A) i un 3\,\% (B), i el benefici total és de 202\,€. Els diners en accions superen en 2600\,€ els del dipòsit. Quant va destinar a cada inversió?",
+     r"$a+b+d=7000,\ 0,05a+0,03b+0,01d=202,\ a+b=d+2600$: \ " + R(r"\text{A }1800\,€,\ \text{B }3000\,€,\ \text{dipòsit }2200\,€")),
+ (2, r"Una agència de viatges ven 60 bitllets a Londres, París i Roma. Els de París són el doble dels altres dos destins junts i a Roma se n'emeten dos més que la meitat dels de Londres. Quants bitllets s'han venut per a cada destí?",
+     r"$l+p+r=60,\ p=2(l+r),\ r=\frac l2+2$: \ " + R(r"\text{Londres }12,\ \text{París }40,\ \text{Roma }8")),
+ (3, r"Un comerciant compra 200 kg de bresquilles, 100 de pomes i 300 de peres. Els ven apujant un 25\,\% el preu de les bresquilles i les pomes i un 40\,\% el de les peres, i obté 1087\,€, dels quals 257 són de benefici. Si el quilo de bresquilles li va costar 50 cèntims més que el de peres, quin va ser el preu de compra de cada fruita?",
+     r"$200b+100p+300q=830,\ 1,25(200b+100p)+1,4\cdot300q=1087,\ b=q+0,5$:\par " + R(r"\text{bresquilles }1,60\,€/\text{kg},\ \text{pomes }1,80\,€/\text{kg},\ \text{peres }1,10\,€/\text{kg}")),
+ (3, r"Un restaurant ofereix desdejunis a 4\,€, dinars a 8\,€ i sopars a 10\,€. L'últim dissabte es van servir tants dinars com desdejunis i sopars junts, la recaptació total va ser de 1116\,€ i la dels dinars va superar la dels sopars en 156\,€." + tasks(1, ["Quants desdejunis, dinars i sopars es van servir?", "Quin benefici es va obtindre si els guanys són de 2,5\,€ per desdejuni, 4\,€ per dinar i 5\,€ per sopar?"]),
+     tasks(1, [r"$l=d+s,\ 4d+8l+10s=1116,\ 8l-10s=156$: \ " + R(r"30\ \text{desdejunis},\ 72\ \text{dinars},\ 42\ \text{sopars}"), r"$30\cdot2,5+72\cdot4+42\cdot5=$ " + R(r"573\,€")])),
+ (2, r"Un estudiant va traure 7,5 punts en un examen de tres preguntes. En la tercera va traure un punt més que en la segona, i els punts de la primera quintuplicaven la diferència entre els de la tercera i la primera. Quina puntuació va traure en cada pregunta?",
+     r"$p_1+p_2+p_3=7,5,\ p_3=p_2+1,\ p_1=5(p_3-p_1)$: \ " + R(r"2,5;\ \ 2;\ \ 3\ \text{punts}")),
+ (3, r"Un inversor reparteix 42\,000\,€ entre un compte d'estalvis al 5\,\%, un dipòsit a termini fix al 7\,\% i uns bons al 9\,\% anual. En un any obté 2600\,€ d'interessos, i els del compte d'estalvis són 200\,€ menys que la suma dels de les altres dues inversions. Quant va invertir en cada producte?",
+     r"$a+b+c=42000,\ 0,05a+0,07b+0,09c=2600,\ 0,05a=0,07b+0,09c-200$: \ " + R(r"24\,000\,€,\ 11\,000\,€,\ 7000\,€")),
+ (2, r"La llargària d'un rectangle és 1 cm més que el doble de l'amplària. Volem que el perímetre siga com a mínim de 20 cm i com a màxim de 30 cm. Entre quins valors pot estar l'amplària?",
+     r"$20\le2(x+2x+1)\le30\Rightarrow20\le6x+2\le30$: \ " + RI(S88) + r" \ (en cm)"),
+ (2, r"Un artesà fabrica collarets i polseres. Un collaret necessita 2 hores de treball i 1 unitat de material, i una polsera, 1 hora i 2 unitats de material. Cada setmana disposa, com a màxim, de 40 hores i 50 unitats de material." +
+     tasks(1, ["Planteja el sistema d'inequacions i representa la regió de les possibles combinacions de collarets i polseres.", "Pot fabricar 15 collarets i 12 polseres en una setmana? I 10 collarets i 20 polseres?"]),
+     tasks(1, [r"$2x+y\le40,\ x+2y\le50,\ x\ge0,\ y\ge0$. Vèrtexs $(0,0)$, $(20,0)$, $(10,20)$ i $(0,25)$.\par" + fig(R89, (-2, 28, -2, 28), wd=4.2, pts=[((15, 12), False), ((10, 20), True)]),
+               r"$(15,12)$: $2\cdot15+12=42\gt40$: \rest{no} (falten hores). \ $(10,20)$: $40\le40$ i $50\le50$: \rest{sí}, i aprofita totes les hores i tot el material."])),
 ]))
 
 # =====================================================================
-# 6. Triangles rectangles
-a17, b17 = 32 * cos(57), 32 * sin(57); c17b = math.hypot(250, 308); A17b = atan(250 / 308); b17c, c17c = 35 / tan(32), 35 / sin(32)
-h18, d18 = 12 * sin(50), 12 * cos(50)
-AB19 = 4 * cos(60) + 1.7 * cos(30) + 3.5 * cos(20) + 4.2 * cos(50)
-h20 = 6 * tan(15) + 5 * tan(25)
-l21 = 5 / sin(20); hh21 = 5 / tan(20)
-roof = r'''\begin{center}\begin{tikzpicture}[scale=0.62]
-\coordinate (A) at (0,0); \coordinate (P) at ($(A)+(60:4)$); \coordinate (Q) at ($(P)+(-30:1.7)$); \coordinate (R) at ($(Q)+(20:3.5)$); \coordinate (B) at ($(R|-A)+(2.7,0)$);
-\draw[muted, dashed] (A)--(B); \draw[muted, dashed] (P)--++(1.6,0); \draw[muted, dashed] (Q)--++(1.5,0);
-\draw[navy, line width=2.2pt, line join=round] (A)--(P)--(Q)--(R)--(B);
-\node[below left] at (A) {$A$}; \node[below right] at (B) {$B$};
-\node[font=\small, rotate=60] at ($(A)!0.5!(P)+(-0.4,0.22)$) {4 m}; \node[font=\small, rotate=-30] at ($(P)!0.5!(Q)+(-0.25,-0.45)$) {1,7 m};
-\node[font=\small, rotate=20] at ($(Q)!0.5!(R)+(-0.15,0.42)$) {3,5 m}; \node[font=\small, rotate=-55] at ($(R)!0.5!(B)+(0.45,0.3)$) {4,2 m};
-\draw (A)++(0.7,0) arc (0:60:0.7); \node[font=\scriptsize] at (1.05,0.4) {$60^\circ$};
-\draw (P)++(0.75,0) arc (0:-30:0.75); \node[font=\scriptsize] at ($(P)+(1.35,-0.2)$) {$30^\circ$};
-\draw (Q)++(0.75,0) arc (0:20:0.75); \node[font=\scriptsize] at ($(Q)+(1.3,0.12)$) {$20^\circ$};
-\draw (B)++(-0.7,0) arc (180:125:0.7); \node[font=\scriptsize] at ($(B)+(-1.05,0.35)$) {$50^\circ$};
-\end{tikzpicture}\end{center}'''
-S.append(("Resolució de triangles rectangles", [
- (1, r"Els triangles següents són rectangles i s'anomenen $ABC$, amb l'angle recte en $C$. Resol-los:" + tasks(1, [r"Dades: $c=32$ cm, $\hat B=57^\circ$. Calcula $a$ i $b$.", r"Dades: $a=250$ m, $b=308$ m. Calcula $c$ i $\hat A$.", r"Dades: $a=35$ cm, $\hat A=32^\circ$. Calcula $b$ i $c$."]),
-     tasks(1, [r'$a=c\cos\hat B\approx\res{%s\ \text{cm}}$, \ $b=c\sin\hat B\approx\res{%s\ \text{cm}}$ \ ($\hat A=33^\circ$)' % (dec(a17), dec(b17)),
-               r'$c=\sqrt{250^2+308^2}\approx\res{%s\ \text{m}}$, \ $\text{tg}\,\hat A=\frac{250}{308}\Rightarrow\hat A\approx\res{%s}$' % (dec(c17b), dms(A17b)),
-               r'$b=\dfrac{a}{\text{tg}\,\hat A}\approx\res{%s\ \text{cm}}$, \ $c=\dfrac{a}{\sin\hat A}\approx\res{%s\ \text{cm}}$ \ ($\hat B=58^\circ$)' % (dec(b17c), dec(c17c))])),
- (1, r"Un màstil està subjecte a terra amb dos cables de 12 m que formen angles de $50^\circ$ amb el sòl. Calcula l'altura del màstil i la distància de la base als punts de subjecció.",
-     r'Altura: $12\sin50^\circ\approx\res{%s\ \text{m}}$. Distància: $12\cos50^\circ\approx\res{%s\ \text{m}}$.' % (dec(h18), dec(d18))),
- (2, r"La teulada d'una casa té la forma i les mesures que s'indiquen en la figura. Calcula la distància $\overline{AB}$." + roof,
-     r'Amb $A$ i $B$ a la mateixa altura, com a la figura, sumem les projeccions horitzontals dels quatre trams: $4\cos60^\circ+1{,}7\cos30^\circ+3{,}5\cos20^\circ+4{,}2\cos50^\circ\approx2+%s+%s+%s\approx\res{%s\ \text{m}}$' % (dec(1.7 * cos(30)), dec(3.5 * cos(20)), dec(4.2 * cos(50)), dec(AB19))),
- (2, r"Un avió s'enlaira formant un angle de $15^\circ$ amb terra. A 6 km del punt d'eixida (en horitzontal) augmenta $10^\circ$ la inclinació, de manera que puja amb un angle de $25^\circ$ amb el sòl. Una muntanya de 2\,500 m es troba a 11 km del punt de partida. Volarà l'avió per damunt de la muntanya o haurà de canviar la direcció?",
-     r'Altura als 6 km: $6\,\text{tg}\,15^\circ\approx%s$ km. Als 11 km: $%s+5\,\text{tg}\,25^\circ\approx\res{%s\ \text{km}}>2{,}5$ km: \rest{passa per damunt de la muntanya}.' % (dec(6 * tan(15), 3), dec(6 * tan(15), 3), dec(h20, 3))),
- (2, r"En un triangle isòsceles, el costat desigual mesura 10 m i l'angle oposat és de $40^\circ$. Calcula'n el perímetre i l'àrea.",
-     r"L'altura el divideix en dos triangles rectangles amb un catet de 5 m i un angle de $20^\circ$: costat igual $=\dfrac{5}{\sin20^\circ}\approx%s$ m, altura $=\dfrac{5}{\text{tg}\,20^\circ}\approx%s$ m. Perímetre $\approx\res{%s\ \text{m}}$, àrea $\approx\res{%s\ \text{m}^2}$." % (dec(l21), dec(hh21), dec(10 + 2 * l21), dec(5 * hh21))),
- (1, r"Calcula l'àrea d'un paral·lelogram els costats del qual, de 9 cm i 16 cm, formen un angle de $65^\circ$.",
-     r'$S=9\cdot16\cdot\sin65^\circ\approx\res{%s\ \text{cm}^2}$' % dec(144 * sin(65))),
+# 6. Ampliació (exercicis nous)
+aP = sp.Symbol('a')
+M98 = sp.Matrix([[1, 1, 1, 3], [1, -1, 1, 1], [2, 0, aP, 4]])
+ck(sp.linsolve([x + y + z - 3, x - y + z - 1, 2 * x + 5 * z - 4], [x, y, z]) == sp.FiniteSet((2, 1, 0)))
+ck(sp.linsolve([x + y + z - 3, x - y + z - 1, 2 * x + 2 * z - 4], [x, y, z]) == sp.FiniteSet((2 - z, 1, z)))
+ck(sp.linsolve([x + y + z - 3, x - y + z - 1, 2 * x + 2 * z - 5], [x, y, z]) == sp.EmptySet)
+lin([x - 2 - 3 * (y - 2), x + 10 - 2 * (y + 10)], [x, y], [38, 14])
+lin([x * 0 + x + y - 5, x - y + 1], [x, y], [2, 3])
+ck(set(sp.solve(x ** 2 - 5 * x + 6, x)) == {2, 3})
+R103 = regck([C(1, 0, '>=', 0), C(0, 1, '>=', 0), C(1, 2, '<=', 4)], [(0, 0), (4, 0), (0, 2)], True)
+S.append(("Ampliació i problemes", [
+ (3, r"Classifica el sistema segons els valors de $a$ i resol-lo quan siga compatible: \ $" + sist(r"x+y+z=3", r"x-y+z=1", r"2x+az=4") + "$",
+     r"$\left(\begin{array}{rrr|r}1&1&1&3\\1&-1&1&1\\2&0&a&4\end{array}\right)\to\left(\begin{array}{rrr|r}1&1&1&3\\0&-2&0&-2\\0&-2&a-2&-2\end{array}\right)\to\left(\begin{array}{rrr|r}1&1&1&3\\0&-2&0&-2\\0&0&a-2&0\end{array}\right)$\par"
+     + r" Si $a\neq2$: \rest{SCD}, " + R(r"(2,\ 1,\ 0)") + r". \ Si $a=2$: \rest{SCI}, " + R(r"(2-\lambda,\ 1,\ \lambda)") + r". (Mai no és incompatible.)"),
+ (2, r"Un rectangle té 10 cm de perímetre i 6 cm$^2$ d'àrea. Quines en són les dimensions?", r"$x+y=5,\ xy=6\Rightarrow x^2-5x+6=0$: \ " + R(r"2\ \text{cm}\times3\ \text{cm}")),
+ (2, r"Fa 2 anys l'edat d'un pare era el triple de la del fill i d'ací a 10 anys serà el doble. Quants anys tenen ara?", r"$p-2=3(f-2),\ p+10=2(f+10)$: \ " + R(r"\text{pare }38,\ \text{fill }14\ \text{anys}")),
+ (3, r"Escriu un sistema d'inequacions la solució del qual siga el triangle de vèrtexs $(0,0)$, $(4,0)$ i $(0,2)$, amb les vores incloses.",
+     R(r"x\ge0,\ \ y\ge0,\ \ x+2y\le4") + r" \ (la recta per $(4,0)$ i $(0,2)$ és $x+2y=4$, i $O$ la compleix).\par" + fig(R103, (-1, 5, -1, 3), wd=3.6)),
 ]))
+
+bad = [mm for c_, mm in CHK if not c_]
+assert not bad, bad[:5]
+assert [len(s_[1]) for s_ in S] == [2, 3, 1, 2, 20, 4], [len(s_[1]) for s_ in S]
 
 # =====================================================================
-# 7. Teoremes del sinus i del cosinus
-def SSS(a, b, c):
-    A = acos((b * b + c * c - a * a) / (2 * b * c)); B = acos((a * a + c * c - b * b) / (2 * a * c)); return A, B, 180 - A - B
-def SAS(b, c, A):
-    a = math.sqrt(b * b + c * c - 2 * b * c * cos(A)); B = acos((a * a + c * c - b * b) / (2 * a * c)); return a, B, 180 - A - B
-A23a = SSS(10, 14, 8)
-a23b, B23b, C23b = SAS(6, 9, DMS(39, 12))
-A23c = 180 - DMS(38, 49) - DMS(66, 40); b23c = 7 * sin(DMS(38, 49)) / sin(A23c); c23c = 7 * sin(DMS(66, 40)) / sin(A23c)
-A23d = asin(8 * sin(DMS(36, 38)) / 10); assert A23d + 180 - A23d > 0 and (180 - A23d) + DMS(36, 38) > 180; C23d = 180 - A23d - DMS(36, 38); c23d = 10 * sin(C23d) / sin(DMS(36, 38))
-b23e = math.sqrt(81 + 25 - 90 * cos(DMS(103, 27))); A23e = asin(9 * sin(DMS(103, 27)) / b23e); C23e = 180 - A23e - DMS(103, 27)
-ck(A23e + C23e + DMS(103, 27), 180)
-def typ(a, b, c):
-    x = sorted([a, b, c])
-    if x[2] >= x[0] + x[1]: return r'\rest{no és un triangle} ($%d\geq%d+%d$)' % (x[2], x[0], x[1])
-    q = x[2] ** 2 - x[0] ** 2 - x[1] ** 2
-    return r'$%d^2=%d$ %s $%d^2+%d^2=%d$: \rest{%s}' % (x[2], x[2] ** 2, '<' if q < 0 else '=' if q == 0 else '>', x[0], x[1], x[0] ** 2 + x[1] ** 2, 'acutangle' if q < 0 else 'rectangle' if q == 0 else 'obtusangle')
-S.append(("Teorema del sinus i teorema del cosinus", [
- (2, r"Resol els triangles següents:" + tasks(1, [r'$a=10$ cm, \ $b=14$ cm, \ $c=8$ cm', r"$b=6$ cm, \ $c=9$ cm, \ $\hat A=39^\circ12'$", r"$a=7$ cm, \ $\hat B=38^\circ49'$, \ $\hat C=66^\circ40'$",
-                                                         r"$a=8$ cm, \ $b=10$ cm, \ $\hat B=36^\circ38'$", r"$a=9$ cm, \ $c=5$ cm, \ $\hat B=103^\circ27'$"]),
-     tasks(1, [r'Teorema del cosinus: $\hat A\approx\res{%s}$, $\hat B\approx\res{%s}$, $\hat C\approx\res{%s}$' % tuple(dms(x) for x in A23a),
-               r'Teorema del cosinus: $a\approx\res{%s\ \text{cm}}$; $\hat B\approx\res{%s}$, $\hat C\approx\res{%s}$' % (dec(a23b), dms(B23b), dms(C23b)),
-               r'$\hat A=\res{%s}$; teorema del sinus: $b\approx\res{%s\ \text{cm}}$, $c\approx\res{%s\ \text{cm}}$' % (dms(A23c), dec(b23c), dec(c23c)),
-               r"Teorema del sinus: $\sin\hat A\approx%s\Rightarrow\hat A\approx\res{%s}$ (l'obtús no hi cap); $\hat C\approx\res{%s}$, $c\approx\res{%s\ \text{cm}}$" % (dec(8 * sin(DMS(36, 38)) / 10, 4), dms(A23d), dms(C23d), dec(c23d)),
-               r'Teorema del cosinus: $b\approx\res{%s\ \text{cm}}$; $\hat A\approx\res{%s}$, $\hat C\approx\res{%s}$' % (dec(b23e), dms(A23e), dms(C23e))])),
- (1, r"Decideix si les mesures següents corresponen a les longituds dels costats d'un triangle i, si és així, indica si és acutangle, rectangle o obtusangle." + tasks(4, ['12, 11 i 9 cm', '23, 14 i 8 cm', '26, 24 i 10 cm', '40, 30 i 20 m']),
-     tasks(2, [typ(12, 11, 9), typ(23, 14, 8), typ(26, 24, 10), typ(40, 30, 20)])),
-]))
-
-# =====================================================================
-# 8. Resolució de triangles (problemes)
-ang27 = acos((36 + 144 - 64) / 144)
-x28 = 30 * tan(28) / (tan(40) - tan(28)); h28 = x28 * tan(40)
-w29 = 25 * tan(atan(50 / 25) + 15) - 50
-d30 = 40 / sin(15)
-h31 = 15 / (1 / tan(43) + 1 / tan(DMS(57, 50)))
-a32 = math.sqrt(2 * 28 / S3); b32 = a32 * S3; c32 = 2 * a32
-ang33 = atan(1.7 / .5)
-area34 = 12 * 8 / cos(18)
-d35 = [math.sqrt((5 * t) ** 2 + (4 * t) ** 2 - 2 * 20 * t * t * cos(54)) for t in (2, 6)]
-s36a, s36b = 8 * sin(37) / sin(93), 8 * sin(50) / sin(93); dist36 = s36a * sin(50)
-ck(s36b * sin(37), dist36, 1e-9)
-h37 = 8 * sin(65); p37 = 8 * cos(65); B37 = math.sqrt(225 - h37 ** 2) + p37; b37 = B37 - 2 * p37; area37 = (B37 + b37) / 2 * h37
-ang38 = acos(3 / 5)
-ang39 = 2 * atan(6 / 10)
-ap40 = acos((100 + 100 - 225) / 200); bs40 = (180 - ap40) / 2
-ang41 = acos((25 + 64 - 100) / 80)
-S.append(("Resolució de triangles: problemes", [
- (1, r"Una barca està lligada a la vora d'un canal amb una corda de 8 metres. En un determinat moment, aquesta corda forma un angle de $38^\circ$ amb la vora. A quina distància de la vora està la barca?",
-     r'$8\sin38^\circ\approx\res{%s\ \text{m}}$' % dec(8 * sin(38))),
- (1, r"Si ens situem a 40 metres de la xemeneia d'una fàbrica, la veiem sota un angle de $26^\circ$. Quina altura té? Considera que els ulls de l'observador estan situats a 175 cm de terra.",
-     r'$40\,\text{tg}\,26^\circ+1{,}75\approx%s+1{,}75\approx\res{%s\ \text{m}}$' % (dec(40 * tan(26)), dec(40 * tan(26) + 1.75))),
- (2, r"L'amplada d'un escenari de teatre és de 8 metres. Les localitats que hem comprat estan situades a una distància de 6 m i de 12 m de cada un dels extrems laterals de l'escenari. Quin és l'angle de visió que tindrem per a veure la representació?",
-     r'Teorema del cosinus: $\cos\theta=\dfrac{6^2+12^2-8^2}{2\cdot6\cdot12}=\dfrac{116}{144}\Rightarrow\theta\approx\res{%s}$' % dms(ang27)),
- (2, r"Des d'un punt del sòl mesurem l'angle davall del qual es veu un edifici i obtenim $40^\circ$. Ens allunyem 30 m i l'angle és ara de $28^\circ$. Calcula l'altura de l'edifici i la distància des de la qual es va fer la primera observació.",
-     r'$h=x\,\text{tg}\,40^\circ=(x+30)\,\text{tg}\,28^\circ\Rightarrow x=\dfrac{30\,\text{tg}\,28^\circ}{\text{tg}\,40^\circ-\text{tg}\,28^\circ}\approx\res{%s\ \text{m}}$, \ $h\approx\res{%s\ \text{m}}$' % (dec(x28), dec(h28))),
- (3, r"Des d'una torre de vigilància de 25 m d'altura observem dos arbres situats en vores oposades d'un riu davall d'un angle de $15^\circ$. Els dos arbres estan alineats amb el peu de la torre i la distància d'aquesta al riu és de 50 m. Calcula l'amplària del riu.",
-     r"La visual a l'arbre proper forma amb la vertical un angle $\alpha$ amb $\text{tg}\,\alpha=\frac{50}{25}=2$, és a dir, $\alpha\approx%s$. La de l'arbre llunyà forma $\alpha+15^\circ$: $50+x=25\,\text{tg}\,(\alpha+15^\circ)\Rightarrow x\approx\res{%s\ \text{m}}$" % (dms(atan(2)), dec(w29))),
- (1, r"El radar d'un vaixell detecta un objecte no identificat a 40 m de profunditat i en una direcció que forma $15^\circ$ amb l'horitzontal. Quina distància ha de recórrer un bus per a arribar des del vaixell fins a l'objecte?",
-     r'$d=\dfrac{40}{\sin15^\circ}\approx\res{%s\ \text{m}}$' % dec(d30)),
- (2, r"Un arbre se subjecta a terra amb dos cables d'acer, un a cada costat, que formen angles de $43^\circ$ i de $57^\circ50'$ amb el terra. Si les distàncies dels cables al peu de l'arbre sumen 15 m, quina és l'altura de l'arbre?",
-     r"$\dfrac{h}{\text{tg}\,43^\circ}+\dfrac{h}{\text{tg}\,57^\circ50'}=15\Rightarrow h\approx\res{%s\ \text{m}}$" % dec(h31)),
- (2, r"L'àrea d'un triangle rectangle és de 28 cm$^2$ i un dels seus angles fa $60^\circ$." + tasks(1, ["Què mesura cada un dels seus angles?", "Calcula la longitud dels costats i el perímetre del triangle."]),
-     tasks(1, [r'$\res{30^\circ,\ 60^\circ\ \text{i}\ 90^\circ}$', r'Catets $x$ i $x\sqrt3$: $\frac{x^2\sqrt3}{2}=28\Rightarrow x\approx\res{%s}$, l’altre catet $\approx\res{%s}$, hipotenusa $\approx\res{%s}$ cm; perímetre $\approx\res{%s\ \text{cm}}$' % (dec(a32), dec(b32), dec(c32), dec(a32 + b32 + c32))])),
- (1, r"Salva fa 1,70 m i observa que la seua ombra és de 50 cm a una determinada hora del dia. Amb quina inclinació arriben els raigs solars a eixa hora?",
-     r'$\text{tg}\,\alpha=\frac{1{,}70}{0{,}50}=3{,}4\Rightarrow\alpha\approx\res{%s}$' % dms(ang33)),
- (2, r"Una casa de planta rectangular fa 12 m de llarg i 8 m d'ample. El sostre, amb una inclinació de $18^\circ$, és una superfície plana inclinada la part més elevada de la qual està situada sobre un dels costats més grans del rectangle. Calcula l'àrea de la teulada.",
-     r"L'amplada de la teulada és $\dfrac{8}{\cos18^\circ}\approx%s$ m: àrea $\approx12\cdot%s\approx\res{%s\ \text{m}^2}$" % (dec(8 / cos(18)), dec(8 / cos(18)), dec(area34))),
- (2, r"Dos exploradors s'han perdut i decideixen seguir camins diferents per a aconseguir ajuda; les seues trajectòries formen un angle de $54^\circ$. Si un camina a 5 km/h i l'altre a 4 km/h, a quina distància estan al cap de 2 hores? I després de 6 hores?",
-     r'Després de 2 h han fet 10 i 8 km: $d=\sqrt{10^2+8^2-2\cdot10\cdot8\cos54^\circ}\approx\res{%s\ \text{km}}$. Després de 6 h (el triple): $\approx\res{%s\ \text{km}}$.' % (dec(d35[0]), dec(d35[1]))),
- (3, r"En una paret hi ha dues anelles separades 8 m entre si. Un xiquet lliga cada extrem d'una corda a les anelles i s'allunya de la paret fins que la corda queda tensada. En aquest moment, la corda forma angles de $50^\circ$ i $37^\circ$ amb la paret." + tasks(2, ["Quant mesura la corda?", "A quina distància de la paret està el xiquet?"]),
-     tasks(1, [r'El tercer angle és $93^\circ$. Teorema del sinus: trams de $\dfrac{8\sin37^\circ}{\sin93^\circ}\approx%s$ m i $\dfrac{8\sin50^\circ}{\sin93^\circ}\approx%s$ m: corda $\approx\res{%s\ \text{m}}$' % (dec(s36a), dec(s36b), dec(s36a + s36b)),
-               r'$d=%s\cdot\sin50^\circ\approx\res{%s\ \text{m}}$' % (dec(s36a), dec(dist36))])),
- (3, r"Un dels angles d'un trapezi isòsceles fa $65^\circ$, els costats iguals mesuren 8 cm i la diagonal fa 15 cm. Determina'n l'àrea.",
-     r"Altura $h=8\sin65^\circ\approx%s$; projecció del costat $8\cos65^\circ\approx%s$. Per Pitàgores amb la diagonal, la base major és $B\approx%s+%s\approx%s$ i la menor $b\approx%s$ cm. Àrea $=\frac{B+b}{2}\,h\approx\res{%s\ \text{cm}^2}$" % (dec(h37), dec(p37), dec(math.sqrt(225 - h37 ** 2)), dec(p37), dec(B37), dec(b37), dec(area37))),
- (2, r"Les bases d'un trapezi isòsceles mesuren 8 cm i 14 cm, i els costats iguals, 5 cm. Calcula la mesura dels angles del trapezi.",
-     r'Projecció del costat: $\frac{14-8}{2}=3$ cm: $\cos\alpha=\frac35\Rightarrow\alpha\approx\res{%s}$ (dos angles) i $180^\circ-\alpha\approx\res{%s}$ (els altres dos)' % (dms(ang38), dms(180 - ang38))),
- (1, r"Quin angle formen entre si les diagonals d'un rectangle de 10 cm de base i 6 cm d'altura?",
-     r'$2\,\text{tg}^{-1}\frac{6}{10}\approx\res{%s}$ \ (i el suplementari, $\res{%s}$)' % (dms(ang39), dms(180 - ang39))),
- (2, r"En una construcció, dues bigues de 10 m estan soldades pels extrems i formen un triangle amb una altra biga de 15 m. Troba els angles que formen entre elles.",
-     r'$\cos\theta=\dfrac{10^2+10^2-15^2}{2\cdot10\cdot10}=-0{,}125\Rightarrow\theta\approx\res{%s}$; els altres dos: $\res{%s}$' % (dms(ap40), dms(bs40))),
- (2, r"En un romboide, els costats fan 5 cm i 8 cm i una de les diagonals fa 10 cm. Calcula la mesura dels seus quatre angles.",
-     r'$\cos\alpha=\dfrac{5^2+8^2-10^2}{2\cdot5\cdot8}=-\frac{11}{80}\Rightarrow\alpha\approx\res{%s}$ (dos angles) i $\res{%s}$ (els altres dos)' % (dms(ang41), dms(180 - ang41))),
-]))
-
-# =====================================================================
-# 9. Fórmules trigonomètriques  (Trigonometria 2, exercicis 1-10)
-sa, ca, sb, cb = .6, .8, .8, .6
-ck(sa * cb + ca * sb, 1); ck(sa * cb - ca * sb, -.28); ck(ca * cb - sa * sb, 0, 1e-12); ck(ca * cb + sa * sb, .96); ck((.75 - 4 / 3) / (1 + .75 * 4 / 3), -7 / 24)
-s10, c10_, s40, c40 = math.sqrt((1 - .94) / 2), math.sqrt((1 + .94) / 2), 2 * .34 * .94, .94 ** 2 - .34 ** 2
-# 6
-ca6, sb6 = -4 / 5, -math.sqrt(15) / 4
-ck(ca6 * -.25 - .6 * sb6, (4 + 3 * math.sqrt(15)) / 20); ck(.6 * -.25 - ca6 * sb6, (-3 - 4 * math.sqrt(15)) / 20)
-a6 = 180 - asin(.6); b6 = 180 + acos(.25)
-ck(cos(a6 + b6), (4 + 3 * math.sqrt(15)) / 20); ck(sin(a6 - b6), (-3 - 4 * math.sqrt(15)) / 20); ck(tan(2 * a6), -24 / 7); ck(tan(b6 / 2), -math.sqrt(15) / 3)
-for a7 in (atan(3), atan(3) + 180): ck(sin(2 * a7), .6); ck(cos(2 * a7), -.8); ck(tan(2 * a7), -.75)
-a8 = acos(-2 / 3); ck(sin(a8 / 2), math.sqrt(30) / 6); ck(cos(a8 / 2), S6 / 6); ck(tan(a8 / 2), S5)
-a5 = 180 - asin(.6); ck(sin(a5 / 2), 3 * math.sqrt(10) / 10); ck(cos(a5 / 2), math.sqrt(10) / 10); ck(tan(a5 / 2), 3)
-ck(sin(15), (S6 - S2) / 4); ck(cos(15), (S6 + S2) / 4); ck(tan(15), 2 - S3); ck(sin(75), (S6 + S2) / 4); ck(cos(75), (S6 - S2) / 4); ck(tan(75), 2 + S3)
-ids9 = [
- (r'\dfrac{\sin\alpha-\cos\alpha}{\text{tg}\,\alpha-1}=\cos\alpha', lambda a: (sin(a) - cos(a)) / (tan(a) - 1) - cos(a), r'$\dfrac{\sin\alpha-\cos\alpha}{\frac{\sin\alpha-\cos\alpha}{\cos\alpha}}=\cos\alpha$'),
- (r'\text{tg}^2\alpha-\sin^2\alpha=\text{tg}^2\alpha\cdot\sin^2\alpha', lambda a: tan(a) ** 2 - sin(a) ** 2 - tan(a) ** 2 * sin(a) ** 2, r'$\dfrac{\sin^2\alpha-\sin^2\alpha\cos^2\alpha}{\cos^2\alpha}=\dfrac{\sin^2\alpha(1-\cos^2\alpha)}{\cos^2\alpha}=\text{tg}^2\alpha\sin^2\alpha$'),
- (r'\dfrac{1+\text{cotg}\,\alpha}{\sin\alpha+\cos\alpha}=\text{cosec}\,\alpha', lambda a: (1 + 1 / tan(a)) / (sin(a) + cos(a)) - 1 / sin(a), r'$\dfrac{\frac{\sin\alpha+\cos\alpha}{\sin\alpha}}{\sin\alpha+\cos\alpha}=\dfrac{1}{\sin\alpha}$'),
- (r'\sec^2\alpha-1=\text{tg}^2\alpha', lambda a: 1 / cos(a) ** 2 - 1 - tan(a) ** 2, r'$\dfrac{1-\cos^2\alpha}{\cos^2\alpha}=\dfrac{\sin^2\alpha}{\cos^2\alpha}$'),
- (r'\dfrac{1+\sin2\alpha}{1+\cos2\alpha}=\tfrac12(1+\text{tg}\,\alpha)^2', lambda a: (1 + sin(2 * a)) / (1 + cos(2 * a)) - (1 + tan(a)) ** 2 / 2, r'$\dfrac{\sin^2\alpha+\cos^2\alpha+2\sin\alpha\cos\alpha}{2\cos^2\alpha}=\dfrac{(\sin\alpha+\cos\alpha)^2}{2\cos^2\alpha}=\frac12(\text{tg}\,\alpha+1)^2$'),
- (r'2\,\text{tg}\,\alpha\sin^2\tfrac{\alpha}{2}+\sin\alpha=\text{tg}\,\alpha', lambda a: 2 * tan(a) * sin(a / 2) ** 2 + sin(a) - tan(a), r'$2\,\text{tg}\,\alpha\cdot\dfrac{1-\cos\alpha}{2}+\sin\alpha=\text{tg}\,\alpha-\sin\alpha+\sin\alpha$'),
- (r'\cos3\alpha=4\cos^3\alpha-3\cos\alpha', lambda a: cos(3 * a) - 4 * cos(a) ** 3 + 3 * cos(a), r'$\cos2\alpha\cos\alpha-\sin2\alpha\sin\alpha=(2\cos^2\alpha-1)\cos\alpha-2(1-\cos^2\alpha)\cos\alpha$'),
- (r'\dfrac{\text{tg}\,\alpha}{\cos2\alpha}=\text{tg}\,2\alpha-\text{tg}\,\alpha', lambda a: tan(a) / cos(2 * a) - tan(2 * a) + tan(a), r'$\dfrac{\sin2\alpha}{\cos2\alpha}-\dfrac{\sin\alpha}{\cos\alpha}=\dfrac{\sin(2\alpha-\alpha)}{\cos2\alpha\cos\alpha}=\dfrac{\text{tg}\,\alpha}{\cos2\alpha}$'),
- (r'\text{tg}\,\alpha+\text{cotg}\,\alpha=\sec\alpha\cdot\text{cosec}\,\alpha', lambda a: tan(a) + 1 / tan(a) - 1 / (cos(a) * sin(a)), r'$\dfrac{\sin^2\alpha+\cos^2\alpha}{\sin\alpha\cos\alpha}=\dfrac{1}{\cos\alpha}\cdot\dfrac{1}{\sin\alpha}$'),
- (r'\dfrac{\sin2\alpha}{1+\cos2\alpha}=\text{tg}\,\alpha', lambda a: sin(2 * a) / (1 + cos(2 * a)) - tan(a), r'$\dfrac{2\sin\alpha\cos\alpha}{2\cos^2\alpha}=\dfrac{\sin\alpha}{\cos\alpha}$'),
- (r'\dfrac{1}{\text{tg}^2\alpha}=\cos^2\alpha+\left(\dfrac{\cos\alpha}{\text{tg}\,\alpha}\right)^2', lambda a: 1 / tan(a) ** 2 - cos(a) ** 2 - (cos(a) / tan(a)) ** 2, r'$\cos^2\alpha+\dfrac{\cos^4\alpha}{\sin^2\alpha}=\dfrac{\cos^2\alpha(\sin^2\alpha+\cos^2\alpha)}{\sin^2\alpha}=\dfrac{1}{\text{tg}^2\alpha}$')]
-for _, f, _ in ids9:
-    for a in (17, 33.3, 71, 128, 200, 301.5): ck(f(a), 0, 1e-8)
-ids10 = [
- (r'\cos\alpha\cos(\alpha-\beta)+\sin\alpha\sin(\alpha-\beta)=\cos\beta', lambda a, b: cos(a) * cos(a - b) + sin(a) * sin(a - b) - cos(b), r'És $\cos\big(\alpha-(\alpha-\beta)\big)=\cos\beta$.'),
- (r'\sin(\alpha+\beta)\cdot\sin(\alpha-\beta)=\sin^2\alpha-\sin^2\beta', lambda a, b: sin(a + b) * sin(a - b) - sin(a) ** 2 + sin(b) ** 2, r'$\sin^2\alpha\cos^2\beta-\cos^2\alpha\sin^2\beta=\sin^2\alpha(1-\sin^2\beta)-(1-\sin^2\alpha)\sin^2\beta$'),
- (r'\dfrac{\cos(\alpha+\beta)+\cos(\alpha-\beta)}{\sin(\alpha+\beta)+\sin(\alpha-\beta)}=\dfrac{1}{\text{tg}\,\alpha}', lambda a, b: (cos(a + b) + cos(a - b)) / (sin(a + b) + sin(a - b)) - 1 / tan(a), r'$\dfrac{2\cos\alpha\cos\beta}{2\sin\alpha\cos\beta}$'),
- (r'(\cos\alpha-\cos\beta)^2+(\sin\alpha+\sin\beta)^2=4\sin^2\dfrac{\alpha+\beta}{2}', lambda a, b: (cos(a) - cos(b)) ** 2 + (sin(a) + sin(b)) ** 2 - 4 * sin((a + b) / 2) ** 2, r'$2-2(\cos\alpha\cos\beta-\sin\alpha\sin\beta)=2-2\cos(\alpha+\beta)=4\sin^2\frac{\alpha+\beta}{2}$')]
-for _, f, _ in ids10:
-    for a, b in ((17, 40), (100, 33), (250, 71)): ck(f(a, b), 0, 1e-8)
-S.append(("Fórmules trigonomètriques", [
- (1, r"Escriu $15^\circ$ i $\frac{5\pi}{12}$ rad com una suma o diferència d'angles notables i calcula'n les raons trigonomètriques de manera exacta.",
-     r'$15^\circ=45^\circ-30^\circ$: $\sin=\res{\frac{\sqrt6-\sqrt2}{4}}$, $\cos=\res{\frac{\sqrt6+\sqrt2}{4}}$, $\text{tg}=\res{2-\sqrt3}$. \quad $\frac{5\pi}{12}=75^\circ=45^\circ+30^\circ$: $\sin=\res{\frac{\sqrt6+\sqrt2}{4}}$, $\cos=\res{\frac{\sqrt6-\sqrt2}{4}}$, $\text{tg}=\res{2+\sqrt3}$.'),
- (1, r"Si $\sin\alpha=0{,}6$ i $\sin\beta=0{,}8$, sent tots dos angles del primer quadrant, calcula el valor de:" + tasks(3, [r'$\sin(\alpha+\beta)$', r'$\sin(\alpha-\beta)$', r'$\cos(\alpha+\beta)$', r'$\cos(\alpha-\beta)$', r'$\text{tg}\,(\alpha+\beta)$', r'$\text{tg}\,(\alpha-\beta)$']),
-     r'$\cos\alpha=0{,}8$, $\cos\beta=0{,}6$.' + tasks(3, [R('1'), R('-0{,}28'), R('0'), R('0{,}96'), r'$\res{\nexists}$ ($\cos=0$)', R(r'-\frac{7}{24}')])),
- (1, r"Demostra que $\sin\left(\alpha+\frac{3\pi}{2}\right)=-\cos\alpha$.", r'$\sin\alpha\cos\frac{3\pi}{2}+\cos\alpha\sin\frac{3\pi}{2}=\sin\alpha\cdot0+\cos\alpha\cdot(-1)=\res{-\cos\alpha}$'),
- (2, r"El sinus de $20^\circ$ fa 0,34 i el cosinus, 0,94. Calcula el sinus i el cosinus dels angles de $10^\circ$ i de $40^\circ$.",
-     r'$\sin10^\circ=\sqrt{\frac{1-0{,}94}{2}}\approx\res{%s}$, $\cos10^\circ=\sqrt{\frac{1+0{,}94}{2}}\approx\res{%s}$; \ $\sin40^\circ=2\cdot0{,}34\cdot0{,}94\approx\res{%s}$, $\cos40^\circ=0{,}94^2-0{,}34^2=\res{%s}$' % (dec(s10, 4), dec(c10_, 4), dec(s40, 4), dec(c40, 4))),
- (2, r"Si $\alpha$ és un angle del segon quadrant i $\sin\alpha=\frac35$, calcula les raons de $\frac{\alpha}{2}$.",
-     r'$\cos\alpha=-\frac45$; $45^\circ<\frac\alpha2<90^\circ$: $\sin\frac\alpha2=\res{\frac{3\sqrt{10}}{10}}$, $\cos\frac\alpha2=\res{\frac{\sqrt{10}}{10}}$, $\text{tg}\,\frac\alpha2=\res{3}$'),
- (3, r"Si $\sin\alpha=\frac35$ amb $90^\circ<\alpha<180^\circ$, i $\cos\beta=-\frac14$ amb $180^\circ<\beta<270^\circ$, troba: \ $\cos(\alpha+\beta)$, \ $\sin(\alpha-\beta)$, \ $\text{tg}\,2\alpha$ \ i \ $\text{tg}\,\frac{\beta}{2}$.",
-     r'$\cos\alpha=-\frac45$, $\text{tg}\,\alpha=-\frac34$, $\sin\beta=-\frac{\sqrt{15}}{4}$. \ $\cos(\alpha+\beta)=\res{\frac{4+3\sqrt{15}}{20}}$, \ $\sin(\alpha-\beta)=\res{-\frac{3+4\sqrt{15}}{20}}$, \ $\text{tg}\,2\alpha=\res{-\frac{24}{7}}$, \ $\text{tg}\,\frac\beta2=\res{-\frac{\sqrt{15}}{3}}$ ($\frac\beta2$ és del 2n quadrant)'),
- (2, r"Sabent que $\text{tg}\,\alpha=3$, calcula les raons trigonomètriques de l'angle $2\alpha$ si $\alpha$ és un angle:" + tasks(2, ['Del primer quadrant.', 'Del tercer quadrant.']),
-     r'En els dos casos: $\sin2\alpha=\res{\frac35}$, $\cos2\alpha=\res{-\frac45}$, $\text{tg}\,2\alpha=\res{-\frac34}$ (els dos valors de $2\alpha$ difereixen en $360^\circ$).'),
- (2, r"Si $\cos\alpha=-\frac23$ i $90^\circ<\alpha<180^\circ$, calcula les raons trigonomètriques de $\frac{\alpha}{2}$.",
-     r'$45^\circ<\frac\alpha2<90^\circ$: $\sin\frac\alpha2=\sqrt{\frac56}=\res{\frac{\sqrt{30}}{6}}$, $\cos\frac\alpha2=\sqrt{\frac16}=\res{\frac{\sqrt6}{6}}$, $\text{tg}\,\frac\alpha2=\res{\sqrt5}$'),
- (3, r"Demostra les identitats següents:" + tasks(2, ['$%s$' % t for t, _, _ in ids9]), tasks(1, [s for _, _, s in ids9])),
- (3, r"Demostra les identitats següents:" + tasks(1, ['$%s$' % t for t, _, _ in ids10]), tasks(1, [s for _, _, s in ids10])),
-]))
-
-# =====================================================================
-# 10. Equacions trigonomètriques (Trigonometria 2, exercicis 11-13)
-E11 = [
- (r'\sin x=\frac12', lambda x: sin(x) - .5, [30, 150], r'30^\circ+360^\circ k,\ 150^\circ+360^\circ k'),
- (r'\cos x=\frac{\sqrt3}{2}', lambda x: cos(x) - S3 / 2, [30, 330], r'\pm30^\circ+360^\circ k'),
- (r'\text{tg}\,x=1', lambda x: tan(x) - 1, [45, 225], r'45^\circ+180^\circ k'),
- (r'\sin x=-\frac{\sqrt2}{2}', lambda x: sin(x) + S2 / 2, [225, 315], r'225^\circ+360^\circ k,\ 315^\circ+360^\circ k'),
- (r'\cos x=-\frac12', lambda x: cos(x) + .5, [120, 240], r'\pm120^\circ+360^\circ k'),
- (r'1+\cos x=0', lambda x: 1 + cos(x), [180], r'180^\circ+360^\circ k'),
- (r'\sin4x=-\frac{\sqrt3}{2}', lambda x: sin(4 * x) + S3 / 2, [60 + 90 * k for k in range(4)] + [75 + 90 * k for k in range(4)], r'60^\circ+90^\circ k,\ 75^\circ+90^\circ k'),
- (r'\cos2x=\frac{\sqrt2}{2}', lambda x: cos(2 * x) - S2 / 2, [22.5, 157.5, 202.5, 337.5], r'\pm22^\circ30^{\prime}+180^\circ k'),
- (r'\text{tg}\,3x=-1', lambda x: tan(3 * x) + 1, [45 + 60 * k for k in range(6)], r'45^\circ+60^\circ k'),
- (r'\sin\frac x2=0', lambda x: sin(x / 2), [0], r'360^\circ k'),
- (r'\cos\frac x3=-\frac12', lambda x: cos(x / 3) + .5, [], r'360^\circ+1080^\circ k,\ 720^\circ+1080^\circ k'),
- (r'\text{tg}\,\frac{3x}{4}=-\frac{\sqrt3}{3}', lambda x: tan(3 * x / 4) + S3 / 3, [200], r'200^\circ+240^\circ k')]
-for t, f, s, _ in E11: ckeq(f, s, t)
-def eqsol(s, gen):
-    return (degsR(s) if s else r'\rest{cap} en $[0^\circ,360^\circ)$') + r'\ \ \small($x=%s$)' % gen
-s12 = [
- (r'\cos^2(2x+30^\circ)=\frac12', lambda x: cos(2 * x + 30) ** 2 - .5, [7.5 + 45 * k for k in range(8)], r'$\cos(2x+30^\circ)=\pm\frac{\sqrt2}{2}\Rightarrow2x+30^\circ=45^\circ+90^\circ k\Rightarrow x=7^\circ30^{\prime}+45^\circ k$: '),
- (r'\cos^2x-\sqrt3\sin x\cos x=0', lambda x: cos(x) ** 2 - S3 * sin(x) * cos(x), [30, 90, 210, 270], r'$\cos x(\cos x-\sqrt3\sin x)=0$: $\cos x=0$ o $\text{tg}\,x=\frac{\sqrt3}{3}$: '),
- (r'\sqrt3\cos x-\sin x=1', lambda x: S3 * cos(x) - sin(x) - 1, [30, 270], r'$2\cos(x+30^\circ)=1\Rightarrow x+30^\circ=60^\circ$ o $300^\circ$: '),
- (r'\frac{1-\cos2x}{2}=2\left(\sin^2\frac x2-\cos^2\frac x2\right)', lambda x: (1 - cos(2 * x)) / 2 - 2 * (sin(x / 2) ** 2 - cos(x / 2) ** 2), [acos(1 - S2), 360 - acos(1 - S2)], r'$\sin^2x=-2\cos x\Rightarrow\cos^2x-2\cos x-1=0\Rightarrow\cos x=1-\sqrt2$: '),
- (r'\frac{\sin3x+\sin x}{\cos3x+\cos x}=\sqrt3', lambda x: (sin(3 * x) + sin(x)) / (cos(3 * x) + cos(x)) - S3, [30, 120, 210, 300], r'$\dfrac{2\sin2x\cos x}{2\cos2x\cos x}=\text{tg}\,2x=\sqrt3$: '),
- (r'\sin^3x-\sin x\cos^2x=0', lambda x: sin(x) ** 3 - sin(x) * cos(x) ** 2, [0, 45, 135, 180, 225, 315], r'$\sin x(\sin^2x-\cos^2x)=-\sin x\cos2x=0$: '),
- (r'\sqrt3\sin x+\cos x=2', lambda x: S3 * sin(x) + cos(x) - 2, [60], r'$2\sin(x+30^\circ)=2\Rightarrow x+30^\circ=90^\circ$: '),
- (r'\text{tg}^2\frac x2=1-\cos x', lambda x: tan(x / 2) ** 2 - 1 + cos(x), [0, 90, 270], r'$\dfrac{1-\cos x}{1+\cos x}=1-\cos x\Rightarrow\cos x=1$ o $\cos x=0$: '),
- (r'\frac{\cos4x+\cos2x}{\sin4x-\sin2x}=1', lambda x: (cos(4 * x) + cos(2 * x)) / (sin(4 * x) - sin(2 * x)) - 1, [45, 225], r'$\dfrac{2\cos3x\cos x}{2\cos3x\sin x}=\text{cotg}\,x=1$: '),
- (r'4\sin x+4\cos^2x\,\text{tg}\,x+\text{tg}\,x=0,\ \text{amb}\ \text{tg}\,x\neq0', lambda x: (4 * sin(x) + 4 * cos(x) ** 2 * tan(x) + tan(x)) / (1 if abs(sin(x)) > 1e-9 else 0), [120, 240], r'Dividint entre $\sin x\neq0$: $4\cos^2x+4\cos x+1=0\Rightarrow\cos x=-\frac12$: ')]
-def f12j(x):
-    if abs(sin(x)) < 1e-6: return 1.0
-    return 4 * sin(x) + 4 * cos(x) ** 2 * tan(x) + tan(x)
-s12[9] = s12[9][:1] + (f12j,) + s12[9][2:]
-for t, f, s, _ in s12: ckeq(f, s, t)
-s13 = [
- (r'3\,\text{cotg}\,x=4-\text{tg}\,x', lambda x: 3 / tan(x) - 4 + tan(x), [45, atan(3), 225, 180 + atan(3)], r'$\text{tg}^2x-4\,\text{tg}\,x+3=0\Rightarrow\text{tg}\,x=1$ o $3$: '),
- (r'\sin2x\cdot\cos x=6\sin^3x', lambda x: sin(2 * x) * cos(x) - 6 * sin(x) ** 3, [0, 30, 150, 180, 210, 330], r'$2\sin x(\cos^2x-3\sin^2x)=0$: $\sin x=0$ o $\text{tg}^2x=\frac13$: '),
- (r'\sin x-2\cos2x=-\frac12', lambda x: sin(x) - 2 * cos(2 * x) + .5, [30, 150, 180 - asin(-.75), 360 + asin(-.75)], r'$8\sin^2x+2\sin x-3=0\Rightarrow\sin x=\frac12$ o $-\frac34$: '),
- (r'\cos(30^\circ+x)=\sin x', lambda x: cos(30 + x) - sin(x), [30, 210], r'$\text{tg}\,x=\frac{\sqrt3}{3}$: '),
- (r'\sin2x=\text{tg}\,x', lambda x: sin(2 * x) - tan(x), [0, 45, 135, 180, 225, 315], r'$\sin x(2\cos^2x-1)=0$: '),
- (r'\cos3x+\cos x=0', lambda x: cos(3 * x) + cos(x), [45, 90, 135, 225, 270, 315], r'$2\cos2x\cos x=0$: '),
- (r'3\sin^2x+\cos^2x+\cos x=0', lambda x: 3 * sin(x) ** 2 + cos(x) ** 2 + cos(x), [180], r'$2\cos^2x-\cos x-3=0\Rightarrow\cos x=-1$ ($\frac32$ no val): '),
- (r'\text{tg}\,x=\sqrt2\cos x', lambda x: tan(x) - S2 * cos(x), [45, 135], r'$\sqrt2\sin^2x+\sin x-\sqrt2=0\Rightarrow\sin x=\frac{\sqrt2}{2}$: '),
- (r'\sin^2x-\cos^2x=\cos2x-7\sin x', lambda x: sin(x) ** 2 - cos(x) ** 2 - cos(2 * x) + 7 * sin(x), [asin(.25), 180 - asin(.25)], r'$2\cos2x=7\sin x\Rightarrow4\sin^2x+7\sin x-2=0\Rightarrow\sin x=\frac14$ ($-2$ no val): '),
- (r'5\sec x-4\cos x=8', lambda x: 5 / cos(x) - 4 * cos(x) - 8, [60, 300], r'$4\cos^2x+8\cos x-5=0\Rightarrow\cos x=\frac12$ ($-\frac52$ no val): '),
- (r'\cos2x=1+4\sin x', lambda x: cos(2 * x) - 1 - 4 * sin(x), [0, 180], r'$-2\sin^2x-4\sin x=0\Rightarrow\sin x=0$ ($-2$ no val): ')]
-for t, f, s, _ in s13: ckeq(f, s, t)
-S.append(("Equacions trigonomètriques", [
- (1, r"Resol les equacions trigonomètriques següents. Dona les solucions de $[0^\circ,360^\circ)$ i la solució general." + tasks(3, ['$%s$' % t for t, _, _, _ in E11]),
-     tasks(1, ['$%s$: ' % t + eqsol(s, g) for t, _, s, g in E11])),
- (2, r"Resol en $[0^\circ,360^\circ)$ les equacions trigonomètriques següents:" + tasks(2, ['$%s$' % t for t, _, _, _ in s12]),
-     tasks(1, [p + degsR(s) for _, _, s, p in s12])),
- (2, r"Resol en $[0^\circ,360^\circ)$ les equacions trigonomètriques següents:" + tasks(2, ['$%s$' % t for t, _, _, _ in s13]),
-     tasks(1, [p + degsR(s) for _, _, s, p in s13])),
-]))
-
-# =====================================================================
-# 11. Sistemes (Trigonometria 2, exercicis 14-15)
-cksys([lambda x, y: cos(y) - sin(x) - 1, lambda x, y: 4 * sin(x) * cos(y) + 1], [(210, 60), (210, 300), (330, 60), (330, 300)], '14a')
-cksys([lambda x, y: cos(x) + cos(y) + .5, lambda x, y: cos(x) * cos(y) + .5], [(60, 180), (300, 180), (180, 60), (180, 300)], '14b')
-sol14c = [(x, y) for x in (0, 180) for y in (60, 120)] + [(y, x) for x in (0, 180) for y in (60, 120)]
-cksys([lambda x, y: sin(x) + sin(y) - S3 / 2, lambda x, y: sin(x) ** 2 + sin(y) ** 2 - .75], sol14c, '14c')
-cksys([lambda x, y: x + y - 90, lambda x, y: S3 * cos(x) - cos(y) - 1], [(30, 60)], '14d')
-sol14e = [(x, y) for x in range(360) for y in range(360) if abs(sin(x) * cos(y) - .25) < 1e-9 and abs(cos(x) * sin(y) - .25) < 1e-9]
-assert sorted(sol14e) == sorted([(15, 15), (75, 75), (105, 285), (165, 345), (195, 195), (255, 255), (285, 105), (345, 165)]), sol14e
-cksys([lambda x, y: sin(x) * cos(y) - .25, lambda x, y: cos(x) * sin(y) - .25], sol14e, '14e')
-def pairs(l): return ', '.join(r'$\res{(%d^\circ,%d^\circ)}$' % p for p in sorted(l))
-# 15 (radians, en [0, 2π))
-for x, y in ((0, 90), (90, 0)): ck(sin(x) + sin(y), 1)
-for x, y in ((90, 30), (270, 210)): ck(sin(x), 2 * sin(y)); ck(x - y, 60)
-for x, y in ((30, S3), (210, S3), (120, -S3), (300, -S3)): ck(4 * y * sin(x) * cos(x), 3); ck(2 * y * cos(2 * x), S3)
-S.append(("Sistemes d'equacions trigonomètriques", [
- (2, r"Resol els sistemes d'equacions següents en l'interval $[0^\circ,360^\circ)$:" + tasks(2, ['$%s$' % sist(r'\cos y-\sin x=1', r'4\sin x\cos y+1=0'), '$%s$' % sist(r'\cos x+\cos y=-\frac12', r'\cos x\cos y=-\frac12'),
-                                                                                                   '$%s$' % sist(r'\sin x+\sin y=\frac{\sqrt3}{2}', r'\sin^2x+\sin^2y=\frac34'), '$%s$' % sist(r'x+y=\frac{\pi}{2}', r'\sqrt3\cos x-\cos y=1'),
-                                                                                                   '$%s$' % sist(r'\sin x\cdot\cos y=\frac14', r'\cos x\cdot\sin y=\frac14')]),
-     tasks(1, [r'$\cos y=1+\sin x\Rightarrow(2\sin x+1)^2=0$: $\sin x=-\frac12$, $\cos y=\frac12$: ' + pairs([(210, 60), (210, 300), (330, 60), (330, 300)]),
-               r'$\cos x$ i $\cos y$ són les arrels de $t^2+\frac12t-\frac12=0$: $\frac12$ i $-1$: ' + pairs([(60, 180), (300, 180), (180, 60), (180, 300)]),
-               r'$\sin x\sin y=\frac{(\sin x+\sin y)^2-(\sin^2x+\sin^2y)}{2}=0$: un sinus val 0 i l’altre $\frac{\sqrt3}{2}$: ' + pairs(sol14c),
-               r'$\cos y=\sin x\Rightarrow\sqrt3\cos x-\sin x=1\Rightarrow\cos(x+30^\circ)=\frac12$: $\res{x=\frac{\pi}{6},\ y=\frac{\pi}{3}}$ (amb $x=\frac{3\pi}{2}$, $y=-\pi$ quedaria fora de l’interval)',
-               r'Sumant i restant: $\sin(x+y)=\frac12$, $\sin(x-y)=0$: ' + pairs(sol14e)])),
- (3, r"Resol els sistemes d'equacions següents, amb $x,y\in[0,2\pi)$ en els dos primers:" + tasks(3, ['$%s$' % sist(r'\sin x+\sin y=1', r'2x+2y=\pi'), '$%s$' % sist(r'\sin x=2\sin y', r'x-y=\frac{\pi}{3}'), '$%s$' % sist(r'4y\sin x\cos x=3', r'2y\cos2x=\sqrt3')]),
-     tasks(1, [r'$y=\frac\pi2-x\Rightarrow\sin x+\cos x=1$: $\res{(0,\tfrac\pi2)}$ i $\res{(\tfrac\pi2,0)}$',
-               r'$\sin\left(y+\frac\pi3\right)=2\sin y\Rightarrow\text{tg}\,y=\frac{\sqrt3}{3}$: $\res{y=\frac\pi6,\ x=\frac\pi2}$ i $\res{y=\frac{7\pi}{6},\ x=\frac{3\pi}{2}}$',
-               r'$2y\sin2x=3$ i $2y\cos2x=\sqrt3$: dividint, $\text{tg}\,2x=\sqrt3$; sumant els quadrats, $4y^2=12$. En $[0,2\pi)$: $\res{x=\frac\pi6,\frac{7\pi}{6}\ \text{amb}\ y=\sqrt3}$ i $\res{x=\frac{2\pi}{3},\frac{5\pi}{3}\ \text{amb}\ y=-\sqrt3}$'])),
-]))
-
-# =====================================================================
-# 12. Funcions trigonomètriques (Trigonometria 2, exercicis 16-19)
-FUN = {'a': ('2\\cos x', lambda x: 2 * math.cos(x), '2*cos(\\x r)'), 'b': ('\\cos2x', lambda x: math.cos(2 * x), 'cos(2*\\x r)'), 'c': ('\\frac12\\sin x', lambda x: .5 * math.sin(x), '0.5*sin(\\x r)'),
-       'd': ('\\cos\\frac x2', lambda x: math.cos(x / 2), 'cos(\\x/2 r)'), 'e': ('\\sin2x', lambda x: math.sin(2 * x), 'sin(2*\\x r)'), 'f': ('2\\sin x', lambda x: 2 * math.sin(x), '2*sin(\\x r)'),
-       'g': ('\\frac12\\cos x', lambda x: .5 * math.cos(x), '0.5*cos(\\x r)'), 'h': ('\\sin\\frac x2', lambda x: math.sin(x / 2), 'sin(\\x/2 r)')}
-ORDER = ['f', 'd', 'a', 'h', 'g', 'e', 'b', 'c']   # gràfica número i -> funció
-def gplot(i, key):
-    o = [r'\begin{tikzpicture}[x=0.36cm,y=0.42cm]',
-         r'\draw[muted!25,very thin] (-3.1416,-2.4) grid[xstep=1.5708,ystep=1] (12.566,2.4);',
-         r'\draw[-latex,muted] (-3.4,0)--(13,0); \draw[-latex,muted] (0,-2.5)--(0,2.6);',
-         r'\foreach \k/\l in {-1/-\pi,1/\pi,2/2\pi,3/3\pi,4/4\pi}{\draw[muted] (\k*3.1416,0.1)--(\k*3.1416,-0.1) node[below,font=\tiny,text=muted]{$\l$};}',
-         r'\foreach \v in {-2,-1,1,2}{\draw[muted] (0.1,\v)--(-0.1,\v) node[left,font=\tiny,text=muted]{$\v$};}',
-         r'\draw[navy,thick,domain=-3.1416:12.566,samples=180,smooth] plot (\x,{%s});' % FUN[key][2],
-         r'\node[font=\small\bfseries,fill=white,inner sep=1pt] at (-2.4,2.0) {(%d)};' % i, r'\end{tikzpicture}']
-    return '\n'.join(o)
-# cada gràfica s'ha de poder distingir: comprovem que les vuit funcions són diferents en algun punt
-for i, k1 in enumerate(ORDER):
-    for k2 in ORDER[i + 1:]: assert max(abs(FUN[k1][1](x / 10) - FUN[k2][1](x / 10)) for x in range(-31, 126)) > .3
-graphs = '\n\n\\begin{center}' + '\\\\[4pt]\n'.join(gplot(2 * j + 1, ORDER[2 * j]) + '\\hspace{0.6cm}' + gplot(2 * j + 2, ORDER[2 * j + 1]) for j in range(4)) + '\\end{center}\n'
-match = [r'%s) $y=%s$ $\to$ \res{(%d)}' % (k, FUN[k][0], ORDER.index(k) + 1) for k in 'abcdefgh']
-S.append(("Funcions trigonomètriques", [
- (1, r"Vertader o fals?" + tasks(1, ["Les funcions trigonomètriques són periòdiques.", r"Les funcions $\sin$ i $\cos$ tenen un període de $2\pi$.", r"La funció $\text{tg}\,x$ té període $\pi$.", r"La funció $\cos x$ és com $\sin x$ desplaçada $\frac{\pi}{2}$ a l'esquerra."]),
-     tasks(4, [r'\rest{V}', r'\rest{V}', r'\rest{V}', r'\rest{V} ($\cos x=\sin(x+\frac\pi2)$)'])),
- (1, r"En quins punts de l'interval $[0,4\pi]$ talla l'eix $X$ cada una de les funcions següents?" + tasks(3, [r'$y=\cos\frac x2$', r'$y=\sin(x-\pi)$', r'$y=\cos(x+\pi)$']),
-     tasks(1, [r'$\frac x2=\frac\pi2+k\pi$: $\res{x=\pi,\ 3\pi}$', r'$x-\pi=k\pi$: $\res{x=0,\ \pi,\ 2\pi,\ 3\pi,\ 4\pi}$', r'$x+\pi=\frac\pi2+k\pi$: $\res{x=\frac\pi2,\ \frac{3\pi}2,\ \frac{5\pi}2,\ \frac{7\pi}2}$'])),
- (2, r"Quina relació hi ha entre les gràfiques de $y=\sin x$ i $y=\cos x$ i la de cada una de les funcions següents?" + tasks(4, [r'$y=\sin\left(x+\frac\pi2\right)$', r'$y=\cos\left(x+\frac\pi2\right)$', r'$y=\sin\left(\frac\pi2-x\right)$', r'$y=\cos\left(\frac\pi2-x\right)$']),
-     tasks(2, [r'$=\cos x$: \rest{la gràfica del cosinus}', r'$=-\sin x$: \rest{la del sinus reflectida en l’eix $X$}', r'$=\cos x$: \rest{la gràfica del cosinus}', r'$=\sin x$: \rest{la gràfica del sinus}'])),
- (2, r"Associa a cada una de les funcions següents la gràfica que li correspon:" + tasks(4, [r'$y=%s$' % FUN[k][0] for k in 'abcdefgh']) + graphs,
-     tasks(4, match) + r'Fixa’t en l’amplitud (el valor màxim) i en el període: $2\pi$, $\pi$ (si hi ha $2x$) o $4\pi$ (si hi ha $\frac x2$).'),
-]))
-for x in (0.3, 1.7, 4): ck(math.sin(x + PI / 2), math.cos(x)); ck(math.cos(x + PI / 2), -math.sin(x)); ck(math.sin(PI / 2 - x), math.cos(x)); ck(math.cos(PI / 2 - x), math.sin(x))
-
-# =====================================================================
-# 13. Ampliació (exercicis nous)
-l61, A61 = 12 * 5 * PI / 6, .5 * 144 * 5 * PI / 6
-ck(math.sqrt(3) / 2 * S2 / 2 + S3 / 3, sin(120) * cos(315) + tan(210))
-B64 = asin(8 * sin(40) / 6); sols64 = []
-for Bx in (B64, 180 - B64):
-    Cx = 180 - 40 - Bx; sols64.append((Bx, Cx, 6 * sin(Cx) / sin(40)))
-A65, B65, C65 = SSS(13, 14, 15); ck(.5 * 14 * 15 * sin(A65), 84)
-d66 = math.sqrt(27 ** 2 + 36 ** 2 - 2 * 27 * 36 * cos(70))
-x67 = 20 * tan(22) / (tan(35) - tan(22)); h67 = x67 * tan(35)
-side68, area68 = 20 * sin(36), 5 * .5 * 100 * sin(72)
-# 69: tg α = 2 (3r quadrant), cos β = -3/5 (2n quadrant)
-sa69, ca69, sb69, cb69 = -2 / S5, -1 / S5, 4 / 5, -3 / 5
-a69 = 180 + atan(2); b69 = 180 - acos(3 / 5)
-ck(sin(a69), sa69); ck(cos(a69), ca69); ck(sin(b69), sb69); ck(cos(b69), cb69)
-ck(sin(a69 + b69), 2 * S5 / 25); ck(cos(a69 - b69), -S5 / 5); ck(tan(a69 + b69), 2 / 11); ck(sin(2 * a69), .8)
-S.append(("Ampliació i problemes (exercicis nous)", [
- (1, r"La busca dels minuts d'un rellotge fa 12 cm. Quina distància recorre la punta en 25 minuts? Quina àrea escombra la busca? (L'àrea d'un sector circular d'angle $\alpha$ radians és $\frac12r^2\alpha$.)",
-     r'25 min $=150^\circ=\frac{5\pi}{6}$ rad: $l=12\cdot\frac{5\pi}{6}=\res{10\pi\approx%s\ \text{cm}}$; \ $S=\frac12\cdot144\cdot\frac{5\pi}{6}=\res{60\pi\approx%s\ \text{cm}^2}$' % (dec(l61), dec(A61))),
- (1, r"Calcula de manera exacta, sense calculadora: \ $\sin120^\circ\cdot\cos315^\circ+\text{tg}\,210^\circ$ \ i \ $\dfrac{\cos\frac{5\pi}{3}-\sin\frac{7\pi}{6}}{\text{tg}\,\frac{3\pi}{4}}$.",
-     r'$\frac{\sqrt3}{2}\cdot\frac{\sqrt2}{2}+\frac{\sqrt3}{3}=\res{\frac{\sqrt6}{4}+\frac{\sqrt3}{3}}$; \quad $\dfrac{\frac12+\frac12}{-1}=\res{-1}$'),
- (2, r"Simplifica les expressions: \ $\sin(\pi-x)+\cos\left(\frac\pi2+x\right)+\sin(-x)$ \ i \ $\dfrac{\cos(\pi+x)\cdot\text{tg}\,(\pi-x)}{\sin(2\pi-x)}$.",
-     r'$\sin x-\sin x-\sin x=\res{-\sin x}$; \quad $\dfrac{(-\cos x)(-\text{tg}\,x)}{-\sin x}=\dfrac{\sin x}{-\sin x}=\res{-1}$'),
- (2, r"Resol el triangle amb $a=6$ cm, $b=8$ cm i $\hat A=40^\circ$. Quantes solucions hi ha?",
-     r'$\sin\hat B=\frac{8\sin40^\circ}{6}\approx%s$: \rest{dues solucions}. \ $\hat B_1\approx\res{%s}$, $\hat C_1\approx%s$, $c_1\approx\res{%s}$ cm; \ $\hat B_2\approx\res{%s}$, $\hat C_2\approx%s$, $c_2\approx\res{%s}$ cm.' % (
-         dec(8 * sin(40) / 6, 4), dms(sols64[0][0]), dms(sols64[0][1]), dec(sols64[0][2]), dms(sols64[1][0]), dms(sols64[1][1]), dec(sols64[1][2]))),
- (2, r"Un triangle té costats de 13, 14 i 15 cm. Calcula'n els angles i l'àrea de dues maneres: amb $S=\frac12bc\sin\hat A$ i amb la fórmula d'Heró.",
-     r'$\hat A\approx\res{%s}$, $\hat B\approx\res{%s}$, $\hat C\approx\res{%s}$. \ $p=21$, $S=\sqrt{21\cdot8\cdot7\cdot6}=\res{84\ \text{cm}^2}$' % (dms(A65), dms(B65), dms(C65))),
- (2, r"Dos vaixells ixen alhora d'un port amb rumbs que formen un angle de $70^\circ$, a 18 km/h i a 24 km/h. A quina distància estan al cap d'una hora i mitja?",
-     r'Han recorregut 27 i 36 km: $d=\sqrt{27^2+36^2-2\cdot27\cdot36\cos70^\circ}\approx\res{%s\ \text{km}}$' % dec(d66)),
- (2, r"Des de la vora d'un riu veiem la copa d'un arbre de l'altra vora amb un angle d'elevació de $35^\circ$. Si ens allunyem 20 m del riu, perpendicularment a la vora, l'angle és de $22^\circ$. Calcula l'altura de l'arbre i l'amplària del riu.",
-     r'$h=x\,\text{tg}\,35^\circ=(x+20)\,\text{tg}\,22^\circ\Rightarrow$ amplària $x\approx\res{%s\ \text{m}}$, altura $h\approx\res{%s\ \text{m}}$' % (dec(x67), dec(h67))),
- (2, r"Calcula el costat i l'àrea d'un pentàgon regular inscrit en una circumferència de 10 cm de radi.",
-     r'Cada triangle central té un angle de $72^\circ$: costat $=2\cdot10\sin36^\circ\approx\res{%s\ \text{cm}}$; àrea $=5\cdot\frac12\cdot10^2\sin72^\circ\approx\res{%s\ \text{cm}^2}$' % (dec(side68), dec(area68))),
- (3, r"Si $\text{tg}\,\alpha=2$ amb $180^\circ<\alpha<270^\circ$ i $\cos\beta=-\frac35$ amb $90^\circ<\beta<180^\circ$, calcula de manera exacta $\sin(\alpha+\beta)$, $\cos(\alpha-\beta)$, $\text{tg}\,(\alpha+\beta)$ i $\sin2\alpha$.",
-     r'$\sin\alpha=-\frac{2\sqrt5}{5}$, $\cos\alpha=-\frac{\sqrt5}{5}$, $\sin\beta=\frac45$, $\text{tg}\,\beta=-\frac43$. \ $\sin(\alpha+\beta)=\res{\frac{2\sqrt5}{25}}$, $\cos(\alpha-\beta)=\res{-\frac{\sqrt5}{5}}$, $\text{tg}\,(\alpha+\beta)=\res{\frac{2}{11}}$, $\sin2\alpha=\res{\frac45}$'),
- (2, r"Demostra que $\cos^4\alpha-\sin^4\alpha=\cos2\alpha$ i que $\dfrac{1-\cos2\alpha}{\sin2\alpha}=\text{tg}\,\alpha$.",
-     r'$(\cos^2\alpha+\sin^2\alpha)(\cos^2\alpha-\sin^2\alpha)=1\cdot\cos2\alpha$; \quad $\dfrac{2\sin^2\alpha}{2\sin\alpha\cos\alpha}=\text{tg}\,\alpha$'),
- (2, r"Resol en $[0^\circ,360^\circ)$: \ $2\sin^2x+3\cos x=3$.", r'$2\cos^2x-3\cos x+1=0\Rightarrow\cos x=1$ o $\frac12$: $\res{0^\circ,\ 60^\circ,\ 300^\circ}$'),
- (2, r"Resol en $[0^\circ,360^\circ)$: \ $\sin2x=\cos x$.", r'$\cos x(2\sin x-1)=0$: $\res{30^\circ,\ 90^\circ,\ 150^\circ,\ 270^\circ}$'),
- (2, r"Per a la funció $y=2\sin\left(2x-\frac\pi2\right)+1$, indica l'amplitud, el període, el recorregut i el desplaçament respecte de $y=2\sin2x+1$. En quins punts de $[0,\pi]$ arriba al màxim?",
-     r'Amplitud $\res{2}$, període $\res{\pi}$, recorregut $\res{[-1,3]}$, desplaçada $\res{\frac\pi4}$ cap a la dreta. Màxim ($y=3$) quan $2x-\frac\pi2=\frac\pi2$: $\res{x=\frac\pi2}$'),
-]))
-ckeq(lambda x: 2 * sin(x) ** 2 + 3 * cos(x) - 3, [0, 60, 300]); ckeq(lambda x: sin(2 * x) - cos(x), [30, 90, 150, 270])
-for a in (20, 110, 250): ck(cos(a) ** 4 - sin(a) ** 4, cos(2 * a)); ck((1 - cos(2 * a)) / sin(2 * a), tan(a))
-for x in (.3, 2): ck(math.sin(PI - x) + math.cos(PI / 2 + x) + math.sin(-x), -math.sin(x)); ck(math.cos(PI + x) * math.tan(PI - x) / math.sin(2 * PI - x), -1)
-ck((math.cos(5 * PI / 3) - math.sin(7 * PI / 6)) / math.tan(3 * PI / 4), -1)
-ck(max(2 * math.sin(2 * x / 1000 - PI / 2) + 1 for x in range(0, 3142)), 3, 1e-6); ck(2 * math.sin(2 * PI / 2 - PI / 2) + 1, 3)
-
-assert all(CHK)
 
 # =====================================================================
 pre = open(os.path.join(HERE, 'preamble.tex'), encoding='utf-8').read()
 pre = pre.split('% ---------- recta real ----------')[0]
-KW = "pdfkeywords={trigonometria, radians, raons trigonomètriques, circumferència goniomètrica, resolució de triangles, teorema del sinus, teorema del cosinus, fórmules trigonomètriques, equacions trigonomètriques, funcions trigonomètriques}"
+KW = "pdfkeywords={sistemes d'equacions, Gauss, sistemes no lineals, inequacions, sistemes d'inequacions, regions del pla}"
 pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda mm: KW, pre)
 pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques I}')
 pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
 pre = pre.replace(r'{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }', r'{\color{navy}\bfseries\theexer.}\ \ }')
 assert 'estrelles{#1}}' not in pre
 pre = pre.replace(r'\stepcounter{exer}', r'\refstepcounter{exer}')
+pre = pre.replace(r'\usepackage{tikz}', '\\usepackage{tikz}\n\\usetikzlibrary{calc}')
 pre += r'\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }' + '\n'
 pre = pre.replace(r'\needspace{10\baselineskip}\bigskip', r'\needspace{16\baselineskip}\bigskip')
 assert '16\\baselineskip' in pre
-pre += r'''\usetikzlibrary{calc}
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+pre += r'\providecommand{\lt}{<}\providecommand{\gt}{>}' + '\n'
+pre += r'''\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 % quadre de recordatori (només a la fitxa d'exercicis)
 \newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
 '''
 
-TIT = "Trigonometria"
+TIT = "Sistemes d'equacions i inequacions"
+def spc(t):
+    # «, » separa elements; amb icomma la coma és un símbol normal i un «-» darrere seu seria una resta: el posem entre claus
+    return re.sub(r'\$[^$]*\$', lambda mm: re.sub(r',((?:\\,|\\ |\\;|\s)+)-', r',\1{-}', mm.group(0).replace(', ', r',\, ')), t)
 def build(sol):
     t = 'Solucions de la fitxa' if sol else "Fitxa d'exercicis"
     p = pre.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
                     "pdftitle={%s de la unitat 3: %s. 1r de Batxillerat MI}" % (t, TIT))
     p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat 3: %s · 1r Batxillerat MI" % (t, TIT))
-    assert 'Trigonometria · 1r' in p and 'unitat 3: Trigonometria' in p
+    assert 'Unitat 3' in p and 'unitat 3' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
     out.append(r'''
 \def\fmneed{11}% que el títol d'una secció no quede sol al final del full
@@ -630,14 +432,14 @@ def build(sol):
     out.append(r'''\vspace{8pt}
 
 \begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
-\small ''' + (r"Intenta resoldre cada exercici abans de mirar-ne la solució. Els resultats es donen de manera exacta quan és possible i, si no, amb dos decimals; els angles, en graus, minuts i segons. Pots comprovar els triangles, les raons i les equacions amb els ginys dels apunts interactius de la unitat."
-             if sol else r"Resol els exercicis al quadern mostrant tots els passos i fes un dibuix sempre que t'ajude. Comprova el mode de la calculadora (graus o radians) i, en les equacions, comprova sempre les solucions. Els exercicis 1--41 són els de la fitxa «Trigonometria 1» del departament i els 42--60, els de «Trigonometria 2», en el mateix ordre; la secció 13 en té de nous per a ampliar i aplicar el que has aprés.") + r'''
+\small ''' + (r"Intenta resoldre cada exercici abans de mirar-ne la solució. Els resultats es donen de manera exacta (fraccions i arrels) i, quan cal, amb el valor aproximat. Pots comprovar Gauss, els sistemes no lineals i les regions amb les eines interactives dels apunts de la unitat."
+             if sol else r"Resol els exercicis al quadern mostrant tots els passos. Dona els resultats de manera exacta i, si cal, també aproximats. En els sistemes amb denominadors, radicals o logaritmes, comprova sempre les solucions. Els exercicis 1--28 són de la fitxa del departament; la secció 6 en té de nous per a ampliar i aplicar el que has aprés.") + r'''
 \end{tcolorbox}
 ''')
     for i, (title, exs) in enumerate(S, 1):
         out.append('\n%% =====================================================\n\\seccio{%d}{%s}\n\n' % (i, title))
         for j, (st_, q, s) in enumerate(exs):
-            out.append('\\%s{%d} %s\n\n' % ('exf' if j == 0 else 'ex', st_, s if sol else q))
+            out.append('\\%s{%d} %s\n\n' % ('exf' if j == 0 else 'ex', st_, spc(s if sol else q)))
     if not sol:
         out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\\end{center}\n')
     out.append('\n\\end{document}\n')
