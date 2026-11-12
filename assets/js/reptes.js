@@ -17,7 +17,6 @@ window.CHALLENGES = [
     date: "2026-11-02",
     level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
     title: { va: "El secret del full A4", es: "El secreto del folio A4", en: "The secret of A4 paper" },
-    hideSolution: true,
     statement: {
       va: "Si doblegues un full DIN A4 per la meitat, obtens un A5 que té exactament la mateixa forma: els costats dels dos fulls són proporcionals. a) Quina és la raó entre el costat llarg i el curt d'un full DIN? b) Un full A0 té una àrea d'1 m², i en doblegar-lo per la meitat successivament s'obtenen l'A1, l'A2, l'A3 i l'A4. Quant mesuren els costats d'un A4? Expressa'ls primer amb radicals o potències i després en mil·límetres.",
       es: "Si doblas un folio DIN A4 por la mitad, obtienes un A5 que tiene exactamente la misma forma: los lados de las dos hojas son proporcionales. a) ¿Cuál es la razón entre el lado largo y el corto de una hoja DIN? b) Una hoja A0 tiene un área de 1 m², y al doblarla por la mitad sucesivamente se obtienen el A1, el A2, el A3 y el A4. ¿Cuánto miden los lados de un A4? Exprésalos primero con radicales o potencias y después en milímetros.",
