@@ -321,9 +321,9 @@ window.LEVELS = {
     cards: true,
     name: { va: "1r Batxillerat MI", es: "1º Bachillerato MI", en: "1st Baccalaureate Maths I" },
     desc: {
-      va: "Nombres reals i complexos, trigonometria, vectors, geometria analítica i anàlisi.",
-      es: "Números reales y complejos, trigonometría, vectores, geometría analítica y análisis.",
-      en: "Real and complex numbers, trigonometry, vectors, coordinate geometry and calculus."
+      va: "Nombres reals, àlgebra, geometria analítica, trigonometria, anàlisi i estadística.",
+      es: "Números reales, álgebra, geometría analítica, trigonometría, análisis y estadística.",
+      en: "Real numbers, algebra, coordinate geometry, trigonometry, calculus and statistics."
     },
     units: [
       {
@@ -415,6 +415,16 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t9-derivades.html", date: "2026-11-13" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 31 exercicis, de la TVM a la representació gràfica i l'optimització", es: "PDF · 31 ejercicios, de la TVM a la representación gráfica y la optimización", en: "PDF · 31 exercises, from average rate of change to graphing and optimisation" }, url: "materials/1batx-mi/t9-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 31 exercicis", es: "PDF · Soluciones de los 31 ejercicios", en: "PDF · Solutions to all 31 exercises" }, url: "materials/1batx-mi/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+        ]
+      },
+      {
+        num: "10",
+        ill: "estadistica", block: "pr",
+        title: { va: "Estadística", es: "Estadística", en: "Statistics" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t10-estadistica.html", date: "2026-11-13" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 29 exercicis, de les taules de freqüències a la correlació lineal", es: "PDF · 29 ejercicios, de las tablas de frecuencias a la correlación lineal", en: "PDF · 29 exercises, from frequency tables to linear correlation" }, url: "materials/1batx-mi/t10-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 29 exercicis", es: "PDF · Soluciones de los 29 ejercicios", en: "PDF · Solutions to all 29 exercises" }, url: "materials/1batx-mi/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
       }
     ]

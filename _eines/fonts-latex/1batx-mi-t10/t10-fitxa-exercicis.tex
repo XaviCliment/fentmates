@@ -1,0 +1,212 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 10: Estadística. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={estadística, freqüències, mitjana, mediana, quartils, variància, desviació típica, coeficient de variació, variable bidimensional, taula de doble entrada, núvol de punts, covariància, correlació lineal}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 10: Estadística · 1r Batxillerat MI}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+\providecommand{\gt}{>}\providecommand{\lt}{<}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{1batx-mi}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques I}{1r Batx}{Fitxa d'exercicis · Unitat 10}{\raggedright Estadística}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resol els exercicis al quadern mostrant tots els passos: per a les variables bidimensionals, fes sempre la taula amb les columnes $x_i$, $y_i$, $x_i^2$, $y_i^2$ i $x_iy_i$. Arredoneix els resultats a dues o tres xifres decimals. Pots comprovar-los amb les calculadores dels apunts interactius.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Estadística unidimensional: variables i taules}
+
+\exf{1} Classifica les variables estadístiques següents en qualitatives, quantitatives discretes o quantitatives contínues:\begin{tasks}(2)
+  \task El grup sanguini.
+  \task El nombre de llibres llegits en un any.
+  \task La temperatura a migdia.
+  \task El temps setmanal dedicat a l'esport.
+  \task La marca del mòbil.
+  \task El nombre de gols en un partit.
+\end{tasks}
+
+\ex{1} Les notes d'un examen de 25 alumnes han sigut: \ $5$, $7$, $6$, $4$, $8$, $6$, $5$, $7$, $6$, $9$, $3$, $6$, $7$, $5$, $6$, $8$, $4$, $7$, $6$, $5$, $6$, $8$, $7$, $6$, $5$. \ Fes la taula de freqüències absolutes, relatives i acumulades. Quin percentatge d'alumnes ha aprovat (nota 5 o més)?\recorda{$h_i=\frac{f_i}{N}$; \ les freqüències acumulades $F_i$ i $H_i$ sumen les dels valors menors o iguals que $x_i$.}
+
+
+% =====================================================
+\seccio{2}{Paràmetres de centralització i de posició}
+
+\exf{1} Calcula la mitjana, la mediana, la moda i els quartils:\begin{tasks}(1)
+  \task $2,\ 4,\ 4,\ 5,\ 6,\ 7,\ 7,\ 7,\ 9$
+  \task $12,\ 15,\ 15,\ 18,\ 20,\ 21,\ 25,\ 30$
+\end{tasks}\recorda{$\bar x=\frac{\sum x_if_i}{N}$. La mediana deixa la meitat de les dades per davall; $Q_1$, el 25\,\% i $Q_3$, el 75\,\%. Si $\frac N2$ cau just entre dues dades diferents, la mediana és la mitjana de totes dues.}
+
+\ex{1} Amb la taula de l'exercici 2, calcula la nota mitjana, la mediana, la moda i els quartils.
+
+\ex{2} La mitjana de 4 notes d'una alumna és 6,5. Quina nota ha de traure en el cinqué examen perquè la mitjana siga 7?
+
+
+% =====================================================
+\seccio{3}{Paràmetres de dispersió}
+
+\exf{1} Dos grups han tret aquestes notes. Calcula la mitjana, el rang, la variància i la desviació típica de cada grup. Què observes?\begin{tasks}(1)
+  \task Grup A: $6,\ 7,\ 7,\ 8,\ 8,\ 8,\ 9,\ 9,\ 10$
+  \task Grup B: $2,\ 4,\ 6,\ 8,\ 8,\ 8,\ 10,\ 12,\ 14$
+\end{tasks}\recorda{$\sigma^2=\frac{\sum x_i^2f_i}{N}-\bar x^2$, \ $\sigma=\sqrt{\sigma^2}$, \ $CV=\frac{\sigma}{\bar x}$.}
+
+\ex{2} Els minuts que 40 alumnes dediquen a llegir cada dia es recullen en aquesta taula. Calcula la mitjana, la desviació típica i el coeficient de variació.\par\smallskip{\centering\small$\begin{array}{|c|ccccc|}\hline\text{Minuts}&[0,10)&[10,20)&[20,30)&[30,40)&[40,50)\\\hline f_i&6&10&15&7&2\\\hline\end{array}$\par}
+
+\ex{2} Dos atletes han fet aquests temps (s) en cinc curses de 100 m. Calcula la mitjana i la desviació típica de cadascun. Quin és més ràpid de mitjana? Quin és més regular?\begin{tasks}(1)
+  \task A: $12{,}1,\ 12{,}3,\ 12,\ 12{,}4,\ 12{,}2$
+  \task B: $11{,}8,\ 12{,}6,\ 12,\ 12{,}9,\ 11{,}7$
+\end{tasks}
+
+\ex{2} Les altures d'un grup tenen $\bar x=165$ cm i $\sigma=8$ cm, i els pesos d'un altre grup, $\bar x=32$ kg i $\sigma=4$ kg. Quin dels dos és relativament més dispers? Per què no es poden comparar directament les desviacions típiques?
+
+
+% =====================================================
+\seccio{4}{Variables bidimensionals. Taules de doble entrada}
+
+\exf{1} S'ha preguntat a 25 famílies el nombre de fills ($X$) i el nombre de cotxes ($Y$) que tenen:\par\smallskip{\centering {\small$\begin{array}{|c|c|c|c|}\hline X\backslash Y & 0 & 1 & 2\\\hline 1 & 4 & 2 & 0\\ 2 & 3 & 6 & 3\\ 3 & 0 & 3 & 4\\\hline \end{array}$}\par}\smallskip\begin{tasks}(1)
+  \task Afegeix les distribucions marginals a la taula.
+  \task Quantes famílies tenen 2 fills i 1 cotxe? Quantes tenen més d'un cotxe?
+  \task Calcula les mitjanes marginals $\bar x$ i $\bar y$.
+\end{tasks}\recorda{En una taula de doble entrada, les sumes de les files donen la distribució marginal de $X$ i les de les columnes, la de $Y$. La suma de totes les caselles és $N$.}
+
+\ex{2} Les notes de Matemàtiques ($X$) i de Física ($Y$) de 12 alumnes, en una escala d'1 a 3 (1 = insuficient, 2 = aprovat, 3 = notable o més), han sigut: \ $(2,1)$, $(3,2)$, $(2,2)$, $(1,1)$, $(3,3)$, $(2,1)$, $(1,1)$, $(2,2)$, $(3,2)$, $(2,2)$, $(1,2)$, $(3,3)$. \ Construeix la taula de doble entrada i calcula les mitjanes marginals.
+
+
+% =====================================================
+\seccio{5}{Núvol de punts}
+
+\exf{1} Un cotxe gasta gasolina i anotem el combustible que queda al dipòsit ($Y$, en litres) al final de cada hora de viatge ($X$): \par\smallskip{\centering {\small$\begin{array}{|c|cccccccc|}\hline x_i & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\\hline y_i & 62 & 60 & 55 & 53 & 50 & 46 & 44 & 40\\\hline\end{array}$}\par}\smallskip Representa el núvol de punts i el centre de gravetat. Quin tipus de correlació s'hi observa?\recorda{Cada parell $(x_i,y_i)$ és un punt. El centre de gravetat és $(\bar x,\bar y)$.}
+
+\ex{1} Associa cada núvol amb un d'aquests coeficients de correlació: \ $r=0$, \ $r=0{,}9$, \ $r=-0{,}5$, \ $r=-0{,}95$.\begin{tasks}(4)
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (6.968,7.394) circle (0.16);\fill[accent] (7.235,7.358) circle (0.16);\fill[accent] (4.95,4.95) circle (0.16);\fill[accent] (3.577,2.806) circle (0.16);\fill[accent] (3.036,3.567) circle (0.16);\fill[accent] (4.892,4.859) circle (0.16);\fill[accent] (3.152,3.886) circle (0.16);\fill[accent] (2.467,2.897) circle (0.16);\fill[accent] (5.169,5.907) circle (0.16);\fill[accent] (5.061,4.9) circle (0.16);\fill[accent] (5.743,5.687) circle (0.16);\fill[accent] (3.33,3.996) circle (0.16);\fill[accent] (4.848,3.889) circle (0.16);\fill[accent] (4.733,4.34) circle (0.16);\fill[accent] (2.353,2.225) circle (0.16);\fill[accent] (5.729,7.1) circle (0.16);\fill[accent] (5.37,5.132) circle (0.16);\fill[accent] (8.787,8.651) circle (0.16);\fill[accent] (5.175,5.536) circle (0.16);\fill[accent] (4.601,4.324) circle (0.16);\fill[accent] (6.877,5.252) circle (0.16);\fill[accent] (5.169,5.807) circle (0.16);\fill[accent] (6.342,5.711) circle (0.16);\fill[accent] (4.236,4.812) circle (0.16);\fill[accent] (5.201,4.015) circle (0.16);\end{tikzpicture}
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (8.913,1.832) circle (0.16);\fill[accent] (4.499,5.153) circle (0.16);\fill[accent] (6.055,4.023) circle (0.16);\fill[accent] (5.69,4.471) circle (0.16);\fill[accent] (6.702,3.546) circle (0.16);\fill[accent] (3.412,6.621) circle (0.16);\fill[accent] (4.864,5.466) circle (0.16);\fill[accent] (4.369,4.369) circle (0.16);\fill[accent] (3.894,6.15) circle (0.16);\fill[accent] (4.233,5.793) circle (0.16);\fill[accent] (4.72,5.205) circle (0.16);\fill[accent] (5.052,5.634) circle (0.16);\fill[accent] (4.141,5.569) circle (0.16);\fill[accent] (6.095,3.981) circle (0.16);\fill[accent] (4.669,4.638) circle (0.16);\fill[accent] (0.771,9.384) circle (0.16);\fill[accent] (7.225,2.267) circle (0.16);\fill[accent] (4.898,4.589) circle (0.16);\fill[accent] (4.381,6.62) circle (0.16);\fill[accent] (5.869,4.509) circle (0.16);\fill[accent] (5.812,4.288) circle (0.16);\fill[accent] (5.552,4.616) circle (0.16);\fill[accent] (4.217,5.309) circle (0.16);\fill[accent] (5.756,3.938) circle (0.16);\fill[accent] (3.213,7.027) circle (0.16);\end{tikzpicture}
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (5.371,5.94) circle (0.16);\fill[accent] (7.362,6.727) circle (0.16);\fill[accent] (3.602,4.307) circle (0.16);\fill[accent] (6.918,5.012) circle (0.16);\fill[accent] (4.761,2.585) circle (0.16);\fill[accent] (4.757,4.83) circle (0.16);\fill[accent] (8.482,2.363) circle (0.16);\fill[accent] (5.479,3.479) circle (0.16);\fill[accent] (5.134,7.219) circle (0.16);\fill[accent] (6.465,2.33) circle (0.16);\fill[accent] (7.15,6.795) circle (0.16);\fill[accent] (5.154,6.07) circle (0.16);\fill[accent] (6.221,5.133) circle (0.16);\fill[accent] (3.529,6.245) circle (0.16);\fill[accent] (4.575,6.359) circle (0.16);\fill[accent] (4.452,7.127) circle (0.16);\fill[accent] (2.911,5.213) circle (0.16);\fill[accent] (2.608,4.671) circle (0.16);\fill[accent] (2.404,4.65) circle (0.16);\fill[accent] (4.796,4.114) circle (0.16);\fill[accent] (4.91,5.513) circle (0.16);\fill[accent] (4.655,4.41) circle (0.16);\fill[accent] (5.327,7.173) circle (0.16);\fill[accent] (2.906,2.778) circle (0.16);\fill[accent] (5.071,3.958) circle (0.16);\end{tikzpicture}
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (4.938,4.719) circle (0.16);\fill[accent] (5.633,3.133) circle (0.16);\fill[accent] (4.115,3.9) circle (0.16);\fill[accent] (5.449,4.061) circle (0.16);\fill[accent] (6.39,4.807) circle (0.16);\fill[accent] (5.546,4.358) circle (0.16);\fill[accent] (7.433,4.713) circle (0.16);\fill[accent] (3.42,8.505) circle (0.16);\fill[accent] (4.982,3.89) circle (0.16);\fill[accent] (3.715,4.178) circle (0.16);\fill[accent] (3.586,5.108) circle (0.16);\fill[accent] (4.57,7.04) circle (0.16);\fill[accent] (5.234,3.982) circle (0.16);\fill[accent] (5.558,7.351) circle (0.16);\fill[accent] (5.704,2.901) circle (0.16);\fill[accent] (8.534,2.675) circle (0.16);\fill[accent] (6.286,4.782) circle (0.16);\fill[accent] (2.256,4.433) circle (0.16);\fill[accent] (5.206,4.13) circle (0.16);\fill[accent] (3.849,6.173) circle (0.16);\fill[accent] (4.025,6.571) circle (0.16);\fill[accent] (7.013,4.881) circle (0.16);\fill[accent] (4.505,4.849) circle (0.16);\fill[accent] (1.671,8.127) circle (0.16);\fill[accent] (5.38,5.732) circle (0.16);\end{tikzpicture}
+\end{tasks}
+
+\ex{1} Indica, per a cada parell de variables, si esperes una correlació positiva, negativa o cap correlació:\begin{tasks}(1)
+  \task L'altura i el pes de 30 adolescents.
+  \task El preu d'una entrada de cinema i el nombre d'espectadors.
+  \task La nota d'anglés i el número de sabata.
+  \task Els quilòmetres recorreguts i la gasolina gastada.
+  \task La temperatura exterior i el consum de calefacció.
+  \task El mes de naixement i el nombre de germans.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Variàncies i covariància}
+
+\exf{2} Per a la variable bidimensional següent, fes la taula de càlculs i troba les mitjanes, les variàncies, les desviacions típiques i la covariància:\par\smallskip{\centering {\small$\begin{array}{|c|ccccc|}\hline x_i & 2 & 4 & 5 & 6 & 8\\\hline y_i & 3 & 5 & 4 & 7 & 9\\\hline\end{array}$}\par}\recorda{$\sigma_x^2=\frac{\sum x_i^2}{N}-\bar x^2$, \ $\sigma_y^2=\frac{\sum y_i^2}{N}-\bar y^2$, \ $\sigma_{xy}=\frac{\sum x_iy_i}{N}-\bar x\,\bar y$.}
+
+\ex{2} Calcula la covariància de les dades següents i interpreta'n el signe:\par\smallskip{\centering {\small$\begin{array}{|c|ccccc|}\hline x_i & 10 & 20 & 30 & 40 & 50\\\hline y_i & 9 & 8 & 6 & 5 & 2\\\hline\end{array}$}\par}
+
+\ex{2} Calcula la covariància de les notes de Matemàtiques i de Física de la secció 4 (la taula de doble entrada de 12 alumnes).
+
+\ex{2} Calcula la covariància de la variable bidimensional de l'exercici sobre fills i cotxes (secció 4).
+
+
+% =====================================================
+\seccio{7}{Correlació lineal}
+
+\exf{2} Calcula el coeficient de correlació de les dades dels exercicis de la secció 6 i interpreta'l.\begin{tasks}(1)
+  \task Les dades del primer exercici de la secció 6.
+  \task Les dades del segon exercici de la secció 6.
+  \task Fills i cotxes (secció 4).
+\end{tasks}\recorda{$r=\dfrac{\sigma_{xy}}{\sigma_x\,\sigma_y}$, \ $-1\leq r\leq 1$. El signe dona el sentit de la relació i $|r|$, la força: prop d'1, forta; prop de 0, no hi ha correlació lineal.}
+
+\ex{2} L'altura (cm) i el pes (kg) de 7 persones han sigut:\par\smallskip{\centering {\small$\begin{array}{|c|ccccccc|}\hline x_i\ (\text{cm}) & 150 & 155 & 160 & 165 & 170 & 175 & 180\\\hline y_i\ (\text{kg}) & 48 & 52 & 55 & 61 & 63 & 70 & 72\\\hline\end{array}$}\par}\smallskip Representa el núvol de punts, calcula el coeficient de correlació i interpreta'l.
+
+\ex{2} Les hores setmanals de videojocs ($X$) i la nota d'un examen ($Y$) de 6 alumnes han sigut:\par\smallskip{\centering {\small$\begin{array}{|c|cccccc|}\hline x_i & 0 & 1 & 2 & 3 & 4 & 5\\\hline y_i & 10 & 8 & 9 & 6 & 4 & 3\\\hline\end{array}$}\par}\smallskip Calcula el coeficient de correlació. Podem afirmar que jugar a videojocs fa baixar la nota?
+
+\ex{2} Una gelateria anota la temperatura màxima ($X$, en °C) i els gelats venuts ($Y$) durant sis dies:\par\smallskip{\centering {\small$\begin{array}{|c|cccccc|}\hline x_i & 18 & 21 & 24 & 27 & 30 & 33\\\hline y_i & 35 & 52 & 58 & 75 & 84 & 102\\\hline\end{array}$}\par}\smallskip Calcula el coeficient de correlació i interpreta'l.
+
+\ex{2} Calcula el coeficient de correlació entre les notes de Matemàtiques i de Física de la secció 4.
+
+\ex{1} Si el coeficient de correlació entre dues variables és $r=0{,}8$ i les desviacions típiques són $\sigma_x=2$ i $\sigma_y=5$, quant val la covariància?
+
+\ex{1} Si $\sigma_{xy}=-12$, $\sigma_x=4$ i $\sigma_y=5$, quant val $r$? I si $\sigma_{xy}=3$, $\sigma_x=2$ i $\sigma_y=1$? És possible?
+
+\ex{3} Una variable bidimensional té $N=10$, $\sum x_i=50$, $\sum y_i=80$, $\sum x_i^2=290$, $\sum y_i^2=730$ i $\sum x_iy_i=440$. Calcula $r$.
+
+
+% =====================================================
+\seccio{8}{Altres tipus de relació. Correlació i causalitat}
+
+\exf{2} Observa aquests núvols de punts. Descriu la relació que hi ha entre les variables i digues si el coeficient de correlació lineal serà pròxim a 0 o no.\begin{tasks}(3)
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (0.3,1.416) circle (0.16);\fill[accent] (0.7,2.819) circle (0.16);\fill[accent] (1.1,4.031) circle (0.16);\fill[accent] (1.5,5.243) circle (0.16);\fill[accent] (1.9,5.924) circle (0.16);\fill[accent] (2.3,6.955) circle (0.16);\fill[accent] (2.7,6.583) circle (0.16);\fill[accent] (3.1,7.695) circle (0.16);\fill[accent] (3.5,8.745) circle (0.16);\fill[accent] (3.9,8.755) circle (0.16);\fill[accent] (4.3,9.31) circle (0.16);\fill[accent] (4.7,8.504) circle (0.16);\fill[accent] (5.1,8.959) circle (0.16);\fill[accent] (5.5,8.608) circle (0.16);\fill[accent] (5.9,8.769) circle (0.16);\fill[accent] (6.3,8.497) circle (0.16);\fill[accent] (6.7,7.404) circle (0.16);\fill[accent] (7.1,7.117) circle (0.16);\fill[accent] (7.5,6.548) circle (0.16);\fill[accent] (7.9,6.556) circle (0.16);\fill[accent] (8.3,5.507) circle (0.16);\fill[accent] (8.7,3.8) circle (0.16);\fill[accent] (9.1,3.473) circle (0.16);\fill[accent] (9.5,1.479) circle (0.16);\end{tikzpicture}
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (0.3,0.229) circle (0.16);\fill[accent] (0.7,0.015) circle (0.16);\fill[accent] (1.5,0.467) circle (0.16);\fill[accent] (1.9,0.188) circle (0.16);\fill[accent] (2.3,0.252) circle (0.16);\fill[accent] (2.7,0.707) circle (0.16);\fill[accent] (3.1,0.738) circle (0.16);\fill[accent] (3.5,0.547) circle (0.16);\fill[accent] (3.9,1.002) circle (0.16);\fill[accent] (4.3,0.933) circle (0.16);\fill[accent] (4.7,1.169) circle (0.16);\fill[accent] (5.1,1.13) circle (0.16);\fill[accent] (5.5,1.732) circle (0.16);\fill[accent] (5.9,1.883) circle (0.16);\fill[accent] (6.3,2.348) circle (0.16);\fill[accent] (6.7,2.698) circle (0.16);\fill[accent] (7.1,2.858) circle (0.16);\fill[accent] (7.5,3.431) circle (0.16);\fill[accent] (7.9,3.974) circle (0.16);\fill[accent] (8.3,4.721) circle (0.16);\fill[accent] (8.7,5.577) circle (0.16);\fill[accent] (9.1,6.755) circle (0.16);\fill[accent] (9.5,8.16) circle (0.16);\end{tikzpicture}
+  \task \par\begin{tikzpicture}[scale=0.22,baseline=(current bounding box.center)]\draw[muted!30,very thin] (0,0) grid (10.0,10.0);\draw[-latex,thick] (0,0)--(10.5,0) node[right,font=\scriptsize]{$X$};\draw[-latex,thick] (0,0)--(0,10.5) node[above,font=\scriptsize]{$Y$};\node[below,font=\tiny] at (0.0,0) {$0$};\node[below,font=\tiny] at (2.0,0) {$2$};\node[below,font=\tiny] at (4.0,0) {$4$};\node[below,font=\tiny] at (6.0,0) {$6$};\node[below,font=\tiny] at (8.0,0) {$8$};\node[below,font=\tiny] at (10.0,0) {$10$};\node[left,font=\tiny] at (0,0.0) {$0$};\node[left,font=\tiny] at (0,2.0) {$2$};\node[left,font=\tiny] at (0,4.0) {$4$};\node[left,font=\tiny] at (0,6.0) {$6$};\node[left,font=\tiny] at (0,8.0) {$8$};\node[left,font=\tiny] at (0,10.0) {$10$};\fill[accent] (1.0,0.604) circle (0.16);\fill[accent] (1.15,1.414) circle (0.16);\fill[accent] (1.3,1.005) circle (0.16);\fill[accent] (1.45,0.972) circle (0.16);\fill[accent] (1.6,1.582) circle (0.16);\fill[accent] (1.75,1.177) circle (0.16);\fill[accent] (1.9,0.979) circle (0.16);\fill[accent] (2.05,1.177) circle (0.16);\fill[accent] (9.0,9.0) circle (0.16);\end{tikzpicture}
+\end{tasks}
+
+\ex{2} En un estudi de diverses ciutats s'ha trobat una correlació positiva forta entre el nombre de bombers que actuen en un incendi i els danys que causa. Vol dir que els bombers causen els danys? Quina explicació hi pot haver?
+
+\ex{1} Raona si són vertaderes o falses: \ a) Si $r=0$, les variables no tenen cap relació. \ b) Si $r=-0{,}98$, la relació és molt feble perquè $r$ és negatiu. \ c) Si tots els punts són sobre una recta creixent, $r=1$.
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb la calculadora bidimensional dels apunts interactius.\end{center}
+
+\end{document}

@@ -1,0 +1,1515 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estadística · FentMates</title>
+<meta name="description" content="Apunts interactius de la Unitat 10 (Estadística: repàs de l'estadística unidimensional, taules de doble entrada, núvols de punts, covariància i correlació lineal) de 1r de Batxillerat MI, en valencià, castellà i anglés.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+/* Idioma i tema abans de pintar (comparteix preferències amb la web) */
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+:root {
+  --navy: #1b2748; --navy-2: #24375f; --accent: #ff7a50; --accent-2: #2bb3a3; --yellow: #ffc94d;
+  --bg: #f6f7fb; --surface: #ffffff; --surface-2: #eef1f8; --text: #1b2340; --muted: #5d6685; --border: #e1e5f0;
+  --shadow: 0 10px 30px -12px rgba(27, 39, 72, .22);
+  --def: #1d4f73; --def-bg: #eef4f9; --prop: #3b4252; --prop-bg: #f3f4f7;
+  --ex: #a3203a; --ex-bg: #fbf0f2; --pr: #b7791f; --pr-bg: #fff8e8;
+  --hl-a: rgba(255, 122, 80, .22); --hl-b: rgba(43, 179, 163, .25); --hl-c: rgba(59, 130, 246, .2);
+  --plus: #2563eb; --minus: #dc2626; --ok: #15803d; --bad: #c2410c;
+  --radius: 16px; --header-h: 60px;
+  --r1: #ff7a50; --r2: #2bb3a3; --r3: #7c6cf0; --r4: #e0a21b;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+  --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+  --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1526; --surface: #172036; --surface-2: #1e2943; --text: #e8ecf7; --muted: #a1abc8; --border: #2a3654;
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+    --def: #7cb7e3; --def-bg: #15243a; --prop: #c3c9d8; --prop-bg: #1a2236;
+    --ex: #f28ba0; --ex-bg: #2a1a25; --pr: #f5c065; --pr-bg: #2a2416;
+    --plus: #6ea2ff; --minus: #ff7676; --ok: #4ade80; --bad: #fb923c;
+  }
+}
+
+/* idiomes */
+html[data-lang="va"] [data-l]:not([data-l="va"]),
+html[data-lang="es"] [data-l]:not([data-l="es"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]) { display: none !important; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body {
+  margin: 0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: "Outfit", "Inter", system-ui, sans-serif; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 .5em; }
+a { color: inherit; }
+p { margin: .6em 0; }
+strong { font-weight: 650; }
+.katex { font-size: 1.08em; }
+.katex-display { margin: .9em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* capçalera */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .in { max-width: 1240px; margin: 0 auto; height: 100%; padding: 0 16px; display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Outfit", sans-serif; font-weight: 800; font-size: 1.15rem; }
+.brand .logo { width: 32px; height: 32px; border-radius: 9px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+.crumb { color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb a { text-decoration: none; } .crumb a:hover { color: var(--accent); }
+.spacer { flex: 1; }
+.lang-switch { display: flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.lang-switch button { border: 0; background: none; color: var(--muted); font: 600 .8rem "Inter", sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang-switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.icon-btn svg { width: 18px; height: 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--yellow)); transition: width .1s; }
+html[data-embed="1"] .brand, html[data-embed="1"] .crumb { display: none; }
+
+/* portada */
+.hero { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; position: relative; overflow: hidden; }
+.hero::after { content: "|A|"; position: absolute; right: -10px; bottom: -60px; font: 800 15rem/1 "Outfit", sans-serif; color: rgba(255,255,255,.05); pointer-events: none; }
+.hero .in { max-width: 1240px; margin: 0 auto; padding: 44px 16px 40px; position: relative; z-index: 1; }
+.hero .kicker { display: inline-block; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 999px; font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 14px 0 8px; }
+.hero h1 .u { color: var(--yellow); }
+.hero p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: .82rem; padding: 4px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); }
+html[data-embed="1"] .hero .in { padding: 28px 16px 26px; }
+
+/* disposició */
+.layout { max-width: 1240px; margin: 0 auto; padding: 28px 16px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+.toc { position: sticky; top: calc(var(--header-h) + 18px); align-self: start; max-height: calc(100vh - var(--header-h) - 36px); overflow: auto; }
+.toc details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 10px 10px; }
+.toc summary { list-style: none; font: 700 .78rem "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 8px; cursor: default; display: flex; justify-content: space-between; align-items: center; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 10px; text-decoration: none; font-size: .9rem; color: var(--muted); line-height: 1.35; }
+.toc a:hover { background: var(--surface-2); color: var(--text); }
+.toc a.active { background: var(--surface-2); color: var(--text); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+.toc a .n { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2em; color: var(--accent); }
+.toc a .ck { margin-left: auto; color: var(--ok); visibility: hidden; }
+.toc a.done .ck { visibility: visible; }
+.toc .meter { margin: 10px 8px 4px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.toc .meter i { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+.toc .meter-l { font-size: .78rem; color: var(--muted); padding: 2px 8px 0; }
+article { min-width: 0; max-width: 860px; }
+
+/* seccions */
+section.unit { margin-bottom: 56px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.sec-head .num { flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 800 1.05rem "Outfit", sans-serif; }
+:root[data-theme="dark"] .sec-head .num { background: var(--accent); }
+.sec-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); flex: 1; min-width: 200px; }
+.done-btn { border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: 600 .8rem "Inter", sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.done-btn[aria-pressed="true"] { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+h3.sub { font-size: 1.2rem; margin: 30px 0 10px; }
+
+/* caixes */
+.box { border-radius: var(--radius); margin: 18px 0; border: 1.5px solid; overflow: hidden; }
+.box > .bh { padding: 9px 18px; font: 700 1rem "Outfit", sans-serif; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+.box > .bb { padding: 6px 20px 14px; }
+.box .tag { font: 700 .68rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,.2); }
+.box.def { border-color: var(--def); background: var(--def-bg); }
+.box.def > .bh { background: var(--def); color: #fff; }
+.box.prop { border-color: var(--prop); background: var(--prop-bg); }
+.box.prop > .bh { background: var(--prop); color: var(--bg); justify-content: center; text-transform: uppercase; font-size: .95rem; letter-spacing: .04em; }
+.box.ex { border-color: var(--ex); background: var(--ex-bg); }
+.box.ex > .bh { color: var(--ex); border-bottom: 1px dashed color-mix(in srgb, var(--ex) 40%, transparent); }
+.box.pr { border-color: var(--pr); background: var(--pr-bg); }
+.box.pr > .bh { color: var(--pr); }
+.box.lab { border-color: var(--accent-2); background: var(--surface); box-shadow: var(--shadow); }
+.box.lab > .bh { background: linear-gradient(90deg, var(--accent-2), #3fc7b6); color: #fff; }
+:root[data-theme="dark"] .box.def > .bh, :root[data-theme="dark"] .box.prop > .bh { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .box.def > .bh, :root:not([data-theme="light"]) .box.prop > .bh { color: #0f1526; } }
+.box ul, .box ol { padding-left: 1.4em; }
+.box li { margin: .45em 0; }
+ol.alpha { list-style: lower-alpha; }
+.key { background: color-mix(in srgb, var(--yellow) 35%, transparent); padding: 0 4px; border-radius: 4px; }
+.u-line { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.note { border-left: 4px solid var(--accent); background: var(--surface); padding: 10px 16px; border-radius: 0 12px 12px 0; margin: 14px 0; }
+.ex-list > li { margin: 1.1em 0; }
+.ex-list > li::marker { font-weight: 700; color: var(--ex); }
+
+/* passos */
+.steps > .step { transition: opacity .3s, transform .3s; }
+.steps.js > .step.hidden { display: none; }
+.steps-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 4px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 14px; font: 600 .85rem "Inter", sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.step-count { font-size: .8rem; color: var(--muted); align-self: center; }
+
+/* solucions */
+details.sol { margin: 12px 0 4px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--pr); }
+details.sol > summary { cursor: pointer; padding: 8px 14px; font-weight: 600; color: var(--pr); list-style: none; }
+details.sol > summary::before { content: "▸ "; } details.sol[open] > summary::before { content: "▾ "; }
+details.sol > div { padding: 0 16px 12px; }
+
+/* taula COVID */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; }
+table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: .9rem; background: var(--surface); border-radius: 12px; overflow: hidden; }
+table.data th, table.data td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+table.data thead th, table.data tbody th { background: color-mix(in srgb, var(--yellow) 70%, var(--surface)); color: #1b2340; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+table.data tbody tr:hover td { background: var(--hl-a); }
+
+/* matrius interactives */
+.widget { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--shadow); }
+.widget .wt { font: 700 .75rem "Inter", sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-2); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+.wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.mx { display: inline-grid; gap: 2px 4px; padding: 6px 12px; position: relative; font-variant-numeric: tabular-nums; }
+.mx::before, .mx::after { content: ""; position: absolute; top: 0; bottom: 0; width: 9px; border: 2px solid var(--text); }
+.mx::before { left: 0; border-right: 0; border-radius: 10px 0 0 10px; }
+.mx::after { right: 0; border-left: 0; border-radius: 0 10px 10px 0; }
+.mx.det::before, .mx.det::after { width: 0; border-radius: 0; border-width: 0 0 0 2px; }
+.mx.det::after { border-width: 0 2px 0 0; }
+.mx .c { min-width: 2.3em; height: 2.1em; display: grid; place-items: center; border-radius: 8px; transition: background .15s, opacity .15s, color .15s; cursor: default; font-size: .98rem; }
+.mx .c.hot { cursor: pointer; }
+.mx .c.hot:hover { background: var(--surface-2); }
+.mx .c.on { background: var(--hl-a); font-weight: 700; }
+.mx .c.on2 { background: var(--hl-b); font-weight: 700; }
+.mx .c.off { opacity: .25; text-decoration: line-through; }
+.mx .c.plus { background: var(--hl-c); color: var(--plus); font-weight: 700; }
+.mx .c.minus { background: rgba(220, 38, 38, .14); color: var(--minus); font-weight: 700; }
+.mx .c.r1 { color: var(--r1); } .mx .c.r2 { color: var(--r2); } .mx .c.r3 { color: var(--r3); } .mx .c.r4 { color: var(--r4); }
+.mx .c.r1, .mx .c.r2, .mx .c.r3, .mx .c.r4 { font-weight: 700; }
+.mx input { width: 3.1em; height: 2.1em; text-align: center; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0; }
+.mx input.sel { outline: 2px solid var(--accent); background: var(--hl-a); }
+.mx input.off { opacity: .3; }
+.op { font: 600 1.25rem "Outfit", sans-serif; color: var(--muted); }
+.lbl { font: 700 1.05rem "Outfit", sans-serif; }
+.info { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 2.8em; font-size: .95rem; overflow-x: auto; }
+.terms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.terms button { font: 600 .82rem "Inter", sans-serif; border-radius: 999px; padding: 5px 11px; cursor: pointer; border: 1.5px solid; background: var(--surface); }
+.terms button.p { color: var(--plus); border-color: var(--plus); }
+.terms button.m { color: var(--minus); border-color: var(--minus); }
+.terms button.act.p { background: var(--plus); color: #fff; } .terms button.act.m { background: var(--minus); color: #fff; }
+input[type="range"] { accent-color: var(--accent); width: 180px; }
+select { font: 500 .9rem "Inter", sans-serif; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; color: var(--muted); font: 600 .82rem "Inter", sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.lab-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.lab-out .card { background: var(--surface-2); border-radius: 12px; padding: 10px 14px; overflow-x: auto; }
+.lab-out .card h4 { margin: 0 0 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-family: "Inter", sans-serif; }
+
+/* SVG Sarrus */
+.sarrus-fig { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 10px 0; }
+.sarrus-fig svg { width: 210px; height: auto; }
+.sarrus-fig text { font: italic 600 15px "Times New Roman", serif; fill: var(--text); }
+.sarrus-fig text.sgn { font: 700 28px "Inter", sans-serif; font-style: normal; }
+
+/* qüestionari */
+.quiz .q { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 12px 0; }
+.quiz .q p.qt { font-weight: 600; margin: 0 0 8px; }
+.quiz .opts { display: grid; gap: 6px; }
+.quiz .opts button { text-align: left; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; padding: 8px 12px; font: 500 .95rem "Inter", sans-serif; cursor: pointer; }
+.quiz .opts button:hover:not([disabled]) { border-color: var(--accent); }
+.quiz .opts button.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--bg)); }
+.quiz .opts button.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg)); }
+.quiz .fb { font-size: .9rem; margin-top: 8px; color: var(--muted); }
+.score { font: 700 1.1rem "Outfit", sans-serif; margin-top: 12px; }
+
+footer.foot { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; text-align: center; padding: 24px 16px 40px; }
+html[data-embed="1"] footer.foot { display: none; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; opacity: 0; pointer-events: none; transition: opacity .2s; box-shadow: var(--shadow); }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
+  .toc { position: static; max-height: none; }
+  .toc summary { cursor: pointer; }
+  .toc summary::after { content: "▾"; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .box > .bb { padding: 4px 14px 12px; }
+  .crumb { display: none; }
+  .widget { padding: 12px; }
+  .mx .c { min-width: 2em; }
+}
+@media print {
+  .topbar, .toc, .steps-ctl, .done-btn, .to-top, .widget, .quiz-sec, footer.foot { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .steps.js > .step.hidden { display: block; }
+  details.sol { display: none; }
+  .hero { background: none; color: #000; } .hero p, .hero .chips span { color: #333; }
+  .box { break-inside: avoid; }
+}
+
+/* unitat 4: límits i continuïtat */
+.hero::after { content: "lím"; font-size: 12rem; bottom: -40px; }
+figure.lfig { margin: 16px auto; max-width: 460px; }
+figure.lfig.sm { max-width: 300px; margin: 8px auto; }
+figure.lfig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.lp-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.lp-svg .g { stroke: var(--border); stroke-width: 1; }
+.lp-svg .ax { stroke: var(--muted); stroke-width: 1.5; }
+.lp-svg .asy { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 6 5; fill: none; }
+.lp-svg text { font: 600 10.5px "Inter", sans-serif; fill: var(--muted); }
+.lp-svg text.vl { fill: var(--text); font-size: 12px; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+.lp-svg .cv { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.lp-svg .gd { stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 4; }
+.lp-svg circle.open { fill: var(--bg); stroke-width: 2.2; }
+.lp-svg circle.mk { stroke: var(--bg); stroke-width: 2; }
+.two figure.lfig { margin: 8px auto; }
+.fig4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 12px 0; }
+.fig4 figure { margin: 0; }
+.fig4 .ttl { font: 700 .95rem "Outfit", sans-serif; text-align: center; margin: 4px 0 2px; }
+.badge { display: inline-block; font: 700 .78rem "Inter", sans-serif; padding: 3px 10px; border-radius: 999px; color: #fff; letter-spacing: .02em; vertical-align: middle; }
+.badge.ok { background: #15803d; } .badge.ev { background: #2563eb; } .badge.sf { background: #c2410c; } .badge.si { background: #7c3aed; } .badge.as { background: #a3203a; }
+.lw-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .lw-wrap { grid-template-columns: 1fr; } }
+.tin { height: 2.2em; font: 500 .95rem "Inter", sans-serif; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 8px; min-width: 0; }
+.tin.w { width: 100%; max-width: 320px; }
+.tin.s { width: 4.2em; text-align: center; }
+.tin.bad { outline: 2px solid var(--bad); }
+.wctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 8px 0; font-size: .92rem; }
+.wctl label { display: inline-flex; align-items: center; gap: 6px; }
+.pcs { display: grid; gap: 6px; margin: 8px 0; }
+.pc { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: .9rem; }
+.pc .tin.w { max-width: 210px; flex: 1 1 150px; }
+.pc .tin.s { width: 3.6em; }
+.pc .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+.vtbl { overflow-x: auto; margin-top: 8px; }
+table.data.sm { min-width: 0; font-variant-numeric: tabular-nums; }
+table.data td.hl { background: var(--hl-b); font-weight: 700; }
+table.data.rf td { min-width: 3.2em; }
+.verdict { margin-top: 8px; font-weight: 600; }
+.msg-ok { color: var(--ok); font-weight: 700; }
+.msg-bad { color: var(--bad); font-weight: 700; }
+.hier { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 14px 0; font-size: 1.05rem; }
+.hier .lv { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 14px; text-align: center; line-height: 1.3; }
+.hier .lv small { display: block; font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.hier .lt { color: var(--accent); font: 800 1.3rem "Outfit", sans-serif; }
+table.data.ops td, table.data.ops th { font-size: .95rem; }
+table.data.ops td.ind { background: color-mix(in srgb, var(--bad) 14%, var(--surface)); font-weight: 700; color: var(--bad); }
+.indet { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; }
+.indet > span { background: color-mix(in srgb, var(--bad) 12%, var(--surface)); border: 1.5px solid color-mix(in srgb, var(--bad) 50%, transparent); border-radius: 10px; padding: 4px 12px; }
+.pau { display: inline-block; font: 700 .72rem "Inter", sans-serif; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: var(--navy); color: #fff; margin-right: 6px; vertical-align: 2px; }
+:root[data-theme="dark"] .pau { background: var(--accent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pau { background: var(--accent); } }
+.rf { border-collapse: collapse; margin: 6px 0; font-variant-numeric: tabular-nums; }
+.rf td { padding: 3px 10px; text-align: center; }
+.rf tr:first-child td:first-child { border-right: 2px solid var(--text); }
+.rf tr:nth-child(2) td { border-bottom: 2px solid var(--text); }
+.rf tr td:first-child { border-right: 2px solid var(--text); }
+.rf .rz { color: var(--ok); font-weight: 700; }
+table.data th .katex, .widget .wt .katex { text-transform: none; }
+.kv-tbl td:first-child { white-space: nowrap; }
+input[type="range"].wide { width: min(320px, 100%); }
+
+/* unitat 9: probabilitat (s'afegeix després de l'extra.css de la unitat 4) */
+.hero::after { content: "P(A)"; font-size: 11rem; bottom: -40px; right: 10px; font-style: italic; }
+.pr-svg { width: 100%; height: auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); display: block; }
+.pr-svg text { font: 600 13px "Inter", sans-serif; fill: var(--text); }
+.pr-svg text.sm { font-size: 11px; fill: var(--muted); }
+.pr-svg text.pb { font-size: 12px; fill: var(--accent-2); font-weight: 700; }
+.pr-svg .omega { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+.pr-svg .set { fill: none; stroke: var(--text); stroke-width: 1.8; }
+.pr-svg .reg { fill: var(--accent); fill-opacity: 0; transition: fill-opacity .2s; }
+.pr-svg .reg.on { fill-opacity: .55; }
+.pr-svg .hit { cursor: pointer; }
+.pr-svg .br { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.pr-svg .br.on { stroke: var(--accent); stroke-width: 3; }
+.pr-svg .nd { fill: var(--surface); stroke: var(--border); stroke-width: 1.2; }
+.pr-svg .nd.on { stroke: var(--accent); stroke-width: 2.2; }
+.pr-svg circle.ball { stroke: var(--bg); stroke-width: 1.5; }
+.pr-svg .cell { fill: var(--surface); stroke: var(--border); }
+.pr-svg .cell.on { fill: var(--accent); fill-opacity: .45; }
+.venn-fig { max-width: 300px; margin: 8px auto; }
+.venn-fig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.venn6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.venn6 figure { margin: 0; }
+.venn6 figcaption { text-align: center; font-size: .9rem; margin-top: 2px; }
+.ops-btns { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.ops-btns .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.big-p { font: 700 1.15rem "Outfit", sans-serif; }
+table.data.ct td, table.data.ct th { font-variant-numeric: tabular-nums; }
+table.data.ct td.on { background: var(--hl-a); font-weight: 700; }
+table.data.ct td.on2 { background: var(--hl-b); font-weight: 700; }
+table.data.ct td.tot, table.data.ct th.tot { font-weight: 700; }
+table.data.ct input { width: 4.6em; text-align: center; }
+.sim-bar { display: flex; height: 26px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 6px 0; }
+.sim-bar > span { display: grid; place-items: center; color: #fff; font: 700 .78rem "Inter", sans-serif; min-width: 0; transition: width .25s; }
+.ballrow { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; min-height: 22px; }
+.ballrow i { width: 18px; height: 18px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+.kvs { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; align-items: baseline; }
+.kvs > :nth-child(odd) { color: var(--muted); }
+.dat-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+.dat-row select { height: 2.2em; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); padding: 0 6px; font: 500 .9rem "Inter", sans-serif; }
+.info h4 { margin: 10px 0 2px; font: 700 .8rem "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.info h4:first-child { margin-top: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--muted); margin-top: 6px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 5px; }
+.chk { display: inline-block; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+.chk.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.chk.no { background: color-mix(in srgb, var(--bad) 14%, transparent); color: var(--bad); }
+.info .katex-display { margin: 4px 0; }
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .cmp { grid-template-columns: 1fr; } }
+.cmp > div { border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; background: var(--surface); }
+.cmp h4 { margin: 0 0 4px; font: 700 .95rem "Outfit", sans-serif; }
+.seg-ctl { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.seg-ctl .btn.on, .steps-ctl .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+@media (max-width: 560px) {
+  table.data.ct th, table.data.ct td { padding: 6px 4px; }
+  table.data.ct input { width: 3.4em; padding: 0 2px; }
+}
+
+/* 1r Batx MI, unitat 10: estadística (s'afegeix després dels extra.css de les unitats 4 i 9 de 2n Batx CCSS) */
+.st-svg { width: 100%; max-width: 460px; height: auto; display: block; margin: 0 auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+.st-svg .bg { fill: none; }
+.st-svg .grid { stroke: var(--border); stroke-width: 1; }
+.st-svg .axis { stroke: var(--muted); stroke-width: 1.5; }
+.st-svg text.tick { font: 600 10px "Inter", sans-serif; fill: var(--muted); }
+.st-svg text.lab { font-weight: 700; fill: var(--text); }
+.st-svg circle.pt { fill: var(--accent); fill-opacity: .85; stroke: var(--bg); stroke-width: 1.2; cursor: pointer; }
+.st-svg circle.pt.hl { fill: var(--bad); }
+.st-svg circle.cg { fill: var(--bg); stroke: var(--navy); stroke-width: 2.5; }
+:root[data-theme="dark"] .st-svg circle.cg { stroke: #fff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .st-svg circle.cg { stroke: #fff; } }
+.st-svg .meanl { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 5 4; }
+#w-cloud .st-svg { cursor: crosshair; }
+figure.cfig { margin: 0; }
+figure.cfig figcaption { text-align: center; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 10px 0; }
+table.st-tbl tr.tot td { font-weight: 700; border-top: 2px solid var(--border); }
+table.st-tbl td .z { color: var(--muted); opacity: .55; }
+table.st-tbl .dg { white-space: nowrap; }
+.guess-opts { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.guess-opts .btn.ok-b { outline: 2px solid var(--ok); }
+textarea.tin, input.tin.wide2 { width: 100%; }
+
+/* FentMates: 80% de l'ample en ordinador (marc i text) */
+@media (min-width: 1101px) {
+  .topbar .in, .hero .in, .layout { max-width: 80vw; }
+  article { max-width: none; }
+  .slide > .in, .overview .in { max-width: 80vw; }
+}
+</style>
+<link rel="stylesheet" href="../../assets/css/fm-materials.css?v=20261113r"><script defer src="../../assets/js/fm-materials.js?v=20261113r"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../1batx-mi.html"><span data-l="va">1r Batxillerat MI</span><span data-l="es">1º Bachillerato MI</span><span data-l="en">1st Baccalaureate Maths I</span></a> / <span data-l="va">Unitat 10</span><span data-l="es">Unidad 10</span><span data-l="en">Unit 10</span></span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker"><span data-l="va">Apunts de teoria · 1r Batxillerat Matemàtiques I</span><span data-l="es">Apuntes de teoría · 1º Bachillerato Matemáticas I</span><span data-l="en">Theory notes · 1st Baccalaureate, Mathematics I</span></span>
+    <h1><span class="u"><span data-l="va">Unitat 10</span><span data-l="es">Unidad 10</span><span data-l="en">Unit 10</span></span> · <span data-l="va">Estadística</span><span data-l="es">Estadística</span><span data-l="en">Statistics</span></h1>
+    <p><span data-l="va">Teoria, exemples resolts pas a pas i eines interactives: repàs de l'estadística unidimensional (taules de freqüències, paràmetres de centralització, de posició i de dispersió) i estadística bidimensional: taules de doble entrada, núvols de punts, variància, covariància i correlació lineal.</span><span data-l="es">Teoría, ejemplos resueltos paso a paso y herramientas interactivas: repaso de la estadística unidimensional (tablas de frecuencias, parámetros de centralización, de posición y de dispersión) y estadística bidimensional: tablas de doble entrada, nubes de puntos, varianza, covarianza y correlación lineal.</span><span data-l="en">Theory, step-by-step worked examples and interactive tools: a review of one-variable statistics (frequency tables, measures of centre, position and spread) and two-variable statistics: two-way tables, scatter plots, variance, covariance and linear correlation.</span></p>
+    <div class="chips"><span><span data-l="va">8 apartats</span><span data-l="es">8 apartados</span><span data-l="en">8 sections</span></span><span><span data-l="va">8 eines interactives</span><span data-l="es">8 herramientas interactivas</span><span data-l="en">8 interactive tools</span></span><span><span data-l="va">Exemples pas a pas</span><span data-l="es">Ejemplos paso a paso</span><span data-l="en">Step-by-step examples</span></span><span><span data-l="va">Autoavaluació final</span><span data-l="es">Autoevaluación final</span><span data-l="en">Final self-check</span></span></div>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="toc" aria-label="Índex">
+    <details open id="toc-d">
+      <summary><span data-l="va">Índex</span><span data-l="es">Índice</span><span data-l="en">Contents</span></summary>
+      <ol id="toc-list">
+        <li><a href="#s1"><span class="n">10.1</span><span data-l="va">Estadística unidimensional: repàs</span><span data-l="es">Estadística unidimensional: repaso</span><span data-l="en">One-variable statistics: review</span><span class="ck">✓</span></a></li>
+        <li><a href="#s2"><span class="n">10.2</span><span data-l="va">Centralització i posició</span><span data-l="es">Centralización y posición</span><span data-l="en">Centre and position</span><span class="ck">✓</span></a></li>
+        <li><a href="#s3"><span class="n">10.3</span><span data-l="va">Dispersió</span><span data-l="es">Dispersión</span><span data-l="en">Spread</span><span class="ck">✓</span></a></li>
+        <li><a href="#s4"><span class="n">10.4</span><span data-l="va">Variables bidimensionals. Taules</span><span data-l="es">Variables bidimensionales. Tablas</span><span data-l="en">Two-variable data. Tables</span><span class="ck">✓</span></a></li>
+        <li><a href="#s5"><span class="n">10.5</span><span data-l="va">Núvol de punts</span><span data-l="es">Nube de puntos</span><span data-l="en">Scatter plots</span><span class="ck">✓</span></a></li>
+        <li><a href="#s6"><span class="n">10.6</span><span data-l="va">Variància i covariància</span><span data-l="es">Varianza y covarianza</span><span data-l="en">Variance and covariance</span><span class="ck">✓</span></a></li>
+        <li><a href="#s7"><span class="n">10.7</span><span data-l="va">Correlació lineal</span><span data-l="es">Correlación lineal</span><span data-l="en">Linear correlation</span><span class="ck">✓</span></a></li>
+        <li><a href="#s8"><span class="n">10.8</span><span data-l="va">Altres tipus de relació</span><span data-l="es">Otros tipos de relación</span><span data-l="en">Other kinds of relation</span><span class="ck">✓</span></a></li>
+        <li><a href="#lab"><span class="n">⚙</span><span data-l="va">Calculadora bidimensional</span><span data-l="es">Calculadora bidimensional</span><span data-l="en">Two-variable calculator</span></a></li>
+        <li><a href="#quiz"><span class="n">?</span><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></a></li>
+      </ol>
+      <div class="meter"><i id="meter"></i></div>
+      <div class="meter-l"><span id="meter-n">0</span>/8 <span data-l="va">apartats estudiats</span><span data-l="es">apartados estudiados</span><span data-l="en">sections studied</span></div>
+    </details>
+  </nav>
+
+<article>
+
+<!-- ======================= 10.1 ======================= -->
+<section class="unit" id="s1">
+  <div class="sec-head"><span class="num">10.1</span><h2><span data-l="va">Estadística unidimensional: repàs</span><span data-l="es">Estadística unidimensional: repaso</span><span data-l="en">One-variable statistics: a review</span></h2></div>
+  <p><span data-l="va">L'<strong>estadística</strong> recull, organitza i analitza dades per a traure'n conclusions. En aquesta unitat repassem primer el que ja coneixes de cursos anteriors (una sola variable) i després estudiem amb profunditat la relació entre <strong>dues variables</strong>.</span><span data-l="es">La <strong>estadística</strong> recoge, organiza y analiza datos para sacar conclusiones. En esta unidad repasamos primero lo que ya conoces de cursos anteriores (una sola variable) y después estudiamos en profundidad la relación entre <strong>dos variables</strong>.</span><span data-l="en"><strong>Statistics</strong> collects, organises and analyses data in order to draw conclusions. In this unit we first review what you already know from previous years (one variable) and then study in depth the relationship between <strong>two variables</strong>.</span></p>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Conceptes bàsics</span><span data-l="es">Conceptos básicos</span><span data-l="en">Basic concepts</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va"><strong>Població</strong>: el conjunt d'individus que volem estudiar. <strong>Mostra</strong>: la part de la població que estudiem de fet. <strong>N</strong> és el nombre de dades.</span><span data-l="es"><strong>Población</strong>: el conjunto de individuos que queremos estudiar. <strong>Muestra</strong>: la parte de la población que estudiamos realmente. <strong>N</strong> es el número de datos.</span><span data-l="en"><strong>Population</strong>: the whole set of individuals we want to study. <strong>Sample</strong>: the part of the population we actually study. <strong>N</strong> is the number of data values.</span></li>
+        <li><span data-l="va"><strong>Variable qualitativa</strong>: els valors no són nombres (color preferit, esport…). <strong>Variable quantitativa</strong>: els valors són nombres; és <strong>discreta</strong> si pren valors aïllats (nombre de germans) i <strong>contínua</strong> si pot prendre qualsevol valor d'un interval (altura, temps).</span><span data-l="es"><strong>Variable cualitativa</strong>: los valores no son números (color preferido, deporte…). <strong>Variable cuantitativa</strong>: los valores son números; es <strong>discreta</strong> si toma valores aislados (número de hermanos) y <strong>continua</strong> si puede tomar cualquier valor de un intervalo (altura, tiempo).</span><span data-l="en"><strong>Qualitative variable</strong>: the values are not numbers (favourite colour, sport…). <strong>Quantitative variable</strong>: the values are numbers; it is <strong>discrete</strong> if it takes isolated values (number of siblings) and <strong>continuous</strong> if it can take any value in an interval (height, time).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Taula de freqüències</span><span data-l="es">Tabla de frecuencias</span><span data-l="en">Frequency table</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va"><strong>Freqüència absoluta</strong> \(f_i\): nombre de vegades que apareix el valor \(x_i\). La suma de totes és \(N\).</span><span data-l="es"><strong>Frecuencia absoluta</strong> \(f_i\): número de veces que aparece el valor \(x_i\). La suma de todas es \(N\).</span><span data-l="en"><strong>Absolute frequency</strong> \(f_i\): number of times the value \(x_i\) appears. They add up to \(N\).</span></li>
+        <li><span data-l="va"><strong>Freqüència relativa</strong> \(h_i=\dfrac{f_i}{N}\): la proporció (multiplicada per 100, el percentatge). La suma de totes és 1.</span><span data-l="es"><strong>Frecuencia relativa</strong> \(h_i=\dfrac{f_i}{N}\): la proporción (multiplicada por 100, el porcentaje). La suma de todas es 1.</span><span data-l="en"><strong>Relative frequency</strong> \(h_i=\dfrac{f_i}{N}\): the proportion (times 100, the percentage). They add up to 1.</span></li>
+        <li><span data-l="va"><strong>Freqüències acumulades</strong> \(F_i\) i \(H_i\): sumem les freqüències de tots els valors menors o iguals que \(x_i\).</span><span data-l="es"><strong>Frecuencias acumuladas</strong> \(F_i\) y \(H_i\): sumamos las frecuencias de todos los valores menores o iguales que \(x_i\).</span><span data-l="en"><strong>Cumulative frequencies</strong> \(F_i\) and \(H_i\): we add the frequencies of all values less than or equal to \(x_i\).</span></li>
+        <li><span data-l="va">Si hi ha molts valors diferents (o la variable és contínua), els agrupem en <strong>intervals</strong> \([a,b)\) i treballem amb la <strong>marca de classe</strong>, el punt mitjà \(x_i=\frac{a+b}{2}\).</span><span data-l="es">Si hay muchos valores diferentes (o la variable es continua), los agrupamos en <strong>intervalos</strong> \([a,b)\) y trabajamos con la <strong>marca de clase</strong>, el punto medio \(x_i=\frac{a+b}{2}\).</span><span data-l="en">If there are many different values (or the variable is continuous), we group them into <strong>intervals</strong> \([a,b)\) and work with the <strong>class mark</strong>, the midpoint \(x_i=\frac{a+b}{2}\).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple: notes d'un examen</span><span data-l="es">Ejemplo: notas de un examen</span><span data-l="en">Example: exam marks</span></div>
+    <div class="bb">
+      <p><span data-l="va">Les notes (sense decimals) de 20 alumnes d'un grup han sigut:</span><span data-l="es">Las notas (sin decimales) de 20 alumnos de un grupo han sido:</span><span data-l="en">The marks (whole numbers) of 20 students in a class were:</span> \(\ 3,\ 4,\ 4,\ 5,\ 5,\ 5,\ 5,\ 6,\ 6,\ 6,\ 6,\ 6,\ 7,\ 7,\ 7,\ 7,\ 8,\ 8,\ 8,\ 9\).</p>
+      <div class="tbl-wrap"><table class="data sm">
+        <thead><tr><th>\(x_i\)</th><th>\(f_i\)</th><th>\(F_i\)</th><th>\(h_i\)</th><th>\(H_i\)</th></tr></thead>
+        <tbody>
+          <tr><td>3</td><td>1</td><td>1</td><td><span data-l="va">\(0{,}05\)</span><span data-l="es">\(0{,}05\)</span><span data-l="en">\(0.05\)</span></td><td><span data-l="va">\(0{,}05\)</span><span data-l="es">\(0{,}05\)</span><span data-l="en">\(0.05\)</span></td></tr>
+          <tr><td>4</td><td>2</td><td>3</td><td><span data-l="va">\(0{,}10\)</span><span data-l="es">\(0{,}10\)</span><span data-l="en">\(0.10\)</span></td><td><span data-l="va">\(0{,}15\)</span><span data-l="es">\(0{,}15\)</span><span data-l="en">\(0.15\)</span></td></tr>
+          <tr><td>5</td><td>4</td><td>7</td><td><span data-l="va">\(0{,}20\)</span><span data-l="es">\(0{,}20\)</span><span data-l="en">\(0.20\)</span></td><td><span data-l="va">\(0{,}35\)</span><span data-l="es">\(0{,}35\)</span><span data-l="en">\(0.35\)</span></td></tr>
+          <tr><td>6</td><td>5</td><td>12</td><td><span data-l="va">\(0{,}25\)</span><span data-l="es">\(0{,}25\)</span><span data-l="en">\(0.25\)</span></td><td><span data-l="va">\(0{,}60\)</span><span data-l="es">\(0{,}60\)</span><span data-l="en">\(0.60\)</span></td></tr>
+          <tr><td>7</td><td>4</td><td>16</td><td><span data-l="va">\(0{,}20\)</span><span data-l="es">\(0{,}20\)</span><span data-l="en">\(0.20\)</span></td><td><span data-l="va">\(0{,}80\)</span><span data-l="es">\(0{,}80\)</span><span data-l="en">\(0.80\)</span></td></tr>
+          <tr><td>8</td><td>3</td><td>19</td><td><span data-l="va">\(0{,}15\)</span><span data-l="es">\(0{,}15\)</span><span data-l="en">\(0.15\)</span></td><td><span data-l="va">\(0{,}95\)</span><span data-l="es">\(0{,}95\)</span><span data-l="en">\(0.95\)</span></td></tr>
+          <tr><td>9</td><td>1</td><td>20</td><td><span data-l="va">\(0{,}05\)</span><span data-l="es">\(0{,}05\)</span><span data-l="en">\(0.05\)</span></td><td>\(1\)</td></tr>
+          <tr><td><span data-l="va">Total</span><span data-l="es">Total</span><span data-l="en">Total</span></td><td>\(N=20\)</td><td></td><td>\(1\)</td><td></td></tr>
+        </tbody>
+      </table></div>
+      <p><span data-l="va">Per exemple, \(F_4=12\): 12 alumnes han tret un 6 o menys; \(H_4=0{,}60\): el 60 % del grup.</span><span data-l="es">Por ejemplo, \(F_4=12\): 12 alumnos han sacado un 6 o menos; \(H_4=0{,}60\): el 60 % del grupo.</span><span data-l="en">For example, \(F_4=12\): 12 students got 6 or less; \(H_4=0.60\): 60 % of the class.</span></p>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Classifica les variables: a) temps que tardes a arribar a l'institut; b) mitjà de transport; c) nombre de missatges que envies en un dia; d) pes d'un nadó.</span><span data-l="es">Clasifica las variables: a) tiempo que tardas en llegar al instituto; b) medio de transporte; c) número de mensajes que envías en un día; d) peso de un bebé.</span><span data-l="en">Classify the variables: a) time it takes you to get to school; b) means of transport; c) number of messages you send in a day; d) weight of a baby.</span></p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <p><span data-l="va">a) quantitativa contínua; b) qualitativa; c) quantitativa discreta; d) quantitativa contínua.</span><span data-l="es">a) cuantitativa continua; b) cualitativa; c) cuantitativa discreta; d) cuantitativa continua.</span><span data-l="en">a) continuous quantitative; b) qualitative; c) discrete quantitative; d) continuous quantitative.</span></p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.2 ======================= -->
+<section class="unit" id="s2">
+  <div class="sec-head"><span class="num">10.2</span><h2><span data-l="va">Paràmetres de centralització i de posició</span><span data-l="es">Parámetros de centralización y de posición</span><span data-l="en">Measures of centre and position</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Mitjana, mediana i moda</span><span data-l="es">Media, mediana y moda</span><span data-l="en">Mean, median and mode</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va"><strong>Mitjana aritmètica</strong>:</span><span data-l="es"><strong>Media aritmética</strong>:</span><span data-l="en"><strong>Arithmetic mean</strong>:</span> \(\displaystyle\bar x=\frac{\sum x_i\,f_i}{N}\)</li>
+        <li><span data-l="va"><strong>Mediana</strong> \(Me\): el valor central quan les dades estan ordenades; deixa la meitat de les dades per davall. Amb la taula, és el primer valor amb \(F_i\geq\frac N2\) (si \(F_i\) és exactament \(\frac N2\), es fa la mitjana d'aquest valor i el següent).</span><span data-l="es"><strong>Mediana</strong> \(Me\): el valor central cuando los datos están ordenados; deja la mitad de los datos por debajo. Con la tabla, es el primer valor con \(F_i\geq\frac N2\) (si \(F_i\) es exactamente \(\frac N2\), se hace la media de este valor y el siguiente).</span><span data-l="en"><strong>Median</strong> \(Me\): the central value when the data are in order; half the data lie below it. With the table, it is the first value with \(F_i\geq\frac N2\) (if \(F_i\) is exactly \(\frac N2\), take the mean of that value and the next one).</span></li>
+        <li><span data-l="va"><strong>Moda</strong> \(Mo\): el valor amb més freqüència (pot haver-n'hi més d'una).</span><span data-l="es"><strong>Moda</strong> \(Mo\): el valor con más frecuencia (puede haber más de una).</span><span data-l="en"><strong>Mode</strong> \(Mo\): the value with the highest frequency (there may be more than one).</span></li>
+        <li><span data-l="va"><strong>Quartils</strong>: \(Q_1\) deixa per davall el 25 % de les dades (primer valor amb \(F_i\geq\frac N4\)) i \(Q_3\), el 75 % (primer valor amb \(F_i\geq\frac{3N}4\)). La mediana és \(Q_2\).</span><span data-l="es"><strong>Cuartiles</strong>: \(Q_1\) deja por debajo el 25 % de los datos (primer valor con \(F_i\geq\frac N4\)) y \(Q_3\), el 75 % (primer valor con \(F_i\geq\frac{3N}4\)). La mediana es \(Q_2\).</span><span data-l="en"><strong>Quartiles</strong>: \(Q_1\) has 25 % of the data below it (first value with \(F_i\geq\frac N4\)) and \(Q_3\), 75 % (first value with \(F_i\geq\frac{3N}4\)). The median is \(Q_2\).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple: les notes de l'apartat 10.1</span><span data-l="es">Ejemplo: las notas del apartado 10.1</span><span data-l="en">Example: the marks from section 10.1</span></div>
+    <div class="bb">
+      <div class="steps">
+        <div class="step"><p><span data-l="va">\(\displaystyle\bar x=\frac{3\cdot1+4\cdot2+5\cdot4+6\cdot5+7\cdot4+8\cdot3+9\cdot1}{20}=\frac{122}{20}=6{,}1\)</span><span data-l="es">\(\displaystyle\bar x=\frac{3\cdot1+4\cdot2+5\cdot4+6\cdot5+7\cdot4+8\cdot3+9\cdot1}{20}=\frac{122}{20}=6{,}1\)</span><span data-l="en">\(\displaystyle\bar x=\frac{3\cdot1+4\cdot2+5\cdot4+6\cdot5+7\cdot4+8\cdot3+9\cdot1}{20}=\frac{122}{20}=6.1\)</span></p></div>
+        <div class="step"><p><span data-l="va">Mediana: \(\frac N2=10\). El primer \(F_i\geq10\) és \(F_4=12\): \(Me=6\). Moda: \(Mo=6\) (\(f=5\)).</span><span data-l="es">Mediana: \(\frac N2=10\). El primer \(F_i\geq10\) es \(F_4=12\): \(Me=6\). Moda: \(Mo=6\) (\(f=5\)).</span><span data-l="en">Median: \(\frac N2=10\). The first \(F_i\geq10\) is \(F_4=12\): \(Me=6\). Mode: \(Mo=6\) (\(f=5\)).</span></p></div>
+        <div class="step"><p><span data-l="va">Quartils: \(\frac N4=5\Rightarrow\) el primer \(F_i\geq5\) és \(F_3=7\): \(Q_1=5\). \(\ \frac{3N}{4}=15\Rightarrow F_5=16\): \(Q_3=7\).</span><span data-l="es">Cuartiles: \(\frac N4=5\Rightarrow\) el primer \(F_i\geq5\) es \(F_3=7\): \(Q_1=5\). \(\ \frac{3N}{4}=15\Rightarrow F_5=16\): \(Q_3=7\).</span><span data-l="en">Quartiles: \(\frac N4=5\Rightarrow\) the first \(F_i\geq5\) is \(F_3=7\): \(Q_1=5\). \(\ \frac{3N}{4}=15\Rightarrow F_5=16\): \(Q_3=7\).</span></p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Calcula la mitjana, la mediana, la moda i els quartils de les dades:</span><span data-l="es">Calcula la media, la mediana, la moda y los cuartiles de los datos:</span><span data-l="en">Find the mean, median, mode and quartiles of the data:</span> \(\ 2,\ 3,\ 3,\ 4,\ 4,\ 4,\ 5,\ 5,\ 6,\ 8\).</p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <p><span data-l="va">\(\bar x=\frac{44}{10}=4{,}4\)</span><span data-l="es">\(\bar x=\frac{44}{10}=4{,}4\)</span><span data-l="en">\(\bar x=\frac{44}{10}=4.4\)</span>; \(N=10\), \(\frac N2=5\): <span data-l="va">les dades 5a i 6a són 4 i 4</span><span data-l="es">los datos 5º y 6º son 4 y 4</span><span data-l="en">the 5th and 6th data are 4 and 4</span>, \(Me=4\); \(Mo=4\); \(Q_1=3\) (<span data-l="va">\(\frac N4=2{,}5\)</span><span data-l="es">\(\frac N4=2{,}5\)</span><span data-l="en">\(\frac N4=2.5\)</span>), \(Q_3=5\) (<span data-l="va">\(\frac{3N}4=7{,}5\)</span><span data-l="es">\(\frac{3N}4=7{,}5\)</span><span data-l="en">\(\frac{3N}4=7.5\)</span>).</p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.3 ======================= -->
+<section class="unit" id="s3">
+  <div class="sec-head"><span class="num">10.3</span><h2><span data-l="va">Paràmetres de dispersió</span><span data-l="es">Parámetros de dispersión</span><span data-l="en">Measures of spread</span></h2></div>
+  <p><span data-l="va">Dos grups poden tindre la mateixa mitjana i ser molt diferents: en un, totes les notes s'acosten a la mitjana; en l'altre, n'hi ha de molt altes i de molt baixes. Els paràmetres de dispersió mesuren com de separades estan les dades.</span><span data-l="es">Dos grupos pueden tener la misma media y ser muy diferentes: en uno, todas las notas se acercan a la media; en el otro, las hay muy altas y muy bajas. Los parámetros de dispersión miden lo separados que están los datos.</span><span data-l="en">Two groups can have the same mean and be very different: in one, all the marks are close to the mean; in the other, some are very high and some very low. Measures of spread tell us how spread out the data are.</span></p>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Rang, variància, desviació típica i coeficient de variació</span><span data-l="es">Rango, varianza, desviación típica y coeficiente de variación</span><span data-l="en">Range, variance, standard deviation and coefficient of variation</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va"><strong>Rang</strong> (o recorregut): la diferència entre el valor més gran i el més xicotet.</span><span data-l="es"><strong>Rango</strong> (o recorrido): la diferencia entre el valor más grande y el más pequeño.</span><span data-l="en"><strong>Range</strong>: the difference between the largest and the smallest value.</span></li>
+        <li><span data-l="va"><strong>Variància</strong>: la mitjana dels quadrats de les desviacions respecte de la mitjana. La fórmula pràctica és la de la dreta:</span><span data-l="es"><strong>Varianza</strong>: la media de los cuadrados de las desviaciones respecto de la media. La fórmula práctica es la de la derecha:</span><span data-l="en"><strong>Variance</strong>: the mean of the squared deviations from the mean. The practical formula is the one on the right:</span>
+          \[\sigma^2=\frac{\sum (x_i-\bar x)^2f_i}{N}=\frac{\sum x_i^2f_i}{N}-\bar x^2\]</li>
+        <li><span data-l="va"><strong>Desviació típica</strong>: \(\sigma=\sqrt{\sigma^2}\). Té les mateixes unitats que les dades.</span><span data-l="es"><strong>Desviación típica</strong>: \(\sigma=\sqrt{\sigma^2}\). Tiene las mismas unidades que los datos.</span><span data-l="en"><strong>Standard deviation</strong>: \(\sigma=\sqrt{\sigma^2}\). It has the same units as the data.</span></li>
+        <li><span data-l="va"><strong>Coeficient de variació</strong>: \(CV=\dfrac{\sigma}{\bar x}\) (sovint en %). No té unitats i serveix per a comparar la dispersió de grups amb mitjanes diferents.</span><span data-l="es"><strong>Coeficiente de variación</strong>: \(CV=\dfrac{\sigma}{\bar x}\) (a menudo en %). No tiene unidades y sirve para comparar la dispersión de grupos con medias diferentes.</span><span data-l="en"><strong>Coefficient of variation</strong>: \(CV=\dfrac{\sigma}{\bar x}\) (often as a %). It has no units and lets us compare the spread of groups with different means.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples</span><span data-l="es">Ejemplos</span><span data-l="en">Examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Les notes de l'apartat 10.1 (\(\bar x=6{,}1\)). Afegim la columna \(x_i^2f_i\):</span><span data-l="es">Las notas del apartado 10.1 (\(\bar x=6{,}1\)). Añadimos la columna \(x_i^2f_i\):</span><span data-l="en">The marks from section 10.1 (\(\bar x=6.1\)). We add the column \(x_i^2f_i\):</span>
+          <div class="steps">
+            <div class="step"><p>\(\sum x_i^2f_i=9\cdot1+16\cdot2+25\cdot4+36\cdot5+49\cdot4+64\cdot3+81\cdot1=790\)</p></div>
+            <div class="step"><p><span data-l="va">\(\sigma^2=\dfrac{790}{20}-6{,}1^2=39{,}5-37{,}21=2{,}29\qquad\sigma=\sqrt{2{,}29}\approx1{,}51\)</span><span data-l="es">\(\sigma^2=\dfrac{790}{20}-6{,}1^2=39{,}5-37{,}21=2{,}29\qquad\sigma=\sqrt{2{,}29}\approx1{,}51\)</span><span data-l="en">\(\sigma^2=\dfrac{790}{20}-6.1^2=39.5-37.21=2.29\qquad\sigma=\sqrt{2.29}\approx1.51\)</span></p></div>
+            <div class="step"><p><span data-l="va">\(CV=\dfrac{1{,}51}{6{,}1}\approx0{,}248\)</span><span data-l="es">\(CV=\dfrac{1{,}51}{6{,}1}\approx0{,}248\)</span><span data-l="en">\(CV=\dfrac{1.51}{6.1}\approx0.248\)</span>, <span data-l="va">és a dir, un 24,8 %. El rang és \(9-3=6\).</span><span data-l="es">es decir, un 24,8 %. El rango es \(9-3=6\).</span><span data-l="en">that is, 24.8 %. The range is \(9-3=6\).</span></p></div>
+          </div></li>
+        <li><span data-l="va">Dades agrupades: altures (cm) de 30 persones.</span><span data-l="es">Datos agrupados: alturas (cm) de 30 personas.</span><span data-l="en">Grouped data: heights (cm) of 30 people.</span>
+          <div class="tbl-wrap"><table class="data sm">
+            <thead><tr><th><span data-l="va">Interval</span><span data-l="es">Intervalo</span><span data-l="en">Interval</span></th><th>\(x_i\)</th><th>\(f_i\)</th><th>\(x_if_i\)</th><th>\(x_i^2f_i\)</th></tr></thead>
+            <tbody>
+              <tr><td>\([150,160)\)</td><td>155</td><td>4</td><td>620</td><td>96 100</td></tr>
+              <tr><td>\([160,170)\)</td><td>165</td><td>10</td><td>1 650</td><td>272 250</td></tr>
+              <tr><td>\([170,180)\)</td><td>175</td><td>12</td><td>2 100</td><td>367 500</td></tr>
+              <tr><td>\([180,190)\)</td><td>185</td><td>4</td><td>740</td><td>136 900</td></tr>
+              <tr><td><span data-l="va">Total</span><span data-l="es">Total</span><span data-l="en">Total</span></td><td></td><td>30</td><td>5 110</td><td>872 750</td></tr>
+            </tbody>
+          </table></div>
+          <p><span data-l="va">\(\bar x=\dfrac{5\,110}{30}\approx170{,}33\)</span><span data-l="es">\(\bar x=\dfrac{5\,110}{30}\approx170{,}33\)</span><span data-l="en">\(\bar x=\dfrac{5\,110}{30}\approx170.33\)</span> cm, <span data-l="va">\(\ \sigma^2=\dfrac{872\,750}{30}-170{,}33^2\approx78{,}22\)</span><span data-l="es">\(\ \sigma^2=\dfrac{872\,750}{30}-170{,}33^2\approx78{,}22\)</span><span data-l="en">\(\ \sigma^2=\dfrac{872\,750}{30}-170.33^2\approx78.22\)</span>, <span data-l="va">\(\ \sigma\approx8{,}84\)</span><span data-l="es">\(\ \sigma\approx8{,}84\)</span><span data-l="en">\(\ \sigma\approx8.84\)</span> cm, <span data-l="va">\(\ CV\approx0{,}052\)</span><span data-l="es">\(\ CV\approx0{,}052\)</span><span data-l="en">\(\ CV\approx0.052\)</span> (5,2 %).</p></li>
+      </ol>
+      <div class="widget" id="w-uni">
+        <div class="wt">📊 <span data-l="va">Calculadora unidimensional: escriu les dades (o valor:freqüència)</span><span data-l="es">Calculadora unidimensional: escribe los datos (o valor:frecuencia)</span><span data-l="en">One-variable calculator: type the data (or value:frequency)</span></div>
+        <div class="steps-ctl" data-role="presets"></div>
+        <div class="wctl"><label><span data-l="va">Dades</span><span data-l="es">Datos</span><span data-l="en">Data</span> <input class="tin wide2" type="text" data-role="d" value="3:1; 4:2; 5:4; 6:5; 7:4; 8:3; 9:1" autocomplete="off" spellcheck="false"></label></div>
+        <div class="vtbl"></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Les temperatures màximes d'una setmana han sigut 18, 20, 21, 21, 22, 24 i 26 °C. Calcula la mitjana, la variància, la desviació típica i el coeficient de variació.</span><span data-l="es">Las temperaturas máximas de una semana han sido 18, 20, 21, 21, 22, 24 y 26 °C. Calcula la media, la varianza, la desviación típica y el coeficiente de variación.</span><span data-l="en">The maximum temperatures of a week were 18, 20, 21, 21, 22, 24 and 26 °C. Find the mean, variance, standard deviation and coefficient of variation.</span></p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <p><span data-l="va">\(\bar x=\frac{152}{7}\approx21{,}71\)</span><span data-l="es">\(\bar x=\frac{152}{7}\approx21{,}71\)</span><span data-l="en">\(\bar x=\frac{152}{7}\approx21.71\)</span> °C; <span data-l="va">\(\ \sum x_i^2=3\,342\Rightarrow\sigma^2=\frac{3\,342}{7}-\left(\frac{152}{7}\right)^2\approx5{,}92\)</span><span data-l="es">\(\ \sum x_i^2=3\,342\Rightarrow\sigma^2=\frac{3\,342}{7}-\left(\frac{152}{7}\right)^2\approx5{,}92\)</span><span data-l="en">\(\ \sum x_i^2=3\,342\Rightarrow\sigma^2=\frac{3\,342}{7}-\left(\frac{152}{7}\right)^2\approx5.92\)</span>; <span data-l="va">\(\ \sigma\approx2{,}43\)</span><span data-l="es">\(\ \sigma\approx2{,}43\)</span><span data-l="en">\(\ \sigma\approx2.43\)</span> °C; <span data-l="va">\(\ CV\approx0{,}112\)</span><span data-l="es">\(\ CV\approx0{,}112\)</span><span data-l="en">\(\ CV\approx0.112\)</span> (11,2 %).</p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.4 ======================= -->
+<section class="unit" id="s4">
+  <div class="sec-head"><span class="num">10.4</span><h2><span data-l="va">Variables bidimensionals. Taules de freqüències</span><span data-l="es">Variables bidimensionales. Tablas de frecuencias</span><span data-l="en">Two-variable data. Frequency tables</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Variable estadística bidimensional</span><span data-l="es">Variable estadística bidimensional</span><span data-l="en">Two-variable (bivariate) data</span></div>
+    <div class="bb">
+      <p><span data-l="va">Quan en cada individu estudiem <strong>dues</strong> característiques alhora, obtenim una <strong>variable bidimensional</strong> \((X,Y)\): cada dada és un parell \((x_i,y_i)\). Per exemple, les hores d'estudi i la nota de cada alumne, l'altura i el pes de cada persona o la temperatura i les vendes de gelats de cada dia. L'objectiu és saber si hi ha <strong>relació</strong> entre les dues variables i com és de forta.</span><span data-l="es">Cuando en cada individuo estudiamos <strong>dos</strong> características a la vez, obtenemos una <strong>variable bidimensional</strong> \((X,Y)\): cada dato es un par \((x_i,y_i)\). Por ejemplo, las horas de estudio y la nota de cada alumno, la altura y el peso de cada persona o la temperatura y las ventas de helados de cada día. El objetivo es saber si hay <strong>relación</strong> entre las dos variables y cómo es de fuerte.</span><span data-l="en">When we study <strong>two</strong> characteristics of each individual at the same time, we get a <strong>two-variable (bivariate)</strong> variable \((X,Y)\): each data value is a pair \((x_i,y_i)\). For example, the hours of study and the mark of each student, the height and weight of each person, or the temperature and ice-cream sales of each day. The aim is to know whether the two variables are <strong>related</strong> and how strongly.</span></p>
+    </div>
+  </div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Dues maneres d'organitzar les dades</span><span data-l="es">Dos maneras de organizar los datos</span><span data-l="en">Two ways to organise the data</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va"><strong>Taula simple</strong> (en files o columnes): una llista dels \(N\) parells. És la més còmoda quan hi ha poques dades i quasi no es repeteixen.</span><span data-l="es"><strong>Tabla simple</strong> (en filas o columnas): una lista de los \(N\) pares. Es la más cómoda cuando hay pocos datos y casi no se repiten.</span><span data-l="en"><strong>Simple table</strong> (in rows or columns): a list of the \(N\) pairs. It is the most convenient when there are few data and they hardly repeat.</span></li>
+        <li><span data-l="va"><strong>Taula de doble entrada</strong>: a les files posem els valors de \(X\), a les columnes els de \(Y\), i en cada casella la <strong>freqüència conjunta</strong> \(f_{ij}\), el nombre d'individus amb \(X=x_i\) i \(Y=y_j\). Les sumes de les files donen la <strong>distribució marginal de X</strong> i les de les columnes, la <strong>distribució marginal de Y</strong>. La suma de totes les caselles és \(N\).</span><span data-l="es"><strong>Tabla de doble entrada</strong>: en las filas ponemos los valores de \(X\), en las columnas los de \(Y\), y en cada casilla la <strong>frecuencia conjunta</strong> \(f_{ij}\), el número de individuos con \(X=x_i\) e \(Y=y_j\). Las sumas de las filas dan la <strong>distribución marginal de X</strong> y las de las columnas, la <strong>distribución marginal de Y</strong>. La suma de todas las casillas es \(N\).</span><span data-l="en"><strong>Two-way table</strong>: the rows hold the values of \(X\), the columns those of \(Y\), and each cell the <strong>joint frequency</strong> \(f_{ij}\), the number of individuals with \(X=x_i\) and \(Y=y_j\). The row sums give the <strong>marginal distribution of X</strong> and the column sums, the <strong>marginal distribution of Y</strong>. All the cells add up to \(N\).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemple: germans i mascotes</span><span data-l="es">Ejemplo: hermanos y mascotas</span><span data-l="en">Example: siblings and pets</span></div>
+    <div class="bb">
+      <p><span data-l="va">Preguntem a 20 alumnes el nombre de germans (\(X\)) i el nombre de mascotes que tenen a casa (\(Y\)):</span><span data-l="es">Preguntamos a 20 alumnos el número de hermanos (\(X\)) y el número de mascotas que tienen en casa (\(Y\)):</span><span data-l="en">We ask 20 students their number of siblings (\(X\)) and the number of pets at home (\(Y\)):</span></p>
+      <div class="tbl-wrap"><table class="data sm st-tbl">
+        <thead><tr><th>\(X\backslash Y\)</th><th>0</th><th>1</th><th>2</th><th>\(f_x\)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>3</td><td>2</td><td>0</td><td>5</td></tr>
+          <tr><td>1</td><td>2</td><td>5</td><td>2</td><td>9</td></tr>
+          <tr><td>2</td><td>0</td><td>2</td><td>4</td><td>6</td></tr>
+          <tr class="tot"><td>\(f_y\)</td><td>5</td><td>9</td><td>6</td><td>20</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><span data-l="va">La casella \((1,1)\) val 5: cinc alumnes tenen un germà i una mascota.</span><span data-l="es">La casilla \((1,1)\) vale 5: cinco alumnos tienen un hermano y una mascota.</span><span data-l="en">Cell \((1,1)\) is 5: five students have one sibling and one pet.</span></li>
+        <li><span data-l="va">Distribució marginal de \(X\): els valors 0, 1, 2 amb freqüències 5, 9, 6. La seua mitjana és</span><span data-l="es">Distribución marginal de \(X\): los valores 0, 1, 2 con frecuencias 5, 9, 6. Su media es</span><span data-l="en">Marginal distribution of \(X\): the values 0, 1, 2 with frequencies 5, 9, 6. Its mean is</span> <span data-l="va">\(\bar x=\dfrac{0\cdot5+1\cdot9+2\cdot6}{20}=\dfrac{21}{20}=1{,}05\)</span><span data-l="es">\(\bar x=\dfrac{0\cdot5+1\cdot9+2\cdot6}{20}=\dfrac{21}{20}=1{,}05\)</span><span data-l="en">\(\bar x=\dfrac{0\cdot5+1\cdot9+2\cdot6}{20}=\dfrac{21}{20}=1.05\)</span>.</li>
+        <li><span data-l="va">Distribució marginal de \(Y\): 0, 1, 2 amb freqüències 5, 9, 6, i també \(\bar y=1{,}05\).</span><span data-l="es">Distribución marginal de \(Y\): 0, 1, 2 con frecuencias 5, 9, 6, y también \(\bar y=1{,}05\).</span><span data-l="en">Marginal distribution of \(Y\): 0, 1, 2 with frequencies 5, 9, 6, and also \(\bar y=1.05\).</span></li>
+        <li><span data-l="va">Observa que les freqüències grans són a la diagonal: els alumnes amb més germans solen tindre més mascotes.</span><span data-l="es">Observa que las frecuencias grandes están en la diagonal: los alumnos con más hermanos suelen tener más mascotas.</span><span data-l="en">Notice that the large frequencies lie on the diagonal: students with more siblings tend to have more pets.</span></li>
+      </ul>
+      <div class="widget" id="w-dbl">
+        <div class="wt">▦ <span data-l="va">De la llista de parells a la taula de doble entrada</span><span data-l="es">De la lista de pares a la tabla de doble entrada</span><span data-l="en">From a list of pairs to a two-way table</span></div>
+        <div class="steps-ctl" data-role="presets"></div>
+        <div class="wctl"><label>\(x_i\): <input class="tin wide2" type="text" data-role="x" value="0 0 0 0 0 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2" autocomplete="off" spellcheck="false"></label></div>
+        <div class="wctl"><label>\(y_i\): <input class="tin wide2" type="text" data-role="y" value="0 0 0 1 1 0 0 1 1 1 1 1 2 2 1 1 2 2 2 2" autocomplete="off" spellcheck="false"></label></div>
+        <div class="vtbl"></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Construeix la taula de doble entrada dels parells següents (\(X\) = nombre d'idiomes que parla, \(Y\) = viatges a l'estranger en l'últim any) i calcula les mitjanes marginals:</span><span data-l="es">Construye la tabla de doble entrada de los pares siguientes (\(X\) = número de idiomas que habla, \(Y\) = viajes al extranjero en el último año) y calcula las medias marginales:</span><span data-l="en">Build the two-way table of the following pairs (\(X\) = number of languages spoken, \(Y\) = trips abroad last year) and find the marginal means:</span> \((1,0),\ (2,1),\ (2,0),\ (3,2),\ (1,0),\ (2,1),\ (3,1),\ (2,1),\ (1,1),\ (3,2)\).</p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <div class="tbl-wrap"><table class="data sm st-tbl">
+          <thead><tr><th>\(X\backslash Y\)</th><th>0</th><th>1</th><th>2</th><th>\(f_x\)</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>2</td><td>1</td><td>0</td><td>3</td></tr>
+            <tr><td>2</td><td>1</td><td>3</td><td>0</td><td>4</td></tr>
+            <tr><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+            <tr class="tot"><td>\(f_y\)</td><td>3</td><td>5</td><td>2</td><td>10</td></tr>
+          </tbody>
+        </table></div>
+        <p>\(\bar x=\frac{3+8+9}{10}=2\), <span data-l="va">\(\ \bar y=\frac{0+5+4}{10}=0{,}9\)</span><span data-l="es">\(\ \bar y=\frac{0+5+4}{10}=0{,}9\)</span><span data-l="en">\(\ \bar y=\frac{0+5+4}{10}=0.9\)</span>. <span data-l="va">Pots comprovar la taula amb l'eina de dalt.</span><span data-l="es">Puedes comprobar la tabla con la herramienta de arriba.</span><span data-l="en">You can check the table with the tool above.</span></p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.5 ======================= -->
+<section class="unit" id="s5">
+  <div class="sec-head"><span class="num">10.5</span><h2><span data-l="va">Representació gràfica: el núvol de punts</span><span data-l="es">Representación gráfica: la nube de puntos</span><span data-l="en">Graphing: the scatter plot</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Núvol de punts (diagrama de dispersió)</span><span data-l="es">Nube de puntos (diagrama de dispersión)</span><span data-l="en">Scatter plot</span></div>
+    <div class="bb">
+      <div class="two">
+        <div>
+          <p><span data-l="va">Representem cada parell \((x_i,y_i)\) com un punt del pla. El conjunt de punts és el <strong>núvol de punts</strong>. La seua forma ens diu, d'un colp d'ull, si hi ha relació entre les variables:</span><span data-l="es">Representamos cada par \((x_i,y_i)\) como un punto del plano. El conjunto de puntos es la <strong>nube de puntos</strong>. Su forma nos dice, de un vistazo, si hay relación entre las variables:</span><span data-l="en">We plot each pair \((x_i,y_i)\) as a point in the plane. The set of points is the <strong>scatter plot</strong>. Its shape tells us, at a glance, whether the variables are related:</span></p>
+          <ul>
+            <li><span data-l="va">si els punts s'agrupen al voltant d'una recta, diem que hi ha <strong>correlació lineal</strong>;</span><span data-l="es">si los puntos se agrupan alrededor de una recta, decimos que hay <strong>correlación lineal</strong>;</span><span data-l="en">if the points cluster around a straight line, we say there is <strong>linear correlation</strong>;</span></li>
+            <li><span data-l="va">si la recta puja, la correlació és <strong>positiva</strong> (directa); si baixa, <strong>negativa</strong> (inversa);</span><span data-l="es">si la recta sube, la correlación es <strong>positiva</strong> (directa); si baja, <strong>negativa</strong> (inversa);</span><span data-l="en">if the line goes up, the correlation is <strong>positive</strong> (direct); if it goes down, <strong>negative</strong> (inverse);</span></li>
+            <li><span data-l="va">com més estret és el núvol, més <strong>forta</strong> és la relació.</span><span data-l="es">cuanto más estrecha es la nube, más <strong>fuerte</strong> es la relación.</span><span data-l="en">the narrower the cloud, the <strong>stronger</strong> the relation.</span></li>
+          </ul>
+          <p><span data-l="va">El punt \((\bar x,\bar y)\) s'anomena <strong>centre de gravetat</strong> del núvol.</span><span data-l="es">El punto \((\bar x,\bar y)\) se llama <strong>centro de gravedad</strong> de la nube.</span><span data-l="en">The point \((\bar x,\bar y)\) is called the <strong>centre of gravity</strong> of the cloud.</span></p>
+        </div>
+        <figure class="cfig" data-g="cl1"><figcaption><span data-l="va">Els punts \((1,2),(2,3),(3,5),(4,4),(5,6)\) i el centre de gravetat \((3,4)\).</span><span data-l="es">Los puntos \((1,2),(2,3),(3,5),(4,4),(5,6)\) y el centro de gravedad \((3,4)\).</span><span data-l="en">The points \((1,2),(2,3),(3,5),(4,4),(5,6)\) and the centre of gravity \((3,4)\).</span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Quatre núvols típics</span><span data-l="es">Cuatro nubes típicas</span><span data-l="en">Four typical clouds</span></div>
+    <div class="bb">
+      <div class="grid3">
+        <figure class="cfig" data-g="rp"><figcaption><span data-l="va">Positiva i forta</span><span data-l="es">Positiva y fuerte</span><span data-l="en">Strong positive</span> · <span class="rcap"></span></figcaption></figure>
+        <figure class="cfig" data-g="rn"><figcaption><span data-l="va">Negativa i forta</span><span data-l="es">Negativa y fuerte</span><span data-l="en">Strong negative</span> · <span class="rcap"></span></figcaption></figure>
+        <figure class="cfig" data-g="rw"><figcaption><span data-l="va">Positiva i feble</span><span data-l="es">Positiva y débil</span><span data-l="en">Weak positive</span> · <span class="rcap"></span></figcaption></figure>
+        <figure class="cfig" data-g="r0"><figcaption><span data-l="va">Sense correlació</span><span data-l="es">Sin correlación</span><span data-l="en">No correlation</span> · <span class="rcap"></span></figcaption></figure>
+      </div>
+      <p class="note"><span data-l="va">Exemples: l'altura i el pes de les persones (positiva), el preu d'un producte i la quantitat que se'n ven (negativa), la talla de sabata i la nota de matemàtiques (sense relació).</span><span data-l="es">Ejemplos: la altura y el peso de las personas (positiva), el precio de un producto y la cantidad que se vende (negativa), la talla de zapato y la nota de matemáticas (sin relación).</span><span data-l="en">Examples: people's height and weight (positive), the price of a product and the quantity sold (negative), shoe size and maths mark (no relation).</span></p>
+      <div class="widget" id="w-cloud">
+        <div class="wt">✛ <span data-l="va">Construeix el teu núvol de punts</span><span data-l="es">Construye tu nube de puntos</span><span data-l="en">Build your own scatter plot</span></div>
+        <div class="steps-ctl" data-role="presets"></div>
+        <svg class="st-svg" role="img" aria-label="Núvol de punts"></svg>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Dibuixa el núvol de punts de les hores d'estudi (\(x\)) i la nota (\(y\)) de 8 alumnes i digues quin tipus de correlació s'hi observa:</span><span data-l="es">Dibuja la nube de puntos de las horas de estudio (\(x\)) y la nota (\(y\)) de 8 alumnos y di qué tipo de correlación se observa:</span><span data-l="en">Draw the scatter plot of hours of study (\(x\)) and mark (\(y\)) of 8 students and say what kind of correlation you see:</span> \((1,3),\ (2,4),\ (2,5),\ (3,5),\ (4,6),\ (4,7),\ (5,8),\ (6,9)\).</p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <figure class="cfig" data-g="clHours"></figure>
+        <p><span data-l="va">Els punts estan molt a prop d'una recta que puja: correlació lineal <strong>positiva i forta</strong>.</span><span data-l="es">Los puntos están muy cerca de una recta que sube: correlación lineal <strong>positiva y fuerte</strong>.</span><span data-l="en">The points lie very close to a rising line: <strong>strong positive</strong> linear correlation.</span></p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.6 ======================= -->
+<section class="unit" id="s6">
+  <div class="sec-head"><span class="num">10.6</span><h2><span data-l="va">Paràmetres: mitjanes, variàncies i covariància</span><span data-l="es">Parámetros: medias, varianzas y covarianza</span><span data-l="en">Parameters: means, variances and covariance</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Paràmetres marginals</span><span data-l="es">Parámetros marginales</span><span data-l="en">Marginal parameters</span></div>
+    <div class="bb">
+      <p><span data-l="va">Cada variable per separat té la seua mitjana, la seua variància i la seua desviació típica (són els paràmetres de les distribucions marginals):</span><span data-l="es">Cada variable por separado tiene su media, su varianza y su desviación típica (son los parámetros de las distribuciones marginales):</span><span data-l="en">Each variable on its own has its mean, variance and standard deviation (the parameters of the marginal distributions):</span></p>
+      \[\bar x=\frac{\sum x_i}{N}\qquad\bar y=\frac{\sum y_i}{N}\qquad\sigma_x^2=\frac{\sum x_i^2}{N}-\bar x^2\qquad\sigma_y^2=\frac{\sum y_i^2}{N}-\bar y^2\]
+      <p><span data-l="va">Si les dades estan en una taula de doble entrada, cada producte es multiplica per la freqüència: \(\bar x=\frac{\sum x_if_i}{N}\), etc.</span><span data-l="es">Si los datos están en una tabla de doble entrada, cada producto se multiplica por la frecuencia: \(\bar x=\frac{\sum x_if_i}{N}\), etc.</span><span data-l="en">If the data are in a two-way table, each product is multiplied by its frequency: \(\bar x=\frac{\sum x_if_i}{N}\), etc.</span></p>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Covariància</span><span data-l="es">Covarianza</span><span data-l="en">Covariance</span></div>
+    <div class="bb">
+      <p><span data-l="va">La <strong>covariància</strong> mesura com varien les dues variables <strong>conjuntament</strong>:</span><span data-l="es">La <strong>covarianza</strong> mide cómo varían las dos variables <strong>conjuntamente</strong>:</span><span data-l="en">The <strong>covariance</strong> measures how the two variables vary <strong>together</strong>:</span></p>
+      <span data-l="va">\[\sigma_{xy}=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{N}=\frac{\sum x_i\,y_i}{N}-\bar x\,\bar y\qquad\left(\text{amb freqüències: }\ \frac{\sum x_i\,y_j\,f_{ij}}{N}-\bar x\,\bar y\right)\]</span><span data-l="es">\[\sigma_{xy}=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{N}=\frac{\sum x_i\,y_i}{N}-\bar x\,\bar y\qquad\left(\text{con frecuencias: }\ \frac{\sum x_i\,y_j\,f_{ij}}{N}-\bar x\,\bar y\right)\]</span><span data-l="en">\[\sigma_{xy}=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{N}=\frac{\sum x_i\,y_i}{N}-\bar x\,\bar y\qquad\left(\text{with frequencies: }\ \frac{\sum x_i\,y_j\,f_{ij}}{N}-\bar x\,\bar y\right)\]</span>
+      <ul>
+        <li><span data-l="va">\(\sigma_{xy}\gt0\): quan una variable creix, l'altra també tendeix a créixer. La majoria de punts són als quadrants 1r i 3r respecte de \((\bar x,\bar y)\), on \((x_i-\bar x)(y_i-\bar y)\gt0\).</span><span data-l="es">\(\sigma_{xy}\gt0\): cuando una variable crece, la otra también tiende a crecer. La mayoría de puntos están en los cuadrantes 1º y 3º respecto de \((\bar x,\bar y)\), donde \((x_i-\bar x)(y_i-\bar y)\gt0\).</span><span data-l="en">\(\sigma_{xy}\gt0\): when one variable increases, the other tends to increase too. Most points lie in the 1st and 3rd quadrants around \((\bar x,\bar y)\), where \((x_i-\bar x)(y_i-\bar y)\gt0\).</span></li>
+        <li><span data-l="va">\(\sigma_{xy}\lt0\): quan una creix, l'altra tendeix a decréixer (quadrants 2n i 4t).</span><span data-l="es">\(\sigma_{xy}\lt0\): cuando una crece, la otra tiende a decrecer (cuadrantes 2º y 4º).</span><span data-l="en">\(\sigma_{xy}\lt0\): when one increases, the other tends to decrease (2nd and 4th quadrants).</span></li>
+        <li><span data-l="va">\(\sigma_{xy}\approx0\): no hi ha relació lineal.</span><span data-l="es">\(\sigma_{xy}\approx0\): no hay relación lineal.</span><span data-l="en">\(\sigma_{xy}\approx0\): there is no linear relation.</span></li>
+      </ul>
+      <p class="note"><span data-l="va">La covariància depén de les unitats (si passem de metres a centímetres, es multiplica per 100), per això no ens diu com és de <strong>forta</strong> la relació. Per a això farem servir el coeficient de correlació (apartat 10.7).</span><span data-l="es">La covarianza depende de las unidades (si pasamos de metros a centímetros, se multiplica por 100), por eso no nos dice lo <strong>fuerte</strong> que es la relación. Para eso usaremos el coeficiente de correlación (apartado 10.7).</span><span data-l="en">The covariance depends on the units (changing metres to centimetres multiplies it by 100), so it does not tell us how <strong>strong</strong> the relation is. For that we use the correlation coefficient (section 10.7).</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples</span><span data-l="es">Ejemplos</span><span data-l="en">Examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Els punts de l'apartat 10.5: \((1,2),(2,3),(3,5),(4,4),(5,6)\). Fem una taula amb les columnes que necessitem:</span><span data-l="es">Los puntos del apartado 10.5: \((1,2),(2,3),(3,5),(4,4),(5,6)\). Hacemos una tabla con las columnas que necesitamos:</span><span data-l="en">The points from section 10.5: \((1,2),(2,3),(3,5),(4,4),(5,6)\). We make a table with the columns we need:</span>
+          <div class="tbl-wrap"><table class="data sm st-tbl">
+            <thead><tr><th>\(x_i\)</th><th>\(y_i\)</th><th>\(x_i^2\)</th><th>\(y_i^2\)</th><th>\(x_iy_i\)</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>1</td><td>4</td><td>2</td></tr>
+              <tr><td>2</td><td>3</td><td>4</td><td>9</td><td>6</td></tr>
+              <tr><td>3</td><td>5</td><td>9</td><td>25</td><td>15</td></tr>
+              <tr><td>4</td><td>4</td><td>16</td><td>16</td><td>16</td></tr>
+              <tr><td>5</td><td>6</td><td>25</td><td>36</td><td>30</td></tr>
+              <tr class="tot"><td>15</td><td>20</td><td>55</td><td>90</td><td>69</td></tr>
+            </tbody>
+          </table></div>
+          <div class="steps">
+            <div class="step"><p>\(\bar x=\dfrac{15}{5}=3\qquad\bar y=\dfrac{20}{5}=4\)</p></div>
+            <div class="step"><p><span data-l="va">\(\sigma_x^2=\dfrac{55}{5}-3^2=2\qquad\sigma_y^2=\dfrac{90}{5}-4^2=2\qquad\sigma_x=\sigma_y=\sqrt2\approx1{,}41\)</span><span data-l="es">\(\sigma_x^2=\dfrac{55}{5}-3^2=2\qquad\sigma_y^2=\dfrac{90}{5}-4^2=2\qquad\sigma_x=\sigma_y=\sqrt2\approx1{,}41\)</span><span data-l="en">\(\sigma_x^2=\dfrac{55}{5}-3^2=2\qquad\sigma_y^2=\dfrac{90}{5}-4^2=2\qquad\sigma_x=\sigma_y=\sqrt2\approx1.41\)</span></p></div>
+            <div class="step"><p><span data-l="va">\(\sigma_{xy}=\dfrac{69}{5}-3\cdot4=13{,}8-12=1{,}8\gt0\)</span><span data-l="es">\(\sigma_{xy}=\dfrac{69}{5}-3\cdot4=13{,}8-12=1{,}8\gt0\)</span><span data-l="en">\(\sigma_{xy}=\dfrac{69}{5}-3\cdot4=13.8-12=1.8\gt0\)</span>: <span data-l="va">relació positiva.</span><span data-l="es">relación positiva.</span><span data-l="en">positive relation.</span></p></div>
+          </div></li>
+        <li><span data-l="va">Amb la taula de doble entrada de l'apartat 10.4 (germans i mascotes, \(\bar x=\bar y=1{,}05\)), sumem \(x_i\,y_j\,f_{ij}\) en les caselles (les que tenen un 0 no hi sumen):</span><span data-l="es">Con la tabla de doble entrada del apartado 10.4 (hermanos y mascotas, \(\bar x=\bar y=1{,}05\)), sumamos \(x_i\,y_j\,f_{ij}\) en las casillas (las que tienen un 0 no suman):</span><span data-l="en">With the two-way table from section 10.4 (siblings and pets, \(\bar x=\bar y=1.05\)), we add \(x_i\,y_j\,f_{ij}\) over the cells (those with a 0 add nothing):</span>
+          <div class="steps">
+            <div class="step"><p>\(\sum x_iy_jf_{ij}=1\cdot1\cdot5+1\cdot2\cdot2+2\cdot1\cdot2+2\cdot2\cdot4=5+4+4+16=29\)</p></div>
+            <div class="step"><p><span data-l="va">\(\sigma_{xy}=\dfrac{29}{20}-1{,}05\cdot1{,}05=1{,}45-1{,}1025=0{,}3475\gt0\)</span><span data-l="es">\(\sigma_{xy}=\dfrac{29}{20}-1{,}05\cdot1{,}05=1{,}45-1{,}1025=0{,}3475\gt0\)</span><span data-l="en">\(\sigma_{xy}=\dfrac{29}{20}-1.05\cdot1.05=1.45-1.1025=0.3475\gt0\)</span></p></div>
+            <div class="step"><p><span data-l="va">\(\sum x_i^2f_x=0\cdot5+1\cdot9+4\cdot6=33\Rightarrow\sigma_x^2=\dfrac{33}{20}-1{,}05^2=0{,}5475\)</span><span data-l="es">\(\sum x_i^2f_x=0\cdot5+1\cdot9+4\cdot6=33\Rightarrow\sigma_x^2=\dfrac{33}{20}-1{,}05^2=0{,}5475\)</span><span data-l="en">\(\sum x_i^2f_x=0\cdot5+1\cdot9+4\cdot6=33\Rightarrow\sigma_x^2=\dfrac{33}{20}-1.05^2=0.5475\)</span>. <span data-l="va">Igualment, \(\sigma_y^2=0{,}5475\).</span><span data-l="es">Igualmente, \(\sigma_y^2=0{,}5475\).</span><span data-l="en">Likewise, \(\sigma_y^2=0.5475\).</span></p></div>
+          </div></li>
+      </ol>
+      <div class="widget" id="w-cov">
+        <div class="wt">∑ <span data-l="va">Taula de càlculs i covariància</span><span data-l="es">Tabla de cálculos y covarianza</span><span data-l="en">Calculation table and covariance</span></div>
+        <div class="steps-ctl" data-role="presets"></div>
+        <div class="wctl"><label>\(x_i\): <input class="tin wide2" type="text" data-role="x" value="1 2 3 4 5" autocomplete="off" spellcheck="false"></label></div>
+        <div class="wctl"><label>\(y_i\): <input class="tin wide2" type="text" data-role="y" value="2 3 5 4 6" autocomplete="off" spellcheck="false"></label></div>
+        <div class="vtbl"></div>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Calcula les mitjanes, les variàncies i la covariància de les hores d'estudi i les notes de l'apartat 10.5: \((1,3),(2,4),(2,5),(3,5),(4,6),(4,7),(5,8),(6,9)\).</span><span data-l="es">Calcula las medias, las varianzas y la covarianza de las horas de estudio y las notas del apartado 10.5: \((1,3),(2,4),(2,5),(3,5),(4,6),(4,7),(5,8),(6,9)\).</span><span data-l="en">Find the means, variances and covariance of the hours of study and marks from section 10.5: \((1,3),(2,4),(2,5),(3,5),(4,6),(4,7),(5,8),(6,9)\).</span></p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <p>\(\sum x_i=27,\ \sum y_i=47,\ \sum x_i^2=111,\ \sum y_i^2=305,\ \sum x_iy_i=182\).</p>
+        <p><span data-l="va">\(\bar x=3{,}375\)</span><span data-l="es">\(\bar x=3{,}375\)</span><span data-l="en">\(\bar x=3.375\)</span>, <span data-l="va">\(\ \bar y=5{,}875\)</span><span data-l="es">\(\ \bar y=5{,}875\)</span><span data-l="en">\(\ \bar y=5.875\)</span>, <span data-l="va">\(\ \sigma_x^2=\frac{111}{8}-3{,}375^2\approx2{,}484\)</span><span data-l="es">\(\ \sigma_x^2=\frac{111}{8}-3{,}375^2\approx2{,}484\)</span><span data-l="en">\(\ \sigma_x^2=\frac{111}{8}-3.375^2\approx2.484\)</span>, <span data-l="va">\(\ \sigma_y^2=\frac{305}{8}-5{,}875^2\approx3{,}609\)</span><span data-l="es">\(\ \sigma_y^2=\frac{305}{8}-5{,}875^2\approx3{,}609\)</span><span data-l="en">\(\ \sigma_y^2=\frac{305}{8}-5.875^2\approx3.609\)</span>, <span data-l="va">\(\ \sigma_{xy}=\frac{182}{8}-3{,}375\cdot5{,}875\approx2{,}922\)</span><span data-l="es">\(\ \sigma_{xy}=\frac{182}{8}-3{,}375\cdot5{,}875\approx2{,}922\)</span><span data-l="en">\(\ \sigma_{xy}=\frac{182}{8}-3.375\cdot5.875\approx2.922\)</span>.</p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.7 ======================= -->
+<section class="unit" id="s7">
+  <div class="sec-head"><span class="num">10.7</span><h2><span data-l="va">Correlació lineal: el coeficient de correlació</span><span data-l="es">Correlación lineal: el coeficiente de correlación</span><span data-l="en">Linear correlation: the correlation coefficient</span></h2></div>
+
+  <div class="box def">
+    <div class="bh"><span data-l="va">Coeficient de correlació lineal de Pearson</span><span data-l="es">Coeficiente de correlación lineal de Pearson</span><span data-l="en">Pearson's linear correlation coefficient</span></div>
+    <div class="bb">
+      \[r=\frac{\sigma_{xy}}{\sigma_x\,\sigma_y}\]
+      <p><span data-l="va">Com que dividim per les desviacions típiques, \(r\) no té unitats i sempre compleix \(-1\leq r\leq1\). Té el mateix signe que la covariància.</span><span data-l="es">Como dividimos por las desviaciones típicas, \(r\) no tiene unidades y siempre cumple \(-1\leq r\leq1\). Tiene el mismo signo que la covarianza.</span><span data-l="en">Since we divide by the standard deviations, \(r\) has no units and always satisfies \(-1\leq r\leq1\). It has the same sign as the covariance.</span></p>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Com s'interpreta</span><span data-l="es">Cómo se interpreta</span><span data-l="en">How to interpret it</span></div>
+    <div class="bb">
+      <ul>
+        <li><span data-l="va"><strong>El signe</strong> indica el sentit: \(r\gt0\), correlació positiva (directa); \(r\lt0\), negativa (inversa).</span><span data-l="es"><strong>El signo</strong> indica el sentido: \(r\gt0\), correlación positiva (directa); \(r\lt0\), negativa (inversa).</span><span data-l="en"><strong>The sign</strong> gives the direction: \(r\gt0\), positive (direct) correlation; \(r\lt0\), negative (inverse).</span></li>
+        <li><span data-l="va"><strong>El valor absolut</strong> indica la força: \(|r|=1\), els punts són exactament sobre una recta (dependència <strong>funcional</strong>); \(|r|\) prop d'1 (per exemple, més de 0,8), correlació <strong>forta</strong>; entre 0,5 i 0,8, <strong>moderada</strong>; per davall de 0,5, <strong>feble</strong>; \(r\approx0\), no hi ha correlació lineal.</span><span data-l="es"><strong>El valor absoluto</strong> indica la fuerza: \(|r|=1\), los puntos están exactamente sobre una recta (dependencia <strong>funcional</strong>); \(|r|\) cerca de 1 (por ejemplo, más de 0,8), correlación <strong>fuerte</strong>; entre 0,5 y 0,8, <strong>moderada</strong>; por debajo de 0,5, <strong>débil</strong>; \(r\approx0\), no hay correlación lineal.</span><span data-l="en"><strong>The absolute value</strong> gives the strength: \(|r|=1\), the points lie exactly on a line (<strong>functional</strong> dependence); \(|r|\) close to 1 (say, above 0.8), <strong>strong</strong> correlation; between 0.5 and 0.8, <strong>moderate</strong>; below 0.5, <strong>weak</strong>; \(r\approx0\), no linear correlation.</span></li>
+      </ul>
+      <p class="note"><span data-l="va">Aquests límits (0,8 i 0,5) són orientatius: no hi ha una frontera exacta entre una correlació forta i una de moderada.</span><span data-l="es">Estos límites (0,8 y 0,5) son orientativos: no hay una frontera exacta entre una correlación fuerte y una moderada.</span><span data-l="en">These thresholds (0.8 and 0.5) are only a guide: there is no exact boundary between strong and moderate correlation.</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Exemples</span><span data-l="es">Ejemplos</span><span data-l="en">Examples</span></div>
+    <div class="bb">
+      <ol class="ex-list">
+        <li><span data-l="va">Els punts \((1,2),(2,3),(3,5),(4,4),(5,6)\) de l'apartat 10.6: \(\sigma_{xy}=1{,}8\) i \(\sigma_x=\sigma_y=\sqrt2\).</span><span data-l="es">Los puntos \((1,2),(2,3),(3,5),(4,4),(5,6)\) del apartado 10.6: \(\sigma_{xy}=1{,}8\) y \(\sigma_x=\sigma_y=\sqrt2\).</span><span data-l="en">The points \((1,2),(2,3),(3,5),(4,4),(5,6)\) from section 10.6: \(\sigma_{xy}=1.8\) and \(\sigma_x=\sigma_y=\sqrt2\).</span>
+          <span data-l="va">\[r=\frac{1{,}8}{\sqrt2\cdot\sqrt2}=\frac{1{,}8}{2}=0{,}9\]</span><span data-l="es">\[r=\frac{1{,}8}{\sqrt2\cdot\sqrt2}=\frac{1{,}8}{2}=0{,}9\]</span><span data-l="en">\[r=\frac{1.8}{\sqrt2\cdot\sqrt2}=\frac{1.8}{2}=0.9\]</span>
+          <span data-l="va">Correlació lineal positiva i forta.</span><span data-l="es">Correlación lineal positiva y fuerte.</span><span data-l="en">Strong positive linear correlation.</span></li>
+        <li><span data-l="va">Germans i mascotes (apartat 10.6):</span><span data-l="es">Hermanos y mascotas (apartado 10.6):</span><span data-l="en">Siblings and pets (section 10.6):</span> <span data-l="va">\(\ r=\dfrac{0{,}3475}{\sqrt{0{,}5475}\cdot\sqrt{0{,}5475}}=\dfrac{0{,}3475}{0{,}5475}\approx0{,}63\)</span><span data-l="es">\(\ r=\dfrac{0{,}3475}{\sqrt{0{,}5475}\cdot\sqrt{0{,}5475}}=\dfrac{0{,}3475}{0{,}5475}\approx0{,}63\)</span><span data-l="en">\(\ r=\dfrac{0.3475}{\sqrt{0.5475}\cdot\sqrt{0.5475}}=\dfrac{0.3475}{0.5475}\approx0.63\)</span>: <span data-l="va">correlació positiva moderada.</span><span data-l="es">correlación positiva moderada.</span><span data-l="en">moderate positive correlation.</span></li>
+        <li><span data-l="va">El preu (€) i les unitats venudes d'un producte en 5 botigues: \((2,40),(3,34),(4,30),(5,25),(6,21)\). Ara \(\sum x_i=20\), \(\sum y_i=150\), \(\sum x_i^2=90\), \(\sum y_i^2=4\,722\) i \(\sum x_iy_i=553\).</span><span data-l="es">El precio (€) y las unidades vendidas de un producto en 5 tiendas: \((2,40),(3,34),(4,30),(5,25),(6,21)\). Ahora \(\sum x_i=20\), \(\sum y_i=150\), \(\sum x_i^2=90\), \(\sum y_i^2=4\,722\) y \(\sum x_iy_i=553\).</span><span data-l="en">The price (€) and units sold of a product in 5 shops: \((2,40),(3,34),(4,30),(5,25),(6,21)\). Now \(\sum x_i=20\), \(\sum y_i=150\), \(\sum x_i^2=90\), \(\sum y_i^2=4\,722\) and \(\sum x_iy_i=553\).</span>
+          <div class="steps">
+            <div class="step"><p><span data-l="va">\(\bar x=4,\ \bar y=30,\ \sigma_x^2=\dfrac{90}{5}-16=2,\ \sigma_y^2=\dfrac{4\,722}{5}-900=44{,}4\)</span><span data-l="es">\(\bar x=4,\ \bar y=30,\ \sigma_x^2=\dfrac{90}{5}-16=2,\ \sigma_y^2=\dfrac{4\,722}{5}-900=44{,}4\)</span><span data-l="en">\(\bar x=4,\ \bar y=30,\ \sigma_x^2=\dfrac{90}{5}-16=2,\ \sigma_y^2=\dfrac{4\,722}{5}-900=44.4\)</span></p></div>
+            <div class="step"><p><span data-l="va">\(\sigma_{xy}=\dfrac{553}{5}-4\cdot30=110{,}6-120=-9{,}4\)</span><span data-l="es">\(\sigma_{xy}=\dfrac{553}{5}-4\cdot30=110{,}6-120=-9{,}4\)</span><span data-l="en">\(\sigma_{xy}=\dfrac{553}{5}-4\cdot30=110.6-120=-9.4\)</span></p></div>
+            <div class="step"><p><span data-l="va">\(r=\dfrac{-9{,}4}{\sqrt2\cdot\sqrt{44{,}4}}\approx\dfrac{-9{,}4}{9{,}423}\approx-0{,}998\)</span><span data-l="es">\(r=\dfrac{-9{,}4}{\sqrt2\cdot\sqrt{44{,}4}}\approx\dfrac{-9{,}4}{9{,}423}\approx-0{,}998\)</span><span data-l="en">\(r=\dfrac{-9.4}{\sqrt2\cdot\sqrt{44.4}}\approx\dfrac{-9.4}{9.423}\approx-0.998\)</span>: <span data-l="va">correlació negativa molt forta (com més car, menys se'n ven).</span><span data-l="es">correlación negativa muy fuerte (cuanto más caro, menos se vende).</span><span data-l="en">very strong negative correlation (the dearer, the fewer sold).</span></p></div>
+          </div></li>
+      </ol>
+      <div class="widget" id="w-slide">
+        <div class="wt">◉ <span data-l="va">Mou \(r\) i mira com canvia el núvol</span><span data-l="es">Mueve \(r\) y mira cómo cambia la nube</span><span data-l="en">Move \(r\) and watch the cloud change</span></div>
+        <div class="wctl"><label>\(r=\) <input class="wide" type="range" min="-1" max="1" step="0.05" value="0.7" data-role="r"> <b data-role="rv"></b></label></div>
+        <svg class="st-svg" role="img" aria-label="Núvol de punts"></svg>
+        <div class="info" aria-live="polite"></div>
+      </div>
+      <div class="widget" id="w-guess">
+        <div class="wt">🎯 <span data-l="va">Endevina la correlació</span><span data-l="es">Adivina la correlación</span><span data-l="en">Guess the correlation</span></div>
+        <p data-role="q"></p>
+        <svg class="st-svg" role="img" aria-label="Núvol de punts"></svg>
+        <div class="guess-opts" data-role="opts"></div>
+        <button class="btn" type="button" data-role="new"></button>
+        <div class="info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <ol class="alpha">
+        <li><span data-l="va">Calcula el coeficient de correlació de les hores d'estudi i les notes (practica de l'apartat 10.6) i interpreta'l.</span><span data-l="es">Calcula el coeficiente de correlación de las horas de estudio y las notas (práctica del apartado 10.6) e interprétalo.</span><span data-l="en">Find the correlation coefficient of the hours of study and the marks (practice of section 10.6) and interpret it.</span></li>
+        <li><span data-l="va">Associa cada coeficient amb una descripció: \(r_1=-0{,}2\), \(r_2=0{,}95\), \(r_3=-0{,}85\), \(r_4=0{,}6\). (A) negativa forta; (B) positiva moderada; (C) gairebé sense relació; (D) positiva forta.</span><span data-l="es">Asocia cada coeficiente con una descripción: \(r_1=-0{,}2\), \(r_2=0{,}95\), \(r_3=-0{,}85\), \(r_4=0{,}6\). (A) negativa fuerte; (B) positiva moderada; (C) casi sin relación; (D) positiva fuerte.</span><span data-l="en">Match each coefficient with a description: \(r_1=-0.2\), \(r_2=0.95\), \(r_3=-0.85\), \(r_4=0.6\). (A) strong negative; (B) moderate positive; (C) almost no relation; (D) strong positive.</span></li>
+      </ol>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <ol class="alpha">
+          <li><span data-l="va">\(r=\dfrac{2{,}922}{\sqrt{2{,}484}\cdot\sqrt{3{,}609}}\approx\dfrac{2{,}922}{1{,}576\cdot1{,}900}\approx0{,}98\)</span><span data-l="es">\(r=\dfrac{2{,}922}{\sqrt{2{,}484}\cdot\sqrt{3{,}609}}\approx\dfrac{2{,}922}{1{,}576\cdot1{,}900}\approx0{,}98\)</span><span data-l="en">\(r=\dfrac{2.922}{\sqrt{2.484}\cdot\sqrt{3.609}}\approx\dfrac{2.922}{1.576\cdot1.900}\approx0.98\)</span>: <span data-l="va">correlació positiva molt forta.</span><span data-l="es">correlación positiva muy fuerte.</span><span data-l="en">very strong positive correlation.</span></li>
+          <li>\(r_1\)–C, \(\ r_2\)–D, \(\ r_3\)–A, \(\ r_4\)–B.</li>
+        </ol>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10.8 ======================= -->
+<section class="unit" id="s8">
+  <div class="sec-head"><span class="num">10.8</span><h2><span data-l="va">Altres tipus de relació. Correlació i causalitat</span><span data-l="es">Otros tipos de relación. Correlación y causalidad</span><span data-l="en">Other kinds of relation. Correlation and causation</span></h2></div>
+  <p><span data-l="va">El coeficient \(r\) només mesura la relació <strong>lineal</strong>. Dues variables poden estar molt relacionades d'una altra manera; ho veiem mirant el núvol de punts. Vegem-ne uns quants exemples (no cal calcular res: es tracta de saber-los reconéixer).</span><span data-l="es">El coeficiente \(r\) solo mide la relación <strong>lineal</strong>. Dos variables pueden estar muy relacionadas de otra manera; lo vemos mirando la nube de puntos. Veamos algunos ejemplos (no hay que calcular nada: se trata de saber reconocerlos).</span><span data-l="en">The coefficient \(r\) only measures <strong>linear</strong> relation. Two variables may be strongly related in another way; we see it by looking at the scatter plot. Here are a few examples (nothing to compute: just learn to recognise them).</span></p>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Relacions no lineals</span><span data-l="es">Relaciones no lineales</span><span data-l="en">Non-linear relations</span></div>
+    <div class="bb">
+      <div class="grid3">
+        <figure class="cfig" data-g="par"><figcaption><span data-l="va">Parabòlica: el rendiment d'un esportista segons l'edat. Creix i després decreix.</span><span data-l="es">Parabólica: el rendimiento de un deportista según la edad. Crece y después decrece.</span><span data-l="en">Parabolic: an athlete's performance by age. It rises and then falls.</span> <span class="rcap"></span></figcaption></figure>
+        <figure class="cfig" data-g="expo"><figcaption><span data-l="va">Exponencial: el nombre de bacteris d'un cultiu al llarg del temps.</span><span data-l="es">Exponencial: el número de bacterias de un cultivo a lo largo del tiempo.</span><span data-l="en">Exponential: the number of bacteria in a culture over time.</span> <span class="rcap"></span></figcaption></figure>
+        <figure class="cfig" data-g="sat"><figcaption><span data-l="va">De saturació: el que recordes d'un tema segons les hores que hi dediques.</span><span data-l="es">De saturación: lo que recuerdas de un tema según las horas que le dedicas.</span><span data-l="en">Saturation: how much you remember of a topic depending on the hours spent.</span> <span class="rcap"></span></figcaption></figure>
+        <figure class="cfig" data-g="circ"><figcaption><span data-l="va">Els punts formen una circumferència: hi ha una relació perfecta, però \(r=0\).</span><span data-l="es">Los puntos forman una circunferencia: hay una relación perfecta, pero \(r=0\).</span><span data-l="en">The points form a circle: a perfect relation, but \(r=0\).</span> <span class="rcap"></span></figcaption></figure>
+      </div>
+      <p class="note"><span data-l="va">Fixa't en la paràbola i en la circumferència: \(r\) és pràcticament 0 i, en canvi, \(Y\) depén clarament de \(X\). Per això <strong>sempre</strong> cal mirar el núvol de punts abans d'interpretar \(r\). En l'exponencial i en la de saturació, \(r\) és alt, però els punts no segueixen una recta.</span><span data-l="es">Fíjate en la parábola y en la circunferencia: \(r\) es prácticamente 0 y, en cambio, \(Y\) depende claramente de \(X\). Por eso <strong>siempre</strong> hay que mirar la nube de puntos antes de interpretar \(r\). En la exponencial y en la de saturación, \(r\) es alto, pero los puntos no siguen una recta.</span><span data-l="en">Look at the parabola and the circle: \(r\) is practically 0, yet \(Y\) clearly depends on \(X\). That is why we must <strong>always</strong> look at the scatter plot before interpreting \(r\). In the exponential and saturation examples, \(r\) is high, but the points do not follow a straight line.</span></p>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <div class="bh">✎ <span data-l="va">Valors atípics</span><span data-l="es">Valores atípicos</span><span data-l="en">Outliers</span></div>
+    <div class="bb">
+      <div class="two">
+        <div><p><span data-l="va">Un sol punt molt allunyat dels altres (en roig) pot canviar molt el coeficient. Ací els set punts de baix no tenen cap relació entre ells, però el punt atípic fa que \(r\) isca molt alt. Abans de calcular, cal revisar si hi ha dades errònies o excepcionals.</span><span data-l="es">Un solo punto muy alejado de los demás (en rojo) puede cambiar mucho el coeficiente. Aquí los siete puntos de abajo no tienen ninguna relación entre ellos, pero el punto atípico hace que \(r\) salga muy alto. Antes de calcular, hay que revisar si hay datos erróneos o excepcionales.</span><span data-l="en">A single point far from the others (in red) can change the coefficient a lot. Here the seven points at the bottom are unrelated, but the outlier makes \(r\) very high. Before computing, check for wrong or exceptional data.</span></p></div>
+        <figure class="cfig" data-g="outl"><figcaption><span class="rcap"></span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="box prop">
+    <div class="bh"><span data-l="va">Correlació no vol dir causalitat</span><span data-l="es">Correlación no significa causalidad</span><span data-l="en">Correlation is not causation</span></div>
+    <div class="bb">
+      <p><span data-l="va">Que dues variables tinguen una correlació forta <strong>no</strong> vol dir que una siga la causa de l'altra. Per exemple, en els pobles de la costa, les vendes de gelats i el nombre de cremades pel sol tenen una correlació positiva forta, però els gelats no provoquen cremades: totes dues depenen d'una <strong>tercera variable</strong>, la calor (i el nombre de turistes). També hi ha correlacions per pura casualitat.</span><span data-l="es">Que dos variables tengan una correlación fuerte <strong>no</strong> significa que una sea la causa de la otra. Por ejemplo, en los pueblos de la costa, las ventas de helados y el número de quemaduras solares tienen una correlación positiva fuerte, pero los helados no provocan quemaduras: las dos dependen de una <strong>tercera variable</strong>, el calor (y el número de turistas). También hay correlaciones por pura casualidad.</span><span data-l="en">A strong correlation between two variables does <strong>not</strong> mean one causes the other. For example, in coastal towns ice-cream sales and the number of sunburns are strongly positively correlated, but ice cream does not cause sunburn: both depend on a <strong>third variable</strong>, the heat (and the number of tourists). Some correlations are pure coincidence, too.</span></p>
+    </div>
+  </div>
+
+  <div class="box pr">
+    <div class="bh">✍ <span data-l="va">Practica</span><span data-l="es">Practica</span><span data-l="en">Practice</span></div>
+    <div class="bb">
+      <p><span data-l="va">Digues quina forma esperes que tinga el núvol de punts de cada parell de variables: a) l'edat d'un cotxe i el seu preu de segona mà; b) la velocitat d'un cotxe i la distància de frenada; c) el dia del mes en què vas nàixer i la teua altura; d) les hores de son i la nota d'un examen (amb massa poques i massa hores, el resultat empitjora).</span><span data-l="es">Di qué forma esperas que tenga la nube de puntos de cada par de variables: a) la edad de un coche y su precio de segunda mano; b) la velocidad de un coche y la distancia de frenado; c) el día del mes en que naciste y tu altura; d) las horas de sueño y la nota de un examen (con muy pocas y demasiadas horas, el resultado empeora).</span><span data-l="en">Say what shape you expect the scatter plot of each pair of variables to have: a) a car's age and its second-hand price; b) a car's speed and its braking distance; c) the day of the month you were born and your height; d) hours of sleep and an exam mark (with too few and too many hours, the result gets worse).</span></p>
+      <details class="sol"><summary><span data-l="va">Mostra les solucions</span><span data-l="es">Mostrar las soluciones</span><span data-l="en">Show the solutions</span></summary><div>
+        <p><span data-l="va">a) decreixent (negativa), més aviat exponencial: al principi baixa molt i després menys; b) creixent i corbada (la distància creix amb el quadrat de la velocitat); c) sense relació (\(r\approx0\)); d) parabòlica, amb un màxim.</span><span data-l="es">a) decreciente (negativa), más bien exponencial: al principio baja mucho y después menos; b) creciente y curvada (la distancia crece con el cuadrado de la velocidad); c) sin relación (\(r\approx0\)); d) parabólica, con un máximo.</span><span data-l="en">a) decreasing (negative), rather exponential: it drops a lot at first and then less; b) increasing and curved (the distance grows with the square of the speed); c) no relation (\(r\approx0\)); d) parabolic, with a maximum.</span></p>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LAB ======================= -->
+<section class="unit" id="lab">
+  <div class="sec-head"><span class="num">⚙</span><h2><span data-l="va">Calculadora bidimensional</span><span data-l="es">Calculadora bidimensional</span><span data-l="en">Two-variable calculator</span></h2></div>
+  <p><span data-l="va">Escriu els valors de \(x\) i de \(y\) en el mateix ordre (separats per espais o per punt i coma; pots usar la coma decimal) i obtindràs la taula de càlculs, el núvol de punts, les mitjanes, les variàncies, la covariància i el coeficient de correlació, amb la interpretació.</span><span data-l="es">Escribe los valores de \(x\) y de \(y\) en el mismo orden (separados por espacios o por punto y coma; puedes usar la coma decimal) y obtendrás la tabla de cálculos, la nube de puntos, las medias, las varianzas, la covarianza y el coeficiente de correlación, con la interpretación.</span><span data-l="en">Type the values of \(x\) and \(y\) in the same order (separated by spaces or semicolons) and you will get the calculation table, the scatter plot, the means, variances, covariance and correlation coefficient, with an interpretation.</span></p>
+  <div class="box lab">
+    <div class="bh">⚙ <span data-l="va">Calculadora</span><span data-l="es">Calculadora</span><span data-l="en">Calculator</span></div>
+    <div class="bb" id="w-lab">
+      <div class="steps-ctl" data-role="presets" style="margin-top:12px"></div>
+      <div class="wctl"><label>\(x_i\): <input class="tin wide2" type="text" data-role="x" value="1 2 2 3 4 4 5 6" autocomplete="off" spellcheck="false"></label></div>
+      <div class="wctl"><label>\(y_i\): <input class="tin wide2" type="text" data-role="y" value="3 4 5 5 6 7 8 9" autocomplete="off" spellcheck="false"></label></div>
+      <div class="lw-wrap">
+        <div><div class="vtbl"></div><div class="info" aria-live="polite"></div></div>
+        <svg class="st-svg" role="img" aria-label="Núvol de punts"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section class="unit quiz-sec" id="quiz">
+  <div class="sec-head"><span class="num">?</span><h2><span data-l="va">Autoavaluació</span><span data-l="es">Autoevaluación</span><span data-l="en">Self-check</span></h2></div>
+  <p><span data-l="va">Respon i comprova a l'instant si ho has entés.</span><span data-l="es">Responde y comprueba al instante si lo has entendido.</span><span data-l="en">Answer and check instantly whether you have understood.</span></p>
+  <div class="quiz" id="quiz-box"></div>
+  <div class="score" id="quiz-score"></div>
+  <button class="btn" type="button" id="quiz-reset">↺ <span data-l="va">Torna a començar</span><span data-l="es">Volver a empezar</span><span data-l="en">Start again</span></button>
+</section>
+
+</article>
+</div>
+
+<footer class="foot">
+  <p><span data-l="va">Apunts de teoria · Unitat 10: Estadística · 1r Batxillerat · Matemàtiques I</span><span data-l="es">Apuntes de teoría · Unidad 10: Estadística · 1º Bachillerato · Matemáticas I</span><span data-l="en">Theory notes · Unit 10: Statistics · 1st Baccalaureate · Mathematics I</span></p>
+  <p><a href="../../index.html">FentMates</a> · <span data-l="va">Fet amb ♥ per a l'alumnat</span><span data-l="es">Hecho con ♥ para el alumnado</span><span data-l="en">Made with ♥ for students</span></p>
+</footer>
+<button class="icon-btn to-top" type="button" id="to-top" aria-label="↑">↑</button>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var UNIT_KEY = "fm-1batx-mi-u10-estadistica-done";
+
+  /* ---------- textos de la interfície ---------- */
+  var UI = {
+    va: { next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
+      score: "Encerts", right: "Correcte!", wrong: "No és correcte.", theme: "Canvia entre mode clar i fosc", top: "Torna amunt",
+      bad: "Revisa les dades: escriu nombres separats per espais o per punt i coma (per exemple 3 5 5 7 o 3:4; 5:2).", bad2: "Les dues llistes han de tindre el mateix nombre de valors (com a mínim 2).",
+      val: "Valor", fi: "f<sub>i</sub>", Fi: "F<sub>i</sub>", hi: "h<sub>i</sub>", Hi: "H<sub>i</sub>", pct: "%", total: "Total",
+      mean: "Mitjana", median: "Mediana", mode: "Moda", q1: "Primer quartil", q3: "Tercer quartil", range: "Rang", vari: "Variància", sd: "Desviació típica", cv: "Coeficient de variació",
+      pairs: "parells", cov: "Covariància", r: "Coeficient de correlació", strong: "forta", moderate: "moderada", weak: "feble", none: "pràcticament nul·la",
+      pos: "positiva (directa)", neg: "negativa (inversa)", corr: "Correlació", noCorr: "No hi ha correlació lineal", noVar: "Una de les variables no varia: r no està definit.",
+      clickAdd: "Fes clic al gràfic per afegir un punt; clic sobre un punt per llevar-lo.", clear: "Esborra", points: "punts",
+      guessQ: "Quin és el coeficient de correlació d'aquest núvol?", newCloud: "Un altre núvol", wasR: "El coeficient és", hits: "Encerts",
+      margX: "Distribució marginal de X", margY: "Distribució marginal de Y", sums: "Sumes",
+      pUni: ["Notes (20 alumnes)", "Valors repetits", "Dades soltes"], pPairs: ["Hores i notes", "Exemple resolt", "Correlació negativa", "Sense relació", "Parabòlica"], pCloud: ["Buit", "Creixent", "Decreixent", "Núvol rodó"] },
+    es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
+      score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba",
+      bad: "Revisa los datos: escribe números separados por espacios o por punto y coma (por ejemplo 3 5 5 7 o 3:4; 5:2).", bad2: "Las dos listas deben tener el mismo número de valores (como mínimo 2).",
+      val: "Valor", fi: "f<sub>i</sub>", Fi: "F<sub>i</sub>", hi: "h<sub>i</sub>", Hi: "H<sub>i</sub>", pct: "%", total: "Total",
+      mean: "Media", median: "Mediana", mode: "Moda", q1: "Primer cuartil", q3: "Tercer cuartil", range: "Rango", vari: "Varianza", sd: "Desviación típica", cv: "Coeficiente de variación",
+      pairs: "pares", cov: "Covarianza", r: "Coeficiente de correlación", strong: "fuerte", moderate: "moderada", weak: "débil", none: "prácticamente nula",
+      pos: "positiva (directa)", neg: "negativa (inversa)", corr: "Correlación", noCorr: "No hay correlación lineal", noVar: "Una de las variables no varía: r no está definido.",
+      clickAdd: "Haz clic en el gráfico para añadir un punto; clic sobre un punto para quitarlo.", clear: "Borrar", points: "puntos",
+      guessQ: "¿Cuál es el coeficiente de correlación de esta nube?", newCloud: "Otra nube", wasR: "El coeficiente es", hits: "Aciertos",
+      margX: "Distribución marginal de X", margY: "Distribución marginal de Y", sums: "Sumas",
+      pUni: ["Notas (20 alumnos)", "Valores repetidos", "Datos sueltos"], pPairs: ["Horas y notas", "Ejemplo resuelto", "Correlación negativa", "Sin relación", "Parabólica"], pCloud: ["Vacío", "Creciente", "Decreciente", "Nube redonda"] },
+    en: { next: "Next step", all: "Show all", reset: "Hide the steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
+      score: "Score", right: "Correct!", wrong: "Not correct.", theme: "Switch between light and dark mode", top: "Back to top",
+      bad: "Check the data: type numbers separated by spaces or semicolons (for example 3 5 5 7 or 3:4; 5:2).", bad2: "Both lists must have the same number of values (at least 2).",
+      val: "Value", fi: "f<sub>i</sub>", Fi: "F<sub>i</sub>", hi: "h<sub>i</sub>", Hi: "H<sub>i</sub>", pct: "%", total: "Total",
+      mean: "Mean", median: "Median", mode: "Mode", q1: "First quartile", q3: "Third quartile", range: "Range", vari: "Variance", sd: "Standard deviation", cv: "Coefficient of variation",
+      pairs: "pairs", cov: "Covariance", r: "Correlation coefficient", strong: "strong", moderate: "moderate", weak: "weak", none: "practically zero",
+      pos: "positive (direct)", neg: "negative (inverse)", corr: "Correlation", noCorr: "There is no linear correlation", noVar: "One of the variables does not vary: r is undefined.",
+      clickAdd: "Click on the chart to add a point; click on a point to remove it.", clear: "Clear", points: "points",
+      guessQ: "What is the correlation coefficient of this cloud?", newCloud: "Another cloud", wasR: "The coefficient is", hits: "Hits",
+      margX: "Marginal distribution of X", margY: "Marginal distribution of Y", sums: "Sums",
+      pUni: ["Marks (20 students)", "Repeated values", "Raw data"], pPairs: ["Hours and marks", "Worked example", "Negative correlation", "No relation", "Parabolic"], pCloud: ["Empty", "Increasing", "Decreasing", "Round cloud"] }
+  };
+  var lang = root.getAttribute("data-lang") || "va";
+  function u(k) { return (UI[lang] || UI.va)[k]; }
+  var refreshers = [];
+  function onLang(fn) { refreshers.push(fn); fn(); }
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function tex(s, display) { try { return window.katex.renderToString(s, { throwOnError: false, displayMode: !!display }); } catch (e) { return s; } }
+  function $(w, r) { return w.querySelector('[data-role="' + r + '"]'); }
+
+  /* ---------- nombres ---------- */
+  // fmt: arredoneix a d decimals, lleva zeros finals i usa la coma decimal (punt en anglés)
+  function fmt(v, d) {
+    if (!isFinite(v)) return "—";
+    d = d == null ? 4 : d;
+    var s = (Math.round(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d).replace(/\.?0+$/, "");
+    if (s === "-0") s = "0";
+    return lang === "en" ? s : s.replace(".", "{,}");
+  }
+  function ft(v, d) { return fmt(v, d).replace("{,}", ","); } // per a text HTML (fora de KaTeX)
+  function num(s) { s = String(s).trim().replace(",", "."); if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return NaN; return parseFloat(s); }
+  // llista: "3 5 5 7", "3; 5; 7" o amb freqüències "3:4; 5:2"
+  function readList(s) {
+    var toks = String(s).trim().split(/[\s;]+/).filter(Boolean), vals = [];
+    for (var i = 0; i < toks.length; i++) {
+      var p = toks[i].split(":");
+      var v = num(p[0]), f = p.length > 1 ? num(p[1]) : 1;
+      if (!isFinite(v) || !isFinite(f) || f < 0 || Math.round(f) !== f || p.length > 2) return null;
+      for (var k = 0; k < f; k++) vals.push(v);
+    }
+    return vals.length ? vals : null;
+  }
+  function readNums(s) {
+    var toks = String(s).trim().split(/[\s;]+/).filter(Boolean), out = [];
+    for (var i = 0; i < toks.length; i++) { var v = num(toks[i]); if (!isFinite(v)) return null; out.push(v); }
+    return out;
+  }
+
+  /* ---------- estadística ---------- */
+  function freqTable(vals) {
+    var m = {}; vals.forEach(function (v) { m[v] = (m[v] || 0) + 1; });
+    var xs = Object.keys(m).map(Number).sort(function (a, b) { return a - b; }), N = vals.length, F = 0;
+    return xs.map(function (x) { F += m[x]; return { x: x, f: m[x], F: F, h: m[x] / N, H: F / N }; });
+  }
+  // percentil a la manera dels apunts: el primer valor amb F_i ≥ k·N; si F_i = k·N exactament, la mitjana amb el següent
+  function quant(T, N, k) {
+    var pos = k * N;
+    for (var i = 0; i < T.length; i++) {
+      if (Math.abs(T[i].F - pos) < 1e-9 && i + 1 < T.length) return (T[i].x + T[i + 1].x) / 2;
+      if (T[i].F > pos - 1e-9) return T[i].x;
+    }
+    return T[T.length - 1].x;
+  }
+  function uniStats(vals) {
+    var T = freqTable(vals), N = vals.length, s = 0, s2 = 0;
+    T.forEach(function (r) { s += r.x * r.f; s2 += r.x * r.x * r.f; });
+    var mean = s / N, v = s2 / N - mean * mean; if (Math.abs(v) < 1e-12) v = 0;
+    var fmax = Math.max.apply(null, T.map(function (r) { return r.f; }));
+    return { T: T, N: N, s: s, s2: s2, mean: mean, v: v, sd: Math.sqrt(v), med: quant(T, N, 0.5), q1: quant(T, N, 0.25), q3: quant(T, N, 0.75),
+      modes: T.filter(function (r) { return r.f === fmax; }).map(function (r) { return r.x; }), min: T[0].x, max: T[T.length - 1].x };
+  }
+  function biStats(x, y) {
+    var N = x.length, sx = 0, sy = 0, sx2 = 0, sy2 = 0, sxy = 0;
+    for (var i = 0; i < N; i++) { sx += x[i]; sy += y[i]; sx2 += x[i] * x[i]; sy2 += y[i] * y[i]; sxy += x[i] * y[i]; }
+    var mx = sx / N, my = sy / N, vx = sx2 / N - mx * mx, vy = sy2 / N - my * my, c = sxy / N - mx * my;
+    if (Math.abs(vx) < 1e-12) vx = 0; if (Math.abs(vy) < 1e-12) vy = 0;
+    var r = vx > 0 && vy > 0 ? c / Math.sqrt(vx * vy) : NaN;
+    return { N: N, sx: sx, sy: sy, sx2: sx2, sy2: sy2, sxy: sxy, mx: mx, my: my, vx: vx, vy: vy, c: c, r: Math.max(-1, Math.min(1, r)) };
+  }
+  function rWords(r) {
+    if (!isFinite(r)) return u("noVar");
+    var a = Math.abs(r), k = a >= 0.8 ? "strong" : a >= 0.5 ? "moderate" : a >= 0.2 ? "weak" : "none";
+    if (k === "none") return u("noCorr") + " (" + u("corr").toLowerCase() + " " + u("none") + ")";
+    return u("corr") + " " + u(r > 0 ? "pos" : "neg") + " " + u(k) + (a > 0.995 ? " (" + (lang === "en" ? "almost exact" : lang === "es" ? "casi exacta" : "gairebé exacta") + ")" : "");
+  }
+
+  /* ---------- núvol de punts (SVG) ---------- */
+  var W = 340, H = 260, ML = 38, MR = 12, MT = 12, MB = 30;
+  function nice(lo, hi) {
+    if (hi - lo < 1e-9) { lo -= 1; hi += 1; }
+    var span = hi - lo, step = Math.pow(10, Math.floor(Math.log10(span / 5)));
+    [1, 2, 5, 10].some(function (k) { if (span / (step * k) <= 6) { step *= k; return true; } return false; });
+    return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step: step };
+  }
+  // opts: {xr:[a,b], yr:[a,b], means:true, axes:["X","Y"], hl: índex}
+  function cloud(svg, pts, opts) {
+    opts = opts || {};
+    var xs = pts.map(function (p) { return p[0]; }), ys = pts.map(function (p) { return p[1]; });
+    var ax = opts.xr ? { lo: opts.xr[0], hi: opts.xr[1], step: opts.xr[2] || nice(opts.xr[0], opts.xr[1]).step } : nice(Math.min.apply(null, xs.concat([0])), Math.max.apply(null, xs.concat([1])));
+    var ay = opts.yr ? { lo: opts.yr[0], hi: opts.yr[1], step: opts.yr[2] || nice(opts.yr[0], opts.yr[1]).step } : nice(Math.min.apply(null, ys.concat([0])), Math.max.apply(null, ys.concat([1])));
+    function X(v) { return ML + (v - ax.lo) / (ax.hi - ax.lo) * (W - ML - MR); }
+    function Y(v) { return H - MB - (v - ay.lo) / (ay.hi - ay.lo) * (H - MT - MB); }
+    var h = '<rect class="bg" x="' + ML + '" y="' + MT + '" width="' + (W - ML - MR) + '" height="' + (H - MT - MB) + '"/>', v;
+    for (v = ax.lo; v <= ax.hi + 1e-9; v += ax.step) h += '<line class="grid" x1="' + X(v) + '" y1="' + MT + '" x2="' + X(v) + '" y2="' + (H - MB) + '"/><text class="tick" x="' + X(v) + '" y="' + (H - MB + 15) + '" text-anchor="middle">' + ft(v, 3) + "</text>";
+    for (v = ay.lo; v <= ay.hi + 1e-9; v += ay.step) h += '<line class="grid" x1="' + ML + '" y1="' + Y(v) + '" x2="' + (W - MR) + '" y2="' + Y(v) + '"/><text class="tick" x="' + (ML - 5) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + ft(v, 3) + "</text>";
+    h += '<line class="axis" x1="' + ML + '" y1="' + (H - MB) + '" x2="' + (W - MR) + '" y2="' + (H - MB) + '"/><line class="axis" x1="' + ML + '" y1="' + MT + '" x2="' + ML + '" y2="' + (H - MB) + '"/>';
+    if (opts.axes) h += '<text class="tick lab" x="' + (W - MR) + '" y="' + (H - MB - 5) + '" text-anchor="end">' + opts.axes[0] + '</text><text class="tick lab" x="' + (ML + 5) + '" y="' + (MT + 11) + '">' + opts.axes[1] + "</text>";
+    if (opts.means && pts.length > 1) {
+      var st = biStats(xs, ys);
+      h += '<line class="meanl" x1="' + X(st.mx) + '" y1="' + MT + '" x2="' + X(st.mx) + '" y2="' + (H - MB) + '"/><line class="meanl" x1="' + ML + '" y1="' + Y(st.my) + '" x2="' + (W - MR) + '" y2="' + Y(st.my) + '"/>';
+      h += '<circle class="cg" cx="' + X(st.mx) + '" cy="' + Y(st.my) + '" r="5"/>';
+    }
+    pts.forEach(function (p, i) { h += '<circle class="pt' + (opts.hl === i ? " hl" : "") + '" data-i="' + i + '" cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="' + (opts.r || 4.5) + '"/>'; });
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.innerHTML = h;
+    return { X: X, Y: Y, ax: ax, ay: ay, inv: function (px, py) { return [ax.lo + (px - ML) / (W - ML - MR) * (ax.hi - ax.lo), ay.lo + (H - MB - py) / (H - MT - MB) * (ay.hi - ay.lo)]; } };
+  }
+  // generador pseudoaleatori amb llavor i núvols amb un r exacte
+  function rng(seed) { var s = seed >>> 0 || 1; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function normals(n, rand) { var out = []; while (out.length < n) { var a = rand() || 1e-9, b = rand(); out.push(Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b)); } return out; }
+  function std(a) { var n = a.length, m = a.reduce(function (s, v) { return s + v; }, 0) / n, s2 = a.reduce(function (s, v) { return s + (v - m) * (v - m); }, 0) / n; return a.map(function (v) { return (v - m) / Math.sqrt(s2); }); }
+  function cloudR(n, r, seed) {
+    var rand = rng(seed), z1 = std(normals(n, rand)), z2 = normals(n, rand);
+    var d = z1.reduce(function (s, v, i) { return s + v * z2[i]; }, 0) / n; z2 = std(z2.map(function (v, i) { return v - d * z1[i]; }));
+    return z1.map(function (a, i) { return [a, r * a + Math.sqrt(Math.max(0, 1 - r * r)) * z2[i]]; });
+  }
+
+  function presetBtns(box, n, key, onPick) {
+    var bs = [];
+    for (var i = 0; i < n; i++) (function (i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn";
+      b.addEventListener("click", function () { onPick(i); }); box.appendChild(b); bs.push(b);
+    })(i);
+    onLang(function () { bs.forEach(function (b, i) { b.textContent = u(key)[i]; }); });
+    return bs;
+  }
+  function table(head, rows, foot) {
+    var h = '<div class="tbl-wrap"><table class="data sm st-tbl"><thead><tr>' + head.map(function (c) { return "<th>" + c + "</th>"; }).join("") + "</tr></thead><tbody>";
+    rows.forEach(function (r) { h += "<tr>" + r.map(function (c) { return "<td>" + c + "</td>"; }).join("") + "</tr>"; });
+    if (foot) h += '<tr class="tot">' + foot.map(function (c) { return "<td>" + c + "</td>"; }).join("") + "</tr>";
+    return h + "</tbody></table></div>";
+  }
+  function K(s) { return tex(s); }
+
+  /* ---------- 10.3 estadística unidimensional ---------- */
+  var PRE_UNI = ["3:1; 4:2; 5:4; 6:5; 7:4; 8:3; 9:1", "2 3 3 4 4 4 5 5 6 8", "12,5 14 9,5 11 15 13 10,5 12"];
+  function wUni() {
+    var w = document.getElementById("w-uni"); if (!w) return;
+    var inp = $(w, "d"), out = w.querySelector(".info"), tb = w.querySelector(".vtbl");
+    presetBtns($(w, "presets"), PRE_UNI.length, "pUni", function (i) { inp.value = PRE_UNI[i]; draw(); });
+    inp.addEventListener("input", draw);
+    function draw() {
+      var vals = readList(inp.value);
+      if (!vals) { inp.classList.add("bad"); out.textContent = u("bad"); tb.innerHTML = ""; return; }
+      inp.classList.remove("bad");
+      var S = uniStats(vals), N = S.N;
+      tb.innerHTML = table([K("x_i"), u("fi"), u("Fi"), u("hi"), u("Hi"), K("x_i\\,f_i"), K("x_i^2\\,f_i")],
+        S.T.map(function (r) { return [ft(r.x, 3), r.f, r.F, ft(r.h, 3), ft(r.H, 3), ft(r.x * r.f, 3), ft(r.x * r.x * r.f, 3)]; }),
+        [u("total"), N, "", "1", "", ft(S.s, 3), ft(S.s2, 3)]);
+      var h = "<p>" + K("N=" + N) + " &nbsp; " + u("mean") + ": " + K("\\bar x=\\dfrac{" + fmt(S.s, 3) + "}{" + N + "}=" + fmt(S.mean)) + "</p>";
+      h += "<p>" + u("median") + ": " + K("Me=" + fmt(S.med, 3)) + " &nbsp; " + u("mode") + ": " + K("Mo=" + S.modes.map(function (m) { return fmt(m, 3); }).join(",\\ ")) +
+        " &nbsp; " + K("Q_1=" + fmt(S.q1, 3)) + ", " + K("Q_3=" + fmt(S.q3, 3)) + "</p>";
+      h += "<p>" + u("range") + ": " + K(fmt(S.max, 3) + "-" + fmt(S.min, 3) + "=" + fmt(S.max - S.min, 3)) + "</p>";
+      h += "<p>" + u("vari") + ": " + K("\\sigma^2=\\dfrac{" + fmt(S.s2, 3) + "}{" + N + "}-" + fmt(S.mean) + "^2=" + fmt(S.v)) + " &nbsp; " + u("sd") + ": " + K("\\sigma=" + fmt(S.sd)) + "</p>";
+      if (S.mean !== 0) h += "<p>" + u("cv") + ": " + K("CV=\\dfrac{\\sigma}{\\bar x}=" + fmt(S.sd / Math.abs(S.mean)) + "\\ (" + fmt(100 * S.sd / Math.abs(S.mean), 2) + "\\,\\%)") + "</p>";
+      out.innerHTML = h;
+    }
+    onLang(draw);
+  }
+
+  /* ---------- 10.4 taula de doble entrada ---------- */
+  var PRE_PAIRS = [["1 2 2 3 4 4 5 6", "3 4 5 5 6 7 8 9"], ["1 2 3 4 5", "2 3 5 4 6"], ["1 2 3 4 5 6 7", "9 8 8 6 5 3 2"], ["1 2 3 4 5 6 7 8", "5 2 6 3 7 5 2 6"], ["-3 -2 -1 0 1 2 3", "9 4 1 0 1 4 9"]];
+  function readPairs(w) {
+    var x = readNums($(w, "x").value), y = readNums($(w, "y").value);
+    var ok = x && y && x.length === y.length && x.length >= 2;
+    $(w, "x").classList.toggle("bad", !x); $(w, "y").classList.toggle("bad", !y);
+    return ok ? { x: x, y: y } : null;
+  }
+  function pairsPresets(w, draw) {
+    presetBtns($(w, "presets"), PRE_PAIRS.length, "pPairs", function (i) { $(w, "x").value = PRE_PAIRS[i][0]; $(w, "y").value = PRE_PAIRS[i][1]; draw(); });
+    $(w, "x").addEventListener("input", draw); $(w, "y").addEventListener("input", draw);
+  }
+  function wDbl() {
+    var w = document.getElementById("w-dbl"); if (!w) return;
+    var tb = w.querySelector(".vtbl"), out = w.querySelector(".info");
+    pairsPresets(w, draw);
+    function draw() {
+      var P = readPairs(w);
+      if (!P) { out.textContent = u("bad2"); tb.innerHTML = ""; return; }
+      var xs = freqTable(P.x).map(function (r) { return r.x; }), ys = freqTable(P.y).map(function (r) { return r.x; });
+      var M = {}; P.x.forEach(function (a, i) { var k = a + "|" + P.y[i]; M[k] = (M[k] || 0) + 1; });
+      var head = ['<span class="dg">' + K("X") + "\\" + K("Y") + "</span>"].concat(ys.map(function (b) { return K(fmt(b, 3)); }), [K("f_{x}")]);
+      var rows = xs.map(function (a) {
+        var tot = 0, r = [K(fmt(a, 3))];
+        ys.forEach(function (b) { var f = M[a + "|" + b] || 0; tot += f; r.push(f ? "<b>" + f + "</b>" : '<span class="z">0</span>'); });
+        r.push(tot); return r;
+      });
+      var foot = [K("f_{y}")].concat(ys.map(function (b) { return P.y.filter(function (v) { return v === b; }).length; }), [P.x.length]);
+      tb.innerHTML = table(head, rows, foot);
+      out.innerHTML = "<p>" + u("margX") + ": " + K("\\bar x=" + fmt(biStats(P.x, P.y).mx)) + ". &nbsp; " + u("margY") + ": " + K("\\bar y=" + fmt(biStats(P.x, P.y).my)) + ".</p>";
+    }
+    onLang(draw);
+  }
+
+  /* ---------- 10.5 núvol de punts interactiu ---------- */
+  var PRE_CLOUD = [[], [[1, 2], [2, 2.5], [3, 3.8], [4, 4.1], [5, 5.6], [6, 6.2], [7, 7.5]], [[1, 8], [2, 7.1], [3, 6.5], [4, 5.2], [5, 4.6], [6, 3.1], [7, 2.4]], [[2, 5], [3, 7], [4, 4], [5, 6.5], [6, 3.5], [4.5, 2.5], [3.5, 3], [5.5, 8]]];
+  function wCloud() {
+    var w = document.getElementById("w-cloud"); if (!w) return;
+    var svg = w.querySelector("svg"), out = w.querySelector(".info"), pts = PRE_CLOUD[1].slice(), G = null;
+    presetBtns($(w, "presets"), PRE_CLOUD.length, "pCloud", function (i) { pts = PRE_CLOUD[i].map(function (p) { return p.slice(); }); draw(); });
+    svg.addEventListener("click", function (ev) {
+      var t = ev.target;
+      if (t.classList && t.classList.contains("pt")) { pts.splice(+t.getAttribute("data-i"), 1); draw(); return; }
+      var r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width, py = (ev.clientY - r.top) * H / r.height;
+      if (px < ML || px > W - MR || py < MT || py > H - MB) return;
+      var q = G.inv(px, py); pts.push([Math.round(q[0] * 10) / 10, Math.round(q[1] * 10) / 10]); draw();
+    });
+    function draw() {
+      G = cloud(svg, pts, { xr: [0, 10, 1], yr: [0, 10, 1], means: true });
+      var h = "<p>" + u("clickAdd") + "</p><p><b>" + pts.length + "</b> " + u("points");
+      if (pts.length >= 2) {
+        var S = biStats(pts.map(function (p) { return p[0]; }), pts.map(function (p) { return p[1]; }));
+        h += ". " + K("(\\bar x,\\bar y)=(" + fmt(S.mx, 2) + ",\\ " + fmt(S.my, 2) + ")") + " &nbsp; " + K("\\sigma_{xy}=" + fmt(S.c, 3)) + " &nbsp; " + K("r=" + fmt(S.r, 3)) + "</p><p>" + rWords(S.r);
+      }
+      out.innerHTML = h + "</p>";
+    }
+    onLang(draw);
+  }
+
+  /* ---------- 10.6 taula per a la covariància ---------- */
+  function covTable(P) {
+    var S = biStats(P.x, P.y);
+    var rows = P.x.map(function (a, i) { var b = P.y[i]; return [ft(a, 3), ft(b, 3), ft(a * a, 3), ft(b * b, 3), ft(a * b, 3)]; });
+    return { S: S, html: table([K("x_i"), K("y_i"), K("x_i^2"), K("y_i^2"), K("x_i\\,y_i")], rows, [ft(S.sx, 3), ft(S.sy, 3), ft(S.sx2, 3), ft(S.sy2, 3), ft(S.sxy, 3)]) };
+  }
+  function covSteps(S) {
+    var N = S.N;
+    return "<p>" + K("\\bar x=\\dfrac{" + fmt(S.sx, 3) + "}{" + N + "}=" + fmt(S.mx) + "\\qquad\\bar y=\\dfrac{" + fmt(S.sy, 3) + "}{" + N + "}=" + fmt(S.my)) + "</p>" +
+      "<p>" + K("\\sigma_x^2=\\dfrac{" + fmt(S.sx2, 3) + "}{" + N + "}-" + fmt(S.mx) + "^2=" + fmt(S.vx) + "\\qquad\\sigma_y^2=\\dfrac{" + fmt(S.sy2, 3) + "}{" + N + "}-" + fmt(S.my) + "^2=" + fmt(S.vy)) + "</p>" +
+      "<p>" + K("\\sigma_x=" + fmt(Math.sqrt(S.vx)) + "\\qquad\\sigma_y=" + fmt(Math.sqrt(S.vy))) + "</p>" +
+      "<p>" + u("cov") + ": " + K("\\sigma_{xy}=\\dfrac{" + fmt(S.sxy, 3) + "}{" + N + "}-" + fmt(S.mx) + "\\cdot" + fmt(S.my) + "=" + fmt(S.c)) + "</p>";
+  }
+  function wCov() {
+    var w = document.getElementById("w-cov"); if (!w) return;
+    var tb = w.querySelector(".vtbl"), out = w.querySelector(".info");
+    pairsPresets(w, draw);
+    function draw() {
+      var P = readPairs(w);
+      if (!P) { out.textContent = u("bad2"); tb.innerHTML = ""; return; }
+      var T = covTable(P); tb.innerHTML = T.html; out.innerHTML = covSteps(T.S);
+    }
+    onLang(draw);
+  }
+
+  /* ---------- 10.7 r amb un control lliscant i endevina r ---------- */
+  function wSlide() {
+    var w = document.getElementById("w-slide"); if (!w) return;
+    var svg = w.querySelector("svg"), sl = $(w, "r"), out = w.querySelector(".info"), lab = $(w, "rv");
+    sl.addEventListener("input", draw);
+    function draw() {
+      var r = +sl.value, pts = cloudR(40, r, 7).map(function (p) { return [5 + 1.6 * p[0], 5 + 1.6 * p[1]]; });
+      cloud(svg, pts, { xr: [0, 10, 1], yr: [0, 10, 1], means: true, r: 3.6 });
+      lab.textContent = ft(r, 2);
+      out.innerHTML = "<p>" + K("r=" + fmt(r, 2)) + ": " + rWords(r) + "</p>";
+    }
+    onLang(draw);
+  }
+  function wGuess() {
+    var w = document.getElementById("w-guess"); if (!w) return;
+    var svg = w.querySelector("svg"), box = $(w, "opts"), out = w.querySelector(".info"), nb = $(w, "new"), q = $(w, "q");
+    var OPTS = [-0.95, -0.7, -0.3, 0, 0.3, 0.7, 0.95], seed = 11, cur = 0, ok = 0, tries = 0, answered = false;
+    function fresh() { seed = (seed * 7 + 13) % 100000; cur = OPTS[seed % OPTS.length]; answered = false; draw(); }
+    nb.addEventListener("click", fresh);
+    function draw() {
+      q.textContent = u("guessQ"); nb.textContent = u("newCloud");
+      var pts = cloudR(30, cur, seed).map(function (p) { return [5 + 1.5 * p[0], 5 + 1.5 * p[1]]; });
+      cloud(svg, pts, { xr: [0, 10, 1], yr: [0, 10, 1], r: 3.6 });
+      box.innerHTML = "";
+      OPTS.forEach(function (o) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.innerHTML = K("r=" + fmt(o, 2));
+        if (answered) { b.disabled = true; if (o === cur) b.classList.add("ok-b"); }
+        b.addEventListener("click", function () { if (answered) return; answered = true; tries++; if (o === cur) ok++; out.innerHTML = "<p><b>" + (o === cur ? "✓ " + u("right") : "✗ " + u("wrong")) + "</b> " + u("wasR") + " " + K(fmt(cur, 2)) + ". " + u("hits") + ": " + ok + " / " + tries + "</p>"; draw(); });
+        box.appendChild(b);
+      });
+      if (!answered && !tries) out.innerHTML = "";
+    }
+    onLang(draw);
+  }
+
+  /* ---------- figures fixes: núvols dels exemples ---------- */
+  function F(fn, n, a, b, noise, seed) { var rand = rng(seed), out = []; for (var i = 0; i < n; i++) { var x = a + (b - a) * (i + rand() * 0.8) / n; out.push([x, fn(x) + noise * (rand() * 2 - 1)]); } return out; }
+  var FIGS = {
+    cl1: function () { return { pts: [[1, 2], [2, 3], [3, 5], [4, 4], [5, 6]], o: { xr: [0, 6, 1], yr: [0, 7, 1], means: true, axes: ["X", "Y"] } }; },
+    clHours: function () { return { pts: [[1, 3], [2, 4], [2, 5], [3, 5], [4, 6], [4, 7], [5, 8], [6, 9]], o: { xr: [0, 7, 1], yr: [0, 10, 1], axes: ["h", "nota"] } }; },
+    rp: function () { return { pts: cloudR(30, 0.92, 3).map(function (p) { return [5 + 1.5 * p[0], 5 + 1.5 * p[1]]; }), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    rn: function () { return { pts: cloudR(30, -0.85, 5).map(function (p) { return [5 + 1.5 * p[0], 5 + 1.5 * p[1]]; }), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    r0: function () { return { pts: cloudR(30, 0.02, 9).map(function (p) { return [5 + 1.5 * p[0], 5 + 1.5 * p[1]]; }), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    rw: function () { return { pts: cloudR(30, 0.45, 21).map(function (p) { return [5 + 1.5 * p[0], 5 + 1.5 * p[1]]; }), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    par: function () { return { pts: F(function (x) { return 9 - (x - 5) * (x - 5) * 0.35; }, 24, 0.2, 9.8, 0.6, 4), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    expo: function () { return { pts: F(function (x) { return 0.15 * Math.exp(0.42 * x); }, 24, 0.2, 9.8, 0.25, 8), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    sat: function () { return { pts: F(function (x) { return 9 * (1 - Math.exp(-0.5 * x)); }, 24, 0.2, 9.8, 0.4, 12), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    circ: function () { var o = []; for (var i = 0; i < 24; i++) { var a = i / 24 * 2 * Math.PI; o.push([5 + 3.6 * Math.cos(a), 5 + 3.6 * Math.sin(a)]); } return { pts: o, o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
+    outl: function () { return { pts: [[1, 1.2], [1.5, 1], [2, 1.4], [1.2, 1.6], [1.8, 0.9], [2.2, 1.3], [1.4, 1.1], [9, 9]], o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.6, hl: 7 } }; }
+  };
+  function wFigs() {
+    document.querySelectorAll("[data-g]").forEach(function (el) {
+      var mk = FIGS[el.getAttribute("data-g")]; if (!mk) return;
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "st-svg"); svg.setAttribute("role", "img"); svg.setAttribute("aria-label", "Núvol de punts");
+      el.insertBefore(svg, el.firstChild);
+      var cfg = mk();
+      onLang(function () {
+        cloud(svg, cfg.pts, cfg.o);
+        var cap = el.querySelector(".rcap");
+        if (cap) { var S = biStats(cfg.pts.map(function (p) { return p[0]; }), cfg.pts.map(function (p) { return p[1]; })); cap.innerHTML = K("r\\approx" + fmt(S.r, 2)); }
+      });
+    });
+  }
+
+  /* ---------- laboratori bidimensional ---------- */
+  function wLab() {
+    var w = document.getElementById("w-lab"); if (!w) return;
+    var tb = w.querySelector(".vtbl"), out = w.querySelector(".info"), svg = w.querySelector("svg");
+    pairsPresets(w, draw);
+    function draw() {
+      var P = readPairs(w);
+      if (!P) { out.textContent = u("bad2"); tb.innerHTML = ""; svg.innerHTML = ""; return; }
+      var T = covTable(P), S = T.S;
+      tb.innerHTML = T.html;
+      cloud(svg, P.x.map(function (a, i) { return [a, P.y[i]]; }), { means: true });
+      out.innerHTML = covSteps(S) + "<p>" + u("r") + ": " + K("r=\\dfrac{\\sigma_{xy}}{\\sigma_x\\,\\sigma_y}=\\dfrac{" + fmt(S.c) + "}{" + fmt(Math.sqrt(S.vx)) + "\\cdot" + fmt(Math.sqrt(S.vy)) + "}=" + fmt(S.r)) + "</p><p><b>" + rWords(S.r) + "</b></p>";
+    }
+    onLang(draw);
+  }
+
+  /* ---------- qüestionari ---------- */
+  function q3(va, es, en) { return { va: va, es: es || va, en: en || va }; }
+  var QUIZ = [
+    { q: q3("El nombre de germans d'un alumne és una variable…", "El número de hermanos de un alumno es una variable…", "The number of siblings of a student is a…"),
+      o: [q3("quantitativa discreta", "cuantitativa discreta", "discrete quantitative variable"), q3("quantitativa contínua", "cuantitativa continua", "continuous quantitative variable"), q3("qualitativa", "cualitativa", "qualitative variable")], a: 0,
+      e: q3("Pren valors numèrics aïllats (0, 1, 2…).", "Toma valores numéricos aislados (0, 1, 2…).", "It takes isolated numerical values (0, 1, 2…).") },
+    { q: q3("La mitjana de 2, 4, 4, 5 i 10 és…", "La media de 2, 4, 4, 5 y 10 es…", "The mean of 2, 4, 4, 5 and 10 is…"),
+      o: [q3("$4$"), q3("$5$"), q3("$4{,}5$", "$4{,}5$", "$4.5$")], a: 1, e: q3("$\\frac{25}{5}=5$. La mediana és 4.", "$\\frac{25}{5}=5$. La mediana es 4.", "$\\frac{25}{5}=5$. The median is 4.") },
+    { q: q3("Si $\\sum x_i^2f_i=50$, $N=10$ i $\\bar x=2$, la variància és…", "Si $\\sum x_i^2f_i=50$, $N=10$ y $\\bar x=2$, la varianza es…", "If $\\sum x_i^2f_i=50$, $N=10$ and $\\bar x=2$, the variance is…"),
+      o: [q3("$1$"), q3("$3$"), q3("$5$")], a: 0, e: q3("$\\sigma^2=\\frac{50}{10}-2^2=1$.") },
+    { q: q3("Dos grups tenen $\\bar x=10,\\ \\sigma=2$ i $\\bar x=50,\\ \\sigma=5$. Quin és relativament més dispers?", "Dos grupos tienen $\\bar x=10,\\ \\sigma=2$ y $\\bar x=50,\\ \\sigma=5$. ¿Cuál es relativamente más disperso?", "Two groups have $\\bar x=10,\\ \\sigma=2$ and $\\bar x=50,\\ \\sigma=5$. Which is relatively more spread out?"),
+      o: [q3("el primer", "el primero", "the first"), q3("el segon", "el segundo", "the second"), q3("igual", "igual", "the same")], a: 0,
+      e: q3("$CV_1=0{,}2$ i $CV_2=0{,}1$: compara amb el coeficient de variació.", "$CV_1=0{,}2$ y $CV_2=0{,}1$: compara con el coeficiente de variación.", "$CV_1=0.2$ and $CV_2=0.1$: compare the coefficients of variation.") },
+    { q: q3("En una taula de doble entrada, la suma d'una fila dona…", "En una tabla de doble entrada, la suma de una fila da…", "In a two-way table, the sum of a row gives…"),
+      o: [q3("una freqüència marginal de X", "una frecuencia marginal de X", "a marginal frequency of X"), q3("la covariància", "la covarianza", "the covariance"), q3("el total N", "el total N", "the total N")], a: 0,
+      e: q3("Les sumes de files i de columnes són les distribucions marginals.", "Las sumas de filas y de columnas son las distribuciones marginales.", "Row and column sums are the marginal distributions.") },
+    { q: q3("El centre de gravetat d'un núvol de punts és…", "El centro de gravedad de una nube de puntos es…", "The centre of gravity of a scatter plot is…"),
+      o: [q3("$(\\bar x,\\bar y)$"), q3("$(\\sigma_x,\\sigma_y)$"), q3("el punt més alt", "el punto más alto", "the highest point")], a: 0, e: q3("És el punt de les dues mitjanes.", "Es el punto de las dos medias.", "It is the point given by both means.") },
+    { q: q3("Si $\\sum x_iy_i=69$, $N=5$, $\\bar x=3$ i $\\bar y=4$, la covariància és…", "Si $\\sum x_iy_i=69$, $N=5$, $\\bar x=3$ y $\\bar y=4$, la covarianza es…", "If $\\sum x_iy_i=69$, $N=5$, $\\bar x=3$ and $\\bar y=4$, the covariance is…"),
+      o: [q3("$1{,}8$", "$1{,}8$", "$1.8$"), q3("$13{,}8$", "$13{,}8$", "$13.8$"), q3("$-1{,}8$", "$-1{,}8$", "$-1.8$")], a: 0, e: q3("$\\sigma_{xy}=\\frac{69}{5}-3\\cdot4=13{,}8-12=1{,}8$.", "$\\sigma_{xy}=\\frac{69}{5}-3\\cdot4=13{,}8-12=1{,}8$.", "$\\sigma_{xy}=\\frac{69}{5}-3\\cdot4=13.8-12=1.8$.") },
+    { q: q3("Una covariància negativa indica que…", "Una covarianza negativa indica que…", "A negative covariance means that…"),
+      o: [q3("quan una variable creix, l'altra tendeix a decréixer", "cuando una variable crece, la otra tiende a decrecer", "when one variable increases, the other tends to decrease"), q3("no hi ha cap relació", "no hay ninguna relación", "there is no relation"), q3("hi ha un error de càlcul", "hay un error de cálculo", "there is a calculation error")], a: 0,
+      e: q3("La majoria de punts són als quadrants 2n i 4t respecte de $(\\bar x,\\bar y)$.", "La mayoría de puntos están en los cuadrantes 2º y 4º respecto de $(\\bar x,\\bar y)$.", "Most points lie in the 2nd and 4th quadrants around $(\\bar x,\\bar y)$.") },
+    { q: q3("Quin d'aquests valors NO pot ser un coeficient de correlació?", "¿Cuál de estos valores NO puede ser un coeficiente de correlación?", "Which of these values CANNOT be a correlation coefficient?"),
+      o: [q3("$-0{,}98$", "$-0{,}98$", "$-0.98$"), q3("$1{,}2$", "$1{,}2$", "$1.2$"), q3("$0$")], a: 1, e: q3("Sempre $-1\\leq r\\leq1$.") },
+    { q: q3("Si $\\sigma_{xy}=1{,}8$ i $\\sigma_x=\\sigma_y=\\sqrt2$, aleshores $r$ val…", "Si $\\sigma_{xy}=1{,}8$ y $\\sigma_x=\\sigma_y=\\sqrt2$, entonces $r$ vale…", "If $\\sigma_{xy}=1.8$ and $\\sigma_x=\\sigma_y=\\sqrt2$, then $r$ equals…"),
+      o: [q3("$0{,}9$", "$0{,}9$", "$0.9$"), q3("$1{,}8$", "$1{,}8$", "$1.8$"), q3("$1{,}27$", "$1{,}27$", "$1.27$")], a: 0, e: q3("$r=\\frac{1{,}8}{\\sqrt2\\cdot\\sqrt2}=\\frac{1{,}8}{2}=0{,}9$.", "$r=\\frac{1{,}8}{\\sqrt2\\cdot\\sqrt2}=\\frac{1{,}8}{2}=0{,}9$.", "$r=\\frac{1.8}{\\sqrt2\\cdot\\sqrt2}=\\frac{1.8}{2}=0.9$.") },
+    { q: q3("$r=-0{,}93$ indica una correlació…", "$r=-0{,}93$ indica una correlación…", "$r=-0.93$ indicates a…"),
+      o: [q3("negativa i forta", "negativa y fuerte", "strong negative correlation"), q3("negativa i feble", "negativa y débil", "weak negative correlation"), q3("positiva i forta", "positiva y fuerte", "strong positive correlation")], a: 0,
+      e: q3("El signe diu el sentit i $|r|$ prop d'1, la força.", "El signo dice el sentido y $|r|$ cerca de 1, la fuerza.", "The sign gives the direction and $|r|$ close to 1, the strength.") },
+    { q: q3("Si els punts formen una paràbola gairebé perfecta i simètrica, $r$ pot ser…", "Si los puntos forman una parábola casi perfecta y simétrica, $r$ puede ser…", "If the points form an almost perfect symmetric parabola, $r$ can be…"),
+      o: [q3("pròxim a 0", "cercano a 0", "close to 0"), q3("pròxim a 1", "cercano a 1", "close to 1"), q3("pròxim a −1", "cercano a −1", "close to −1")], a: 0,
+      e: q3("Hi ha una relació forta però no lineal: $r$ només mesura la relació lineal.", "Hay una relación fuerte pero no lineal: $r$ solo mide la relación lineal.", "There is a strong but non-linear relation: $r$ only measures linear relation.") },
+    { q: q3("Si entre dues variables $r=0{,}95$, podem dir que una és la causa de l'altra?", "Si entre dos variables $r=0{,}95$, ¿podemos decir que una es la causa de la otra?", "If two variables have $r=0.95$, can we say one causes the other?"),
+      o: [q3("No necessàriament", "No necesariamente", "Not necessarily"), q3("Sí, sempre", "Sí, siempre", "Yes, always"), q3("Només si $r=1$", "Solo si $r=1$", "Only if $r=1$")], a: 0,
+      e: q3("Correlació no vol dir causalitat: pot haver-hi una tercera variable que influïsca en les dues.", "Correlación no significa causalidad: puede haber una tercera variable que influya en las dos.", "Correlation does not imply causation: a third variable may influence both.") }
+  ];
+
+  var answers = {};
+  function rtex(s) { return s.replace(/\$([^$]+)\$/g, function (_, m) { return tex(m); }); }
+  function wQuiz() {
+    var box = document.getElementById("quiz-box"), score = document.getElementById("quiz-score");
+    if (!box) return;
+    function render() {
+      box.innerHTML = ""; var ok = 0, done = 0;
+      QUIZ.forEach(function (q, i) {
+        var d = document.createElement("div"); d.className = "q";
+        d.innerHTML = '<p class="qt">' + (i + 1) + ". " + rtex(q.q[lang]) + '</p><div class="opts"></div><div class="fb"></div>';
+        var opts = d.querySelector(".opts"), fb = d.querySelector(".fb");
+        q.o.forEach(function (o, j) {
+          var b = document.createElement("button"); b.type = "button"; b.innerHTML = rtex(o[lang]);
+          if (answers[i] != null) {
+            b.disabled = true;
+            if (j === q.a) b.classList.add("right"); else if (j === answers[i]) b.classList.add("wrong");
+          }
+          b.addEventListener("click", function () { answers[i] = j; render(); });
+          opts.appendChild(b);
+        });
+        if (answers[i] != null) { done++; if (answers[i] === q.a) ok++; fb.innerHTML = "<strong>" + (answers[i] === q.a ? "✓ " + u("right") : "✗ " + u("wrong")) + "</strong> " + rtex(q.e[lang]); }
+        box.appendChild(d);
+      });
+      score.textContent = done ? u("score") + ": " + ok + " / " + QUIZ.length : "";
+    }
+    document.getElementById("quiz-reset").addEventListener("click", function () { answers = {}; render(); });
+    onLang(render);
+  }
+
+  /* ---------- passos ---------- */
+  function wSteps() {
+    document.querySelectorAll(".steps").forEach(function (s) {
+      var steps = [].slice.call(s.children).filter(function (c) { return c.classList.contains("step"); });
+      if (steps.length < 2) return;
+      s.classList.add("js");
+      var shown = 1, ctl = document.createElement("div"); ctl.className = "steps-ctl";
+      var bn = document.createElement("button"), ba = document.createElement("button"), cnt = document.createElement("span");
+      bn.type = ba.type = "button"; bn.className = "btn primary"; ba.className = "btn"; cnt.className = "step-count";
+      ctl.appendChild(bn); ctl.appendChild(ba); ctl.appendChild(cnt); s.after(ctl);
+      function upd() {
+        steps.forEach(function (st, i) { st.classList.toggle("hidden", i >= shown); });
+        bn.textContent = u("next") + " →"; bn.disabled = shown >= steps.length;
+        ba.textContent = shown >= steps.length ? u("reset") : u("all");
+        cnt.textContent = u("step") + " " + shown + " " + u("of") + " " + steps.length;
+      }
+      bn.addEventListener("click", function () { if (shown < steps.length) { shown++; upd(); steps[shown - 1].scrollIntoView({ block: "nearest", behavior: "smooth" }); } });
+      ba.addEventListener("click", function () { shown = shown >= steps.length ? 1 : steps.length; upd(); });
+      onLang(upd);
+    });
+  }
+
+  /* ---------- índex, progrés i seccions estudiades ---------- */
+  function wNav() {
+    var links = [].slice.call(document.querySelectorAll("#toc-list a")), secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var bar = document.getElementById("progress"), top = document.getElementById("to-top");
+    function onScroll() {
+      var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + "%";
+      top.classList.toggle("show", h.scrollTop > 800);
+      var y = window.scrollY + 140, idx = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    top.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    var done = {}; try { done = JSON.parse(store(UNIT_KEY) || "{}") || {}; } catch (e) {}
+    var heads = document.querySelectorAll("section.unit[id^='s'] .sec-head");
+    heads.forEach(function (hd) {
+      var id = hd.parentNode.id, b = document.createElement("button"); b.type = "button"; b.className = "done-btn";
+      function upd() { b.setAttribute("aria-pressed", String(!!done[id])); b.textContent = (done[id] ? "✓ " + u("studied") : "○ " + u("mark")); }
+      b.addEventListener("click", function () { done[id] = !done[id]; store(UNIT_KEY, JSON.stringify(done)); upd(); meter(); });
+      hd.appendChild(b); onLang(upd);
+    });
+    function meter() {
+      var n = 0; links.forEach(function (a) { var id = a.getAttribute("href").slice(1); a.classList.toggle("done", !!done[id]); if (done[id]) n++; });
+      document.getElementById("meter").style.width = (n / 8 * 100) + "%"; document.getElementById("meter-n").textContent = n;
+    }
+    meter();
+    var d = document.getElementById("toc-d");
+    var mq = window.matchMedia("(max-width: 960px)");
+    d.open = !mq.matches;
+    if (mq.addEventListener) mq.addEventListener("change", function () { d.open = !mq.matches; });
+    links.forEach(function (a) { a.addEventListener("click", function () { if (window.matchMedia("(max-width: 960px)").matches) d.open = false; }); });
+  }
+
+  /* ---------- idioma i tema ---------- */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  function wChrome() {
+    var tb = document.getElementById("theme-btn");
+    function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+    tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+    var btns = document.querySelectorAll("[data-setlang]");
+    function paintLang() { btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); }
+    btns.forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.setlang); }); });
+    onLang(function () { paintTheme(); paintLang(); });
+  }
+  var TITLES = { va: "Estadística · FentMates", es: "Estadística · FentMates", en: "Statistics · FentMates" };
+  function setLang(l) {
+    if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }
+
+  function init() {
+    document.title = TITLES[lang];
+    var D = [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }];
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, { delimiters: D, ignoredClasses: ["widget", "lab"], throwOnError: false });
+      document.querySelectorAll(".widget .wt, .widget label, #w-lab label").forEach(function (el) { window.renderMathInElement(el, { delimiters: D, throwOnError: false }); });
+    }
+    var all = [wChrome, wSteps, wNav, wFigs, wUni, wDbl, wCloud, wCov, wSlide, wGuess, wLab, wQuiz];
+    all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
+    window.FM110b = { uniStats: uniStats, biStats: biStats, cloudR: cloudR, readList: readList };
+  }
+  if (document.readyState === "complete") init(); else window.addEventListener("load", init);
+})();
+</script>
+</body>
+</html>

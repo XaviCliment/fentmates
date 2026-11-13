@@ -318,6 +318,18 @@ python3 _eines/apunts/1batx-mi-t9/build.py
 cd _eines/fonts-latex/1batx-mi-t9 && python3 genera.py && pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex
 ```
 
+Els apunts de 1r Batx MI de la unitat 10 (Estadística, carpeta `1batx-mi-t10`) són nous: 8 apartats, 10.1-10.3 repàs
+d'estadística unidimensional (taules, centralització i posició, dispersió) i 10.4-10.8 estadística bidimensional (taules de
+doble entrada, núvol de punts, variàncies i covariància, correlació lineal; els altres tipus de relació només amb exemples de
+núvols). `app.js` té el seu propi codi (`uniStats`, `biStats`, `cloud` per als núvols en SVG, `cloudR` genera núvols amb una r
+exacta) i 8 ginys. La fitxa (`_eines/fonts-latex/1batx-mi-t10/genera.py`) té 29 exercicis en 8 seccions; tots els resultats es
+calculen amb `Fraction` (`uni`, `bi`, `dbl`) i es formaten amb `d()`, i els núvols es dibuixen amb TikZ (`nuvol`):
+
+```
+python3 _eines/apunts/1batx-mi-t10/build.py
+cd _eines/fonts-latex/1batx-mi-t10 && python3 genera.py && pdflatex t10-fitxa-exercicis.tex && pdflatex t10-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i
