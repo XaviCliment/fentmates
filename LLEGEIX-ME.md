@@ -383,6 +383,18 @@ python3 _eines/apunts/4eso-b-t2/build.py
 cd _eines/fonts-latex/4eso-b-t2 && python3 genera.py && pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex
 ```
 
+- **Unitat 3 (Equacions i inequacions, `4eso-b-t3`)**: parteix dels apartats 2.5-2.10 de 1r Batx MI, separats en 10 apartats
+  (segon grau, biquadrades, grau major que 2, factoritzades, amb fraccions, amb radicals, exponencials, logarítmiques,
+  inequacions de primer grau i de segon grau o superior). 8 ginys: el de segon grau té dues instàncies (`w-quad` i `w-biq`,
+  amb `quadW`), i són nous el de les equacions factoritzades (`w-feq`, amb `parseProd`) i el de les inequacions de primer
+  grau (`w-lin`). La fitxa té 34 exercicis en 11 seccions; `sol()` resol cada equació amb sympy (i, si sympy no pot, comprova
+  les solucions i fa un escombratge numèric) i `ineq()` resol cada inequació i la compara amb l'interval escrit.
+
+```
+python3 _eines/apunts/4eso-b-t3/build.py
+cd _eines/fonts-latex/4eso-b-t3 && python3 genera.py && pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex
+```
+
 ## 2n Batx MII: unitat 7 (Aplicacions de la derivada)
 
 Els apunts es generen amb `_eines/apunts/2batx-mii-t7/build.py` (contingut a `contingut-*.html`, ginys a `app.js`,

@@ -331,6 +331,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis, de les operacions amb polinomis a les fraccions algebraiques", es: "PDF · 36 ejercicios, de las operaciones con polinomios a las fracciones algebraicas", en: "PDF · 36 exercises, from operations with polynomials to algebraic fractions" }, url: "materials/4eso-b/t2-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/4eso-b/t2-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
+      },
+      {
+        num: "3",
+        ill: "equacions", block: "alg",
+        title: { va: "Equacions i inequacions", es: "Ecuaciones e inecuaciones", en: "Equations and inequalities" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t3-equacions-inequacions.html", date: "2026-11-13" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 34 exercicis, de les equacions de segon grau a les inequacions", es: "PDF · 34 ejercicios, de las ecuaciones de segundo grado a las inecuaciones", en: "PDF · 34 exercises, from quadratic equations to inequalities" }, url: "materials/4eso-b/t3-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 34 exercicis", es: "PDF · Soluciones de los 34 ejercicios", en: "PDF · Solutions to all 34 exercises" }, url: "materials/4eso-b/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+        ]
       }
     ]
   },
