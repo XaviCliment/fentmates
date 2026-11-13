@@ -349,6 +349,28 @@ perquè algun apartat és d'aquestes unitats. Les solucions són a `sol_a.py`, `
 python3 _eines/pau/an/build.py
 ```
 
+## 4t ESO Matemàtiques B
+
+Els apunts de 4t ESO B parteixen dels de 1r Batx MI, simplificats (carpetes `_eines/apunts/4eso-b-tN`). Funcionen igual: el
+contingut és a `contingut-*.html` (convencions ⟪va‖es‖en⟫), els ginys a `app.js`, l'estil propi a `extra.css`, i `build.py`
+genera `materials/4eso-b/tN-….html`. A `fm-materials.js`, la unitat 1 de 4t ESO B és del bloc d'aritmètica i les unitats 2-4,
+del d'àlgebra.
+
+Les fitxes (`_eines/fonts-latex/4eso-b-tN/genera.py`) mostren les estrelles de dificultat (com les d'ESO) i comparteixen les
+eines de `_eines/fonts-latex/comu/eso4b.py`: `tasks`, intervals i recta real (`P`, `cup`, `cap`, `RI`, `recta`), `ck` per a
+resultats exactes, `eq` per a comprovar amb sympy (numèricament) cada resultat escrit a mà, i `build`, que escriu la fitxa i
+les solucions.
+
+- **Unitat 1 (Nombres reals, `4eso-b-t1`)**: 6 apartats (classificació dels nombres, intervals i semirectes, unió i
+  intersecció, radicals, racionalització i logaritmes) i 9 ginys; respecte de 1r Batx MI, sense valor absolut, entorns ni
+  diferència d'intervals, i amb tres ginys nous (simplificació de radicals `w-simp`, racionalització `w-rac` i canvi de base
+  `w-cb`). La fitxa té 40 exercicis en 7 seccions.
+
+```
+python3 _eines/apunts/4eso-b-t1/build.py
+cd _eines/fonts-latex/4eso-b-t1 && python3 genera.py && pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex
+```
+
 ## 2n Batx MII: unitat 7 (Aplicacions de la derivada)
 
 Els apunts es generen amb `_eines/apunts/2batx-mii-t7/build.py` (contingut a `contingut-*.html`, ginys a `app.js`,

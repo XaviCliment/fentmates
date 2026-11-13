@@ -311,7 +311,18 @@ window.LEVELS = {
       es: "Radicales y logaritmos, álgebra, trigonometría, geometría analítica y funciones.",
       en: "Radicals and logarithms, algebra, trigonometry, coordinate geometry and functions."
     },
-    units: []
+    units: [
+      {
+        num: "1",
+        ill: "reals", block: "ari",
+        title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t1-nombres-reals.html", date: "2026-11-13" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 40 exercicis, de la classificació dels nombres als logaritmes", es: "PDF · 40 ejercicios, de la clasificación de los números a los logaritmos", en: "PDF · 40 exercises, from classifying numbers to logarithms" }, url: "materials/4eso-b/t1-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 40 exercicis", es: "PDF · Soluciones de los 40 ejercicios", en: "PDF · Solutions to all 40 exercises" }, url: "materials/4eso-b/t1-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+        ]
+      }
+    ]
   },
 
   "1batx-mi": {
