@@ -395,6 +395,18 @@ python3 _eines/apunts/4eso-b-t3/build.py
 cd _eines/fonts-latex/4eso-b-t3 && python3 genera.py && pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex
 ```
 
+- **Unitat 4 (Sistemes d'equacions i inequacions, `4eso-b-t4`)**: parteix de la unitat 3 de 1r Batx MI. Els apartats 4.5-4.7
+  (inequacions) en són còpia (`contingut-3.html`, amb el giny nou `w-sys1` de sistemes d'inequacions de primer grau); els de
+  sistemes lineals 2x2 (4.1 mètode gràfic, `w-gr`; 4.2 substitució, igualació i reducció pas a pas, `w-met`), no lineals i
+  problemes són nous. Sense el mètode de Gauss. La fitxa té 29 exercicis en 7 seccions; sympy resol i classifica cada sistema
+  (`ls`, `kind`, `nls`) i els sistemes d'inequacions (`ineqs`), i `vx` comprova els vèrtexs de cada regió. Les figures del pla
+  són a `_eines/fonts-latex/comu/regions.py` (còpia de les funcions de la fitxa de 1r Batx MI unitat 3).
+
+```
+python3 _eines/apunts/4eso-b-t4/build.py
+cd _eines/fonts-latex/4eso-b-t4 && python3 genera.py && pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex
+```
+
 ## 2n Batx MII: unitat 7 (Aplicacions de la derivada)
 
 Els apunts es generen amb `_eines/apunts/2batx-mii-t7/build.py` (contingut a `contingut-*.html`, ginys a `app.js`,

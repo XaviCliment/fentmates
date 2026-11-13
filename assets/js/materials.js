@@ -341,6 +341,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 34 exercicis, de les equacions de segon grau a les inequacions", es: "PDF · 34 ejercicios, de las ecuaciones de segundo grado a las inecuaciones", en: "PDF · 34 exercises, from quadratic equations to inequalities" }, url: "materials/4eso-b/t3-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 34 exercicis", es: "PDF · Soluciones de los 34 ejercicios", en: "PDF · Solutions to all 34 exercises" }, url: "materials/4eso-b/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
+      },
+      {
+        num: "4",
+        ill: "sistemes", block: "alg",
+        title: { va: "Sistemes d'equacions i inequacions", es: "Sistemas de ecuaciones e inecuaciones", en: "Systems of equations and inequalities" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t4-sistemes-inequacions.html", date: "2026-11-13" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 29 exercicis, dels mètodes de resolució a les regions del pla", es: "PDF · 29 ejercicios, de los métodos de resolución a las regiones del plano", en: "PDF · 29 exercises, from solving methods to regions of the plane" }, url: "materials/4eso-b/t4-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 29 exercicis", es: "PDF · Soluciones de los 29 ejercicios", en: "PDF · Solutions to all 29 exercises" }, url: "materials/4eso-b/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+        ]
       }
     ]
   },
