@@ -371,6 +371,18 @@ python3 _eines/apunts/4eso-b-t1/build.py
 cd _eines/fonts-latex/4eso-b-t1 && python3 genera.py && pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex
 ```
 
+- **Unitat 2 (Polinomis i fraccions algebraiques, `4eso-b-t2`)**: parteix dels apartats 2.1-2.4 de 1r Batx MI (`app.js` en
+  conserva el motor de polinomis amb fraccions exactes: `parsePoly`, `pDivide`, `ruffini`, `factorPoly`). 7 apartats i 9 ginys;
+  els nous són el teorema del residu (`w-res`), la cerca d'arrels enteres (`w-arr`), el m.c.d. i el m.c.m. (`w-mcm`) i les
+  operacions amb fraccions algebraiques (`w-fop`), que fan servir `facList` (factorització com a llista de factors amb
+  coeficients enters), `mcdMcm` i `simpFrac`. La fitxa té 36 exercicis en 8 seccions; sympy calcula les operacions, divisions i
+  residus, i comprova cada factorització, m.c.d., m.c.m. i fracció escrita a mà (`fe`).
+
+```
+python3 _eines/apunts/4eso-b-t2/build.py
+cd _eines/fonts-latex/4eso-b-t2 && python3 genera.py && pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex
+```
+
 ## 2n Batx MII: unitat 7 (Aplicacions de la derivada)
 
 Els apunts es generen amb `_eines/apunts/2batx-mii-t7/build.py` (contingut a `contingut-*.html`, ginys a `app.js`,
