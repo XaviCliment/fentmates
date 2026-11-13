@@ -251,44 +251,44 @@ python3 _eines/apunts/1batx-mi-t3/build.py
 cd _eines/fonts-latex/1batx-mi-t3 && python3 genera.py && pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex
 ```
 
-Els apunts de 1r Batx MI de la unitat 6 (Trigonometria, carpeta `1batx-mi-t6`) ajunten en una sola unitat les dues parts dels apunts
-del departament (Trigonometria 1 i 2): 13 apartats (6.1-6.13), del radian a les funcions trigonomètriques. Funcionen com els de la
+Els apunts de 1r Batx MI de la unitat 5 (Trigonometria, carpeta `1batx-mi-t5`) ajunten en una sola unitat les dues parts dels apunts
+del departament (Trigonometria 1 i 2): 13 apartats (5.1-5.13), del radian a les funcions trigonomètriques. Funcionen com els de la
 unitat 2; a més, dins de les fórmules `{,}` és la coma decimal i en anglés es converteix sola en un punt. Els ginys de `app.js`:
 radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una (exactes amb arrels), reducció al primer quadrant,
 triangles rectangles, laboratori del triangle (teoremes del sinus i del cosinus), resolució de triangles pas a pas (amb el cas ambigu),
 fórmules de la suma amb valors exactes, comprovador d'identitats, equacions elementals, de la circumferència a la gràfica i
-`y = A·f(Bx+C)+D`. A `materials.js` la unitat porta `num: "6"` i és del bloc de geometria. La fitxa
-(`_eines/fonts-latex/1batx-mi-t6/genera.py`) té els exercicis de les dues fitxes del departament (1-41 i 42-60, en el mateix ordre)
+`y = A·f(Bx+C)+D`. A `materials.js` la unitat porta `num: "5"` i és del bloc de geometria. La fitxa
+(`_eines/fonts-latex/1batx-mi-t5/genera.py`) té els exercicis de les dues fitxes del departament (1-41 i 42-60, en el mateix ordre)
 i una secció 13 amb 13 exercicis nous; calcula tots els valors numèrics, compara les solucions exactes amb el valor numèric i
 comprova que les equacions i els sistemes tenen exactament les solucions donades:
 
 ```
-python3 _eines/apunts/1batx-mi-t6/build.py
-cd _eines/fonts-latex/1batx-mi-t6 && python3 genera.py && pdflatex t6-fitxa-exercicis.tex && pdflatex t6-fitxa-solucions.tex
+python3 _eines/apunts/1batx-mi-t5/build.py
+cd _eines/fonts-latex/1batx-mi-t5 && python3 genera.py && pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex
 ```
 
-Els apunts de 1r Batx MI de la unitat 7 (Estudi de funcions, carpeta `1batx-mi-t7`) parteixen dels apunts «Funcions i
-característiques» del departament (que allí eren la unitat 6) i tenen 9 apartats (7.1-7.9): concepte de funció, domini i
+Els apunts de 1r Batx MI de la unitat 6 (Estudi de funcions, carpeta `1batx-mi-t6`) parteixen dels apunts «Funcions i
+característiques» del departament (que allí eren la unitat 6) i tenen 9 apartats (6.1-6.9): concepte de funció, domini i
 recorregut, talls, monotonia, continuïtat, simetries i periodicitat, transformacions (translacions), composició i inversa. Les
-figures fixes de les unitats 7 i 8 es defineixen a `1batx-mi-t7/fig.py` (classe `Plot`, que dibuixa la mateixa gràfica en SVG per
+figures fixes de les unitats 6 i 7 es defineixen a `1batx-mi-t6/fig.py` (classe `Plot`, que dibuixa la mateixa gràfica en SVG per
 als apunts i en TikZ per a les fitxes) i es posen al contingut amb el marcador `@@FIG:nom@@`. Els ginys de `app.js` tenen un
 analitzador d'expressions propi: calculadora de dominis, talls, simetria, translacions, composició i inversa. La fitxa
-(`_eines/fonts-latex/1batx-mi-t7/genera.py`) té 30 exercicis en 8 seccions; sympy comprova talls, composicions i inverses, i els
+(`_eines/fonts-latex/1batx-mi-t6/genera.py`) té 30 exercicis en 8 seccions; sympy comprova talls, composicions i inverses, i els
 dominis es comproven numèricament. Els estudis complets de funcions aniran en una unitat posterior.
 
-Els apunts de la unitat 8 (Funcions elementals, carpeta `1batx-mi-t8`) tenen 9 apartats (8.1-8.9): lineals i afins, quadràtiques i
+Els apunts de la unitat 7 (Funcions elementals, carpeta `1batx-mi-t7`) tenen 9 apartats (7.1-7.9): lineals i afins, quadràtiques i
 cúbiques, racionals, radicals, exponencials, logarítmiques, trigonomètriques, a trossos i valor absolut, i problemes de màxims i
 mínims amb funcions quadràtiques (vèrtex i extrems de l'interval, sense límits ni derivades). `build.py` agafa `fig.py` de la carpeta
-de la unitat 7; `app.js` repeteix la part comuna (analitzador i gràfiques) de la unitat 7. La fitxa
-(`_eines/fonts-latex/1batx-mi-t8/genera.py`) té 35 exercicis en 8 seccions, l'última amb problemes d'ingressos, costos, beneficis i
-àrees; els màxims i mínims en un interval es comproven també amb una malla fina. Les dues unitats porten `num: "7"` i `num: "8"` a
+de la unitat 6; `app.js` repeteix la part comuna (analitzador i gràfiques) de la unitat 6. La fitxa
+(`_eines/fonts-latex/1batx-mi-t7/genera.py`) té 35 exercicis en 8 seccions, l'última amb problemes d'ingressos, costos, beneficis i
+àrees; els màxims i mínims en un interval es comproven també amb una malla fina. Les dues unitats porten `num: "6"` i `num: "7"` a
 `materials.js` i són del bloc d'anàlisi:
 
 ```
+python3 _eines/apunts/1batx-mi-t6/build.py
 python3 _eines/apunts/1batx-mi-t7/build.py
-python3 _eines/apunts/1batx-mi-t8/build.py
+cd _eines/fonts-latex/1batx-mi-t6 && python3 genera.py && pdflatex t6-fitxa-exercicis.tex && pdflatex t6-fitxa-solucions.tex
 cd _eines/fonts-latex/1batx-mi-t7 && python3 genera.py && pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex
-cd _eines/fonts-latex/1batx-mi-t8 && python3 genera.py && pdflatex t8-fitxa-exercicis.tex && pdflatex t8-fitxa-solucions.tex
 ```
 
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`

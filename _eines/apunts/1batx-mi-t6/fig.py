@@ -1,5 +1,5 @@
-# Gràfiques de la Unitat 7 de 1r Batx MI (Estudi de funcions). Una mateixa definició (classe Plot) dibuixa la figura en SVG
-# per als apunts interactius (build.py) i en TikZ per a la fitxa (_eines/fonts-latex/1batx-mi-t7/genera.py).
+# Gràfiques de la Unitat 6 de 1r Batx MI (Estudi de funcions). Una mateixa definició (classe Plot) dibuixa la figura en SVG
+# per als apunts interactius (build.py) i en TikZ per a la fitxa (_eines/fonts-latex/1batx-mi-t6/genera.py).
 import math
 
 SVGCOL = {"a": "var(--accent)", "b": "#3b82f6", "g": "#16a34a", "v": "#7c3aed", "o": "#f97316", "m": "var(--muted)", "t": "var(--text)"}

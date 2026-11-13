@@ -1,12 +1,12 @@
 import os, re, sys, glob
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "1batx-mi-t6"))  # fig.py és a la unitat 6
 import fig
 
-# Genera materials/1batx-mi/t7-estudi-funcions.html. Ús: python3 _eines/apunts/1batx-mi-t7/build.py
+# Genera materials/1batx-mi/t7-funcions-elementals.html. Ús: python3 _eines/apunts/1batx-mi-t7/build.py
 # Com les altres unitats de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS. Els ginys són a app.js,
 # l'estil propi a extra.css i el contingut a contingut-*.html (en ordre). Les figures fixes es defineixen a fig.py i s'insereixen
-# amb el marcador @@FIG:nom@@. 9 apartats (7.1-7.9); els apartats de funcions elementals són a la unitat 8 (1batx-mi-t8).
+# amb el marcador @@FIG:nom@@ (fig.py és a la carpeta de la unitat 6). 9 apartats (7.1-7.9).
 # Convencions: ⟪va‖es‖en⟫ per al text, ⟦va‖es‖en⟧ dins d'una fórmula i \SI com a la unitat 4. A més, dins de les fórmules
 # «{,}» és la coma decimal: en anglés es converteix en un punt (0{,}86 → 0.86).
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +14,7 @@ T4 = os.path.join(HERE, "..", "2batx-ccss-t4")
 T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
-OUT = os.path.join(SITE, "materials/1batx-mi/t7-estudi-funcions.html")
+OUT = os.path.join(SITE, "materials/1batx-mi/t7-funcions-elementals.html")
 NSEC = 9
 LANGS = ("va", "es", "en")
 
@@ -60,12 +60,12 @@ def cut(a, b, s=src):
     return s[i:j]
 
 # ---------- capçalera i estil ----------
-# fm-materials.js sap que la unitat 7 de 1r Batx MI és d'anàlisi des del 11/11/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261111w"
+# fm-materials.js sap que les unitats 6 i 7 de 1r Batx MI són d'anàlisi des del 13/11/2026 (reenumeració): la versió força a recarregar-lo
+VER = r"fm-materials.\1?v=20261113r"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
-head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Estudi de funcions · FentMates</title>")
+head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Funcions elementals · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 7 (Estudi de funcions: domini i recorregut, punts de tall, monotonia, continuïtat, simetries, periodicitat, translacions, composició i funció inversa) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 7 (Funcions elementals: lineals, quadràtiques i cúbiques, racionals, radicals, exponencials, logarítmiques, trigonomètriques, a trossos i valor absolut, i problemes de màxims i mínims amb funcions quadràtiques) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

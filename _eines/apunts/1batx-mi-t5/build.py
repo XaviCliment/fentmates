@@ -1,12 +1,12 @@
 import os, re, sys, glob
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "1batx-mi-t7"))  # fig.py és a la unitat 7
-import fig
 
-# Genera materials/1batx-mi/t8-funcions-elementals.html. Ús: python3 _eines/apunts/1batx-mi-t8/build.py
-# Com les altres unitats de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
-# materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS. Els ginys són a app.js,
-# l'estil propi a extra.css i el contingut a contingut-*.html (en ordre). Les figures fixes es defineixen a fig.py i s'insereixen
-# amb el marcador @@FIG:nom@@ (fig.py és a la carpeta de la unitat 7). 9 apartats (8.1-8.9).
+# Genera materials/1batx-mi/t5-trigonometria.html. Ús: python3 _eines/apunts/1batx-mi-t5/build.py
+# Com les unitats 1, 2 i 4 de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
+# materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
+# taules, botons). Els ginys (radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una, reducció al primer
+# quadrant, resolució de triangles, laboratori del triangle, fórmules de la suma, identitats, equacions i funcions) són a app.js i
+# l'estil propi a extra.css. El contingut és a contingut-*.html (en ordre). Unifica les dues parts dels apunts del departament
+# (Trigonometria 1 i 2) en una sola unitat amb 13 apartats (5.1-5.13).
 # Convencions: ⟪va‖es‖en⟫ per al text, ⟦va‖es‖en⟧ dins d'una fórmula i \SI com a la unitat 4. A més, dins de les fórmules
 # «{,}» és la coma decimal: en anglés es converteix en un punt (0{,}86 → 0.86).
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,8 +14,8 @@ T4 = os.path.join(HERE, "..", "2batx-ccss-t4")
 T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
-OUT = os.path.join(SITE, "materials/1batx-mi/t8-funcions-elementals.html")
-NSEC = 9
+OUT = os.path.join(SITE, "materials/1batx-mi/t5-trigonometria.html")
+NSEC = 13
 LANGS = ("va", "es", "en")
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
@@ -60,23 +60,18 @@ def cut(a, b, s=src):
     return s[i:j]
 
 # ---------- capçalera i estil ----------
-# fm-materials.js sap que les unitats 7 i 8 de 1r Batx MI són d'anàlisi des del 11/11/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261111w"
+# fm-materials.js sap que la unitat 5 de 1r Batx MI és de geometria des del 13/11/2026 (reenumeració): la versió força a recarregar-lo
+VER = r"fm-materials.\1?v=20261113r"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
-head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Funcions elementals · FentMates</title>")
+head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Trigonometria · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 8 (Funcions elementals: lineals, quadràtiques i cúbiques, racionals, radicals, exponencials, logarítmiques, trigonomètriques, a trossos i valor absolut, i problemes de màxims i mínims amb funcions quadràtiques) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 5 (Trigonometria: radians, raons trigonomètriques, circumferència goniomètrica, resolució de triangles, teoremes del sinus i del cosinus, fórmules, equacions, sistemes i funcions trigonomètriques) de 1r de Batxillerat MI, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"
 
 # ---------- cos ----------
 body = expand("".join(open(f, encoding="utf-8").read() for f in sorted(glob.glob(os.path.join(HERE, "contingut-*.html")))))
-FIGS = fig.figures()
-def putfig(m):
-    return FIGS[m.group(1)].svg()
-body = re.sub(r"@@FIG:(\w+)@@", putfig, body)
-assert "@@" not in body
 n_sec = len(re.findall(r'<section class="unit" id="s\d+">', body))
 assert n_sec == NSEC, n_sec
 
