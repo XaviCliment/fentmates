@@ -318,11 +318,11 @@ python3 _eines/apunts/1batx-mi-t9/build.py
 cd _eines/fonts-latex/1batx-mi-t9 && python3 genera.py && pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex
 ```
 
-Els apunts de 1r Batx MI de la unitat 10 (Estadística, carpeta `1batx-mi-t10`) són nous: 8 apartats, 10.1-10.3 repàs
-d'estadística unidimensional (taules, centralització i posició, dispersió) i 10.4-10.8 estadística bidimensional (taules de
-doble entrada, núvol de punts, variàncies i covariància, correlació lineal; els altres tipus de relació només amb exemples de
+Els apunts de 1r Batx MI de la unitat 10 (Estadística, carpeta `1batx-mi-t10`) són nous: 9 apartats, 10.1-10.3 repàs
+d'estadística unidimensional (taules, centralització i posició, dispersió) i 10.4-10.9 estadística bidimensional (taules de
+doble entrada, núvol de punts, variàncies i covariància, correlació lineal, recta de regressió amb estimacions; els altres tipus de relació només amb exemples de
 núvols). `app.js` té el seu propi codi (`uniStats`, `biStats`, `cloud` per als núvols en SVG, `cloudR` genera núvols amb una r
-exacta) i 8 ginys. La fitxa (`_eines/fonts-latex/1batx-mi-t10/genera.py`) té 29 exercicis en 8 seccions; tots els resultats es
+exacta; l'opció `reg` hi dibuixa la recta de regressió) i 9 ginys. La fitxa (`_eines/fonts-latex/1batx-mi-t10/genera.py`) té 34 exercicis en 9 seccions; tots els resultats es
 calculen amb `Fraction` (`uni`, `bi`, `dbl`) i es formaten amb `d()`, i els núvols es dibuixen amb TikZ (`nuvol`):
 
 ```

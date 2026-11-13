@@ -423,8 +423,8 @@ window.LEVELS = {
         title: { va: "Estadística", es: "Estadística", en: "Statistics" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t10-estadistica.html", date: "2026-11-13" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 29 exercicis, de les taules de freqüències a la correlació lineal", es: "PDF · 29 ejercicios, de las tablas de frecuencias a la correlación lineal", en: "PDF · 29 exercises, from frequency tables to linear correlation" }, url: "materials/1batx-mi/t10-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 29 exercicis", es: "PDF · Soluciones de los 29 ejercicios", en: "PDF · Solutions to all 29 exercises" }, url: "materials/1batx-mi/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 34 exercicis, de les taules de freqüències a la recta de regressió", es: "PDF · 34 ejercicios, de las tablas de frecuencias a la recta de regresión", en: "PDF · 34 exercises, from frequency tables to the regression line" }, url: "materials/1batx-mi/t10-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 34 exercicis", es: "PDF · Soluciones de los 34 ejercicios", en: "PDF · Solutions to all 34 exercises" }, url: "materials/1batx-mi/t10-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
       }
     ]
