@@ -7,7 +7,7 @@
 
   /* ---------- textos de la interfície ---------- */
   var UI = {
-    va: { next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
+    va: { regL: "Recta de regressió de Y sobre X", est: "Estimació", estGood: "És una estimació fiable (|r| prop d'1 i x dins de les dades).", estMid: "L'estimació és poc precisa: la correlació només és moderada.", estBad: "No és fiable: la correlació és massa feble.", estOut: "Compte: x queda fora de l'interval de les dades (extrapolació), no és fiable.", pReg: ["Exemple resolt", "Preu i vendes", "Hores i notes", "Sense relació"], next: "Següent pas", all: "Mostra-ho tot", reset: "Amaga els passos", step: "Pas", of: "de", studied: "Estudiat", mark: "Marca com a estudiat",
       score: "Encerts", right: "Correcte!", wrong: "No és correcte.", theme: "Canvia entre mode clar i fosc", top: "Torna amunt",
       bad: "Revisa les dades: escriu nombres separats per espais o per punt i coma (per exemple 3 5 5 7 o 3:4; 5:2).", bad2: "Les dues llistes han de tindre el mateix nombre de valors (com a mínim 2).",
       val: "Valor", fi: "f<sub>i</sub>", Fi: "F<sub>i</sub>", hi: "h<sub>i</sub>", Hi: "H<sub>i</sub>", pct: "%", total: "Total",
@@ -18,7 +18,7 @@
       guessQ: "Quin és el coeficient de correlació d'aquest núvol?", newCloud: "Un altre núvol", wasR: "El coeficient és", hits: "Encerts",
       margX: "Distribució marginal de X", margY: "Distribució marginal de Y", sums: "Sumes",
       pUni: ["Notes (20 alumnes)", "Valors repetits", "Dades soltes"], pPairs: ["Hores i notes", "Exemple resolt", "Correlació negativa", "Sense relació", "Parabòlica"], pCloud: ["Buit", "Creixent", "Decreixent", "Núvol rodó"] },
-    es: { next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
+    es: { regL: "Recta de regresión de Y sobre X", est: "Estimación", estGood: "Es una estimación fiable (|r| cerca de 1 y x dentro de los datos).", estMid: "La estimación es poco precisa: la correlación solo es moderada.", estBad: "No es fiable: la correlación es demasiado débil.", estOut: "Cuidado: x queda fuera del intervalo de los datos (extrapolación), no es fiable.", pReg: ["Ejemplo resuelto", "Precio y ventas", "Horas y notas", "Sin relación"], next: "Siguiente paso", all: "Mostrarlo todo", reset: "Ocultar los pasos", step: "Paso", of: "de", studied: "Estudiado", mark: "Marcar como estudiado",
       score: "Aciertos", right: "¡Correcto!", wrong: "No es correcto.", theme: "Cambiar entre modo claro y oscuro", top: "Volver arriba",
       bad: "Revisa los datos: escribe números separados por espacios o por punto y coma (por ejemplo 3 5 5 7 o 3:4; 5:2).", bad2: "Las dos listas deben tener el mismo número de valores (como mínimo 2).",
       val: "Valor", fi: "f<sub>i</sub>", Fi: "F<sub>i</sub>", hi: "h<sub>i</sub>", Hi: "H<sub>i</sub>", pct: "%", total: "Total",
@@ -29,7 +29,7 @@
       guessQ: "¿Cuál es el coeficiente de correlación de esta nube?", newCloud: "Otra nube", wasR: "El coeficiente es", hits: "Aciertos",
       margX: "Distribución marginal de X", margY: "Distribución marginal de Y", sums: "Sumas",
       pUni: ["Notas (20 alumnos)", "Valores repetidos", "Datos sueltos"], pPairs: ["Horas y notas", "Ejemplo resuelto", "Correlación negativa", "Sin relación", "Parabólica"], pCloud: ["Vacío", "Creciente", "Decreciente", "Nube redonda"] },
-    en: { next: "Next step", all: "Show all", reset: "Hide the steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
+    en: { regL: "Regression line of Y on X", est: "Estimate", estGood: "It is a reliable estimate (|r| close to 1 and x within the data).", estMid: "The estimate is not very precise: the correlation is only moderate.", estBad: "Not reliable: the correlation is too weak.", estOut: "Careful: x lies outside the range of the data (extrapolation), so it is not reliable.", pReg: ["Worked example", "Price and sales", "Hours and marks", "No relation"], next: "Next step", all: "Show all", reset: "Hide the steps", step: "Step", of: "of", studied: "Studied", mark: "Mark as studied",
       score: "Score", right: "Correct!", wrong: "Not correct.", theme: "Switch between light and dark mode", top: "Back to top",
       bad: "Check the data: type numbers separated by spaces or semicolons (for example 3 5 5 7 or 3:4; 5:2).", bad2: "Both lists must have the same number of values (at least 2).",
       val: "Value", fi: "f<sub>i</sub>", Fi: "F<sub>i</sub>", hi: "h<sub>i</sub>", Hi: "H<sub>i</sub>", pct: "%", total: "Total",
@@ -142,6 +142,16 @@
       h += '<line class="meanl" x1="' + X(st.mx) + '" y1="' + MT + '" x2="' + X(st.mx) + '" y2="' + (H - MB) + '"/><line class="meanl" x1="' + ML + '" y1="' + Y(st.my) + '" x2="' + (W - MR) + '" y2="' + Y(st.my) + '"/>';
       h += '<circle class="cg" cx="' + X(st.mx) + '" cy="' + Y(st.my) + '" r="5"/>';
     }
+    if (opts.reg && pts.length > 1) {
+      var R = biStats(xs, ys);
+      if (R.vx > 0) {
+        var m = R.c / R.vx, f = function (x) { return R.my + m * (x - R.mx); }, xa = ax.lo, xb = ax.hi;
+        // retallem la recta a la finestra vertical
+        if (m !== 0) { var x1 = R.mx + (ay.lo - R.my) / m, x2 = R.mx + (ay.hi - R.my) / m; xa = Math.max(xa, Math.min(x1, x2)); xb = Math.min(xb, Math.max(x1, x2)); }
+        if (xb > xa) h += '<line class="regl" x1="' + X(xa) + '" y1="' + Y(f(xa)) + '" x2="' + X(xb) + '" y2="' + Y(f(xb)) + '"/>';
+      }
+    }
+    if (opts.mark) h += '<circle class="est" cx="' + X(opts.mark[0]) + '" cy="' + Y(opts.mark[1]) + '" r="6"/>';
     pts.forEach(function (p, i) { h += '<circle class="pt' + (opts.hl === i ? " hl" : "") + '" data-i="' + i + '" cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="' + (opts.r || 4.5) + '"/>'; });
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.innerHTML = h;
@@ -284,6 +294,43 @@
     onLang(draw);
   }
 
+  function regTex(S) {
+    var m = S.c / S.vx, n = S.my - m * S.mx;
+    return { m: m, n: n, tex: "y" + "=" + fmt(m, 4) + "x" + (n < 0 ? "-" + fmt(-n, 4) : "+" + fmt(n, 4)) };
+  }
+  function regSteps(S) {
+    var R = regTex(S);
+    function sh(v) { return v < 0 ? "+" + fmt(-v) : "-" + fmt(v); }
+    return "<p>" + K("y" + sh(S.my) + "=\\dfrac{" + fmt(S.c) + "}{" + fmt(S.vx) + "}\\,(x" + sh(S.mx) + ")") + "</p><p>" + u("regL") + ": " + K(R.tex) + "</p>";
+  }
+  /* ---------- 10.8 recta de regressió ---------- */
+  var PRE_REG = [["1 2 3 4 5", "2 3 5 4 6", "4,5"], ["2 3 4 5 6", "40 34 30 25 21", "4,5"], ["1 2 2 3 4 4 5 6", "3 4 5 5 6 7 8 9", "4,5"], ["1 2 3 4 5 6 7 8", "5 2 6 3 7 5 2 6", "4"]];
+  function wReg() {
+    var w = document.getElementById("w-reg"); if (!w) return;
+    var out = w.querySelector(".info"), svg = w.querySelector("svg"), x0i = $(w, "x0");
+    presetBtns($(w, "presets"), PRE_REG.length, "pReg", function (i) { $(w, "x").value = PRE_REG[i][0]; $(w, "y").value = PRE_REG[i][1]; x0i.value = PRE_REG[i][2]; draw(); });
+    $(w, "x").addEventListener("input", draw); $(w, "y").addEventListener("input", draw); x0i.addEventListener("input", draw);
+    function draw() {
+      var P = readPairs(w);
+      if (!P) { out.textContent = u("bad2"); svg.innerHTML = ""; return; }
+      var S = biStats(P.x, P.y), pts = P.x.map(function (a, i) { return [a, P.y[i]]; });
+      if (!(S.vx > 0)) { out.textContent = u("noVar"); svg.innerHTML = ""; return; }
+      var R = regTex(S), x0 = num(x0i.value), h = regSteps(S) + "<p>" + K("r=" + fmt(S.r, 3)) + ": " + rWords(S.r) + "</p>", mark = null;
+      x0i.classList.toggle("bad", !isFinite(x0));
+      if (isFinite(x0)) {
+        var y0 = R.m * x0 + R.n, mn = Math.min.apply(null, P.x), mx = Math.max.apply(null, P.x), span = mx - mn;
+        h += "<p>" + u("est") + ": " + K("\\hat y(" + fmt(x0, 3) + ")=" + fmt(y0, 3)) + ". ";
+        if (Math.abs(S.r) < 0.5) h += "<b>" + u("estBad") + "</b>";
+        else if (x0 < mn - 0.15 * span || x0 > mx + 0.15 * span) h += "<b>" + u("estOut") + "</b>";
+        else h += u(Math.abs(S.r) >= 0.8 ? "estGood" : "estMid");
+        h += "</p>"; mark = [x0, y0];
+      }
+      cloud(svg, pts, { means: true, reg: true, mark: mark && isFinite(mark[1]) ? mark : null });
+      out.innerHTML = h;
+    }
+    onLang(draw);
+  }
+
   /* ---------- 10.7 r amb un control lliscant i endevina r ---------- */
   function wSlide() {
     var w = document.getElementById("w-slide"); if (!w) return;
@@ -322,6 +369,7 @@
   /* ---------- figures fixes: núvols dels exemples ---------- */
   function F(fn, n, a, b, noise, seed) { var rand = rng(seed), out = []; for (var i = 0; i < n; i++) { var x = a + (b - a) * (i + rand() * 0.8) / n; out.push([x, fn(x) + noise * (rand() * 2 - 1)]); } return out; }
   var FIGS = {
+    reg1: function () { return { pts: [[1, 2], [2, 3], [3, 5], [4, 4], [5, 6]], o: { xr: [0, 6, 1], yr: [0, 7, 1], means: true, reg: true, axes: ["X", "Y"] } }; },
     cl1: function () { return { pts: [[1, 2], [2, 3], [3, 5], [4, 4], [5, 6]], o: { xr: [0, 6, 1], yr: [0, 7, 1], means: true, axes: ["X", "Y"] } }; },
     clHours: function () { return { pts: [[1, 3], [2, 4], [2, 5], [3, 5], [4, 6], [4, 7], [5, 8], [6, 9]], o: { xr: [0, 7, 1], yr: [0, 10, 1], axes: ["h", "nota"] } }; },
     rp: function () { return { pts: cloudR(30, 0.92, 3).map(function (p) { return [5 + 1.5 * p[0], 5 + 1.5 * p[1]]; }), o: { xr: [0, 10, 2], yr: [0, 10, 2], r: 3.4 } }; },
@@ -359,8 +407,8 @@
       if (!P) { out.textContent = u("bad2"); tb.innerHTML = ""; svg.innerHTML = ""; return; }
       var T = covTable(P), S = T.S;
       tb.innerHTML = T.html;
-      cloud(svg, P.x.map(function (a, i) { return [a, P.y[i]]; }), { means: true });
-      out.innerHTML = covSteps(S) + "<p>" + u("r") + ": " + K("r=\\dfrac{\\sigma_{xy}}{\\sigma_x\\,\\sigma_y}=\\dfrac{" + fmt(S.c) + "}{" + fmt(Math.sqrt(S.vx)) + "\\cdot" + fmt(Math.sqrt(S.vy)) + "}=" + fmt(S.r)) + "</p><p><b>" + rWords(S.r) + "</b></p>";
+      cloud(svg, P.x.map(function (a, i) { return [a, P.y[i]]; }), { means: true, reg: true });
+      out.innerHTML = covSteps(S) + (S.vx > 0 ? regSteps(S) : "") + "<p>" + u("r") + ": " + K("r=\\dfrac{\\sigma_{xy}}{\\sigma_x\\,\\sigma_y}=\\dfrac{" + fmt(S.c) + "}{" + fmt(Math.sqrt(S.vx)) + "\\cdot" + fmt(Math.sqrt(S.vy)) + "}=" + fmt(S.r)) + "</p><p><b>" + rWords(S.r) + "</b></p>";
     }
     onLang(draw);
   }
@@ -398,6 +446,13 @@
     { q: q3("Si els punts formen una paràbola gairebé perfecta i simètrica, $r$ pot ser…", "Si los puntos forman una parábola casi perfecta y simétrica, $r$ puede ser…", "If the points form an almost perfect symmetric parabola, $r$ can be…"),
       o: [q3("pròxim a 0", "cercano a 0", "close to 0"), q3("pròxim a 1", "cercano a 1", "close to 1"), q3("pròxim a −1", "cercano a −1", "close to −1")], a: 0,
       e: q3("Hi ha una relació forta però no lineal: $r$ només mesura la relació lineal.", "Hay una relación fuerte pero no lineal: $r$ solo mide la relación lineal.", "There is a strong but non-linear relation: $r$ only measures linear relation.") },
+    { q: q3("La recta de regressió de Y sobre X sempre passa pel punt…", "La recta de regresión de Y sobre X siempre pasa por el punto…", "The regression line of Y on X always passes through…"),
+      o: [q3("$(\\bar x,\\bar y)$"), q3("$(0,0)$"), q3("$(\\sigma_x,\\sigma_y)$")], a: 0, e: q3("El centre de gravetat: $y-\\bar y=\\frac{\\sigma_{xy}}{\\sigma_x^2}(x-\\bar x)$.", "El centro de gravedad: $y-\\bar y=\\frac{\\sigma_{xy}}{\\sigma_x^2}(x-\\bar x)$.", "The centre of gravity: $y-\\bar y=\\frac{\\sigma_{xy}}{\\sigma_x^2}(x-\\bar x)$.") },
+    { q: q3("Amb $\\bar x=3$, $\\bar y=4$, $\\sigma_x^2=2$ i $\\sigma_{xy}=1$, la recta de regressió de Y sobre X és…", "Con $\\bar x=3$, $\\bar y=4$, $\\sigma_x^2=2$ y $\\sigma_{xy}=1$, la recta de regresión de Y sobre X es…", "With $\\bar x=3$, $\\bar y=4$, $\\sigma_x^2=2$ and $\\sigma_{xy}=1$, the regression line of Y on X is…"),
+      o: [q3("$y=0{,}5x+2{,}5$", "$y=0{,}5x+2{,}5$", "$y=0.5x+2.5$"), q3("$y=2x-2$"), q3("$y=0{,}5x+4$", "$y=0{,}5x+4$", "$y=0.5x+4$")], a: 0, e: q3("$y-4=\\frac12(x-3)\\Rightarrow y=0{,}5x+2{,}5$.", "$y-4=\\frac12(x-3)\\Rightarrow y=0{,}5x+2{,}5$.", "$y-4=\\frac12(x-3)\\Rightarrow y=0.5x+2.5$.") },
+    { q: q3("Una estimació feta amb la recta de regressió és més fiable quan…", "Una estimación hecha con la recta de regresión es más fiable cuando…", "An estimate from the regression line is more reliable when…"),
+      o: [q3("$|r|$ és prop d'1 i $x$ és dins de l'interval de les dades", "$|r|$ está cerca de 1 y $x$ está dentro del intervalo de los datos", "$|r|$ is close to 1 and $x$ is within the data range"), q3("$r$ és prop de 0", "$r$ está cerca de 0", "$r$ is close to 0"), q3("$x$ és molt lluny de les dades", "$x$ está muy lejos de los datos", "$x$ is far from the data")], a: 0,
+      e: q3("La fiabilitat depén de $|r|$ i de no extrapolar.", "La fiabilidad depende de $|r|$ y de no extrapolar.", "Reliability depends on $|r|$ and on not extrapolating.") },
     { q: q3("Si entre dues variables $r=0{,}95$, podem dir que una és la causa de l'altra?", "Si entre dos variables $r=0{,}95$, ¿podemos decir que una es la causa de la otra?", "If two variables have $r=0.95$, can we say one causes the other?"),
       o: [q3("No necessàriament", "No necesariamente", "Not necessarily"), q3("Sí, sempre", "Sí, siempre", "Yes, always"), q3("Només si $r=1$", "Solo si $r=1$", "Only if $r=1$")], a: 0,
       e: q3("Correlació no vol dir causalitat: pot haver-hi una tercera variable que influïsca en les dues.", "Correlación no significa causalidad: puede haber una tercera variable que influya en las dos.", "Correlation does not imply causation: a third variable may influence both.") }
@@ -419,7 +474,7 @@
       window.renderMathInElement(document.body, { delimiters: D, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, #w-lab label").forEach(function (el) { window.renderMathInElement(el, { delimiters: D, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wFigs, wUni, wDbl, wCloud, wCov, wSlide, wGuess, wLab, wQuiz];
+    var all = [wChrome, wSteps, wNav, wFigs, wUni, wDbl, wCloud, wCov, wReg, wSlide, wGuess, wLab, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
     window.FM110b = { uniStats: uniStats, biStats: biStats, cloudR: cloudR, readList: readList };
   }

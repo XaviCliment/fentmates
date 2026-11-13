@@ -271,7 +271,47 @@ assert abs(Fr(-12, 20)) == Fr(3, 5)
 S_[-1][1][-1] = (3, S_[-1][1][-1][1], calc(B7c) + ' ' + rr(B7c))
 
 # =====================================================================
-# 8. Altres tipus de relació
+# 8. Recta de regressió
+def reg(B, inv=False):
+    """recta de Y sobre X (o de X sobre Y si inv): pendent i ordenada exactes"""
+    if inv: m = B['c'] / B['vy']; n = B['mx'] - m * B['my']
+    else: m = B['c'] / B['vx']; n = B['my'] - m * B['mx']
+    NCHK[0] += 1
+    return m, n
+def eqr(m, n, v='y', w='x', k=3):
+    c = '' if m == 1 else '-' if m == -1 else d(m, k)
+    return r'%s%s%s%s%s' % (v, ap(m, k), c, w, ('' if n == 0 else ('-' + d(-n, k)) if n < 0 else ('+' + d(n, k))))
+def est(m, n, x0): return m * Fr(x0) + n
+m6, n6 = reg(B6); m6i, n6i = reg(B6, True)
+m7, n7 = reg(B7); m7d, n7d = reg(B7d); m7c, n7c = reg(B7c)
+# comprovació: la recta passa per (x̄, ȳ) i fa mínima la suma de quadrats (derivades nul·les)
+for B, (m, n), xs, ys in [(B6, (m6, n6), X6, Y6), (B7, (m7, n7), X7, Y7), (B7d, (m7d, n7d), X7d, Y7d)]:
+    assert m * B['mx'] + n == B['my']
+    assert sum((Fr(y) - m * x - n) for x, y in zip(xs, ys)) == 0 and sum((Fr(y) - m * x - n) * x for x, y in zip(xs, ys)) == 0
+    NCHK[0] += 1
+# dues rectes donades: y = 0,5x + 2 i x = 1,2y − 1
+cx = Fr(14, 10) / Fr(4, 10); cy = Fr(1, 2) * cx + 2
+assert cx == 1.2 * cy - 1 or abs(float(cx) - (1.2 * float(cy) - 1)) < 1e-12; r2 = math.sqrt(0.5 * 1.2); NCHK[0] += 1
+S_.append(("Recta de regressió", [
+ (2, r"Amb les dades del primer exercici de la secció 6, troba la recta de regressió de $Y$ sobre $X$ i la de $X$ sobre $Y$. Estima el valor de $y$ per a $x=7$ i el de $x$ per a $y=6$."
+     + recorda(r"Recta de regressió de $Y$ sobre $X$: \ $y-\bar y=\dfrac{\sigma_{xy}}{\sigma_x^2}(x-\bar x)$. \ De $X$ sobre $Y$: \ $x-\bar x=\dfrac{\sigma_{xy}}{\sigma_y^2}(y-\bar y)$. Les estimacions són fiables si $|r|$ és prop d'1 i no ens n'eixim de l'interval de les dades."),
+     r'$Y$ sobre $X$: $y-%s=\frac{%s}{%s}(x-%s)\Rightarrow\res{%s}$; \ $\hat y(7)%s\res{%s}$. \ $X$ sobre $Y$: $x-%s=\frac{%s}{%s}(y-%s)\Rightarrow\res{%s}$; \ $\hat x(6)%s\res{%s}$. \ Són fiables: $r%s%s$ i els valors són dins de les dades.' % (
+         d(B6['my'], 3), d(B6['c'], 3), d(B6['vx'], 3), d(B6['mx'], 3), eqr(m6, n6), ap(est(m6, n6, 7), 3), d(est(m6, n6, 7), 3),
+         d(B6['mx'], 3), d(B6['c'], 3), d(B6['vy'], 3), d(B6['my'], 3), eqr(m6i, n6i, 'x', 'y'), ap(est(m6i, n6i, 6), 3), d(est(m6i, n6i, 6), 3), ap(B6['r'], 3), d(B6['r'], 3))),
+ (2, r"Amb les altures i els pesos de la secció 7, troba la recta de regressió del pes sobre l'altura. Quin pes s'estima per a una persona de 168 cm? I per a un xiquet de 120 cm? Són fiables les dues estimacions?",
+     r'$y-%s=\frac{%s}{%s}(x-%s)\Rightarrow\res{%s}$. \ $\hat y(168)%s\res{%s\text{ kg}}$: \rest{fiable} ($r%s%s$ i 168 és dins de les dades). \ $\hat y(120)%s%s$ kg: \rest{no és fiable}, 120 cm queda molt lluny de l\'interval $[150,180]$.' % (
+         d(B7['my'], 3), d(B7['c'], 3), d(B7['vx'], 3), d(B7['mx'], 3), eqr(m7, n7), ap(est(m7, n7, 168), 2), d(est(m7, n7, 168), 2), ap(B7['r'], 3), d(B7['r'], 3), ap(est(m7, n7, 120), 2), d(est(m7, n7, 120), 2))),
+ (2, r"Amb les dades de la gelateria de la secció 7, quants gelats s'estima que es vendran un dia amb una màxima de 25 °C?",
+     r'Recta: $\res{%s}$. \ $\hat y(25)%s%s$: uns $\res{%d}$ gelats. Molt fiable: $r%s%s$.' % (eqr(m7d, n7d), ap(est(m7d, n7d, 25), 2), d(est(m7d, n7d, 25), 2), round(est(m7d, n7d, 25)), ap(B7d['r'], 3), d(B7d['r'], 3))),
+ (2, r"Amb les sumes de l'últim exercici de la secció 7 ($N=10$, $\sum x_i=50$, $\sum y_i=80$, $\sum x_i^2=290$, $\sum x_iy_i=440$), troba la recta de regressió de $Y$ sobre $X$ i estima $y$ per a $x=6$.",
+     r'$\bar x=5$, $\bar y=8$, $\sigma_x^2=4$, $\sigma_{xy}=4$: \ $y-8=\frac44(x-5)\Rightarrow\res{%s}$; \ $\hat y(6)=\res{%s}$ (poc precisa: $r%s%s$ és moderat).' % (eqr(m7c, n7c), d(est(m7c, n7c, 6)), ap(B7c['r'], 3), d(B7c['r'], 3))),
+ (3, r"Les rectes de regressió d'una variable bidimensional són $y=0{,}5x+2$ (de $Y$ sobre $X$) i $x=1{,}2y-1$ (de $X$ sobre $Y$). Calcula $\bar x$, $\bar y$ i el coeficient de correlació. (Pista: les dues rectes passen per $(\bar x,\bar y)$, i el producte dels seus pendents és $\frac{\sigma_{xy}}{\sigma_x^2}\cdot\frac{\sigma_{xy}}{\sigma_y^2}=r^2$.)",
+     r'Substituint: $x=1{,}2(0{,}5x+2)-1=0{,}6x+1{,}4\Rightarrow\bar x=\res{%s}$, \ $\bar y=\res{%s}$. \ $r^2=0{,}5\cdot1{,}2=0{,}6$ i, com que els pendents són positius, $r=\sqrt{0{,}6}%s\res{%s}$.' % (d(cx), d(cy), ap(r2, 3), d(r2, 3))),
+]))
+assert B7c['c'] == 4 and B7c['vx'] == 4
+
+# =====================================================================
+# 9. Altres tipus de relació
 rnd = random.Random(5)
 NL = [[(x, 9 - 0.35 * (x - 5) ** 2 + rnd.uniform(-0.6, 0.6)) for x in [0.3 + 0.4 * i for i in range(24)]],
       [(x, 0.15 * math.exp(0.42 * x) + rnd.uniform(-0.25, 0.25)) for x in [0.3 + 0.4 * i for i in range(24)]],

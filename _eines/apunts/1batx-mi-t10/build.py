@@ -5,7 +5,7 @@ import os, re, sys, glob
 # taules de doble entrada, núvol de punts, variàncies i covariància, correlació lineal i, només amb exemples de núvols,
 # altres tipus de relació). app.js té el seu propi codi d'estadística (uniStats, biStats, cloud, cloudR) i els ginys.
 # Com les altres unitats de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
-# materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS. 8 apartats (10.1-10.8).
+# materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS. 9 apartats (10.1-10.9).
 # Convencions: ⟪va‖es‖en⟫ per al text, ⟦va‖es‖en⟧ dins d'una fórmula i \SI com a la unitat 4. A més, dins de les fórmules
 # «{,}» és la coma decimal: en anglés es converteix en un punt (0{,}86 → 0.86).
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +14,7 @@ T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/1batx-mi/t10-estadistica.html")
-NSEC = 8
+NSEC = 9
 LANGS = ("va", "es", "en")
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
