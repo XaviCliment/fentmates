@@ -406,6 +406,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis, dels límits a l'infinit a les branques infinites", es: "PDF · 36 ejercicios, de los límites en el infinito a las ramas infinitas", en: "PDF · 36 exercises, from limits at infinity to infinite branches" }, url: "materials/1batx-mi/t8-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/1batx-mi/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
+      },
+      {
+        num: "9",
+        ill: "derivades", block: "an",
+        title: { va: "Derivades i aplicacions", es: "Derivadas y aplicaciones", en: "Derivatives and applications" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t9-derivades.html", date: "2026-11-13" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 31 exercicis, de la TVM a la representació gràfica i l'optimització", es: "PDF · 31 ejercicios, de la TVM a la representación gráfica y la optimización", en: "PDF · 31 exercises, from average rate of change to graphing and optimisation" }, url: "materials/1batx-mi/t9-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 31 exercicis", es: "PDF · Soluciones de los 31 ejercicios", en: "PDF · Solutions to all 31 exercises" }, url: "materials/1batx-mi/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+        ]
       }
     ]
   },

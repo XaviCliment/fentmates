@@ -304,6 +304,20 @@ python3 _eines/apunts/1batx-mi-t8/build.py
 cd _eines/fonts-latex/1batx-mi-t8 && python3 genera.py && pdflatex t8-fitxa-exercicis.tex && pdflatex t8-fitxa-solucions.tex
 ```
 
+Els apunts de 1r Batx MI de la unitat 9 (Derivades i aplicacions, carpeta `1batx-mi-t9`) ajunten els apunts de les unitats 5, 6 i
+7 de 2n Batx CCSS seguint els apunts del departament: 9 apartats (9.1-9.9), amb la representació gràfica de funcions (9.8) just
+abans dels problemes d'optimització (9.9). `contingut-2.html` i `app.js` són còpies fetes el 13/11/2026 (els fitxers de CCSS no
+es toquen): `app.js` té el nucli comú (nucli de la unitat 4 + derivació simbòlica de la 5 + estudi de la 6) i tres mòduls
+(`M5`, `M6`, `M7`), cadascun amb els seus textos (`UI`), figures i ginys; els textos del nucli són la unió dels tres. Els
+laboratoris es diuen `w-lab5` (calculadora de derivades) i `w-lab7` (estudi complet, dins de 9.8). La fitxa
+(`_eines/fonts-latex/1batx-mi-t9/genera.py`) té 31 exercicis en 8 seccions; `comprova.py` verifica amb sympy cada derivada,
+valor, punt crític i signe:
+
+```
+python3 _eines/apunts/1batx-mi-t9/build.py
+cd _eines/fonts-latex/1batx-mi-t9 && python3 genera.py && pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i
