@@ -396,6 +396,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 35 exercicis, de la recta als problemes de màxims i mínims", es: "PDF · 35 ejercicios, de la recta a los problemas de máximos y mínimos", en: "PDF · 35 exercises, from straight lines to maximum and minimum problems" }, url: "materials/1batx-mi/t7-fitxa-exercicis.pdf", download: true, date: "2026-11-11" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 35 exercicis", es: "PDF · Soluciones de los 35 ejercicios", en: "PDF · Solutions to all 35 exercises" }, url: "materials/1batx-mi/t7-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-11" }
         ]
+      },
+      {
+        num: "8",
+        ill: "limits", block: "an",
+        title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t8-limits-continuitat.html", date: "2026-11-13" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis, dels límits a l'infinit a les branques infinites", es: "PDF · 36 ejercicios, de los límites en el infinito a las ramas infinitas", en: "PDF · 36 exercises, from limits at infinity to infinite branches" }, url: "materials/1batx-mi/t8-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/1batx-mi/t8-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+        ]
       }
     ]
   },

@@ -291,6 +291,19 @@ cd _eines/fonts-latex/1batx-mi-t6 && python3 genera.py && pdflatex t6-fitxa-exer
 cd _eines/fonts-latex/1batx-mi-t7 && python3 genera.py && pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex
 ```
 
+Els apunts de 1r Batx MI de la unitat 8 (Límits i continuïtat, carpeta `1batx-mi-t8`) parteixen d'una còpia dels de la unitat 4 de
+2n Batx CCSS (`contingut-1.html` i `app.js`, copiats el 13/11/2026; els fitxers de CCSS no es toquen) adaptada a l'estructura dels
+apunts del departament: 10 apartats (8.1-8.10), amb la indeterminació 1^∞ en un punt (8.6), el mètode general de l'asímptota obliqua
+(m i n amb límits) i les branques parabòliques (8.10). `build.py` funciona com el de la unitat 6 (extra.css de les unitats 4 i 9 de
+CCSS + el propi). La fitxa (`_eines/fonts-latex/1batx-mi-t8/genera.py`) té 36 exercicis en 8 seccions, amb els exercicis proposats
+als apunts del departament; `C()` estima numèricament cada límit de les solucions (també els laterals) i `EQ()` comprova les
+divisions i factoritzacions:
+
+```
+python3 _eines/apunts/1batx-mi-t8/build.py
+cd _eines/fonts-latex/1batx-mi-t8 && python3 genera.py && pdflatex t8-fitxa-exercicis.tex && pdflatex t8-fitxa-solucions.tex
+```
+
 Les pàgines PAU de les unitats 9 (Probabilitat) i 10 (Binomial i normal) es generen des de `_eines/pau/pr/`: `pr.txt`
 conté els enunciats del dossier de selectivitat valencià (`## R` probabilitat, `## B` binomial i normal), `keys.json`
 els relaciona amb el número del dossier i `sol_u9a.py`, `sol_u9b.py` i `sol_u10.py`, les solucions (calculades i
