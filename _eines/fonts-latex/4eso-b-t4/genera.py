@@ -44,7 +44,15 @@ def ineqs(system, expected):
 def vx(cons, expected, bounded=True):
     V, b = verts(cons)
     assert sorted(V) == sorted((F(a), F(c)) for a, c in expected) and b == bounded, (V, b)
-def sis(*rows): return r'\begin{cases}' + r'\\ '.join(rows) + r'\end{cases}'
+def sis(*rows):
+    """sistema; si hi ha fraccions, separa més les files"""
+    sep = r'\\[9pt] ' if any('frac' in r for r in rows) else r'\\[2pt] '
+    return r'\begin{cases}' + sep.join(rows) + r'\end{cases}'
+_tasks = tasks
+def tasks(n, items, start=None, gap=None):
+    """apartats amb sistemes: més espai entre files (més encara si hi ha fraccions)"""
+    if gap is None and any('cases' in i for i in items): gap = '16pt' if any('frac' in i for i in items) else '9pt'
+    return _tasks(n, items, start, gap)
 def XY(a, b): return R('x=%s,\\ y=%s' % (a, b))
 PRE = r'\usetikzlibrary{calc}' + '\n'
 
@@ -74,17 +82,28 @@ S.append(("Sistemes lineals. Mètode gràfic", [
 # 2. Mètodes de substitució, igualació i reducció
 for s_, so in [(['y=2*x-3', '3*x+y=7'], ('2', '1')), (['x+3*y=10', '2*x-y=6'], ('4', '2')), (['y=x+4', 'y=3*x'], ('2', '6')), (['x=2*y-1', 'x=8-y'], ('5', '3')),
                (['2*x+3*y=12', '2*x-y=4'], ('3', '2')), (['3*x+2*y=7', '5*x-3*y=18'], ('3', '-1')), (['4*x+3*y=1', '3*x-2*y=5'], ('1', '-1')), (['x+y=9', 'x-y=3'], ('6', '3')),
-               (['(x+1)/2+y/3=2', '2*(x-y)=x-3'], ('3/2', '9/4')), (['x/3+y/2=4', 'x/2-y/4=2'], ('6', '4')), (['3*(x-1)+y=6', 'x-2*(y+1)=-6'], ('2', '3'))]:
+               (['(x+1)/2+y/3=2', '2*(x-y)=x-3'], ('3/2', '9/4')), (['x/3+y/2=4', 'x/2-y/4=2'], ('6', '4')), (['3*(x-1)+y=6', 'x-2*(y+1)=-6'], ('2', '3')),
+               (['x/2+y=5', '3*(x-1)-2*y=3'], ('4', '3')), (['(x+1)/5=y-1', '2*(x-y)+y=6'], ('4', '2')), (['x/3-y=4', '2*(x+y)-3*x=-10'], ('6', '-2')),
+               (['x=(y+7)/3', 'x=(11-y)/3'], ('3', '2')), (['y/2=(x-1)/3', 'y=6-x'], ('4', '2')), (['x=(y-6)/2', 'x+y=3'], ('-1', '4')),
+               (['(x+y)/2+(x-y)/4=Rational(5,2)', '2*(x+1)-3*(y-1)=8'], ('3', '1')), (['(x-1)/3+(y+3)/2=Rational(4,3)', '3*(x+y)-2*(x-y)=-3'], ('2', '-1')), (['x/5-y/2=0', '(x+1)/3+(y-2)/4=2'], ('5', '2'))]:
     ls(s_, so)
 kind(['2*x-4*y=6', '-x+2*y=-3'], 'SCI'); kind(['x+y=3', '2*x+2*y=7'], 'SI')
 S.append(("Mètodes de substitució, igualació i reducció", [
- (1, r"Resol pel mètode de substitució:" + tasks(2, ['$' + sis('y=2x-3', '3x+y=7') + '$', '$' + sis('x+3y=10', '2x-y=6') + '$']),
-     tasks(2, [r"$3x+2x-3=7$: " + XY('2', '1'), r"$x=10-3y\Rightarrow 20-6y-y=6$: " + XY('4', '2')])),
- (1, r"Resol pel mètode d'igualació:" + tasks(2, ['$' + sis('y=x+4', 'y=3x') + '$', '$' + sis('x=2y-1', 'x=8-y') + '$']),
-     tasks(2, [r"$x+4=3x$: " + XY('2', '6'), r"$2y-1=8-y$: " + XY('5', '3')])),
- (1, r"Resol pel mètode de reducció:" + tasks(3, ['$' + sis('2x+3y=12', '2x-y=4') + '$', '$' + sis('3x+2y=7', '5x-3y=18') + '$', '$' + sis('4x+3y=1', '3x-2y=5') + '$'])
+ (2, r"Resol pel mètode de substitució:" + tasks(2, ['$' + sis('y=2x-3', '3x+y=7') + '$', '$' + sis('x+3y=10', '2x-y=6') + '$', '$' + sis(r'\dfrac x2+y=5', '3(x-1)-2y=3') + '$',
+      '$' + sis(r'\dfrac{x+1}{5}=y-1', '2(x-y)+y=6') + '$', '$' + sis(r'\dfrac x3-y=4', '2(x+y)-3x=-10') + '$']),
+     tasks(1, [r"$3x+2x-3=7$: " + XY('2', '1'), r"$x=10-3y\Rightarrow 20-6y-y=6$: " + XY('4', '2'), r"$x=10-2y\Rightarrow 3(9-2y)-2y=3\Rightarrow-8y=-24$: " + XY('4', '3'),
+               r"$x=5y-6\Rightarrow 2(4y-6)+y=6\Rightarrow 9y=18$: " + XY('4', '2'), r"$y=\frac x3-4\Rightarrow -x+2\left(\frac x3-4\right)=-10\Rightarrow-\frac x3=-2$: " + XY('6', '-2')])),
+ (2, r"Resol pel mètode d'igualació:" + tasks(2, ['$' + sis('y=x+4', 'y=3x') + '$', '$' + sis('x=2y-1', 'x=8-y') + '$', '$' + sis(r'x=\dfrac{y+7}{3}', r'x=\dfrac{11-y}{3}') + '$',
+      '$' + sis(r'\dfrac y2=\dfrac{x-1}{3}', 'y=6-x') + '$', '$' + sis(r'x=\dfrac{y-6}{2}', 'x+y=3') + '$']),
+     tasks(1, [r"$x+4=3x$: " + XY('2', '6'), r"$2y-1=8-y$: " + XY('5', '3'), r"$y+7=11-y$: " + XY('3', '2'),
+               r"$y=\frac{2(x-1)}{3}$ i $y=6-x$: $\frac{2(x-1)}{3}=6-x\Rightarrow5x=20$: " + XY('4', '2'), r"$x=3-y$: $\frac{y-6}{2}=3-y\Rightarrow3y=12$: " + XY('-1', '4')])),
+ (2, r"Resol pel mètode de reducció:" + tasks(2, ['$' + sis('2x+3y=12', '2x-y=4') + '$', '$' + sis('3x+2y=7', '5x-3y=18') + '$', '$' + sis('4x+3y=1', '3x-2y=5') + '$',
+      '$' + sis(r'\dfrac{x+y}{2}+\dfrac{x-y}{4}=\dfrac52', '2(x+1)-3(y-1)=8') + '$', '$' + sis(r'\dfrac{x-1}{3}+\dfrac{y+3}{2}=\dfrac43', '3(x+y)-2(x-y)=-3') + '$',
+      '$' + sis(r'\dfrac x5-\dfrac y2=0', r'\dfrac{x+1}{3}+\dfrac{y-2}{4}=2') + '$'])
      + recorda(r"Multiplica les equacions perquè una incògnita tinga el mateix coeficient (o l'oposat) i resta-les (o suma-les)."),
-     tasks(1, [r"Restant: $4y=8$; " + XY('3', '2'), r"$3E_1+2E_2$: $19x=57$; " + XY('3', '-1'), r"$2E_1+3E_2$: $17x=17$; " + XY('1', '-1')])),
+     tasks(1, [r"Restant: $4y=8$; " + XY('3', '2'), r"$3E_1+2E_2$: $19x=57$; " + XY('3', '-1'), r"$2E_1+3E_2$: $17x=17$; " + XY('1', '-1'),
+               r"$" + sis('3x+y=10', '2x-3y=3') + r"$, \ $3E_1+E_2$: $11x=33$; " + XY('3', '1'), r"$" + sis('2x+3y=1', 'x+5y=-3') + r"$, \ $E_1-2E_2$: $-7y=7$; " + XY('2', '-1'),
+               r"$" + sis('2x-5y=0', '4x+3y=26') + r"$, \ $E_2-2E_1$: $13y=26$; " + XY('5', '2')])),
  (2, r"Resol el sistema $" + sis('x+y=9', 'x-y=3') + r"$ pels tres mètodes algebraics i comprova que obtens la mateixa solució.",
      r"Substitució: $x=9-y\Rightarrow9-2y=3$. Igualació: $9-y=3+y$. Reducció: sumant, $2x=12$. En tots tres: " + XY('6', '3') + "."),
  (2, r"Simplifica les equacions i resol:" + tasks(3, ['$' + sis(r'\dfrac{x+1}{2}+\dfrac y3=2', '2(x-y)=x-3') + '$', '$' + sis(r'\dfrac x3+\dfrac y2=4', r'\dfrac x2-\dfrac y4=2') + '$', '$' + sis('3(x-1)+y=6', 'x-2(y+1)=-6') + '$']),
@@ -99,6 +118,8 @@ nls(['x+y=5', 'x**2+y**2=13'], [('2', '3'), ('3', '2')]); nls(['x-y=2', 'x*y=15'
 nls(['x**2+y**2=25', 'x**2-y**2=7'], [('4', '3'), ('4', '-3'), ('-4', '3'), ('-4', '-3')]); nls(['2*x**2+y**2=6', 'x**2-y**2=3'], [('sqrt(3)', '0'), ('-sqrt(3)', '0')])
 nls(['x+y=1', '1/x+1/y=-Rational(1,6)'], [('3', '-2'), ('-2', '3')]); nls(['x**2+y**2=10', 'x*y=3'], [('1', '3'), ('3', '1'), ('-1', '-3'), ('-3', '-1')])
 nls(['x**2+y**2=4', 'y=x+3'], [])
+nls(['x**2+y**2=10', 'x+y=4'], [('1', '3'), ('3', '1')]); nls(['y=x**2-2*x', 'y=x+4'], [('4', '8'), ('-1', '3')]); nls(['1/x+1/y=Rational(5,6)', 'x+y=5'], [('2', '3'), ('3', '2')])
+nls(['x*y=12', 'x**2+y**2=25'], [('3', '4'), ('4', '3'), ('-3', '-4'), ('-4', '-3')]); nls(['sqrt(x)+y=5', 'x-y=1'], [('4', '3')]); nls(['sqrt(x+y)=3', 'x-y=1'], [('5', '4')]); nls(['sqrt(x+3)=y', 'x+y=9'], [('6', '3')])
 S.append(("Sistemes no lineals", [
  (2, r"Resol pel mètode de substitució:" + tasks(3, ['$' + sis('x+y=5', 'x^2+y^2=13') + '$', '$' + sis('x-y=2', 'xy=15') + '$', '$' + sis('y=x^2-4', 'y=2x-1') + '$']),
      tasks(1, [r"$x^2+(5-x)^2=13\Rightarrow x^2-5x+6=0$: " + R(r"(2,3),\ (3,2)"), r"$(y+2)y=15\Rightarrow y^2+2y-15=0$: " + R(r"(5,3),\ (-3,-5)"), r"$x^2-4=2x-1\Rightarrow x^2-2x-3=0$: " + R(r"(3,5),\ (-1,-3)")])),
@@ -106,6 +127,13 @@ S.append(("Sistemes no lineals", [
      tasks(1, [r"Sumant: $2x^2=32\Rightarrow x=\pm4$, $y=\pm3$: " + R(r"(4,3),\ (4,-3),\ (-4,3),\ (-4,-3)"), r"Sumant: $3x^2=9\Rightarrow x=\pm\sqrt3$, $y=0$: " + R(r"(\sqrt3,0),\ (-\sqrt3,0)")])),
  (3, r"Resol:" + tasks(2, ['$' + sis('x+y=1', r'\dfrac1x+\dfrac1y=-\dfrac16') + '$', '$' + sis('x^2+y^2=10', 'xy=3') + '$']),
      tasks(1, [r"$\frac{x+y}{xy}=-\frac16\Rightarrow xy=-6$; $x(1-x)=-6$: " + R(r"(3,-2),\ (-2,3)"), r"$y=\frac3x\Rightarrow x^4-10x^2+9=0\Rightarrow x=\pm1,\ \pm3$: " + R(r"(1,3),\ (3,1),\ (-1,-3),\ (-3,-1)")])),
+ (2, r"Resol:" + tasks(2, ['$' + sis('x^2+y^2=10', 'x+y=4') + '$', '$' + sis('y=x^2-2x', 'y=x+4') + '$', '$' + sis(r'\dfrac1x+\dfrac1y=\dfrac56', 'x+y=5') + '$', '$' + sis('xy=12', 'x^2+y^2=25') + '$']),
+     tasks(1, [r"$x^2+(4-x)^2=10\Rightarrow x^2-4x+3=0$: " + R(r"(1,3),\ (3,1)"), r"$x^2-2x=x+4\Rightarrow x^2-3x-4=0$: " + R(r"(4,8),\ (-1,3)"),
+               r"$\frac{x+y}{xy}=\frac56\Rightarrow xy=6$; $x(5-x)=6$: " + R(r"(2,3),\ (3,2)"), r"$y=\frac{12}x\Rightarrow x^4-25x^2+144=0\Rightarrow x=\pm3,\ \pm4$: " + R(r"(3,4),\ (4,3),\ (-3,-4),\ (-4,-3)")])),
+ (3, r"Resol els sistemes següents, en què hi ha arrels. Comprova les solucions:" + tasks(3, ['$' + sis(r'\sqrt x+y=5', 'x-y=1') + '$', '$' + sis(r'\sqrt{x+y}=3', 'x-y=1') + '$', '$' + sis(r'\sqrt{x+3}=y', 'x+y=9') + '$'])
+     + recorda(r"Aïlla l'arrel i eleva al quadrat; després comprova cada solució en el sistema inicial, perquè en elevar al quadrat poden aparéixer solucions falses."),
+     tasks(1, [r"$y=x-1\Rightarrow\sqrt x=6-x\Rightarrow x^2-13x+36=0\Rightarrow x=4,\ x=9$; $x=9$ no val ($\sqrt9\neq6-9$): " + R(r"(4,3)"),
+               r"$x+y=9$ i $x-y=1$: " + R(r"(5,4)"), r"$y=9-x\Rightarrow x+3=(9-x)^2\Rightarrow x^2-19x+78=0\Rightarrow x=6,\ x=13$; $x=13$ no val ($y=-4<0$): " + R(r"(6,3)")])),
  (2, r"Sense dibuixar, esbrina si la recta $y=x+3$ talla la circumferència $x^2+y^2=4$.",
      r"$x^2+(x+3)^2=4\Rightarrow2x^2+6x+5=0$, $\Delta=36-40<0$: " + R(r"\text{no la talla}") + r" (el sistema no té solució)."),
 ]))

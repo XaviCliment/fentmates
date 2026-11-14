@@ -403,7 +403,8 @@ cd _eines/fonts-latex/4eso-b-t3 && python3 genera.py && pdflatex t3-fitxa-exerci
 - **Unitat 4 (Sistemes d'equacions i inequacions, `4eso-b-t4`)**: parteix de la unitat 3 de 1r Batx MI. Els apartats 4.5-4.7
   (inequacions) en són còpia (`contingut-3.html`, amb el giny nou `w-sys1` de sistemes d'inequacions de primer grau); els de
   sistemes lineals 2x2 (4.1 mètode gràfic, `w-gr`; 4.2 substitució, igualació i reducció pas a pas, `w-met`), no lineals i
-  problemes són nous. Sense el mètode de Gauss. La fitxa té 29 exercicis en 7 seccions; sympy resol i classifica cada sistema
+  problemes són nous. Sense el mètode de Gauss. La fitxa té 31 exercicis en 7 seccions (cada mètode amb sistemes amb denominadors i
+  parèntesis, i sistemes no lineals amb arrels; `sis()` separa més les files dels sistemes amb fraccions); sympy resol i classifica cada sistema
   (`ls`, `kind`, `nls`) i els sistemes d'inequacions (`ineqs`), i `vx` comprova els vèrtexs de cada regió. Les figures del pla
   són a `_eines/fonts-latex/comu/regions.py` (còpia de les funcions de la fitxa de 1r Batx MI unitat 3).
 
