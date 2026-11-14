@@ -116,8 +116,10 @@ def check():
     for l, r in CHK:
         assert l == r, (l, r)
 
-def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre=''):
-    """escriu tN-fitxa-exercicis.tex i tN-fitxa-solucions.tex"""
+def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre='', lang='va'):
+    """escriu tN-fitxa-exercicis.tex i tN-fitxa-solucions.tex (lang='es': tN-fitxa-exercicis-es.tex i tN-fitxa-solucions-es.tex,
+    amb titol, keywords, intro_ex i intro_sol ja en castellà)"""
+    es = lang == 'es'
     check()
     pre = open(os.path.join(here, 'preamble.tex'), encoding='utf-8').read()
     pre = pre.split('% ---------- recta real ----------')[0]
@@ -131,13 +133,23 @@ def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre=''):
 % quadre de recordatori (només a la fitxa d'exercicis)
 \newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
 ''' + extra_pre
+    if es: pre = pre.replace(r'\textbf{Recorda:}', r'\textbf{Recuerda:}')
     def sp_(t): return re.sub(r'\$[^$]*\$', lambda m: m.group(0).replace(', ', r',\, '), t)
     for sol in (False, True):
         t = 'Solucions de la fitxa' if sol else "Fitxa d'exercicis"
-        p = pre.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
+        if es:
+            from castella import preambul, assignatura
+            t = 'Soluciones de la ficha' if sol else 'Ficha de ejercicios'
+            p = preambul(pre, pdftitle='%s de la unidad %d: %s' % (t, num, titol), capcalera='%s · Unidad %d: %s' % (t, num, titol),
+                         pdfkeywords=keywords, curs='4eso-b')
+            a = r'\textsuperscript{o} ESO}' + '\n'
+            assert p.count(a) == 1
+            p = p.replace(a, r'\textsuperscript{o} ESO B}' + '\n')   # com a la versió valenciana: «4º ESO B» a la capçalera
+        else:
+          p = pre.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
                         "pdftitle={%s de la unitat %d: %s. 4t d'ESO Matemàtiques B}" % (t, num, titol))
-        p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat %d: %s · 4t ESO B" % (t, num, titol))
-        assert ('Unitat %d' % num) in p and ('unitat %d' % num) in p
+          p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat %d: %s · 4t ESO B" % (t, num, titol))
+          assert ('Unitat %d' % num) in p and ('unitat %d' % num) in p
         out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
         out.append(r'''
 \def\fmneed{11}% que el títol d'una secció no quede sol al final del full
@@ -147,25 +159,29 @@ def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre=''):
 \begin{document}
 \thispagestyle{primera}
 
-\capcalera{Matemàtiques B}{4t ESO}{''' + ('Solucions de la fitxa · Unitat %d' % num if sol else "Fitxa d'exercicis · Unitat %d" % num) + r'''}{\raggedright ''' + titol + r'''}
+''' + (assignatura('4eso-b') + '{' + ('Soluciones de la ficha · Unidad %d' % num if sol else 'Ficha de ejercicios · Unidad %d' % num) if es else
+       '\\capcalera{Matemàtiques B}{4t ESO}{' + ('Solucions de la fitxa · Unitat %d' % num if sol else "Fitxa d'exercicis · Unitat %d" % num)) + r'''}{\raggedright ''' + titol + r'''}
 ''')
         if not sol:
-            out.append('\\vspace{10pt}\nNom i cognoms: \\rule{8.4cm}{0.4pt}\\hfill Grup: \\rule{1.6cm}{0.4pt}\\hfill Data: \\rule{2.2cm}{0.4pt}\n')
+            if es: out.append('\\vspace{10pt}\nNombre y apellidos: \\rule{6.6cm}{0.4pt}\\hfill Grupo: \\rule{1.6cm}{0.4pt}\\hfill Fecha: \\rule{2.2cm}{0.4pt}\n')
+            else: out.append('\\vspace{10pt}\nNom i cognoms: \\rule{8.4cm}{0.4pt}\\hfill Grup: \\rule{1.6cm}{0.4pt}\\hfill Data: \\rule{2.2cm}{0.4pt}\n')
         out.append(r'''\vspace{8pt}
 
 \begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
-\small ''' + (intro_sol if sol else r"Exercicis graduats per nivells de dificultat:\quad \estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt] " + intro_ex) + r'''
+\small ''' + (intro_sol if sol else r"Ejercicios graduados por niveles de dificultad:\quad \estrelles{1}\ básico \qquad \estrelles{2}\ medio \qquad \estrelles{3}\ avanzado.\\[2pt] " + intro_ex if es else r"Exercicis graduats per nivells de dificultat:\quad \estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt] " + intro_ex) + r'''
 \end{tcolorbox}
 ''')
         for i, (title, exs) in enumerate(S, 1):
             out.append('\n%% =====================================================\n\\seccio{%d}{%s}\n\n' % (i, title))
             for j, (st_, q, s) in enumerate(exs):
                 out.append('\\%s{%d} %s\n\n' % ('exf' if j == 0 else 'ex', st_, sp_(s if sol else q)))
-        if not sol:
+        if not sol and es:
+            out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ ¡Ánimo! Comprueba tus resultados con las herramientas interactivas de los apuntes de la unidad.\\end{center}\n')
+        elif not sol:
             out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\\end{center}\n')
         out.append('\n\\end{document}\n')
-        name = 't%d-fitxa-%s.tex' % (num, 'solucions' if sol else 'exercicis')
+        name = 't%d-fitxa-%s%s.tex' % (num, 'solucions' if sol else 'exercicis', '-es' if es else '')
         open(os.path.join(here, name), 'w', encoding='utf-8', newline='\n').write(''.join(out))
     n = sum(len(x[1]) for x in S)
-    print(n, 'exercicis;', len(CHK), 'comprovacions')
+    print(n, 'ejercicios;' if es else 'exercicis;', len(CHK), 'comprobaciones' if es else 'comprovacions')
     return n
