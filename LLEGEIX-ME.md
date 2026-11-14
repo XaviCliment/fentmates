@@ -359,7 +359,7 @@ del d'àlgebra, i la 5, del de geometria.
 Les fitxes (`_eines/fonts-latex/4eso-b-tN/genera.py`) mostren les estrelles de dificultat (com les d'ESO) i comparteixen les
 eines de `_eines/fonts-latex/comu/eso4b.py`: `tasks`, intervals i recta real (`P`, `cup`, `cap`, `RI`, `recta`), `ck` per a
 resultats exactes, `eq` per a comprovar amb sympy (numèricament) cada resultat escrit a mà, i `build`, que escriu la fitxa i
-les solucions.
+les solucions. `tasks(..., gap='12pt')` separa més les files d'apartats amb fraccions o sistemes.
 
 - **Unitat 1 (Nombres reals, `4eso-b-t1`)**: 8 apartats (classificació dels nombres, intervals i semirectes, unió i
   intersecció, valor absolut, potències, radicals, racionalització i logaritmes) i 11 ginys; el valor absolut i els entorns
@@ -391,7 +391,8 @@ cd _eines/fonts-latex/4eso-b-t2 && python3 genera.py && pdflatex t2-fitxa-exerci
   (segon grau, biquadrades, grau major que 2, factoritzades, amb fraccions, amb radicals, exponencials, logarítmiques,
   inequacions de primer grau i de segon grau o superior). 8 ginys: el de segon grau té dues instàncies (`w-quad` i `w-biq`,
   amb `quadW`), i són nous el de les equacions factoritzades (`w-feq`, amb `parseProd`) i el de les inequacions de primer
-  grau (`w-lin`). La fitxa té 34 exercicis en 11 seccions; `sol()` resol cada equació amb sympy (i, si sympy no pot, comprova
+  grau (`w-lin`). La fitxa té 41 exercicis en 11 seccions (inclou equacions de segon grau i biquadrades amb
+  parèntesis i denominadors; `red()` n'escriu la forma reduïda i `sols()` les solucions); `sol()` resol cada equació amb sympy (i, si sympy no pot, comprova
   les solucions i fa un escombratge numèric) i `ineq()` resol cada inequació i la compara amb l'interval escrit.
 
 ```

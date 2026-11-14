@@ -7,8 +7,10 @@ from fractions import Fraction as F
 
 INF = float('inf')
 
-def tasks(n, items, start=None):
-    opt = '[start=%d]' % start if start else ''
+def tasks(n, items, start=None, gap=None):
+    """gap: espai extra entre files (p. ex. '12pt') per a enunciats amb fraccions o sistemes"""
+    o = (['start=%d' % start] if start else []) + (['after-item-skip=%s' % gap] if gap else [])
+    opt = '[' + ','.join(o) + ']' if o else ''
     return '\\begin{tasks}%s(%d)\n' % (opt, n) + ''.join('  \\task %s\n' % i for i in items) + '\\end{tasks}'
 def recorda(t): return '\\recorda{%s}' % t
 def R(t): return r'$\res{' + t + '}$'
