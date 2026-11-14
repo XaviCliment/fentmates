@@ -69,8 +69,8 @@ window.LEVELS = {
         title: { va: "Nombres enters", es: "Números enteros", en: "Integers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t3-nombres-enters.html", date: "2026-10-22" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis graduats per nivells de dificultat", es: "PDF · 54 ejercicios graduados por niveles de dificultad", en: "PDF · 54 exercises graded by difficulty" }, url: "materials/1eso/t3-fitxa-exercicis.pdf", download: true, date: "2026-10-22" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: "materials/1eso/t3-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-10-22" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis graduats per nivells de dificultat", es: "PDF · 54 ejercicios graduados por niveles de dificultad", en: "PDF · 54 exercises graded by difficulty" }, url: { va: "materials/1eso/t3-fitxa-exercicis.pdf", es: "materials/1eso/t3-fitxa-exercicis-es.pdf" }, download: true, date: "2026-10-22" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: { va: "materials/1eso/t3-fitxa-solucions.pdf", es: "materials/1eso/t3-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-10-22" }
         ]
       },
       {
