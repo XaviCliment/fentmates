@@ -1,0 +1,333 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 2: Sistemas de ecuaciones lineales. 2º Bach.},pdfsubject={Matemáticas II 2º Bach.},pdfkeywords={sistemas de ecuaciones lineales, método de Gauss, método matricial, regla de Cramer, teorema de Rouché-Frobenius, sistemas homogéneos, discusión de sistemas, parámetros, problemas, PAU}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 2: Sistemas de ecuaciones lineales · 2\textsuperscript{o} Bach.}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas II}{2\textsuperscript{o} Bach.}{Ficha de ejercicios · Unidad 2}{Sistemas de ecuaciones lineales}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resuelve los ejercicios en el cuaderno justificando cada paso: indica siempre el método que utilizas y, en los problemas, qué representa cada incógnita. En las discusiones con parámetros, estudia \textbf{todos} los casos. Los ejercicios marcados con {\color{teal}\bfseries\faUniversity\ PAU} son de las pruebas de acceso a la universidad de otras comunidades autónomas (2024--2026).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Sistemas de ecuaciones lineales. Método de Gauss}
+
+\ex{1} \label{ex:g4}Resuelve por el método de Gauss el sistema de cuatro ecuaciones y cuatro incógnitas:\[\left\{\begin{aligned}x+y+z+t&=2\\2x-y+z-t&=5\\x+2y-z+3t&=-3\\3x+y-2z+t&=-2\end{aligned}\right.\]\recorda{Haz ceros debajo de la diagonal con operaciones entre filas de la matriz ampliada y después resuelve de abajo arriba. Elige como fila pivote la que tenga un 1 en la columna que quieres anular.}
+
+\ex{2} Discute y resuelve, cuando sea posible, por el método de Gauss:\begin{tasks}(1)
+  \task $\left\{\begin{aligned}x+y-z+t&=1\\2x+y+z-t&=3\\3x+2y&=4\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=6\\x-y+2z&=5\\2x+y-z&=1\\3x+2y&=7\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=6\\x-y+2z&=5\\2x+y-z&=1\\3x+2y&=8\end{aligned}\right.$
+\end{tasks}
+
+\ex{3} Discute por el método de Gauss el sistema siguiente según los valores de $k$ y $m$, y resuélvelo cuando sea compatible indeterminado:\[\left\{\begin{aligned}x+2y-z&=1\\2x+y+z&=4\\4x+5y+kz&=m\end{aligned}\right.\]
+
+\ex{2} Escribe un sistema de tres ecuaciones con tres incógnitas, sin ningún coeficiente nulo en la tercera ecuación, que tenga como solución general \ $x=1+\lambda$, \ $y=2-\lambda$, \ $z=\lambda$.
+
+\ex{2} \pau{Andalucía, extraordinaria 2025} Se sabe que la suma de tres números naturales es 22 y que la suma de cuatro veces el primero más el triple del segundo más el doble del tercero es 61. ¿Puede ser 15 uno de los tres números? En caso afirmativo, calcula los otros. ¿Hay otras opciones?
+
+
+% =====================================================
+\seccio{2}{Expresión matricial. Método matricial}
+
+\ex{2} Sea \ $A=\begin{pmatrix}1 & 2 & 1\\0 & 1 & 2\\1 & 0 & 2\end{pmatrix}$. Resuelve por el método matricial los sistemas $AX=B_1$ y $AX=B_2$, con \ $B_1=\begin{pmatrix}2\\2\\3\end{pmatrix}$ \ y \ $B_2=\begin{pmatrix}1\\1\\4\end{pmatrix}$, calculando una sola vez la matriz inversa.\recorda{Si $|A|\neq0$: \ $A\cdot X=B\Rightarrow X=A^{-1}\cdot B$. Cuando varios sistemas tienen la misma matriz de coeficientes, basta con calcular $A^{-1}$ una vez.}
+
+\ex{2} Halla la matriz columna $X=\begin{pmatrix}x\\ y\\ z\end{pmatrix}$ tal que $AX=X+B$, siendo \ $A=\begin{pmatrix}3 & 1 & 0\\1 & 3 & 1\\0 & 1 & 3\end{pmatrix}$ \ y \ $B=\begin{pmatrix}1\\0\\1\end{pmatrix}$.
+
+\ex{3} Considera el sistema \ $\left\{\begin{aligned}x+y&=1\\x+ky+z&=0\\y+z&=1\end{aligned}\right.$\begin{tasks}(1)
+  \task ¿Para qué valores de $k$ se puede resolver por el método matricial?
+  \task Resuélvelo por el método matricial en función de $k$.
+  \task ¿Qué pasa cuando $k=2$?
+\end{tasks}
+
+\ex{3} Sea $AX=B$ un sistema de $n$ ecuaciones y $n$ incógnitas.\begin{tasks}(1)
+  \task Demuestra que, si $|A|\neq0$, el sistema tiene una única solución para cualquier $B$, y que el sistema homogéneo $AX=O$ solo tiene la solución trivial.
+  \task Demuestra que, si $X_1$ y $X_2$ son soluciones de $AX=B$, entonces $X_1-X_2$ es solución de $AX=O$, y que $X_1+t\,(X_2-X_1)$ es solución de $AX=B$ para todo $t\in\mathbb{R}$.
+  \task Deduce que un sistema lineal no puede tener exactamente dos soluciones.
+\end{tasks}
+
+\ex{2} \pau{La Rioja, extraordinaria 2024} Dado el sistema de ecuaciones lineales dependiente del parámetro real $a$\[\left\{\begin{aligned}x-y+az&=a\\ax+y-z&=a\\(a+1)x+z&=a+2\end{aligned}\right.\]halla la matriz $A^{-1}b$ sin calcular la matriz inversa de $A$, siendo $A$ la matriz de coeficientes y $b$ la de términos independientes.
+
+
+% =====================================================
+\seccio{3}{Regla de Cramer}
+
+\ex{2} Resuelve por la regla de Cramer, en función de $a$, el sistema \ $\left\{\begin{aligned}ax+y+z&=1\\x+ay+z&=1\\x+y+az&=1\end{aligned}\right.$ \ en los casos en que sea un sistema de Cramer.\recorda{Un sistema es de Cramer si tiene tantas ecuaciones como incógnitas y $|A|\neq0$. Entonces $x=\dfrac{|A_x|}{|A|}$, \ldots, donde $A_x$ se obtiene sustituyendo la columna de $x$ por la de términos independientes.}
+
+\ex{3} Calcula, aplicando la regla de Cramer, solo el valor de $t$ en el sistema del ejercicio \ref{ex:g4}.
+
+\ex{2} El sistema \ $\left\{\begin{aligned}x+y+z&=2\\x-y+2z&=1\\2x+3z&=3\end{aligned}\right.$ \ es compatible indeterminado. Resuélvelo aplicando la regla de Cramer (pasa $z$ al segundo miembro).
+
+\ex{3} \pau{Islas Baleares, extraordinaria 2025} Dado el sistema \ $\left\{\begin{aligned}kx+y&=1\\ky+z&=0\\3x-y-z&=0\end{aligned}\right.$, \ donde $k$ es un número real cualquiera:\begin{tasks}(1)
+  \task Discute, según el parámetro $k$, el número de soluciones que tiene el sistema.
+  \task Resuelve el sistema cuando sea posible.
+\end{tasks}
+
+\ex{2} \pau{Cataluña, extraordinaria 2026} Considera el sistema de ecuaciones \ $\left\{\begin{aligned}2x+ky+z&=3\\-x+2y+2z&=1\\x+y+z&=2\end{aligned}\right.$, \ donde $k$ es un parámetro real.\begin{tasks}(1)
+  \task Discute el sistema en función del parámetro $k$.
+  \task Resuelve el sistema para todos los valores de $k$ y comprueba que, para $k\neq1$, la solución no depende de $k$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Sistemas homogéneos}
+
+\ex{2} Discute el sistema homogéneo \ $\left\{\begin{aligned}x+y+az&=0\\x+ay+z&=0\\ax+y+z&=0\end{aligned}\right.$ \ según los valores de $a$ y resuélvelo cuando tenga soluciones distintas de la trivial.\recorda{Un sistema homogéneo siempre es compatible. Si $\operatorname{rg}(A)=r<n$, es SCI y la solución depende de $n-r$ parámetros.}
+
+\ex{2} Resuelve el sistema homogéneo \ $\left\{\begin{aligned}x+y+z+t&=0\\x-y+2z-t&=0\\2x+3z&=0\end{aligned}\right.$ \ y di cuántos parámetros tiene la solución.
+
+\ex{2} Escribe un sistema homogéneo de dos ecuaciones con tres incógnitas cuyas soluciones sean $(\lambda,\ 2\lambda,\ -\lambda)$, $\lambda\in\mathbb{R}$. ¿Para qué valor de $k$ la ecuación $kx+y+3z=0$ también la cumplen todas estas soluciones?
+
+\ex{3} Razona las afirmaciones siguientes:\begin{tasks}(1)
+  \task Un sistema homogéneo con más incógnitas que ecuaciones siempre tiene soluciones distintas de la trivial.
+  \task Si un sistema homogéneo cuadrado tiene alguna solución no trivial, entonces $|A|=0$.
+  \task Si $X_1$ y $X_2$ son soluciones de un sistema homogéneo, $aX_1+bX_2$ también lo es, para cualesquiera $a,b\in\mathbb{R}$.
+\end{tasks}
+
+\ex{2} \pau{La Rioja, ordinaria 2025} Dado el sistema de ecuaciones homogéneo \ $\left\{\begin{aligned}3x+y-z&=0\\3x+2y-mz&=0\\x-y-z&=0\end{aligned}\right.$, \ indica para qué valores de $m$ el sistema tiene solo la solución trivial. Resuelve el sistema para un valor de $m$ que lo haga compatible indeterminado.
+
+
+% =====================================================
+\seccio{5}{Teorema de Rouché-Frobenius}
+
+\ex{2} \label{ex:r4}Clasifica, sin resolverlos, los sistemas de cuatro ecuaciones y tres incógnitas siguientes, y resuelve el que sea compatible:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}x+y+z&=3\\2x-y+z&=2\\x+2y-z&=2\\3x+y+2z&=6\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=3\\2x-y+z&=2\\x+2y-z&=2\\3x+y+2z&=7\end{aligned}\right.$
+\end{tasks}\recorda{Con 4 ecuaciones y 3 incógnitas, $\operatorname{rg}(A)\leq3$. Si $|A^*|\neq0$, entonces $\operatorname{rg}(A^*)=4\neq\operatorname{rg}(A)$ y el sistema es incompatible.}
+
+\ex{2} Estudia el sistema \ $\left\{\begin{aligned}x+2y-z+t&=3\\2x+4y+z-t&=3\\x+2y+2z-2t&=0\end{aligned}\right.$ \ con el teorema de Rouché-Frobenius y resuélvelo.
+
+\ex{2} Halla la relación que deben cumplir $a$, $b$ y $c$ para que el sistema \ $\left\{\begin{aligned}x+y+z&=a\\x-y+2z&=b\\3x+y+4z&=c\end{aligned}\right.$ \ sea compatible. ¿Puede ser compatible determinado?
+
+\ex{2} Di si son verdaderas o falsas las afirmaciones siguientes y justifícalo:\begin{tasks}(1)
+  \task Un sistema de 4 ecuaciones y 3 incógnitas con $\operatorname{rg}(A)=3$ siempre es compatible determinado.
+  \task Un sistema de 3 ecuaciones y 4 incógnitas no puede ser compatible determinado.
+  \task Si en un sistema de 4 ecuaciones y 3 incógnitas $|A^*|\neq0$, el sistema es incompatible.
+  \task Si un sistema de 3 ecuaciones y 3 incógnitas tiene $|A|=0$, es incompatible.
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, extraordinaria 2026} Queremos determinar el coste por hora de tres servicios de una empresa de alquiler de material audiovisual: iluminación profesional ($x$ €/hora), equipo de sonido ($y$ €/hora) y cámaras de grabación ($z$ €/hora). Se han registrado los gastos totales de tres eventos:\[\begin{aligned}&\text{Evento 1: } & 2x+y+z&=6500\\ &\text{Evento 2: } & 4x+5y+7z&=22500\\ &\text{Evento 3: } & x+2y+3z&=8000\end{aligned}\]Justifica si, con esta información, se pueden determinar de manera única los costes de los tres servicios.
+
+
+% =====================================================
+\seccio{6}{Discusión de sistemas con parámetros}
+
+\ex{2} Discute el sistema siguiente según los valores de $a$ y resuélvelo en todos los casos en que sea compatible:\[\left\{\begin{aligned}ax+y+z&=1\\x+ay+z&=a\\x+y+az&=a^2\end{aligned}\right.\]\recorda{Calcula $|A|$ y halla sus raíces (valores críticos). Para el resto de valores el sistema es SCD; cada valor crítico se estudia por separado con Rouché-Frobenius.}
+
+\ex{2} Discute el sistema siguiente según los valores de $a$ y $b$, y resuélvelo cuando sea compatible indeterminado:\[\left\{\begin{aligned}x+y+z&=1\\x+2y+az&=2\\2x+3y+4z&=b\end{aligned}\right.\]
+
+\ex{2} Discute, según los valores de $a$, el sistema de tres ecuaciones y dos incógnitas \ $\left\{\begin{aligned}x+2y&=3\\2x-y&=1\\ax+y&=2\end{aligned}\right.$, \ y resuélvelo cuando sea compatible.
+
+\ex{3} Discute, según los valores de $k$ y de $a$, el sistema \ $\left\{\begin{aligned}x+y+z+t&=1\\x-y+z-t&=a\\2x+kz&=3\end{aligned}\right.$
+
+\ex{2} Discute el sistema \ $\left\{\begin{aligned}x+y+z&=m+1\\mx+y+(m-1)z&=m\\x+my+z&=1\end{aligned}\right.$ \ según los valores de $m$ y resuélvelo para $m=0$ y para $m=2$.
+
+\ex{3} Discute el sistema siguiente según los valores de los parámetros $a$ y $b$, y resuélvelo en todos los casos en que sea compatible:\[\left\{\begin{aligned}x+y+z&=1\\x+2y+az&=b\\x+4y+a^2z&=b^2\end{aligned}\right.\]\recorda{Cuando hay dos parámetros, primero se hallan los valores críticos del que aparece en la matriz $A$ (con $|A|=0$) y, para cada uno, se estudia qué valores del otro hacen $\operatorname{rg}(A^*)=\operatorname{rg}(A)$. Fíjate en la forma de los determinantes (ejercicio de Vandermonde de la unidad 1).}
+
+\ex{3} Discute el sistema de tres ecuaciones y cuatro incógnitas siguiente según los valores de $m$, y resuélvelo en todos los casos en que sea compatible:\[\left\{\begin{aligned}x+2y-z+t&=2\\2x+y+z-t&=1\\3x+3y+(m^2-4)z&=m+1\end{aligned}\right.\]\recorda{Con 3 ecuaciones y 4 incógnitas, el sistema nunca puede ser SCD: si es compatible, la solución depende de $4-\operatorname{rg}(A)$ parámetros.}
+
+\ex{2} \pau{Andalucía, ordinaria 2026} Considera el sistema \ $\left\{\begin{aligned}3x-y&=a^2\\ (1-a)y+2z&=0\\ 4y+(3-a)z&=a-5\end{aligned}\right.$\begin{tasks}(1)
+  \task Discútelo según los valores de $a$.
+  \task Para $a=0$, resuelve el sistema, si es posible.
+\end{tasks}
+
+\ex{2} \pau{Aragón, extraordinaria 2025} Dado el sistema de ecuaciones lineales \ $\left\{\begin{aligned}x+2y-z&=-1\\ 8x+my-6z&=-8\\ -x-2y+m^2z&=m\end{aligned}\right.$, \ con $m\in\mathbb{R}$:\begin{tasks}(1)
+  \task Estudia, en función de $m$, el número de soluciones del sistema.
+  \task Resuelve, si es posible, el sistema para $m=1$.
+\end{tasks}
+
+\ex{2} \pau{Canarias, ordinaria 2024} Dado el sistema de ecuaciones lineales con un parámetro $k\in\mathbb{R}$:\[\left\{\begin{aligned}kx+y-3z&=5\\-x+y+z&=-4\\kx+y-kz&=1\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute la resolución del sistema según los valores de $k$.
+  \task Resuelve el sistema cuando $k=4$.
+\end{tasks}
+
+\ex{2} \pau{Cantabria, ordinaria 2026} Considera el sistema \ $\left\{\begin{aligned}x+y+z&=0\\y+az&=1\\ay+z&=2-a\end{aligned}\right.$, \ dependiente del parámetro $a\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discute el sistema en función de los valores de $a$.
+  \task Para $a=2$, si el sistema es compatible, halla su solución general.
+  \task Para $a=1$, si el sistema es compatible, halla su solución general.
+\end{tasks}
+
+\ex{3} \pau{Cantabria, extraordinaria 2026} Considera el sistema \ $\left\{\begin{aligned}a^3x+y+az&=1\\ ax+a^2y&=a\end{aligned}\right.$, \ dependiente del parámetro $a\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discute el sistema en función de los valores de $a$.
+  \task Para $a=0$, si el sistema es compatible, halla su solución general.
+  \task Para $a=2$, si el sistema es compatible, halla su solución general.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, extraordinaria 2025} Dado el sistema \ $\left\{\begin{aligned}x+y-z&=2\\4x+2y&=a\\ax+y+z&=1\end{aligned}\right.$:\begin{tasks}(1)
+  \task Discute la resolución del sistema según los valores de $a\in\mathbb{R}$ e indica el número de soluciones en cada caso.
+  \task Para $a=0$, resuelve el sistema de forma razonada.
+\end{tasks}
+
+\ex{3} \pau{Castilla y León, extraordinaria 2026} Sean \ $A=\begin{pmatrix}2 & 2 & 0\\0 & 2 & 0\\2 & 0 & 4\end{pmatrix}$ \ e $I$ la matriz identidad de orden 3. Discute el sistema \ $(A-\alpha I)\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}0\\ 0\\ 1\end{pmatrix}$ \ en función del parámetro $\alpha\in\mathbb{R}$.
+
+\ex{2} \pau{Castilla y León, ordinaria 2026} Considera el sistema \ $\left\{\begin{aligned}(m-10)x-2y-z&=-1\\ 7x+(m+2)y+2z&=m+1\\ 5x+2y+z&=1\end{aligned}\right.$, \ con $m\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discute el sistema según los valores del parámetro $m$.
+  \task Resuelve, razonadamente, el sistema para $m=3$.
+\end{tasks}
+
+\ex{2} \pau{Cataluña, ordinaria 2026} Considera el sistema \ $\left\{\begin{aligned}x+my+z&=4\\x+3y+z&=5\\mx+y+z&=4\end{aligned}\right.$, \ que depende del parámetro real $m$.\begin{tasks}(1)
+  \task Discute el sistema para los distintos valores de $m$.
+  \task Resuélvelo, si es posible, para el caso $m=1$.
+  \task Para $m=1$, ¿es posible añadir una cuarta ecuación de manera que el sistema resultante sea compatible determinado y tenga como solución $(x,y,z)=\left(3,\tfrac12,\tfrac12\right)$? Razona la respuesta.
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinaria 2026} Dado el sistema \ $\left\{\begin{aligned}kx+2y-z&=3k\\2x+ky-2z&=6\\x-y+z&=k\end{aligned}\right.$:\begin{tasks}(1)
+  \task Discute el sistema según los valores del parámetro $k$.
+  \task Resuelve el sistema para el valor $k=3$.
+\end{tasks}
+
+\ex{2} \pau{Extremadura, extraordinaria 2025} Se considera el sistema \ $\left\{\begin{aligned}mx+7y+5z&=0\\x+my+z&=3\\y+z&=-2\end{aligned}\right.$, \ con $m\in\mathbb{R}$.\begin{tasks}(1)
+  \task Discute el sistema en función del parámetro $m$.
+  \task Resuélvelo para el caso $m=1$.
+\end{tasks}
+
+\ex{2} \pau{Galicia, extraordinaria 2026} Discute, según los valores del parámetro $m$, el sistema\[\left\{\begin{aligned}2x+(2m-2)y+(m+6)z&=9\\ x+(m-2)y+3z&=2\\ 2y+(2m+2)z&=m-5\end{aligned}\right.\]
+
+\ex{2} \pau{Galicia, extraordinaria 2025} Discute, según los valores del parámetro $m$, el sistema\[\left\{\begin{aligned}x+my+z&=m\\ x+(3-m)z&=2m\\ my+2z&=3m\end{aligned}\right.\]
+
+\ex{2} \pau{Madrid, extraordinaria 2025} Sea el sistema de ecuaciones lineales dependiente del parámetro real $k$:\[\begin{pmatrix}k & 1 & 1\\k+1 & 1 & -k\\1 & k+1 & 0\end{pmatrix}\begin{pmatrix}x\\ y\\ z\end{pmatrix}-\begin{pmatrix}0\\ k\\ 2k\end{pmatrix}=\begin{pmatrix}0\\ 0\\ 0\end{pmatrix}\]\begin{tasks}(1)
+  \task Discute el sistema en función de los valores de $k$.
+  \task Resuelve el sistema para $k=0$.
+\end{tasks}
+
+\ex{3} \pau{Navarra, extraordinaria 2026} Estudia el sistema siguiente, que depende del parámetro real $a$, y resuélvelo en los casos en que sea compatible indeterminado. Menciona el resultado teórico empleado y justifica su uso.\[\left\{\begin{aligned}(a^2-4)x+(a+2)y+2z&=4\\ (4-a^2)x+z&=2\\ (a^2-4)x+(a+2)y+az&=-4\end{aligned}\right.\]
+
+\ex{3} \pau{Navarra, extraordinaria 2025} Estudia el sistema siguiente, que depende del parámetro real $m$, y resuélvelo en los casos en que sea compatible. Menciona el resultado teórico empleado y justifica su uso.\[\left\{\begin{aligned}(m^2-m)x+(m+2)y-z&=1-m^2\\ (m^2-m)x+(2m+1)y&=2\\ (m-m^2)x-(2m+1)y+(m+2)z&=2m+2\end{aligned}\right.\]
+
+\ex{2} \pau{País Vasco, extraordinaria 2025} Sea el sistema de ecuaciones lineales\[\left\{\begin{aligned}x+3z&=3+\alpha y\\ z+\alpha x+y-2&=0\\ x+2z-y&=1\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute la existencia de solución según los valores del parámetro $\alpha$.
+  \task Si es posible, resuélvelo en el caso $\alpha=0$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemas de planteamiento}
+
+\ex{2} Un número de tres cifras cumple que la suma de sus cifras es 12, que la cifra de las decenas es igual a la suma de las otras dos y que, si se invierte el orden de las cifras, el número aumenta en 396. ¿Cuál es el número?\recorda{Si las cifras son $x$ (centenas), $y$ (decenas) y $z$ (unidades), el número vale $100x+10y+z$.}
+
+\ex{2} Halla el polinomio de tercer grado $p(x)=ax^3+bx^2+cx+d$ cuya gráfica pasa por los puntos $(-1,-4)$, $(0,1)$, $(1,2)$ y $(2,11)$.
+
+\ex{2} Tenemos 10 monedas de 1 €, de 2 € y de 5 € que suman 25 €.\begin{tasks}(1)
+  \task Plantea el sistema y comprueba que es compatible indeterminado. Escribe su solución general.
+  \task ¿Cuáles son las soluciones posibles en el contexto del problema?
+  \task ¿Cuántas monedas hay de cada tipo si hay más monedas de 1 € que de 2 €?
+\end{tasks}
+
+\ex{3} Un teatro vende 100 entradas de tres tipos: generales a 10 €, infantiles a 5 € y sénior a $k$ euros. Ha recaudado 600 € y ha vendido tantas entradas infantiles como sénior.\begin{tasks}(1)
+  \task Plantea el sistema y discútelo según los valores de $k$.
+  \task Si la entrada sénior cuesta 5 €, ¿cuántas entradas de cada tipo se han vendido?
+  \task ¿Puede ser que la entrada sénior cueste 10 €? Razónalo.
+\end{tasks}
+
+\ex{2} \pau{Aragón, extraordinaria 2024} En un laboratorio farmacéutico se fabrican tres medicamentos, M$_1$, M$_2$ y M$_3$, a partir de tres principios activos, A$_1$, A$_2$ y A$_3$. Un gramo de M$_1$ necesita 10 mg de A$_1$, 10 mg de A$_2$ y 20 mg de A$_3$; un gramo de M$_2$, 10, 20 y 30 mg, y un gramo de M$_3$, 20, 30 y 50 mg, respectivamente. Se dispone de 70 g de A$_1$, 90 g de A$_2$ y 160 g de A$_3$, y se quiere gastar todo. ¿Es posible? En caso afirmativo, ¿qué cantidades de cada medicamento se pueden fabricar?
+
+\ex{2} \pau{Asturias, extraordinaria 2026} Una empresa de logística transporta mercancía con camiones pequeños, medianos y grandes, y utiliza 10 en total. Cada camión pequeño transporta 1 tonelada; cada mediano, 2 toneladas, y cada grande, 3 toneladas. La carga total es de $(m+9)$ toneladas, con $m\in\mathbb{R}$. El transporte tiene un coste de 2 unidades por camión pequeño, 3 por camión mediano y $7-m$ por camión grande, y el coste total es de 22 unidades.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones lineales que modeliza la situación.
+  \task Determina un valor de $m$ para el que el sistema tiene infinitas soluciones y resuélvelo.
+  \task Resuelve el sistema para $m=1$. ¿Tiene sentido esta solución?
+\end{tasks}
+
+\ex{3} \pau{Asturias, ordinaria 2026} Un cliente de una cafetería compra 1 café, 2 tés y 2 zumos y paga 11 euros. Al día siguiente compra 1 café, 3 tés y 3 zumos y paga 16 euros. El tercer día compra 3 cafés, 3 tés y todos los zumos que pueda pagar con 21 euros exactos (no le tienen que devolver cambio).\begin{tasks}(1)
+  \task Halla un sistema de ecuaciones lineales que modelice el problema de calcular el precio de cada producto en función del número $p$ de zumos que le dan el tercer día, y discútelo en función de $p$.
+  \task El camarero del tercer día le dice: «Por ese dinero te daré dos zumos», y el cliente responde: «Es imposible, el precio está mal calculado». ¿Quién tiene razón? Justifica la respuesta.
+  \task El camarero le responde que en realidad tiene 4 zumos para darle y el cliente queda satisfecho. ¿A qué precio le ha cobrado cada bebida?
+\end{tasks}
+
+\ex{2} \pau{Canarias, extraordinaria 2025} Una empresa de piensos para peces utiliza tres materias primas: subproductos vegetales (20\,\% de proteína, 10\,\% de grasa y 10\,\% de carbohidratos), harinas (40\,\%, 20\,\% y 30\,\%) y subproductos cárnicos (60\,\%, 10\,\% y 30\,\%). Quiere preparar 1000 kg de pienso que contengan un 36\,\% de proteína, un 12\,\% de grasa y un 20\,\% de carbohidratos. ¿Qué cantidad de cada materia prima debe utilizar?
+
+\ex{2} \pau{Castilla-La Mancha, extraordinaria 2024} Una heladería vende helados de una, dos y tres bolas a 1, 2 y 3 euros, respectivamente. El viernes vendió 157 helados y obtuvo 278 euros. También sabemos que el número de helados de una bola vendidos es $k$ veces el número de helados de tres bolas, con $k>0$.\begin{tasks}(1)
+  \task Plantea un sistema de ecuaciones lineales que permita determinar el número de helados vendidos de cada tipo.
+  \task Estudia para qué valores de $k$ el sistema tiene solución única. ¿Es posible que, en alguno de estos casos, se haya vendido el mismo número de helados de una bola que de tres bolas?
+\end{tasks}
+
+\ex{2} \pau{Madrid, ordinaria 2025} En el baloncesto hay canastas de un punto, de dos y de tres. Calcula el número de lanzamientos de uno, de dos y de tres puntos que hizo un equipo en un partido, sabiendo que: el equipo anotó 80 puntos con un acierto del 80\,\% en los tiros de un punto, del 50\,\% en los de dos y del 40\,\% en los de tres; la tercera parte del número de lanzamientos de dos fue igual a la quinta parte del resto de lanzamientos, y el doble del número de lanzamientos de tres es cinco unidades menor que el resto de lanzamientos.
+
+\ex{2} \pau{Murcia, extraordinaria 2026} Una empresa prepara cajas de fruta de tres tipos. Las cajas A llevan 1 manzana, 1 pera y 1 naranja; las B, 2 manzanas, 1 pera y 1 naranja, y las C, 1 manzana, 2 peras y 1 naranja. Un día prepararon $x$ cajas A, $y$ cajas B y $z$ cajas C, y utilizaron 400 manzanas, 500 peras y $k$ naranjas.\begin{tasks}(1)
+  \task Plantea un sistema de ecuaciones para averiguar cuántas cajas de cada tipo prepararon.
+  \task Discute y resuelve el sistema, dando la solución en función del parámetro $k$.
+\end{tasks}
+
+\ex{2} \pau{Murcia, ordinaria 2026} Darío y Cayetana invierten $x$ miles de euros en publicidad, $y$ en materiales y $z$ en logística, 12 mil euros en total. Darío propone que la inversión en publicidad más el doble de la inversión en materiales sea igual a la inversión en logística más $k$, donde $k>0$ es un parámetro de ajuste económico. Cayetana quiere que el doble de la inversión en publicidad menos la de materiales más la de logística sea 4 mil euros.\begin{tasks}(1)
+  \task Plantea un sistema de 3 ecuaciones con 3 incógnitas que recoja los datos del problema.
+  \task Discute el sistema y, si tiene solución única, hállala en función de $k$.
+\end{tasks}
+
+\ex{2} \pau{País Vasco, extraordinaria 2026} Una central lechera recoge leche de tres productores. El productor A lleva la leche en recipientes de 10 litros y cobra 5 € por recipiente; el B, en recipientes de 15 litros y cobra 9 € por recipiente, y el C, en recipientes de 12 litros y cobra 4 € por recipiente. La última semana se han recogido 612 litros en 48 recipientes y hay que pagar 304 €.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que modeliza la situación.
+  \task ¿Cuánto hay que pagar a cada productor por la leche que ha llevado la última semana?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con el resolutor de sistemas de los apuntes interactivos.\end{center}
+
+\end{document}
