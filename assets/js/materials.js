@@ -318,8 +318,8 @@ window.LEVELS = {
         title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t1-nombres-reals.html", date: "2026-11-13" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 40 exercicis, de la classificació dels nombres als logaritmes", es: "PDF · 40 ejercicios, de la clasificación de los números a los logaritmos", en: "PDF · 40 exercises, from classifying numbers to logarithms" }, url: "materials/4eso-b/t1-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 40 exercicis", es: "PDF · Soluciones de los 40 ejercicios", en: "PDF · Solutions to all 40 exercises" }, url: "materials/4eso-b/t1-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis: els 17 de la fitxa del departament i 19 d'ampliació", es: "PDF · 36 ejercicios: los 17 de la ficha del departamento y 19 de ampliación", en: "PDF · 36 exercises: the 17 from the department worksheet and 19 extension ones" }, url: "materials/4eso-b/t1-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: "materials/4eso-b/t1-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
       },
       {

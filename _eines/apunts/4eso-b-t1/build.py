@@ -1,10 +1,10 @@
 import os, re, sys, glob
 
 # Genera materials/4eso-b/t1-nombres-reals.html. Ús: python3 _eines/apunts/4eso-b-t1/build.py
-# Còpia simplificada de la unitat 1 de 1r Batx MI (1batx-mi-t1): sense valor absolut ni entorns, i amb la racionalització
+# Còpia simplificada de la unitat 1 de 1r Batx MI (1batx-mi-t1): amb un apartat de potències, i amb la racionalització
 # i els logaritmes (decimals i neperians, amb i sense calculadora) en apartats propis. Com aquella, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
-# taules, botons). Els ginys (classificador, fracció generatriu, intervals, unió i intersecció, simplificació de radicals,
+# taules, botons). Els ginys (classificador, fracció generatriu, intervals, unió i intersecció, valor absolut, entorns, simplificació de radicals,
 # extracció de factors, racionalització i logaritmes) són a app.js i l'estil propi a extra.css.
 # El contingut és a contingut-*.html (en ordre). Les convencions ⟪va‖es‖en⟫, ⟦va‖es‖en⟧ i \SI són les mateixes que a la unitat 4.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +13,7 @@ T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
 OUT = os.path.join(SITE, "materials/4eso-b/t1-nombres-reals.html")
-NSEC = 6
+NSEC = 8
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'
@@ -53,7 +53,7 @@ VER = r"fm-materials.\1?v=20261113e4b"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
 head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Nombres reals · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 1 (Nombres reals: classificació dels nombres, intervals, radicals, racionalització i logaritmes) de 4t d\'ESO Matemàtiques B, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 1 (Nombres reals: classificació dels nombres, intervals, valor absolut, potències, radicals, racionalització i logaritmes) de 4t d\'ESO Matemàtiques B, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

@@ -226,6 +226,53 @@
     onLang(draw);
   }
 
+  /* ---------- 1.4 valor absolut ---------- */
+  function wAbs() {
+    var w = document.getElementById("w-abs"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info");
+    function draw() {
+      var x = +$(w, "x").value; $(w, "xv").textContent = decS(x, 1).replace("-", "−");
+      var W = svgW(svg), L = 22, R = W - 22, lo = -9, hi = 9, y = 50, stp = W < 450 ? 2 : 1;
+      svg.setAttribute("viewBox", "0 0 " + W + " 90");
+      function X(v) { return L + (v - lo) / (hi - lo) * (R - L); }
+      var g = '<line class="ax" x1="' + L + '" x2="' + R + '" y1="' + y + '" y2="' + y + '"/>';
+      for (var v = -8; v <= 8; v++) g += '<line class="tk" x1="' + X(v) + '" x2="' + X(v) + '" y1="' + (y - 4) + '" y2="' + (y + 4) + '"/>' + (v % stp ? "" : '<text x="' + X(v) + '" y="' + (y + 20) + '" text-anchor="middle">' + String(v).replace("-", "−") + "</text>");
+      g += '<line x1="' + X(0) + '" x2="' + X(x) + '" y1="' + y + '" y2="' + y + '" stroke="' + COL.r + '" stroke-width="5"/>';
+      g += '<path d="M' + X(0) + " " + (y - 14) + " V" + (y - 20) + " H" + X(x) + " V" + (y - 14) + '" fill="none" stroke="' + COL.r + '" stroke-width="1.5"/>';
+      g += '<text class="lb" x="' + (X(0) + X(x)) / 2 + '" y="' + (y - 26) + '" text-anchor="middle">|x| = ' + decS(Math.abs(x), 1) + "</text>";
+      g += '<circle cx="' + X(x) + '" cy="' + y + '" r="6.5" fill="' + COL.a + '"/><circle cx="' + X(0) + '" cy="' + y + '" r="4" fill="var(--text)"/>';
+      svg.innerHTML = g;
+      var xs = nT(x);
+      info.innerHTML = tex(x >= 0 ? "x=" + xs + "\\ge0\\ \\Rightarrow\\ |x|=x=" + xs : "x=" + xs + "\\lt0\\ \\Rightarrow\\ |x|=-x=-(" + xs + ")=" + nT(-x));
+    }
+    $(w, "x").addEventListener("input", draw); onLang(draw);
+  }
+
+  /* ---------- 1.4 entorns i desigualtats ---------- */
+  function wEnt() {
+    var w = document.getElementById("w-ent"); if (!w) return;
+    var svg = w.querySelector("svg"), info = w.querySelector(".info"), op = 0;
+    var OPS = ["\\lt", "\\le", "\\gt", "\\ge"];
+    presetBtns($(w, "ops"), function () { return OPS.map(function (s) { return tex("|x-a|" + s + " r"); }); }, function (i) { op = i; draw(); }, 0);
+    function draw() {
+      var a = +$(w, "a").value, r = +$(w, "r").value;
+      $(w, "av").textContent = decS(a, 1).replace("-", "−"); $(w, "rv").textContent = decS(r, 1);
+      var inside = op < 2, closedInner = op === 1 || op === 2, I = [{ a: a - r, ac: closedInner, b: a + r, bc: closedInner }];
+      var W = svgW(svg), S = inside ? I : compl(I), res = nline([{ S: S, c: COL.r }], { range: [-10, 10], W: W });
+      res.svg += '<line x1="' + res.X(a) + '" x2="' + res.X(a) + '" y1="16" y2="40" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="' + res.X(a) + '" cy="28" r="3.5" fill="var(--text)"/><text class="lb" x="' + res.X(a) + '" y="12" text-anchor="middle">a</text>';
+      paint(svg, res, W);
+      var xa = a === 0 ? "x" : a > 0 ? "x-" + nT(a) : "x+" + nT(-a), s = OPS[op], o = t3("o", "o", "or");
+      var ineq = inside ? nT(a - r) + s + " x" + s + " " + nT(a + r) : "x" + (op === 2 ? "\\lt " : "\\le ") + nT(a - r) + "\\ \\ \\text{" + o + "}\\ \\ x" + s + " " + nT(a + r);
+      var rows = [[t3("Desigualtat", "Desigualdad", "Inequality"), tex("|" + xa + "|" + s + " " + nT(r))], [t3("Equival a", "Equivale a", "Same as"), tex(ineq)], [t3("Solució", "Solución", "Solution"), tex("x\\in " + setT(S))]];
+      if (op === 0) rows.push(["", t3("És l'entorn ", "Es el entorno ", "It's the neighbourhood ") + tex("B(" + nT(a) + ";\\," + nT(r) + ")") + "."]);
+      if (op === 1) rows.push(["", t3("És l'entorn tancat ", "Es el entorno cerrado ", "It's the closed neighbourhood ") + tex("B[" + nT(a) + ";\\," + nT(r) + "]") + "."]);
+      if (op > 1) rows.push(["", t3("Són els punts que estan a distància ", "Son los puntos que están a distancia ", "These are the points at distance ") + (op === 2 ? t3("més gran que ", "mayor que ", "greater than ") : t3("més gran o igual que ", "mayor o igual que ", "at least ")) + tex(nT(r)) + t3(" del centre.", " del centro.", " from the centre.")]);
+      info.innerHTML = kv(rows);
+    }
+    ["a", "r"].forEach(function (k) { $(w, k).addEventListener("input", draw); });
+    onLang(draw);
+  }
+
   /* ---------- 1.2 dibuixos petits de la taula: només els extrems a i b, el tros marcat damunt de la recta ---------- */
   function wMini() {
     document.querySelectorAll("svg.nl-mini[data-iv]").forEach(function (s) {
@@ -293,7 +340,7 @@
     onLang(draw);
   }
 
-  /* ---------- 1.4 simplificació de radicals ---------- */
+  /* ---------- 1.6 simplificació de radicals ---------- */
   function wSimp() {
     var w = document.getElementById("w-simp"); if (!w) return;
     var info = w.querySelector(".info");
@@ -320,7 +367,7 @@
     onLang(draw);
   }
 
-  /* ---------- 1.4 extracció de factors ---------- */
+  /* ---------- 1.6 extracció de factors ---------- */
   function wExt() {
     var w = document.getElementById("w-ext"); if (!w) return;
     var info = w.querySelector(".info");
@@ -349,7 +396,7 @@
     onLang(draw);
   }
 
-  /* ---------- 1.5 racionalització de k / (p + q·√c) ---------- */
+  /* ---------- 1.7 racionalització de k / (p + q·√c) ---------- */
   function wRac() {
     var w = document.getElementById("w-rac"); if (!w) return;
     var info = w.querySelector(".info");
@@ -401,7 +448,7 @@
     onLang(draw);
   }
 
-  /* ---------- 1.6 explorador de logaritmes ---------- */
+  /* ---------- 1.8 explorador de logaritmes ---------- */
   function wLog() {
     var w = document.getElementById("w-log"); if (!w) return;
     var svg = w.querySelector("svg"), info = w.querySelector(".info"), bi = 2;
@@ -432,7 +479,7 @@
     $(w, "c").addEventListener("input", draw); onLang(draw);
   }
 
-  /* ---------- 1.6 canvi de base ---------- */
+  /* ---------- 1.8 canvi de base ---------- */
   function wCb() {
     var w = document.getElementById("w-cb"); if (!w) return;
     var info = w.querySelector(".info");
@@ -467,6 +514,14 @@
       o: [q3("$(-\\infty,3]$"), q3("$(-\\infty,3)$"), q3("$[3,+\\infty)$")], a: 0, e: q3("$x\\le3$: semirecta tancada en el 3.", "$x\\le3$: semirrecta cerrada en el 3.", "$x\\le3$: a ray closed at 3.") },
     { q: q3("$[0,3)\\cap(2,5]=$"), o: [q3("$(2,3)$"), q3("$[0,5]$"), q3("$[2,3]$")], a: 0, e: q3("Els nombres comuns estan entre 2 i 3, i cap dels dos extrems no és dels dos intervals alhora.", "Los números comunes están entre 2 y 3, y ninguno de los dos extremos es de los dos intervalos a la vez.", "The common numbers lie between 2 and 3, and neither endpoint is in both intervals.") },
     { q: q3("$(-\\infty,1]\\cup(0,4)=$"), o: [q3("$(0,1]$"), q3("$(-\\infty,4)$"), q3("$\\mathbb R$")], a: 1, e: q3("Ajuntant-les, tot està pintat fins al 4 (no inclòs).", "Juntándolas, todo está pintado hasta el 4 (no incluido).", "Putting them together, everything is shaded up to 4 (not included).") },
+    { q: q3("El conjunt solució de $|x-1|\\le2$ és…", "El conjunto solución de $|x-1|\\le2$ es…", "The solution set of $|x-1|\\le2$ is…"),
+      o: [q3("$(-1,3)$"), q3("$[-1,3]$"), q3("$(-\\infty,-1]\\cup[3,+\\infty)$")], a: 1, e: q3("$-2\\le x-1\\le2\\Rightarrow-1\\le x\\le3$.") },
+    { q: q3("$|x|\\ge4$ equival a…", "$|x|\\ge4$ equivale a…", "$|x|\\ge4$ means…"),
+      o: [q3("$[-4,4]$"), q3("$(-\\infty,-4]\\cup[4,+\\infty)$"), q3("$[4,+\\infty)$")], a: 1, e: q3("Són els nombres a distància 4 o més del zero, a tots dos costats.", "Son los números a distancia 4 o más del cero, a ambos lados.", "They're the numbers at distance 4 or more from zero, on both sides.") },
+    { q: q3("$-2^4=$"), o: [q3("$16$"), q3("$-16$"), q3("$-8$")], a: 1, e: q3("L'exponent només afecta el 2: $-(2^4)=-16$.", "El exponente solo afecta al 2: $-(2^4)=-16$.", "The exponent only applies to the 2: $-(2^4)=-16$.") },
+    { q: q3("$\\left(\\dfrac23\\right)^{-2}=$"), o: [q3("$-\\dfrac49$"), q3("$\\dfrac94$"), q3("$\\dfrac49$")], a: 1, e: q3("$\\left(\\frac32\\right)^2=\\frac94$: un exponent negatiu inverteix la fracció.", "$\\left(\\frac32\\right)^2=\\frac94$: un exponente negativo invierte la fracción.", "$\\left(\\frac32\\right)^2=\\frac94$: a negative exponent flips the fraction.") },
+    { q: q3("Quantes arrels reals té $\\sqrt[4]{-16}$?", "¿Cuántas raíces reales tiene $\\sqrt[4]{-16}$?", "How many real roots does $\\sqrt[4]{-16}$ have?"),
+      o: [q3("Cap", "Ninguna", "None"), q3("Una", "Una", "One"), q3("Dues", "Dos", "Two")], a: 0, e: q3("Índex parell i radicand negatiu: cap nombre real elevat a 4 és negatiu.", "Índice par y radicando negativo: ningún número real elevado a 4 es negativo.", "Even index, negative radicand: no real number to the 4th power is negative.") },
     { q: q3("$\\sqrt[5]{a^3}$ en forma de potència és…", "$\\sqrt[5]{a^3}$ en forma de potencia es…", "$\\sqrt[5]{a^3}$ as a power is…"),
       o: [q3("$a^{\\frac53}$"), q3("$a^{\\frac35}$"), q3("$a^{15}$")], a: 1, e: q3("L'exponent va al numerador i l'índex al denominador.", "El exponente va al numerador y el índice al denominador.", "The exponent goes on top and the index underneath.") },
     { q: q3("Simplificat, $\\sqrt[6]{27}=$", "Simplificado, $\\sqrt[6]{27}=$", "Simplified, $\\sqrt[6]{27}=$"),
@@ -498,7 +553,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wCls, wGen, wMini, wIb, wOps, wSimp, wExt, wRac, wLog, wCb, wQuiz];
+    var all = [wChrome, wSteps, wNav, wCls, wGen, wMini, wIb, wOps, wAbs, wEnt, wSimp, wExt, wRac, wLog, wCb, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
     window.FM1 = { norm: norm, cap: cap, cup: cup, minus: minus, parseIv: parseIv, setT: setT };
   }

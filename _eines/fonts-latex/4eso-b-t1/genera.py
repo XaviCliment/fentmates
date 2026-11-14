@@ -1,6 +1,9 @@
 # Genera t1-fitxa-exercicis.tex i t1-fitxa-solucions.tex (4t ESO Matemàtiques B, Unitat 1: Nombres reals)
 # a partir d'una sola llista d'exercicis (estrelles, enunciat, solució). Les eines comunes són a ../comu/eso4b.py.
-# Les solucions de fraccions i intervals es calculen ací (aritmètica exacta) i les de radicals i logaritmes
+# Els exercicis 1-17 són els de la fitxa del departament («Fitxa 1 (1a Av.): Nombres reals»), amb la mateixa numeració.
+# Les seccions 8-10 són d'ampliació, enfocades al Batxillerat: hi ha els exercicis de racionalització i sumes de radicals
+# del departament (els mateixos de la fitxa de 1r Batx MI) i exercicis nous de més nivell.
+# Les solucions de fraccions i intervals es calculen ací (aritmètica exacta) i les de radicals, potències i logaritmes
 # es comproven amb eq() (sympy, numèricament). Les solucions d'intervals porten la recta dibuixada amb TikZ.
 # Ús: python3 genera.py && pdflatex t1-fitxa-exercicis.tex (dues vegades) && pdflatex t1-fitxa-solucions.tex (dues vegades)
 import os, sys, math
@@ -9,193 +12,211 @@ sys.path.insert(0, os.path.join(HERE, '..', 'comu'))
 from eso4b import *
 
 S = []
+def chk(pairs, **kw):
+    for a, b in pairs: eq(a, b, **kw)
 
 # =====================================================================
-# 1. Classificació dels nombres
-g = [per('0', '', '7'), per('2', '', '45'), per('1', '3', '6'), per('0', '12', '5'), per('3', '', '9')]
-ck(g, [F(7, 9), F(27, 11), F(41, 30), F(113, 900), F(4)])
+# 1. Classificació dels nombres (exercici 1 del departament)
+ck(per('7', '', '9'), F(8))
 S.append(("Classificació dels nombres", [
- (1, r"Indica el menor conjunt numèric ($\mathbb N$, $\mathbb Z$, $\mathbb Q$ o $\mathbb I$) al qual pertany cada nombre:"
-     + tasks(5, [r"$\sqrt{36}$", r"$-7$", r"$\frac35$", r"$\sqrt7$", r"$0,25$", r"$-\sqrt9$", r"$2,\widehat3$", r"$\pi$", r"$\frac{12}{4}$", r"$-\frac{18}{6}$"]),
-     tasks(5, [R(r"6\in\mathbb N"), R(r"\mathbb Z"), R(r"\mathbb Q"), R(r"\mathbb I"), R(r"\mathbb Q"), R(r"-3\in\mathbb Z"), R(r"\mathbb Q"), R(r"\mathbb I"), R(r"3\in\mathbb N"), R(r"-3\in\mathbb Z")])),
- (1, r"Indica si els nombres següents són racionals o irracionals. Justifica-ho:"
-     + tasks(3, [r"$1,212121\ldots$", r"$1,2122122212222\ldots$", r"$\sqrt{\frac{16}{9}}$", r"$\sqrt{20}$", r"$\frac{\pi}{4}$", r"$\sqrt{0,25}$"]),
-     tasks(2, [R(r"\mathbb Q") + r": és periòdic pur ($1,\widehat{21}$).", R(r"\mathbb I") + r": infinites xifres sense període.", R(r"\mathbb Q") + r": és $\frac43$.",
-               R(r"\mathbb I") + r": 20 no és un quadrat perfecte.", R(r"\mathbb I") + r": $\pi$ és irracional.", R(r"\mathbb Q") + r": és $0,5=\frac12$."])),
- (2, r"Troba la fracció generatriu i simplifica-la:" + tasks(5, [r"$0,\widehat7$", r"$2,\widehat{45}$", r"$1,3\widehat6$", r"$0,12\widehat5$", r"$3,\widehat9$"])
-     + recorda(r"Al numerador, el nombre sense coma menys la part no periòdica; al denominador, tants 9 com xifres té el període i tants 0 com xifres té l'anteperíode."),
-     tasks(5, [R(tn(x)) for x in g]) + r"Fixa't: $3,\widehat9=4$."),
- (2, r"Raona si les afirmacions següents són verdaderes o falses:" + tasks(1, [r"Tot nombre enter és racional.", r"Tot nombre decimal es pot escriure com una fracció.",
-      r"L'arrel quadrada d'un nombre natural sempre és irracional.", r"La suma d'un racional i un irracional és irracional.", r"$\sqrt{-16}$ és un nombre enter."]),
-     tasks(1, [r"\rest{Verdadera}: tot enter $n$ és $\frac n1$.", r"\rest{Falsa}: només els exactes i els periòdics; $\pi=3,1415\ldots$ no.",
-               r"\rest{Falsa}: $\sqrt{49}=7$ és natural. Només és irracional si el nombre no és un quadrat perfecte.",
-               r"\rest{Verdadera}: per exemple, $1+\sqrt2$ té infinites xifres no periòdiques.", r"\rest{Falsa}: no és un nombre real (cap nombre al quadrat dona $-16$)."])),
+ (1, r"Classifica els nombres següents en el menor conjunt numèric al qual pertanyen:" + tasks(4, [r"$-\frac{15}{2}$", r"$7,\widehat9$", r"$\sqrt{-4}$", r"$\pi+4$", r"$\sqrt[3]{-8}$", r"$\frac{16}{4}$", r"$3,1122333\ldots$"]),
+     tasks(2, [R(r"\mathbb Q"), r"$7,\widehat9=\frac{79-7}{9}=8$: " + R(r"\mathbb N"), r"No és un nombre real.", R(r"\mathbb I") + r" (infinites xifres sense període)", r"$-2$: " + R(r"\mathbb Z"), r"$4$: " + R(r"\mathbb N"),
+               R(r"\mathbb I") + r" (les xifres no es repeteixen en blocs)"])),
 ]))
 
 # =====================================================================
-# 2. Intervals i semirectes
+# 2. Intervals (exercicis 2 i 3 del departament)
+A, B, Cc, D = P('(-inf,2]'), P('[1,5]'), P('(2,4]'), P('(-7,inf)')
+r3 = [cup(A, B), cup(B, Cc), cup(A, D), cup(cup(A, B), Cc), cap(A, B), cap(B, D), cap(A, Cc), cap(cap(A, B), Cc)]
+ck(r3, [P('(-inf,5]'), P('[1,5]'), P('(-inf,inf)'), P('(-inf,5]'), P('[1,2]'), P('[1,5]'), [], []])
 S.append(("Intervals i semirectes", [
- (1, r"Completa la taula:" + '\n\n\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\begin{tabular}{|C{4.6cm}|C{3.2cm}|C{6cm}|}\\hline\\rowcolor{soft}\\textbf{Desigualtat} & \\textbf{Interval} & \\textbf{Representació}\\\\\\hline'
-     r'$-1\le x<4$ & & \\\hline & $(-\infty, 2]$ & \\\hline $x>-3$ & & \\\hline & $(0, 5)$ & \\\hline $x<1$ & & \\\hline\end{tabular}\end{center}',
-     tasks(2, [r"$-1\le x<4$: " + RI('[-1,4)'), r"$x\le2$: " + RI('(-inf,2]'), r"$x>-3$: " + RI('(-3,inf)'), r"$0<x<5$: " + RI('(0,5)'), r"$x<1$: " + RI('(-inf,1)')])),
- (1, r"Escriu com a interval o semirecta i representa:" + tasks(3, [r"$x>2$", r"$-1\le x\le4$", r"$x\le-3$", r"$0<x<5$", r"$-2\le x<3$", r"$x\ge\frac12$"]),
-     tasks(2, [RI('(2,inf)'), RI('[-1,4]'), RI('(-inf,-3]'), RI('(0,5)'), RI('[-2,3)'), RI('[1/2,inf)')])),
- (1, r"Escriu la desigualtat que compleixen els nombres de cada interval i representa'l:" + tasks(4, [r"$[-3, 1)$", r"$(-\infty, 2]$", r"$(4, +\infty)$", r"$(-5, 0)$"]),
-     tasks(2, [r"$-3\le x<1$ " + recta(P('[-3,1)')), r"$x\le2$ " + recta(P('(-inf,2]')), r"$x>4$ " + recta(P('(4,inf)')), r"$-5<x<0$ " + recta(P('(-5,0)'))])),
- (2, r"Escriu com a interval o semirecta:" + tasks(1, [r"Els nombres més grans que $-2$ i, com a màxim, iguals a 6.", r"Els nombres reals positius.", r"Els nombres reals no negatius.",
-      r"Els nombres que estan entre 1 i 5, amb el 5 inclòs.", r"Els nombres la distància dels quals al 0 és menor que 3."]),
-     tasks(1, [R(r"(-2, 6]"), R(r"(0, +\infty)"), R(r"[0, +\infty)") + r" (el 0 no és negatiu)", R(r"(1, 5]"), R(r"(-3, 3)")])),
+ (1, r"Representa aquests intervals en la recta real i expressa'ls com a inequacions:" + tasks(4, [r"$A=(-\infty, 2]$", r"$B=[1, 5]$", r"$C=(2, 4]$", r"$D=(-7, +\infty)$"]),
+     tasks(2, [r"$x\le2$ " + recta(A), r"$1\le x\le5$ " + recta(B), r"$2<x\le4$ " + recta(Cc), r"$x>-7$ " + recta(D)])),
+ (2, r"Calcula les unions i interseccions següents, on $A$, $B$, $C$ i $D$ són els intervals de l'exercici anterior:" + tasks(4, [r"$A\cup B$", r"$B\cup C$", r"$A\cup D$", r"$A\cup B\cup C$", r"$A\cap B$", r"$B\cap D$", r"$A\cap C$", r"$A\cap B\cap C$"])
+     + recorda(r"La unió són els nombres que estan en algun dels intervals; la intersecció, els que estan en tots alhora."),
+     tasks(2, [RI(x, -8, 6) if x else R(r"\varnothing") + r" (el 2 és de $A$ però no de $C$)" for x in r3[:7]] + [R(r"\varnothing")])),
 ]))
 
 # =====================================================================
-# 3. Unió i intersecció d'intervals
-A, B, C, D = P('[-3,2]'), P('(0,5]'), P('[4,inf)'), P('(-inf,1)')
-r9 = [cup(A, B), cap(A, B), cap(B, C), cap(A, C), cup(A, D), cap(B, D), cup(C, D), cap(A, D)]
-ck(r9, [P('[-3,5]'), P('(0,2]'), P('[4,5]'), [], P('(-inf,2]'), P('(0,1)'), P('(-inf,1)U[4,inf)'), P('[-3,1)')])
-E, G = P('(-inf,3]'), P('(-1,6)')
-H, K = P('[2,inf)'), P('(-inf,2)')
-r10 = [cup(E, G), cap(E, G), cup(H, K), cap(H, K)]
-ck(r10, [P('(-inf,6)'), P('(-1,3]'), P('(-inf,inf)'), []])
-S.append(("Unió i intersecció d'intervals", [
- (2, r"Donats els intervals $A=[-3, 2]$, $B=(0, 5]$, $C=[4, +\infty)$ i $D=(-\infty, 1)$, calcula i representa:"
-     + tasks(4, [r"$A\cup B$", r"$A\cap B$", r"$B\cap C$", r"$A\cap C$", r"$A\cup D$", r"$B\cap D$", r"$C\cup D$", r"$A\cap D$"])
-     + recorda(r"La unió $\cup$ són els nombres que estan en algun dels dos; la intersecció $\cap$, els que estan en tots dos alhora."),
-     tasks(2, [RI(x, -4, 6) if x else R(r"\varnothing") for x in r9])),
- (2, r"Calcula $E\cup G$ i $E\cap G$, amb $E=(-\infty, 3]$ i $G=(-1, 6)$. Després fes el mateix amb $H=[2, +\infty)$ i $K=(-\infty, 2)$. Què observes?",
-     tasks(2, [r"$E\cup G=$ " + RI(r10[0]), r"$E\cap G=$ " + RI(r10[1]), r"$H\cup K=" + Rm(r"\mathbb R") + "$", r"$H\cap K=" + Rm(r"\varnothing") + "$"])
-     + r"$H$ i $K$ es toquen en el 2 sense solapar-se: entre les dues cobreixen tota la recta, però no tenen cap nombre en comú."),
- (1, r"Escriu en forma d'interval els nombres que compleixen alhora les dues desigualtats:" + tasks(4, [r"$x<3$ i $x\ge5$", r"$x>0$ i $x<4$", r"$x\le-1$ i $x>-6$", r"$x<3$ i $x\ge-2$"]),
-     tasks(4, [R(r"\varnothing"), R(st(P('(0,4)'))), R(st(P('(-6,-1]'))), R(st(P('[-2,3)')))])),
+# 3. Valor absolut (exercici 4 del departament)
+S.append(("Valor absolut", [
+ (2, r"Esbrina per a quins valors de $x$ es compleixen les desigualtats següents. Expressa la solució gràficament i amb intervals:" + tasks(4, [r"$|x|<5$", r"$|x|\ge4$", r"$|x+2|\le9$", r"$|x+1|\ge6$"])
+     + recorda(r"Si $r>0$: \ $|A|<r\iff -r<A<r$ \quad i \quad $|A|>r\iff A<-r$ o $A>r$."),
+     tasks(2, [RI('(-5,5)'), RI('(-inf,-4]U[4,inf)'), r"$-9\le x+2\le9$: " + RI('[-11,7]'), r"$x+1\le-6$ o $x+1\ge6$: " + RI('(-inf,-7]U[5,inf)')])),
 ]))
 
 # =====================================================================
-# 4. Radicals
-for a_, b_ in [('8**(Rational(2,3))', 4), ('16**(Rational(3,4))', 8), ('27**(Rational(-1,3))', 'Rational(1,3)'), ('25**(Rational(1,2))', 5), ('real_root(-27,3)', -3),
-               ('root(16,4)', 2), ('root(32,5)', 2), ('root(Rational(8,27),3)', 'Rational(2,3)'), ('sqrt(Rational(9,100))', 'Rational(3,10)')]:
-    eq(a_, b_)
-rad16 = [('sqrt(12)', '2*sqrt(3)'), ('sqrt(50)', '5*sqrt(2)'), ('sqrt(98)', '7*sqrt(2)'), ('root(24,3)', '2*root(3,3)'), ('root(250,3)', '5*root(2,3)'),
-         ('root(32,4)', '2*root(2,4)'), ('sqrt(18*a**3)', '3*a*sqrt(2*a)'), ('root(16*x**5*y**3,3)', '2*x*y*root(2*x**2,3)'), ('sqrt(Rational(75,4))', '5*sqrt(3)/2')]
-for a_, b_ in rad16: eq(a_, b_)
-for a_, b_ in [('2*sqrt(3)', 'sqrt(12)'), ('3*sqrt(2)', 'sqrt(18)'), ('2*root(5,3)', 'root(40,3)'), ('a*sqrt(a)', 'sqrt(a**3)'), ('2*x*root(x,3)', 'root(8*x**4,3)'), ('sqrt(8)/2', 'sqrt(2)')]: eq(a_, b_)
-sums = [('sqrt(12)+sqrt(27)', '5*sqrt(3)'), ('sqrt(50)-sqrt(18)+sqrt(8)', '4*sqrt(2)'), ('2*sqrt(45)-3*sqrt(20)+sqrt(5)', 'sqrt(5)'), ('root(16,3)+root(54,3)-root(2,3)', '4*root(2,3)'),
-        ('3*sqrt(8)-2*sqrt(32)+sqrt(72)', '4*sqrt(2)'), ('sqrt(75)-2*sqrt(12)-sqrt(27)', '-2*sqrt(3)'), ('5*sqrt(a)-sqrt(4*a)+sqrt(9*a)', '6*sqrt(a)'), ('root(81,3)-2*root(24,3)+root(375,3)', '4*root(3,3)')]
-for a_, b_ in sums: eq(a_, b_)
-prods = [('sqrt(2)*sqrt(8)', 4), ('sqrt(3)*sqrt(6)', '3*sqrt(2)'), ('root(4,3)*root(2,3)', 2), ('sqrt(10)/sqrt(2)', 'sqrt(5)'), ('root(54,3)/root(2,3)', 3),
-         ('2*sqrt(3)*5*sqrt(6)', '30*sqrt(2)'), ('sqrt(2)*root(2,3)', 'root(32,6)'), ('sqrt(3)/root(3,4)', 'root(3,4)')]
-for a_, b_ in prods: eq(a_, b_)
-pots = [('sqrt(3)**4', 9), ('root(2,3)**6', 4), ('(2*sqrt(5))**2', 20), ('sqrt(2)**5', '4*sqrt(2)'), ('root(4,3)**2', '2*root(2,3)'), ('root(8,4)**2', '2*sqrt(2)')]
-for a_, b_ in pots: eq(a_, b_)
-for a_, b_ in [('sqrt(sqrt(5))', 'root(5,4)'), ('root(sqrt(2),3)', 'root(2,6)'), ('sqrt(2*sqrt(2))', 'root(8,4)'), ('sqrt(3*root(3,3))', 'root(9,3)')]: eq(a_, b_)
-comb = [('(sqrt(3)+sqrt(2))**2', '5+2*sqrt(6)'), ('(sqrt(5)+1)*(sqrt(5)-1)', 4), ('(2*sqrt(3)-1)**2', '13-4*sqrt(3)'), ('sqrt(2)*(sqrt(8)-sqrt(18))', -2), ('(3+sqrt(2))*(1-sqrt(2))', '1-2*sqrt(2)')]
-for a_, b_ in comb: eq(a_, b_)
-eq('root(3,2)', 'root(27,6)'); eq('root(2,3)', 'root(4,6)'); eq('sqrt(2)', 'root(2**6,12)'); eq('root(5,4)', 'root(5**3,12)'); eq('root(3,3)', 'root(3**4,12)')
-assert 3 ** 3 > 5 ** 2  # √3 > ∛5
+# 4. Potències (exercicis 5 i 6 del departament)
+p5 = [F(-2) ** 5, -F(2) ** 5, F(53) ** 0, F(-1) ** 35, F(-3) ** 2, F(1, 2) ** -3, F(3, 2) ** 2, F(-1, 2) ** 4, F(2, 3) ** -2, F(1, 5) ** -1]
+ck(p5, [-32, -32, 1, -1, 9, 8, F(9, 4), F(1, 16), F(9, 4), 5])
+p6 = [((F(-1, 3) ** 3) * F(3, 2) ** -2) ** 2, (F(-2) ** 5 * (F(2) ** 3) ** 4) / (-F(2) ** 4 * F(-2) ** -6),
+      F(2) ** 4 * F(3) ** -2 * F(5) ** -1 / (F(2) ** -3 * F(3) ** 2 * F(5) ** -2), F(3) ** -4 * 16 * F(9) ** -1 / (F(8) ** 2 * F(3) ** -5 * F(2) ** -3)]
+ck(p6, [F(2 ** 4, 3 ** 10), F(2) ** 19, F(2 ** 7 * 5, 3 ** 4), F(2, 3)])
+S.append(("Potències", [
+ (1, r"Calcula les potències següents:" + tasks(5, [r"$(-2)^5$", r"$-2^5$", r"$53^0$", r"$(-1)^{35}$", r"$(-3)^2$", r"$\left(\frac12\right)^{-3}$", r"$\left(\frac32\right)^2$", r"$\left(\frac{-1}{2}\right)^4$", r"$\left(\frac23\right)^{-2}$", r"$\left(\frac15\right)^{-1}$"]),
+     tasks(5, [R(tn(v)) for v in p5])),
+ (2, r"Simplifica les expressions següents amb potències:" + tasks(2, [r"$\left[\left(\dfrac{-1}{3}\right)^3\cdot\left(\dfrac32\right)^{-2}\right]^2$", r"$\dfrac{(-2)^5\cdot(2^3)^4}{-2^4\cdot(-2)^{-6}}$",
+      r"$\dfrac{2^4\cdot3^{-2}\cdot5^{-1}}{2^{-3}\cdot3^2\cdot5^{-2}}$", r"$\dfrac{3^{-4}\cdot16\cdot9^{-1}}{8^2\cdot3^{-5}\cdot2^{-3}}$"])
+     + recorda(r"Descompon les bases en factors primers i aplica $a^m\cdot a^n=a^{m+n}$, $a^m:a^n=a^{m-n}$, $(a^m)^n=a^{m\cdot n}$ i $a^{-n}=\frac1{a^n}$."),
+     tasks(2, [r"$\left[-\frac{2^2}{3^5}\right]^2=" + Rm(r"\frac{2^4}{3^{10}}") + "$", r"$\dfrac{-2^{17}}{-2^{-2}}=" + Rm("2^{19}") + "$",
+               r"$2^7\cdot3^{-4}\cdot5=" + Rm(r"\frac{640}{81}") + "$", r"$\dfrac{2^4\cdot3^{-6}}{2^3\cdot3^{-5}}=" + Rm(r"\frac23") + "$"])),
+]))
+
+# =====================================================================
+# 5. Radicals (exercicis 7-13 del departament)
+chk([('root(64,3)', 4), ('real_root(-8,3)', -2), ('root(100000,5)', 10), ('real_root(-32,5)', -2), ('sqrt(Rational(36,100))', 'Rational(6,10)'), ('real_root(-1,3)', -1)])
+chk([('sqrt(1280)', '16*sqrt(5)'), ('root(1080,3)', '6*root(5,3)'), ('root(5184,3)', '12*root(3,3)'), ('root(1024,3)', '8*root(2,3)'),
+     ('root(2**9*3**15*5**27,4)', '2**2*3**3*5**6*root(2*3**3*5**3,4)'), ('sqrt(3**8*5**11*7**5)', '3**4*5**5*7**2*sqrt(35)'),
+     ('sqrt(a**7*b**7*c**9)', 'a**3*b**3*c**4*sqrt(a*b*c)'), ('root(x**27*y**30*z**48,5)', 'x**5*y**6*z**9*root(x**2*z**3,5)')])
+chk([('Rational(3,5)*sqrt(2)', 'sqrt(Rational(18,25))'), ('2*root(5,3)', 'root(40,3)'), ('2*root(7,3)', 'root(56,3)'), ('4*root(20,4)', 'root(5120,4)'), ('root(6,4)/2', 'root(Rational(3,8),4)'),
+     ('5*root(Rational(1,5),3)', 'root(25,3)'), ('3*root(15,5)', 'root(3645,5)'), ('root(Rational(1,2),4)/2', 'root(Rational(1,32),4)')])
+chk([('2**Rational(3,4)*2**Rational(5,6)', '2**Rational(19,12)'), ('2**Rational(7,3)*2**Rational(-5,2)', '2**Rational(-1,6)'), ('3**Rational(1,2)/3**Rational(-3,4)', '3**Rational(5,4)'), ('(5**-2)**Rational(-3,4)', '5**Rational(3,2)')])
+chk([('sqrt(5)*root(5,3)', 'root(5**5,6)'), ('root(2,3)*root(7,4)', 'root(5488,12)'), ('root(9,3)*sqrt(3)', '3*root(3,6)'), ('root(a,4)*root(a**3,3)*root(a**5,6)', 'a**2*root(a,12)'),
+     ('sqrt(3)/root(3**4,5)', '1/root(27,10)'), ('sqrt(root(5,3))', 'root(5,6)'), ('root(sqrt(8),4)', 'root(8,8)'), ('root(2*sqrt(2**3),3)', 'root(32,6)')])
+chk([('sqrt(45)-sqrt(125)-sqrt(20)', '-4*sqrt(5)'), ('sqrt(75)-sqrt(147)+sqrt(675)-sqrt(12)', '11*sqrt(3)'), ('sqrt(175)+sqrt(63)-2*sqrt(28)', '4*sqrt(7)'),
+     ('sqrt(20)+sqrt(45)/3+2*sqrt(125)', '13*sqrt(5)'), ('sqrt(32)-sqrt(8)+3*sqrt(72)-2*sqrt(200)', 0), ('7*root(3,3)-root(24,3)+3*root(81,3)-4*root(375,3)', '-6*root(3,3)')])
+assert 2 ** 19 == 524288 and 5488 == 2 ** 4 * 7 ** 3
 S.append(("Radicals", [
- (1, r"Escriu en forma de potència:" + tasks(4, [r"$\sqrt5$", r"$\sqrt[3]{7^2}$", r"$\sqrt[5]{x^3}$", r"$\dfrac{1}{\sqrt3}$"]) + r"I en forma de radical:" + tasks(4, [r"$3^{\frac12}$", r"$5^{\frac23}$", r"$a^{\frac34}$", r"$2^{-\frac12}$"], start=5)
-     + recorda(r"$\sqrt[n]{a^m}=a^{\frac mn}$: l'exponent va al numerador i l'índex al denominador."),
-     tasks(4, [R(r"5^{\frac12}"), R(r"7^{\frac23}"), R(r"x^{\frac35}"), R(r"3^{-\frac12}"), R(r"\sqrt3"), R(r"\sqrt[3]{25}"), R(r"\sqrt[4]{a^3}"), R(r"\dfrac{1}{\sqrt2}")])),
- (1, r"Calcula sense calculadora:" + tasks(5, [r"$\sqrt[3]{-27}$", r"$\sqrt[4]{16}$", r"$\sqrt[5]{32}$", r"$\sqrt[3]{\frac{8}{27}}$", r"$\sqrt{0,09}$", r"$8^{\frac23}$", r"$16^{\frac34}$", r"$27^{-\frac13}$", r"$25^{\frac12}$", r"$\sqrt{-25}$"]),
-     tasks(5, [R("-3"), R("2"), R("2"), R(r"\frac23"), R("0,3"), R("4"), R("8"), R(r"\frac13"), R("5"), r"No és real."])),
- (1, r"Simplifica els radicals següents:" + tasks(3, [r"$\sqrt[6]{8}$", r"$\sqrt[9]{27}$", r"$\sqrt[4]{25}$", r"$\sqrt[12]{a^8}$", r"$\sqrt[10]{x^4y^6}$", r"$\sqrt[8]{16}$"]),
-     tasks(3, [R(r"\sqrt2"), R(r"\sqrt[3]3"), R(r"\sqrt5"), R(r"\sqrt[3]{a^2}"), R(r"\sqrt[5]{x^2y^3}"), R(r"\sqrt2")])),
- (2, r"Redueix a índex comú i ordena de menor a major:" + tasks(2, [r"$\sqrt3$ i $\sqrt[3]5$", r"$\sqrt2$, $\sqrt[4]5$ i $\sqrt[3]3$"]),
-     tasks(1, [r"$\sqrt[6]{27}$ i $\sqrt[6]{25}$, per tant " + R(r"\sqrt[3]5<\sqrt3"), r"$\sqrt[12]{64}$, $\sqrt[12]{125}$ i $\sqrt[12]{81}$, per tant " + R(r"\sqrt2<\sqrt[3]3<\sqrt[4]5")])),
- (2, r"Extrau tots els factors possibles:" + tasks(3, [r"$\sqrt{12}$", r"$\sqrt{50}$", r"$\sqrt{98}$", r"$\sqrt[3]{24}$", r"$\sqrt[3]{250}$", r"$\sqrt[4]{32}$", r"$\sqrt{18a^3}$", r"$\sqrt[3]{16x^5y^3}$", r"$\sqrt{\frac{75}{4}}$"]),
-     tasks(3, [R(r"2\sqrt3"), R(r"5\sqrt2"), R(r"7\sqrt2"), R(r"2\sqrt[3]3"), R(r"5\sqrt[3]2"), R(r"2\sqrt[4]2"), R(r"3a\sqrt{2a}"), R(r"2xy\sqrt[3]{2x^2}"), R(r"\frac{5\sqrt3}{2}")])),
- (1, r"Introdueix dins del radical el factor de fora:" + tasks(3, [r"$2\sqrt3$", r"$3\sqrt2$", r"$2\sqrt[3]5$", r"$a\sqrt a$", r"$2x\sqrt[3]x$", r"$\frac12\sqrt8$"]),
-     tasks(3, [R(r"\sqrt{12}"), R(r"\sqrt{18}"), R(r"\sqrt[3]{40}"), R(r"\sqrt{a^3}"), R(r"\sqrt[3]{8x^4}"), R(r"\sqrt{\frac{8}{4}}=\sqrt2")])),
- (2, r"Fes les sumes i restes:" + tasks(2, [r"$\sqrt{12}+\sqrt{27}$", r"$\sqrt{50}-\sqrt{18}+\sqrt8$", r"$2\sqrt{45}-3\sqrt{20}+\sqrt5$", r"$\sqrt[3]{16}+\sqrt[3]{54}-\sqrt[3]2$",
-      r"$3\sqrt8-2\sqrt{32}+\sqrt{72}$", r"$\sqrt{75}-2\sqrt{12}-\sqrt{27}$", r"$5\sqrt a-\sqrt{4a}+\sqrt{9a}$", r"$\sqrt[3]{81}-2\sqrt[3]{24}+\sqrt[3]{375}$"])
-     + recorda(r"Només es poden sumar radicals semblants (mateix índex i mateix radicand). Extrau factors abans!"),
-     tasks(4, [R(r"5\sqrt3"), R(r"4\sqrt2"), R(r"\sqrt5"), R(r"4\sqrt[3]2"), R(r"4\sqrt2"), R(r"-2\sqrt3"), R(r"6\sqrt a"), R(r"4\sqrt[3]3")])),
- (2, r"Calcula i simplifica:" + tasks(4, [r"$\sqrt2\cdot\sqrt8$", r"$\sqrt3\cdot\sqrt6$", r"$\sqrt[3]4\cdot\sqrt[3]2$", r"$\sqrt{10}:\sqrt2$", r"$\sqrt[3]{54}:\sqrt[3]2$", r"$2\sqrt3\cdot5\sqrt6$", r"$\sqrt2\cdot\sqrt[3]2$", r"$\sqrt3:\sqrt[4]3$"]),
-     tasks(4, [R("4"), R(r"3\sqrt2"), R("2"), R(r"\sqrt5"), R("3"), R(r"30\sqrt2"), R(r"\sqrt[6]{32}"), R(r"\sqrt[4]3")])),
- (2, r"Calcula les potències i expressa com un sol radical:" + tasks(3, [r"$(\sqrt3)^4$", r"$(\sqrt[3]2)^6$", r"$(2\sqrt5)^2$", r"$(\sqrt2)^5$", r"$(\sqrt[3]4)^2$", r"$(\sqrt[4]8)^2$"])
-     + tasks(4, [r"$\sqrt{\sqrt5}$", r"$\sqrt[3]{\sqrt2}$", r"$\sqrt{2\sqrt2}$", r"$\sqrt{3\sqrt[3]3}$"], start=7),
-     tasks(3, [R("9"), R("4"), R("20"), R(r"4\sqrt2"), R(r"2\sqrt[3]2"), R(r"2\sqrt2")]) + tasks(4, [R(r"\sqrt[4]5"), R(r"\sqrt[6]2"), R(r"\sqrt[4]8"), R(r"\sqrt[3]9")], start=7)),
- (3, r"Opera i simplifica:" + tasks(2, [r"$(\sqrt3+\sqrt2)^2$", r"$(\sqrt5+1)(\sqrt5-1)$", r"$(2\sqrt3-1)^2$", r"$\sqrt2\left(\sqrt8-\sqrt{18}\right)$", r"$(3+\sqrt2)(1-\sqrt2)$"]),
-     tasks(3, [R(r"5+2\sqrt6"), R("4"), R(r"13-4\sqrt3"), R("-2"), R(r"1-2\sqrt2")])),
+ (1, r"Calcula les arrels següents sempre que es puga:" + tasks(3, [r"$\sqrt[3]{64}$", r"$\sqrt[3]{-8}$", r"$\sqrt[5]{100\,000}$", r"$\sqrt[5]{-32}$", r"$\sqrt{0,36}$", r"$\sqrt{-1}$", r"$\sqrt[3]1$", r"$\sqrt[3]{-1}$", r"$\sqrt1$"]),
+     tasks(3, [R("4"), R("-2"), R("10"), R("-2"), R("0,6"), r"No és real.", R("1"), R("-1"), R("1") + r" \ (i $-1$, perquè $(-1)^2=1$)"])),
+ (2, r"Extrau tots els factors que es puga de les arrels següents:" + tasks(4, [r"$\sqrt{1280}$", r"$\sqrt[3]{1080}$", r"$\sqrt[3]{5184}$", r"$\sqrt[3]{1024}$", r"$\sqrt[4]{2^9\cdot3^{15}\cdot5^{27}}$", r"$\sqrt{3^8\cdot5^{11}\cdot7^5}$", r"$\sqrt{a^7\cdot b^7\cdot c^9}$", r"$\sqrt[5]{x^{27}\cdot y^{30}\cdot z^{48}}$"]),
+     tasks(2, [r"$\sqrt{2^8\cdot5}=" + Rm(r"16\sqrt5") + "$", r"$\sqrt[3]{2^3\cdot3^3\cdot5}=" + Rm(r"6\sqrt[3]5") + "$", r"$\sqrt[3]{2^6\cdot3^4}=" + Rm(r"12\sqrt[3]3") + "$", r"$\sqrt[3]{2^{10}}=" + Rm(r"8\sqrt[3]2") + "$",
+               R(r"2^2\cdot3^3\cdot5^6\sqrt[4]{2\cdot3^3\cdot5^3}"), R(r"3^4\cdot5^5\cdot7^2\sqrt{5\cdot7}"), R(r"a^3b^3c^4\sqrt{abc}"), R(r"x^5y^6z^9\sqrt[5]{x^2z^3}")])),
+ (2, r"Introdueix els factors en les arrels i simplifica:" + tasks(4, [r"$\frac35\sqrt2$", r"$2\sqrt[3]5$", r"$2\sqrt[3]7$", r"$4\sqrt[4]{20}$", r"$\frac12\sqrt[4]6$", r"$5\sqrt[3]{\frac15}$", r"$3\sqrt[5]{15}$", r"$\frac12\sqrt[4]{\frac12}$"])
+     + recorda(r"El factor entra a l'arrel elevat a l'índex: $a\sqrt[n]{b}=\sqrt[n]{a^n\cdot b}$."),
+     tasks(4, [R(r"\sqrt{\frac{18}{25}}"), R(r"\sqrt[3]{40}"), R(r"\sqrt[3]{56}"), R(r"\sqrt[4]{5120}"), R(r"\sqrt[4]{\frac38}"), R(r"\sqrt[3]{25}"), R(r"\sqrt[5]{3645}"), R(r"\sqrt[4]{\frac1{32}}")])),
+ (1, r"Quantes arrels reals hi ha en cada cas?" + tasks(2, [r"$\sqrt[\text{parell}]{\text{positiu}}$", r"$\sqrt[\text{parell}]{\text{negatiu}}$", r"$\sqrt[\text{senar}]{\text{positiu}}$", r"$\sqrt[\text{senar}]{\text{negatiu}}$"]),
+     tasks(2, [R("2") + r" (oposades: $\pm\sqrt{16}=\pm4$)", R("0") + r" ($\sqrt{-16}\notin\mathbb R$)", R("1") + r", positiva", R("1") + r", negativa ($\sqrt[3]{-8}=-2$)"])),
+ (1, r"Expressa en forma d'una sola potència:" + tasks(4, [r"$2^{\frac34}\cdot2^{\frac56}$", r"$2^{\frac73}\cdot2^{-\frac52}$", r"$\dfrac{3^{\frac12}}{3^{-\frac34}}$", r"$\left(5^{-2}\right)^{-\frac34}$"]),
+     tasks(4, [R(r"2^{\frac{19}{12}}"), R(r"2^{-\frac16}"), R(r"3^{\frac54}"), R(r"5^{\frac32}")])),
+ (2, r"Expressa amb un sol radical i simplifica si és possible:" + tasks(4, [r"$\sqrt5\cdot\sqrt[3]5$", r"$\sqrt[3]2\cdot\sqrt[4]7$", r"$\sqrt[3]9\cdot\sqrt3$", r"$\sqrt[4]a\cdot\sqrt[3]{a^3}\cdot\sqrt[6]{a^5}$", r"$\dfrac{\sqrt3}{\sqrt[5]{3^4}}$", r"$\sqrt{\sqrt[3]5}$", r"$\sqrt[4]{\sqrt8}$", r"$\sqrt[3]{2\sqrt{2^3}}$"])
+     + recorda(r"Passa a forma de potència ($\sqrt[n]{a^m}=a^{\frac mn}$) o redueix a índex comú."),
+     tasks(4, [R(r"\sqrt[6]{5^5}"), R(r"\sqrt[12]{2^4\cdot7^3}"), R(r"\sqrt[6]{3^7}=3\sqrt[6]3"), R(r"a^{\frac{25}{12}}=a^2\sqrt[12]a"), R(r"3^{-\frac3{10}}=\frac{1}{\sqrt[10]{27}}"), R(r"\sqrt[6]5"), R(r"\sqrt[8]8"), R(r"2^{\frac56}=\sqrt[6]{32}")])),
+ (2, r"Calcula:" + tasks(2, [r"$\sqrt{45}-\sqrt{125}-\sqrt{20}$", r"$\sqrt{75}-\sqrt{147}+\sqrt{675}-\sqrt{12}$", r"$\sqrt{175}+\sqrt{63}-2\sqrt{28}$", r"$\sqrt{20}+\frac13\sqrt{45}+2\sqrt{125}$", r"$\sqrt{32}-\sqrt8+3\sqrt{72}-2\sqrt{200}$", r"$7\sqrt[3]3-\sqrt[3]{24}+3\sqrt[3]{81}-4\sqrt[3]{375}$"])
+     + recorda(r"Extrau factors i suma només els radicals semblants (mateix índex i mateix radicand)."),
+     tasks(2, [r"$3\sqrt5-5\sqrt5-2\sqrt5=" + Rm(r"-4\sqrt5") + "$", r"$5\sqrt3-7\sqrt3+15\sqrt3-2\sqrt3=" + Rm(r"11\sqrt3") + "$", r"$5\sqrt7+3\sqrt7-4\sqrt7=" + Rm(r"4\sqrt7") + "$",
+               r"$2\sqrt5+\sqrt5+10\sqrt5=" + Rm(r"13\sqrt5") + "$", r"$4\sqrt2-2\sqrt2+18\sqrt2-20\sqrt2=" + Rm("0") + "$", r"$7\sqrt[3]3-2\sqrt[3]3+9\sqrt[3]3-20\sqrt[3]3=" + Rm(r"-6\sqrt[3]3") + "$"])),
 ]))
 
 # =====================================================================
-# 5. Racionalització
-rac1 = [('1/sqrt(2)', 'sqrt(2)/2'), ('6/sqrt(3)', '2*sqrt(3)'), ('5/(2*sqrt(5))', 'sqrt(5)/2'), ('sqrt(2)/sqrt(6)', 'sqrt(3)/3'), ('3/(4*sqrt(6))', 'sqrt(6)/8'), ('10/sqrt(50)', 'sqrt(2)')]
-rac2 = [('2/root(2,3)', 'root(4,3)'), ('6/root(9,3)', '2*root(3,3)'), ('1/root(8,4)', 'root(2,4)/2'), ('10/root(4,5)', '5*root(8,5)')]
-rac3 = [('1/(sqrt(3)-1)', '(sqrt(3)+1)/2'), ('4/(3+sqrt(5))', '3-sqrt(5)'), ('sqrt(2)/(sqrt(2)+1)', '2-sqrt(2)'), ('(1+sqrt(2))/(1-sqrt(2))', '-3-2*sqrt(2)'),
-        ('6/(sqrt(5)-sqrt(2))', '2*(sqrt(5)+sqrt(2))'), ('(sqrt(3)+sqrt(2))/(sqrt(3)-sqrt(2))', '5+2*sqrt(6)')]
-for a_, b_ in rac1 + rac2 + rac3: eq(a_, b_)
-eq('1/(sqrt(2)-1)-1/(sqrt(2)+1)', 2); eq('2/sqrt(2)+3/(sqrt(2)+1)', '4*sqrt(2)-3')
+# 6. Racionalització (exercici 14 del departament)
+chk([('2/sqrt(7)', '2*sqrt(7)/7'), ('1/sqrt(3)', 'sqrt(3)/3'), ('3*sqrt(2)/sqrt(3)', 'sqrt(6)'), ('6/root(4,3)', '3*root(2,3)'), ('5/(2*root(10,3))', 'root(100,3)/4'),
+     ('5/(2-sqrt(3))', '10+5*sqrt(3)'), ('2*sqrt(3)/(sqrt(5)-sqrt(3))', 'sqrt(15)+3'), ('sqrt(2)/(sqrt(2)+4)', '(2*sqrt(2)-1)/7')])
 S.append(("Racionalització", [
- (1, r"Racionalitza:" + tasks(3, [r"$\dfrac{1}{\sqrt2}$", r"$\dfrac{6}{\sqrt3}$", r"$\dfrac{5}{2\sqrt5}$", r"$\dfrac{\sqrt2}{\sqrt6}$", r"$\dfrac{3}{4\sqrt6}$", r"$\dfrac{10}{\sqrt{50}}$"]),
-     tasks(3, [R(r"\dfrac{\sqrt2}{2}"), R(r"2\sqrt3"), R(r"\dfrac{\sqrt5}{2}"), R(r"\dfrac{\sqrt3}{3}"), R(r"\dfrac{\sqrt6}{8}"), R(r"\sqrt2")])),
- (2, r"Racionalitza:" + tasks(4, [r"$\dfrac{2}{\sqrt[3]2}$", r"$\dfrac{6}{\sqrt[3]9}$", r"$\dfrac{1}{\sqrt[4]8}$", r"$\dfrac{10}{\sqrt[5]4}$"])
-     + recorda(r"Per a $\sqrt[n]{b^m}$, multipliquem dalt i baix per $\sqrt[n]{b^{\,n-m}}$, perquè l'exponent arribe a l'índex."),
-     tasks(4, [R(r"\sqrt[3]4"), R(r"2\sqrt[3]3"), R(r"\dfrac{\sqrt[4]2}{2}"), R(r"5\sqrt[5]8")])),
- (2, r"Racionalitza multiplicant pel conjugat:" + tasks(3, [r"$\dfrac{1}{\sqrt3-1}$", r"$\dfrac{4}{3+\sqrt5}$", r"$\dfrac{\sqrt2}{\sqrt2+1}$", r"$\dfrac{1+\sqrt2}{1-\sqrt2}$", r"$\dfrac{6}{\sqrt5-\sqrt2}$", r"$\dfrac{\sqrt3+\sqrt2}{\sqrt3-\sqrt2}$"])
-     + recorda(r"$(a+b)(a-b)=a^2-b^2$."),
-     tasks(3, [R(r"\dfrac{\sqrt3+1}{2}"), R(r"3-\sqrt5"), R(r"2-\sqrt2"), R(r"-3-2\sqrt2"), R(r"2\left(\sqrt5+\sqrt2\right)"), R(r"5+2\sqrt6")])),
- (3, r"Racionalitza i opera:" + tasks(2, [r"$\dfrac{1}{\sqrt2-1}-\dfrac{1}{\sqrt2+1}$", r"$\dfrac{2}{\sqrt2}+\dfrac{3}{\sqrt2+1}$"]),
-     tasks(2, [r"$(\sqrt2+1)-(\sqrt2-1)=" + Rm("2") + "$", r"$\sqrt2+3(\sqrt2-1)=" + Rm(r"4\sqrt2-3") + "$"])),
+ (2, r"Racionalitza:" + tasks(4, [r"$\dfrac{2}{\sqrt7}$", r"$\dfrac{1}{\sqrt3}$", r"$\dfrac{3\sqrt2}{\sqrt3}$", r"$\dfrac{6}{\sqrt[3]4}$", r"$\dfrac{5}{2\sqrt[3]{10}}$", r"$\dfrac{5}{2-\sqrt3}$", r"$\dfrac{2\sqrt3}{\sqrt5-\sqrt3}$", r"$\dfrac{\sqrt2}{\sqrt2+4}$"])
+     + recorda(r"Amb una suma o una resta al denominador, multiplica pel conjugat: $(a+b)(a-b)=a^2-b^2$."),
+     tasks(4, [R(r"\dfrac{2\sqrt7}{7}"), R(r"\dfrac{\sqrt3}{3}"), R(r"\sqrt6"), R(r"3\sqrt[3]2"), R(r"\dfrac{\sqrt[3]{100}}{4}"), R(r"10+5\sqrt3"), R(r"\sqrt{15}+3"), R(r"\dfrac{2\sqrt2-1}{7}")])),
 ]))
 
 # =====================================================================
-# 6. Logaritmes
-L1 = [('log(32,2)', 5), ('log(81,3)', 4), ('log(10000,10)', 4), ('log(Rational(1,1000),10)', -3), ('log(Rational(1,25),5)', -2), ('log(Rational(1,8),2)', -3), ('log(exp(4))', 4), ('log(1/E)', -1), ('log(7,7)', 1), ('log(1,9)', 0)]
-L2 = [('log(sqrt(2),2)', 'Rational(1,2)'), ('log(root(3,3),3)', 'Rational(1,3)'), ('log(8,4)', 'Rational(3,2)'), ('log(4,Rational(1,2))', -2), ('log(2,8)', 'Rational(1,3)'), ('log(sqrt(125),5)', 'Rational(3,2)'), ('log(Rational(1,10),10)', -1), ('log(9,sqrt(3))', 4)]
-for a_, b_ in L1 + L2: eq(a_, b_)
-L4 = [('log(2,6)+log(3,6)', 1), ('log(24,2)-log(3,2)', 3), ('log(25,10)+log(4,10)', 2), ('log(18,3)-log(2,3)', 2), ('log(16**3,2)', 12), ('log(125,5)+log(5,5)-log(25,5)', 2)]
-for a_, b_ in L4: eq(a_, b_)
-l2, l3 = 0.301, 0.477
-L5 = [l2 + l3, 3 * l2, 1 - l2, l2 + 2 * l3, l3 - l2, (2 * l2 + l3) / 2, l2 - 1, 3 * l3]
-ck([round(x, 4) for x in L5], [0.778, 0.903, 0.699, 1.255, 0.176, 0.5395, -0.699, 1.431])
-calc = [math.log10(50), math.log(7), math.log10(0.35), math.log(0.5), math.log(15, 3), math.log(100, 2), math.log(2, 7), math.log(0.2, 5)]
-ck([round(x, 3) for x in calc], [1.699, 1.946, -0.456, -0.693, 2.465, 6.644, 0.356, -1.0])
+# 7. Logaritmes (exercicis 15-17 del departament)
+chk([('log(8,2)', 3), ('log(81,3)', 4), ('log(1000,10)', 3), ('log(exp(-4))', -4), ('log(Rational(1,10000),10)', -4), ('log(Rational(1,4),4)', -1), ('log(root(4,6),2)', 'Rational(1,3)'), ('log(exp(3))', 3)])
+chk([('log(27,3)', 3), ('log(256,2)', 8), ('5**3', 125), ('log(exp(5))', 5), ('log(10000,10)', 4)])
+ck([round(0.31 + 1.4, 2), round(3 * 0.31 + 1.4, 2)], [1.71, 2.33])
 S.append(("Logaritmes", [
- (1, r"Aplicant la definició, calcula:" + tasks(5, [r"$\log_2 32$", r"$\log_3 81$", r"$\log 10\,000$", r"$\log 0,001$", r"$\log_5\frac{1}{25}$", r"$\log_2\frac18$", r"$\ln e^4$", r"$\ln\frac1e$", r"$\log_7 7$", r"$\log_9 1$"])
+ (1, r"Calcula, utilitzant la definició, els logaritmes següents:" + tasks(4, [r"$\log_2 8$", r"$\log_3 81$", r"$\log 1000$", r"$\ln e^{-4}$", r"$\log 0,0001$", r"$\log_4 0,25$", r"$\log_2\sqrt[6]4$", r"$\ln e^3$"])
      + recorda(r"$\log_a b=c\iff a^c=b$. A més, $\log_a a=1$ i $\log_a 1=0$."),
-     tasks(5, [R("5"), R("4"), R("4"), R("-3"), R("-2"), R("-3"), R("4"), R("-1"), R("1"), R("0")])),
- (2, r"Aplicant la definició, calcula:" + tasks(4, [r"$\log_2\sqrt2$", r"$\log_3\sqrt[3]3$", r"$\log_4 8$", r"$\log_{\frac12}4$", r"$\log_8 2$", r"$\log_5\sqrt{125}$", r"$\log 0,1$", r"$\log_{\sqrt3}9$"]),
-     tasks(4, [R(r"\frac12"), R(r"\frac13"), R(r"\frac32"), R("-2"), R(r"\frac13"), R(r"\frac32"), R("-1"), R("4")])),
- (2, r"Troba el valor de $x$:" + tasks(3, [r"$\log_x 49=2$", r"$\log_2 x=5$", r"$\log_3 x=-2$", r"$\log_x\frac18=-3$", r"$\log_5 x=0$", r"$\log x=-2$"]),
-     tasks(3, [R("x=7"), R("x=32"), R(r"x=\frac19"), R("x=2"), R("x=1"), R("x=0,01")])),
- (1, r"Calcula aplicant les propietats dels logaritmes:" + tasks(3, [r"$\log_6 2+\log_6 3$", r"$\log_2 24-\log_2 3$", r"$\log 25+\log 4$", r"$\log_3 18-\log_3 2$", r"$\log_2 16^3$", r"$\log_5 125+\log_5 5-\log_5 25$"]),
-     tasks(3, [r"$\log_6 6=" + Rm("1") + "$", r"$\log_2 8=" + Rm("3") + "$", r"$\log100=" + Rm("2") + "$", r"$\log_3 9=" + Rm("2") + "$", r"$3\cdot4=" + Rm("12") + "$", r"$3+1-2=" + Rm("2") + "$"])),
- (2, r"Sabent que $\log2=0,301$ i $\log3=0,477$, calcula sense calculadora:" + tasks(4, [r"$\log6$", r"$\log8$", r"$\log5$", r"$\log18$", r"$\log1,5$", r"$\log\sqrt{12}$", r"$\log0,2$", r"$\log27$"]),
-     tasks(2, [r"$\log2+\log3=" + Rm(dec(L5[0])) + "$", r"$3\log2=" + Rm(dec(L5[1])) + "$", r"$\log\frac{10}2=1-\log2=" + Rm(dec(L5[2])) + "$", r"$\log2+2\log3=" + Rm(dec(L5[3])) + "$",
-               r"$\log\frac32=\log3-\log2=" + Rm(dec(L5[4])) + "$", r"$\frac12(2\log2+\log3)=" + Rm(dec(L5[5], 4)) + "$", r"$\log\frac2{10}=\log2-1=" + Rm(dec(L5[6])) + "$", r"$3\log3=" + Rm(dec(L5[7])) + "$"])),
- (2, r"Desenvolupa aplicant les propietats:" + tasks(2, [r"$\log(x^2y)$", r"$\log\dfrac{100x}{y^3}$", r"$\log\sqrt{\dfrac xy}$", r"$\ln(e^2x)$", r"$\log_2\dfrac{8a^3}{b}$"]),
-     tasks(1, [R(r"2\log x+\log y"), R(r"2+\log x-3\log y"), R(r"\tfrac12\left(\log x-\log y\right)"), R(r"2+\ln x"), R(r"3+3\log_2a-\log_2b")])),
- (2, r"Escriu $E$ sense logaritmes:" + tasks(1, [r"$\log E=\log3+2\log x-\log y$", r"$\log E=2-\log x$", r"$\log E=\frac12\log a+3\log b$"]),
-     tasks(3, [R(r"E=\dfrac{3x^2}{y}"), R(r"E=\dfrac{100}{x}"), R(r"E=b^3\sqrt a")])),
- (1, r"Amb la calculadora, calcula amb tres decimals:" + tasks(4, [r"$\log50$", r"$\ln7$", r"$\log0,35$", r"$\ln0,5$", r"$\log_3 15$", r"$\log_2 100$", r"$\log_7 2$", r"$\log_5 0,2$"])
-     + recorda(r"Canvi de base: $\log_a x=\dfrac{\log x}{\log a}=\dfrac{\ln x}{\ln a}$."),
-     tasks(4, [R(dec(x)) for x in calc[:7]] + [R("-1") + r" (exacte: $5^{-1}=0,2$)"])),
- (2, r"Calcula sense calculadora:" + tasks(2, [r"$\log1000+\ln e^3-\log_2 16$", r"$\ln1+\log0,01$", r"$\ln\sqrt e$", r"$\log\sqrt[3]{100}$"]),
-     tasks(4, [R("2"), R("-2"), R(r"\frac12"), R(r"\frac23")])),
+     tasks(4, [R("3"), R("4"), R("3"), R("-4"), R("-4"), R("-1"), R(r"\frac13"), R("3")])),
+ (1, r"Troba quant val $x$ en cada cas:" + tasks(4, [r"$\log_3 27=x$", r"$\log_2 x=8$", r"$\log_x 125=3$", r"$\ln e^5=x$", r"$\log 0,0001=x$", r"$\log 10\,000=x$", r"$\log_a a=x$", r"$\log_a 1=x$"]),
+     tasks(4, [R("x=3"), R("x=256"), R("x=5"), R("x=5"), R("x=-4"), R("x=4"), R("x=1"), R("x=0")])),
+ (2, r"Sabent que $\log_5 a=0,31$ i que $\log_5 b=1,4$, calcula:" + tasks(2, [r"$\log_5(a\cdot b)$", r"$\log_5(a^3\cdot b)$"]),
+     tasks(2, [r"$0,31+1,4=" + Rm("1,71") + "$", r"$3\cdot0,31+1,4=" + Rm("2,33") + "$"])),
 ]))
-eq('log(1000,10)+3-log(16,2)', 2); eq('log(Rational(1,100),10)', -2); eq('log(sqrt(E))', 'Rational(1,2)'); eq('log(100**Rational(1,3),10)', 'Rational(2,3)')
 
 # =====================================================================
-# 7. Problemes
-t_bac = 4 / math.log10(2); t_cap = math.log10(4 / 3) / math.log10(1.04); ph = -math.log10(2.5e-5)
-ck([round(t_bac, 2), round(t_cap, 2), math.ceil(t_cap), round(ph, 2)], [13.29, 7.33, 8, 4.6])
-eq('sqrt(12)*sqrt(27)', 18); eq('2*(sqrt(12)+sqrt(27))', '10*sqrt(3)'); eq('sqrt(12+27)', 'sqrt(39)')
-S.append(("Problemes", [
+# 8. Ampliació: nombres, intervals, valor absolut i potències
+g8 = [per('2', '', '7') + per('3', '', '4') - per('1', '', '1'), per('1', '', '8') + per('0', '', '1'), per('0', '1', '6') * per('1', '', '5'), per('1', '2', '3') - per('0', '', '45')]
+ck(g8, [F(46, 9), F(2), F(7, 27), F(257, 330)])
+A8, B8, C8 = P('(-3,5/2]'), P('[1/2,4)'), P('(-inf,1]')
+r8 = [cap(A8, B8), cup(A8, C8), cap(B8, C8), cap(cap(A8, B8), C8), cup(B8, C8)]
+ck(r8, [P('[1/2,5/2]'), P('(-inf,5/2]'), P('[1/2,1]'), P('[1/2,1]'), P('(-inf,4)')])
+pw = [F(6) ** -2 * F(9) ** 3 * F(2) ** 5 / (F(4) ** 2 * 27 * F(3) ** -1)]
+ck(pw, [F(9, 2)])
+chk([('8**Rational(2,3)*27**Rational(-1,3)/16**Rational(3,4)', 'Rational(1,6)'), ('Rational(1,32)**Rational(-2,5)', 4), ('81**Rational(3,4)', 27)])
+S.append(("Ampliació: nombres, intervals, valor absolut i potències", [
+ (2, r"Escriu els nombres en forma de fracció i opera:" + tasks(2, [r"$2,\widehat7+3,\widehat4-1,\widehat1$", r"$1,\widehat8+0,\widehat1$", r"$0,1\widehat6\cdot1,\widehat5$", r"$1,2\widehat3-0,\widehat{45}$"]),
+     tasks(2, [r"$\frac{25}9+\frac{31}9-\frac{10}9=" + Rm(tn(g8[0])) + "$", r"$\frac{17}9+\frac19=" + Rm("2") + "$", r"$\frac16\cdot\frac{14}9=" + Rm(tn(g8[2])) + "$", r"$\frac{37}{30}-\frac5{11}=" + Rm(tn(g8[3])) + "$"])),
+ (2, r"Donats $A=\left(-3, \frac52\right]$, $B=\left[\frac12, 4\right)$ i $C=(-\infty, 1]$, calcula:" + tasks(3, [r"$A\cap B$", r"$A\cup C$", r"$B\cap C$", r"$A\cap B\cap C$", r"$B\cup C$"]),
+     tasks(2, [RI(x, -4, 5) for x in r8])),
+ (2, r"Resol i representa:" + tasks(4, [r"$|2x-1|>3$", r"$|3x+6|\le9$", r"$|5-x|\ge2$", r"$|x-3|<-1$"]),
+     tasks(2, [RI('(-inf,-1)U(2,inf)'), RI('[-5,1]'), RI('(-inf,3]U[7,inf)'), R(r"\varnothing") + r" (un valor absolut no pot ser negatiu)"])),
+ (3, r"Escriu cada interval amb una desigualtat amb valor absolut (busca'n el centre i el radi): \ $(1, 7)$, \ $[-5, 1]$, \ $(-\infty, -1)\cup(5, +\infty)$.",
+     tasks(3, [R(r"|x-4|<3"), R(r"|x+2|\le3"), R(r"|x-2|>3")])),
+ (2, r"La temperatura $T$ d'una nevera ha de ser de $4\,^\circ$C amb un error màxim de $1,5\,^\circ$C. Escriu-ho amb un valor absolut i com a interval. És acceptable una lectura de $5,7\,^\circ$C?",
+     R(r"|T-4|\le1,5") + r", és a dir, $T\in[2,5;\ 5,5]$. Una lectura de $5,7\,^\circ$C \rest{no és acceptable}: $|5,7-4|=1,7>1,5$."),
+ (3, r"Simplifica, descomponent les bases en factors primers: \ $\dfrac{6^{-2}\cdot9^3\cdot2^5}{4^2\cdot27\cdot3^{-1}}$. \ Calcula també, sense calculadora: \ $\dfrac{8^{2/3}\cdot27^{-1/3}}{16^{3/4}}$, \ $\left(\dfrac1{32}\right)^{-2/5}$, \ $81^{0,75}$.",
+     r"$\dfrac{2^{-2}3^{-2}\cdot3^6\cdot2^5}{2^4\cdot3^3\cdot3^{-1}}=2^{-1}\cdot3^2=" + Rm(r"\frac92") + r"$; \ $\dfrac{4\cdot\frac13}{8}=" + Rm(r"\frac16") + r"$; \ $2^2=" + Rm("4") + r"$; \ $3^3=" + Rm("27") + "$."),
+]))
+
+# =====================================================================
+# 9. Ampliació: radicals i racionalització (exercicis de racionalització i sumes del departament i nous)
+chk([('5/sqrt(5)', 'sqrt(5)'), ('2*sqrt(6)/sqrt(2)', '2*sqrt(3)'), ('sqrt(Rational(5,2))', 'sqrt(10)/2'), ('3/sqrt(5)', '3*sqrt(5)/5'), ('root(Rational(3,2),3)', 'root(12,3)/2'), ('3/(2*root(4,3))', '3*root(2,3)/4'),
+     ('3*y/(x*sqrt(y))', '3*sqrt(y)/x'), ('x*sqrt(y)/(y*sqrt(x))', 'sqrt(x*y)/y'), ('2*sqrt(12)/(5*sqrt(3))', 'Rational(4,5)'), ('3*sqrt(2)/sqrt(6)', 'sqrt(3)'),
+     ('3*x*y**2/root(x**2*y,3)', '3*y*root(x*y**2,3)'), ('6*(3-y)/root((3-y)**2,3)', '6*root(3-y,3)'), ('-4/(root(3,4)*root(2,3))', '-Rational(2,3)*root(27,4)*root(4,3)')], subs={})
+chk([('1/(sqrt(2)+sqrt(3))', 'sqrt(3)-sqrt(2)'), ('2/(sqrt(2)-1)', '2*sqrt(2)+2'), ('sqrt(2)/(3-sqrt(2))', '(3*sqrt(2)+2)/7'), ('(1-sqrt(2))/(1+sqrt(2))', '2*sqrt(2)-3'), ('(sqrt(5)-2)/(3-2*sqrt(5))', '(sqrt(5)-4)/11'),
+     ('1/(sqrt(x)-sqrt(y))', '(sqrt(x)+sqrt(y))/(x-y)'), ('sqrt(2*y)/(sqrt(2)-sqrt(y))', '(2*sqrt(y)+y*sqrt(2))/(2-y)'), ('sqrt(x*y)/(2*sqrt(x)-3*sqrt(y))', '(2*x*sqrt(y)+3*y*sqrt(x))/(4*x-9*y)'),
+     ('5/(2*(sqrt(3)-sqrt(2)))', '5*(sqrt(3)+sqrt(2))/2'), ('sqrt(2)/(2*sqrt(2)+1)', '(4-sqrt(2))/7'), ('(2+sqrt(2))/(2-sqrt(2))', '3+2*sqrt(2)')], subs={})
+chk([('sqrt(8)+sqrt(18)+sqrt(32)+sqrt(50)', '14*sqrt(2)'), ('sqrt(28)+sqrt(63)-sqrt(175)', 0), ('6*sqrt(3)-4*sqrt(3)+5*sqrt(3)', '7*sqrt(3)'), ('3*sqrt(2)+5*sqrt(2)-8*sqrt(2)', 0),
+     ('3*sqrt(2)-3*sqrt(8)+3*sqrt(18)', '6*sqrt(2)'), ('2*a*sqrt(3)-sqrt(27*a**2)+a*sqrt(12)', 'a*sqrt(3)'), ('(3+a)*sqrt(5)-sqrt(125)+sqrt(5*a**2)', '(2*a-2)*sqrt(5)'),
+     ('7*sqrt(54)-3*sqrt(18)+sqrt(24)-Rational(3,5)*sqrt(50)-sqrt(6)', '22*sqrt(6)-12*sqrt(2)'), ('sqrt(Rational(1,3))+sqrt(27)', '10*sqrt(3)/3'), ('sqrt(Rational(1,2))+sqrt(2)+root(4,4)+root(8,6)+root(64,4)', '11*sqrt(2)/2'),
+     ('2*sqrt(Rational(3,4))-sqrt(27)+sqrt(12)/4-3*sqrt(Rational(75,9))', '-13*sqrt(3)/2'), ('sqrt(18)+5*sqrt(12)-2*sqrt(2)-sqrt(243)', 'sqrt(2)+sqrt(3)'), ('2*sqrt(3)+5*root(27,6)-3*sqrt(12)', 'sqrt(3)'), ('5*sqrt(20)-2*sqrt(45)+sqrt(5)', '5*sqrt(5)')])
+chk([('(sqrt(3)+sqrt(2))**2', '5+2*sqrt(6)'), ('(2*sqrt(5)-1)*(2*sqrt(5)+1)', 19), ('sqrt(2)*(sqrt(8)-sqrt(18))', -2), ('(sqrt(5)+1)**2-2*sqrt(5)', 6),
+     ('(sqrt(3)+1)/(sqrt(3)-1)-(sqrt(3)-1)/(sqrt(3)+1)', '2*sqrt(3)'), ('1/sqrt(2)+1/(sqrt(2)+1)', '3*sqrt(2)/2-1'), ('sqrt(50)', '5*sqrt(2)')])
+S.append(("Ampliació: radicals i racionalització", [
+ (2, r"Racionalitza el denominador de les expressions següents:" + tasks(4, [r"$\dfrac{5}{\sqrt5}$", r"$\dfrac{2\sqrt6}{\sqrt2}$", r"$\sqrt{\dfrac52}$", r"$\dfrac{3}{\sqrt5}$", r"$\sqrt[3]{\dfrac32}$", r"$\dfrac{3}{2\sqrt[3]4}$", r"$\dfrac{3y}{x\sqrt y}$",
+      r"$\dfrac{x\sqrt y}{y\sqrt x}$", r"$\dfrac{2\sqrt{12}}{5\sqrt3}$", r"$\dfrac{3\sqrt2}{\sqrt6}$", r"$\dfrac{3xy^2}{\sqrt[3]{x^2y}}$", r"$\dfrac{6(3-y)}{\sqrt[3]{(3-y)^2}}$", r"$\dfrac{-4}{\sqrt[4]3\cdot\sqrt[3]2}$"]),
+     tasks(4, [R(r"\sqrt5"), R(r"2\sqrt3"), R(r"\frac{\sqrt{10}}{2}"), R(r"\frac{3\sqrt5}{5}"), R(r"\frac{\sqrt[3]{12}}{2}"), R(r"\frac{3\sqrt[3]2}{4}"), R(r"\frac{3\sqrt y}{x}"), R(r"\frac{\sqrt{xy}}{y}"),
+               R(r"\frac45"), R(r"\sqrt3"), R(r"3y\sqrt[3]{xy^2}"), R(r"6\sqrt[3]{3-y}"), R(r"-\frac23\sqrt[4]{27}\,\sqrt[3]4")])),
+ (3, r"Racionalitza el denominador de les expressions següents:" + tasks(4, [r"$\dfrac{1}{\sqrt2+\sqrt3}$", r"$\dfrac{2}{\sqrt2-1}$", r"$\dfrac{\sqrt2}{3-\sqrt2}$", r"$\dfrac{1-\sqrt2}{1+\sqrt2}$", r"$\dfrac{\sqrt5-2}{3-2\sqrt5}$", r"$\dfrac{1}{\sqrt x-\sqrt y}$",
+      r"$\dfrac{\sqrt{2y}}{\sqrt2-\sqrt y}$", r"$\dfrac{\sqrt{xy}}{2\sqrt x-3\sqrt y}$", r"$\dfrac{5}{2(\sqrt3-\sqrt2)}$", r"$\dfrac{\sqrt2}{2\sqrt2+1}$", r"$\dfrac{2+\sqrt2}{2-\sqrt2}$"]),
+     tasks(3, [R(r"\sqrt3-\sqrt2"), R(r"2\sqrt2+2"), R(r"\frac{3\sqrt2+2}{7}"), R(r"2\sqrt2-3"), R(r"\frac{\sqrt5-4}{11}"), R(r"\frac{\sqrt x+\sqrt y}{x-y}"), R(r"\frac{2\sqrt y+y\sqrt2}{2-y}"),
+               R(r"\frac{2x\sqrt y+3y\sqrt x}{4x-9y}"), R(r"\frac{5(\sqrt3+\sqrt2)}{2}"), R(r"\frac{4-\sqrt2}{7}"), R(r"3+2\sqrt2")])),
+ (2, r"Realitza les sumes i restes següents:" + tasks(2, [r"$\sqrt8+\sqrt{18}+\sqrt{32}+\sqrt{50}$", r"$\sqrt{28}+\sqrt{63}-\sqrt{175}$", r"$6\sqrt3-4\sqrt3+5\sqrt3$", r"$3\sqrt2+5\sqrt2-8\sqrt2$", r"$3\sqrt2-3\sqrt8+3\sqrt{18}$",
+      r"$2a\sqrt3-\sqrt{27a^2}+a\sqrt{12}$", r"$(3+a)\sqrt5-\sqrt{125}+\sqrt{5a^2}$", r"$7\sqrt{54}-3\sqrt{18}+\sqrt{24}-\frac35\sqrt{50}-\sqrt6$", r"$\sqrt{\frac13}+\sqrt{27}$", r"$\sqrt{\frac12}+\sqrt2+\sqrt[4]4+\sqrt[6]8+\sqrt[4]{64}$",
+      r"$2\sqrt{\frac34}-\sqrt{27}+\frac14\sqrt{12}-3\sqrt{\frac{75}{9}}$", r"$\sqrt{18}+5\sqrt{12}-2\sqrt2-\sqrt{243}$", r"$2\sqrt3+5\sqrt[6]{27}-3\sqrt{12}$", r"$5\sqrt{20}-2\sqrt{45}+\sqrt5$"]),
+     tasks(4, [R(r"14\sqrt2"), R("0"), R(r"7\sqrt3"), R("0"), R(r"6\sqrt2"), R(r"a\sqrt3"), R(r"(2a-2)\sqrt5"), R(r"22\sqrt6-12\sqrt2"), R(r"\frac{10\sqrt3}{3}"), R(r"\frac{11\sqrt2}{2}"), R(r"-\frac{13\sqrt3}{2}"), R(r"\sqrt2+\sqrt3"), R(r"\sqrt3"), R(r"5\sqrt5")])
+     + r"(Als apartats f) i g) suposem $a\ge0$.)"),
+ (3, r"Opera i simplifica:" + tasks(2, [r"$(\sqrt3+\sqrt2)^2$", r"$(2\sqrt5-1)(2\sqrt5+1)$", r"$\sqrt2\left(\sqrt8-\sqrt{18}\right)$", r"$(\sqrt5+1)^2-2\sqrt5$",
+      r"$\dfrac{\sqrt3+1}{\sqrt3-1}-\dfrac{\sqrt3-1}{\sqrt3+1}$", r"$\dfrac{1}{\sqrt2}+\dfrac{1}{\sqrt2+1}$"]),
+     tasks(2, [R(r"5+2\sqrt6"), R("19"), R("-2"), R("6"), r"$\dfrac{(\sqrt3+1)^2-(\sqrt3-1)^2}{2}=" + Rm(r"2\sqrt3") + "$", r"$\dfrac{\sqrt2}{2}+\sqrt2-1=" + Rm(r"\frac{3\sqrt2}{2}-1") + "$"])),
  (2, r"Un quadrat té una àrea de $50\ \text{cm}^2$. Calcula'n el costat i la diagonal en forma de radical simplificat.",
      r"Costat: $\sqrt{50}=" + Rm(r"5\sqrt2\ \text{cm}") + r"$. Diagonal: $\sqrt2\cdot5\sqrt2=" + Rm(r"10\ \text{cm}") + r"$."),
- (2, r"Un rectangle fa $\sqrt{12}$ cm d'amplària i $\sqrt{27}$ cm de llargària. Calcula'n el perímetre, l'àrea i la diagonal de manera exacta.",
-     r"Perímetre: $2(2\sqrt3+3\sqrt3)=" + Rm(r"10\sqrt3\ \text{cm}") + r"$. Àrea: $\sqrt{12\cdot27}=\sqrt{324}=" + Rm(r"18\ \text{cm}^2") + r"$. Diagonal: $\sqrt{12+27}=" + Rm(r"\sqrt{39}\ \text{cm}") + "$."),
- (2, r"Per a anar a una excursió cal tindre almenys 12 anys i menys de 17. Escriu l'interval d'edats. Si el preu reduït és per a menors de 14 anys, quines edats poden anar a l'excursió amb preu reduït?",
-     r"Excursió: " + R(r"[12, 17)") + r". Preu reduït: $[0, 14)$. Les dues coses alhora: $[12, 17)\cap[0, 14)=" + Rm(st(cap(P('[12,17)'), P('[0,14)')))) + "$."),
- (2, r"Una colònia de bacteris es duplica cada hora. Quantes hores tarda a passar de 100 bacteris a un milió?",
-     r"$100\cdot2^t=10^6\Rightarrow2^t=10^4\Rightarrow t=\dfrac{4}{\log2}\approx" + Rm(dec(t_bac, 2) + r"\ \text{hores}") + "$."),
- (2, r"Ingressem 1500 € en un compte al 4\,\% d'interés compost anual. Quants anys han de passar, com a mínim, perquè hi haja 2000 €?",
-     r"$1500\cdot1,04^t=2000\Rightarrow1,04^t=\frac43\Rightarrow t=\dfrac{\log\frac43}{\log1,04}\approx" + dec(t_cap, 2) + r"$. Calen " + R(r"8\ \text{anys}") + "."),
- (3, r"El pH d'una dissolució és $\text{pH}=-\log[\text{H}^+]$. Calcula el pH si $[\text{H}^+]=10^{-3}$ i si $[\text{H}^+]=2,5\cdot10^{-5}$. Quina de les dues és més àcida (pH menor)?",
-     r"$\text{pH}=-\log10^{-3}=" + Rm("3") + r"$; \ $\text{pH}=-\log(2,5\cdot10^{-5})\approx" + Rm(dec(ph, 2)) + r"$. És més àcida \rest{la primera}."),
 ]))
 
+# =====================================================================
+# 10. Ampliació: logaritmes i problemes
+l2, l3 = 0.301, 0.477
+L10 = [2 * l2 + l3, 1 - l2, l3 - l2, (l2 + 2 * l3) / 2, l2 + l3 - 2]
+ck([round(v, 4) for v in L10], [1.079, 0.699, 0.176, 0.6275, -1.222])
+calc = [math.log(20, 3), math.log(60, 0.5), math.log(100, 2), math.log(7)]
+ck([round(v, 3) for v in calc], [2.727, -5.907, 6.644, 1.946])
+chk([('log(49,7)', 2), ('Rational(1,2)**-3', 8), ('2**-3', 'Rational(1,8)'), ('sqrt(2)**4', 4)])
+t_bac = 4 / math.log10(2); t_cap = math.log10(4 / 3) / math.log10(1.04); ph = -math.log10(2.5e-5)
+ck([round(t_bac, 2), round(t_cap, 2), math.ceil(t_cap), round(ph, 2)], [13.29, 7.33, 8, 4.6])
+assert 2 ** 3 < 10 < 2 ** 4 and 3 ** 2 < 10 < 3 ** 3
+S.append(("Ampliació: logaritmes i problemes", [
+ (2, r"Troba $x$:" + tasks(4, [r"$\log_x 49=2$", r"$\log_{\frac12}x=-3$", r"$\log_x\frac18=-3$", r"$\log_{\sqrt2}x=4$"]),
+     tasks(4, [R("x=7"), R("x=8"), R("x=2"), R("x=4")])),
+ (2, r"Sabent que $\log2=0,301$ i $\log3=0,477$, calcula sense calculadora:" + tasks(5, [r"$\log12$", r"$\log5$", r"$\log1,5$", r"$\log\sqrt{18}$", r"$\log0,06$"]),
+     tasks(2, [r"$2\log2+\log3=" + Rm(dec(L10[0])) + "$", r"$\log\frac{10}2=1-\log2=" + Rm(dec(L10[1])) + "$", r"$\log3-\log2=" + Rm(dec(L10[2])) + "$",
+               r"$\frac12(\log2+2\log3)=" + Rm(dec(L10[3], 4)) + "$", r"$\log\frac{6}{100}=\log2+\log3-2=" + Rm(dec(L10[4])) + "$"])),
+ (2, r"Desenvolupa amb les propietats dels logaritmes, i escriu $E$ sense logaritmes:" + tasks(2, [r"$\log\dfrac{100x^3}{y}$", r"$\log\sqrt{\dfrac{x}{y}}$", r"$\log E=\log3+2\log x-\log y$", r"$\log E=2-\log x$"]),
+     tasks(2, [R(r"2+3\log x-\log y"), R(r"\tfrac12(\log x-\log y)"), R(r"E=\dfrac{3x^2}{y}"), R(r"E=\dfrac{100}{x}")])),
+ (1, r"Amb la calculadora (canvi de base), calcula amb tres decimals:" + tasks(4, [r"$\log_3 20$", r"$\log_{0,5}60$", r"$\log_2 100$", r"$\ln7$"])
+     + recorda(r"$\log_a x=\dfrac{\log x}{\log a}=\dfrac{\ln x}{\ln a}$."),
+     tasks(4, [R(dec(v)) for v in calc])),
+ (2, r"Una colònia de bacteris es duplica cada hora. Quantes hores tarda a passar de 100 bacteris a un milió?",
+     r"$100\cdot2^t=10^6\Rightarrow2^t=10^4\Rightarrow t=\log_2 10^4=\dfrac{4}{\log2}\approx" + Rm(dec(t_bac, 2) + r"\ \text{hores}") + "$."),
+ (2, r"Ingressem 1500 € en un compte al 4\,\% d'interés compost anual. Quants anys han de passar, com a mínim, perquè hi haja 2000 €?",
+     r"$1500\cdot1,04^t=2000\Rightarrow1,04^t=\frac43\Rightarrow t=\dfrac{\log\frac43}{\log1,04}\approx" + dec(t_cap, 2) + r"$. Calen " + R(r"8\ \text{anys}") + "."),
+ (3, r"El pH d'una dissolució és $\text{pH}=-\log[\text{H}^+]$. Calcula el pH si $[\text{H}^+]=10^{-3}$ i si $[\text{H}^+]=2,5\cdot10^{-5}$. Quina és més àcida (pH menor)?",
+     r"$\text{pH}=" + Rm("3") + r"$; \ $\text{pH}=-\log(2,5\cdot10^{-5})\approx" + Rm(dec(ph, 2)) + r"$. És més àcida \rest{la primera}."),
+ (3, r"Sense calculadora, ordena de menor a major $\log_2 10$, \ $3$ \ i \ $\log_3 10$. Justifica-ho.",
+     r"$2^3=8<10\Rightarrow\log_210>3$; \ $3^2=9<10<27=3^3\Rightarrow2<\log_310<3$. Per tant, " + R(r"\log_310<3<\log_210") + "."),
+]))
+
+assert [len(x[1]) for x in S][:7] == [1, 2, 1, 2, 7, 1, 3]  # 17 exercicis del departament
 build(HERE, 1, "Nombres reals", S,
-      "nombres reals, intervals, semirectes, unió, intersecció, radicals, racionalització, logaritmes",
-      r"Resol-los al quadern mostrant tots els passos. Dona els resultats de manera exacta (fraccions i radicals simplificats, sense arrels al denominador). Fes servir la calculadora només quan l'enunciat ho diga.",
-      r"Intenta resoldre cada exercici abans de mirar-ne la solució. Pots comprovar els d'intervals, radicals, racionalització i logaritmes amb les eines interactives dels apunts de la unitat.")
+      "nombres reals, intervals, valor absolut, potències, radicals, racionalització, logaritmes",
+      r"Resol-los al quadern mostrant tots els passos. Dona els resultats de manera exacta (fraccions i radicals simplificats, sense arrels al denominador). Fes servir la calculadora només quan l'enunciat ho diga. Els exercicis 1--17 són els de la fitxa del departament; les seccions 8, 9 i 10 són d'ampliació, per a preparar el Batxillerat.",
+      r"Intenta resoldre cada exercici abans de mirar-ne la solució. Pots comprovar els d'intervals, valor absolut, radicals, racionalització i logaritmes amb les eines interactives dels apunts de la unitat.")

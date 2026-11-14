@@ -361,10 +361,13 @@ eines de `_eines/fonts-latex/comu/eso4b.py`: `tasks`, intervals i recta real (`P
 resultats exactes, `eq` per a comprovar amb sympy (numèricament) cada resultat escrit a mà, i `build`, que escriu la fitxa i
 les solucions.
 
-- **Unitat 1 (Nombres reals, `4eso-b-t1`)**: 6 apartats (classificació dels nombres, intervals i semirectes, unió i
-  intersecció, radicals, racionalització i logaritmes) i 9 ginys; respecte de 1r Batx MI, sense valor absolut, entorns ni
-  diferència d'intervals, i amb tres ginys nous (simplificació de radicals `w-simp`, racionalització `w-rac` i canvi de base
-  `w-cb`). La fitxa té 40 exercicis en 7 seccions.
+- **Unitat 1 (Nombres reals, `4eso-b-t1`)**: 8 apartats (classificació dels nombres, intervals i semirectes, unió i
+  intersecció, valor absolut, potències, radicals, racionalització i logaritmes) i 11 ginys; el valor absolut i els entorns
+  (`w-abs`, `w-ent`) són els de 1r Batx MI, i hi ha tres ginys nous (simplificació de radicals `w-simp`, racionalització `w-rac`
+  i canvi de base `w-cb`). Els apartats 1.6-1.7 són a `contingut-2b.html`. La fitxa té 36 exercicis: els 1-17 són els de la
+  fitxa del departament («Fitxa 1 (1a Av.)»), amb la mateixa numeració, i les seccions 8-10 són d'ampliació per al Batxillerat
+  (racionalització i sumes de radicals del departament, i exercicis nous de generatrius, intervals, valor absolut, potències,
+  radicals, logaritmes i problemes).
 
 ```
 python3 _eines/apunts/4eso-b-t1/build.py
