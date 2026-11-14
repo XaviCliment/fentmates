@@ -353,8 +353,8 @@ python3 _eines/pau/an/build.py
 
 Els apunts de 4t ESO B parteixen dels de 1r Batx MI, simplificats (carpetes `_eines/apunts/4eso-b-tN`). Funcionen igual: el
 contingut és a `contingut-*.html` (convencions ⟪va‖es‖en⟫), els ginys a `app.js`, l'estil propi a `extra.css`, i `build.py`
-genera `materials/4eso-b/tN-….html`. A `fm-materials.js`, la unitat 1 de 4t ESO B és del bloc d'aritmètica i les unitats 2-4,
-del d'àlgebra.
+genera `materials/4eso-b/tN-….html`. A `fm-materials.js`, la unitat 1 de 4t ESO B és del bloc d'aritmètica, les unitats 2-4,
+del d'àlgebra, i la 5, del de geometria.
 
 Les fitxes (`_eines/fonts-latex/4eso-b-tN/genera.py`) mostren les estrelles de dificultat (com les d'ESO) i comparteixen les
 eines de `_eines/fonts-latex/comu/eso4b.py`: `tasks`, intervals i recta real (`P`, `cup`, `cap`, `RI`, `recta`), `ck` per a
@@ -409,6 +409,21 @@ cd _eines/fonts-latex/4eso-b-t3 && python3 genera.py && pdflatex t3-fitxa-exerci
 ```
 python3 _eines/apunts/4eso-b-t4/build.py
 cd _eines/fonts-latex/4eso-b-t4 && python3 genera.py && pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex
+```
+
+- **Unitat 5 (Trigonometria, `4eso-b-t5`)**: parteix dels apartats 5.1-5.5 de 1r Batx MI, simplificats i reordenats en 8
+  apartats seguint les fitxes del departament (graus i radians, raons d'un angle agut, raons de 30°, 45° i 60°, relacions
+  fonamentals, triangles rectangles, problemes, angles qualssevol i reducció al primer quadrant), sense teoremes del sinus i
+  del cosinus ni raons recíproques. `app.js` conserva sis ginys de 1r Batx MI (`w-rad`, `w-rt`, `w-rect`, `w-circ`, `w-find`
+  i `w-red`) i n'afegeix dos: si hi ha un angle amb dues raons donades (`w-chk`, amb `chkPair`, exacte amb arrels o amb
+  decimals) i la doble observació (`w-dob`, amb `dob`, al mateix costat o a costats oposats); `window.FM45` els exposa per a
+  provar-los. A `fm-materials.js` la unitat 5 és del bloc de geometria. La fitxa té 64 exercicis en 8 seccions: recull els
+  de les fitxes del departament (Trigonometria, Trigonometria II i III, exercicis d'entrega i del llibre) i n'afegeix de nous;
+  `ap()` i `eq()` comproven cada resultat i les figures són TikZ.
+
+```
+python3 _eines/apunts/4eso-b-t5/build.py
+cd _eines/fonts-latex/4eso-b-t5 && python3 genera.py && pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex
 ```
 
 ## 2n Batx MII: unitat 7 (Aplicacions de la derivada)

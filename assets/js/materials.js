@@ -351,6 +351,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 29 exercicis, dels mètodes de resolució a les regions del pla", es: "PDF · 29 ejercicios, de los métodos de resolución a las regiones del plano", en: "PDF · 29 exercises, from solving methods to regions of the plane" }, url: "materials/4eso-b/t4-fitxa-exercicis.pdf", download: true, date: "2026-11-13" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 29 exercicis", es: "PDF · Soluciones de los 29 ejercicios", en: "PDF · Solutions to all 29 exercises" }, url: "materials/4eso-b/t4-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-13" }
         ]
+      },
+      {
+        num: "5",
+        ill: "trigonometria", block: "geo",
+        title: { va: "Trigonometria", es: "Trigonometría", en: "Trigonometry" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t5-trigonometria.html", date: "2026-11-14" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 64 exercicis, dels radians a la reducció al primer quadrant", es: "PDF · 64 ejercicios, de los radianes a la reducción al primer cuadrante", en: "PDF · 64 exercises, from radians to reduction to the first quadrant" }, url: "materials/4eso-b/t5-fitxa-exercicis.pdf", download: true, date: "2026-11-14" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 64 exercicis", es: "PDF · Soluciones de los 64 ejercicios", en: "PDF · Solutions to all 64 exercises" }, url: "materials/4eso-b/t5-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-14" }
+        ]
       }
     ]
   },
