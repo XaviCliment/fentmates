@@ -134,6 +134,7 @@ UI = [
     ("<span>2n Batxillerat MII</span>", "<span>2º Bachillerato MII</span>"),
     ("Exercicis tipus PAU · Unitat ", "Ejercicios tipo PAU · Unidad "),
     (" exercicis de les proves d'accés a la universitat de la Comunitat Valenciana (", " ejercicios de las pruebas de acceso a la universidad de la Comunidad Valenciana ("),
+    ("), ordenats per convocatòria, tots amb la resolució pas a pas.", "), ordenados por convocatoria, todos con la resolución paso a paso."),
     ("), ordenats per convocatòria.", "), ordenados por convocatoria."),
     ('placeholder="Cerca una paraula o un any (p. ex. 2019)" aria-label="Cerca exercicis"', 'placeholder="Busca una palabra o un año (p. ej. 2019)" aria-label="Buscar ejercicios"'),
     ('aria-label="Període"', 'aria-label="Periodo"'),
@@ -149,7 +150,7 @@ UI = [
     ('<span class="show">Mostra la solució</span><span class="hide">Amaga la solució</span>', '<span class="show">Mostrar la solución</span><span class="hide">Ocultar la solución</span>'),
     ("No hi ha cap exercici amb aquest filtre.", "No hay ningún ejercicio con este filtro."),
 ]
-OPTIONAL = {"(Matemàtiques Aplicades a les CCSS II)", "(Matemàtiques II)", "<span>2n Batxillerat CCSS</span>", "<span>2n Batxillerat MII</span>"}
+OPTIONAL = {"), ordenats per convocatòria, tots amb la resolució pas a pas.", "), ordenats per convocatòria.", "(Matemàtiques Aplicades a les CCSS II)", "(Matemàtiques II)", "<span>2n Batxillerat CCSS</span>", "<span>2n Batxillerat MII</span>"}
 
 
 def translate(page, only_missing=False):
@@ -189,7 +190,7 @@ def translate(page, only_missing=False):
     head = head.replace("<h1>%s</h1>" % unit, "<h1>%s</h1>" % unit_es)
     js = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     out = head + js + ";\n" + tail
-    left = [w for w in ("Unitat", "exercicis", "Cerca", "solució", "Tots", "Fets", "Imprimeix", "Batxillerat") if w in head + tail]
+    left = [w for w in ("Unitat", "exercicis", "Cerca", "solució", "Tots", "Fets", "Imprimeix", "Batxillerat") if re.search(r"\b%s\b" % w, re.sub(r"/\*.*?\*/", "", head + tail, flags=re.S))]
     assert not left, "Queden textos en valencià a la interfície: %s" % left
     dst = page[:-5] + "-es.html"
     open(dst, "w", encoding="utf-8").write(out)
