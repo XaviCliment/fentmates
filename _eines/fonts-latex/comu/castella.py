@@ -25,6 +25,10 @@ CURS = CURSOS["3eso"][0]
 ASSIGNATURA = r"\capcalera{Matemáticas}{%s}" % CURS
 
 
+# en castellà, el sinus s'escriu «sen» (i l'arcsinus, «arcsen»)
+SEN = "\n\\AtBeginDocument{\\renewcommand{\\sin}{\\operatorname{sen}}\\renewcommand{\\arcsin}{\\operatorname{arcsen}}}"
+
+
 def assignatura(curs="3eso"):
     """\capcalera{<assignatura>}{<curs>} (falten els dos últims arguments: tipus · Unidad N i títol)"""
     t, _, a = CURSOS[curs]
@@ -34,7 +38,7 @@ def assignatura(curs="3eso"):
 def preambul(pre, pdftitle, capcalera, pdfkeywords, curs="3eso"):
     ctext, cmeta, assig = CURSOS[curs]
     canvis = [
-        (r"\usepackage[catalan]{babel}", r"\usepackage[spanish,es-minimal,es-noshorthands]{babel}"),
+        (r"\usepackage[catalan]{babel}", r"\usepackage[spanish,es-minimal,es-noshorthands]{babel}" + SEN),
         (r"https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual",
          r"https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual"),
     ]
