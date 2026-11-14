@@ -1,0 +1,385 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 2: Sistemas de ecuaciones lineales. 2º Bach.},pdfsubject={Matemáticas CCSS 2º Bach.},pdfkeywords={sistemas de ecuaciones lineales, método de Gauss, método matricial, regla de Cramer, teorema de Rouché-Frobenius, sistemas homogéneos, discusión de sistemas, parámetros, problemas, PAU}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 2: Sistemas de ecuaciones lineales · 2\textsuperscript{o} Bach.}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas CCSS}{2\textsuperscript{o} Bach.}{Ficha de ejercicios · Unidad 2}{Sistemas de ecuaciones lineales}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Los ejercicios marcados con {\color{teal}\bfseries\faUniversity\ PAU} son de las pruebas de acceso a la universidad de otras comunidades autónomas. Resuélvelos en el cuaderno justificando cada paso: indica siempre el método que utilizas y, en los problemas, qué representa cada incógnita.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Sistemas de ecuaciones lineales. Método de Gauss}
+
+\ex{1} Comprueba cuáles de las ternas siguientes son solución del sistema \ $\left\{\begin{aligned}2x-y+z&=5\\x+y-z&=-2\\3x+2z&=7\end{aligned}\right.$\begin{tasks}(3)
+  \task $(1,-1,2)$
+  \task $(2,1,2)$
+  \task $(0,1,3)$
+\end{tasks}\recorda{Una terna $(x,y,z)$ es solución si, al sustituirla, se cumplen \textbf{todas} las ecuaciones a la vez.}
+
+\ex{1} Clasifica los sistemas siguientes e interprétalos geométricamente (cada ecuación es una recta del plano):\begin{tasks}(3)
+  \task $\left\{\begin{aligned}x+y&=3\\2x-y&=0\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-2y&=1\\-2x+4y&=-2\end{aligned}\right.$
+  \task $\left\{\begin{aligned}3x+y&=2\\6x+2y&=5\end{aligned}\right.$
+\end{tasks}\recorda{SCD: las rectas se cortan en un punto. \ SCI: son la misma recta. \ SI: son paralelas.}
+
+\ex{2} Añade una ecuación al sistema \ $\left\{\begin{aligned}x+y+z&=3\\2x-y+z&=2\end{aligned}\right.$ \ de manera que el sistema resultante sea:\begin{tasks}(3)
+  \task compatible indeterminado
+  \task incompatible
+  \task compatible determinado
+\end{tasks}\recorda{Una ecuación que es combinación lineal de las otras no aporta información; una con los mismos coeficientes y otro término independiente las contradice.}
+
+\ex{1} Resuelve por el método de Gauss:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}x+y+z&=6\\2x-y+3z&=9\\x+2y-z&=2\end{aligned}\right.$
+  \task $\left\{\begin{aligned}2x+y-z&=1\\x-y+2z&=5\\3x+2y+z&=10\end{aligned}\right.$
+\end{tasks}\recorda{Haz ceros por debajo de la diagonal con operaciones entre filas de la matriz ampliada y después resuelve de abajo arriba.}
+
+\ex{2} Discute y resuelve, cuando sea posible, por el método de Gauss:\begin{tasks}(3)
+  \task $\left\{\begin{aligned}x-y+2z&=1\\2x+y-z&=3\\4x-y+3z&=5\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-y+2z&=1\\2x+y-z&=3\\4x-y+3z&=6\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-2y+z&=3\\-2x+4y-2z&=-6\\3x-6y+3z&=9\end{aligned}\right.$
+\end{tasks}\recorda{Una fila $(0\ 0\ 0\,|\,0)$ se puede suprimir; una fila $(0\ 0\ 0\,|\,d)$ con $d\neq0$ quiere decir que el sistema es incompatible. En un SCI hay tantos parámetros como incógnitas \emph{sobran}.}
+
+\ex{2} \pau{Navarra, EvAU extraordinaria 2023} Clasifica el sistema siguiente en función del número de soluciones y resuélvelo utilizando el método de Gauss:\[\left\{\begin{aligned}x+y+3z&=1\\4x+3y+5z&=5\\2x+y-z&=3\end{aligned}\right.\]
+
+
+% =====================================================
+\seccio{2}{Expresión matricial. Método matricial}
+
+\ex{2} Escribe en forma matricial $A\cdot X=B$ y resuélvelo utilizando la inversa de la matriz $A$:\[\left\{\begin{aligned}2x-z&=1\\x+y&=0\\y+z&=2\end{aligned}\right.\]\recorda{Si $|A|\neq0$: \ $A\cdot X=B\Rightarrow X=A^{-1}\cdot B$, \ con $A^{-1}=\dfrac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t$. Multiplicamos por $A^{-1}$ por la \textbf{izquierda}. Cuidado con las incógnitas que no aparecen: su coeficiente es 0.}
+
+\ex{1} Escribe el sistema de ecuaciones que corresponde a la ecuación matricial \ $\begin{pmatrix}1 & 2 & 0\\-1 & 0 & 3\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}4\\ 1\end{pmatrix}$. \ ¿Cuántas ecuaciones y cuántas incógnitas tiene? ¿De qué tipo de sistema se puede tratar (SCD, SCI o SI)? Justifica la respuesta.
+
+\ex{2} Resuelve por el método matricial (con la matriz inversa):\begin{tasks}(2)
+  \task $\left\{\begin{aligned}3x+2y&=7\\x+y&=3\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+z&=3\\x+y&=3\\y+z&=4\end{aligned}\right.$
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU extraordinaria 2023} Expresa en forma matricial el sistema de ecuaciones siguiente y resuélvelo:\[\left\{\begin{aligned}2x+y+z&=2\\2y-z&=-1\\x+y&=1\end{aligned}\right.\]
+
+\ex{2} \pau{País Vasco, PAU extraordinaria 2025} Considera el sistema de ecuaciones lineales\[\left\{\begin{aligned}3x-2y-2z&=3\\x-z&=1\\2y-z&=0\end{aligned}\right.\]\begin{tasks}(1)
+  \task Exprésalo mediante una ecuación matricial.
+  \task ¿La matriz de los coeficientes tiene inversa? Razona la respuesta.
+  \task Resuelve el sistema de ecuaciones lineales.
+\end{tasks}
+
+\ex{3} Considera el sistema \ $\left\{\begin{aligned}x+ky&=1\\ y+z&=2\\ kx+z&=3\end{aligned}\right.$\begin{tasks}(1)
+  \task Comprueba que se puede resolver por el método matricial para cualquier valor de $k$.
+  \task Resuélvelo por el método matricial para $k=1$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Regla de Cramer}
+
+\ex{1} Resuelve aplicando la regla de Cramer:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}2x-3y&=-4\\5x+y&=7\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y+z&=2\\2x-y+z&=5\\x+2y-z&=-3\end{aligned}\right.$
+\end{tasks}\recorda{Si el sistema es cuadrado y $|A|\neq0$, cada incógnita es un cociente de determinantes: en el numerador, la columna de la incógnita se sustituye por la de los términos independientes.}
+
+\ex{2} \pau{Castilla y León, PAU ordinaria 2025} Dado el sistema \ $\left\{\begin{aligned}ax+2y+z&=1\\ x+by+2z&=4\\ 3x+y+bz&=5\end{aligned}\right.$, \ resuélvelo para $a=1$ y $b=-2$.
+
+\ex{2} Justifica que el sistema siguiente es de Cramer y calcula, \textbf{solo}, el valor de $z$. Comprueba después el resultado calculando también $x$ e $y$.\[\left\{\begin{aligned}x-y+2z&=0\\3x+y-z&=2\\2x+3y+z&=4\end{aligned}\right.\]
+
+\ex{3} Resuelve aplicando la regla de Cramer el sistema compatible indeterminado \ $\left\{\begin{aligned}x+2y-z&=3\\2x-y+3z&=1\end{aligned}\right.$ \ (pasa $z$ al segundo miembro).
+
+
+% =====================================================
+\seccio{4}{Sistemas homogéneos}
+
+\ex{1} Clasifica y resuelve los sistemas homogéneos siguientes:\begin{tasks}(2)
+  \task $\left\{\begin{aligned}x+2y-z&=0\\2x-y+z&=0\\3x+y+z&=0\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x-y+z&=0\\2x+y-z&=0\\x+2y-2z&=0\end{aligned}\right.$
+\end{tasks}\recorda{Un sistema homogéneo siempre es compatible (tiene la solución trivial $x=y=z=0$). Tiene más soluciones si y solo si $\operatorname{rg}(A)<n$; si es cuadrado, cuando $|A|=0$.}
+
+\ex{2} Considera el sistema homogéneo \ $\left\{\begin{aligned}x+y-2z&=0\\3x-y&=0\\-x+3y-4z&=0\end{aligned}\right.$\begin{tasks}(1)
+  \task Razona, sin resolverlo, si tiene soluciones distintas de la trivial.
+  \task Resuélvelo por el método de Gauss.
+  \task Halla la solución que cumple $x+y+z=12$.
+\end{tasks}
+
+\ex{1} ¿Por qué el sistema \ $\left\{\begin{aligned}2x-y+z&=0\\x+3y-2z&=0\end{aligned}\right.$ \ tiene infinitas soluciones sin calcular ningún determinante? Resuélvelo.
+
+
+% =====================================================
+\seccio{5}{Teorema de Rouché-Frobenius}
+
+\ex{1} \label{ex:rf}Clasifica los sistemas siguientes aplicando el teorema de Rouché-Frobenius (no hace falta resolverlos):\begin{tasks}(3)
+  \task $\left\{\begin{aligned}x+2y&=5\\3x-y&=1\\2x+y&=4\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+2y&=5\\3x-y&=1\\x+y&=2\end{aligned}\right.$
+  \task $\left\{\begin{aligned}x+y-z&=2\\2x-y+z&=1\\5x-y+z&=4\end{aligned}\right.$
+\end{tasks}\recorda{$\operatorname{rg}(A)\neq\operatorname{rg}(A^*)$: SI. \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)=n$: SCD. \ $\operatorname{rg}(A)=\operatorname{rg}(A^*)<n$: SCI ($n$ = número de incógnitas).}
+
+\ex{2} \pau{Murcia, PAU ordinaria 2025} Discute y resuelve, si es posible, el sistema lineal siguiente:\[\left\{\begin{aligned}3x+2y-z&=3\\x-y+2z&=4\\2x+3y-z&=3\end{aligned}\right.\]
+
+\ex{2} Clasifica el sistema siguiente y, si es compatible, resuélvelo:\[\left\{\begin{aligned}x+y+z&=3\\x-y+z&=1\\2x+y-z&=2\\3x+y+z&=5\end{aligned}\right.\]
+
+\ex{2} Razona si son verdaderas o falsas las afirmaciones siguientes:\begin{tasks}(1)
+  \task Un sistema de 3 ecuaciones y 2 incógnitas no puede ser compatible determinado.
+  \task Si un sistema de 3 ecuaciones y 3 incógnitas tiene $|A|\neq0$, siempre es compatible determinado.
+  \task Si $\operatorname{rg}(A)=2$ y $\operatorname{rg}(A^*)=3$, el sistema tiene dos soluciones.
+  \task Un sistema de 2 ecuaciones y 3 incógnitas puede ser compatible determinado.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Discusión de sistemas con parámetros}
+
+\ex{2} \pau{Asturias, PAU extraordinaria 2025} Dado el sistema de ecuaciones \ $\left\{\begin{aligned}x-y&=-m\\ 10x+(10+m)y&=150\end{aligned}\right.$, \ con incógnitas $x$ e $y$:\begin{tasks}(1)
+  \task ¿Para qué valores del parámetro $m$ tiene el sistema una única solución?
+  \task Si el sistema fuera \ $\left\{\begin{aligned}x-y&=-\lambda\\ 10x+(10+m)y&=150\end{aligned}\right.$, \ halla el valor de $m$ y un valor de $\lambda$ para los que el sistema tenga infinitas soluciones, y calcula una de ellas.
+\end{tasks}\recorda{Calcula $|A|$ y busca los valores que lo anulan (valores críticos); estudia cada valor crítico por separado con Rouché-Frobenius.}
+
+\ex{2} \pau{Asturias, EBAU extraordinaria 2024} Sean las matrices $A=\begin{pmatrix}2 & 1\\-1 & m\end{pmatrix}$, $B=\begin{pmatrix}1 & m\\-1 & 1\end{pmatrix}$, $C=\begin{pmatrix}0 & 2m\\-2m & -1\end{pmatrix}$, $D=\begin{pmatrix}x\\ y\end{pmatrix}$ y $E=\begin{pmatrix}1\\ 1\end{pmatrix}$.\begin{tasks}(1)
+  \task Si $(A\cdot B-C)\cdot D=E$, plantea un sistema de dos ecuaciones y dos incógnitas ($x$ e $y$) en función del parámetro $m$.
+  \task ¿Para qué valores de $m$ tiene solución el sistema? Si la tiene, ¿es siempre única? Resuelve el sistema para $m=-1$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU extraordinaria 2022} Considera el sistema de ecuaciones lineales dependiente del parámetro $a\in\mathbb{R}$:\[\left\{\begin{aligned}x+ay+z&=2\\ x-az&=0\\ x+y+z&=2\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute la compatibilidad del sistema para los diferentes valores de $a$.
+  \task Resuelve el sistema para $a=0$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU extraordinaria 2024} Considera el sistema de ecuaciones lineales dependiente del parámetro $a\in\mathbb{R}$:\[\left\{\begin{aligned}2x+y+3z&=2\\ 3x+y+z&=0\\ 8x+ay+5z&=2\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute el sistema para los diferentes valores de $a$.
+  \task Resuelve el sistema de ecuaciones para $a=3$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU ordinaria 2024} Considera el sistema de ecuaciones lineales dependiente del parámetro $a\in\mathbb{R}$:\[\left\{\begin{aligned}2x+y+z&=a\\ x+ay+z&=a+1\\ x+y+az&=2\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute el sistema en función de los valores del parámetro $a$.
+  \task Resuelve el sistema de ecuaciones para $a=1$.
+\end{tasks}
+
+\ex{2} \pau{Madrid, PAU extraordinaria 2025} Se considera el sistema de ecuaciones dependiente del parámetro real $a$:\[\left\{\begin{aligned}x+y+z&=2\\ 2x-y+z&=3\\ (a+1)x+az&=5\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute el sistema en función de los valores del parámetro real $a$.
+  \task Resuelve el sistema para $a=2$.
+\end{tasks}
+
+\ex{2} \pau{Murcia, PAU extraordinaria 2025} Considera el sistema de ecuaciones siguiente, donde $a$ es un número real desconocido:\[\left\{\begin{aligned}x-y+z&=1\\ 2x-y+z&=a\\ 3x+2y-az&=4\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute el sistema de ecuaciones según los valores de $a$.
+  \task Resuelve el sistema para $a=1$.
+\end{tasks}
+
+\ex{2} \pau{Murcia, EBAU ordinaria 2023} Discute el sistema lineal de ecuaciones en función de los valores del parámetro $a$ y resuélvelo para $a=0$:\[\left\{\begin{aligned}ax+y+z&=1\\ 2x+y+z&=1\\ x+ay+z&=2\end{aligned}\right.\]
+
+\ex{2} Halla el valor de $k$ para que el sistema homogéneo \ $\left\{\begin{aligned}x+y-z&=0\\ 2x-y+kz&=0\\ x+2y+z&=0\end{aligned}\right.$ \ tenga soluciones distintas de la trivial y resuélvelo para ese valor.
+
+\ex{3} \pau{Madrid, EvAU extraordinaria 2023} Considera el sistema de ecuaciones lineales dependiente del parámetro real $a$:\[\left\{\begin{aligned}ax+y+2z&=1\\ x+ay+2z&=a\\ x+2y+az&=1\end{aligned}\right.\]\begin{tasks}(1)
+  \task Discute el sistema en función de los valores del parámetro $a$.
+  \task Resuelve el sistema de ecuaciones para $a=0$.
+\end{tasks}
+
+\ex{3} \pau{Castilla y León, PAU ordinaria 2025} Dado el sistema con los parámetros $a$ y $b$:\[\left\{\begin{aligned}ax+2y+z&=1\\ x+by+2z&=4\\ 3x+y+bz&=5\end{aligned}\right.\]\begin{tasks}(1)
+  \task Si $b=-1$, clasifica el sistema en función de los diferentes valores del parámetro $a$.
+  \task Si $a=3$, clasifica el sistema en función de los diferentes valores del parámetro $b$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemas de planteamiento}
+
+\ex{1} \pau{Canarias, EBAU ordinaria 2022} Una empresa dedicada a actividades y deportes acuáticos ha vendido en un día un total de 45 sesiones entre pádel surf, kayak y moto acuática. Los precios por sesión y persona de estas actividades son 40 €, 20 € y 60 €, respectivamente, y la empresa ha recaudado un total de 1\,700 € ese día. Además, por cada persona que elige kayak hay tres que eligen pádel surf.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones correspondiente.
+  \task ¿Cuántas personas van a cada actividad?
+\end{tasks}\recorda{Define bien las incógnitas (qué representa cada letra), traduce cada frase en una ecuación y, al final, comprueba que la solución tiene sentido en el contexto (números naturales, precios positivos\dots).}
+
+\ex{2} \pau{Canarias, EBAU ordinaria 2023} En un barrio viven 875 personas clasificadas en tres grupos: niños y jóvenes, adultos y jubilados. La cuarta parte de los adultos es igual al doble de la quinta parte de los niños y jóvenes, y por cada 9 jubilados hay 26 del resto.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones correspondiente.
+  \task Explicando los pasos del método empleado, resuelve el sistema planteado.
+  \task ¿Cuántas personas hay en cada grupo?
+\end{tasks}
+
+\ex{1} \pau{Canarias, EBAU extraordinaria 2024} En una tienda de electrónica se venden teléfonos móviles, tabletas y ordenadores portátiles. Un móvil cuesta 300 €, una tableta 400 € y un portátil 800 €. En una semana se han ingresado 28\,000 € en ventas de estos aparatos. Se han vendido el doble de móviles que de tabletas y, por cada dos tabletas, se ha vendido un portátil.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones correspondiente.
+  \task ¿Cuántos aparatos de cada tipo se han vendido?
+\end{tasks}
+
+\ex{2} \pau{Canarias, EBAU ordinaria 2024} Una jugadora de ajedrez ha conseguido premios en 51 de los torneos en los que ha participado a lo largo de su vida. Los torneos han sido locales, nacionales e internacionales. El número de torneos locales en los que ha jugado ha sido el doble de los nacionales; además, por cada cinco torneos nacionales ha participado en dos internacionales. Los torneos en los que ha conseguido premio representan un 30\,\% de todos los torneos en los que ha participado.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones correspondiente.
+  \task ¿En cuántos torneos de cada clase ha participado esta jugadora?
+\end{tasks}
+
+\ex{2} \pau{Cantabria, EBAU extraordinaria 2022} Un día de playa, Fabiola se acerca al chiringuito y compra 3 helados, 2 granizados y 2 horchatas, y paga un total de 20 €. Al comprobar el tique se da cuenta de que le han cobrado un helado y una horchata de más. Tras reclamar, el vendedor le devuelve 5 €. Además, para compensar el error, le ofrece llevarse en promoción un helado y un granizado por 2 €, lo que supone un descuento del 50\,\% respecto de los precios originales.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que permite calcular el precio (sin descuento) de un helado, un granizado y una horchata.
+  \task Resuélvelo.
+\end{tasks}
+
+\ex{1} \pau{Cantabria, EBAU ordinaria 2023} En un almacén de construcción venden sacos de cemento de 25 kg, 50 kg y 100 kg. Cierto día se vendió un total de 180 sacos por un importe de 29\,200 €. Se sabe que el precio del kg de cemento es de 4 € y que ese día se vendieron el doble de sacos de 25 kg que la suma de los sacos de 50 kg y de los de 100 kg.\begin{tasks}(1)
+  \task Plantea un sistema de ecuaciones que permita calcular cuántos sacos de cada tamaño se vendieron ese día.
+  \task Resuélvelo.
+\end{tasks}
+
+\ex{2} \pau{Cantabria, EBAU extraordinaria 2024} Una organización encargada de un evento deportivo tiene un presupuesto de 500 € para adquirir material promocional: banderas, camisetas y gorras. Los precios por unidad son de 5, 6 y 2 euros, respectivamente. La cantidad de camisetas debe ser la mitad de la de gorras, y la suma de banderas y camisetas debe ser 70.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que permite calcular las unidades que se deben comprar de cada artículo si se quiere agotar el presupuesto.
+  \task Analiza la compatibilidad del sistema.
+  \task Resuélvelo.
+\end{tasks}
+
+\ex{2} \pau{Cantabria, EBAU ordinaria 2024} Una empresa de jardinería necesita adquirir 300 kg de tierra, 200 kg de piedras decorativas y 100 kg de semillas. Al comparar precios entre dos proveedores, A y B, obtiene estas ofertas: el proveedor A le ofrece un precio total de 13\,000 €; el proveedor B, que hace descuentos por renovación de inventario, reduce el precio de la tierra a un tercio del que ofrece A, el de las piedras a la mitad y el de las semillas a una quinta parte, y resulta un ahorro de 8\,800 € respecto del precio total de A. Además, para el proveedor A, el precio por kg de las semillas es el doble de la suma de los precios por kg de la tierra y de las piedras.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que permite calcular el precio por kilogramo de la tierra, las piedras y las semillas en el proveedor A.
+  \task Analiza la compatibilidad del sistema.
+  \task Resuélvelo.
+\end{tasks}
+
+\ex{1} \pau{Castilla y León, EBAU ordinaria 2023} Compramos tres entradas para tres actividades: una para el teatro, otra para un partido de baloncesto y otra para un concierto. Después de descontarnos el 10\,\% del precio total, hemos pagado 117 euros por todas las entradas. Sabemos que el precio de la entrada del concierto es el doble que el de la entrada del teatro y que la entrada del concierto es 20 euros más cara que la del partido de baloncesto. Determina el precio de la entrada de cada actividad.
+
+\ex{1} \pau{Castilla-La Mancha, EvAU extraordinaria 2022} El número total de premios Goya recibidos a lo largo de la carrera por tres mujeres (Isabel, Carmen y Enma) es de 15. Si aumentamos en un premio la cantidad que ha recibido Isabel, obtenemos el triple de los premios ganados por Enma, y los que ha recibido Enma equivalen a las tres cuartas partes de los que ha recibido Carmen.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que nos permite averiguar cuántos premios Goya ha recibido cada una.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, EvAU extraordinaria 2022} Un concesionario de automóviles tiene en oferta tres modelos de coche: un deportivo, un familiar y un monovolumen. El mes pasado se vendieron 10 deportivos, 6 familiares y 3 monovolúmenes y se obtuvieron 851\,000 euros. El deportivo vale 2\,000 euros más que el familiar. Por 5 deportivos vendidos se obtienen 13\,000 euros más que si se venden 6 monovolúmenes.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que nos permite averiguar el precio de cada uno de los tres modelos.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{1} \pau{Castilla-La Mancha, EvAU ordinaria 2022} La caja de bombones que compro cuesta 51 euros y contiene 12 bombones de chocolate negro, 6 de chocolate con leche y 6 de chocolate blanco. Cada bombón de chocolate negro cuesta un euro más que los de chocolate con leche, y estos cuestan 50 céntimos menos que los de chocolate blanco.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que nos permite averiguar cuánto cuesta cada tipo de bombón.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, EvAU extraordinaria 2023} Una cooperativa manchega que distribuye tres tipos de vino, blanco, rosado y tinto, ha recibido un pedido de 50 botellas. Se sabe que el doble de botellas de vino blanco, por un lado, excede en una unidad a las de vino rosado y, por otro, coincide con el quíntuple del número de botellas de vino tinto.\begin{tasks}(1)
+  \task Plantea un sistema de ecuaciones para averiguar cuántas botellas de vino blanco, rosado y tinto se pidieron.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, EvAU ordinaria 2023} La discografía de un grupo de rock legendario se reedita en tres discos (I, II y III) y las ventas totales alcanzan las 70\,000 unidades. Sabemos que del disco III se vendieron tantas unidades como de los otros dos juntos, y que la diferencia entre las unidades vendidas del III y las del II equivale al triple de la diferencia entre las vendidas del II y las del I.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones para calcular cuántas unidades de cada disco se vendieron.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, EvAU extraordinaria 2024} De los bebés inscritos en el mes de mayo en Castilla-La Mancha, 72 se llaman Alba, Pablo o David. Sabemos que el número de bebés llamados David coincide con la diferencia entre los que se llaman Pablo y las que se llaman Alba. Además, se han inscrito tantas niñas con el nombre de Alba como la suma de los inscritos como David y un tercio de los inscritos como Pablo.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que permite averiguar cuántos bebés se han inscrito con cada nombre.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, EvAU ordinaria 2024} En la fase nacional de la Olimpiada Matemática Española se reparten 36 medallas de oro, de plata y de bronce. El número de medallas de bronce triplica el de medallas de oro y, si dos de las medallas de plata pasaran a la categoría de bronce, entonces la cantidad de medallas de bronce duplicaría la de plata.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones para calcular cuántas medallas de cada tipo se reparten.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{3} \pau{Castilla-La Mancha, EvAU ordinaria 2024} En una clase se celebran elecciones a delegada y se presentan dos candidatas, Inés y Nerea. Se sabe que cuatro veces el número de votos de Nerea menos tres veces el número de votos de Inés excede en un voto al número de votos nulos. Si dividimos el número de votos de Inés entre el de Nerea, obtenemos cociente 1 y resto 7 ($D=d\cdot c+r$). El 5\,\% del total de votos emitidos es nulo.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones para calcular el número de votos nulos y los que recibieron Inés y Nerea.
+  \task Resuelve razonadamente el sistema planteado.
+\end{tasks}
+
+\ex{1} \pau{Castilla-La Mancha, PAU extraordinaria 2025} En el Parador de Turismo de Almagro se alojaron ayer 25 huéspedes procedentes de Italia, Portugal y Japón. El gasto total en el Parador fue de 3\,610 €: 140 € por cada huésped italiano, 130 € por cada portugués y 160 € por cada japonés. El registro muestra que el número de portugueses es la cuarta parte de la suma de los huéspedes de los otros dos países.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones para calcular cuántos huéspedes hay de cada país.
+  \task Calcula el número de huéspedes de cada uno de los países.
+\end{tasks}
+
+\ex{2} \pau{Cataluña, PAU extraordinaria 2022} Martín le cuenta a Marcelo que el otro día, cuando cogió el autocar para ir de Barcelona a Tarragona, el autocar se averió justo a mitad del trayecto. Desde ese punto fue a pie hasta la población más próxima, de manera que recorrió a pie una vigésima parte del trayecto total. Allí cogió un taxi hasta Tarragona, y dice que recorrió 5 km más en autocar que en taxi.\begin{tasks}(1)
+  \task Plantea y resuelve un sistema de ecuaciones para calcular cuántos kilómetros recorrió en autocar, a pie y en taxi.
+  \task Si el autocar iba a 100 km/h, Martín caminó a 5 km/h y el taxi iba a 90 km/h, ¿cuánto tiempo tardó en hacer todo el trayecto?
+\end{tasks}
+
+\ex{3} \pau{Cataluña, PAU ordinaria 2023} Una empresa distribuye dos tipos de paquetes a las farmacias, A y B. El paquete A contiene 5 termómetros digitales de infrarrojos, 30 mascarillas y 10 test rápidos de antígenos. El paquete B contiene 1 termómetro, 15 mascarillas y 20 test. El paquete A cuesta 550 € y el B, 200 €. El precio de cada producto es el mismo en los dos tipos de paquete.\begin{tasks}(1)
+  \task Con estos datos, ¿es posible hallar el precio de un termómetro, el de una mascarilla y el de un test de antígenos? Justifica la respuesta planteando y clasificando un sistema de ecuaciones. Resuelve el sistema dejando la solución en función del precio del test de antígenos.
+  \task Si un test de antígenos cuesta 4 €, ¿cuál será el precio de una mascarilla? ¿Y el de un termómetro?
+\end{tasks}
+
+\ex{1} \pau{Madrid, EvAU extraordinaria 2024} En una tienda de música hay 70 instrumentos de tres tipos: guitarras, pianos y violines. Se sabe que la cantidad de pianos más la de violines es igual a la de guitarras. Si tuviéramos el mismo número de violines, pero el doble de pianos y cuatro veces el de guitarras, el total de instrumentos de la tienda sería de 180. Plantea un sistema de ecuaciones y determina el número de instrumentos de cada tipo.
+
+\ex{1} \pau{Madrid, EvAU ordinaria 2024} Un equipo de baloncesto regional ha vendido tres tipos de entradas para el último partido: generales a 10 €, de estudiante a 8 € e infantiles a 5 €. El equipo ha vendido 600 entradas y ha ingresado 4\,900 €. Además, ha vendido el doble de entradas generales que de infantiles. Plantea el sistema de ecuaciones y resuélvelo para calcular el número de entradas vendidas de cada tipo.
+
+\ex{2} \pau{Navarra, PAU ordinaria 2025} Una empresa envasa pastas en cajas de 250 g, 500 g y 1 kg. Cierto día se envasaron 65 cajas en total, 5 cajas más de tamaño pequeño (250 g) que de mediano (500 g). Sabiendo que el kilo de pastas cuesta 24 euros y que el importe total de las pastas envasadas ese día es de 720 euros, ¿cuántas cajas de cada tipo se han envasado?\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones lineales.
+  \task Resuelve el sistema. Interpreta la solución en el contexto del problema.
+\end{tasks}
+
+\ex{1} \pau{País Vasco, PAU extraordinaria 2025} El cajero automático de un banco solo dispone de billetes de 10, 20 y 50 euros. Hemos sacado 290 euros y el cajero nos ha dado exactamente 8 billetes. Además, el número de billetes de 10 euros es el doble que el de 20 euros.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones lineales asociado a este problema.
+  \task Resuelve el sistema de ecuaciones lineales.
+\end{tasks}
+
+\ex{2} \pau{País Vasco, PAU ordinaria 2025} Una tienda tiene latas de conserva de tomate de tres fabricantes: A, B y C. El fabricante A envasa el tomate en latas de 250 g, el B en latas de 500 g y el C en latas de 1 kg. Estas latas se venden a 1 €, 1{,}80 € y 3{,}30 €, respectivamente. Compramos 20 latas que pesan en total 10 kg y valen 35{,}60 €. Queremos saber cuántas latas hemos comprado de cada fabricante.\begin{tasks}(1)
+  \task Plantea el sistema de ecuaciones que resuelve el problema.
+  \task Resuelve el problema.
+\end{tasks}
+
+\ex{3} \pau{Asturias, PAU ordinaria 2025} En una atracción hay dos tipos de pases, el VIP y el normal, de precios $x$ e $y$ euros, respectivamente. Un grupo de personas pagó 90 € por un pase VIP y tres normales, mientras que otro grupo pagó $15m$ € por dos pases VIP y $m$ pases normales. Para determinar el precio de cada pase se utiliza el sistema\[\left\{\begin{aligned}x+3y&=90\\ 2x+my&=15m\end{aligned}\right.\]\begin{tasks}(1)
+  \task Si $m=15$, ¿cuál fue el precio de cada tipo de pase?
+  \task Da un valor de $m$ para el que el sistema tenga solución, pero esta solución no tenga sentido en el contexto del problema. Justifica la respuesta.
+  \task ¿Para qué valor de $m$ el sistema no tiene solución? Justifica la respuesta.
+\end{tasks}
+
+\ex{3} \pau{Asturias, EBAU extraordinaria 2023} En una fiesta se bebieron $m$ copas de vino tinto por cada una de vino blanco. Cada copa (de vino tinto o blanco) contiene 0{,}15 litros y en total se bebieron $3m$ litros de vino.\begin{tasks}(1)
+  \task Plantea un sistema de dos ecuaciones en función del parámetro $m$ en el que las incógnitas $x$ e $y$ sean el número de copas de vino tinto y de vino blanco, respectivamente.
+  \task ¿Para qué valores de $m$ tiene solución el sistema anterior? Si la tiene, ¿es siempre única? ¿Cuántas copas de cada tipo se bebieron si en total se consumieron 9 litros de vino?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con el resolutor de sistemas de los apuntes interactivos.\end{center}
+
+\end{document}
