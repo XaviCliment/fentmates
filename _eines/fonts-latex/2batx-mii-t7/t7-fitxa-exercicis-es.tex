@@ -1,0 +1,412 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 7: Aplicaciones de la derivada. 2º Bach.},pdfsubject={Matemáticas II 2º Bach.},pdfkeywords={L'Hôpital, indeterminaciones, monotonía, extremos, curvatura, puntos de inflexión, Rolle, valor medio, optimización, representación de funciones, PAU}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 7: Aplicaciones de la derivada · 2\textsuperscript{o} Bach.}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+\setlength{\emergencystretch}{3em}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas II}{2\textsuperscript{o} Bach.}{Ficha de ejercicios · Unidad 7}{\raggedright Aplicaciones de la derivada}
+\vspace{10pt}
+Nombre y apellidos: \rule{7.2cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resuelve los ejercicios en el cuaderno justificando cada paso. Los ejercicios marcados con {\color{teal}\bfseries\faUniversity\ PAU} son de las pruebas de acceso a la universidad de la Comunidad Valenciana y de otras comunidades autónomas, traducidos al castellano. Puedes comprobar los resultados con las herramientas de los apuntes interactivos (L'Hôpital paso a paso, estudio completo de una función, optimización\dots).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Rectas tangente y normal}
+
+\ex{1} Calcula:\begin{tasks}(1)
+  \task \pau{Castilla-La Mancha, junio 2017} La recta normal a la gráfica de $g(x)=x^2-2x-4$ en el punto de abscisa $x=-3$.
+  \task \pau{Aragón, ordinaria 2020} La recta tangente a $f(x)=\ln(2x+1)$ en $x=\frac12$.
+  \task \pau{Cataluña, extraordinaria 2024} La recta tangente a $y=e^{-2x}$ en $x=0$ y el punto donde corta el eje de abscisas.
+  \task \pau{Aragón, extraordinaria 2021} La recta tangente a $f(x)=\dfrac{e^x}{x^3-x}$ en $x=2$.
+\end{tasks}\recorda{Tangente: $y-f(a)=f'(a)(x-a)$. Normal: $y-f(a)=-\dfrac{1}{f'(a)}(x-a)$.}
+
+\ex{2} \pau{Cataluña, septiembre 2019} Considera la función $f(x)=\dfrac{1}{1+x^2}$.\begin{tasks}(1)
+  \task Calcula la ecuación de la recta tangente a la gráfica en los puntos en los que es horizontal.
+  \task Calcula las coordenadas del punto de la gráfica en el que la pendiente de la recta tangente es máxima.
+\end{tasks}\recorda{La pendiente de la tangente es $m(x)=f'(x)$: para hacerla máxima, derivamos $f'$ e igualamos a cero (es decir, $f''(x)=0$).}
+
+\ex{2} \pau{Asturias, junio 2019} Dada la curva $y=\dfrac{1}{3+x^2}$, escribe la función $m(x)$ que da la pendiente de la recta tangente en cada punto y halla en qué $x$ la pendiente es máxima.
+
+\ex{2} \pau{La Rioja, ordinaria 2022} Dada la curva $f(x)=\frac14x^2+4x+4$, halla los puntos en los que la recta tangente pasa por el origen y escribe sus ecuaciones.\recorda{Si el punto no es de la curva, escribe la tangente en un punto genérico $(a,f(a))$ e impón que pase por el punto dado.}
+
+\ex{2} ¿Cuántas rectas tangentes a $f(x)=x^3-3x$ pasan por el punto $(0,2)$? Escríbelas.
+
+\ex{2} Halla $a$ para que la recta $y=2x+a$ sea tangente a la parábola $f(x)=x^2-4x+10$. ¿En qué punto?\recorda{Una recta es tangente a una parábola si, al cortarlas, la ecuación de segundo grado tiene una raíz doble (discriminante cero).}
+
+\ex{2} \pau{Galicia, extraordinaria 2022} Halla los vértices del triángulo rectángulo que tiene la hipotenusa sobre la recta tangente a $f(x)=x^2$ en $x=2$ y un cateto de longitud 2 sobre el eje $X$ (a la derecha del punto donde la tangente corta el eje).
+
+
+% =====================================================
+\seccio{2}{Regla de L'Hôpital}
+
+\ex{1} Calcula los límites siguientes:\begin{tasks}(1)
+  \task \pau{Castilla-La Mancha, extraordinaria 2021} $\displaystyle\lim_{x\to1}\frac{x-1}{e^{x-1}-1}$
+  \task \pau{Castilla-La Mancha, ordinaria 2021} $\displaystyle\lim_{x\to2}\frac{e^{x-2}-1}{2x-4}$
+  \task \pau{Galicia, ordinaria 2022} $\displaystyle\lim_{x\to0}\frac{x\cos x}{\sin x}$
+  \task \pau{Murcia, septiembre 2018} $\displaystyle\lim_{x\to0}\frac{\ln(\cos x+\sin x)}{x}$
+  \task \pau{Cantabria, septiembre 2018} $\displaystyle\lim_{x\to0}\frac{\sin(2x^2)+x}{\ln(x+1)+x}$
+  \task \pau{Castilla y León, ordinaria 2022} $\displaystyle\lim_{x\to0}\frac{x\sin x}{2-2\cos x}$
+\end{tasks}\recorda{Si $\lim\frac fg$ es $\left[\frac00\right]$ o $\left[\frac\infty\infty\right]$, entonces $\lim\frac{f}{g}=\lim\frac{f'}{g'}$. Derivamos el numerador y el denominador \textbf{por separado}.}
+
+\ex{2} Calcula estos límites del tipo $\left[\frac\infty\infty\right]$:\begin{tasks}(1)
+  \task $\displaystyle\lim_{x\to+\infty}\frac{x^3}{e^{2x}}$
+  \task $\displaystyle\lim_{x\to+\infty}\frac{(\ln x)^2}{x}$
+  \task $\displaystyle\lim_{x\to0^+}\frac{\ln(\sin x)}{\ln x}$
+  \task \pau{Castilla-La Mancha, ordinaria 2024} $\displaystyle\lim_{x\to+\infty}\frac{e^x-1}{x^2+3}$
+\end{tasks}
+
+\ex{2} \pau{Aragón, ordinaria 2025} Calcula $\displaystyle\lim_{x\to0}\frac{x^2-\sin(x^2)}{1-\cos x}$.
+
+\ex{2} Límites con parámetros:\begin{tasks}(1)
+  \task \pau{Aragón, extraordinaria 2023} Calcula $a$ para que $\displaystyle L=\lim_{x\to0}\frac{\ln(x+1)-a\sin x+3x\cos(2x)}{x^2}$ sea finito, y calcula $L$.
+  \task \pau{Castilla y León, extraordinaria 2021} Calcula $m>0$ para que $\displaystyle\lim_{x\to0}\frac{1-\cos(mx)}{x^2}=2$.
+  \task \pau{Galicia, ordinaria 2023} Si $f(x)=ae^x+b$, halla $a$ y $b$ para que $f(0)=0$ y $\displaystyle\lim_{x\to0}\frac{f(x)}{x}=3$.
+\end{tasks}\recorda{Si el denominador tiende a 0 y el límite tiene que ser finito, el numerador también tiene que tender a 0: esto da una ecuación.}
+
+\ex{3} \pau{Aragón, extraordinaria 2022} Calcula $a,b\in\mathbb R$ para que exista $\displaystyle\lim_{x\to1}\frac{2x^3+ax^2+bx+3}{-x^3+4x^2-5x+2}=L$ (finito) y calcula el límite.
+
+\ex{2} ¿Dónde está el error? \ $\displaystyle\lim_{x\to1}\frac{x^2+1}{x+1}\overset{\text{L'H}}{=}\lim_{x\to1}\frac{2x}{1}=2$. \ ¿Y en este otro? \ $\displaystyle\lim_{x\to+\infty}\frac{x+\sin x}{x}\overset{\text{L'H}}{=}\lim_{x\to+\infty}(1+\cos x)$, que no existe, ``por tanto el límite no existe''.
+
+
+% =====================================================
+\seccio{3}{Otras indeterminaciones}
+
+\ex{1} Calcula (tipo $0\cdot\infty$ y $\infty-\infty$):\begin{tasks}(1)
+  \task $\displaystyle\lim_{x\to0^+}x^2\ln x$
+  \task \pau{Murcia, ordinaria 2021} $\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+1}-x\right)$
+  \task $\displaystyle\lim_{x\to0}\left(\frac{1}{\sin x}-\frac1x\right)$
+  \task \pau{Aragón, ordinaria 2022} $\displaystyle\lim_{x\to+\infty}\left[\sqrt{3x^2-2}-\left(\sqrt3x+5\right)\right]$
+  \task \pau{La Rioja, ordinaria 2023} $\displaystyle\lim_{x\to\infty}\left(\frac{x^2-1}{x+2}-\frac{x^2+1}{x-2}\right)$
+\end{tasks}\recorda{$0\cdot\infty$: escribe $f\cdot g=\frac{f}{1/g}$. \ $\infty-\infty$: haz denominador común o multiplica por el conjugado.}
+
+\ex{2} Calcula estos límites del tipo $1^\infty$:\begin{tasks}(1)
+  \task \pau{Castilla-La Mancha, ordinaria 2022} $\displaystyle\lim_{x\to+\infty}\left(\frac{x+1}{x}\right)^{\frac{x^2+1}{x}}$
+  \task \pau{Castilla-La Mancha, ordinaria 2026} $\displaystyle\lim_{x\to\infty}\left(\frac{2x+1}{2x-3}\right)^{x}$
+  \task \pau{Aragón, septiembre 2018} $\displaystyle\lim_{x\to+\infty}\left(\frac{x^2+1}{x}-\frac{x^3-x^2-x+2}{x^2}\right)^{\frac{3+x^2}{x}}$
+  \task $\displaystyle\lim_{x\to0}\left(\cos x\right)^{1/x^2}$
+\end{tasks}\recorda{$1^\infty$: $\displaystyle\lim f^g=e^{\lim g\,(f-1)}$, o bien tomando logaritmos: $\ln L=\lim g\ln f$.}
+
+\ex{2} Calcula (tipo $1^\infty$, $\infty^0$ y $0^0$):\begin{tasks}(2)
+  \task $\displaystyle\lim_{x\to\frac\pi2^-}\left(\sin x\right)^{\tan x}$
+  \task $\displaystyle\lim_{x\to0^+}\left(\frac1x\right)^{\sin x}$
+  \task $\displaystyle\lim_{x\to0^+}\left(\sin x\right)^{x}$
+  \task $\displaystyle\lim_{x\to+\infty}\left(x^2+1\right)^{\frac{1}{\ln x}}$
+\end{tasks}\recorda{Tomamos logaritmos: $\ln L=\lim g\cdot\ln f$ (que es $0\cdot\infty$) y al final $L=e^{\ln L}$.}
+
+\ex{2} \pau{Aragón, ordinaria 2020} Calcula $\displaystyle\lim_{x\to0^+}\left(1+x-\sin x\right)^{1/x^3}$ \ y \ \pau{Madrid, ordinaria 2024} $\displaystyle\lim_{x\to\frac\pi2}\left(\tan\frac x2\right)^{\frac{1}{\cos x}}$.
+
+\ex{3} \pau{Castilla-La Mancha, septiembre 2017} Calcula $k$ para que sea continua en $x=0$ la función $f(x)=\begin{cases}\left(\dfrac{x+1}{2x+1}\right)^{1/x}&\text{si }x<0\\[3pt]6x+k&\text{si }x\geq0\end{cases}$.
+
+\ex{2} Halla $a$ para que $\displaystyle\lim_{x\to0}\left(1+ax\right)^{\frac{1}{\sin x}}=e^3$.
+
+
+% =====================================================
+\seccio{4}{Monotonía y extremos relativos}
+
+\ex{1} Estudia la monotonía y calcula los extremos relativos de las funciones siguientes:\begin{tasks}(1)
+  \task \pau{Comunidad Valenciana, junio 2017} $f(x)=\dfrac{x^2+1}{x}$
+  \task \pau{Comunidad Valenciana, junio 2018} $f(x)=\dfrac{1}{x^2-x}$
+  \task \pau{Murcia, ordinaria 2022} $f(x)=x\ln x$
+  \task \pau{Castilla y León, extraordinaria 2020} $f(x)=\dfrac{\ln x}{x}$
+  \task \pau{Andalucía, septiembre 2017} $f(x)=\dfrac{e^x+e^{-x}}{2}$
+  \task \pau{Aragón, extraordinaria 2020} $f(x)=-\dfrac{x^2}{2}+2\ln(x+1)$
+\end{tasks}\recorda{Dominio $\to$ $f'$ $\to$ ceros de $f'$ y puntos fuera del dominio $\to$ tabla de signos de $f'$. Los extremos se dan como puntos $(a,f(a))$.}
+
+\ex{2} Estudia la monotonía y los extremos relativos de:\begin{tasks}(1)
+  \task \pau{Comunidad Valenciana, ordinaria 2021} $f(x)=\dfrac{x-1}{x(x+2)}$
+  \task \pau{Extremadura, extraordinaria 2024} $f(x)=\dfrac{4x+4}{x^2}$
+  \task \pau{País Vasco, extraordinaria 2025} $f(x)=\dfrac{x}{x^2-3x-4}$
+  \task \pau{Aragón, septiembre 2018} $f(x)=\dfrac{x^2-3x+3}{x-1}$
+\end{tasks}
+
+\ex{2} Monotonía y extremos de funciones trigonométricas en $[0,2\pi]$:\begin{tasks}(2)
+  \task $f(x)=\sin x+\cos x$
+  \task $g(x)=x-2\sin x$
+\end{tasks}
+
+\ex{2} \pau{Aragón, ordinaria 2021} Dada $f(x)=\begin{cases}x^3+bx+2&\text{si }x\leq0\\[3pt]\dfrac{\ln(x+1)}{ax}&\text{si }x>0\end{cases}$, halla $a$ para que sea continua en $\mathbb R$ y, además, $b$ para que tenga un extremo relativo en $x=-1$. ¿De qué tipo es?
+
+\ex{2} \pau{Castilla-La Mancha, extraordinaria 2021} Halla y clasifica los extremos relativos de $f(x)=\dfrac{2x^2+2x-2}{3x^2+3}$.
+
+\ex{3} Estudia la monotonía y los extremos de $f(x)=\sqrt[3]{(x^2-1)^2}$. ¿Qué puntos críticos no son de derivada nula?
+
+\ex{2} Clasifica los puntos críticos de $f(x)=x^5-5x^4$ con el criterio de las derivadas sucesivas.
+
+\ex{2} \pau{Aragón, ordinaria 2023} Sea $f(x)=ax-\dfrac{\sin x}{x}+2$ si $x\neq0$ y $f(0)=2$. Halla $a$ para que $f$ tenga un extremo relativo en $x=-\frac\pi2$ y di de qué tipo es.
+
+
+% =====================================================
+\seccio{5}{Curvatura y puntos de inflexión}
+
+\ex{1} Estudia la curvatura y halla los puntos de inflexión de:\begin{tasks}(1)
+  \task \pau{Asturias, ordinaria 2020} $f(x)=x^3-6x^2+9x$
+  \task \pau{Extremadura, ordinaria 2021} $f(x)=e^{-x^2}$
+  \task \pau{Comunidad Valenciana, extraordinaria 2025} $f(x)=\dfrac{x}{x^2+1}$
+  \task $f(x)=\ln\left(x^2+1\right)$
+\end{tasks}\recorda{$f''>0$: convexa $\cup$; $\ f''<0$: cóncava $\cap$. Hay punto de inflexión donde $f''$ cambia de signo (y $f$ es continua).}
+
+\ex{2} \pau{Castilla y León, ordinaria 2022} Dada $f(x)=xe^x$, determina su dominio, las asíntotas, la monotonía, los extremos, la curvatura y los puntos de inflexión.
+
+\ex{2} Halla la recta tangente a la gráfica de $f(x)=x^3-3x^2+2x+1$ en su punto de inflexión. ¿La curva queda por encima o por debajo de la tangente?
+
+\ex{2} Estudia la monotonía y la curvatura de $f(x)=e^x\sin x$ en $[0,2\pi]$.
+
+\ex{2} \pau{La Rioja, extraordinaria 2022} Halla los intervalos de crecimiento y decrecimiento, los extremos y los puntos de inflexión de $f(x)=\dfrac{x^3}{(1+x)^2}$.
+
+\ex{3} Demuestra que toda función polinómica de tercer grado $f(x)=ax^3+bx^2+cx+d$ ($a\neq0$) tiene exactamente un punto de inflexión. ¿Para qué valor de $x$?
+
+
+% =====================================================
+\seccio{6}{Funciones con parámetros}
+
+\ex{1} \pau{Madrid, extraordinaria 2024}\begin{tasks}(1)
+  \task Propón una función polinómica de grado 2 cuya gráfica sea tangente a la recta $y=x$ en $(0,0)$.
+  \task Propón una función polinómica de grado 2 que tenga un máximo relativo en $(1,1)$.
+  \task Justifica si una función polinómica de grado 2 puede tener dos extremos relativos.
+\end{tasks}
+
+\ex{2} Halla el polinomio de tercer grado que tiene un máximo relativo en $(-1,4)$ y un mínimo relativo en $(1,0)$.\recorda{Cuatro condiciones: $f'(-1)=0$, $f'(1)=0$, $f(-1)=4$, $f(1)=0$.}
+
+\ex{2} Resuelve:\begin{tasks}(1)
+  \task \pau{Andalucía, extraordinaria 2026} $f(x)=x^3+ax^2+bx+c$ cumple $f(1)=0$, $x=0$ es un punto crítico y la tangente en $x=-1$ es paralela a $y+3x=0$. Halla $a$, $b$ y $c$.
+  \task \pau{Castilla y León, extraordinaria 2020} Determina $f(x)=x^3+ax^2+bx+c$ si tiene un punto de inflexión en $x=1$ y la tangente en $(-1,0)$ es el eje de abscisas.
+  \task \pau{Castilla-La Mancha, ordinaria 2024} Halla $a$, $b$, $c$ para que $f(x)=x^3+ax^2+bx+c$ tenga un extremo relativo en $x=2$ y un punto de inflexión en $P(1,2)$.
+\end{tasks}
+
+\ex{2} Halla $a$ y $b$ para que $f(x)=(ax+b)\,e^{-x}$ tenga un extremo relativo en el punto $\left(2,\frac{1}{e^2}\right)$. ¿Es máximo o mínimo?
+
+\ex{3} Halla $a$ y $b$ para que $f(x)=x^4+ax^3+bx^2$ tenga en $x=1$ un punto de inflexión con tangente horizontal.
+
+\ex{2} \pau{Galicia, extraordinaria 2021} Halla $a,b,c$ para que $f(x)=ax^3+bx^2-3x+c$ cumpla $f(0)=1$ y tenga extremos relativos en $x=\pm1$. ¿De qué tipo son?
+
+\ex{2} \pau{Aragón, extraordinaria 2023} Sea $f(x)=\left(e^{ax}+b\right)x-e$, $a\neq0$. Calcula $a$ y $b$ sabiendo que tiene un extremo relativo en $x=0$ y un punto de inflexión en $x=2$.
+
+\ex{3} \pau{Canarias, junio 2018} Determina $a$ y $b$ para que $f(x)=a\sqrt{3x+3}+b\sqrt{x-1}$ tenga un punto de inflexión en $(2,8)$.
+
+
+% =====================================================
+\seccio{7}{Teoremas de Rolle y del valor medio}
+
+\ex{1} Comprueba si se cumplen las hipótesis del teorema indicado y, si es así, halla los valores de $c$:\begin{tasks}(1)
+  \task Rolle: $f(x)=x^3-4x$ en $[-2,2]$.
+  \task Valor medio: $f(x)=x^2+2x$ en $[0,2]$.
+  \task Valor medio: $f(x)=\dfrac1x$ en $[1,4]$.
+  \task Rolle: $f(x)=|x|-1$ en $[-1,1]$.
+\end{tasks}\recorda{Rolle: $f$ continua en $[a,b]$, derivable en $(a,b)$ y $f(a)=f(b)$ $\Rightarrow$ $\exists c\in(a,b)$ con $f'(c)=0$. Valor medio: $f'(c)=\frac{f(b)-f(a)}{b-a}$.}
+
+\ex{2} Halla los parámetros para que se cumplan las hipótesis del teorema de Rolle:\begin{tasks}(1)
+  \task \pau{Extremadura, extraordinaria 2024} $f(x)=\begin{cases}x^2+ax-b&\text{si }x<0\\[3pt]a+cx&\text{si }x\geq0\end{cases}$ en $[-2,2]$.
+  \task \pau{Extremadura, ordinaria 2023} $f(x)=\begin{cases}x^2+ax+b&\text{si }0\leq x<1\\[3pt]cx&\text{si }1\leq x\leq4\end{cases}$ en $[0,4]$.
+  \task \pau{Galicia, septiembre 2018} $f(x)=\begin{cases}2x^2+ax&\text{si }x\leq1\\[3pt]bx+c&\text{si }x>1\end{cases}$ en $[0,2]$; troba també el punt on es compleix la tesi.
+\end{tasks}\recorda{Tres condiciones: continuidad en el punto de cambio, derivabilidad en el punto de cambio y $f(a)=f(b)$.}
+
+\ex{2} \pau{Castilla-La Mancha, extraordinaria 2021} Enuncia el teorema de Rolle y úsalo para razonar si $f(x)=x\sin x-\cos x$ tiene al menos un extremo relativo en $[-1,1]$.
+
+\ex{2} \pau{Madrid, ordinaria 2024} Prueba que $f(x)=x^4+\pi x^3+\pi^2x^2+\pi^3x+\pi^4$ tiene al menos un punto de derivada nula en $(-\pi,0)$ usando el teorema de Rolle. Pruébalo de nuevo con el teorema de Bolzano.
+
+\ex{2} \pau{La Rioja, ordinaria 2026} Sea $f(x)=x^3(x-1)^2+1$. Demuestra que la ecuación $f'(x)=0$ tiene alguna solución en $(0,1)$.
+
+\ex{3} \pau{Navarra, extraordinaria 2021} Considera $f(x)=\sqrt{x+\sin\frac{\pi x}{2}}$. Demuestra que es continua en $[1,3]$ y que existen $\alpha\in(1,2)$ y $\beta\in(2,3)$ tales que $f'(\alpha)=f'(\beta)=0$.
+
+\ex{3} Demuestra que la ecuación $x^3+x-1=0$ tiene exactamente una solución real y que está en el intervalo $(0,1)$.
+
+\ex{3} \pau{Extremadura, julio 2017} Enuncia el teorema del valor medio y, aplicándolo a $f(x)=\dfrac{1}{x^2}$, prueba que si $1<a<b$, entonces $a+b<2a^2b^2$.
+
+
+% =====================================================
+\seccio{8}{Extremos absolutos}
+
+\ex{1} Halla los extremos absolutos de cada función en el intervalo indicado:\begin{tasks}(2)
+  \task $f(x)=x^3-3x$ en $[-2,3]$
+  \task $f(x)=x\,e^{-x}$ en $[0,3]$
+  \task $f(x)=x-2\ln x$ en $[1,e]$
+  \task $f(x)=\sin x+\cos x$ en $[0,2\pi]$
+\end{tasks}\recorda{Candidatos: los extremos del intervalo, los puntos críticos interiores ($f'=0$) y los puntos no derivables. El valor más grande es el máximo absoluto y el más pequeño, el mínimo.}
+
+\ex{2} \pau{Comunidad Valenciana, extraordinaria 2026} El coeficiente de gravedad de un brote de gripe $t$ días después de empezar cumple $F'(t)=t^2(10-t)$. Calcula $F(t)$ si $F(0)=6$, y cuántos días después se alcanza el máximo y cuál es.
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2026} Calcula los valores máximos y mínimos, relativos y absolutos, de $f(x)=\dfrac{x+1}{x^2+1}$.
+
+\ex{2} \pau{Asturias, extraordinaria 2025} La cantidad de agua de un depósito es $f(t)=2\cos\left(t+\frac\pi2\right)+10$, $t\in[0,4]$ horas. Calcula sus máximos y mínimos, demuestra que no se vacía nunca y di durante cuánto tiempo aumenta.
+
+\ex{2} \pau{Madrid, extraordinaria 2023} El consumo de un vehículo (litros/100 km) a velocidad $v$ (decenas de km/h) es $c(v)=\frac{5v}{3}$ si $0\leq v<3$ y $c(v)=14-4v+\frac{v^2}{3}$ si $v\geq3$.\begin{tasks}(1)
+  \task Si tiene que circular a más de 3 decenas de km/h, ¿a qué velocidad el consumo es mínimo?
+  \task Si $1\leq v\leq8$, ¿cuáles son el consumo máximo y el mínimo?
+\end{tasks}
+
+\ex{3} \pau{Navarra, ordinaria 2025} El precio del kWh entre $t=0$ y $t=1$ es $p(t)=0{,}15+\sin^2\left(\frac\pi2t\right)\cos\left(\frac\pi2t\right)$. Calcula los instantes en los que el precio es máximo y mínimo.
+
+\ex{2} \pau{Castilla-La Mancha, ordinaria 2025} La concentración de virus activos es $f(t)=5(t+1)e^{-t}$, $t\geq0$. ¿En qué instante la derivada $f'(t)$ toma el valor más pequeño? ¿Cuál es el valor a largo plazo?
+
+
+% =====================================================
+\seccio{9}{Problemas de optimización}
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2025} Una empresa quiere hacer cajas de 80 cm$^3$ con base y tapa cuadradas. El material de las paredes laterales cuesta 1 céntimo por cm$^2$ y el de la base y la tapa es un 25\,\% más caro.\begin{tasks}(1)
+  \task Escribe el precio del material $P(x)$ en función del lado $x$ de la base.
+  \task Halla las dimensiones de la caja más barata.
+  \task ¿Cuál es el precio en este caso?
+\end{tasks}\recorda{Volumen: $x^2h=80$. Área lateral: $4xh$; base y tapa: $2x^2$.}
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2023} El corte vertical de la entrada a una plaza amurallada tiene forma de parábola $y=-x^2+12$ ($x$, $y$ en metros; $y=0$ es el suelo). Queremos poner una puerta rectangular con las dos esquinas de arriba sobre la parábola y las de abajo en el suelo. Calcula las dimensiones de la puerta de superficie máxima y el área de la parte de la entrada que queda tapada con piedra.
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2022} Se quiere construir un cuadrado y un triángulo equilátero cortando en dos partes un cable de acero de 240 m.\begin{tasks}(1)
+  \task Calcula la suma de las áreas en función del lado $x$ del triángulo.
+  \task Calcula la longitud de cable que hace falta para el triángulo para que la suma de las áreas sea mínima.
+\end{tasks}
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2021} Un espejo cuadrado de 80 cm de lado se ha roto por una esquina; el trozo caído es un triángulo rectángulo de catetos 32 cm (horizontal) y 40 cm (vertical). Recortamos una pieza rectangular $R$ con un vértice $(x,y)$ sobre la línea de rotura y el vértice opuesto en la esquina contraria del espejo. Halla el área de $R$ en función de $x$ ($0\leq x\leq32$), las dimensiones de $R$ de área máxima y esta área.
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2020} En un triángulo isósceles los dos lados iguales miden 10 cm. Expresa el área en función de la longitud $x$ del tercer lado, estudia su monotonía en $[0,20]$ y halla el valor de $x$ que hace máxima el área.
+
+\ex{2} \pau{Comunidad Valenciana, julio 2019} Un proyectil unido al punto $(0,2)$ por una cuerda elástica recorre la curva $y=4-x^2$ entre $(-2,0)$ y $(2,0)$. Halla la distancia entre un punto de la curva y $(0,2)$ en función de $x$, y los puntos de la curva más alejados y más próximos a $(0,2)$.
+
+\ex{2} \pau{Comunidad Valenciana, julio 2018} Dentro de una cartulina rectangular se quiere hacer un dibujo rectangular $R$ de 600 cm$^2$, con márgenes de 3 cm arriba y abajo y de 2 cm a los lados. Calcula el área de la cartulina en función de la base $x$ de $R$ y las dimensiones de la cartulina de área mínima.
+
+\ex{3} \pau{Comunidad Valenciana, julio 2017} Se considera el triángulo de vértices $O(0,0)$, $A(x,y)$ y $B(0,y)$, con $x,y>0$, tal que $\overline{OA}+\overline{AB}=30$ m. Halla el área en función de $x$, el valor de $x$ para el que es máxima y esta área.
+
+\ex{2} \pau{Andalucía, ordinaria 2026} Una ventana tiene forma de rectángulo coronado por un semicírculo. Si el perímetro de la ventana mide 8 m, halla las dimensiones que permiten la máxima entrada de luz.
+
+\ex{2} \pau{Aragón, extraordinaria 2021} Se quiere construir un depósito abierto (sin tapa) en forma de prisma de base cuadrada y 64 m$^3$ de capacidad. Los laterales cuestan 70 €/m$^2$ y la base, 140 €/m$^2$. Halla las dimensiones del depósito más económico.
+
+\ex{2} \pau{Aragón, septiembre 2018} De todos los triángulos rectángulos que tienen un área de 1 cm$^2$, halla el que tiene la hipotenusa más corta y da las longitudes de los tres lados.
+
+\ex{2} \pau{Canarias, ordinaria 2023} Se quiere construir una Casa de la Juventud de 240 m$^2$ rodeada de una zona ajardinada que deja 3 m arriba, 3 m abajo, 3 m a la izquierda y 7 m a la derecha. ¿Qué dimensiones tiene que tener la casa para que la zona ajardinada sea mínima? ¿Cuál es esta área?
+
+\ex{2} \pau{Castilla-La Mancha, extraordinaria 2023} Un aparcamiento tiene forma de rectángulo de lados $h$ y $r$ con un semicírculo de radio $\frac h2$ adosado al lado $h$. Si la valla mide 80 m de perímetro, ¿cuánto tienen que valer $h$ y $r$ para que el área sea máxima?
+
+\ex{2} \pau{Galicia, julio 2019} De todos los triángulos rectángulos del primer cuadrante que tienen un vértice en el origen, otro sobre la parábola $y=4-x^2$, un cateto sobre el eje $X$ y el otro paralelo al eje $Y$, halla los catetos y la hipotenusa del de área máxima.
+
+\ex{2} \pau{La Rioja, extraordinaria 2024} Un nadador está a 2 km de la playa, enfrente del puesto de la Cruz Roja. Quiere ir a las duchas, en la playa y a 3 km de la Cruz Roja. Nada a 3 km/h y camina por la arena a 5 km/h. ¿Dónde tiene que llegar nadando para tardar lo mínimo?
+
+\ex{3} \pau{Murcia, junio 2019} En un triángulo isósceles de base 12 cm (lado desigual) y altura 5 cm, buscamos un punto $A$ de la altura, a distancia $x$ de la base, tal que la suma de las distancias de $A$ a los tres vértices sea mínima. Comprueba que esta suma es $f(x)=5-x+2\sqrt{x^2+36}$, halla $x$ y el valor mínimo.
+
+\ex{2} \pau{Navarra, ordinaria 2026} De una hoja de 20 cm $\times$ 30 cm se recorta un cuadrado en cada esquina para hacer una caja sin tapa doblando las solapas. Calcula el lado del cuadrado para que el volumen sea máximo.
+
+\ex{2} \pau{País Vasco, extraordinaria 2024} Una empresa fabrica tazas cilíndricas (sin tapa) de $216\pi$ cm$^3$ y quiere que sean tan económicas como sea posible. ¿Qué dimensiones tienen que tener?
+
+\ex{2} \pau{Cataluña, extraordinaria 2024} Para cada punto $(x,y)$ de la curva $y=e^{-2x}$ con $x>0$, considera el rectángulo de vértices $(0,0)$, $(x,0)$, $(0,y)$ y $(x,y)$. Comprueba que el de área máxima es el de $x=\frac12$ y calcula su área.
+
+\ex{3} \pau{Canarias, junio 2018} Un hilo de 140 m se divide en tres trozos, uno de los cuales mide el doble que otro. Con cada trozo se hace un cuadrado. ¿Qué longitud tiene que tener cada trozo para que la suma de las áreas sea mínima?
+
+\ex{2} \pau{Asturias, extraordinaria 2025} Se quiere construir una caja sin tapa con dos caras paralelas cuadradas de lado $x$ y tres caras rectangulares de lados $x$ y $y$. Si se quieren gastar 3 m$^2$ de material, ¿qué valores de $x$ y $y$ hacen máxima la capacidad?
+
+
+% =====================================================
+\seccio{10}{Representación de funciones polinómicas y racionales}
+
+\ex{1} Haz el estudio completo y representa \pau{Andalucía, ordinaria 2021} $f(x)=4x^3-x^4$.\recorda{Dominio, simetría, cortes, asíntotas, monotonía y extremos, curvatura e inflexión; después situamos toda la información y dibujamos.}
+
+\ex{2} Haz el estudio completo y representa \pau{Comunidad Valenciana, extraordinaria 2025} $f(x)=\dfrac{x}{x^2+1}$.
+
+\ex{2} Haz el estudio completo y representa \pau{Comunidad Valenciana, ordinaria 2022} $f(x)=\dfrac{x^2+3}{x^2-4}$.
+
+\ex{2} Haz el estudio completo y representa \pau{Comunidad Valenciana, junio 2017} $f(x)=\dfrac{x^2+1}{x}$.
+
+\ex{3} Haz el estudio completo y representa \pau{Asturias, extraordinaria 2022} $f(x)=\dfrac{2x^2}{1-x}$.
+
+
+% =====================================================
+\seccio{11}{Representación de funciones radicales, exponenciales y logarítmicas}
+
+\ex{2} Haz el estudio completo y representa \pau{Comunidad Valenciana, extraordinaria 2021} $f(x)=x\,e^{1-x^2}$.\recorda{Dominio, simetría, cortes, asíntotas, monotonía y extremos, curvatura e inflexión; después situamos toda la información y dibujamos.}
+
+\ex{2} Haz el estudio completo y representa \pau{Comunidad Valenciana, ordinaria 2023} $f(x)=\dfrac1x+\ln(x+1)$.
+
+\ex{2} Haz el estudio completo y representa \pau{Madrid, extraordinaria 2026} $f(x)=\dfrac{x}{\ln x}$.
+
+\ex{2} Haz el estudio completo y representa \pau{País Vasco, julio 2018} $f(x)=x^2e^{-x}$.
+
+\ex{3} Haz el estudio completo y representa \pau{Murcia, septiembre 2018} $f(x)=x\sqrt{18-x^2}$ (en todo su dominio).
+
+
+% =====================================================
+\seccio{12}{Representación de funciones trigonométricas y a trozos}
+
+\ex{2} Haz el estudio completo y representa $f(x)=2\sin x+\sin2x$.\recorda{Dominio, simetría, cortes, asíntotas, monotonía y extremos, curvatura e inflexión; después situamos toda la información y dibujamos.}
+
+\ex{2} \pau{Comunidad Valenciana, ordinaria 2026 · Madrid, ordinaria 2025} Un decorador pinta en una pared de 12 m de largo y 3 m de alto la curva $f(x)=\cos\frac{\pi x}{9}+2$. Dibújala en $[0,12]$ con los cortes con los ejes, los extremos absolutos y la monotonía. ¿Está la curva dentro de la pared?
+
+\ex{2} \pau{Galicia, ordinaria 2023} Estudia si $f(x)=x+\sin x$ tiene extremos o puntos de inflexión en $(0,2\pi)$ y esboza su gráfica.
+
+\ex{2} Haz el estudio completo y representa $f(x)=\sin^2x$.
+
+\ex{2} \pau{Andalucía, ordinaria 2022} Sea $f(x)=\begin{cases}2x+4&\text{si }x<0\\[3pt](x-2)^2&\text{si }x\geq0\end{cases}$. Calcula los puntos de corte con el eje de abscisas, estudia su continuidad, su derivabilidad y sus extremos, y esboza la gráfica.
+
+\ex{3} Haz el estudio completo y representa $f(x)=\left|x^2-4x\right|$.
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus estudios con las herramientas de los apuntes interactivos.\end{center}
+
+\end{document}
