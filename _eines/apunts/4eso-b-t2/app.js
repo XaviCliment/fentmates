@@ -423,6 +423,30 @@
     onLang(draw);
   }
 
+  /* ---------- 2.2 binomi de Newton: (px + q)^n ---------- */
+  function wNewton() {
+    var w = byId("w-newton"); if (!w) return;
+    var info = w.querySelector(".info");
+    function comb(n, k) { var r = 1; for (var i = 1; i <= k; i++) r = r * (n - k + i) / i; return Math.round(r); }
+    function draw() {
+      var p = parseFr($(w, "p").value), q = parseFr($(w, "q").value), n = +$(w, "n").value;
+      $(w, "nv").textContent = n; $(w, "p").classList.toggle("bad", !p || p.zero()); $(w, "q").classList.toggle("bad", !q || q.zero());
+      if (!p || !q || p.zero() || q.zero()) { info.innerHTML = t3("Escriu dos nombres diferents de 0.", "Escribe dos números distintos de 0.", "Type two non-zero numbers."); return; }
+      var row = []; for (var k = 0; k <= n; k++) row.push(comb(n, k));
+      var a = p.eq(F1) ? "x" : "(" + frT(p) + "x)", b = q.sgn() < 0 ? "(" + frT(q) + ")" : frT(q), terms = [];
+      for (k = 0; k <= n; k++) {
+        var e = n - k, ta = e === 0 ? "" : e === 1 ? a : a + "^{" + e + "}", tb = k === 0 ? "" : k === 1 ? b : b + "^{" + k + "}";
+        terms.push((row[k] === 1 ? "" : row[k] + "\\cdot ") + [ta, tb].filter(Boolean).join("\\cdot "));
+      }
+      var P = [F1]; for (k = 0; k < n; k++) P = pMul(P, [q, p]);
+      info.innerHTML = kv([[t3("Triangle", "Triángulo", "Triangle"), tex(row.join("\\quad "))],
+        [t3("Fórmula", "Fórmula", "Formula"), tex("(" + pTex([q, p]) + ")^{" + n + "}=" + terms.join("+").replace(/\+-/g, "-"))],
+        [t3("Resultat", "Resultado", "Result"), "<strong>" + tex(pTex(P)) + "</strong>" + (q.sgn() < 0 ? "<br><small>" + t3("El segon terme és negatiu: els signes s'alternen.", "El segundo término es negativo: los signos se alternan.", "The second term is negative: the signs alternate.") + "</small>" : "")]]);
+    }
+    ["p", "q", "n"].forEach(function (r) { $(w, r).addEventListener("input", draw); });
+    onLang(draw);
+  }
+
   /* ---------- controls de passos per als ginys ---------- */
   function stepper(w, getN, onShow) {
     var shown = 1, nb = $(w, "next"), ab = $(w, "all"), cnt = $(w, "cnt");
@@ -801,6 +825,8 @@
     { q: q3("Quin és el grau de $P(x)\\cdot Q(x)$ si $P$ té grau 3 i $Q$ té grau 2?", "¿Cuál es el grado de $P(x)\\cdot Q(x)$ si $P$ tiene grado 3 y $Q$ tiene grado 2?", "What is the degree of $P(x)\\cdot Q(x)$ if $P$ has degree 3 and $Q$ has degree 2?"),
       o: [q3("$6$"), q3("$5$"), q3("$3$")], a: 1, e: q3("Els graus se sumen: $3+2=5$.", "Los grados se suman: $3+2=5$.", "Degrees add up: $3+2=5$.") },
     { q: q3("$(2x-3)^2=$"), o: [q3("$4x^2-9$"), q3("$4x^2-12x+9$"), q3("$4x^2-6x+9$")], a: 1, e: q3("$(a-b)^2=a^2-2ab+b^2$: $4x^2-2\\cdot2x\\cdot3+9$.") },
+    { q: q3("Els coeficients de $(a+b)^4$ són…", "Los coeficientes de $(a+b)^4$ son…", "The coefficients of $(a+b)^4$ are…"),
+      o: [q3("$1,\\ 4,\\ 4,\\ 1$"), q3("$1,\\ 4,\\ 6,\\ 4,\\ 1$"), q3("$1,\\ 3,\\ 3,\\ 1$")], a: 1, e: q3("És la fila 4 del triangle de Tartaglia.", "Es la fila 4 del triángulo de Tartaglia.", "It's row 4 of Pascal's triangle.") },
     { q: q3("Si $P(x)=x^3-2x+5$, $P(-2)=$"), o: [q3("$1$"), q3("$9$"), q3("$-7$")], a: 0, e: q3("$(-2)^3-2(-2)+5=-8+4+5=1$.") },
     { q: q3("El residu de $(x^3-2x+5):(x+2)$ és…", "El resto de $(x^3-2x+5):(x+2)$ es…", "The remainder of $(x^3-2x+5):(x+2)$ is…"),
       o: [q3("$1$"), q3("$9$"), q3("$-1$")], a: 0, e: q3("Pel teorema del residu, és $P(-2)=1$.", "Por el teorema del resto, es $P(-2)=1$.", "By the remainder theorem, it's $P(-2)=1$.") },
@@ -834,7 +860,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wPop, wDiv, wRuf, wRes, wArr, wFac, wMcm, wFrs, wFop, wQuiz];
+    var all = [wChrome, wSteps, wNav, wPop, wNewton, wDiv, wRuf, wRes, wArr, wFac, wMcm, wFrs, wFop, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
     window.FM2 = { parsePoly: parsePoly, factorPoly: factorPoly, facTex: facTex, pTex: pTex, quadRoots: quadRoots, Fr: Fr, facList: facList, pMul: pMul };
   }

@@ -375,11 +375,12 @@ cd _eines/fonts-latex/4eso-b-t1 && python3 genera.py && pdflatex t1-fitxa-exerci
 ```
 
 - **Unitat 2 (Polinomis i fraccions algebraiques, `4eso-b-t2`)**: parteix dels apartats 2.1-2.4 de 1r Batx MI (`app.js` en
-  conserva el motor de polinomis amb fraccions exactes: `parsePoly`, `pDivide`, `ruffini`, `factorPoly`). 7 apartats i 9 ginys;
-  els nous són el teorema del residu (`w-res`), la cerca d'arrels enteres (`w-arr`), el m.c.d. i el m.c.m. (`w-mcm`) i les
-  operacions amb fraccions algebraiques (`w-fop`), que fan servir `facList` (factorització com a llista de factors amb
-  coeficients enters), `mcdMcm` i `simpFrac`. La fitxa té 36 exercicis en 8 seccions; sympy calcula les operacions, divisions i
-  residus, i comprova cada factorització, m.c.d., m.c.m. i fracció escrita a mà (`fe`).
+  conserva el motor de polinomis amb fraccions exactes: `parsePoly`, `pDivide`, `ruffini`, `factorPoly`). 7 apartats i 10 ginys;
+  els nous són el binomi de Newton (`w-newton`, a 2.2), el teorema del residu (`w-res`), la cerca d'arrels enteres (`w-arr`),
+  el m.c.d. i el m.c.m. (`w-mcm`) i les operacions amb fraccions algebraiques (`w-fop`), que fan servir `facList`, `mcdMcm` i
+  `simpFrac`. La fitxa té 35 exercicis en 13 seccions: recull els de les fitxes del departament (Polinomis 1 i 2, Potències de
+  binomis, Exercici 71 pàg. 68, Simplificació, Multiplicacions i divisions, Sumes i restes i Fitxa de fraccions algebraiques),
+  ordenats per temes, i alguns de propis (arrels, m.c.d. i m.c.m., problemes). sympy calcula totes les solucions (`pt`, `ML`, `FT`).
 
 ```
 python3 _eines/apunts/4eso-b-t2/build.py
