@@ -432,6 +432,27 @@ assert V('[(-1/2)^3]^2:(-1/2)^4') == Fr(1, 4) and V('[(1/3)^2]^2') == Fr(1, 81)
 X.append((2, T(r"Calcula de la manera més ràpida, fent servir les propietats: \ a) $\left(\dfrac{5}{6}\right)^4\cdot\left(\dfrac{3}{10}\right)^4\cdot4^4$ \quad b) $\left(\dfrac{9}{4}\right)^3:\left(\dfrac{3}{2}\right)^3$", r"Calcula de la manera más rápida, usando las propiedades: \ a) $\left(\dfrac{5}{6}\right)^4\cdot\left(\dfrac{3}{10}\right)^4\cdot4^4$ \quad b) $\left(\dfrac{9}{4}\right)^3:\left(\dfrac{3}{2}\right)^3$"),
     r"a) $\left(\dfrac{5}{6}\cdot\dfrac{3}{10}\cdot4\right)^4=1^4=\res{1}$ \quad b) $\left(\dfrac{9}{4}:\dfrac{3}{2}\right)^3=\left(\dfrac{3}{2}\right)^3=\res{\dfrac{27}{8}}$"))
 ck(V('(5/6)^4·(3/10)^4·4^4'), 1); ck(V('(9/4)^3:(3/2)^3'), Fr(27, 8))
+# operacions combinades amb potències: s'han de fer servir les propietats (els nombres serien massa grans per a fer-ho directament)
+PC = [
+  (r"\left(\dfrac{3}{4}\right)^5\cdot\left(\dfrac{4}{3}\right)^3",
+   r"\left(\dfrac{3}{4}\right)^2\cdot\left(\dfrac{3}{4}\right)^3\cdot\left(\dfrac{4}{3}\right)^3=\left(\dfrac{3}{4}\right)^2\cdot\left(\dfrac{3}{4}\cdot\dfrac{4}{3}\right)^3=\dfrac{9}{16}\cdot1^3", '(3/4)^5·(4/3)^3', Fr(9, 16)),
+  (r"\left[\left(\dfrac{2}{5}\right)^3\right]^2:\left(\dfrac{2}{5}\right)^4-\left(\dfrac{1}{5}\right)^2\cdot\left(\dfrac{5}{2}\right)^0",
+   r"\left(\dfrac{2}{5}\right)^{6-4}-\dfrac{1}{25}\cdot1=\dfrac{4}{25}-\dfrac{1}{25}", '[(2/5)^3]^2:(2/5)^4-(1/5)^2·(5/2)^0', Fr(3, 25)),
+  (r"\left(\dfrac{6}{7}\right)^3\cdot\left(\dfrac{7}{3}\right)^3:2^2+\left(-\dfrac{1}{2}\right)^3",
+   r"\left(\dfrac{6}{7}\cdot\dfrac{7}{3}\right)^3:2^2-\dfrac{1}{8}=2^3:2^2-\dfrac{1}{8}=2-\dfrac{1}{8}", '(6/7)^3·(7/3)^3:2^2+(-1/2)^3', Fr(15, 8)),
+  (r"\left[\left(-\dfrac{2}{3}\right)^2\right]^3\cdot\left(\dfrac{3}{2}\right)^5-\left(\dfrac{1}{2}-\dfrac{3}{4}\right)^2",
+   r"\left(\dfrac{2}{3}\right)^6\cdot\left(\dfrac{3}{2}\right)^5-\left(-\dfrac{1}{4}\right)^2=\dfrac{2}{3}\cdot\left(\dfrac{2}{3}\cdot\dfrac{3}{2}\right)^5-\dfrac{1}{16}=\dfrac{2}{3}-\dfrac{1}{16}", '[(-2/3)^2]^3·(3/2)^5-(1/2-3/4)^2', Fr(29, 48)),
+  (r"\dfrac{\left(\frac{5}{3}\right)^4\cdot\left(\frac{3}{5}\right)^2}{\left(\frac{5}{3}\right)^3}+\left(1-\dfrac{4}{5}\right)^2\cdot5^2",
+   r"\dfrac{\left(\frac{5}{3}\right)^2\cdot\left(\frac{5}{3}\cdot\frac{3}{5}\right)^2}{\left(\frac{5}{3}\right)^3}+\left(\dfrac{1}{5}\cdot5\right)^2=\dfrac{\left(\frac{5}{3}\right)^2}{\left(\frac{5}{3}\right)^2\cdot\frac{5}{3}}+1^2=\dfrac{1}{\frac{5}{3}}+1=\dfrac{3}{5}+1", '(5/3)^4·(3/5)^2:(5/3)^3+(1-4/5)^2·5^2', Fr(8, 5)),
+  (r"\left[\left(\dfrac{1}{2}\right)^3-\left(\dfrac{1}{2}\right)^2\right]:\left(-\dfrac{1}{2}\right)^3-\left(\dfrac{4}{9}\right)^3\cdot\left(\dfrac{3}{2}\right)^6",
+   r"\left(\dfrac{1}{8}-\dfrac{1}{4}\right):\left(-\dfrac{1}{8}\right)-\left[\left(\dfrac{2}{3}\right)^2\right]^3\cdot\left(\dfrac{3}{2}\right)^6=\left(-\dfrac{1}{8}\right):\left(-\dfrac{1}{8}\right)-\left(\dfrac{2}{3}\cdot\dfrac{3}{2}\right)^6=1-1", '[(1/2)^3-(1/2)^2]:(-1/2)^3-(4/9)^3·(3/2)^6', Fr(0)),
+]
+for _, _, e, v in PC: ck(V(e), v)
+X.append((3, T(r"Calcula fent servir les propietats de les potències (sense calcular potències amb exponents grans):", r"Calcula usando las propiedades de las potencias (sin calcular potencias con exponentes grandes):")
+    + tasks(2, ['$%s$' % q for q, _, _, _ in PC], '10pt')
+    + recorda(T(r"busca bases iguals (sumes o restes els exponents) o exponents iguals (multipliques o divideixes les bases): $\left(\dfrac{3}{4}\right)^3\cdot\left(\dfrac{4}{3}\right)^3=\left(\dfrac{3}{4}\cdot\dfrac{4}{3}\right)^3=1$.",
+                r"busca bases iguales (sumas o restas los exponentes) o exponentes iguales (multiplicas o divides las bases): $\left(\dfrac{3}{4}\right)^3\cdot\left(\dfrac{4}{3}\right)^3=\left(\dfrac{3}{4}\cdot\dfrac{4}{3}\right)^3=1$.")),
+    tasks(1, ['$%s=%s=\\res{%s}$' % (q, s, tf(v)) for q, s, _, v in PC], '6pt')))
 X.append((3, T(r"Simplifica: \ $\dfrac{\left(\frac{2}{5}\right)^3\cdot\left(\frac{2}{5}\right)^4}{\left[\left(\frac{2}{5}\right)^2\right]^3}$ \qquad i \qquad $\dfrac{\left(-\frac{3}{4}\right)^5\cdot\left(-\frac{3}{4}\right)}{\left(-\frac{3}{4}\right)^3\cdot\left(-\frac{3}{4}\right)^2}$", r"Simplifica: \ $\dfrac{\left(\frac{2}{5}\right)^3\cdot\left(\frac{2}{5}\right)^4}{\left[\left(\frac{2}{5}\right)^2\right]^3}$ \qquad y \qquad $\dfrac{\left(-\frac{3}{4}\right)^5\cdot\left(-\frac{3}{4}\right)}{\left(-\frac{3}{4}\right)^3\cdot\left(-\frac{3}{4}\right)^2}$"),
     r"$\left(\dfrac{2}{5}\right)^{7-6}=\res{\dfrac{2}{5}}$ \qquad $\left(-\dfrac{3}{4}\right)^{6-5}=\res{-\dfrac{3}{4}}$"))
 ck(V('(2/5)^3·(2/5)^4:[(2/5)^2]^3'), Fr(2, 5)); ck(V('(-3/4)^5·(-3/4):(-3/4)^3:(-3/4)^2'), Fr(-3, 4))
