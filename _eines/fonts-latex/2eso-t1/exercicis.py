@@ -244,6 +244,8 @@ def seccions(lang):
      (1, t(r"Calcula:", r"Calcula:") + tasks(4, [m(e) for e in PW])
          + recorda(t(r"Base negativa: exponent parell $\to$ resultat positiu; exponent senar $\to$ resultat negatiu. Compte: $-3^4=-(3^4)$, però $(-3)^4=(-3)\cdot(-3)\cdot(-3)\cdot(-3)$.", r"Base negativa: exponente par $\to$ resultado positivo; exponente impar $\to$ resultado negativo. Cuidado: $-3^4=-(3^4)$, pero $(-3)^4=(-3)\cdot(-3)\cdot(-3)\cdot(-3)$.")),
          tasks(4, [rsol(e) for e in PW])),
+     (2, t(r"Sense fer el càlcul, digues quin signe té el resultat:", r"Sin hacer el cálculo, di qué signo tiene el resultado:") + tasks(5, ['$' + e + '$' for e, _ in SG]),
+         tasks(5, [r'$\res{%s}$' % s for _, s in SG])),
      (2, t(r"Expressa com una sola potència:", r"Expresa como una sola potencia:") + tasks(3, ['$' + a + '$' for a, _ in ON]),
          tasks(3, ['$' + a + r'=\res{' + b + '}$' for a, b in ON])),
      (2, t(r"Calcula aplicant les propietats de les potències:", r"Calcula aplicando las propiedades de las potencias:") + tasks(4, ['$' + a + '$' for a, _, _ in PP]),
@@ -256,8 +258,6 @@ def seccions(lang):
      (3, t(r"Calcula pas a pas, respectant la jerarquia de les operacions:", r"Calcula paso a paso, respetando la jerarquía de las operaciones:") + tasks(1, [m(e) for e, _ in C4])
          + recorda(t(r"Resol primer els parèntesis i claudàtors de dins cap a fora. Dins de cada un, primer les potències i les arrels, després les multiplicacions i divisions i, al final, les sumes i restes.", r"Resuelve primero los paréntesis y corchetes de dentro hacia fuera. Dentro de cada uno, primero las potencias y las raíces, después las multiplicaciones y divisiones y, al final, las sumas y restas.")),
          tasks(1, [steps(e, *p) for e, p in C4])),
-     (2, t(r"Sense fer el càlcul, digues quin signe té el resultat:", r"Sin hacer el cálculo, di qué signo tiene el resultado:") + tasks(5, ['$' + e + '$' for e, _ in SG]),
-         tasks(5, [r'$\res{%s}$' % s for _, s in SG])),
      (3, t(r"Una parcel·la quadrada té una superfície de 1225\,m². Quant mesura el costat? Quants metres de tanca calen per a envoltar-la?", r"Una parcela cuadrada tiene una superficie de 1225\,m². ¿Cuánto mide el lado? ¿Cuántos metros de valla hacen falta para rodearla?"),
          r'$1225=5^2\cdot7^2\Rightarrow\sqrt{1225}=5\cdot7=\res{35\text{ m}}$; \quad $4\cdot35=\res{140\text{ m}}$ ' + t('de tanca.', 'de valla.')),
     ]))
