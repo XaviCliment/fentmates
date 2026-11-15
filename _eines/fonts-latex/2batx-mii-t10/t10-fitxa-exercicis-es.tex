@@ -1,0 +1,565 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\AtBeginDocument{\renewcommand{\sin}{\operatorname{sen}}\renewcommand{\arcsin}{\operatorname{arcsen}}}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 10: Probabilidad. 2º Bach.},pdfsubject={Matemáticas II 2º Bach.},pdfkeywords={probabilidad, sucesos, regla de Laplace, combinatoria, probabilidad condicionada, independencia, probabilidad total, teorema de Bayes, variable aleatoria, distribución binomial, PAU}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 10: Probabilidad · 2\textsuperscript{o} Bach.}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+\setlength{\emergencystretch}{3em}
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+% successos contraris i probabilitat condicionada
+\newcommand{\co}[1]{\overline{#1}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-mii}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas II}{2\textsuperscript{o} Bach.}{Ficha de ejercicios · Unidad 10}{\raggedright Probabilidad}
+\vspace{10pt}
+Nombre y apellidos: \rule{7.2cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resuelve los ejercicios en el cuaderno justificando cada paso. Define siempre los sucesos con letras y escribe los datos con la notación de probabilidades ($P(A)$, $P(A\cap B)$, $P(A\,|\,B)$\dots); haz un diagrama de Venn, una tabla de contingencia o un diagrama de árbol cuando te ayude. Los 65 ejercicios marcados con {\color{teal}\bfseries\faUniversity\ PAU} son de las pruebas de acceso a la universidad (Matemáticas II) de 16 comunidades autónomas, traducidos al castellano; los de la PAU de la Comunidad Valenciana los tienes en la página de ejercicios tipo PAU de la unidad.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Experimentos aleatorios, regla de Laplace y recuento}
+
+\ex{1} Sean $A$, $B$ y $C$ tres sucesos de un mismo experimento. Expresa con operaciones:\begin{tasks}(2)
+  \task Ocurre solo $B$.
+  \task Ocurre al menos uno.
+  \task No ocurre ninguno.
+  \task Ocurre exactamente uno.
+  \task Ocurren al menos dos.
+  \task Ocurren como mucho dos.
+\end{tasks}\recorda{De Morgan: $\overline{A\cup B}=\co A\cap\co B$ y $\overline{A\cap B}=\co A\cup\co B$; también valen para tres sucesos.}
+
+\ex{1} Lanzamos dos dados. Calcula la probabilidad de que:\begin{tasks}(2)
+  \task el resultado más alto sea un 4;
+  \task los dos resultados se diferencien como mucho en 1;
+  \task el primero sea mayor que el segundo;
+  \task el producto sea múltiplo de 3.
+\end{tasks}
+
+\ex{1} En un grupo hay 6 chicas y 5 chicos. Se eligen al azar 4 personas para hacer un trabajo. Calcula la probabilidad de que haya dos chicas y dos chicos, y la de que haya al menos una chica.\recorda{si elegimos un grupo (no importa el orden), contamos con combinaciones: $\binom nk=\frac{n!}{k!\,(n-k)!}$.}
+
+\ex{1} Colocamos al azar en una estantería 5 libros diferentes, 3 de los cuales son de matemáticas. ¿Cuál es la probabilidad de que los tres de matemáticas queden juntos?
+
+\ex{2} En la Lotería Primitiva se extraen 6 números del 1 al 49. Una persona hace una apuesta de 6 números. Calcula la probabilidad de que acierte los 6 números y la de que acierte exactamente 5.
+
+\ex{2} \emph{Problema de los cumpleaños.} Supongamos que todos los días del año (365) son igual de probables para nacer. Calcula la probabilidad de que, en un grupo de 5 personas, al menos dos cumplan años el mismo día. Repite el cálculo para un grupo de 23 personas (con la calculadora).
+
+\ex{1} Un dado está trucado de manera que la probabilidad de cada cara es proporcional al número que aparece en ella. Calcula la probabilidad de cada cara, la de obtener un número par y la de obtener más de 2.
+
+\ex{1} \pau{Asturias, extraordinaria 2025} En un monedero hay 5 monedas de 1 euro, 3 de 2 euros y 2 de 10 céntimos.\begin{tasks}(1)
+  \task Si sacamos 3 monedas al azar, ¿cuál es la probabilidad de que al menos una sea de 1 euro?
+  \task Sacamos dos monedas, una detrás de otra (sin reemplazamiento). ¿Cuál es la probabilidad de que la segunda sea de 10 céntimos?
+\end{tasks}
+
+\ex{2} \pau{Navarra, ordinaria 2026} Sobre la Piedra de San Martín se encuentran 5 bearneses, 5 roncaleses y 2 suletinos. Los bearneses hablan entre ellos en bearnés; los roncaleses, en euskera; los suletinos hablan entre ellos en euskera, pero también se pueden comunicar en bearnés con los bearneses.\begin{tasks}(1)
+  \task Tomando dos personas al azar, ¿cuál es la probabilidad de que se comuniquen en euskera?
+  \task Tomando dos personas al azar, ¿cuál es la probabilidad de que se comuniquen en bearnés?
+  \task Los 5 roncaleses y los 5 bearneses se van a celebrar la paz. Si se sientan tres al azar en una mesa, ¿cuál es la probabilidad de que no hablen todos el mismo idioma?
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Fórmulas de la probabilidad}
+
+\ex{1} De dos sucesos se sabe que $P(A)=0{,}5$, $P(B)=0{,}4$ y $P(\co A\cup\co B)=0{,}8$. Calcula:\begin{tasks}(3)
+  \task $P(A\cap B)$
+  \task $P(A\cup B)$
+  \task $P(\text{solo uno})$
+  \task $P(\co A\cap B)$
+  \task $P(\co A\cap\co B)$
+\end{tasks}\recorda{$P(A\cup B)=P(A)+P(B)-P(A\cap B)$; \ $P(\co A)=1-P(A)$; \ $P(A\cap\co B)=P(A)-P(A\cap B)$.}
+
+\ex{2} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}7$ y $P(B)=0{,}6$.\begin{tasks}(1)
+  \task ¿Pueden ser incompatibles?
+  \task ¿Entre qué valores puede estar $P(A\cap B)$? I $P(A\cup B)$?
+  \task Demuestra que, en general, $P(A\cap B)\geq P(A)+P(B)-1$ para dos sucesos cualesquiera.
+\end{tasks}
+
+\ex{2} Tres sucesos cumplen $P(A)=0{,}5$, $P(B)=0{,}4$, $P(C)=0{,}3$, $P(A\cap B)=0{,}2$, $P(A\cap C)=0{,}15$, $P(B\cap C)=0{,}1$ y $P(A\cap B\cap C)=0{,}05$. Calcula la probabilidad de que:\begin{tasks}(2)
+  \task ocurra al menos uno;
+  \task no ocurra ninguno;
+  \task ocurra solo $A$;
+  \task ocurra exactamente uno.
+\end{tasks}
+
+\ex{1} En una encuesta a 200 personas, 120 se informan por las redes sociales, 90 por la televisión y 40 por ambos medios. Construye la tabla de contingencia y calcula la probabilidad de que una persona elegida al azar se informe por alguno de los dos medios, por ninguno y solo por uno.
+
+\ex{1} \pau{Islas Baleares, extraordinaria 2025} Sean $A$ y $B$ dos sucesos de un experimento aleatorio y $A'$, $B'$ sus contrarios. Sabiendo que $P(A)=0{,}75$, $P(B')=0{,}45$ y $P(A-B)=0{,}3$, calcula:\begin{tasks}(3)
+  \task $P(A\cap B)$
+  \task $P(B-A)$
+  \task $P(A'\cap B')$
+\end{tasks}
+
+\ex{1} \pau{La Rioja, ordinaria 2024} De dos sucesos $A$ y $B$ se sabe que $P(A)=0{,}27$, $P(B')=0{,}82$ y $P(A\cup B)=0{,}4$. Determina si son compatibles o incompatibles y calcula $P\big((A\cup B)'\big)$ y $P(A'\cup B')$.
+
+
+% =====================================================
+\seccio{3}{Probabilidad condicionada e independencia}
+
+\ex{1} De dos sucesos se sabe que $P(A)=0{,}6$, $P(B\cond A)=0{,}5$ y $P(B\cond\co A)=0{,}25$. Calcula $P(A\cap B)$, $P(B)$, $P(A\cond B)$ y $P(A\cup B)$. ¿Son independientes?\recorda{$P(A\cond B)=\dfrac{P(A\cap B)}{P(B)}$. $A$ y $B$ son independientes si $P(A\cap B)=P(A)P(B)$, es decir, si $P(A\cond B)=P(A)$.}
+
+\ex{2} Demuestra que si $A$ y $B$ son independientes, también lo son $A$ y $\co B$. Deduce que también lo son $\co A$ y $\co B$.
+
+\ex{1} Dos sucesos independientes tienen la misma probabilidad y $P(A\cup B)=0{,}75$. Calcula $P(A)$ y la probabilidad de que ocurra exactamente uno.
+
+\ex{1} Tres tiradores disparan una vez cada uno a un blanco, de manera independiente. Las probabilidades de que acierten son $0{,}6$, $0{,}5$ y $0{,}4$. Calcula la probabilidad de que el blanco reciba algún impacto y la de que reciba exactamente dos.
+
+\ex{1} \pau{Asturias, ordinaria 2026} En una fábrica de pantalones vaqueros, el 10\,\% de las prendas no pasa el test de longitud, el 5\,\% no pasa el de las costuras y el 0,8\,\% no pasa ninguno de los dos.\begin{tasks}(1)
+  \task Calcula la probabilidad de que una prenda elegida al azar no pase al menos uno de los tests.
+  \task Si una prenda no ha pasado el test de longitud, ¿qué probabilidad hay de que tampoco pase el de las costuras?
+\end{tasks}
+
+\ex{1} \pau{Islas Baleares, extraordinaria 2026} En un instituto de 60 alumnos, el 60\,\% juega a baloncesto, el 35\,\% forma parte de un equipo federado y el 25\,\% juega a baloncesto y está federado.\begin{tasks}(1)
+  \task ¿Hay algún alumno federado que no juegue a baloncesto? Si lo hay, ¿cuántos?
+  \task ¿Cuál es la probabilidad de que un alumno sea de un equipo federado sabiendo que juega a baloncesto?
+\end{tasks}
+
+\ex{1} \pau{Cantabria, ordinaria 2025} En un colegio se ofrecen atletismo ($A$) y baloncesto ($B$) como actividades extraescolares, con $P(A)=0{,}4$ y $P(B)=0{,}65$. Solo un 10\,\% del alumnado no se matricula en ningún deporte.\begin{tasks}(1)
+  \task Calcula la probabilidad de que un alumno se matricule en los dos deportes.
+  \task Calcula $P(A\cond B)$, $P(B\cond A)$ y $P(A\cond B^c)$.
+\end{tasks}
+
+\ex{1} \pau{Extremadura, ordinaria 2024} En una residencia, el 80\,\% de los residentes tiene correo electrónico, el 60\,\% tiene redes sociales y el 10\,\% no tiene ni lo uno ni lo otro. Calcula la probabilidad de que un residente:\begin{tasks}(1)
+  \task use correo electrónico y redes sociales;
+  \task use solo una de las dos cosas;
+  \task use correo electrónico sabiendo que no usa redes sociales.
+\end{tasks}
+
+\ex{2} \pau{Galicia, ordinaria 2024} Se sabe que $P(A)=\frac13$ y $P(B)=\frac12$.\begin{tasks}(1)
+  \task Suponiendo que $A$ y $B$ son independientes, calcula $P(A\cup B)$ y $P\big(\co A\,/\,(\co A\cup\co B)\big)$.
+  \task Suponiendo que $A$ y $B$ son incompatibles, calcula $P(A\cup B)$ y $P\big(\co A\,/\,(\co A\cup\co B)\big)$.
+\end{tasks}
+
+\ex{1} \pau{Castilla-La Mancha, ordinaria 2024} Sean $A$ y $B$ dos sucesos tales que $P(A)=0{,}2$, $P(A\cap B)=0{,}1$ y $P(A\cup B)=0{,}3$. Calcula $P(B)$, $P(A\cap\co B)$, $P(A\cond B)$ y $P(B\cond A)$.
+
+\ex{2} \pau{Madrid, ordinaria 2026} Sabiendo que $P(B)=0{,}4$, $P\big(\overline{A\cup B}\big)=0{,}4$ y $P(B\cond A)=0{,}2$, calcula:\begin{tasks}(1)
+  \task $P(\co A)$ y $P(A\cap B)$.
+  \task $P\big((A\cap B)\cond(A\cup B)\big)$.
+\end{tasks}
+
+\ex{1} \pau{Madrid, ordinaria 2025 (coincidencias)} Se sabe que $P(A)=0{,}7$, $P(\co B)=0{,}2$ y $P(\co A\cap\co B)=0{,}1$.\begin{tasks}(1)
+  \task Razona si $\co A$ y $\co B$ son independientes.
+  \task Calcula $P(A\cap B)$.
+  \task Calcula $P(\co A\cond B)$.
+\end{tasks}
+
+\ex{1} \pau{País Vasco, extraordinaria 2024} Sean $A$ y $B$ sucesos independientes con $P(A)=0{,}7$ y $P(B)=0{,}1$. Calcula razonadamente:\begin{tasks}(3)
+  \task $P(A\cup B)$
+  \task $P(\co A\cup\co B)$
+  \task $P(\co A\cap\co B)$
+  \task $P(A\cap\co B)$
+  \task $P(\co A\cond B)$
+\end{tasks}
+
+\ex{1} \pau{Islas Baleares, ordinaria 2024} Sean $A$ y $B$ dos sucesos con $P(A\cup B)=0{,}7$, $P(A\cap B)=0{,}1$ y $P(A\cap B^c)=0{,}35$. Calcula:\begin{tasks}(4)
+  \task $P(A)$
+  \task $P(B)$
+  \task $P(A^c\cup B^c)$
+  \task ¿Independientes?
+\end{tasks}
+
+\ex{1} \pau{Murcia, extraordinaria 2024} El 60\,\% de los habitantes de una población consume pan integral, el 40\,\% pan blanco y el 20\,\% ambos.\begin{tasks}(1)
+  \task ¿Son independientes los sucesos «consumir pan integral» y «consumir pan blanco»?
+  \task Sabiendo que un habitante consume pan integral, ¿cuál es la probabilidad de que consuma pan blanco?
+  \task ¿Qué porcentaje de la población no consume ninguno de los dos tipos de pan?
+  \task Sabiendo que un habitante no consume pan integral, ¿cuál es la probabilidad de que consuma pan blanco?
+\end{tasks}
+
+\ex{2} \pau{Aragón, ordinaria 2025} De dos sucesos se sabe que $P(A\cond B)=\frac23$ y $P(B\cond A)=\frac34$.\begin{tasks}(1)
+  \task Si $A$ y $B$ fueran independientes, ¿cuánto valdría $P(A\cup B)$?
+  \task Si $P(A\cup B)=\frac56$, ¿cuáles son las probabilidades $P(A)$, $P(B)$ y $P(A\cup\co B)$?
+\end{tasks}
+
+\ex{1} \pau{Castilla y León, extraordinaria 2025} En un grupo de WhatsApp de un gimnasio de judo, el 55\,\% son mujeres y el resto hombres. El 15\,\% del grupo es cinturón verde, y una quinta parte de las mujeres es cinturón verde.\begin{tasks}(1)
+  \task ¿Qué porcentaje de los hombres es cinturón verde?
+  \task Si el grupo recibe un mensaje de un cinturón verde, ¿cuál es la probabilidad de que lo haya enviado una mujer?
+  \task Si no sabemos nada del remitente, ¿cuál es la probabilidad de que sea hombre y cinturón verde?
+\end{tasks}
+
+\ex{1} \pau{Cantabria, ordinaria 2026} En un criadero de cobayas las hay de pelo corto y de pelo largo, blancas o marrones. El 60\,\% de las cobayas es de pelo corto y solo el 8\,\% son blancas de pelo largo.\begin{tasks}(1)
+  \task Calcula la probabilidad de que una cobaya de pelo largo elegida al azar sea marrón.
+  \task Si la probabilidad de que una cobaya sea blanca es 0,2, calcula la probabilidad de que una cobaya marrón sea de pelo largo.
+  \task Con el mismo dato, calcula la probabilidad de que una cobaya de pelo corto sea marrón.
+\end{tasks}
+
+\ex{2} \pau{Galicia, extraordinaria 2025} Antón tiene 60 pares de zapatillas, cada uno en su caja: el 80\,\% son tradicionales y el 20\,\% de diseño. Entre las de diseño, el 75\,\% están en buen estado, pero solo el 50\,\% de las tradicionales lo están. Un día coge una caja al azar.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que lleve zapatillas tradicionales o en buen estado?
+  \task Antón no quiere llevar zapatillas que no estén en buen estado ni zapatillas tradicionales. ¿Cuál es la probabilidad de que no tenga que cambiarse?
+  \task Antón tiene 8 pares de zapatillas tradicionales blancas. Sabiendo que, al elegir una caja al azar, los sucesos «ser blancas» y «ser de diseño» son independientes, ¿cuántos pares de zapatillas blancas de diseño tiene?
+\end{tasks}
+
+\ex{1} \pau{La Rioja, ordinaria 2026} Las probabilidades de aprobar tres asignaturas de un grado son 60\,\%, 75\,\% y 80\,\% (Métodos Algorítmicos, Estadística y Bases de Datos), de manera independiente.\begin{tasks}(1)
+  \task Calcula la probabilidad de que un estudiante apruebe las tres.
+  \task Calcula la probabilidad de que suspenda solo una.
+  \task Si un estudiante ha suspendido solo una, ¿cuál es la probabilidad de que sea Métodos Algorítmicos?
+\end{tasks}
+
+\ex{1} \pau{Aragón, ordinaria 2024} En una asignatura hay 99 personas matriculadas (54 mujeres y 45 hombres). En primera convocatoria aprueban 49 personas (28 mujeres y 21 hombres).\begin{tasks}(1)
+  \task ¿Qué porcentaje de las mujeres aprueba en primera convocatoria? ¿Y de los hombres?
+  \task Si elegimos al azar una persona que ha aprobado, ¿cuál es la probabilidad de que sea una mujer?
+\end{tasks}
+
+
+% =====================================================
+\seccio{4}{Experimentos compuestos. Extracciones con y sin reemplazamiento}
+
+\ex{2} Una urna contiene 2 bolas blancas y 3 negras. Ana y Pablo sacan bolas alternadamente, empezando por Ana; gana quien saca la primera bola blanca. Calcula la probabilidad de que gane Ana:\begin{tasks}(1)
+  \task si las bolas no se devuelven a la urna;
+  \task si cada bola se devuelve a la urna antes de la tirada siguiente.
+\end{tasks}\recorda{en un diagrama de árbol multiplicamos a lo largo de cada camino y sumamos los caminos que forman el suceso.}
+
+\ex{1} De una urna con 5 bolas rojas y 3 verdes se sacan dos sin reemplazamiento. Calcula la probabilidad de que la segunda sea roja y, sabiendo que la segunda ha sido roja, la probabilidad de que la primera también lo haya sido.
+
+\ex{1} Lanzamos un dado hasta que sale un 6. Calcula la probabilidad de que el primer 6 salga en la tercera tirada y la de que hagan falta más de tres tiradas.
+
+\ex{1} \pau{Castilla y León, ordinaria 2026} De una bolsa con 20 fichas numeradas del 1 al 20 se extraen sucesivamente 2 sin reemplazamiento. Calcula la probabilidad de que:\begin{tasks}(1)
+  \task los dos números sean múltiplos de 3;
+  \task el primero sea múltiplo de 6 y el segundo múltiplo de 3;
+  \task ninguno de los dos sea múltiplo de 2;
+  \task la segunda ficha sea impar, sabiendo que la primera también lo ha sido.
+\end{tasks}
+
+\ex{2} \pau{Castilla-La Mancha, ordinaria 2025} De una baraja española de 40 cartas (con 4 ases), un jugador va sacando cartas una a una hasta que encuentra un as. Después, el otro jugador junta todas las cartas, las baraja y hace lo mismo. Gana quien haya sacado más cartas (contando el as); si sacan las mismas, empatan.\begin{tasks}(1)
+  \task Calcula las probabilidades de que el as salga al sacar 1, 2 y 3 cartas, respectivamente.
+  \task Si el primer jugador ha sacado dos cartas (contando el as), ¿cuál es la probabilidad de que el segundo jugador gane?
+\end{tasks}
+
+\ex{1} \pau{Castilla-La Mancha, extraordinaria 2024} En un mazo de 40 cartas, 4 están marcadas solo con un punto verde, 5 solo con un punto rojo y 7 con los dos puntos. (Una carta «tiene punto verde» si tiene solo uno verde o si tiene uno verde y uno rojo.)\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de sacar dos cartas sin reemplazamiento y que ambas tengan punto verde?
+  \task Si sacamos una carta y tiene punto verde, ¿cuál es la probabilidad de que también tenga punto rojo?
+\end{tasks}
+
+\ex{2} \pau{Aragón, extraordinaria 2026} La urna A tiene dos bolas rojas y tres azules, y la urna B, dos azules y tres rojas.\begin{tasks}(1)
+  \task Si sacamos al azar una bola de cada urna, ¿qué es más probable, que salgan del mismo color o de distinto color?
+  \task Las bolas extraídas en el apartado anterior se ponen en la urna contraria (la de A en la B y al revés). Si ahora sacamos una bola de la urna B, ¿cuál es la probabilidad de que sea azul?
+\end{tasks}
+
+\ex{2} \pau{Aragón, ordinaria 2025} Una ficha se mueve en un tablero de tres casillas en fila (1, 2, 3). En cada turno se lanza una moneda equilibrada: si sale cara se intenta mover la ficha a la izquierda y si sale cruz, a la derecha; si no se puede hacer el movimiento, la ficha se queda donde está.\begin{tasks}(1)
+  \task Construye una tabla con las probabilidades de pasar de una casilla a otra en un turno.
+  \task Si la ficha está en la casilla 1, ¿cuál es la probabilidad de que, después de tres turnos, vuelva a estar en la casilla 1?
+  \task La ficha empieza en la casilla 1 con probabilidad $\frac12$ y en la 2 y en la 3 con probabilidad $\frac14$ cada una. ¿Cuál es la probabilidad de que esté en cada casilla después de dos turnos?
+\end{tasks}
+
+\ex{1} \pau{Canarias, ordinaria 2024} En un avión se han instalado tres paracaídas $A$, $B$ y $C$: si falla $A$ se activa $B$, y si también falla $B$ se activa $C$. Las probabilidades de que funcionen correctamente son $0{,}96$, $0{,}98$ y $0{,}99$.\begin{tasks}(1)
+  \task Dibuja un diagrama de árbol con todos los casos posibles.
+  \task Calcula la probabilidad de que se active el paracaídas $B$ y funcione correctamente.
+  \task Calcula la probabilidad de que funcione algún paracaídas.
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Probabilidad total y teorema de Bayes}
+
+\ex{2} Una enfermedad afecta al 2\,\% de una población. Un test da positivo en el 90\,\% de los enfermos y en el 5\,\% de los sanos.\begin{tasks}(1)
+  \task Si el test de una persona da positivo, ¿cuál es la probabilidad de que esté enferma?
+  \task Para confirmarlo, se repite el test (de manera independiente). Si da positivo las dos veces, ¿cuál es ahora la probabilidad de que esté enferma?
+\end{tasks}\recorda{probabilidad total: $P(D)=\sum P(A_i)\,P(D\cond A_i)$. Bayes: $P(A_i\cond D)=\dfrac{P(A_i)\,P(D\cond A_i)}{P(D)}$.}
+
+\ex{1} \pau{Andalucía, extraordinaria 2026} Tres máquinas, $A$, $B$ y $C$, producen el 45\,\%, el 30\,\% y el 25\,\% de los coches de una fábrica, con un 3\,\%, un 4\,\% y un 5\,\% de coches defectuosos, respectivamente.\begin{tasks}(1)
+  \task Elegimos un coche al azar. Calcula la probabilidad de que sea defectuoso.
+  \task Un coche elegido al azar resulta defectuoso. ¿Qué máquina tiene la mayor probabilidad de haberlo producido?
+\end{tasks}
+
+\ex{1} \pau{Asturias, extraordinaria 2026} Una jugadora de tenis de mesa empieza los partidos restando en el 75\,\% de las ocasiones. Cuando empieza restando gana el 80\,\% de los partidos, y cuando empieza sacando, el 65\,\%.\begin{tasks}(1)
+  \task Calcula la probabilidad de que gane un partido.
+  \task Calcula la probabilidad de que haya empezado restando en un partido, sabiendo que lo ha ganado.
+\end{tasks}
+
+\ex{1} \pau{Islas Baleares, ordinaria 2026} En una plataforma de \emph{streaming} de videojuegos, el 40\,\% de los usuarios juega principalmente a juegos competitivos en línea; de estos, el 30\,\% participa en torneos oficiales. Entre los que no juegan principalmente a juegos competitivos, el 20\,\% también participa en torneos.\begin{tasks}(1)
+  \task Si elegimos un usuario que no juega principalmente a juegos competitivos, ¿cuál es la probabilidad de que no participe en torneos?
+  \task Si un usuario participa en torneos, ¿qué es más probable, que juegue principalmente a juegos competitivos o que no?
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, ordinaria 2025} La probabilidad de tener tuberculosis es 0,0005. La probabilidad de que una prueba dé positivo si la enfermedad está presente es del 99\,\%, y la de que dé negativo si no está presente también es del 99\,\%.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que la prueba dé positivo si la persona no tiene la enfermedad?
+  \task ¿Cuál es la probabilidad de tener tuberculosis si el resultado de la prueba es negativo?
+\end{tasks}
+
+\ex{2} \pau{Canarias, extraordinaria 2025} Una prueba detecta una enfermedad rara que afecta al 1\,\% de la población adulta. La sensibilidad de la prueba (dar positivo si la persona está enferma) es del 95\,\% y la especificidad (dar negativo si está sana), del 98\,\%.\begin{tasks}(1)
+  \task Calcula la probabilidad de que una persona esté enferma si la prueba da positivo.
+  \task Si 35\,000 personas se hacen la prueba, ¿podemos afirmar que se espera que haya más de 50 personas enfermas con resultado negativo?
+\end{tasks}
+
+\ex{1} \pau{Canarias, extraordinaria 2024} Una enfermedad la pueden producir tres virus, $A$, $B$ y $C$. En un laboratorio hay tres tubos con el virus $A$, dos con el $B$ y cinco con el $C$. La probabilidad de que el virus $A$ produzca la enfermedad es $\frac13$; la del $B$, $\frac23$, y la del $C$, $\frac17$.\begin{tasks}(1)
+  \task Se elige un tubo al azar y se inocula el virus a un animal. ¿Cuál es la probabilidad de que le produzca la enfermedad?
+  \task Si no se la produce, ¿cuál es la probabilidad de que se le haya inyectado el virus $C$?
+\end{tasks}
+
+\ex{2} \pau{Canarias, extraordinaria 2026} Un observatorio recibe 120 sensores: 20 son para el telescopio LST-1 y el resto se reparten por igual entre los telescopios MAGIC-I y MAGIC-II. Después del transporte, un sensor de los MAGIC se tiene que recalibrar con probabilidad 0,016 y uno del LST-1, con probabilidad 0,009. Se elige un sensor al azar.\begin{tasks}(1)
+  \task Calcula la probabilidad de que se tenga que recalibrar.
+  \task Si el sensor elegido no se tiene que recalibrar, ¿es la probabilidad de que sea del MAGIC-II mayor que el doble de la probabilidad de que sea del LST-1?
+\end{tasks}
+
+\ex{1} \pau{Castilla y León, ordinaria 2024} De entre los vehículos que revisa un taller, el 48\,\% son coches (tres cuartas partes requieren reparación), el 28\,\% motocicletas (la mitad la requiere) y el 24\,\% furgonetas (un tercio la requiere). Sean $C$, $M$, $F$ y $R$ los sucesos «coche», «motocicleta», «furgoneta» y «requiere reparación».\begin{tasks}(1)
+  \task Indica qué probabilidades da el enunciado.
+  \task Calcula $P(R\cap F)$, $P(R)$ y $P(C\cond R)$.
+  \task ¿Son independientes $C$ y $R$?
+\end{tasks}
+
+\ex{1} \pau{La Rioja, extraordinaria 2024} El 2\,\% de la población mundial padece una enfermedad. Una prueba para detectarla da positivo en el 98\,\% de los enfermos y en el 4\,\% de las personas sanas. Calcula:\begin{tasks}(1)
+  \task la probabilidad de que una persona esté sana, si la prueba ha dado positivo;
+  \task la probabilidad de que una persona esté enferma, si la prueba ha dado negativo.
+\end{tasks}
+
+\ex{2} \pau{Madrid, extraordinaria 2025} La probabilidad de que un corredor sufra una caída un día de lluvia es 0,08, y un día seco, 0,004. La probabilidad de llover y caerse es 0,032. Hoy un corredor ha salido a correr.\begin{tasks}(1)
+  \task Calcula la probabilidad de que vuelva a casa sin haberse caído.
+  \task Calcula la probabilidad de que no esté lloviendo, sabiendo que se ha caído.
+\end{tasks}
+
+\ex{3} \pau{Madrid, ordinaria 2024} En la sección de idiomas de una biblioteca hay libros en francés o en inglés de tres categorías: el 50\,\% son cuentos infantiles, el 30\,\% novelas históricas y el resto, manuales técnicos. Uno de cada cinco cuentos está en francés y una de cada tres novelas, en inglés. Además, uno de cada siete libros en francés es un manual técnico. Se elige un libro al azar.\begin{tasks}(1)
+  \task Calcula la probabilidad de que esté en francés si no es un manual técnico.
+  \task Calcula la probabilidad de que esté en francés, y la probabilidad de que sea una novela histórica si está en inglés.
+\end{tasks}
+
+\ex{3} \pau{Madrid, extraordinaria 2024} En un espacio muestral hay dos sucesos incompatibles $A_1$ y $A_2$, de probabilidad 0,4 cada uno, y $A_3=\overline{A_1\cup A_2}$ (de probabilidad 0,2). De un suceso $B$ se sabe que $P(B\cond A_1)=P(B\cond A_2)$ y $P(B\cond A_3)=2P(B\cond A_1)$; y de un suceso $C$ independiente de $A_1$, que $P(C\cond A_2)=0{,}3$ y $P(C\cond A_3)=0{,}6$.\begin{tasks}(1)
+  \task Calcula $P(B)$ si $P(B\cond A_1)=0{,}25$.
+  \task Calcula $P(C)$ y determina si $C$ es independiente de $A_2$.
+\end{tasks}
+
+\ex{1} \pau{Murcia, ordinaria 2025} La urna $U_1$ tiene 2 bolas rojas y 3 verdes, y la urna $U_2$, 6 rojas y 3 verdes. Se saca una bola de $U_1$, se pone en $U_2$ y, a continuación, se saca una bola de $U_2$. Calcula la probabilidad de que:\begin{tasks}(1)
+  \task salga roja en $U_2$ sabiendo que ha salido roja en $U_1$;
+  \task salga verde en $U_2$ sabiendo que ha salido roja en $U_1$;
+  \task salga verde en $U_2$;
+  \task haya salido roja en $U_1$ sabiendo que ha salido roja en $U_2$.
+\end{tasks}
+
+\ex{1} \pau{País Vasco, ordinaria 2026} En 2025 se vendieron en España 1\,148\,650 coches: el 10\,\% totalmente eléctricos (todos de cambio automático), el 52\,\% híbridos (el 6\,\% de ellos de cambio manual) y, del resto, el 53\,\% de cambio automático.\begin{tasks}(1)
+  \task Calcula la cantidad de coches de cambio automático vendidos en 2025.
+  \task Elegimos al azar un coche vendido en 2025 que tiene cambio automático. Calcula la probabilidad de que sea híbrido.
+\end{tasks}
+
+\ex{1} \pau{País Vasco, ordinaria 2024} La urna A tiene 3 bolas verdes, 5 rojas y 4 azules, y la urna B, 2 verdes, 2 rojas y 3 azules. Se saca al azar una bola de A, se pone en B y, después, se saca una bola de B.\begin{tasks}(1)
+  \task Haz el diagrama de árbol.
+  \task Calcula la probabilidad de que la bola extraída de B sea verde.
+  \task Calcula la probabilidad de que la bola de B sea verde sabiendo que la de A ha sido roja.
+  \task Sabiendo que la bola de B es verde, calcula la probabilidad de que la de A haya sido roja.
+\end{tasks}
+
+\ex{2} \pau{Aragón, ordinaria 2026} En un hospital se usan dos técnicas para operar una misma lesión. Estas son las intervenciones de los últimos años y, entre paréntesis, las que fueron efectivas:
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|cc|c}
+ & $\text{Técnica 1}$ & $\text{Técnica 2}$ & \textbf{Total}\\\hline
+$\text{Graves}$ & $44\ (30)$ & $140\ (102)$ & $184$\\
+$\text{Leves}$ & $136\ (120)$ & $40\ (36)$ & $176$\\
+\hline
+\textbf{Total} & $180\ (150)$ & $180\ (138)$ & $360$\\
+\end{tabular}}\end{center}
+\begin{tasks}(1)
+  \task Se elige al azar el expediente de una intervención efectiva. ¿Cuál de las dos técnicas es más probable que se haya usado?
+  \task Un cirujano quiere elegir la técnica con más probabilidad de éxito. ¿Cuál elegirá para una lesión leve? ¿Y para una grave?
+  \task Cuando no se sabe la gravedad de la lesión, el protocolo del hospital es aplicar la técnica 1. Justifica por qué no es lo más adecuado.
+\end{tasks}
+
+\ex{1} \pau{Aragón, extraordinaria 2025} La Universidad de Zaragoza tiene tres centros en Teruel, con 1550, 250 y 150 estudiantes (Ciencias Sociales, Politécnica y Enfermería). El 74\,\% de los estudiantes de Ciencias Sociales son mujeres, el 18\,\% de los de la Politécnica y el 76\,\% de los de Enfermería.\begin{tasks}(1)
+  \task Si se elige un estudiante al azar, ¿cuál es la probabilidad de que sea mujer?
+  \task Si es mujer, ¿cuál es la probabilidad de que estudie en la Politécnica?
+  \task Si es hombre, ¿cuál es la probabilidad de que estudie en la Politécnica?
+\end{tasks}
+
+\ex{1} \pau{Cantabria, extraordinaria 2026} La caja A tiene 10 bolas, 4 de las cuales son blancas; la B tiene 6, una blanca, y la C tiene 3 blancas de 8. El resto son rojas.\begin{tasks}(1)
+  \task Calcula la probabilidad de que, al sacar una bola de una caja elegida al azar, sea blanca.
+  \task Si la bola elegida es blanca, ¿cuál es la probabilidad de que sea de la caja B?
+  \task Calcula la probabilidad de obtener dos bolas blancas si se sacan dos bolas de una caja elegida al azar entre la A y la B.
+\end{tasks}
+
+\ex{2} \pau{Canarias, ordinaria 2025} En una feria, un participante elige una de tres cajas sorpresa: una tiene premio y las otras dos están vacías. Si elige una caja vacía, saca una bola de una urna con 2 bolas verdes y 3 negras: si es negra, termina sin premio; si es verde, puede elegir una nueva caja entre las dos que no había elegido, y termina.\begin{tasks}(1)
+  \task Dibuja un diagrama de árbol del juego.
+  \task Calcula la probabilidad de obtener premio.
+  \task Si el participante ha obtenido premio, ¿cuál es la probabilidad de que haya sacado bola verde?
+\end{tasks}
+
+\ex{1} \pau{Castilla y León, ordinaria 2025} De una urna con cuatro bolas rojas y dos azules se saca una y, sin devolverla, se saca otra.\begin{tasks}(1)
+  \task Calcula la probabilidad de que sean de distinto color.
+  \task Calcula la probabilidad de que la segunda bola sea azul.
+  \task Si la segunda bola es azul, calcula la probabilidad de que la primera sea roja.
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Variables aleatorias discretas y distribución binomial}
+
+\ex{1} Una variable aleatoria $X$ toma los valores 0, 1, 2 y 3 con probabilidades $0{,}1$, $a$, $2a$ y $0{,}3$. Calcula $a$, la media y la desviación típica de $X$, y $P(X\geq2)$.\recorda{$\sum p_i=1$; \ $\mu=\sum x_ip_i$; \ $\sigma^2=\sum x_i^2p_i-\mu^2$.}
+
+\ex{2} Un juego consiste en pagar 1 € y sacar dos bolas, sin reemplazamiento, de una urna con 3 bolas blancas y 2 negras. Si las dos son blancas se cobran 3 €. Calcula la ganancia esperada del jugador. ¿Cuánto debería pagarse por dos blancas para que el juego fuera equitativo?
+
+\ex{1} Razona si las variables siguientes son binomiales y, si lo son, indica sus parámetros:\begin{tasks}(1)
+  \task número de cincos en 12 lanzamientos de un dado;
+  \task número de bolas rojas al sacar 3 bolas sin reemplazamiento de una urna con 4 rojas y 6 blancas;
+  \task número de lanzamientos de una moneda hasta que sale la primera cara;
+  \task número de piezas defectuosas en una muestra de 50 de una producción enorme con un 2\,\% de defectuosas.
+\end{tasks}
+
+\ex{1} Si $X\sim B\left(6,\frac13\right)$, calcula $P(X=2)$, $P(X\leq1)$, $P(X\geq2)$, la media y la desviación típica.\recorda{$P(X=k)=\binom nk p^k q^{n-k}$, \ $\mu=np$, \ $\sigma=\sqrt{npq}$. Para «al menos», a menudo es más corto el contrario.}
+
+\ex{2} Una variable $X\sim B(5,p)$ cumple $P(X=1)=P(X=2)$. Calcula $p$ y $P(X\geq1)$.
+
+\ex{2} Una máquina hace un 2\,\% de piezas defectuosas. ¿Cuántas piezas hay que revisar, como mínimo, para que la probabilidad de encontrar al menos una defectuosa supere 0,5?
+
+\ex{1} \pau{Aragón, extraordinaria 2024} El 84\,\% de los exámenes de Matemáticas II de la convocatoria ordinaria de 2022 en Aragón sacaron una nota igual o superior a 5.\begin{tasks}(1)
+  \task Si se seleccionan 15 de estos exámenes al azar, ¿cuál es la probabilidad de que exactamente 2 tengan una nota inferior a 5?
+  \task Con los 15 exámenes, ¿es más probable que menos de 2 tengan nota inferior a 5 o que más de 2 la tengan?
+\end{tasks}
+
+\ex{1} \pau{Castilla-La Mancha, extraordinaria 2025} Una inspectora de sanidad sabe que el 5\,\% de los restaurantes no pasará una inspección. Si elige 8 al azar, calcula la probabilidad de que:\begin{tasks}(1)
+  \task tres restaurantes no pasen la inspección;
+  \task todos los restaurantes pasen la inspección;
+  \task al menos dos restaurantes pasen la inspección.
+\end{tasks}
+
+\ex{1} \pau{Extremadura, extraordinaria 2024} La probabilidad de que un jugador de golf haga hoyo desde cierta distancia es 0,4. Si hace 5 lanzamientos, calcula:\begin{tasks}(1)
+  \task la probabilidad de que no haga ningún hoyo;
+  \task la probabilidad de hacer como mucho 2 hoyos;
+  \task el número medio de hoyos.
+\end{tasks}
+
+\ex{1} \pau{Extremadura, ordinaria 2024} La tutora de Luis le propone un trato: si en los próximos 10 días llega tarde como mucho 3 días, le subirá 1 punto la nota. La probabilidad de que llegue tarde cada día es 0,5.\begin{tasks}(1)
+  \task ¿Qué distribución sigue el número de días que llega tarde? ¿Cuáles son sus parámetros?
+  \task ¿Cuáles son la media y la desviación típica?
+  \task ¿Cuál es la probabilidad de que Luis consiga el punto?
+\end{tasks}
+
+\ex{1} \pau{Galicia, extraordinaria 2024} En una colonia de cormoranes, cada huevo tiene un 13\,\% de probabilidad de ser infértil. Si se observa una puesta de 7 huevos, calcula la probabilidad de que haya al menos 2 infértiles.
+
+\ex{1} \pau{Murcia, ordinaria 2026} Una fábrica de bombillas sabe que el 5\,\% son defectuosas. Calcula la probabilidad de que en 9 bombillas elegidas al azar haya exactamente 3 defectuosas.
+
+\ex{1} \pau{Murcia, ordinaria 2025} El 2\,\% de las piezas que hace una máquina son defectuosas. Considera el número de piezas en buen estado de un lote de 10 piezas. ¿Qué distribución sigue? Indica su media y su desviación típica y calcula la probabilidad de que haya exactamente una pieza defectuosa.
+
+\ex{1} \pau{Navarra, ordinaria 2026} En un examen tipo test de 10 preguntas, cada pregunta tiene 4 respuestas de las que solo una es correcta. Si se responde al azar:\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de fallarlas todas?
+  \task ¿Cuál es la probabilidad de acertar exactamente 7?
+  \task Para aprobar hay que responder bien al menos 7 preguntas. ¿Cuál es la probabilidad de aprobar?
+\end{tasks}
+
+\ex{1} \pau{Canarias, extraordinaria 2026} Una academia de surf garantiza que, después del curso, un surfista principiante coge una ola con una probabilidad del 70\,\%.\begin{tasks}(1)
+  \task Si un alumno intenta coger 5 olas, ¿cuál es la probabilidad de que coja alguna?
+  \task Para contratar a un monitor se evalúa a un surfista experimentado que coge una ola con una probabilidad del 90\,\%. Lo contratan si coge al menos 14 de 15. ¿Cuál es la probabilidad de que lo contraten?
+\end{tasks}
+
+\ex{1} \pau{Cataluña, septiembre 2026} Un parque eólico tiene 10 aerogeneradores de 100 MW cada uno. Cada aerogenerador tiene una probabilidad del 10\,\% de estar parado, independientemente de los demás.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de llegar a los 1000 MW de potencia total?
+  \task ¿Cuál es la probabilidad de que la potencia total supere los 150 MW?
+\end{tasks}
+
+\ex{2} \pau{Aragón, ordinaria 2026} Un test tiene 4 preguntas con 5 respuestas posibles cada una. Cada respuesta correcta suma 2,5 puntos y cada respuesta incorrecta resta 0,625. Se contestan las cuatro preguntas al azar.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de sacar un sobresaliente (nota igual o superior a 9)?
+  \task ¿Cuál es la probabilidad de suspender (nota inferior a 5)?
+\end{tasks}
+
+\ex{1} \pau{Extremadura, extraordinaria 2025} El 30\,\% de la población de una comarca ve el programa de televisión «La Revuelta». La productora telefonea al azar a 10 personas de la comarca.\begin{tasks}(1)
+  \task Calcula la probabilidad de que más de 8 personas estuvieran viendo el programa.
+  \task Calcula la probabilidad de que alguna de las 10 personas estuviera viendo el programa.
+  \task Se sabe que el 35\,\% de la población ve «El Hormiguero» y que el 40\,\% no ve ninguno de los dos programas. ¿Cuál es la probabilidad de que una persona vea los dos programas?
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Problemas de síntesis}
+
+\ex{2} Una bolsa contiene dos monedas: una equilibrada y una trucada, con probabilidad de cara 0,8. Se elige una al azar y se lanza 5 veces. Si han salido exactamente 4 caras, ¿cuál es la probabilidad de que sea la moneda trucada?
+
+\ex{1} \pau{Castilla-La Mancha, extraordinaria 2024} Tenemos tres cajas: la A tiene dos cartas de espadas y tres de copas; la B, tres de espadas y dos de copas; y la C, cuatro de espadas y una de copas. Se lanza un dado: si sale impar se saca una carta de la caja A; si sale 4 o 6, de la B; y si sale 2, de la C.\begin{tasks}(1)
+  \task Calcula la probabilidad de obtener una carta de copas.
+  \task Sabiendo que la carta es de copas, ¿cuál es la probabilidad de que sea de la caja B?
+  \task La probabilidad de que un paracaidista novel caiga en el punto correcto es 0,25. Si se lanza 5 veces, ¿cuál es la probabilidad de que caiga en el punto correcto exactamente dos veces? ¿Y al menos una vez?
+\end{tasks}
+
+\ex{2} \pau{Madrid, ordinaria 2025 (coincidencias)} En una empresa tecnológica, el 70\,\% de los empleados son europeos. Una tercera parte de los no europeos se dedica a desarrollar software, y también tres de cada siete de los europeos.\begin{tasks}(1)
+  \task En un sorteo entre los empleados, calcula la probabilidad de que el premiado sea europeo y no desarrolle software.
+  \task En un segundo sorteo se eligen al azar 10 empleados, que recibirán un premio si como mucho 2 de ellos desarrollan software. Calcula la probabilidad de que la empresa tenga que dar este segundo premio.
+\end{tasks}
+
+\ex{1} \pau{Asturias, ordinaria 2025} El 6\,\% de las piezas que fabrica una empresa son defectuosas. En el control de calidad, un sistema de prueba da error con probabilidad 0,95 si la pieza es defectuosa y 0,04 si no lo es.\begin{tasks}(1)
+  \task Si se eligen 10 piezas al azar, ¿cuál es la probabilidad de que al menos una sea defectuosa?
+  \task Calcula la probabilidad de que, al probar una pieza elegida al azar, el sistema no dé error.
+\end{tasks}
+
+\ex{2} \pau{Cataluña, septiembre 2024} Se estima que el 20\,\% de los habitantes de una región padece arritmia. Un monitor Holter la detecta en el 95\,\% de los casos de personas que la padecen, pero también da falsos positivos en el 0,5\,\% de las personas que no la padecen.\begin{tasks}(1)
+  \task Si se eligen 4 personas al azar, ¿cuál es la probabilidad de que al menos una padezca arritmia?
+  \task ¿Cuál es la probabilidad de que una persona elegida al azar obtenga un diagnóstico positivo?
+  \task Si una persona obtiene un diagnóstico negativo, ¿cuál es la probabilidad de que realmente padezca arritmia?
+\end{tasks}
+
+\ex{2} \pau{Cataluña, junio 2025} Una empresa produce piezas de hierro (el 60\,\%) y de acero (el resto). El 95\,\% de las de hierro no tiene ningún defecto, mientras que el 3\,\% de las de acero es defectuosa.\begin{tasks}(1)
+  \task Si tomamos una pieza al azar, ¿cuál es la probabilidad de que sea defectuosa?
+  \task La empresa producirá también piezas de titanio, que se venderán en paquetes de 5. Cada pieza de titanio es defectuosa con una probabilidad $p$, independientemente de las demás. Comprueba que la probabilidad de que en un paquete haya exactamente 4 piezas defectuosas es $f(p)=5p^4-5p^5$.
+\end{tasks}
+
+\ex{2} \pau{Murcia, ordinaria 2024} El juego de los dados de Efron tiene 4 dados equilibrados de 6 caras, numerados así: dado A: 0, 0, 4, 4, 4, 4; dado B: 3, 3, 3, 3, 3, 3; dado C: 2, 2, 2, 2, 6, 6; dado D: 1, 1, 1, 5, 5, 5. Ana elige el dado A, Bea el B, Ceci el C y Delia el D. Cada jugadora lanza su dado: gana quien saca la puntuación más alta y pierde quien saca la más baja.\begin{tasks}(1)
+  \task Si Ana juega contra Bea, ¿cuál es la probabilidad de que gane Ana?
+  \task Si Ana juega 8 veces contra Bea, ¿cuál es la probabilidad de que Bea gane al menos 3 veces?
+  \task Si Ana juega contra Ceci, ¿cuál es la probabilidad de que gane Ceci?
+  \task Si juegan todas contra todas, ¿cuál es la probabilidad de que Ana ni gane ni pierda?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con las herramientas interactivas de los apuntes de la unidad.\end{center}
+
+\end{document}
