@@ -298,7 +298,122 @@ for a_ in (0.3, 0.7, 1.2):
     ap(1 / math.tan(a_) ** 2 + 1, 1 / math.sin(a_) ** 2); ap((1 + math.tan(a_) ** 2) * math.cos(a_) ** 2, 1); ap(math.sin(a_) * math.cos(a_) * math.tan(a_) + math.cos(a_) ** 2, 1)
 
 # =====================================================================
-# 5. Resolució de triangles rectangles (notació del departament: Â = 90°, a és la hipotenusa)
+# 5. Raons d'un angle qualsevol
+T52 = [120, 220, 135, 300, 240, 75]
+def quad(d): d %= 360; return ['I', 'II', 'III', 'IV'][int(d // 90)]
+tab52 = r'''\begin{center}\renewcommand{\arraystretch}{1.35}\begin{tabular}{|c|C{2.2cm}|C{2.2cm}|C{2.2cm}|C{2cm}|}\hline $\alpha$ & $\sin\alpha$ & $\cos\alpha$ & $\tg\alpha$ & \textbf{Cuadrante}\\\hline %s\end{tabular}\end{center}'''
+t52q = tab52 % ''.join(r'$%d^\circ$ & & & & \\\hline ' % d for d in T52)
+t52s = tab52 % ''.join(r'$%d^\circ$ & %s & %s & %s & %s\\\hline ' % (d, R(d4(sin(d))), R(d4(cos(d))), R(d4(tan(d))), R(r'\text{%s}' % quad(d))) for d in T52)
+E54 = [(r'3\sin270^\circ-2\cos180^\circ', '-1', 3 * sin(270) - 2 * cos(180)), (r'\cos0^\circ+\sin180^\circ-\tg180^\circ', '1', cos(0) + sin(180) - tan(180)),
+       (r'\sin90^\circ\cdot\cos360^\circ', '1', sin(90) * cos(360)), (r'2\cos90^\circ-\sin270^\circ', '1', 2 * cos(90) - sin(270))]
+for _, a, b in E54: ap(b, float(a))
+# entrega 1 i nous
+s55a = math.sqrt(1 - .49); ap(s55a, 0.71414, 1e-4)
+eq('-sqrt(10)/10', '-1/sqrt(1+9)'); eq('3*sqrt(10)/10', '(-3)*(-sqrt(10)/10)')
+c19 = math.sqrt(1 - .34 ** 2)
+A57 = [(r'\sin x=-\frac12', [210, 330], lambda x: sin(x) + .5), (r'\tg x=-1', [135, 315], lambda x: tan(x) + 1),
+       (r'\cos x=0{,}8', [acos(.8), 360 - acos(.8)], lambda x: cos(x) - .8), (r'\sin x=0{,}9', [asin(.9), 180 - asin(.9)], lambda x: sin(x) - .9)]
+for _, xs, f in A57:
+    for x in xs: ap(f(x) + 1, 1)
+    # cap altre angle entre 0 i 360 (pas de mig grau)
+    roots_ = [k / 2 for k in range(720) if (f(k / 2) * f(k / 2 + .5) < 0 and abs(f(k / 2 + .5)) > 1e-12 and min(abs(f(k / 2)), abs(f(k / 2 + .5))) < 0.1) or abs(f(k / 2)) < 1e-12]
+    assert len(roots_) == 2, roots_
+def volta(a):
+    """a = k·360° + b, amb 0 <= b < 360"""
+    k, b = a // 360, a % 360
+    co = '' if k == 1 else '-' if k == -1 else '%d\\cdot' % k
+    return '%d^\\circ=%s360^\\circ+%d^\\circ' % (a, co, b)
+def angs(xs): return ', \\ '.join(R(dms(x)) for x in sorted(xs))
+red59 = [(1750, 310), (1920, 120), (-800, 280), (3825, 225)]
+for a, b in red59: assert a % 360 == b
+S.append(("Razones trigonométricas de un ángulo cualquiera", [
+ (1, r"Utiliza la calculadora para calcular las razones trigonométricas de estos ángulos (con cuatro decimales) e indica en qué cuadrante está cada uno:" + t52q, t52s),
+ (1, r"Responde:" + tasks(1, [r"Si $\sin\alpha=-0{,}8$, ¿en qué cuadrante puede estar el ángulo $\alpha$?", r"Si $\cos\beta=-0{,}3$, ¿en qué cuadrante puede estar el ángulo $\beta$?", r"Si $\tg\gamma=-1{,}5$, ¿en qué cuadrante puede estar el ángulo $\gamma$?"]),
+     tasks(3, [r"\rest{III o IV}", r"\rest{II o III}", r"\rest{II o IV}"])),
+ (1, r"Calcula sin calculadora:" + tasks(2, ['$%s$' % t for t, _, _ in E54]), tasks(4, [R(a) for _, a, _ in E54])),
+ (2, r"Calcula las otras razones trigonométricas del ángulo en cada caso:" + tasks(2, [r"$\cos\alpha=0{,}7$ \ y \ $\alpha$ en el primer cuadrante.", r"$\tg\beta=-3$ \ y \ $\beta$ en el segundo cuadrante.",
+                                                                                     r"$\sin\gamma=-\frac35$ \ y \ $\gamma$ en el tercer cuadrante.", r"$\cos\delta=\frac{5}{13}$ \ y \ $\delta$ en el cuarto cuadrante."]),
+     tasks(1, [r"$\sin\alpha=\sqrt{1-0{,}49}\approx" + Rm(d4(s55a)) + r"$, \ $\tg\alpha\approx" + Rm(d4(s55a / .7)) + "$",
+               r"$\frac{1}{\cos^2\beta}=9+1=10$, \ $\cos\beta=" + Rm(r'-\frac{\sqrt{10}}{10}') + r"$ (negativo en el II), \ $\sin\beta=\tg\beta\cdot\cos\beta=" + Rm(r'\frac{3\sqrt{10}}{10}') + "$",
+               r"$\cos\gamma=-\sqrt{1-\frac{9}{25}}=" + Rm(r'-\frac45') + r"$ (negativo en el III), \ $\tg\gamma=\frac{-3/5}{-4/5}=" + Rm(r'\frac34') + "$",
+               r"$\sin\delta=-\sqrt{1-\frac{25}{169}}=" + Rm(r'-\frac{12}{13}') + r"$ (negativo en el IV), \ $\tg\delta=" + Rm(r'-\frac{12}{5}') + "$"])),
+ (2, r"Calcula las razones trigonométricas de $\alpha$ sabiendo que $\sin\alpha=0{,}34$. ¿Cuántos casos hay?",
+     r"$\cos^2\alpha=1-0{,}34^2=0{,}8844\Rightarrow\cos\alpha=\pm" + d4(c19) + r"$. Como el seno es positivo, $\alpha$ puede ser del I o del II cuadrante: \ " +
+     r"I: $\cos\alpha\approx" + Rm(d4(c19)) + r"$, $\tg\alpha\approx" + Rm(d4(.34 / c19)) + r"$ \ ($\alpha\approx" + dms(asin(.34)) + r"$); \ II: $\cos\alpha\approx" + Rm('-' + d4(c19)) + r"$, $\tg\alpha\approx" + Rm('-' + d4(.34 / c19)) + r"$ \ ($\alpha\approx" + dms(180 - asin(.34)) + "$)."),
+ (2, r"Halla los dos ángulos de $[0^\circ,360^\circ)$ que cumplen cada condición:" + tasks(4, ['$%s$' % t for t, _, _ in A57])
+     + recorda(r"la calculadora da un solo ángulo. El otro es $180^\circ-x$ (seno), $360^\circ-x$ (coseno) o $x+180^\circ$ (tangente)."),
+     tasks(2, [angs(xs) for _, xs, _ in A57])),
+ (2, r"Un ángulo $\beta$ tal que $0^\circ<\beta<360^\circ$ verifica $\sin\beta=-\sin30^\circ$ y $\cos\beta=\cos30^\circ$. ¿A qué cuadrante pertenece? ¿Cuánto mide?",
+     r"Seno negativo y coseno positivo: \rest{cuarto cuadrante}. \ $\beta=360^\circ-30^\circ=" + Rm('330^\\circ') + "$."),
+ (1, r"¿A qué ángulo entre $0^\circ$ y $360^\circ$ corresponde cada uno de estos ángulos?" + tasks(4, ['$%d^\\circ$' % a for a, _ in red59]),
+     tasks(2, ['$%s$: \\ %s' % (volta(a), R('%d^\\circ' % b)) for a, b in red59])),
+]))
+assert sin(330) < 0 and cos(330) > 0 and abs(sin(330) + .5) < 1e-12
+
+# =====================================================================
+# 6. Reducció al primer quadrant
+E61 = [155, 240, 390, 225, 1920, -30]
+def redu(b):
+    b0 = b % 360; q = int(b0 // 90)
+    a = [b0, 180 - b0, b0 - 180, 360 - b0][q]
+    sg = [('', '', ''), ('', '-', '-'), ('-', '-', ''), ('-', '', '-')][q]
+    rel = ['', '180^\\circ-%d^\\circ' % a, '180^\\circ+%d^\\circ' % a, '360^\\circ-%d^\\circ' % a][q]
+    for f, s_ in zip((sin, cos, tan), sg):
+        ap(f(b), (-1 if s_ else 1) * f(a))
+    return b0, a, sg, rel
+EXA = {30: (r'\frac12', r'\frac{\sqrt3}{2}', r'\frac{\sqrt3}{3}'), 45: (r'\frac{\sqrt2}{2}', r'\frac{\sqrt2}{2}', '1'), 60: (r'\frac{\sqrt3}{2}', r'\frac12', r'\sqrt3')}
+def sol_red(b, exact=True):
+    b0, a, sg, rel = redu(b)
+    parts = []
+    if b >= 360 or b < 0: parts.append('$%s$' % volta(b))
+    if rel: parts.append('$%d^\\circ=%s$' % (b0, rel))
+    pre = '; \\ '.join(parts) + ': \\ ' if parts else ''
+    fb = '(%d^\\circ)' % b if b < 0 else '%d^\\circ' % b
+    if exact and a in EXA:
+        vals = [s_ + v if v != '0' else v for s_, v in zip(sg, EXA[a])]
+        for f, v in zip((sin, cos, tan), vals): ap(f(b), float(sp.nsimplify(v.replace(r'\frac{\sqrt3}{2}', 'sqrt(3)/2').replace(r'\frac{\sqrt2}{2}', 'sqrt(2)/2').replace(r'\frac{\sqrt3}{3}', 'sqrt(3)/3').replace(r'\frac12', '1/2').replace(r'\sqrt3', 'sqrt(3)'))))
+        return pre + r'$\sin=%s$, $\cos=%s$, $\tg=%s$' % tuple(Rm(v) for v in vals)
+    return pre + r'$\sin%s=%s$, $\cos%s=%s$, $\tg%s=%s$' % (fb, Rm(sg[0] + r'\sin%d^\circ' % a), fb, Rm(sg[1] + r'\cos%d^\circ' % a), fb, Rm(sg[2] + r'\tg%d^\circ' % a))
+E62 = [-40, 385, -185, 835, 934]
+E63 = [145, 215, 325, 55, -35, 395]
+s35, c35, t35 = .57, .82, .70
+def v63(b):
+    if b == 55: return (c35, s35, 1 / t35)
+    b0, a, sg, _ = redu(b); assert a == 35
+    return tuple((-1 if s_ else 1) * v for s_, v in zip(sg, (s35, c35, t35)))
+for b in E63:
+    vv = v63(b)
+    for f, v in zip((sin, cos, tan), vv): ap(f(b), v, 0.012)
+S.append(("Reducción al primer cuadrante", [
+ (1, r"Utiliza la relación entre los ángulos para calcular, de manera exacta:" + tasks(1, [r"Las razones de $135^\circ$, sabiendo las de $45^\circ$.", r"Las razones de $240^\circ$, sabiendo las de $60^\circ$.", r"Las razones de $-30^\circ$, sabiendo las de $30^\circ$."]),
+     tasks(1, [sol_red(135), sol_red(240), sol_red(-30)])),
+ (2, r"Calcula las razones trigonométricas (seno, coseno y tangente) de los ángulos siguientes, relacionándolas con las de un ángulo del primer cuadrante. Si el ángulo del primer cuadrante es $30^\circ$, $45^\circ$ o $60^\circ$, da su valor exacto." + tasks(6, ['$%d^\\circ$' % b for b in E61]),
+     tasks(1, [sol_red(b) for b in E61])),
+ (2, r"Expresa las razones trigonométricas de los ángulos siguientes en función de las de un ángulo del primer cuadrante. ¡Cuidado con los signos!" + tasks(5, ['$%d^\\circ$' % b for b in E62]),
+     tasks(1, [sol_red(b, False) for b in E62])),
+ (2, r"Sabiendo que $\sin35^\circ\approx0{,}57$, $\cos35^\circ\approx0{,}82$ y $\tg35^\circ\approx0{,}70$, calcula sin calculadora las razones trigonométricas de:" + tasks(6, ['$%d^\\circ$' % b for b in E63]),
+     tasks(2, [r'$%d^\circ$: \ $\sin\approx%s$, $\cos\approx%s$, $\tg\approx%s$' % ((b,) + tuple(Rm(d2(v)) for v in v63(b))) for b in E63])),
+ (3, r"Expresa las razones trigonométricas de los ángulos siguientes en función de las de un ángulo $\alpha$ tal que $0^\circ\le\alpha\le45^\circ$:" + tasks(4, [r'$120^\circ$', r'$430^\circ$', r'$-800^\circ$', r'$180^\circ$'])
+     + recorda(r"si el ángulo del primer cuadrante es mayor de $45^\circ$, pasa al complementario: $\sin(90^\circ-\alpha)=\cos\alpha$, $\cos(90^\circ-\alpha)=\sin\alpha$, $\tg(90^\circ-\alpha)=\dfrac{1}{\tg\alpha}$."),
+     tasks(1, [r"$120^\circ=180^\circ-60^\circ$: \ $\sin120^\circ=\sin60^\circ=" + Rm(r'\cos30^\circ') + r"$, \ $\cos120^\circ=-\cos60^\circ=" + Rm(r'-\sin30^\circ') + r"$, \ $\tg120^\circ=-\tg60^\circ=" + Rm(r'-\dfrac{1}{\tg30^\circ}') + "$",
+               r"$430^\circ=360^\circ+70^\circ$: \ $\sin430^\circ=\sin70^\circ=" + Rm(r'\cos20^\circ') + r"$, \ $\cos430^\circ=" + Rm(r'\sin20^\circ') + r"$, \ $\tg430^\circ=" + Rm(r'\dfrac{1}{\tg20^\circ}') + "$",
+               r"$-800^\circ=-3\cdot360^\circ+280^\circ$ y $280^\circ=360^\circ-80^\circ$: \ $\sin(-800^\circ)=-\sin80^\circ=" + Rm(r'-\cos10^\circ') + r"$, \ $\cos(-800^\circ)=\cos80^\circ=" + Rm(r'\sin10^\circ') + r"$, \ $\tg(-800^\circ)=-\tg80^\circ=" + Rm(r'-\dfrac{1}{\tg10^\circ}') + "$",
+               r"$\sin180^\circ=" + Rm(r'\sin0^\circ=0') + r"$, \ $\cos180^\circ=" + Rm(r'-\cos0^\circ=-1') + r"$, \ $\tg180^\circ=" + Rm(r'\tg0^\circ=0') + "$"])),
+ (3, r"Simplifica: \ $\sin(180^\circ-\alpha)+\sin(180^\circ+\alpha)+\cos(360^\circ-\alpha)+\cos(180^\circ-\alpha)$.",
+     r"$\sin\alpha-\sin\alpha+\cos\alpha-\cos\alpha=" + Rm('0') + "$"),
+]))
+ap(sin(120), cos(30)); ap(cos(120), -sin(30)); ap(tan(120), -1 / tan(30)); ap(sin(430), cos(20)); ap(cos(430), sin(20)); ap(tan(430), 1 / tan(20))
+ap(sin(-800), -cos(10)); ap(cos(-800), sin(10)); ap(tan(-800), -1 / tan(10))
+for a_ in (17, 52, 200):
+    ap(sin(180 - a_) + sin(180 + a_) + cos(360 - a_) + cos(180 - a_) + 1, 1)
+
+PRE = r'''\usetikzlibrary{calc}
+\usepackage{enumitem}
+\providecommand{\tg}{\operatorname{tg}}
+'''
+
+# =====================================================================
+# 7. Resolució de triangles rectangles (notació del departament: Â = 90°, a és la hipotenusa)
 t28 = []
 # a) b = 4, B = 30
 a_a, c_a = 4 / sin(30), 4 / tan(30); ap(a_a, 8); ap(c_a, 4 * S3)
@@ -336,7 +451,7 @@ S.append(("Resolución de triángulos rectángulos", [
 ap(compas, 10.1428, 1e-4)
 
 # =====================================================================
-# 6. Problemes de trigonometria
+# 8. Problemes de trigonometria
 def dob(mode, a, b, d):
     x = d * tan(b) / (tan(a) - tan(b)) if mode == 's' else d * tan(b) / (tan(a) + tan(b))
     return x, x * tan(a)
@@ -436,120 +551,6 @@ S.append(("Problemas de trigonometría", [
 ]))
 ap(prof, 35.4813, 1e-4); ap(carrer, 15.7313, 1e-4)
 
-# =====================================================================
-# 7. Raons d'un angle qualsevol
-T52 = [120, 220, 135, 300, 240, 75]
-def quad(d): d %= 360; return ['I', 'II', 'III', 'IV'][int(d // 90)]
-tab52 = r'''\begin{center}\renewcommand{\arraystretch}{1.35}\begin{tabular}{|c|C{2.2cm}|C{2.2cm}|C{2.2cm}|C{2cm}|}\hline $\alpha$ & $\sin\alpha$ & $\cos\alpha$ & $\tg\alpha$ & \textbf{Cuadrante}\\\hline %s\end{tabular}\end{center}'''
-t52q = tab52 % ''.join(r'$%d^\circ$ & & & & \\\hline ' % d for d in T52)
-t52s = tab52 % ''.join(r'$%d^\circ$ & %s & %s & %s & %s\\\hline ' % (d, R(d4(sin(d))), R(d4(cos(d))), R(d4(tan(d))), R(r'\text{%s}' % quad(d))) for d in T52)
-E54 = [(r'3\sin270^\circ-2\cos180^\circ', '-1', 3 * sin(270) - 2 * cos(180)), (r'\cos0^\circ+\sin180^\circ-\tg180^\circ', '1', cos(0) + sin(180) - tan(180)),
-       (r'\sin90^\circ\cdot\cos360^\circ', '1', sin(90) * cos(360)), (r'2\cos90^\circ-\sin270^\circ', '1', 2 * cos(90) - sin(270))]
-for _, a, b in E54: ap(b, float(a))
-# entrega 1 i nous
-s55a = math.sqrt(1 - .49); ap(s55a, 0.71414, 1e-4)
-eq('-sqrt(10)/10', '-1/sqrt(1+9)'); eq('3*sqrt(10)/10', '(-3)*(-sqrt(10)/10)')
-c19 = math.sqrt(1 - .34 ** 2)
-A57 = [(r'\sin x=-\frac12', [210, 330], lambda x: sin(x) + .5), (r'\tg x=-1', [135, 315], lambda x: tan(x) + 1),
-       (r'\cos x=0{,}8', [acos(.8), 360 - acos(.8)], lambda x: cos(x) - .8), (r'\sin x=0{,}9', [asin(.9), 180 - asin(.9)], lambda x: sin(x) - .9)]
-for _, xs, f in A57:
-    for x in xs: ap(f(x) + 1, 1)
-    # cap altre angle entre 0 i 360 (pas de mig grau)
-    roots_ = [k / 2 for k in range(720) if (f(k / 2) * f(k / 2 + .5) < 0 and abs(f(k / 2 + .5)) > 1e-12 and min(abs(f(k / 2)), abs(f(k / 2 + .5))) < 0.1) or abs(f(k / 2)) < 1e-12]
-    assert len(roots_) == 2, roots_
-def volta(a):
-    """a = k·360° + b, amb 0 <= b < 360"""
-    k, b = a // 360, a % 360
-    co = '' if k == 1 else '-' if k == -1 else '%d\\cdot' % k
-    return '%d^\\circ=%s360^\\circ+%d^\\circ' % (a, co, b)
-def angs(xs): return ', \\ '.join(R(dms(x)) for x in sorted(xs))
-red59 = [(1750, 310), (1920, 120), (-800, 280), (3825, 225)]
-for a, b in red59: assert a % 360 == b
-S.append(("Razones trigonométricas de un ángulo cualquiera", [
- (1, r"Utiliza la calculadora para calcular las razones trigonométricas de estos ángulos (con cuatro decimales) e indica en qué cuadrante está cada uno:" + t52q, t52s),
- (1, r"Responde:" + tasks(1, [r"Si $\sin\alpha=-0{,}8$, ¿en qué cuadrante puede estar el ángulo $\alpha$?", r"Si $\cos\beta=-0{,}3$, ¿en qué cuadrante puede estar el ángulo $\beta$?", r"Si $\tg\gamma=-1{,}5$, ¿en qué cuadrante puede estar el ángulo $\gamma$?"]),
-     tasks(3, [r"\rest{III o IV}", r"\rest{II o III}", r"\rest{II o IV}"])),
- (1, r"Calcula sin calculadora:" + tasks(2, ['$%s$' % t for t, _, _ in E54]), tasks(4, [R(a) for _, a, _ in E54])),
- (2, r"Calcula las otras razones trigonométricas del ángulo en cada caso:" + tasks(2, [r"$\cos\alpha=0{,}7$ \ y \ $\alpha$ en el primer cuadrante.", r"$\tg\beta=-3$ \ y \ $\beta$ en el segundo cuadrante.",
-                                                                                     r"$\sin\gamma=-\frac35$ \ y \ $\gamma$ en el tercer cuadrante.", r"$\cos\delta=\frac{5}{13}$ \ y \ $\delta$ en el cuarto cuadrante."]),
-     tasks(1, [r"$\sin\alpha=\sqrt{1-0{,}49}\approx" + Rm(d4(s55a)) + r"$, \ $\tg\alpha\approx" + Rm(d4(s55a / .7)) + "$",
-               r"$\frac{1}{\cos^2\beta}=9+1=10$, \ $\cos\beta=" + Rm(r'-\frac{\sqrt{10}}{10}') + r"$ (negativo en el II), \ $\sin\beta=\tg\beta\cdot\cos\beta=" + Rm(r'\frac{3\sqrt{10}}{10}') + "$",
-               r"$\cos\gamma=-\sqrt{1-\frac{9}{25}}=" + Rm(r'-\frac45') + r"$ (negativo en el III), \ $\tg\gamma=\frac{-3/5}{-4/5}=" + Rm(r'\frac34') + "$",
-               r"$\sin\delta=-\sqrt{1-\frac{25}{169}}=" + Rm(r'-\frac{12}{13}') + r"$ (negativo en el IV), \ $\tg\delta=" + Rm(r'-\frac{12}{5}') + "$"])),
- (2, r"Calcula las razones trigonométricas de $\alpha$ sabiendo que $\sin\alpha=0{,}34$. ¿Cuántos casos hay?",
-     r"$\cos^2\alpha=1-0{,}34^2=0{,}8844\Rightarrow\cos\alpha=\pm" + d4(c19) + r"$. Como el seno es positivo, $\alpha$ puede ser del I o del II cuadrante: \ " +
-     r"I: $\cos\alpha\approx" + Rm(d4(c19)) + r"$, $\tg\alpha\approx" + Rm(d4(.34 / c19)) + r"$ \ ($\alpha\approx" + dms(asin(.34)) + r"$); \ II: $\cos\alpha\approx" + Rm('-' + d4(c19)) + r"$, $\tg\alpha\approx" + Rm('-' + d4(.34 / c19)) + r"$ \ ($\alpha\approx" + dms(180 - asin(.34)) + "$)."),
- (2, r"Halla los dos ángulos de $[0^\circ,360^\circ)$ que cumplen cada condición:" + tasks(4, ['$%s$' % t for t, _, _ in A57])
-     + recorda(r"la calculadora da un solo ángulo. El otro es $180^\circ-x$ (seno), $360^\circ-x$ (coseno) o $x+180^\circ$ (tangente)."),
-     tasks(2, [angs(xs) for _, xs, _ in A57])),
- (2, r"Un ángulo $\beta$ tal que $0^\circ<\beta<360^\circ$ verifica $\sin\beta=-\sin30^\circ$ y $\cos\beta=\cos30^\circ$. ¿A qué cuadrante pertenece? ¿Cuánto mide?",
-     r"Seno negativo y coseno positivo: \rest{cuarto cuadrante}. \ $\beta=360^\circ-30^\circ=" + Rm('330^\\circ') + "$."),
- (1, r"¿A qué ángulo entre $0^\circ$ y $360^\circ$ corresponde cada uno de estos ángulos?" + tasks(4, ['$%d^\\circ$' % a for a, _ in red59]),
-     tasks(2, ['$%s$: \\ %s' % (volta(a), R('%d^\\circ' % b)) for a, b in red59])),
-]))
-assert sin(330) < 0 and cos(330) > 0 and abs(sin(330) + .5) < 1e-12
-
-# =====================================================================
-# 8. Reducció al primer quadrant
-E61 = [155, 240, 390, 225, 1920, -30]
-def redu(b):
-    b0 = b % 360; q = int(b0 // 90)
-    a = [b0, 180 - b0, b0 - 180, 360 - b0][q]
-    sg = [('', '', ''), ('', '-', '-'), ('-', '-', ''), ('-', '', '-')][q]
-    rel = ['', '180^\\circ-%d^\\circ' % a, '180^\\circ+%d^\\circ' % a, '360^\\circ-%d^\\circ' % a][q]
-    for f, s_ in zip((sin, cos, tan), sg):
-        ap(f(b), (-1 if s_ else 1) * f(a))
-    return b0, a, sg, rel
-EXA = {30: (r'\frac12', r'\frac{\sqrt3}{2}', r'\frac{\sqrt3}{3}'), 45: (r'\frac{\sqrt2}{2}', r'\frac{\sqrt2}{2}', '1'), 60: (r'\frac{\sqrt3}{2}', r'\frac12', r'\sqrt3')}
-def sol_red(b, exact=True):
-    b0, a, sg, rel = redu(b)
-    parts = []
-    if b >= 360 or b < 0: parts.append('$%s$' % volta(b))
-    if rel: parts.append('$%d^\\circ=%s$' % (b0, rel))
-    pre = '; \\ '.join(parts) + ': \\ ' if parts else ''
-    fb = '(%d^\\circ)' % b if b < 0 else '%d^\\circ' % b
-    if exact and a in EXA:
-        vals = [s_ + v if v != '0' else v for s_, v in zip(sg, EXA[a])]
-        for f, v in zip((sin, cos, tan), vals): ap(f(b), float(sp.nsimplify(v.replace(r'\frac{\sqrt3}{2}', 'sqrt(3)/2').replace(r'\frac{\sqrt2}{2}', 'sqrt(2)/2').replace(r'\frac{\sqrt3}{3}', 'sqrt(3)/3').replace(r'\frac12', '1/2').replace(r'\sqrt3', 'sqrt(3)'))))
-        return pre + r'$\sin=%s$, $\cos=%s$, $\tg=%s$' % tuple(Rm(v) for v in vals)
-    return pre + r'$\sin%s=%s$, $\cos%s=%s$, $\tg%s=%s$' % (fb, Rm(sg[0] + r'\sin%d^\circ' % a), fb, Rm(sg[1] + r'\cos%d^\circ' % a), fb, Rm(sg[2] + r'\tg%d^\circ' % a))
-E62 = [-40, 385, -185, 835, 934]
-E63 = [145, 215, 325, 55, -35, 395]
-s35, c35, t35 = .57, .82, .70
-def v63(b):
-    if b == 55: return (c35, s35, 1 / t35)
-    b0, a, sg, _ = redu(b); assert a == 35
-    return tuple((-1 if s_ else 1) * v for s_, v in zip(sg, (s35, c35, t35)))
-for b in E63:
-    vv = v63(b)
-    for f, v in zip((sin, cos, tan), vv): ap(f(b), v, 0.012)
-S.append(("Reducción al primer cuadrante", [
- (1, r"Utiliza la relación entre los ángulos para calcular, de manera exacta:" + tasks(1, [r"Las razones de $135^\circ$, sabiendo las de $45^\circ$.", r"Las razones de $240^\circ$, sabiendo las de $60^\circ$.", r"Las razones de $-30^\circ$, sabiendo las de $30^\circ$."]),
-     tasks(1, [sol_red(135), sol_red(240), sol_red(-30)])),
- (2, r"Calcula las razones trigonométricas (seno, coseno y tangente) de los ángulos siguientes, relacionándolas con las de un ángulo del primer cuadrante. Si el ángulo del primer cuadrante es $30^\circ$, $45^\circ$ o $60^\circ$, da su valor exacto." + tasks(6, ['$%d^\\circ$' % b for b in E61]),
-     tasks(1, [sol_red(b) for b in E61])),
- (2, r"Expresa las razones trigonométricas de los ángulos siguientes en función de las de un ángulo del primer cuadrante. ¡Cuidado con los signos!" + tasks(5, ['$%d^\\circ$' % b for b in E62]),
-     tasks(1, [sol_red(b, False) for b in E62])),
- (2, r"Sabiendo que $\sin35^\circ\approx0{,}57$, $\cos35^\circ\approx0{,}82$ y $\tg35^\circ\approx0{,}70$, calcula sin calculadora las razones trigonométricas de:" + tasks(6, ['$%d^\\circ$' % b for b in E63]),
-     tasks(2, [r'$%d^\circ$: \ $\sin\approx%s$, $\cos\approx%s$, $\tg\approx%s$' % ((b,) + tuple(Rm(d2(v)) for v in v63(b))) for b in E63])),
- (3, r"Expresa las razones trigonométricas de los ángulos siguientes en función de las de un ángulo $\alpha$ tal que $0^\circ\le\alpha\le45^\circ$:" + tasks(4, [r'$120^\circ$', r'$430^\circ$', r'$-800^\circ$', r'$180^\circ$'])
-     + recorda(r"si el ángulo del primer cuadrante es mayor de $45^\circ$, pasa al complementario: $\sin(90^\circ-\alpha)=\cos\alpha$, $\cos(90^\circ-\alpha)=\sin\alpha$, $\tg(90^\circ-\alpha)=\dfrac{1}{\tg\alpha}$."),
-     tasks(1, [r"$120^\circ=180^\circ-60^\circ$: \ $\sin120^\circ=\sin60^\circ=" + Rm(r'\cos30^\circ') + r"$, \ $\cos120^\circ=-\cos60^\circ=" + Rm(r'-\sin30^\circ') + r"$, \ $\tg120^\circ=-\tg60^\circ=" + Rm(r'-\dfrac{1}{\tg30^\circ}') + "$",
-               r"$430^\circ=360^\circ+70^\circ$: \ $\sin430^\circ=\sin70^\circ=" + Rm(r'\cos20^\circ') + r"$, \ $\cos430^\circ=" + Rm(r'\sin20^\circ') + r"$, \ $\tg430^\circ=" + Rm(r'\dfrac{1}{\tg20^\circ}') + "$",
-               r"$-800^\circ=-3\cdot360^\circ+280^\circ$ y $280^\circ=360^\circ-80^\circ$: \ $\sin(-800^\circ)=-\sin80^\circ=" + Rm(r'-\cos10^\circ') + r"$, \ $\cos(-800^\circ)=\cos80^\circ=" + Rm(r'\sin10^\circ') + r"$, \ $\tg(-800^\circ)=-\tg80^\circ=" + Rm(r'-\dfrac{1}{\tg10^\circ}') + "$",
-               r"$\sin180^\circ=" + Rm(r'\sin0^\circ=0') + r"$, \ $\cos180^\circ=" + Rm(r'-\cos0^\circ=-1') + r"$, \ $\tg180^\circ=" + Rm(r'\tg0^\circ=0') + "$"])),
- (3, r"Simplifica: \ $\sin(180^\circ-\alpha)+\sin(180^\circ+\alpha)+\cos(360^\circ-\alpha)+\cos(180^\circ-\alpha)$.",
-     r"$\sin\alpha-\sin\alpha+\cos\alpha-\cos\alpha=" + Rm('0') + "$"),
-]))
-ap(sin(120), cos(30)); ap(cos(120), -sin(30)); ap(tan(120), -1 / tan(30)); ap(sin(430), cos(20)); ap(cos(430), sin(20)); ap(tan(430), 1 / tan(20))
-ap(sin(-800), -cos(10)); ap(cos(-800), sin(10)); ap(tan(-800), -1 / tan(10))
-for a_ in (17, 52, 200):
-    ap(sin(180 - a_) + sin(180 + a_) + cos(360 - a_) + cos(180 - a_) + 1, 1)
-
-PRE = r'''\usetikzlibrary{calc}
-\usepackage{enumitem}
-\providecommand{\tg}{\operatorname{tg}}
-'''
 build(HERE, 5, "Trigonometría", S,
       "trigonometría, radianes, seno, coseno, tangente, relaciones fundamentales, triángulos rectángulos, circunferencia goniométrica, reducción al primer cuadrante",
       r"Resuélvelos en el cuaderno mostrando todos los pasos y haciendo un dibujo en los problemas. Usa la calculadora en modo \texttt{D} (grados) y da los ángulos en grados, minutos y segundos y las longitudes con dos decimales, salvo que el enunciado pida el resultado exacto. La ficha recoge los ejercicios de las fichas del departamento y añade otros nuevos.",
