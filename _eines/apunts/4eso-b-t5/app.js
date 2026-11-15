@@ -465,7 +465,7 @@
     return { A: [0, 0], B: [c, 0], C: [b * Math.cos(rad(A)), b * Math.sin(rad(A))] };
   }
 
-  /* ---------- 5.5 triangles rectangles ---------- */
+  /* ---------- 5.7 triangles rectangles ---------- */
   function wRect() {
     var w = byId("w-rect"); if (!w) return;
     var svg = w.querySelector("svg"), info = w.querySelector(".info"), K = ["a", "b", "c", "A", "B"], I = {};
@@ -573,7 +573,7 @@
     K.addEventListener("change", draw); X.addEventListener("input", draw); Y.addEventListener("input", draw); onLang(draw);
   }
 
-  /* ---------- 5.6 doble observació ---------- */
+  /* ---------- 5.8 doble observació ---------- */
   // mode "s": els dos punts al mateix costat (A, el més pròxim, veu el cim amb α; B, a d metres més lluny, amb β)
   // mode "o": costats oposats (A i B separats d metres, l'objecte entre ells)
   function dob(mode, a, b, d) {

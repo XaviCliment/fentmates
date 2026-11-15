@@ -3,8 +3,8 @@ import os, re, sys, glob
 # Genera materials/4eso-b/t5-trigonometria.html. Ús: python3 _eines/apunts/4eso-b-t5/build.py
 # Parteix dels apartats 5.1-5.5 de la unitat 5 de 1r Batx MI (1batx-mi-t5), simplificats i reordenats en 8 apartats seguint les
 # fitxes del departament de 4t ESO: graus i radians, raons d'un angle agut, raons de 30°, 45° i 60°, relacions fonamentals,
-# triangles rectangles, problemes (doble observació, polígons, triangles qualssevol traçant una altura), angles qualssevol i
-# reducció al primer quadrant. Sense teoremes del sinus i del cosinus ni raons recíproques. Com aquella, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
+# angles qualssevol, reducció al primer quadrant, triangles rectangles i problemes (doble observació, polígons, triangles
+# qualssevol traçant una altura): la resolució de triangles i els problemes van al final (ordre canviat el 15/11/2026). Sense teoremes del sinus i del cosinus ni raons recíproques. Com aquella, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
 # taules, botons). Els ginys (radians, triangle rectangle, circumferència goniomètrica, raons a partir d'una, reducció al primer
 # quadrant, resolució de triangles, laboratori del triangle, fórmules de la suma, identitats, equacions i funcions) són a app.js i
@@ -68,7 +68,7 @@ VER = r"fm-materials.\1?v=20261114t5b"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
 head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Trigonometria · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 5 (Trigonometria: graus i radians, raons trigonomètriques d\'un angle agut, raons de 30°, 45° i 60°, relacions fonamentals, resolució de triangles rectangles, problemes, circumferència goniomètrica i reducció al primer quadrant) de 4t d\'ESO Matemàtiques B, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 5 (Trigonometria: graus i radians, raons trigonomètriques d\'un angle agut, raons de 30°, 45° i 60°, relacions fonamentals, circumferència goniomètrica, reducció al primer quadrant, resolució de triangles rectangles i problemes) de 4t d\'ESO Matemàtiques B, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"
