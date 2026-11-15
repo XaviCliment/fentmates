@@ -377,7 +377,7 @@ sec("Teoremas de Rolle y del valor medio",
                r"\rest{No se puede aplicar}: no es derivable en $x=0$ (y, efectivamente, $f'=\pm1\neq0$)."])),
  (2, r"Halla los parámetros para que se cumplan las hipótesis del teorema de Rolle:" + tasks(1, [r"\pau{Extremadura, extraordinaria 2024} " + '$' + pw((r'x^2+ax-b', 'x<0'), (r'a+cx', r'x\geq0')) + '$ en $[-2,2]$.',
                                                                                               r"\pau{Extremadura, ordinaria 2023} " + '$' + pw((r'x^2+ax+b', r'0\leq x<1'), (r'cx', r'1\leq x\leq4')) + '$ en $[0,4]$.',
-                                                                                              r"\pau{Galicia, septiembre 2018} " + '$' + pw((r'2x^2+ax', r'x\leq1'), (r'bx+c', 'x>1')) + '$ en $[0,2]$; troba també el punt on es compleix la tesi.'])
+                                                                                              r"\pau{Galicia, septiembre 2018} " + '$' + pw((r'2x^2+ax', r'x\leq1'), (r'bx+c', 'x>1')) + '$ en $[0,2]$; halla también el punto donde se cumple la tesis.'])
      + recorda(r"Tres condiciones: continuidad en el punto de cambio, derivabilidad en el punto de cambio y $f(a)=f(b)$."),
      tasks(1, [r"$-b=a$, $a=c$, $4-2a-b=a+2c$: $\res{a=1,\ b=-1,\ c=1}$", r"$1+a+b=c$, $2+a=c$, $b=4c$: $\res{a=-\frac74,\ b=1,\ c=\frac14}$", r"$2+a=b+c$, $4+a=b$, $0=2b+c$: $\res{a=-3,\ b=1,\ c=-2}$; \ $4x-3=0\Rightarrow\res{x=\frac34}$"])),
  (2, r"\pau{Castilla-La Mancha, extraordinaria 2021} Enuncia el teorema de Rolle y úsalo para razonar si $f(x)=x\sin x-\cos x$ tiene al menos un extremo relativo en $[-1,1]$.",
