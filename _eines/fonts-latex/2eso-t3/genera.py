@@ -172,10 +172,10 @@ X.append((2, T("Opera i redueix (respecta la jerarquia de les operacions):", "Op
 C2 = [('(-2x^2y)^3:(4x^4y^2)', '-2x^2y'), ('(3a^2b)^2*(-ab)^3:(9a^5b^4)', '-a^2b'), ('(-x^2)^3+2x^4*(-x)^2-(2x^3)^2:4', '0'), ('(2x)^4:(-x)^2-3x*(-2x)', '22x^2')]
 q, s = ops(C2, 2, 1)
 X.append((3, T("Opera i redueix:", "Opera y reduce:") + q, s))
-X.append((3, T(r"Un ortoedre té les arestes $2x$, $3x$ i $x^2$ cm. Escriu com a monomis o polinomis: a) el volum; b) l'àrea total. c) Què li passa al volum si totes les arestes es fan el doble de llargues?",
-               r"Un ortoedro tiene las aristas $2x$, $3x$ y $x^2$ cm. Escribe como monomios o polinomios: a) el volumen; b) el área total. c) ¿Qué le pasa al volumen si todas las aristas se hacen el doble de largas?"),
-    T(r"a) $V=2x\cdot3x\cdot x^2=\res{6x^4}$ cm$^3$ \quad b) $A=2(6x^2+2x^3+3x^3)=\res{10x^3+12x^2}$ cm$^2$ (no són semblants: queda un binomi) \quad c) $4x\cdot6x\cdot2x^2=48x^4=8\cdot6x^4$: es fa \rest{8 vegades més gran}.",
-      r"a) $V=2x\cdot3x\cdot x^2=\res{6x^4}$ cm$^3$ \quad b) $A=2(6x^2+2x^3+3x^3)=\res{10x^3+12x^2}$ cm$^2$ (no son semejantes: queda un binomio) \quad c) $4x\cdot6x\cdot2x^2=48x^4=8\cdot6x^4$: se hace \rest{8 veces mayor}.")))
+X.append((3, T(r"Un ortoedre té les arestes $2x$, $3x$ i $x^2$ cm. Escriu com a monomis o polinomis:", r"Un ortoedro tiene las aristas $2x$, $3x$ y $x^2$ cm. Escribe como monomios o polinomios:")
+    + tasks(1, [T("el volum;", "el volumen;"), T("l'àrea total.", "el área total."), T("Què li passa al volum si totes les arestes es fan el doble de llargues?", "¿Qué le pasa al volumen si todas las aristas se hacen el doble de largas?")], '3pt'),
+    tasks(1, [r"$V=2x\cdot3x\cdot x^2=\res{6x^4}$ cm$^3$", T(r"$A=2(6x^2+2x^3+3x^3)=\res{10x^3+12x^2}$ cm$^2$ (no són semblants: queda un binomi)", r"$A=2(6x^2+2x^3+3x^3)=\res{10x^3+12x^2}$ cm$^2$ (no son semejantes: queda un binomio)"),
+              T(r"$4x\cdot6x\cdot2x^2=48x^4=8\cdot6x^4$: es fa \rest{8 vegades més gran}.", r"$4x\cdot6x\cdot2x^2=48x^4=8\cdot6x^4$: se hace \rest{8 veces mayor}.")], '4pt')))
 chk('2x*3x*x^2', '6x^4'); chk('2*(2x*3x+2x*x^2+3x*x^2)', '10x^3+12x^2'); chk('4x*6x*2x^2', '8*6x^4')
 
 # =====================================================================
@@ -206,9 +206,9 @@ X.append((2, T(r"Calcula el valor numèric de $P(x)=x^2-3x+2$ i de $Q(x)=2x^3-x^
     + tasks(4, ['$P(0)$', '$P(1)$', '$P(-1)$', '$P(2)$', '$Q(0)$', '$Q(1)$', '$Q(-2)$', r'$Q\!\left(\tfrac{1}{2}\right)$'], '5pt'),
     tasks(4, [r'$%s(%s)=\res{%s}$' % (nm, tx(str(v)), ntex(val(p, x=v))) for nm, (p, vs) in zip('PQ', VP) for v in vs], '4pt')))
 assert [val('x^2-3x+2', x=v) for v in [0, 1, -1, 2]] == [2, 0, 6, 0] and val('2x^3-x^2+4', x=-2) == -16
-X.append((2, T(r"Escriu un polinomi que complisca cada condició: a) de grau 3 i amb tres termes; b) de grau 2, complet i amb terme independent $-4$; c) de grau 4, amb coeficient principal $-2$ i sense terme independent.",
-               r"Escribe un polinomio que cumpla cada condición: a) de grado 3 y con tres términos; b) de grado 2, completo y con término independiente $-4$; c) de grado 4, con coeficiente principal $-2$ y sin término independiente."),
-    T(r"Per exemple: a) $\res{x^3-2x+5}$ \quad b) $\res{3x^2+x-4}$ \quad c) $\res{-2x^4+x^2+3x}$ \ (hi ha moltes respostes).", r"Por ejemplo: a) $\res{x^3-2x+5}$ \quad b) $\res{3x^2+x-4}$ \quad c) $\res{-2x^4+x^2+3x}$ \ (hay muchas respuestas).")))
+X.append((2, T("Escriu un polinomi que complisca cada condició:", "Escribe un polinomio que cumpla cada condición:")
+    + tasks(1, [T("de grau 3 i amb tres termes;", "de grado 3 y con tres términos;"), T(r"de grau 2, complet i amb terme independent $-4$;", r"de grado 2, completo y con término independiente $-4$;"), T(r"de grau 4, amb coeficient principal $-2$ i sense terme independent.", r"de grado 4, con coeficiente principal $-2$ y sin término independiente.")], '3pt'),
+    T("Per exemple (hi ha moltes respostes):", "Por ejemplo (hay muchas respuestas):") + tasks(1, [r"$\res{x^3-2x+5}$", r"$\res{3x^2+x-4}$", r"$\res{-2x^4+x^2+3x}$"], '3pt')))
 X.append((3, T(r"a) Troba $k$ perquè $P(x)=x^3-2x^2+kx+6$ complisca $P(2)=0$. \ b) Troba $a$ si $Q(x)=ax^2+3x-1$ i $Q(2)=13$.", r"a) Halla $k$ para que $P(x)=x^3-2x^2+kx+6$ cumpla $P(2)=0$. \ b) Halla $a$ si $Q(x)=ax^2+3x-1$ y $Q(2)=13$."),
     T(r"a) $P(2)=8-8+2k+6=2k+6=0$, \ $\res{k=-3}$. \quad b) $Q(2)=4a+6-1=4a+5=13$, \ $4a=8$, \ $\res{a=2}$.", r"a) $P(2)=8-8+2k+6=2k+6=0$, \ $\res{k=-3}$. \quad b) $Q(2)=4a+6-1=4a+5=13$, \ $4a=8$, \ $\res{a=2}$.")))
 assert val('x^3-2x^2-3x+6', x=2) == 0 and val('2x^2+3x-1', x=2) == 13
