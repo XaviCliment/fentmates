@@ -159,6 +159,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 50 exercicis graduats per nivells de dificultat", es: "PDF · 50 ejercicios graduados por niveles de dificultad", en: "PDF · 50 exercises graded by difficulty" }, url: { va: "materials/2eso/t1-fitxa-exercicis.pdf", es: "materials/2eso/t1-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 50 exercicis", es: "PDF · Soluciones de los 50 ejercicios", en: "PDF · Solutions to all 50 exercises" }, url: { va: "materials/2eso/t1-fitxa-solucions.pdf", es: "materials/2eso/t1-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
         ]
+      },
+      {
+        ill: "fraccions", block: "ari",
+        title: { va: "Decimals i fraccions", es: "Decimales y fracciones", en: "Decimals and fractions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2eso/t2-decimals-fraccions.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 65 exercicis graduats per nivells de dificultat", es: "PDF · 65 ejercicios graduados por niveles de dificultad", en: "PDF · 65 exercises graded by difficulty" }, url: { va: "materials/2eso/t2-fitxa-exercicis.pdf", es: "materials/2eso/t2-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 65 exercicis", es: "PDF · Soluciones de los 65 ejercicios", en: "PDF · Solutions to all 65 exercises" }, url: { va: "materials/2eso/t2-fitxa-solucions.pdf", es: "materials/2eso/t2-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
       }
     ]
   },
