@@ -189,7 +189,7 @@ python3 _eines/apunts/1eso-t4/build.py
 Els apunts de 2n ESO de la unitat 1 (Nombres naturals i enters, carpeta `2eso-t1`) funcionen com els de 1r ESO. Tenen 10
 apartats (1.1-1.10), i `app.js` ajunta els ginys de les unitats 2 (divisibilitat, mcm i MCD) i 3 (enters) de 1r ESO. A més, hi afig
 el giny de potències d'enters, el de l'arrel quadrada (exacta o entera) i una calculadora pas a pas que també accepta `^` i `√`.
-A `materials.js` la unitat és la primera targeta de 2n ESO (bloc d'aritmètica). La fitxa (`_eines/fonts-latex/2eso-t1/`) té 50
+A `materials.js` la unitat és la primera targeta de 2n ESO (bloc d'aritmètica). La fitxa (`_eines/fonts-latex/2eso-t1/`) té 51
 exercicis en 10 seccions. Excepcionalment, els exercicis de les dues llengües són a un sol fitxer, `exercicis.py`, que també
 calcula i comprova les solucions; `genera.py` (valencià) i `genera-es.py` (castellà) només escriuen els `.tex`:
 

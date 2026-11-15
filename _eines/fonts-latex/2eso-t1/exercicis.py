@@ -232,7 +232,12 @@ def seccions(lang):
     assert (-2) ** 3 == -8 and (-1) ** 17 == -1 and 10 ** 4 == 10000 and (-6) ** 3 // (-3) ** 3 == 8
     C3 = [('(-2)^3+3^2', ['-8+9']), ('-2^4+(-2)^4', ['-16+16']), ('5-2·√36+(-1)^7', ['5-2·6-1', '5-12-1']), ('(-3)^2·2-√49:(-7)', ['9·2-7:(-7)', '18-(-1)']),
           ('[(-2)^2-3^2]^2:(-5)', ['[4-9]^2:(-5)', '25:(-5)']), ('√(25-9)-(-3)^3:9', ['√16-(-27):9', '4-(-3)'])]
-    RE = [(50, 7, 1), (90, 9, 9), (130, 11, 9), (200, 14, 4)]
+    C4 = [('[(-2)^3-(-3)^2]:(-17)+√64·(-1)^5', ['-17:(-17)+8·(-1)', '1-8']),
+          ('-3^2-[(-4)^2:(-2)^3-√81]·(-2)', ['-9-[16:(-8)-9]·(-2)', '-9-[-2-9]·(-2)', '-9-(-11)·(-2)', '-9-22']),
+          ('√(5^2-3^2)·(-2)^3-[(-6)^2:(-3)^2-2^4]^2:(-9)', ['√16·(-8)-[36:9-16]^2:(-9)', '4·(-8)-(-12)^2:(-9)', '-32-144:(-9)', '-32+16']),
+          ('[2^5:((-2)^2-12)-(-1)^20]·√49', ['[32:(4-12)-1]·7', '[32:(-8)-1]·7', '[-4-1]·7', '-5·7']),
+          ('(-10)^3:(-5)^2+4·[√100-(-3)^3:(-9)]^2', ['-1000:25+4·[10-(-27):(-9)]^2', '-40+4·[10-3]^2', '-40+4·49', '-40+196'])]
+    RE = [(50, 7, 1),(90, 9, 9), (130, 11, 9), (200, 14, 4)]
     for n, s, r in RE: assert isqrt(n) == s and n - s * s == r
     SG = [(r'(-7)^{12}', '+'), (r'(-3)^{15}', '-'), (r'-5^{4}', '-'), (r'-(-2)^{6}', '-'), (r'(-1)^{2026}', '+')]
     S.append((t('Potències i arrels amb enters', 'Potencias y raíces con enteros'), [
@@ -248,6 +253,9 @@ def seccions(lang):
      (2, t(r"Calcula l'arrel entera i el residu i fes la comprovació:", r"Calcula la raíz entera y el resto y haz la comprobación:") + tasks(4, [r'$\sqrt{%d}$' % n for n, _, _ in RE]),
          tasks(2, [r'$\sqrt{%d}\approx\res{%d}$, %s $\res{%d}$: \ $%d=%d^2+%d$' % (n, s, t('residu', 'resto'), r, n, s, r) for n, s, r in RE])),
      (2, t(r"Calcula:", r"Calcula:") + tasks(2, [m(e) for e, _ in C3]), tasks(2, [steps(e, *p) for e, p in C3])),
+     (3, t(r"Calcula pas a pas, respectant la jerarquia de les operacions:", r"Calcula paso a paso, respetando la jerarquía de las operaciones:") + tasks(1, [m(e) for e, _ in C4])
+         + recorda(t(r"Resol primer els parèntesis i claudàtors de dins cap a fora. Dins de cada un, primer les potències i les arrels, després les multiplicacions i divisions i, al final, les sumes i restes.", r"Resuelve primero los paréntesis y corchetes de dentro hacia fuera. Dentro de cada uno, primero las potencias y las raíces, después las multiplicaciones y divisiones y, al final, las sumas y restas.")),
+         tasks(1, [steps(e, *p) for e, p in C4])),
      (2, t(r"Sense fer el càlcul, digues quin signe té el resultat:", r"Sin hacer el cálculo, di qué signo tiene el resultado:") + tasks(5, ['$' + e + '$' for e, _ in SG]),
          tasks(5, [r'$\res{%s}$' % s for _, s in SG])),
      (3, t(r"Una parcel·la quadrada té una superfície de 1225\,m². Quant mesura el costat? Quants metres de tanca calen per a envoltar-la?", r"Una parcela cuadrada tiene una superficie de 1225\,m². ¿Cuánto mide el lado? ¿Cuántos metros de valla hacen falta para rodearla?"),
