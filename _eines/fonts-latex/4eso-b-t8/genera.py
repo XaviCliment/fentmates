@@ -345,12 +345,12 @@ X.append(E(2, T(r"Un cultiu té 200 bacteris i es duplica cada hora. Escriu la f
                 r"Un cultivo tiene 200 bacterias y se duplica cada hora. Escribe la función que da el número de bacterias al cabo de $t$ horas. ¿Cuántas habrá al cabo de 5 horas? ¿Cuánto tiempo tiene que pasar para que haya 51 200?"),
     r'$\res{N(t)=200\cdot2^t}$. \ $N(5)=200\cdot32=\res{6\,400}$. \ $200\cdot2^t=51\,200\Rightarrow2^t=256=2^8\Rightarrow\res{t=8\text{ h}}$'))
 ok(round(5000 * 1.02 ** 3, 2) == 5306.04 and round(5000 * 1.02 ** 10, 2) == 6094.97)
-X.append(E(2, T(r"Depositem 5 000 € en un compte que dona un 2 % d'interès compost anual. Escriu la funció que dona el capital al cap de $t$ anys i calcula quant hi haurà al cap de 3 anys i de 10 anys.",
-                r"Depositamos 5 000 € en una cuenta que da un 2 % de interés compuesto anual. Escribe la función que da el capital al cabo de $t$ años y calcula cuánto habrá al cabo de 3 años y de 10 años."),
+X.append(E(2, T(r"Depositem 5 000 € en un compte que dona un 2 \% d'interès compost anual. Escriu la funció que dona el capital al cap de $t$ anys i calcula quant hi haurà al cap de 3 anys i de 10 anys.",
+                r"Depositamos 5 000 € en una cuenta que da un 2 \% de interés compuesto anual. Escribe la función que da el capital al cabo de $t$ años y calcula cuánto habrá al cabo de 3 años y de 10 años."),
     T(r"Cada any el capital es multiplica per $1+\frac{2}{100}=1{,}02$: ", r"Cada año el capital se multiplica por $1+\frac{2}{100}=1{,}02$: ") + r'$\res{C(t)=5\,000\cdot1{,}02^t}$. \ $C(3)\approx\res{5\,306{,}04\text{ €}}$; \ $C(10)\approx\res{6\,094{,}97\text{ €}}$'))
 ok(abs(18000 * .85 ** 2 - 13005) < 1e-6 and .85 ** 4 > .5 > .85 ** 5)
-X.append(E(3, T(r"Un cotxe que val 18 000 € perd cada any el 15 % del valor que tenia l'any anterior. Escriu la funció que dona el valor del cotxe al cap de $t$ anys. Quant valdrà d'ací a 2 anys? Quants anys han de passar perquè valga menys de la meitat?",
-                r"Un coche que vale 18 000 € pierde cada año el 15 % del valor que tenía el año anterior. Escribe la función que da el valor del coche al cabo de $t$ años. ¿Cuánto valdrá dentro de 2 años? ¿Cuántos años tienen que pasar para que valga menos de la mitad?"),
+X.append(E(3, T(r"Un cotxe que val 18 000 € perd cada any el 15 \% del valor que tenia l'any anterior. Escriu la funció que dona el valor del cotxe al cap de $t$ anys. Quant valdrà d'ací a 2 anys? Quants anys han de passar perquè valga menys de la meitat?",
+                r"Un coche que vale 18 000 € pierde cada año el 15 \% del valor que tenía el año anterior. Escribe la función que da el valor del coche al cabo de $t$ años. ¿Cuánto valdrá dentro de 2 años? ¿Cuántos años tienen que pasar para que valga menos de la mitad?"),
     T(r"Cada any es multiplica per $1-\frac{15}{100}=0{,}85$: ", r"Cada año se multiplica por $1-\frac{15}{100}=0{,}85$: ") + r'$\res{V(t)=18\,000\cdot0{,}85^t}$. \ $V(2)=\res{13\,005\text{ €}}$. \ '
     + T(r"Cal $0{,}85^t<0{,}5$. Provem: $0{,}85^4\approx0{,}522$ i $0{,}85^5\approx0{,}444$: han de passar \rest{5 anys}.", r"Hace falta $0{,}85^t<0{,}5$. Probamos: $0{,}85^4\approx0{,}522$ y $0{,}85^5\approx0{,}444$: tienen que pasar \rest{5 años}.")))
 

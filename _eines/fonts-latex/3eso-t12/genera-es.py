@@ -291,7 +291,7 @@ S_.append(("Experimentos compuestos. Diagramas de árbol", [
      r"a) $\frac6{36}=\res{\frac16}$. \ b) $(1,3),(2,4),(3,5),(4,6)$ y al revés: $\frac8{36}=\res{\frac29}$. \ c) Contrario: los dos impares, $\frac36\cdot\frac36=\frac14$; \ $P=1-\frac14=\res{\frac34}$."),
  (2, r"Lanzamos tres monedas. Calcula la probabilidad de: a) tres caras; b) exactamente una cara; c) al menos una cara.",
      r"Cada camino del árbol tiene probabilidad $\frac12\cdot\frac12\cdot\frac12=\frac18$. \ a) $\res{\frac18}$. \ b) $CXX$, $XCX$, $XXC$: $\res{\frac38}$. \ c) $1-P(XXX)=1-\frac18=\res{\frac78}$."),
- (2, r"Una jugadora de fútbol marca el 80 % de los penaltis. Lanza dos. Haz el diagrama de árbol y calcula la probabilidad de que marque los dos, de que no marque ninguno y de que marque exactamente uno.",
+ (2, r"Una jugadora de fútbol marca el 80 \% de los penaltis. Lanza dos. Haz el diagrama de árbol y calcula la probabilidad de que marque los dos, de que no marque ninguno y de que marque exactamente uno.",
      cen(TG) + r"$P(GG)=\res{0{,}64}$; \ $P(FF)=\res{0{,}04}$; \ $P(\text{exactamente uno})=0{,}16+0{,}16=\res{0{,}32}$. \ (Suman 1 \checkmark)"),
  (2, r"Lanzamos un dado dos veces. Calcula la probabilidad de sacar: a) dos seises; b) ningún seis; c) al menos un seis.",
      r"a) $\frac16\cdot\frac16=\res{\frac1{36}}$. \ b) $\frac56\cdot\frac56=\res{\frac{25}{36}}$. \ c) $1-\frac{25}{36}=\res{\frac{11}{36}}$."),

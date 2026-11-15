@@ -291,7 +291,7 @@ S_.append(("Experiments compostos. Diagrames d'arbre", [
      r"a) $\frac6{36}=\res{\frac16}$. \ b) $(1,3),(2,4),(3,5),(4,6)$ i al revés: $\frac8{36}=\res{\frac29}$. \ c) Contrari: tots dos senars, $\frac36\cdot\frac36=\frac14$; \ $P=1-\frac14=\res{\frac34}$."),
  (2, r"Llancem tres monedes. Calcula la probabilitat de: a) tres cares; b) exactament una cara; c) almenys una cara.",
      r"Cada camí de l'arbre té probabilitat $\frac12\cdot\frac12\cdot\frac12=\frac18$. \ a) $\res{\frac18}$. \ b) $CXX$, $XCX$, $XXC$: $\res{\frac38}$. \ c) $1-P(XXX)=1-\frac18=\res{\frac78}$."),
- (2, r"Una jugadora de futbol marca el 80 % dels penals. En llança dos. Fes el diagrama d'arbre i calcula la probabilitat que marque tots dos, que no en marque cap i que en marque exactament un.",
+ (2, r"Una jugadora de futbol marca el 80 \% dels penals. En llança dos. Fes el diagrama d'arbre i calcula la probabilitat que marque tots dos, que no en marque cap i que en marque exactament un.",
      cen(TG) + r"$P(GG)=\res{0{,}64}$; \ $P(FF)=\res{0{,}04}$; \ $P(\text{exactament un})=0{,}16+0{,}16=\res{0{,}32}$. \ (Sumen 1 \checkmark)"),
  (2, r"Llancem un dau dues vegades. Calcula la probabilitat de traure: a) dos sisos; b) cap sis; c) almenys un sis.",
      r"a) $\frac16\cdot\frac16=\res{\frac1{36}}$. \ b) $\frac56\cdot\frac56=\res{\frac{25}{36}}$. \ c) $1-\frac{25}{36}=\res{\frac{11}{36}}$."),
