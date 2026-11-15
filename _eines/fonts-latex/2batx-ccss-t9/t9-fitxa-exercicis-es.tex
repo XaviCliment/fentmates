@@ -1,0 +1,550 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\AtBeginDocument{\renewcommand{\sin}{\operatorname{sen}}\renewcommand{\arcsin}{\operatorname{arcsen}}}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 9: Probabilidad. 2º Bach.},pdfsubject={Matemáticas CCSS 2º Bach.},pdfkeywords={probabilidad, espacio muestral, sucesos, regla de Laplace, probabilidad condicionada, independencia, tablas de contingencia, diagramas de árbol, extracciones, probabilidad total, teorema de Bayes, PAU}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 9: Probabilidad · 2\textsuperscript{o} Bach.}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+% successos contraris i probabilitat condicionada
+\newcommand{\co}[1]{\overline{#1}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas CCSS}{2\textsuperscript{o} Bach.}{Ficha de ejercicios · Unidad 9}{\raggedright Probabilidad}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Resuelve los ejercicios en el cuaderno mostrando todos los pasos. Define siempre los sucesos con letras y escribe los datos con la notación de probabilidades ($P(A)$, $P(A\cap B)$, $P(A\,|\,B)$\dots). Haz un diagrama de Venn, una tabla de contingencia o un diagrama de árbol cuando te ayude. Los 50 ejercicios marcados con \textcolor{teal}{\faUniversity\ PAU} son de las pruebas de acceso a la universidad de otras comunidades autónomas.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Espacio muestral y operaciones con sucesos}
+
+\exf{1} Escribe el espacio muestral de los experimentos siguientes y di cuántos elementos tiene:\begin{tasks}(1)
+  \task Lanzar una moneda y un dado.
+  \task Anotar, por orden de nacimiento, si cada uno de los tres hijos de una familia es chico ($X$) o chica ($Y$).
+  \task Sacar, una detrás de otra y sin reemplazamiento, dos bolas de una urna que tiene una roja ($R$), una azul ($B$) y una verde ($V$).
+  \task Lanzar un dado hasta que salga un 6 y anotar el número de tiradas que han hecho falta.
+\end{tasks}
+
+\ex{1} Lanzamos un dado y consideramos los sucesos $A=$«salir un número menor que 4», $B=$«salir par» y $C=$«salir 5 o 6». Calcula:\begin{tasks}(4)
+  \task $A\cup B$
+  \task $A\cap B$
+  \task $\co A$
+  \task $\co B$
+  \task $A-B$
+  \task $B\cap C$
+  \task $\co A\cap\co B$
+  \task $\overline{A\cup C}$
+\end{tasks}¿Qué pares de estos sucesos son incompatibles?
+
+\ex{1} Sean $M=$«un alumno aprueba Matemáticas» y $N=$«aprueba Inglés». Expresa con operaciones entre $M$ y $N$ los sucesos siguientes:\begin{tasks}(2)
+  \task Aprueba las dos.
+  \task No aprueba ninguna.
+  \task Aprueba solo Matemáticas.
+  \task Aprueba como mucho una.
+  \task Aprueba al menos una.
+  \task Aprueba exactamente una.
+  \task Suspende alguna de las dos.
+\end{tasks}\recorda{«al menos uno» es la unión; «ambos», la intersección; «ninguno» es $\co M\cap\co N=\overline{M\cup N}$ (De Morgan).}
+
+\ex{1} En el espacio muestral $E=\{1,2,3,4,5,6,7,8\}$ consideramos $A=\{1,2,3,4\}$ y $B=\{2,4,6,8\}$. Comprueba las dos leyes de De Morgan.
+
+\ex{2} Sean $A$, $B$ y $C$ tres sucesos de un mismo experimento. Expresa con operaciones:\begin{tasks}(2)
+  \task Ocurre solo $A$.
+  \task Ocurre al menos uno de los tres.
+  \task No ocurre ninguno.
+  \task Ocurre exactamente uno.
+  \task Ocurren los tres.
+  \task Ocurren al menos dos.
+\end{tasks}
+
+
+% =====================================================
+\seccio{2}{Probabilidad. Regla de Laplace}
+
+\exf{1} Una urna contiene 4 bolas rojas, 5 azules y 3 verdes. Sacamos una bola al azar. Calcula la probabilidad de que:\begin{tasks}(4)
+  \task sea roja;
+  \task no sea verde;
+  \task sea roja o azul;
+  \task sea amarilla.
+\end{tasks}
+
+\ex{1} Sacamos una carta de una baraja española de 40 cartas (cuatro palos de diez cartas: del 1 al 7, sota, caballo y rey). Calcula la probabilidad de sacar:\begin{tasks}(2)
+  \task un oro;
+  \task una figura (sota, caballo o rey);
+  \task un oro o una figura;
+  \task una carta que no sea ni oro ni figura;
+  \task un as que no sea de oros.
+\end{tasks}
+
+\ex{1} \pau{Castilla y León, EBAU ordinaria 2020} Se lanza una moneda tres veces. Calcula la probabilidad de obtener al menos una cruz.
+
+\ex{1} \pau{Castilla y León, EBAU extraordinaria 2024} Una tienda de animales hace un sorteo con papeletas de tres cifras. El número premiado se obtiene sacando al azar cada cifra, por separado y con reemplazamiento, de una bolsa con bolas del 0 al 9. Calcula la probabilidad de que el número premiado acabe en 55.
+
+\ex{1} Lanzamos dos dados. Calcula la probabilidad de que:\begin{tasks}(2)
+  \task la suma sea 9;
+  \task la suma sea como mucho 4;
+  \task el producto sea 12;
+  \task los dos resultados sean pares;
+  \task la diferencia entre los dos resultados sea al menos 3.
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, PBAU julio 2018} Un dado está cargado de manera que la probabilidad de obtener un 6 es $\frac12$ y las probabilidades de obtener cada una de las otras caras son iguales a $p$. Se lanza este dado; calcula la probabilidad de cada uno de los sucesos siguientes:\begin{tasks}(2)
+  \task Se obtiene un dos.
+  \task No se obtiene un tres.
+  \task Se obtiene un número par.
+  \task Se obtiene un número impar.
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU ordinaria 2023} Tenemos una moneda trucada en la que la probabilidad de obtener cara es el doble que la de obtener cruz.\begin{tasks}(1)
+  \task Calcula la probabilidad de obtener cara al lanzar la moneda.
+  \task Calcula la probabilidad de obtener una cara y una cruz, sin importar el orden, al lanzar dos veces la moneda.
+  \task Calcula la probabilidad de obtener al menos una cara al lanzar dos veces la moneda.
+\end{tasks}
+
+\ex{1} Elegimos al azar un número del 1 al 100. Calcula la probabilidad de que sea múltiplo de 3 o de 5.
+
+\ex{1} Lanzamos tres monedas. Calcula la probabilidad de obtener exactamente dos caras y la de obtener más caras que cruces.
+
+\ex{2} Razona si las afirmaciones siguientes son verdaderas o falsas:\begin{tasks}(1)
+  \task Si lanzamos dos dados y sumamos, la probabilidad de cada suma es $\frac1{11}$, porque hay 11 sumas posibles.
+  \task Si una moneda equilibrada ha salido cara cinco veces seguidas, es más probable que la sexta vez salga cruz.
+  \task Puede ser que $P(A)=1{,}2$ si $A$ es un suceso muy probable.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Fórmulas de la probabilidad}
+
+\exf{1} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}45$, $P(B)=0{,}3$ y $P(A\cup B)=0{,}6$. Calcula:\begin{tasks}(3)
+  \task $P(A\cap B)$
+  \task $P(\co A\cap\co B)$
+  \task $P(A\cap\co B)$
+  \task $P(\co A\cup\co B)$
+  \task $P(\text{solo uno de los dos})$
+\end{tasks}\recorda{$P(A\cup B)=P(A)+P(B)-P(A\cap B)$; \ $P(\co A)=1-P(A)$; \ $P(A\cap\co B)=P(A)-P(A\cap B)$; \ De Morgan: $\co A\cap\co B=\overline{A\cup B}$ y $\co A\cup\co B=\overline{A\cap B}$.}
+
+\ex{1} \pau{Madrid, EvAU julio 2018} Sean $A$ y $B$ dos sucesos de un experimento aleatorio tales que $P(A)=0{,}4$, $P(B)=0{,}6$ y $P(A\cup B)=0{,}8$. Calcula $P(\co A\cap B)$ y $P(\co A\cup\co B)$.
+
+\ex{1} De dos sucesos se sabe que $P(\co A)=0{,}7$, $P(\co B)=0{,}4$ y $P(\co A\cup\co B)=0{,}9$. Calcula $P(A)$, $P(B)$, $P(A\cap B)$, $P(A\cup B)$ y $P(\co A\cap\co B)$.
+
+\ex{1} Los sucesos $A$ y $B$ son incompatibles, con $P(A)=0{,}35$ y $P(B)=0{,}4$. Calcula $P(A\cup B)$, $P(\co A\cap\co B)$, $P(A\cap\co B)$ y $P(\co A\cup\co B)$.
+
+\ex{2} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}6$ y $P(B)=0{,}7$.\begin{tasks}(1)
+  \task ¿Pueden ser incompatibles?
+  \task ¿Entre qué valores puede estar $P(A\cap B)$?
+  \task ¿Y $P(A\cup B)$?
+\end{tasks}
+
+\ex{2} Tres sucesos $A$, $B$ y $C$ tienen probabilidad $0{,}4$ cada uno; las intersecciones de dos en dos tienen probabilidad $0{,}15$ y $P(A\cap B\cap C)=0{,}05$. Calcula la probabilidad de que ocurra al menos uno y de que no ocurra ninguno.
+
+
+% =====================================================
+\seccio{4}{Cálculo de probabilidades conociendo el espacio muestral y sin conocerlo}
+
+\exf{1} Lanzamos dos dados y consideramos los sucesos $A=$«la suma es par» y $B=$«al menos uno de los dados es un 6». Calcula $P(A)$, $P(B)$ y $P(A\cap B)$ por recuento y, con la fórmula, $P(A\cup B)$. Comprueba el resultado contando los casos de $A\cup B$.
+
+\ex{1} Sacamos al azar una tarjeta de una caja con tarjetas numeradas del 1 al 30. Sean $A=$«el número es par» y $B=$«el número es múltiplo de 3». Calcula, aplicando las fórmulas, la probabilidad de que sea par o múltiplo de 3, de que cumpla solo una de las dos condiciones y de que no cumpla ninguna.
+
+\ex{1} \pau{Galicia, ABAU extraordinaria 2024} En una encuesta, el 80\,\% de los entrevistados dice que lee o escucha música, el 35\,\% hace las dos cosas y el 60\,\% no lee. Calcula las probabilidades de que una persona elegida al azar:\begin{tasks}(1)
+  \task escuche música y no lea;
+  \task lea y no escuche música;
+  \task haga solo una de las dos cosas.
+\end{tasks}
+
+\ex{1} \pau{Andalucía, PEvAU ordinaria 2022} En su tiempo libre, el 65\,\% de los estudiantes de un centro juega a videojuegos, el 45\,\% lee libros y el 15\,\% no hace ninguna de las dos cosas. Elegimos un estudiante al azar. Calcula la probabilidad de que:\begin{tasks}(1)
+  \task juegue a videojuegos o lea libros;
+  \task juegue a videojuegos y no lea libros.
+\end{tasks}
+
+\ex{1} En una ciudad, el 55\,\% de los habitantes lee la prensa, el 40\,\% ve las noticias en la televisión y el 25\,\% no hace ninguna de las dos cosas. Construye la tabla de contingencia y calcula la probabilidad de que un habitante elegido al azar:\begin{tasks}(2)
+  \task haga las dos cosas;
+  \task solo lea la prensa;
+  \task haga solo una de las dos;
+  \task lea la prensa o no vea la televisión.
+\end{tasks}
+
+\ex{1} En un grupo de 30 personas, 18 hablan inglés, 12 francés y 6 no hablan ninguno de los dos idiomas. Elegimos una persona al azar. Calcula la probabilidad de que hable los dos idiomas, de que hable solo uno y de que hable francés pero no inglés.
+
+
+% =====================================================
+\seccio{5}{Probabilidad condicionada}
+
+\exf{1} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}5$, $P(B)=0{,}4$ y $P(A\cap B)=0{,}1$. Calcula:\begin{tasks}(3)
+  \task $P(A\cond B)$
+  \task $P(B\cond A)$
+  \task $P(A\cond\co B)$
+  \task $P(\co A\cond\co B)$
+  \task $P(B\cond\co A)$
+  \task $P(\co B\cond A)$
+\end{tasks}\recorda{$P(A\cond B)=\dfrac{P(A\cap B)}{P(B)}$. El suceso que va detrás de la barra es la condición: va en el denominador.}
+
+\ex{2} \pau{Madrid, EvAU julio 2019} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}3$, $P(B\cond A)=0{,}4$ y $P(B\cond\co A)=0{,}6$. Calcula:\begin{tasks}(2)
+  \task $P(A\cond B)$
+  \task $P(\co A\cond\co B)$
+\end{tasks}
+
+\ex{1} \pau{Islas Baleares, PBAU septiembre 2017} Sean $A$ y $B$ dos sucesos con probabilidades $0{,}4$ y $0{,}6$, respectivamente. Se sabe que, dado $B$, la probabilidad de que ocurra $A$ es $0{,}3$.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que ocurran ambos sucesos a la vez?
+  \task ¿Cuál es la probabilidad de que ocurra alguno de los dos?
+  \task ¿Cuál es la probabilidad de que no ocurra ninguno?
+\end{tasks}
+
+\ex{1} \pau{Andalucía, PEvAU junio 2017} El 90\,\% de los alumnos de un centro está interesado por las redes sociales, el 60\,\% por sus notas y el 55\,\% por las dos cosas. Se elige un alumno al azar.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que esté interesado por alguna de las dos cosas?
+  \task Calcula la probabilidad de que esté interesado por las notas, sabiendo que no está interesado por las redes sociales.
+  \task Calcula la probabilidad de que no esté interesado por ninguna de las dos cosas.
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU ordinaria 2020} A 120 estudiantes se les ha recomendado la lectura de dos libros: 46 han leído el primero, 34 el segundo y 16 los dos. Se elige un estudiante al azar. Calcula la probabilidad de que:\begin{tasks}(1)
+  \task haya leído alguno de los dos libros;
+  \task no haya leído ninguno;
+  \task solo haya leído el primero;
+  \task haya leído el primero, si se sabe que no ha leído el segundo.
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU ordinaria 2021} De las compras realizadas en las últimas rebajas, el 55\,\% fueron de productos electrónicos y el 72\,\% se hicieron por Internet; de las compras hechas por Internet, el 64\,\% fueron de productos electrónicos. Se elige una compra al azar. Calcula la probabilidad de que:\begin{tasks}(1)
+  \task haya sido de productos electrónicos y hecha por Internet;
+  \task se haya hecho por Internet o haya sido de productos electrónicos;
+  \task no se haya hecho por Internet, sabiendo que no fue de productos electrónicos.
+\end{tasks}
+
+\ex{2} \pau{Murcia, PAU extraordinaria 2025} En una encuesta a 100 estudiantes de segundo de Bachillerato, 30 quieren estudiar Veterinaria, 25 Economía, 20 Química, 15 Biología y 10 Matemáticas. De ellos, 10, 12, 13, 8 y 6 son mujeres, respectivamente. Nadie se puede matricular en más de un grado. Elegimos un estudiante al azar. Calcula la probabilidad de que:\begin{tasks}(2)
+  \task sea mujer;
+  \task sea hombre y quiera estudiar Veterinaria;
+  \task quiera estudiar Química o Veterinaria;
+  \task no quiera estudiar ni Biología ni Matemáticas;
+  \task quiera estudiar Química, si es mujer;
+  \task quiera estudiar Economía, si es hombre.
+\end{tasks}
+
+\ex{2} De dos sucesos se sabe que $P(A)=0{,}6$, $P(B\cond A)=0{,}5$ y $P(B\cond\co A)=0{,}25$. Calcula $P(A\cap B)$, $P(B)$, $P(A\cond B)$ y $P(A\cup B)$.
+
+
+% =====================================================
+\seccio{6}{Independencia de sucesos}
+
+\exf{1} Los sucesos $A$ y $B$ son independientes, con $P(A)=0{,}3$ y $P(B)=0{,}5$. Calcula $P(A\cap B)$, $P(A\cup B)$, $P(\co A\cap\co B)$, $P(A\cond B)$ y $P(A\cap\co B)$.\recorda{$A$ y $B$ son independientes si $P(A\cap B)=P(A)\cdot P(B)$. Entonces también lo son $A$ y $\co B$, $\co A$ y $B$, y $\co A$ y $\co B$.}
+
+\ex{2} Se sabe que $P(A)=0{,}4$ y $P(A\cup B)=0{,}7$. Calcula $P(B)$ si:\begin{tasks}(2)
+  \task $A$ y $B$ son incompatibles;
+  \task $A$ y $B$ son independientes.
+\end{tasks}
+
+\ex{1} \pau{Madrid, EvAU extraordinaria 2021} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}5$, $P(B)=0{,}8$ y $P(A\cup B)=0{,}9$.\begin{tasks}(1)
+  \task Estudia si los sucesos $A$ y $B$ son independientes.
+  \task Calcula $P(A\cond\co B)$.
+\end{tasks}
+
+\ex{1} \pau{Castilla-La Mancha, EvAU septiembre 2017} De un estudio sobre accidentes de tráfico se dedujo que el 29\,\% de los conductores superaban los límites de alcohol en sangre, el 14\,\% tenían presencia de drogas en sangre y el 37\,\% superaban los límites de alcohol o tenían presencia de drogas (o ambas cosas).\begin{tasks}(1)
+  \task Calcula la probabilidad de que, en un accidente, el conductor supere los límites de alcohol y tenga presencia de drogas en sangre.
+  \task Razona si son independientes los sucesos «superar los límites de alcohol» y «presencia de drogas en sangre».
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU ordinaria 2020} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}4$, $P(B)=0{,}7$ y $P(B\cond A)=0{,}75$. Calcula:\begin{tasks}(2)
+  \task $P(A\cap B)$
+  \task $P(A\cup\co B)$
+  \task $P(A\cap\co B)$
+  \task ¿Son independientes?
+\end{tasks}
+
+\ex{1} \pau{Andalucía, PEvAU septiembre 2018} En una localidad, el 25\,\% de los habitantes va periódicamente al dentista, el 10\,\% se hace una analítica y el 8\,\% hace las dos cosas.\begin{tasks}(1)
+  \task Razona si los sucesos «ir al dentista» y «hacerse una analítica» son independientes.
+  \task ¿Qué porcentaje de habitantes ni se hace una analítica ni va al dentista?
+  \task Si elegimos al azar un habitante de entre los que van al dentista, ¿cuál es la probabilidad de que se haga una analítica?
+\end{tasks}
+
+\ex{1} \pau{La Rioja, EBAU ordinaria 2020} En una clase hay 24 estudiantes: 12 han aprobado inglés, 16 han aprobado matemáticas y 4 han suspendido las dos asignaturas.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que un alumno elegido al azar haya aprobado matemáticas y suspendido inglés?
+  \task ¿Cuál es la probabilidad de que haya aprobado las dos asignaturas?
+  \task ¿Son independientes los sucesos «aprobar matemáticas» y «aprobar inglés»?
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU ordinaria 2024} Se estima que en una población el 20\,\% padece obesidad y que el 11\,\% padece obesidad y es hipertenso. Además, el 27,5\,\% de los hipertensos padece obesidad.\begin{tasks}(1)
+  \task ¿Qué porcentaje de la población padece obesidad o es hipertenso?
+  \task ¿Son independientes los sucesos «padecer obesidad» y «ser hipertenso»?
+  \task Calcula la probabilidad de que un individuo que no padece obesidad sea hipertenso.
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU septiembre 2017} El 60\,\% de los individuos de una población están vacunados contra una enfermedad. Durante una epidemia, el 20\,\% contrajo la enfermedad y el 3\,\% está vacunado y la contrajo.\begin{tasks}(1)
+  \task Calcula el porcentaje de individuos que han contraído la enfermedad entre los que no están vacunados.
+  \task Calcula el porcentaje de vacunados entre los que contrajeron la enfermedad. Justifica si los sucesos «estar vacunado» y «contraer la enfermedad» son dependientes o independientes.
+\end{tasks}
+
+\ex{2} \pau{Madrid, PAU ordinaria 2025} De tres sucesos $A$, $B$ y $C$ se sabe que $A$ y $C$ son disjuntos (incompatibles), $A$ y $B$ son independientes, $P(A)=0{,}25$, $P(B)=0{,}2$ y $P(B\cap C)=0{,}05$.\begin{tasks}(1)
+  \task Calcula la probabilidad de que ocurra al menos uno de los sucesos $A$ o $B$.
+  \task Calcula $P(\co B\cup\co C)$.
+  \task ¿Pueden ser independientes los sucesos $A$ y $C$?
+\end{tasks}
+
+\ex{1} \pau{País Vasco, EAU extraordinaria 2022} Deiene y Kattalin son jugadoras de baloncesto. Deiene encesta 2 de cada 5 tiros y Kattalin 3 de cada 7. Si ambas tiran a canasta una sola vez, calcula la probabilidad de que:\begin{tasks}(2)
+  \task las dos encesten;
+  \task no enceste ninguna;
+  \task solo enceste Deiene;
+  \task enceste al menos una.
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, PBAU extraordinaria 2023} Tiramos dos dados no trucados y consideramos los sucesos $A=$«en el primer dado ha salido un 1», $B=$«en el segundo dado ha salido un 1» y $C=$«la suma de los dos dados es 3».\begin{tasks}(1)
+  \task Calcula $P(A)$.
+  \task Calcula $P(A\cup B)$.
+  \task ¿Son independientes los sucesos $C$ y $A\cup B$?
+\end{tasks}
+
+\ex{2} Razona si las afirmaciones siguientes son verdaderas o falsas:\begin{tasks}(1)
+  \task Dos sucesos incompatibles (con probabilidades no nulas) son independientes.
+  \task Si $A$ y $B$ son independientes, entonces $\co A$ y $\co B$ también lo son.
+  \task Si $P(A\cond B)=P(A)$, entonces $P(B\cond A)=P(B)$.
+\end{tasks}
+
+
+% =====================================================
+\seccio{7}{Experimentos compuestos. Extracciones con y sin reemplazamiento}
+
+\exf{1} Una urna contiene 4 bolas rojas y 6 azules. Sacamos tres bolas. Calcula la probabilidad de que las tres sean rojas y la probabilidad de que haya exactamente dos rojas:\begin{tasks}(2)
+  \task con reemplazamiento;
+  \task sin reemplazamiento.
+\end{tasks}\recorda{en un diagrama de árbol, multiplicamos las probabilidades a lo largo de cada camino y sumamos los caminos que forman el suceso. Sin reemplazamiento, la composición de la urna cambia en cada extracción.}
+
+\ex{1} \pau{Aragón, EvAU extraordinaria 2020} En una bolsa tenemos 8 bolas: 3 blancas, 1 roja y 4 negras. Sacamos dos bolas sin reemplazamiento. Calcula:\begin{tasks}(1)
+  \task La probabilidad de que las dos sean blancas.
+  \task La probabilidad de que al menos una sea blanca.
+  \task La probabilidad de que las dos sean del mismo color.
+  \task La probabilidad de que sean blancas, si se sabe que las dos son del mismo color.
+\end{tasks}
+
+\ex{1} \pau{País Vasco, EAU junio 2018} En una urna hay 15 bolas blancas y 5 negras. Calcula:\begin{tasks}(1)
+  \task Si sacamos una bola al azar, la probabilidad de que sea blanca.
+  \task Si sacamos dos al azar, la probabilidad de que ambas sean blancas.
+  \task Si sacamos una bola y después otra, y la primera es negra, la probabilidad de que la segunda también sea negra.
+  \task Si sacamos una bola y después otra, la probabilidad de que sean de distinto color.
+\end{tasks}
+
+\ex{1} \pau{Navarra, EvAU septiembre 2017} Una caja contiene doce bolígrafos, cuatro de los cuales son defectuosos. Se sacan tres de manera sucesiva y sin devolverlos a la caja.\begin{tasks}(1)
+  \task Calcula la probabilidad de que ninguno de los tres bolígrafos tenga defectos.
+  \task Calcula la probabilidad de que al menos uno de los tres sea defectuoso.
+  \task Calcula la probabilidad de que solo uno sea defectuoso.
+\end{tasks}
+
+\ex{2} \pau{Aragón, EvAU junio 2017} En una urna hay 2 bolas blancas, 4 negras y 5 rojas. Se sacan dos, una detrás de otra, sin reemplazamiento. Calcula:\begin{tasks}(1)
+  \task La probabilidad de que las dos sean rojas.
+  \task La probabilidad de que sean de distinto color.
+  \task La probabilidad de que la segunda bola sea roja.
+  \task Si $A$ es el suceso «la primera bola es roja» y $B$ el suceso «las dos bolas son del mismo color», ¿son independientes $A$ y $B$?
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU extraordinaria 2023} Una caja contiene 3 fichas verdes, 2 azules y 4 rojas. Un juego consiste en hacer dos extracciones sin reemplazamiento: quien saca dos fichas azules gana el primer premio; quien saca dos verdes, el segundo premio; y quien saca una azul y una de otro color, el tercer premio.\begin{tasks}(1)
+  \task Calcula la probabilidad de que un jugador consiga el primer o el segundo premio.
+  \task Calcula la probabilidad de que un jugador gane el tercer premio.
+  \task Sabiendo que un jugador ha obtenido premio, ¿cuál es la probabilidad de que haya ganado el tercero?
+\end{tasks}
+
+\ex{2} \pau{La Rioja, EBAU ordinaria 2023} Un bombo de lotería tiene diez bolas numeradas del 0 al 9. Hacemos dos extracciones consecutivas sin reemplazar la primera bola. Consideramos los sucesos $A=$«la primera bola es 0», $B=$«la primera bola es 5» y $C=$«la segunda bola es mayor que la primera». Calcula $P(A)$, $P(B)$, $P(C)$, $P(A\cond C)$ y $P(B\cond C)$.
+
+\ex{2} \pau{País Vasco, EAU extraordinaria 2022} Se van a sortear 4 viajes a Nueva York entre 40 personas con una baraja de 40 cartas: se reparte una carta a cada persona y las que reciben un rey ganan un viaje.\begin{tasks}(1)
+  \task Calcula la probabilidad de que gane un viaje la primera persona que recibe la carta.
+  \task Calcula la probabilidad de que gane un viaje la segunda persona que recibe la carta.
+  \task Calcula la probabilidad de que ninguna de las dos primeras personas gane un viaje.
+\end{tasks}
+
+\ex{2} \pau{Murcia, EBAU junio 2017} Una urna contiene tres bolas numeradas del 1 al 3. Se sacan sucesivamente las tres bolas.\begin{tasks}(1)
+  \task Calcula la probabilidad de que las dos últimas bolas extraídas sean impares.
+  \task Determina si son independientes los sucesos $S_1=$«sale el número par antes que alguno de los impares» y $S_2=$«los dos números impares salen consecutivamente».
+\end{tasks}
+
+\ex{2} \pau{Aragón, EvAU septiembre 2019} Una empresa tiene 64 trabajadores repartidos en tres departamentos. Se ha estudiado si saben inglés o no:
+
+\begin{center}{\small\renewcommand{\arraystretch}{1.25}\begin{tabular}{l|ccc|c}
+ & $\text{Admin.}$ & $\text{Producción}$ & $\text{Ventas}$ & \textbf{Total}\\\hline
+$\text{Sabe inglés}$ & $12$ & $30$ & $6$ & $48$\\
+$\text{No sabe}$ & $4$ & $11$ & $1$ & $16$\\
+\hline
+\textbf{Total} & $16$ & $41$ & $7$ & $64$\\
+\end{tabular}}\end{center}
+\begin{tasks}(1)
+  \task Elegimos al azar un trabajador. ¿Cuál es la probabilidad de que sepa inglés?
+  \task Elegimos al azar un trabajador de entre los que saben inglés. ¿Cuál es la probabilidad de que sea del departamento de Ventas?
+  \task Sean $A=$«ser de Administración» y $B=$«saber inglés». ¿Son independientes?
+  \task Elegimos al azar tres trabajadores (sin reemplazamiento). ¿Cuál es la probabilidad de que sean del mismo departamento?
+\end{tasks}
+
+
+% =====================================================
+\seccio{8}{Probabilidad total y teorema de Bayes}
+
+\exf{1} \pau{Aragón, EvAU ordinaria 2023} En una facultad de Economía se ofrece una asignatura en tres grupos, G1, G2 y G3, que representan el 40\,\%, el 35\,\% y el 25\,\% de los estudiantes, respectivamente. Supera la asignatura el 80\,\% del grupo G1, el 60\,\% del G2 y el 92\,\% del G3. Calcula la probabilidad de que, al elegir un estudiante al azar:\begin{tasks}(1)
+  \task haya superado la asignatura y sea del grupo G3;
+  \task no haya superado la asignatura;
+  \task haya superado la asignatura;
+  \task ni haya superado la asignatura ni sea del grupo G1;
+  \task sea del grupo G3, si ha superado la asignatura.
+\end{tasks}\recorda{probabilidad total: $P(S)=P(G_1)P(S\cond G_1)+P(G_2)P(S\cond G_2)+P(G_3)P(S\cond G_3)$. Bayes: $P(G_i\cond S)=\dfrac{P(G_i)P(S\cond G_i)}{P(S)}$.}
+
+\ex{1} \pau{Andalucía, PEvAU septiembre 2018} Un hotel tiene tres lavadoras industriales, $L_1$, $L_2$ y $L_3$. $L_1$ hace el 50\,\% de los lavados, $L_2$ el 30\,\% y $L_3$ el resto. $L_1$ produce un 5\,\% de lavados defectuosos, $L_2$ un 15\,\% y $L_3$ un 20\,\%. Se elige al azar un lavado.\begin{tasks}(1)
+  \task Calcula la probabilidad de que no sea defectuoso.
+  \task Calcula la probabilidad de que lo haya hecho $L_1$, sabiendo que ha sido defectuoso.
+\end{tasks}
+
+\ex{1} \pau{Galicia, ABAU septiembre 2018} En una empresa, el 30\,\% de los empleados son mujeres y el 70\,\% restante, hombres. De las mujeres, el 80\,\% tiene contrato indefinido, mientras que de los hombres solo el 70\,\% lo tiene.\begin{tasks}(1)
+  \task Calcula el porcentaje de personas de la empresa que tienen contrato indefinido.
+  \task Si un empleado tiene contrato indefinido, ¿cuál es la probabilidad de que sea mujer?
+  \task ¿Son independientes los sucesos «ser hombre» y «tener contrato indefinido»?
+\end{tasks}
+
+\ex{1} \pau{Galicia, ABAU junio 2018} El 30\,\% de los estudiantes de secundaria de un instituto juega al baloncesto. Entre los que juegan al baloncesto, el 40\,\% juega también al tenis; entre los que no juegan al baloncesto, una cuarta parte juega al tenis. Elegimos un estudiante al azar.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que practique ambos deportes?
+  \task ¿Cuál es la probabilidad de que juegue al tenis?
+  \task ¿Son independientes los sucesos «jugar al tenis» y «jugar al baloncesto»?
+\end{tasks}
+
+\ex{1} \pau{Andalucía, PEvAU extraordinaria 2020} Una empresa fabrica bombillas LED y halógenas. El 5\,\% de las LED y el 2\,\% de las halógenas salen defectuosas. Se elige al azar una bombilla de una caja que contiene 40 bombillas LED y 10 halógenas.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la bombilla elegida no sea defectuosa.
+  \task Calcula la probabilidad de que la bombilla sea LED, sabiendo que es defectuosa.
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU ordinaria 2023} En una base de datos de correos electrónicos se ha observado que el 20\,\% de los correos recibidos son basura (\emph{spam}). Además, la palabra «lottery» aparece en el 40\,\% de los correos basura y en el 0,6\,\% de los que no lo son.\begin{tasks}(1)
+  \task Calcula la probabilidad de que un correo elegido al azar en el que aparece la palabra «lottery» sea basura.
+  \task Calcula la probabilidad de que un correo elegido al azar en el que no aparece la palabra «lottery» no sea basura.
+  \task Si un correo se etiqueta como basura cuando aparece la palabra «lottery» y como no basura cuando no aparece, calcula la probabilidad de que un correo se etiquete incorrectamente.
+\end{tasks}
+
+\ex{2} \pau{Navarra, EvAU extraordinaria 2022} Se considera que el 4\,\% de los deportistas federados consume alguna sustancia no permitida. Una nueva prueba de detección identifica correctamente el consumo en el 92\,\% de los casos, pero si un deportista no consume, la prueba da positivo en el 10\,\% de los casos. Se elige un deportista al azar. Calcula (con 4 decimales):\begin{tasks}(1)
+  \task La probabilidad de que obtenga un resultado positivo.
+  \task La probabilidad de que sea consumidor y la prueba dé negativo.
+  \task La probabilidad de que no sea consumidor, sabiendo que la prueba ha dado negativo.
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU extraordinaria 2023} En una urna A hay 8 bolas verdes y 6 rojas, y en una urna B, 4 verdes y 5 rojas. Se lanza un dado: si sale un número menor que 3 se saca una bola de la urna A, y si no, de la urna B.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la bola extraída sea roja.
+  \task Sabiendo que se ha extraído una bola verde, ¿cuál es la probabilidad de que sea de la urna A?
+  \task ¿Son independientes los sucesos «sacar bola roja» y «la bola es de la urna A»?
+\end{tasks}
+
+\ex{2} \pau{Canarias, EBAU extraordinaria 2022} Tenemos tres urnas iguales: la primera tiene 6 bolas blancas y 4 negras, la segunda 5 blancas y 2 negras, y la tercera 4 blancas y 7 negras.\begin{tasks}(1)
+  \task Se saca una bola de una urna elegida al azar. Haz un diagrama con las probabilidades de los resultados posibles.
+  \task Calcula la probabilidad de sacar una bola negra.
+  \task Se ha extraído una bola y es blanca. Calcula la probabilidad de que sea de la primera urna.
+\end{tasks}
+
+\ex{2} \pau{Murcia, EBAU extraordinaria 2021} Hay tres cajas: la primera contiene 4 bolas azules y 6 blancas; la segunda, una bola azul y 5 blancas; la tercera, 3 azules y 5 blancas. Cogemos una bola al azar de una de las cajas, también elegida al azar.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la bola sea azul.
+  \task Si la bola es blanca, calcula la probabilidad de que sea de la primera caja.
+\end{tasks}
+
+\ex{1} \pau{Navarra, EvAU septiembre 2018} Dos estudiantes construyen un dado con 5 caras rojas y una azul, ponen 7 bolas verdes y 3 negras en una caja A, y 6 negras y 2 verdes en una caja B. Lanzan el dado: si sale rojo, sacan una bola de la caja A, y si sale azul, de la B.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la bola sea verde.
+  \task Calcula la probabilidad de que la cara del dado sea azul, sabiendo que la bola no es verde.
+\end{tasks}
+
+\ex{1} \pau{Aragón, EvAU extraordinaria 2024} En España, el 30\,\% de la población tiene menos de 30 años, el 50\,\% entre 30 y 65 años, y el 20\,\% más de 65. Un estudio afirma que tiene teléfono móvil el 70\,\% de los menores de 30 años, el 95\,\% de los que tienen entre 30 y 65, y el 50\,\% de los mayores de 65.\begin{tasks}(1)
+  \task Se elige una persona al azar. Calcula la probabilidad de que tenga más de 65 años y tenga móvil.
+  \task ¿Cuál es la probabilidad de que una persona elegida al azar tenga móvil?
+  \task Elegimos una persona al azar y tiene móvil. ¿Cuál es la probabilidad de que tenga más de 65 años?
+  \task Elegimos una persona de cada grupo de edad. ¿Cuál es la probabilidad de que las tres tengan móvil? (Se puede suponer independencia.)
+\end{tasks}
+
+\ex{1} \pau{Galicia, ABAU septiembre 2018} En una población, de cada 200 consumidores de una bebida isotónica, 60 consumen la marca A, 50 la marca B y el resto, la C. Además, son jóvenes el 30\,\% de los consumidores de A, el 20\,\% de los de B y el 40\,\% de los de C.\begin{tasks}(1)
+  \task Si se selecciona al azar un consumidor, ¿cuál es la probabilidad de que sea joven?
+  \task Si se ha seleccionado un joven, halla la probabilidad de que consuma la marca B.
+  \task ¿Son independientes los sucesos «ser joven» y «consumir la marca A»?
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU extraordinaria 2022} En una región hay tres universidades, A, B y C. De los estudiantes que terminaron el año pasado, el 60\,\% procedían de la A, el 30\,\% de la B y el resto de la C. La probabilidad de que un estudiante de la A no encuentre trabajo en la región es 0,4, y para uno de la B, 0,5.\begin{tasks}(1)
+  \task Si la probabilidad de que un estudiante no encuentre trabajo en la región es 0,395, determina la probabilidad de que un estudiante de la universidad C sí lo encuentre.
+  \task Calcula la probabilidad de que un estudiante que no ha encontrado trabajo en la región proceda de la universidad A o de la B.
+\end{tasks}
+
+\ex{2} \pau{Andalucía, PEvAU extraordinaria 2020} Una urna contiene 6 bolas rojas y 4 azules. Se saca una bola al azar y se reemplaza por seis bolas del otro color. A continuación, se saca una segunda bola.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la segunda bola sea roja.
+  \task Si sabemos que la segunda bola es azul, ¿cuál es la probabilidad de que la primera también lo haya sido?
+\end{tasks}
+
+\ex{2} \pau{País Vasco, EAU ordinaria 2024} Asier tiene una urna con 4 bolas verdes y 2 rojas. Lanza una moneda: si sale cara, saca una bola de la urna, y si sale cruz, saca dos sin reemplazamiento.\begin{tasks}(1)
+  \task ¿Cuál es la probabilidad de que Asier haya sacado dos bolas rojas?
+  \task Calcula la probabilidad de que no haya sacado ninguna bola roja.
+  \task Calcula la probabilidad de que haya sacado al menos una bola verde.
+  \task Calcula la probabilidad de que haya salido cara, sabiendo que al menos una bola es verde.
+\end{tasks}
+
+\ex{2} \pau{País Vasco, EAU extraordinaria 2024} En una caja hay una bola roja y una azul. Se saca una bola y, antes de sacar una segunda, se devuelve a la caja la primera bola extraída y se añaden dos más del mismo color. A continuación se saca una segunda bola.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la segunda bola sea roja si la primera ha sido azul.
+  \task Calcula la probabilidad de que la segunda bola sea azul.
+  \task Si la segunda bola ha sido azul, ¿cuál es la probabilidad de que la primera haya sido roja?
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU ordinaria 2022} De una baraja de póquer de 52 cartas (13 de cada palo: diamantes, corazones, picas y tréboles) se elimina una carta al azar, sin mirarla. Después se elige al azar una carta de las que quedan y se observa.\begin{tasks}(1)
+  \task Calcula la probabilidad de que la carta observada sea de diamantes.
+  \task Si la carta observada no es de diamantes, calcula la probabilidad de que la carta eliminada tampoco lo fuera.
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con las herramientas interactivas de los apuntes de la unidad.\end{center}
+
+\end{document}
