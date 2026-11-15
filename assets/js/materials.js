@@ -307,9 +307,9 @@ window.LEVELS = {
     cards: true,
     name: { va: "4t ESO Matemàtiques B", es: "4º ESO Matemáticas B", en: "4th ESO Maths B" },
     desc: {
-      va: "Radicals i logaritmes, àlgebra, trigonometria, geometria analítica i funcions.",
-      es: "Radicales y logaritmos, álgebra, trigonometría, geometría analítica y funciones.",
-      en: "Radicals and logarithms, algebra, trigonometry, coordinate geometry and functions."
+      va: "Radicals i logaritmes, àlgebra, trigonometria, geometria analítica, funcions, recompte i probabilitat.",
+      es: "Radicales y logaritmos, álgebra, trigonometría, geometría analítica, funciones, recuento y probabilidad.",
+      en: "Radicals and logarithms, algebra, trigonometry, coordinate geometry, functions, counting and probability."
     },
     units: [
       {
@@ -390,6 +390,16 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t8-funcions-elementals.html", date: "2026-11-15" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 45 exercicis: tots els de la fitxa del departament i molts més, de les rectes als problemes amb funcions", es: "PDF · 45 ejercicios: todos los de la ficha del departamento y muchos más, de las rectas a los problemas con funciones", en: "PDF · 45 exercises: all those from the department worksheet and many more, from lines to word problems" }, url: { va: "materials/4eso-b/t8-fitxa-exercicis.pdf", es: "materials/4eso-b/t8-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 45 exercicis", es: "PDF · Soluciones de los 45 ejercicios", en: "PDF · Solutions to all 45 exercises" }, url: { va: "materials/4eso-b/t8-fitxa-solucions.pdf", es: "materials/4eso-b/t8-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
+      },
+      {
+        num: "9",
+        ill: "probabilitat", block: "pr",
+        title: { va: "Tècniques de recompte. Probabilitat", es: "Técnicas de recuento. Probabilidad", en: "Counting techniques. Probability" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t9-recompte-probabilitat.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 79 exercicis: tots els del departament i molts més, del recompte als problemes amb arbres", es: "PDF · 79 ejercicios: todos los del departamento y muchos más, del recuento a los problemas con árboles", en: "PDF · 79 exercises: all those from the department and many more, from counting to tree problems" }, url: { va: "materials/4eso-b/t9-fitxa-exercicis.pdf", es: "materials/4eso-b/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 79 exercicis", es: "PDF · Soluciones de los 79 ejercicios", en: "PDF · Solutions to all 79 exercises" }, url: { va: "materials/4eso-b/t9-fitxa-solucions.pdf", es: "materials/4eso-b/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
         ]
       }
     ]

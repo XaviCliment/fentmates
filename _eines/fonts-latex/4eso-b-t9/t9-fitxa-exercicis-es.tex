@@ -1,0 +1,338 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\AtBeginDocument{\renewcommand{\sin}{\operatorname{sen}}\renewcommand{\arcsin}{\operatorname{arcsen}}}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 9: Técnicas de recuento. Probabilidad. 4º ESO},pdfsubject={Matemáticas B 4º ESO},pdfkeywords={recuento, principio de multiplicación, factorial, variaciones, permutaciones, combinaciones, número combinatorio, experimento aleatorio, espacio muestral, sucesos, regla de Laplace, probabilidad condicionada, tablas de contingencia, diagramas de árbol, probabilidad total}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 9: Técnicas de recuento. Probabilidad · 4\textsuperscript{o} ESO B}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+\usetikzlibrary{calc,trees}
+\usepackage{enumitem}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{4eso-b}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas B}{4\textsuperscript{o} ESO}{Ficha de ejercicios · Unidad 9}{\raggedright Técnicas de recuento. Probabilidad}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Ejercicios graduados por niveles de dificultad:\quad \estrelles{1}\ básico \qquad \estrelles{2}\ medio \qquad \estrelles{3}\ avanzado.\\[2pt] Resuélvelos en el cuaderno mostrando todos los pasos: el tipo de recuento, el diagrama de árbol o la tabla que usas y las operaciones. La ficha recoge todos los ejercicios del departamento y añade otros nuevos, sobre todo de técnicas de recuento. Las secciones siguen el orden de los apuntes de la unidad (9.1--9.10).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Diagramas de árbol y principio de multiplicación}
+
+\exf{1} En una cafetería, el almuerzo consiste en un bocadillo (de jamón, de queso o vegetal) y una bebida (agua o zumo). Haz un diagrama de árbol y escribe todos los almuerzos posibles. ¿Cuántos hay?
+
+\ex{1} Clara tiene 4 camisetas, 3 pantalones y 2 pares de zapatillas. ¿De cuántas maneras distintas se puede vestir (con una prenda de cada tipo)?
+
+\ex{1} ¿Cuántos números de teléfono de 9 cifras que empiezan por 6 puede haber?
+
+\ex{2} Con las cifras 0, 1, 2, 3 y 4, ¿cuántos números de tres cifras se pueden formar\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item si se pueden repetir las cifras?\item si no se pueden repetir?\item sin repetir cifras y acabados en 0?\end{enumerate}\recorda{un número de tres cifras no puede empezar por 0.}
+
+\ex{1} Calcula:\begin{tasks}(5)
+  \task $7!$
+  \task $\dfrac{8!}{6!}$
+  \task $\dfrac{12!}{10!}$
+  \task $\dfrac{5!}{3!\cdot2!}$
+  \task $0!$
+\end{tasks}
+
+\ex{2} Simplifica:\begin{tasks}(3)
+  \task $\dfrac{n!}{(n-1)!}$
+  \task $\dfrac{(n+1)!}{n!}$
+  \task $\dfrac{(n+2)!}{n!}$
+\end{tasks}
+
+\ex{2} ¿Cuántos resultados tiene el experimento de lanzar un dado y dos monedas? ¿Y el de lanzar tres dados?
+
+
+% =====================================================
+\seccio{2}{Variaciones y permutaciones}
+
+\exf{1} Calcula:\begin{tasks}(4)
+  \task $V_{7,\,3}$
+  \task $VR_{4,\,3}$
+  \task $P_6$
+  \task $V_{10,\,2}$
+\end{tasks}
+
+\ex{1} ¿Cuántas «palabras» de 3 letras distintas se pueden formar con las vocales A, E, I, O, U? ¿Y si se pueden repetir las letras?
+
+\ex{1} En un concurso participan 12 personas y hay tres premios distintos (primero, segundo y tercero). ¿De cuántas maneras se pueden repartir?
+
+\ex{2} ¿De cuántas maneras se pueden sentar 6 amigos en 6 sillas en fila? ¿Y si dos de ellos, Álex y Berta, tienen que sentarse en los extremos?
+
+\ex{2} Ordenamos las letras A, B, C, D, E y F.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuántas ordenaciones distintas hay?\item ¿Cuántas empiezan por A?\item ¿Cuántas empiezan y acaban por vocal?\end{enumerate}
+
+\ex{2} Con las cifras 1, 2, 3, 4, 5, 6 y 7, sin repetir ninguna:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuántos números de 4 cifras se pueden formar?\item ¿Cuántos son pares?\item ¿Cuántos son mayores que 5 000?\end{enumerate}
+
+\ex{1} Un candado tiene una combinación de 4 cifras (de 0 a 9). ¿Cuántas combinaciones hay? ¿En cuántas son todas las cifras distintas?
+
+\ex{3} Una contraseña está formada por 2 letras (de 26) seguidas de 3 cifras. ¿Cuántas contraseñas distintas hay? ¿Y cuántas, si no se puede repetir ninguna letra ni ninguna cifra?
+
+
+% =====================================================
+\seccio{3}{Combinaciones}
+
+\exf{1} Calcula:\begin{tasks}(4)
+  \task $\dbinom83$
+  \task $\dbinom{12}{10}$
+  \task $\dbinom66$
+  \task $\dbinom{15}{2}$
+\end{tasks}
+
+\ex{2} Comprueba que $\dbinom72=\dbinom75$ y que $\dbinom62+\dbinom63=\dbinom73$. ¿Cómo se ven estas igualdades en el triángulo de Tartaglia?
+
+\ex{1} En una clase de 24 alumnos, ¿cuántas parejas de trabajo distintas se pueden formar?
+
+\ex{2} Un club tiene 9 chicas y 7 chicos. Hay que elegir una comisión de 4 personas.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuántas comisiones distintas se pueden formar?\item ¿Cuántas tienen 2 chicas y 2 chicos?\item ¿Cuántas están formadas solo por chicas?\end{enumerate}
+
+\ex{1} Una pizzería ofrece 8 ingredientes. ¿Cuántas pizzas distintas de 3 ingredientes (distintos) se pueden pedir?
+
+\ex{2} ¿Cuántas diagonales tiene un decágono? Halla una fórmula para el número de diagonales de un polígono de $n$ lados.
+
+\ex{2} Di de qué tipo es cada recuento y calcúlalo:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Maneras de elegir 2 representantes (con el mismo cargo) en una clase de 25.\item Maneras de elegir delegado y subdelegado en la misma clase.\item Códigos de 3 cifras (de 0 a 9).\item Maneras de ordenar 5 libros en una estantería.\item Apuestas de la Primitiva (6 números de 49).\end{enumerate}
+
+\ex{3} En una bolsa hay 10 bolas numeradas del 1 al 10 y sacamos 3 a la vez. ¿Cuántos grupos de 3 bolas se pueden obtener? ¿Cuántos contienen la bola 1? ¿Cuántos no la contienen?
+
+
+% =====================================================
+\seccio{4}{Experimentos aleatorios. Espacio muestral y sucesos}
+
+\exf{1} Indica si los experimentos siguientes son deterministas o aleatorios:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Medir la temperatura a la que hierve el agua a nivel del mar.\item Sacar una carta de una baraja.\item Calcular el área de un cuadrado de 3 cm de lado.\item Adivinar el resultado de un partido de fútbol.\end{enumerate}
+
+\ex{1} Escribe el espacio muestral de los experimentos siguientes:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Lanzar un dado de seis caras.\item Lanzar dos monedas.\item Sacar una bola de una bolsa que contiene bolas rojas, azules y verdes.\item Lanzar una moneda y un dado.\end{enumerate}
+
+\ex{1} Lanzamos tres monedas. Escribe el espacio muestral y los sucesos $A=$«al menos dos caras», $B=$«ninguna cara» y $C=$«más de tres caras». ¿De qué tipo es cada uno?
+
+\ex{2} Lanzamos dos dados. Escribe el espacio muestral si anotamos la suma de los puntos y si anotamos la pareja de resultados. ¿Cuántos elementos tiene cada uno? ¿Son igual de probables los resultados en los dos casos?
+
+\ex{1} Escribe el espacio muestral del experimento «mirar el sexo de los hijos de una familia de tres hijos, por orden de nacimiento» y el suceso «el mayor es chico».
+
+
+% =====================================================
+\seccio{5}{Operaciones con sucesos}
+
+\exf{1} Lanzamos un dado. Sean $A=$«salir un número primo» y $B=$«salir un múltiplo de 3».\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Escribe los sucesos $A$ y $B$.\item $A\cup B$, $A\cap B$, $\overline{A}$ y $\overline{B}$.\item ¿Son $A$ y $B$ incompatibles? ¿Por qué?\end{enumerate}
+
+\ex{2} En una urna hay 15 bolas numeradas del 2 al 16. Extraemos una bola al azar y observamos el número que tiene.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Escribe todos los elementos de los sucesos $A=$«obtener par», $B=$«obtener impar», $C=$«obtener primo» y $D=$«obtener impar menor que 9».\item ¿Qué relación hay entre $A$ y $B$? ¿Y entre $C$ y $D$?\item ¿Cuál es el suceso $A\cup B$? ¿Y $C\cap D$?\end{enumerate}
+
+\ex{2} De una bolsa que tiene 10 bolas numeradas del 0 al 9, se extrae una bola al azar.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es el espacio muestral?\item Describe los sucesos $A=$«mayor que 6», $B=$«no obtener 6» y $C=$«menor que 6» escribiendo todos sus elementos.\item Halla los sucesos $A\cup B$, $A\cap B$ y $\overline{B}\cap\overline{A}$.\end{enumerate}
+
+\ex{1} Sacamos una carta de una baraja española de 40 cartas. Sean $O=$«oros» y $R=$«rey». Describe los sucesos $O\cap R$, $O\cup R$ y $\overline{O}\cap\overline{R}$ y di cuántas cartas tiene cada uno.
+
+\ex{2} Lanzamos un dado. Sean $A=$«par» y $B=$«múltiplo de 3». Escribe estos sucesos y explica con palabras qué significan:\begin{tasks}(3)
+  \task $A\cap\overline{B}$
+  \task $\overline{A}\cap\overline{B}$
+  \task $\overline{A}\cup\overline{B}$
+\end{tasks}
+
+\ex{1} Al lanzar un dado, consideramos $A=\{1,\,2\}$, $B=\{5,\,6\}$ y $C=$«par». ¿Qué parejas de sucesos son incompatibles?
+
+
+% =====================================================
+\seccio{6}{Frecuencia y probabilidad. Regla de Laplace}
+
+\exf{1} Hemos lanzado un dado 600 veces y hemos obtenido estos resultados:\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|cccccc}
+\rowcolor{soft} Resultado & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+Frecuencia & 95 & 102 & 98 & 105 & 97 & 103\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Calcula la frecuencia relativa de cada resultado.\item ¿Crees que el dado está trucado? Razona la respuesta.\end{enumerate}
+
+\ex{1} Una bolsa contiene 4 bolas rojas, 6 azules y 2 blancas. Sacamos una bola al azar. Calcula la probabilidad de que sea:\begin{tasks}(4)
+  \task roja
+  \task blanca
+  \task no azul
+  \task verde
+\end{tasks}
+
+\ex{1} Sacamos una carta de una baraja española de 40 cartas. Calcula la probabilidad de que sea:\begin{tasks}(3)
+  \task de copas
+  \task un rey
+  \task el rey de copas
+  \task de copas o un rey
+  \task que no sea una figura
+\end{tasks}
+
+\ex{1} En una clase de 25 alumnos hay 15 chicas. Elegimos un alumno al azar para ser delegado. ¿Cuál es la probabilidad de que sea un chico?
+
+\ex{2} Sacamos tres cartas a la vez de una baraja española. Calcula la probabilidad de que las tres sean de oros y la de que las tres sean figuras.
+
+\ex{2} Colocamos al azar en una estantería 5 libros distintos: 3 de matemáticas y 2 de física. ¿Cuál es la probabilidad de que los tres de matemáticas queden juntos?
+
+\ex{2} ¿Cuál es la probabilidad de acertar los 6 números de la Primitiva con una apuesta? ¿Y de acertar los 14 resultados de una quiniela (1, X, 2) respondiendo al azar?
+
+\ex{2} Tenemos para enviar tres cartas con sus tres sobres correspondientes. Si metemos al azar cada carta en uno de los sobres, ¿cuál es la probabilidad de que al menos una de las cartas vaya en el sobre que le corresponde?
+
+\ex{2} En una clase hay 12 chicas y 10 chicos, y se eligen al azar 3 alumnos para una comisión. Calcula la probabilidad de que sean tres chicas y la de que haya exactamente dos chicas.
+
+\ex{3} Elegimos al azar un código de 4 cifras (del 0000 al 9999). Calcula la probabilidad de que sea capicúa y la de que tenga al menos un 0.
+
+
+% =====================================================
+\seccio{7}{Propiedades de la probabilidad}
+
+\exf{1} Sean $A$ y $B$ dos sucesos con $P(A)=0{,}35$, $P(B)=0{,}5$ y $P(A\cap B)=0{,}15$. Calcula:\begin{tasks}(3)
+  \task $P(\overline{A})$
+  \task $P(\overline{B})$
+  \task $P(A\cup B)$
+\end{tasks}
+
+\ex{2} Sean $A$ y $B$ sucesos tales que $P(A)=0{,}4$, $P(\overline{A}\cap B)=0{,}4$ y $P(A\cap B)=0{,}1$. Calcula $P(A\cup B)$ y $P(B)$.\recorda{$P(B)=P(A\cap B)+P(\overline{A}\cap B)$.}
+
+\ex{2} Sabiendo que $P(A\cap B)=0{,}2$, $P(\overline{B})=0{,}7$ y $P(A\cap\overline{B})=0{,}5$, calcula $P(A\cup B)$ y $P(A)$.
+
+\ex{1} $A$ y $B$ son incompatibles, con $P(A)=0{,}3$ y $P(B)=0{,}5$. Calcula $P(A\cup B)$, $P(\overline{A})$ y $P(\overline{A}\cap\overline{B})$.
+
+\ex{2} Si $P(A\cup B)=0{,}9$, $P(\overline{A})=0{,}4$ y $P(B)=0{,}5$, calcula $P(A)$, $P(A\cap B)$, $P(A\cap\overline{B})$ y $P(\overline{A}\cap\overline{B})$.
+
+\ex{2} Razona si es posible que dos sucesos tengan $P(A)=0{,}7$, $P(B)=0{,}6$ y $P(A\cap B)=0{,}2$.
+
+\ex{1} Lanzamos un dado. Con la fórmula de la unión, calcula la probabilidad de sacar un número par o un múltiplo de 3, y compruébalo con la regla de Laplace.
+
+
+% =====================================================
+\seccio{8}{Experimentos compuestos}
+
+\exf{1} Lanzamos tres monedas.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Haz un diagrama de árbol y escribe el espacio muestral.\item Calcula la probabilidad de sacar tres caras, la de exactamente dos caras y la de al menos una cruz.\end{enumerate}
+
+\ex{1} Lanzamos dos dados y sumamos los puntos. Calcula la probabilidad de que:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item la suma sea 8;\item la suma sea 4 o menos;\item la suma sea mayor que 12;\item salgan dos números iguales (dobles).\end{enumerate}
+
+\ex{2} Una bolsa tiene 5 bolas rojas y 3 negras. Sacamos dos bolas.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Calcula la probabilidad de que las dos sean negras, si las sacamos con reemplazamiento.\item Calcula la misma probabilidad si las sacamos sin reemplazamiento.\item Sin reemplazamiento, ¿cuál es la probabilidad de que sean de distinto color?\end{enumerate}
+
+\ex{1} Un jugador de baloncesto acierta el 70 \% de los tiros libres. Lanza dos tiros libres (consideramos que son independientes). Calcula la probabilidad de que:\begin{tasks}(3)
+  \task acierte los dos;
+  \task no acierte ninguno;
+  \task acierte al menos uno.
+\end{tasks}
+
+\ex{1} Lanzamos una moneda y un dado. Calcula la probabilidad de sacar:\begin{tasks}(2)
+  \task cara y un número par;
+  \task cruz y un 5 o un 6.
+\end{tasks}
+
+\ex{1} Marta ha lanzado una moneda 5 veces y ha salido cara todas las veces. Dice: «Ahora es más probable que salga cruz». ¿Tiene razón? Explícalo.
+
+\ex{1} Dos personas eligen al azar, cada una de ellas, un número del 0 al 9. ¿Cuál es la probabilidad de que las dos personas no piensen el mismo número?
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Dos personas eligen al azar, cada una de ellas, un número del 1 al 5. ¿Cuál es la probabilidad de que las dos elijan el mismo número?\item Si son tres personas las que eligen al azar, cada una de ellas, un número del 1 al 5, ¿cuál es la probabilidad de que las tres elijan el mismo número?\end{enumerate}
+
+\ex{2} Extraemos dos cartas de una baraja española (de cuarenta cartas). Calcula la probabilidad de que sean:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item las dos de oros;\item una de copas y otra de oros;\item al menos una de oros;\item la primera de copas y la segunda de oros.\end{enumerate}
+
+\ex{3} En unas oposiciones, el temario consta de 85 temas. Se eligen tres temas al azar de entre los 85. Si un opositor sabe 35 de los 85 temas, ¿cuál es la probabilidad de que sepa al menos uno de los tres temas?
+
+\ex{2} Lanzamos un dado 4 veces. ¿Cuál es la probabilidad de obtener al menos un 6?
+
+\ex{2} Una bolsa tiene 2 bolas rojas, 3 azules y 1 verde. Sacamos dos bolas sin reemplazamiento. Calcula la probabilidad de que sean del mismo color y la de que no haya ninguna azul.
+
+
+% =====================================================
+\seccio{9}{Tablas de contingencia y probabilidad condicionada}
+
+\exf{2} En una encuesta a 200 personas sobre si van a trabajar en bicicleta se han obtenido estos datos:\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.35}\begin{tabular}{|l|C{1.9cm}|C{1.9cm}|C{1.9cm}|}\hline
+\rowcolor{soft}  & Bicicleta & No bicicleta & Total\\\hline
+Hombres & 36 &  & 90\\\hline
+Mujeres & 30 &  & \\\hline
+Total &  &  & 200\\\hline
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Completa la tabla.\item Elegimos una persona al azar. ¿Cuál es la probabilidad de que vaya en bicicleta?\item ¿Cuál es la probabilidad de que sea una mujer y no vaya en bicicleta?\item Si elegimos un hombre, ¿cuál es la probabilidad de que vaya en bicicleta?\item Si elegimos una persona que va en bicicleta, ¿cuál es la probabilidad de que sea un hombre?\end{enumerate}
+
+\ex{2} En un viaje organizado por Europa para 120 personas, 48 de los que van saben hablar inglés, 36 saben hablar francés, y 12 de ellos hablan los dos idiomas. Escogemos uno de los viajeros al azar.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que hable alguno de los dos idiomas?\item ¿Cuál es la probabilidad de que hable francés, sabiendo que habla inglés?\item ¿Cuál es la probabilidad de que solo hable francés?\end{enumerate}
+
+\ex{2} Se hace una encuesta en un grupo de 120 personas, preguntando si les gusta leer y ver la televisión: a 32 personas les gusta leer y ver la tele, a 92 personas les gusta leer y a 47 personas les gusta ver la tele. Si elegimos al azar una de esas personas:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que no le guste ver la tele?\item ¿Cuál es la probabilidad de que le guste leer, sabiendo que le gusta ver la tele?\item ¿Cuál es la probabilidad de que le guste leer?\end{enumerate}
+
+\ex{2} En una clase de 30 alumnos hay 18 que han aprobado matemáticas, 16 que han aprobado inglés y 6 que no han aprobado ninguna de las dos. Elegimos al azar un alumno de esa clase:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que haya aprobado inglés y matemáticas?\item Sabiendo que ha aprobado matemáticas, ¿cuál es la probabilidad de que haya aprobado inglés?\item ¿Son independientes los sucesos «aprobar matemáticas» y «aprobar inglés»?\end{enumerate}
+
+\ex{2} En un pueblo hay 100 jóvenes; 40 de los chicos y 35 de las chicas juegan al tenis. El total de chicas en el pueblo es de 45. Si elegimos un joven de esa localidad al azar:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que sea chico?\item Si sabemos que juega al tenis, ¿cuál es la probabilidad de que sea chica?\item ¿Cuál es la probabilidad de que sea un chico que no juegue al tenis?\end{enumerate}
+
+\ex{3} En una cadena de televisión se hizo una encuesta a 2 500 personas para saber la audiencia de un debate y de una película que se emitieron en horas distintas: 2 100 vieron la película, 1 500 vieron el debate y 350 no vieron ninguno de los dos programas. Si elegimos al azar a uno de los encuestados:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que viera la película y el debate?\item ¿Cuál es la probabilidad de que viera la película, sabiendo que no vio el debate?\item Sabiendo que vio la película, ¿cuál es la probabilidad de que viera el debate?\end{enumerate}
+
+\ex{3} Sean $A$ y $B$ dos sucesos tales que $P(\overline{A})=0{,}6$, $P(B)=0{,}3$ y $P(\overline{A}\cup\overline{B})=0{,}9$.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Son independientes $A$ y $B$?\item $P(\overline{A}\,|\,B)$.\end{enumerate}\recorda{$\overline{A}\cup\overline{B}=\overline{A\cap B}$ (leyes de De Morgan).}
+
+\ex{3} De dos sucesos $A$ y $B$ sabemos que $P(\overline{A})=0{,}48$, $P(A\cup B)=0{,}82$ y $P(B)=0{,}42$.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Son $A$ y $B$ independientes?\item ¿Cuánto vale $P(A\,|\,B)$?\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Si $P(A)=0{,}6$ y $P(B\,|\,A)=0{,}5$, ¿cuánto vale $P(A\cap B)$?\item $A$ y $B$ son independientes, con $P(A)=0{,}3$ y $P(B)=0{,}5$. Calcula $P(A\cap B)$, $P(A\cup B)$ y $P(A\,|\,B)$.\end{enumerate}
+
+
+% =====================================================
+\seccio{10}{Problemas con árboles de dos etapas}
+
+\exf{2} Una urna, A, contiene 7 bolas numeradas del 1 al 7. En otra urna, B, hay 5 bolas numeradas del 1 al 5. Lanzamos una moneda equilibrada, de forma que, si sale cara, extraemos una bola de la urna A y, si sale cruz, la extraemos de B.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de obtener un número par?\item Sabiendo que salió un número par, ¿cuál es la probabilidad de que fuera de la urna A?\end{enumerate}
+
+\ex{2} El 1 \% de la población de un determinado lugar padece una enfermedad. Para detectar esta enfermedad se realiza una prueba de diagnóstico. Esta prueba da positiva en el 97 \% de los pacientes que padecen la enfermedad; en el 98 \% de los individuos que no la padecen da negativa. Si elegimos al azar un individuo de esa población:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que el individuo dé positivo y padezca la enfermedad?\item Si sabemos que ha dado positiva, ¿cuál es la probabilidad de que padezca la enfermedad?\end{enumerate}
+
+\ex{3} Tenemos dos bolsas, A y B. En la bolsa A hay 3 bolas blancas y 7 rojas. En la bolsa B hay 6 bolas blancas y 2 rojas. Sacamos una bola de A y la pasamos a B. Después extraemos una bola de B.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que la bola extraída de B sea blanca?\item ¿Cuál es la probabilidad de que las dos bolas sean blancas?\end{enumerate}
+
+\ex{2} Una bolsa A contiene 3 bolas rojas y 5 verdes. Otra bolsa B contiene 6 bolas rojas y 4 verdes. Lanzamos un dado: si sale un uno, extraemos una bola de la bolsa A; y si no sale un uno, la extraemos de B.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de obtener una bola roja?\item Sabiendo que salió roja, ¿cuál es la probabilidad de que fuera de A?\end{enumerate}
+
+\ex{2} Tenemos dos urnas: la primera tiene 3 bolas rojas, 3 blancas y 4 negras; la segunda tiene 4 bolas rojas, 3 blancas y 1 negra. Elegimos una urna al azar y extraemos una bola.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item ¿Cuál es la probabilidad de que la bola extraída sea blanca?\item Sabiendo que la bola extraída fue blanca, ¿cuál es la probabilidad de que fuera de la primera urna?\end{enumerate}
+
+\ex{2} Una empresa fabrica piezas en dos plantas: la planta A hace el 60 \% y la B, el 40 \%. El 2 \% de las piezas de A y el 5 \% de las de B son defectuosas. Elegimos una pieza al azar. ¿Cuál es la probabilidad de que sea defectuosa? Si es defectuosa, ¿cuál es la probabilidad de que venga de la planta B?
+
+\ex{3} En un instituto, un tercio de los alumnos de 4.º van al instituto en bicicleta y el resto, a pie. De los que van en bicicleta, el 40 \% llega alguna vez tarde; de los que van a pie, el 25 \%. ¿Qué porcentaje de alumnos llega alguna vez tarde? Si un alumno ha llegado tarde, ¿cuál es la probabilidad de que vaya en bicicleta?
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con las herramientas interactivas de los apuntes de la unidad.\end{center}
+
+\end{document}

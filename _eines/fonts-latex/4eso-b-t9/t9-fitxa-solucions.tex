@@ -1,0 +1,383 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 9: Tècniques de recompte. Probabilitat. 4t d'ESO Matemàtiques B},pdfsubject={Matemàtiques B 4t ESO},pdfkeywords={recompte, principi de multiplicació, factorial, variacions, permutacions, combinacions, nombre combinatori, experiment aleatori, espai mostral, esdeveniments, regla de Laplace, probabilitat condicionada, taules de contingència, diagrames d'arbre, probabilitat total}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 9: Tècniques de recompte. Probabilitat · 4t ESO B}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\usetikzlibrary{calc,trees}
+\usepackage{enumitem}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{4eso-b}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques B}{4t ESO}{Solucions de la fitxa · Unitat 9}{\raggedright Tècniques de recompte. Probabilitat}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Pots comprovar els resultats amb les eines dels apunts interactius de la unitat (calculadora de recompte, arbres d'extraccions, taula de contingència, arbre de dues etapes i calculadora de dos esdeveniments).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Diagrames d'arbre i principi de multiplicació}
+
+\exf{1} \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=24mm,level 1/.style={sibling distance=13mm},level 2/.style={sibling distance=6.5mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {Pernil} child {node[] {Aigua} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} child {node[] {Suc} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} child {node[] {Formatge} child {node[] {Aigua} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} child {node[] {Suc} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} child {node[] {Vegetal} child {node[] {Aigua} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} child {node[] {Suc} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {}};
+\end{tikzpicture}\end{center}Hi ha $3\cdot2=\res{6}$ esmorzars: Pernil--Aigua, Pernil--Suc, Formatge--Aigua, Formatge--Suc, Vegetal--Aigua, Vegetal--Suc.
+
+\ex{1} $4\cdot3\cdot2=\res{24}$ maneres.
+
+\ex{1} La primera xifra és fixa i cadascuna de les altres 8 es pot triar de 10 maneres: $10^8=\res{100\,000\,000}$.
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Centenes: 4 opcions (no el 0); desenes i unitats: 5. $4\cdot5\cdot5=\res{100}$\item Centenes: 4; desenes: 4 (ara sí que pot ser 0); unitats: 3. $4\cdot4\cdot3=\res{48}$\item Unitats: el 0 (1 opció); centenes: 4; desenes: 3. $1\cdot4\cdot3=\res{12}$\end{enumerate}
+
+\ex{1} \begin{tasks}(5)
+  \task $\res{5\,040}$
+  \task $8\cdot7=\res{56}$
+  \task $12\cdot11=\res{132}$
+  \task $\dfrac{5\cdot4}{2}=\res{10}$
+  \task $\res{1}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(3)
+  \task $\res{n}$
+  \task $\res{n+1}$
+  \task $\res{(n+2)(n+1)}$
+\end{tasks}
+
+\ex{2} $6\cdot2\cdot2=\res{24}$; \ $6^3=\res{216}$
+
+
+% =====================================================
+\seccio{2}{Variacions i permutacions}
+
+\exf{1} \begin{tasks}(4)
+  \task $7\cdot6\cdot5=\res{210}$
+  \task $4^3=\res{64}$
+  \task $6!=\res{720}$
+  \task $10\cdot9=\res{90}$
+\end{tasks}
+
+\ex{1} $V_{5,\,3}=5\cdot4\cdot3=\res{60}$; \ $VR_{5,\,3}=5^3=\res{125}$
+
+\ex{1} Importa l'ordre i ningú no pot guanyar dos premis: $V_{12,\,3}=12\cdot11\cdot10=\res{1\,320}$.
+
+\ex{2} $P_6=6!=\res{720}$. \ Als extrems, l'Àlex i la Berta (2 ordres) i els altres 4, al mig: $2\cdot4!=\res{48}$.
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P_6=6!=\res{720}$\item La A fixa al principi i les altres 5 en qualsevol ordre: $5!=\res{120}$\item Les vocals són A i E: als extrems, en 2 ordres; les altres 4, al mig: $2\cdot4!=\res{48}$\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $V_{7,\,4}=7\cdot6\cdot5\cdot4=\res{840}$\item Les unitats han de ser 2, 4 o 6 (3 opcions) i les altres tres xifres, de les 6 que queden: $3\cdot V_{6,\,3}=3\cdot120=\res{360}$\item La primera xifra ha de ser 5, 6 o 7: $3\cdot V_{6,\,3}=\res{360}$\end{enumerate}
+
+\ex{1} $VR_{10,\,4}=10^4=\res{10\,000}$; \ $V_{10,\,4}=10\cdot9\cdot8\cdot7=\res{5\,040}$
+
+\ex{3} $26^2\cdot10^3=\res{676\,000}$; \ $V_{26,\,2}\cdot V_{10,\,3}=26\cdot25\cdot10\cdot9\cdot8=\res{468\,000}$
+
+
+% =====================================================
+\seccio{3}{Combinacions}
+
+\exf{1} \begin{tasks}(4)
+  \task $\dfrac{8\cdot7\cdot6}{3!}=\res{56}$
+  \task $\dbinom{12}{2}=\res{66}$
+  \task $\res{1}$
+  \task $\dfrac{15\cdot14}{2}=\res{105}$
+\end{tasks}
+
+\ex{2} $\dbinom72=\dbinom75=\res{21}$; \ $15+20=\res{35}=\dbinom73$. Cada fila de Tartaglia és simètrica i cada nombre és la suma dels dos que té damunt.
+
+\ex{1} $\dbinom{24}{2}=\dfrac{24\cdot23}{2}=\res{276}$
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\dbinom{16}{4}=\res{1\,820}$\item $\dbinom92\cdot\dbinom72=36\cdot21=\res{756}$\item $\dbinom94=\res{126}$\end{enumerate}
+
+\ex{1} No importa l'ordre: $\dbinom83=\res{56}$.
+
+\ex{2} $\dbinom{10}{2}-10=45-10=\res{35}$. \ En general: $\dbinom n2-n=\dfrac{n(n-1)}{2}-n=\res{\dfrac{n(n-3)}{2}}$.
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Combinacions: $\dbinom{25}{2}=\res{300}$\item Variacions: $V_{25,\,2}=\res{600}$\item Variacions amb repetició: $10^3=\res{1\,000}$\item Permutacions: $5!=\res{120}$\item Combinacions: $\dbinom{49}{6}=\res{13\,983\,816}$\end{enumerate}
+
+\ex{3} $\dbinom{10}{3}=\res{120}$. \ Amb la bola 1, falten 2 boles de les 9 restants: $\dbinom92=\res{36}$. \ Sense la bola 1: $\dbinom93=\res{84}$ $(36+84=120)$.
+
+
+% =====================================================
+\seccio{4}{Experiments aleatoris. Espai mostral i esdeveniments}
+
+\exf{1} \begin{tasks}(4)
+  \task \rest{Determinista}
+  \task \rest{Aleatori}
+  \task \rest{Determinista}
+  \task \rest{Aleatori}
+\end{tasks}
+
+\ex{1} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\res{E=\{1,\,2,\,3,\,4,\,5,\,6\}}$\item $\res{E=\{CC,\,CX,\,XC,\,XX\}}$ (C = cara, X = creu)\item $\res{E=\{R,\,B,\,V\}}$\item $\res{E=\{C1,\,C2,\,C3,\,C4,\,C5,\,C6,\,X1,\,X2,\,X3,\,X4,\,X5,\,X6\}}$ (12 resultats)\end{enumerate}
+
+\ex{1} $E=\{CCC$, $CCX$, $CXC$, $CXX$, $XCC$, $XCX$, $XXC$, $XXX\}$ (8 resultats).\\ $\res{A=\{CCC,\,CCX,\,CXC,\,XCC\}}$, compost; \ $\res{B=\{XXX\}}$, elemental; \ $\res{C=\varnothing}$, impossible.
+
+\ex{2} Sumes: $E=\{2,\,3,\,\dots,\,12\}$, amb \rest{11} elements, que \textbf{no} són equiprobables (el 7 ix més que el 2). Parelles: $E=\{(1,\,1),\,(1,\,2),\,\dots,\,(6,\,6)\}$, amb $6\cdot6=\res{36}$ elements equiprobables.
+
+\ex{1} Amb H = xic i D = xica: $E=\{HHH,\,HHD,\,HDH,\,HDD,\,DHH,\,DHD,\,DDH,\,DDD\}$; «el major és xic» $=\res{\{HHH,\,HHD,\,HDH,\,HDD\}}$.
+
+
+% =====================================================
+\seccio{5}{Operacions amb esdeveniments}
+
+\exf{1} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\res{A=\{2,\,3,\,5\}}$, $\res{B=\{3,\,6\}}$\item $A\cup B=\res{\{2,\,3,\,5,\,6\}}$, $A\cap B=\res{\{3\}}$, $\overline{A}=\res{\{1,\,4,\,6\}}$, $\overline{B}=\res{\{1,\,2,\,4,\,5\}}$\item \rest{No}, perquè $A\cap B=\{3\}\ne\varnothing$.\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $A=\{2,\,4,\,6,\,8,\,10,\,12,\,14,\,16\}$; $B=\{3,\,5,\,7,\,9,\,11,\,13,\,15\}$; $C=\{2,\,3,\,5,\,7,\,11,\,13\}$; $D=\{3,\,5,\,7\}$\item $B$ és el contrari d'$A$: $\res{B=\overline{A}}$. $D$ està contingut en $C$: $\res{D\subset C}$.\item $A\cup B=\res{E}$ (l'esdeveniment segur); \ $C\cap D=\res{D}$.\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\res{E=\{0,\,1,\,2,\,3,\,4,\,5,\,6,\,7,\,8,\,9\}}$\item $A=\{7,\,8,\,9\}$; \ $B=\{0,\,1,\,2,\,3,\,4,\,5,\,7,\,8,\,9\}$; \ $C=\{0,\,1,\,2,\,3,\,4,\,5\}$\item $A\cup B=\res{B}$ i $A\cap B=\res{A}$, perquè $A\subset B$; \ $\overline{B}\cap\overline{A}=\{6\}\cap\{0,\,\dots,\,6\}=\res{\{6\}}$\end{enumerate}
+
+\ex{1} $O\cap R$: el rei d'oros (\rest{1 carta}). $O\cup R$: els 10 oros i els altres 3 reis (\rest{13 cartes}). $\overline{O}\cap\overline{R}=\overline{O\cup R}$: les que no són ni oros ni reis, $40-13=$ \rest{27 cartes}.
+
+\ex{2} \begin{tasks}(1)
+  \task $A\cap\overline{B}=\res{\{2,\,4\}}$: parell però no múltiple de 3.
+  \task $\overline{A}\cap\overline{B}=\res{\{1,\,5\}}$: ni parell ni múltiple de 3 (és el contrari d'$A\cup B$).
+  \task $\overline{A}\cup\overline{B}=\res{\{1,\,2,\,3,\,4,\,5\}}$: no són tots dos alhora (és el contrari d'$A\cap B=\{6\}$).
+\end{tasks}
+
+\ex{1} Només \rest{$A$ i $B$}: $A\cap B=\varnothing$. En canvi, $A\cap C=\{2\}$ i $B\cap C=\{6\}$.
+
+
+% =====================================================
+\seccio{6}{Freqüència i probabilitat. Regla de Laplace}
+
+\exf{1} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $f_r(1)\approx0{,}158$, $f_r(2)=0{,}17$, $f_r(3)\approx0{,}163$, $f_r(4)=0{,}175$, $f_r(5)\approx0{,}162$, $f_r(6)\approx0{,}172$\item Totes són pròximes a $\frac16\approx0{,}167$: \rest{no sembla trucat}.\end{enumerate}
+
+\ex{1} \begin{tasks}(4)
+  \task $\res{\frac{4}{12}=\frac{1}{3}}$
+  \task $\res{\frac{2}{12}=\frac{1}{6}}$
+  \task $\res{\frac{6}{12}=\frac{1}{2}}$
+  \task $\res{0}$ (impossible)
+\end{tasks}
+
+\ex{1} \begin{tasks}(3)
+  \task $\res{\frac{10}{40}=\frac{1}{4}}$
+  \task $\res{\frac{4}{40}=\frac{1}{10}}$
+  \task $\res{\frac1{40}}$
+  \task $\frac{10}{40}+\frac4{40}-\frac1{40}=\res{\frac{13}{40}}$
+  \task $\res{\frac{28}{40}=\frac{7}{10}}$
+\end{tasks}
+
+\ex{1} $P(\text{xic})=\dfrac{10}{25}=\res{\dfrac25=0{,}4}$
+
+\ex{2} Casos possibles: $\dbinom{40}{3}=9\,880$. \ $P(3\ \text{oros})=\dfrac{\binom{10}{3}}{9\,880}=\dfrac{120}{9\,880}=\res{\dfrac{3}{247}}\approx0{,}012$; \ $P(3\ \text{figures})=\dfrac{\binom{12}{3}}{9\,880}=\dfrac{220}{9\,880}=\res{\dfrac{11}{494}}\approx0{,}022$
+
+\ex{2} Casos possibles: $5!=120$. Favorables: el bloc de matemàtiques i els 2 de física es poden ordenar de $3!$ maneres, i dins del bloc, de $3!$: $3!\cdot3!=36$. \ $P=\dfrac{36}{120}=\res{\dfrac3{10}}$
+
+\ex{2} $\dfrac{1}{\binom{49}{6}}=\res{\dfrac{1}{13\,983\,816}}$; \ $\dfrac{1}{3^{14}}=\res{\dfrac1{4\,782\,969}}$
+
+\ex{2} Les cartes $a$, $b$, $c$ es poden posar en els sobres $A$, $B$, $C$ de $3!=6$ maneres: $abc$, $acb$, $bac$, $bca$, $cab$, $cba$. Només en $bca$ i $cab$ no n'hi ha cap al seu sobre: $P=\dfrac46=\res{\dfrac23}$
+
+\ex{2} $\dbinom{22}{3}=1\,540$ casos possibles. \ $P(3\,\text{xiques})=\dfrac{\binom{12}{3}}{1\,540}=\dfrac{220}{1\,540}=\res{\dfrac17}$; \ $P(2\,\text{xiques})=\dfrac{\binom{12}{2}\cdot10}{1\,540}=\dfrac{660}{1\,540}=\res{\dfrac37}$
+
+\ex{3} Capicua: les dues primeres xifres es trien lliurement i les altres dues queden fixades: $\dfrac{10^2}{10^4}=\res{\dfrac1{100}}$. Cap 0: $9^4=6\,561$ codis, així que $P(\text{almenys un }0)=1-\dfrac{6\,561}{10\,000}=\res{0{,}3439}$.
+
+
+% =====================================================
+\seccio{7}{Propietats de la probabilitat}
+
+\exf{1} \begin{tasks}(3)
+  \task $1-0{,}35=\res{0{,}65}$
+  \task $1-0{,}5=\res{0{,}5}$
+  \task $0{,}35+0{,}5-0{,}15=\res{0{,}7}$
+\end{tasks}
+
+\ex{2} $P(B)=0{,}1+0{,}4=\res{0{,}5}$; \ $P(A\cup B)=0{,}4+0{,}5-0{,}1=\res{0{,}8}$
+
+\ex{2} $P(A)=P(A\cap\overline{B})+P(A\cap B)=0{,}5+0{,}2=\res{0{,}7}$; \ $P(B)=1-0{,}7=0{,}3$; \ $P(A\cup B)=0{,}7+0{,}3-0{,}2=\res{0{,}8}$
+
+\ex{1} $P(A\cup B)=0{,}3+0{,}5=\res{0{,}8}$; \ $P(\overline{A})=\res{0{,}7}$; \ $P(\overline{A}\cap\overline{B})=1-P(A\cup B)=\res{0{,}2}$
+
+\ex{2} $P(A)=\res{0{,}6}$; \ $P(A\cap B)=0{,}6+0{,}5-0{,}9=\res{0{,}2}$; \ $P(A\cap\overline{B})=0{,}6-0{,}2=\res{0{,}4}$; \ $P(\overline{A}\cap\overline{B})=1-0{,}9=\res{0{,}1}$
+
+\ex{2} \rest{No}: seria $P(A\cup B)=0{,}7+0{,}6-0{,}2=1{,}1>1$, i cap probabilitat pot ser més gran que 1. (Com a mínim, $P(A\cap B)$ hauria de ser $0{,}3$.)
+
+\ex{1} $\dfrac36+\dfrac26-\dfrac16=\res{\dfrac23}$. \ Laplace: $\{2,\,3,\,4,\,6\}$, 4 casos de 6.
+
+
+% =====================================================
+\seccio{8}{Experiments compostos}
+
+\exf{1} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=19mm,level 1/.style={sibling distance=36mm},level 2/.style={sibling distance=18mm},level 3/.style={sibling distance=9mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {C} child {node[] {C} child {node[label={[font=\footnotesize,xshift=1mm]right:$CCC$}] {C} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$CCX$}] {X} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[] {X} child {node[label={[font=\footnotesize,xshift=1mm]right:$CXC$}] {C} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$CXX$}] {X} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[] {X} child {node[] {C} child {node[label={[font=\footnotesize,xshift=1mm]right:$XCC$}] {C} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$XCX$}] {X} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[] {X} child {node[label={[font=\footnotesize,xshift=1mm]right:$XXC$}] {C} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$XXX$}] {X} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac12$}};
+\end{tikzpicture}\end{center}$E=\{CCC$, $CCX$, $CXC$, $CXX$, $XCC$, $XCX$, $XXC$, $XXX\}$ (8 resultats).\item $P(CCC)=\res{\frac18}$; \ $P(\text{exactament 2 cares})=\res{\frac38}$; \ $P(\text{almenys una creu})=1-P(XXX)=1-\frac18=\res{\frac78}$\end{enumerate}
+
+\ex{1} \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.15}\setlength{\tabcolsep}{4pt}\begin{tabular}{c|cccccc}
+\rowcolor{soft} $+$ & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+\cellcolor{soft}1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\cellcolor{soft}2 & 3 & 4 & 5 & 6 & 7 & \cellcolor{accent!30}\textbf{8}\\
+\cellcolor{soft}3 & 4 & 5 & 6 & 7 & \cellcolor{accent!30}\textbf{8} & 9\\
+\cellcolor{soft}4 & 5 & 6 & 7 & \cellcolor{accent!30}\textbf{8} & 9 & 10\\
+\cellcolor{soft}5 & 6 & 7 & \cellcolor{accent!30}\textbf{8} & 9 & 10 & 11\\
+\cellcolor{soft}6 & 7 & \cellcolor{accent!30}\textbf{8} & 9 & 10 & 11 & 12\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\res{\frac5{36}}$ (caselles acolorides)\item $\frac{1+2+3}{36}=\res{\frac{6}{36}=\frac{1}{6}}$\item $\res{0}$ (impossible)\item $\res{\frac{6}{36}=\frac{1}{6}}$\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\frac38\cdot\frac38=\res{\frac9{64}}$\item $\frac38\cdot\frac27=\frac6{56}=\res{\frac3{28}}$\item $\frac58\cdot\frac37+\frac38\cdot\frac57=\frac{30}{56}=\res{\frac{15}{28}}$\end{enumerate}\par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=20mm,level 1/.style={sibling distance=24mm},level 2/.style={sibling distance=11mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {R} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{20}{56}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac47$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{15}{56}$}] {N} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac37$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac58$}} child {node[] {N} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{15}{56}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac57$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{6}{56}$}] {N} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac27$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac38$}};
+\end{tikzpicture}\end{center}
+
+\ex{1} \begin{tasks}(3)
+  \task $0{,}7\cdot0{,}7=\res{0{,}49}$
+  \task $0{,}3\cdot0{,}3=\res{0{,}09}$
+  \task $1-0{,}09=\res{0{,}91}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(2)
+  \task $\frac12\cdot\frac36=\res{\frac14}$
+  \task $\frac12\cdot\frac26=\res{\frac16}$
+\end{tasks}
+
+\ex{1} \rest{No té raó.} Cada llançament és independent dels anteriors: la moneda no «recorda» què ha eixit. La probabilitat de creu continua sent $\frac12$.
+
+\ex{1} Siga quin siga el nombre de la primera, la segona coincideix amb probabilitat $\frac1{10}$ (o bé: 10 parelles iguals de 100). $P=1-\frac1{10}=\res{0{,}9}$
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\frac15=\res{0{,}2}$\item La segona i la tercera han de coincidir amb la primera: $\frac15\cdot\frac15=\res{\frac1{25}=0{,}04}$\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\frac{10}{40}\cdot\frac9{39}=\res{\frac3{52}}\approx0{,}058$\item Copes--oros o oros--copes: $2\cdot\frac{10}{40}\cdot\frac{10}{39}=\res{\frac5{39}}\approx0{,}128$\item $1-P(\text{cap d'oros})=1-\frac{30}{40}\cdot\frac{29}{39}=1-\frac{29}{52}=\res{\frac{23}{52}}\approx0{,}442$\item $\frac{10}{40}\cdot\frac{10}{39}=\res{\frac5{78}}\approx0{,}064$\end{enumerate}
+
+\ex{3} Pel contrari: no en sap 50. $P(\text{almenys un})=1-P(\text{cap})=1-\dfrac{50}{85}\cdot\dfrac{49}{84}\cdot\dfrac{48}{83}\approx1-0{,}198=\res{0{,}802}$
+
+\ex{2} $1-\left(\frac56\right)^4=1-\frac{625}{1\,296}=\res{\frac{671}{1\,296}}\approx0{,}518$ (una mica més de la meitat).
+
+\ex{2} $P(\text{mateix color})=\frac26\cdot\frac15+\frac36\cdot\frac25=\frac{2}{30}+\frac{6}{30}=\res{\frac4{15}}$ (dues verdes és impossible); $P(\text{cap blava})=\frac36\cdot\frac25=\res{\frac15}$
+
+
+% =====================================================
+\seccio{9}{Taules de contingència i probabilitat condicionada}
+
+\exf{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & Bicicleta & No bicicleta & Total\\\hline
+Homes & 36 & \textbf{54} & 90\\
+Dones & 30 & \textbf{80} & \textbf{110}\\
+Total & \textbf{66} & \textbf{134} & 200\\
+\end{tabular}}\end{center}\item $\frac{66}{200}=\res{0{,}33}$\item $\frac{80}{200}=\res{0{,}4}$\item $\frac{36}{90}=\res{0{,}4}$\item $\frac{36}{66}=\res{\frac6{11}}\approx0{,}55$\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & $F$ & $\overline{F}$ & Total\\\hline
+$I$ & 12 & 36 & 48\\
+$\overline{I}$ & 24 & 60 & 72\\
+Total & 36 & 84 & 120\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(I\cup F)=\frac{48}{120}+\frac{36}{120}-\frac{12}{120}=\frac{72}{120}=\res{0{,}6}$\item $P(F\,|\,I)=\frac{12}{48}=\res{0{,}25}$\item $P(F\cap\overline{I})=\frac{24}{120}=\res{0{,}2}$\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & $T$ & $\overline{T}$ & Total\\\hline
+$L$ & 32 & 60 & 92\\
+$\overline{L}$ & 15 & 13 & 28\\
+Total & 47 & 73 & 120\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\frac{73}{120}\res{\approx0{,}61}$\item $P(L\,|\,T)=\frac{32}{47}\res{\approx0{,}68}$\item $\frac{92}{120}=\frac{23}{30}\res{\approx0{,}77}$\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & $I$ & $\overline{I}$ & Total\\\hline
+$M$ & 10 & 8 & 18\\
+$\overline{M}$ & 6 & 6 & 12\\
+Total & 16 & 14 & 30\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(M\cap I)=\frac{10}{30}=\res{\frac13}$\item $P(I\,|\,M)=\frac{10}{18}=\res{\frac59}\approx0{,}56$\item $P(M)\cdot P(I)=\frac{18}{30}\cdot\frac{16}{30}=\frac{8}{25}\ne\frac13=P(M\cap I)$: \rest{no són independents}.\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & Tennis & No tennis & Total\\\hline
+Xics & 40 & 15 & 55\\
+Xiques & 35 & 10 & 45\\
+Total & 75 & 25 & 100\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\frac{55}{100}=\res{0{,}55}$\item $P(\text{xica}\,|\,\text{tennis})=\frac{35}{75}=\res{\frac7{15}}\approx0{,}47$\item $\frac{15}{100}=\res{0{,}15}$\end{enumerate}
+
+\ex{3} Han vist algun programa $2\,500-350=2\,150$ persones; tots dos, $2\,100+1\,500-2\,150=1\,450$.\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & $D$ & $\overline{D}$ & Total\\\hline
+$P$ & 1\,450 & 650 & 2\,100\\
+$\overline{P}$ & 50 & 350 & 400\\
+Total & 1\,500 & 1\,000 & 2\,500\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(D\cap P)=\frac{1\,450}{2\,500}=\res{\frac{29}{50}=0{,}58}$\item Ens restringim als 1\,000 que no van veure el debat: $P(P\,|\,\overline{D})=\frac{650}{1\,000}=\res{0{,}65}$\item $P(D\,|\,P)=\frac{1\,450}{2\,100}=\res{\frac{29}{42}}\approx0{,}69$\end{enumerate}
+
+\ex{3} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(A\cap B)=1-0{,}9=0{,}1$ i $P(A)=1-0{,}6=0{,}4$. Com que $P(A)\cdot P(B)=0{,}4\cdot0{,}3=0{,}12\ne0{,}1$, \rest{no són independents}.\item $P(\overline{A}\cap B)=P(B)-P(A\cap B)=0{,}3-0{,}1=0{,}2$; \ $P(\overline{A}\,|\,B)=\dfrac{0{,}2}{0{,}3}=\res{\dfrac23}\approx0{,}67$\end{enumerate}
+
+\ex{3} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(A)=0{,}52$; \ $P(A\cap B)=0{,}52+0{,}42-0{,}82=0{,}12$.\\ $P(A)\cdot P(B)=0{,}2184\ne0{,}12$: \rest{no són independents}.\item $P(A\,|\,B)=\dfrac{0{,}12}{0{,}42}=\dfrac27\approx\res{0{,}29}$\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(A\cap B)=P(A)\cdot P(B\,|\,A)=0{,}6\cdot0{,}5=\res{0{,}3}$\item $P(A\cap B)=0{,}3\cdot0{,}5=\res{0{,}15}$; \ $P(A\cup B)=0{,}3+0{,}5-0{,}15=\res{0{,}65}$; \ $P(A\,|\,B)=P(A)=\res{0{,}3}$\end{enumerate}
+
+
+% =====================================================
+\seccio{10}{Problemes amb arbres de dues etapes}
+
+\exf{2} \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=22mm,level 1/.style={sibling distance=26mm},level 2/.style={sibling distance=12mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {A} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{3}{14}$}] {Parell} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{7}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{2}{7}$}] {Senar} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{4}{7}$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{2}$}} child {node[] {B} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{5}$}] {Parell} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{2}{5}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{3}{10}$}] {Senar} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{5}$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{2}$}};
+\end{tikzpicture}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(\text{parell})=\frac12\cdot\frac37+\frac12\cdot\frac25=\frac3{14}+\frac15=\res{\frac{29}{70}}$\item $P(A\,|\,\text{parell})=\dfrac{3/14}{29/70}=\res{\dfrac{15}{29}}$\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=22mm,level 1/.style={sibling distance=26mm},level 2/.style={sibling distance=12mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {Malalt} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}0097$}] {+} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}97$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}0003$}] {$-$} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}03$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}01$}} child {node[] {Sa} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}0198$}] {+} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}02$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}9702$}] {$-$} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}98$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}99$}};
+\end{tikzpicture}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $0{,}01\cdot0{,}97=\res{0{,}0097}$\item $P(+)=0{,}0097+0{,}0198=0{,}0295$; \ $P(\text{malalt}\,|\,+)=\dfrac{0{,}0097}{0{,}0295}\approx\res{0{,}33}$\end{enumerate}
+
+\ex{3} Si passem una blanca, B queda amb 7 blanques i 2 roges; si passem una roja, amb 6 blanques i 3 roges.\par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=22mm,level 1/.style={sibling distance=26mm},level 2/.style={sibling distance=12mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {Bl} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{7}{30}$}] {Bl} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{7}{9}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{15}$}] {R} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{2}{9}$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{10}$}} child {node[] {R} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{7}{15}$}] {Bl} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{6}{9}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{7}{30}$}] {R} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{9}$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{7}{10}$}};
+\end{tikzpicture}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\frac3{10}\cdot\frac79+\frac7{10}\cdot\frac69=\frac{21}{90}+\frac{42}{90}=\frac{63}{90}=\res{\frac7{10}}$\item $\frac3{10}\cdot\frac79=\frac{21}{90}=\res{\frac7{30}}$\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=22mm,level 1/.style={sibling distance=26mm},level 2/.style={sibling distance=12mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {A} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{16}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{8}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{5}{48}$}] {V} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{5}{8}$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{6}$}} child {node[] {B} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{2}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{6}{10}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{3}$}] {V} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{4}{10}$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{5}{6}$}};
+\end{tikzpicture}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(R)=\frac16\cdot\frac38+\frac56\cdot\frac6{10}=\frac1{16}+\frac12=\res{\frac9{16}}$\item $P(A\,|\,R)=\dfrac{1/16}{9/16}=\res{\dfrac19}$\end{enumerate}
+
+\ex{2} \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=22mm,level 1/.style={sibling distance=42mm},level 2/.style={sibling distance=13mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {I} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{3}{20}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{10}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{3}{20}$}] {Bl} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{10}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{5}$}] {N} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{4}{10}$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{2}$}} child {node[] {II} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{4}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{4}{8}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{3}{16}$}] {Bl} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{8}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{16}$}] {N} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{8}$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{2}$}};
+\end{tikzpicture}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(\text{Bl})=\frac12\cdot\frac3{10}+\frac12\cdot\frac38=\frac3{20}+\frac3{16}=\res{\frac{27}{80}}$\item $P(\text{I}\,|\,\text{Bl})=\dfrac{3/20}{27/80}=\res{\dfrac49}$\end{enumerate}
+
+\ex{2} $P(D)=0{,}6\cdot0{,}02+0{,}4\cdot0{,}05=0{,}012+0{,}02=\res{0{,}032}$; \ $P(B\,|\,D)=\dfrac{0{,}02}{0{,}032}=\res{0{,}625}$
+
+\ex{3} $P(\text{tard})=\frac13\cdot\frac25+\frac23\cdot\frac14=\frac2{15}+\frac16=\frac3{10}$: \rest{30 \%}. \ $P(\text{bici}\,|\,\text{tard})=\dfrac{2/15}{3/10}=\res{\dfrac49}\approx0{,}44$
+
+
+\end{document}

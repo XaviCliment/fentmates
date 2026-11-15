@@ -1,0 +1,336 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Fitxa d'exercicis de la unitat 9: Tècniques de recompte. Probabilitat. 4t d'ESO Matemàtiques B},pdfsubject={Matemàtiques B 4t ESO},pdfkeywords={recompte, principi de multiplicació, factorial, variacions, permutacions, combinacions, nombre combinatori, experiment aleatori, espai mostral, esdeveniments, regla de Laplace, probabilitat condicionada, taules de contingència, diagrames d'arbre, probabilitat total}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Fitxa d'exercicis · Unitat 9: Tècniques de recompte. Probabilitat · 4t ESO B}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\usetikzlibrary{calc,trees}
+\usepackage{enumitem}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{4eso-b}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques B}{4t ESO}{Fitxa d'exercicis · Unitat 9}{\raggedright Tècniques de recompte. Probabilitat}
+\vspace{10pt}
+Nom i cognoms: \rule{8.4cm}{0.4pt}\hfill Grup: \rule{1.6cm}{0.4pt}\hfill Data: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Exercicis graduats per nivells de dificultat:\quad \estrelles{1}\ bàsic \qquad \estrelles{2}\ mitjà \qquad \estrelles{3}\ avançat.\\[2pt] Resol-los al quadern mostrant tots els passos: el tipus de recompte, el diagrama d'arbre o la taula que fas servir i les operacions. La fitxa recull tots els exercicis del departament i n'afegeix de nous, sobretot de tècniques de recompte. Les seccions segueixen l'ordre dels apunts de la unitat (9.1--9.10).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Diagrames d'arbre i principi de multiplicació}
+
+\exf{1} En una cafeteria, l'esmorzar consisteix en un entrepà (de pernil, de formatge o vegetal) i una beguda (aigua o suc). Fes un diagrama d'arbre i escriu tots els esmorzars possibles. Quants n'hi ha?
+
+\ex{1} La Clara té 4 samarretes, 3 pantalons i 2 parells de sabatilles. De quantes maneres diferents es pot vestir (amb una peça de cada tipus)?
+
+\ex{1} Quants números de telèfon de 9 xifres que comencen per 6 hi pot haver?
+
+\ex{2} Amb les xifres 0, 1, 2, 3 i 4, quants nombres de tres xifres es poden formar\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item si es poden repetir les xifres?\item si no es poden repetir?\item sense repetir xifres i acabats en 0?\end{enumerate}\recorda{un nombre de tres xifres no pot començar per 0.}
+
+\ex{1} Calcula:\begin{tasks}(5)
+  \task $7!$
+  \task $\dfrac{8!}{6!}$
+  \task $\dfrac{12!}{10!}$
+  \task $\dfrac{5!}{3!\cdot2!}$
+  \task $0!$
+\end{tasks}
+
+\ex{2} Simplifica:\begin{tasks}(3)
+  \task $\dfrac{n!}{(n-1)!}$
+  \task $\dfrac{(n+1)!}{n!}$
+  \task $\dfrac{(n+2)!}{n!}$
+\end{tasks}
+
+\ex{2} Quants resultats té l'experiment de llançar un dau i dues monedes? I el de llançar tres daus?
+
+
+% =====================================================
+\seccio{2}{Variacions i permutacions}
+
+\exf{1} Calcula:\begin{tasks}(4)
+  \task $V_{7,\,3}$
+  \task $VR_{4,\,3}$
+  \task $P_6$
+  \task $V_{10,\,2}$
+\end{tasks}
+
+\ex{1} Quantes «paraules» de 3 lletres diferents es poden formar amb les vocals A, E, I, O, U? I si es poden repetir les lletres?
+
+\ex{1} En un concurs participen 12 persones i hi ha tres premis diferents (primer, segon i tercer). De quantes maneres es poden repartir?
+
+\ex{2} De quantes maneres es poden asseure 6 amics en 6 cadires en fila? I si dos d'ells, l'Àlex i la Berta, han de seure als extrems?
+
+\ex{2} Ordenem les lletres A, B, C, D, E i F.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quantes ordenacions diferents hi ha?\item Quantes comencen per A?\item Quantes comencen i acaben per vocal?\end{enumerate}
+
+\ex{2} Amb les xifres 1, 2, 3, 4, 5, 6 i 7, sense repetir-ne cap:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quants nombres de 4 xifres es poden formar?\item Quants són parells?\item Quants són més grans que 5 000?\end{enumerate}
+
+\ex{1} Un cadenat té una combinació de 4 xifres (de 0 a 9). Quantes combinacions hi ha? En quantes són totes les xifres diferents?
+
+\ex{3} Una contrasenya està formada per 2 lletres (de 26) seguides de 3 xifres. Quantes contrasenyes diferents hi ha? I quantes, si no es pot repetir cap lletra ni cap xifra?
+
+
+% =====================================================
+\seccio{3}{Combinacions}
+
+\exf{1} Calcula:\begin{tasks}(4)
+  \task $\dbinom83$
+  \task $\dbinom{12}{10}$
+  \task $\dbinom66$
+  \task $\dbinom{15}{2}$
+\end{tasks}
+
+\ex{2} Comprova que $\dbinom72=\dbinom75$ i que $\dbinom62+\dbinom63=\dbinom73$. Com es veuen aquestes igualtats al triangle de Tartaglia?
+
+\ex{1} En una classe de 24 alumnes, quantes parelles de treball diferents es poden formar?
+
+\ex{2} Un club té 9 xiques i 7 xics. Cal triar una comissió de 4 persones.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quantes comissions diferents es poden formar?\item Quantes tenen 2 xiques i 2 xics?\item Quantes estan formades només per xiques?\end{enumerate}
+
+\ex{1} Una pizzeria ofereix 8 ingredients. Quantes pizzes diferents de 3 ingredients (diferents) es poden demanar?
+
+\ex{2} Quantes diagonals té un decàgon? Troba una fórmula per al nombre de diagonals d'un polígon de $n$ costats.
+
+\ex{2} Digues de quin tipus és cada recompte i calcula'l:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Maneres de triar 2 representants (amb el mateix càrrec) en una classe de 25.\item Maneres de triar delegat i subdelegat en la mateixa classe.\item Codis de 3 xifres (de 0 a 9).\item Maneres d'ordenar 5 llibres en un prestatge.\item Apostes de la Primitiva (6 nombres de 49).\end{enumerate}
+
+\ex{3} En una bossa hi ha 10 boles numerades de l'1 al 10 i en traiem 3 alhora. Quants grups de 3 boles es poden obtindre? Quants contenen la bola 1? Quants no la contenen?
+
+
+% =====================================================
+\seccio{4}{Experiments aleatoris. Espai mostral i esdeveniments}
+
+\exf{1} Indica si els experiments següents són deterministes o aleatoris:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Mesurar la temperatura a la qual bull l'aigua a nivell de la mar.\item Traure una carta d'una baralla.\item Calcular l'àrea d'un quadrat de 3 cm de costat.\item Endevinar el resultat d'un partit de futbol.\end{enumerate}
+
+\ex{1} Escriu l'espai mostral dels experiments següents:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Llançar un dau de sis cares.\item Llançar dues monedes.\item Traure una bola d'una bossa que conté boles roges, blaves i verdes.\item Llançar una moneda i un dau.\end{enumerate}
+
+\ex{1} Llancem tres monedes. Escriu l'espai mostral i els esdeveniments $A=$«almenys dues cares», $B=$«cap cara» i $C=$«més de tres cares». De quin tipus és cadascun?
+
+\ex{2} Llancem dos daus. Escriu l'espai mostral si anotem la suma dels punts i si anotem la parella de resultats. Quants elements té cadascun? Són igual de probables els resultats en els dos casos?
+
+\ex{1} Escriu l'espai mostral de l'experiment «mirar el sexe dels fills d'una família de tres fills, per ordre de naixement» i l'esdeveniment «el major és xic».
+
+
+% =====================================================
+\seccio{5}{Operacions amb esdeveniments}
+
+\exf{1} Llancem un dau. Siguen $A=$«eixir un nombre primer» i $B=$«eixir un múltiple de 3».\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Escriu els esdeveniments $A$ i $B$.\item $A\cup B$, $A\cap B$, $\overline{A}$ i $\overline{B}$.\item Són $A$ i $B$ incompatibles? Per què?\end{enumerate}
+
+\ex{2} En una urna hi ha 15 boles numerades del 2 al 16. Traiem una bola a l'atzar i mirem el nombre que té.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Escriu tots els elements dels esdeveniments $A=$«traure parell», $B=$«traure senar», $C=$«traure primer» i $D=$«traure senar menor que 9».\item Quina relació hi ha entre $A$ i $B$? I entre $C$ i $D$?\item Quin esdeveniment és $A\cup B$? I $C\cap D$?\end{enumerate}
+
+\ex{2} D'una bossa amb 10 boles numerades del 0 al 9 se'n trau una a l'atzar.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quin és l'espai mostral?\item Escriu tots els elements dels esdeveniments $A=$«més gran que 6», $B=$«no traure 6» i $C=$«menor que 6».\item Troba els esdeveniments $A\cup B$, $A\cap B$ i $\overline{B}\cap\overline{A}$.\end{enumerate}
+
+\ex{1} Traiem una carta d'una baralla espanyola de 40 cartes. Siguen $O=$«oros» i $R=$«rei». Descriu els esdeveniments $O\cap R$, $O\cup R$ i $\overline{O}\cap\overline{R}$ i digues quantes cartes té cadascun.
+
+\ex{2} Llancem un dau. Siguen $A=$«parell» i $B=$«múltiple de 3». Escriu aquests esdeveniments i explica amb paraules què signifiquen:\begin{tasks}(3)
+  \task $A\cap\overline{B}$
+  \task $\overline{A}\cap\overline{B}$
+  \task $\overline{A}\cup\overline{B}$
+\end{tasks}
+
+\ex{1} En llançar un dau, considerem $A=\{1,\,2\}$, $B=\{5,\,6\}$ i $C=$«parell». Quines parelles d'esdeveniments són incompatibles?
+
+
+% =====================================================
+\seccio{6}{Freqüència i probabilitat. Regla de Laplace}
+
+\exf{1} Hem llançat un dau 600 vegades i hem obtingut aquests resultats:\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|cccccc}
+\rowcolor{soft} Resultat & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+Freqüència & 95 & 102 & 98 & 105 & 97 & 103\\
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Calcula la freqüència relativa de cada resultat.\item Creus que el dau està trucat? Raona la resposta.\end{enumerate}
+
+\ex{1} Una bossa conté 4 boles roges, 6 blaves i 2 blanques. Traiem una bola a l'atzar. Calcula la probabilitat que siga:\begin{tasks}(4)
+  \task roja
+  \task blanca
+  \task no blava
+  \task verda
+\end{tasks}
+
+\ex{1} Traiem una carta d'una baralla espanyola de 40 cartes. Calcula la probabilitat que siga:\begin{tasks}(3)
+  \task de copes
+  \task un rei
+  \task el rei de copes
+  \task de copes o un rei
+  \task que no siga una figura
+\end{tasks}
+
+\ex{1} En una classe de 25 alumnes hi ha 15 xiques. Triem un alumne a l'atzar per a ser delegat. Quina és la probabilitat que siga un xic?
+
+\ex{2} Traiem tres cartes alhora d'una baralla espanyola. Calcula la probabilitat que les tres siguen d'oros i la que les tres siguen figures.
+
+\ex{2} Col·loquem a l'atzar en un prestatge 5 llibres diferents: 3 de matemàtiques i 2 de física. Quina és la probabilitat que els tres de matemàtiques queden junts?
+
+\ex{2} Quina és la probabilitat d'encertar els 6 nombres de la Primitiva amb una aposta? I d'encertar els 14 resultats d'una travessa (1, X, 2) responent a l'atzar?
+
+\ex{2} Tenim tres cartes per a enviar amb els seus tres sobres. Si posem cada carta a l'atzar en un dels sobres, quina és la probabilitat que almenys una carta vaja al sobre que li correspon?
+
+\ex{2} En una classe hi ha 12 xiques i 10 xics, i es trien a l'atzar 3 alumnes per a una comissió. Calcula la probabilitat que siguen tres xiques i la que hi haja exactament dues xiques.
+
+\ex{3} Triem a l'atzar un codi de 4 xifres (del 0000 al 9999). Calcula la probabilitat que siga capicua i la que tinga almenys un 0.
+
+
+% =====================================================
+\seccio{7}{Propietats de la probabilitat}
+
+\exf{1} Siguen $A$ i $B$ dos esdeveniments amb $P(A)=0{,}35$, $P(B)=0{,}5$ i $P(A\cap B)=0{,}15$. Calcula:\begin{tasks}(3)
+  \task $P(\overline{A})$
+  \task $P(\overline{B})$
+  \task $P(A\cup B)$
+\end{tasks}
+
+\ex{2} Siguen $A$ i $B$ dos esdeveniments tals que $P(A)=0{,}4$, $P(\overline{A}\cap B)=0{,}4$ i $P(A\cap B)=0{,}1$. Calcula $P(A\cup B)$ i $P(B)$.\recorda{$P(B)=P(A\cap B)+P(\overline{A}\cap B)$.}
+
+\ex{2} Sabent que $P(A\cap B)=0{,}2$, $P(\overline{B})=0{,}7$ i $P(A\cap\overline{B})=0{,}5$, calcula $P(A\cup B)$ i $P(A)$.
+
+\ex{1} $A$ i $B$ són incompatibles, amb $P(A)=0{,}3$ i $P(B)=0{,}5$. Calcula $P(A\cup B)$, $P(\overline{A})$ i $P(\overline{A}\cap\overline{B})$.
+
+\ex{2} Si $P(A\cup B)=0{,}9$, $P(\overline{A})=0{,}4$ i $P(B)=0{,}5$, calcula $P(A)$, $P(A\cap B)$, $P(A\cap\overline{B})$ i $P(\overline{A}\cap\overline{B})$.
+
+\ex{2} Raona si és possible que dos esdeveniments tinguen $P(A)=0{,}7$, $P(B)=0{,}6$ i $P(A\cap B)=0{,}2$.
+
+\ex{1} Llancem un dau. Amb la fórmula de la unió, calcula la probabilitat de traure un nombre parell o un múltiple de 3, i comprova-ho amb la regla de Laplace.
+
+
+% =====================================================
+\seccio{8}{Experiments compostos}
+
+\exf{1} Llancem tres monedes.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Fes un diagrama d'arbre i escriu l'espai mostral.\item Calcula la probabilitat de traure tres cares, la d'exactament dues cares i la d'almenys una creu.\end{enumerate}
+
+\ex{1} Llancem dos daus i sumem els punts. Calcula la probabilitat que:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item la suma siga 8;\item la suma siga 4 o menys;\item la suma siga major que 12;\item isquen dos nombres iguals (dobles).\end{enumerate}
+
+\ex{2} Una bossa té 5 boles roges i 3 negres. Traiem dues boles.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Calcula la probabilitat que les dues siguen negres, si les traiem amb reemplaçament.\item Calcula la mateixa probabilitat si les traiem sense reemplaçament.\item Sense reemplaçament, quina és la probabilitat que siguen d'un color diferent?\end{enumerate}
+
+\ex{1} Un jugador de bàsquet encerta el 70 \% dels tirs lliures. Llança dos tirs lliures (considerem que són independents). Calcula la probabilitat que:\begin{tasks}(3)
+  \task encerte els dos;
+  \task no encerte cap;
+  \task encerte almenys un.
+\end{tasks}
+
+\ex{1} Llancem una moneda i un dau. Calcula la probabilitat de traure:\begin{tasks}(2)
+  \task cara i un nombre parell;
+  \task creu i un 5 o un 6.
+\end{tasks}
+
+\ex{1} La Marta ha llançat una moneda 5 vegades i ha eixit cara totes les vegades. Diu: «Ara és més probable que isca creu». Té raó? Explica-ho.
+
+\ex{1} Dues persones trien a l'atzar, cadascuna, un nombre del 0 al 9. Quina és la probabilitat que no pensen el mateix nombre?
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Dues persones trien a l'atzar, cadascuna, un nombre de l'1 al 5. Quina és la probabilitat que totes dues trien el mateix nombre?\item Si són tres persones les que trien a l'atzar un nombre de l'1 al 5, quina és la probabilitat que totes tres trien el mateix nombre?\end{enumerate}
+
+\ex{2} Traiem dues cartes d'una baralla espanyola de 40 cartes (sense reemplaçament). Calcula la probabilitat que siguen:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item les dues d'oros;\item una de copes i l'altra d'oros;\item almenys una d'oros;\item la primera de copes i la segona d'oros.\end{enumerate}
+
+\ex{3} En unes oposicions, el temari té 85 temes i se'n trien tres a l'atzar. Si un opositor sap 35 dels 85 temes, quina és la probabilitat que sàpia almenys un dels tres temes?
+
+\ex{2} Llancem un dau 4 vegades. Quina és la probabilitat d'obtindre almenys un 6?
+
+\ex{2} Una bossa té 2 boles roges, 3 blaves i 1 verda. Traiem dues boles sense reemplaçament. Calcula la probabilitat que siguen del mateix color i la que no n'hi haja cap de blava.
+
+
+% =====================================================
+\seccio{9}{Taules de contingència i probabilitat condicionada}
+
+\exf{2} En una enquesta a 200 persones sobre si van a treballar amb bicicleta s'han obtingut aquestes dades:\par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.35}\begin{tabular}{|l|C{1.9cm}|C{1.9cm}|C{1.9cm}|}\hline
+\rowcolor{soft}  & Bicicleta & No bicicleta & Total\\\hline
+Homes & 36 &  & 90\\\hline
+Dones & 30 &  & \\\hline
+Total &  &  & 200\\\hline
+\end{tabular}}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Completa la taula.\item Triem una persona a l'atzar. Quina és la probabilitat que vaja amb bicicleta?\item Quina és la probabilitat que siga una dona i no vaja amb bicicleta?\item Si triem un home, quina és la probabilitat que vaja amb bicicleta?\item Si triem una persona que va amb bicicleta, quina és la probabilitat que siga un home?\end{enumerate}
+
+\ex{2} En un viatge organitzat per Europa per a 120 persones, 48 dels que hi van saben parlar anglés, 36 saben parlar francés i 12 parlen tots dos idiomes. Triem un dels viatgers a l'atzar.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que parle algun dels dos idiomes?\item Quina és la probabilitat que parle francés, sabent que parla anglés?\item Quina és la probabilitat que només parle francés?\end{enumerate}
+
+\ex{2} S'ha fet una enquesta a un grup de 120 persones sobre si els agrada llegir i veure la televisió: a 32 persones els agrada llegir i veure la tele, a 92 els agrada llegir i a 47 els agrada veure la tele. Si triem una d'aquestes persones a l'atzar:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que no li agrade veure la tele?\item Quina és la probabilitat que li agrade llegir, sabent que li agrada veure la tele?\item Quina és la probabilitat que li agrade llegir?\end{enumerate}
+
+\ex{2} En una classe de 30 alumnes hi ha 18 que han aprovat matemàtiques, 16 que han aprovat anglés i 6 que no n'han aprovat cap de les dues. Triem un alumne a l'atzar:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que haja aprovat anglés i matemàtiques?\item Sabent que ha aprovat matemàtiques, quina és la probabilitat que haja aprovat anglés?\item Són independents els esdeveniments «aprovar matemàtiques» i «aprovar anglés»?\end{enumerate}
+
+\ex{2} En un poble hi ha 100 joves; 40 dels xics i 35 de les xiques juguen a tennis. El total de xiques del poble és 45. Si triem un jove a l'atzar:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que siga xic?\item Si sabem que juga a tennis, quina és la probabilitat que siga xica?\item Quina és la probabilitat que siga un xic que no juga a tennis?\end{enumerate}
+
+\ex{3} Una cadena de televisió va fer una enquesta a 2 500 persones per a saber l'audiència d'un debat i d'una pel·lícula que es van emetre en hores diferents: 2 100 van veure la pel·lícula, 1 500 van veure el debat i 350 no van veure cap dels dos programes. Si triem a l'atzar un dels enquestats:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que veiera la pel·lícula i el debat?\item Quina és la probabilitat que veiera la pel·lícula, sabent que no va veure el debat?\item Sabent que va veure la pel·lícula, quina és la probabilitat que veiera el debat?\end{enumerate}
+
+\ex{3} Siguen $A$ i $B$ dos esdeveniments tals que $P(\overline{A})=0{,}6$, $P(B)=0{,}3$ i $P(\overline{A}\cup\overline{B})=0{,}9$.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Són independents $A$ i $B$?\item $P(\overline{A}\,|\,B)$.\end{enumerate}\recorda{$\overline{A}\cup\overline{B}=\overline{A\cap B}$ (lleis de De Morgan).}
+
+\ex{3} De dos esdeveniments $A$ i $B$ sabem que $P(\overline{A})=0{,}48$, $P(A\cup B)=0{,}82$ i $P(B)=0{,}42$.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Són $A$ i $B$ independents?\item Quant val $P(A\,|\,B)$?\end{enumerate}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Si $P(A)=0{,}6$ i $P(B\,|\,A)=0{,}5$, quant val $P(A\cap B)$?\item $A$ i $B$ són independents, amb $P(A)=0{,}3$ i $P(B)=0{,}5$. Calcula $P(A\cap B)$, $P(A\cup B)$ i $P(A\,|\,B)$.\end{enumerate}
+
+
+% =====================================================
+\seccio{10}{Problemes amb arbres de dues etapes}
+
+\exf{2} Una urna A conté 7 boles numerades de l'1 al 7. En una altra urna, B, hi ha 5 boles numerades de l'1 al 5. Llancem una moneda equilibrada: si ix cara, traiem una bola de l'urna A i, si ix creu, la traiem de B.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat d'obtindre un nombre parell?\item Sabent que ha eixit un nombre parell, quina és la probabilitat que fora de l'urna A?\end{enumerate}
+
+\ex{2} L'1 \% de la població d'un lloc pateix una malaltia. Per a detectar-la es fa una prova de diagnòstic que dona positiu en el 97 \% dels pacients que pateixen la malaltia, i negatiu en el 98 \% dels que no la pateixen. Si triem una persona a l'atzar:\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que done positiu i patisca la malaltia?\item Si sabem que ha donat positiu, quina és la probabilitat que patisca la malaltia?\end{enumerate}
+
+\ex{3} Tenim dues bosses, A i B. A la bossa A hi ha 3 boles blanques i 7 roges; a la B, 6 blanques i 2 roges. Traiem una bola d'A i la passem a B. Després traiem una bola de B.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que la bola traguda de B siga blanca?\item Quina és la probabilitat que les dues boles siguen blanques?\end{enumerate}
+
+\ex{2} Una bossa A conté 3 boles roges i 5 verdes. Una altra bossa B conté 6 boles roges i 4 verdes. Llancem un dau: si ix un 1, traiem una bola de la bossa A, i si no ix un 1, la traiem de B.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat d'obtindre una bola roja?\item Sabent que ha eixit roja, quina és la probabilitat que fora de A?\end{enumerate}
+
+\ex{2} Tenim dues urnes: la primera té 3 boles roges, 3 blanques i 4 negres; la segona té 4 boles roges, 3 blanques i 1 negra. Triem una urna a l'atzar i traiem una bola.\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Quina és la probabilitat que la bola traguda siga blanca?\item Sabent que la bola ha sigut blanca, quina és la probabilitat que fora de la primera urna?\end{enumerate}
+
+\ex{2} Una empresa fabrica peces en dues plantes: la planta A en fa el 60 \% i la B, el 40 \%. El 2 \% de les peces d'A i el 5 \% de les de B són defectuoses. Triem una peça a l'atzar. Quina és la probabilitat que siga defectuosa? Si és defectuosa, quina és la probabilitat que vinga de la planta B?
+
+\ex{3} En un institut, un terç dels alumnes de 4t van a l'institut en bicicleta i la resta, a peu. Dels que van en bicicleta, el 40 \% arriba alguna vegada tard; dels que van a peu, el 25 \%. Quin percentatge d'alumnes arriba alguna vegada tard? Si un alumne ha arribat tard, quina és la probabilitat que vaja en bicicleta?
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.\end{center}
+
+\end{document}
