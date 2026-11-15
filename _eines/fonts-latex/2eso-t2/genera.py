@@ -429,8 +429,9 @@ X.append((2, T("Escriu com una sola potència i calcula:", "Escribe como una sol
     + recorda(T(r"amb la mateixa base: $x^m\cdot x^n=x^{m+n}$, \ $x^m:x^n=x^{m-n}$, \ $(x^m)^n=x^{m\cdot n}$.", r"con la misma base: $x^m\cdot x^n=x^{m+n}$, \ $x^m:x^n=x^{m-n}$, \ $(x^m)^n=x^{m\cdot n}$.")),
     tasks(2, [r'$%s=\res{%s}$' % (s, tf(V(e.replace('((', '[(').replace(')^3)^2', ')^3]^2').replace(')^2)^2', ')^2]^2')))) for e, s in P2], '8pt')))
 assert V('[(-1/2)^3]^2:(-1/2)^4') == Fr(1, 4) and V('[(1/3)^2]^2') == Fr(1, 81)
-X.append((2, T(r"Calcula de la manera més ràpida, fent servir les propietats: \ a) $\left(\dfrac{5}{6}\right)^4\cdot\left(\dfrac{3}{10}\right)^4\cdot4^4$ \quad b) $\left(\dfrac{9}{4}\right)^3:\left(\dfrac{3}{2}\right)^3$", r"Calcula de la manera más rápida, usando las propiedades: \ a) $\left(\dfrac{5}{6}\right)^4\cdot\left(\dfrac{3}{10}\right)^4\cdot4^4$ \quad b) $\left(\dfrac{9}{4}\right)^3:\left(\dfrac{3}{2}\right)^3$"),
-    r"a) $\left(\dfrac{5}{6}\cdot\dfrac{3}{10}\cdot4\right)^4=1^4=\res{1}$ \quad b) $\left(\dfrac{9}{4}:\dfrac{3}{2}\right)^3=\left(\dfrac{3}{2}\right)^3=\res{\dfrac{27}{8}}$"))
+X.append((2, T(r"Calcula de la manera més ràpida, fent servir les propietats:", r"Calcula de la manera más rápida, usando las propiedades:")
+    + tasks(2, [r"$\left(\dfrac{5}{6}\right)^4\cdot\left(\dfrac{3}{10}\right)^4\cdot4^4$", r"$\left(\dfrac{9}{4}\right)^3:\left(\dfrac{3}{2}\right)^3$"], '6pt'),
+    tasks(2, [r"$\left(\dfrac{5}{6}\cdot\dfrac{3}{10}\cdot4\right)^4=1^4=\res{1}$", r"$\left(\dfrac{9}{4}:\dfrac{3}{2}\right)^3=\left(\dfrac{3}{2}\right)^3=\res{\dfrac{27}{8}}$"], '6pt')))
 ck(V('(5/6)^4·(3/10)^4·4^4'), 1); ck(V('(9/4)^3:(3/2)^3'), Fr(27, 8))
 # operacions combinades amb potències: s'han de fer servir les propietats (els nombres serien massa grans per a fer-ho directament)
 PC = [
