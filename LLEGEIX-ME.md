@@ -243,6 +243,21 @@ cd _eines/fonts-latex/2eso-t5 && python3 genera.py && python3 genera-es.py
 pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t5-fitxa-exercicis-es.tex && pdflatex t5-fitxa-solucions-es.tex
 ```
 
+La unitat 9 de 2n ESO (Cossos geomètrics. Àrees i volums, carpeta `2eso-t9`) és l'adaptació de la unitat 11 de 3r
+(`3eso-t11`) sense troncs de piràmide i de con ni la Terra i les coordenades geogràfiques. Té 8 apartats (9.1-9.8): poliedres,
+fórmula d'Euler i poliedres regulars, prismes, piràmides, cossos de revolució (cilindre i con), l'esfera, volum de prismes i
+cilindres (amb unitats i Cavalieri), volum de piràmides, cons i esferes, i cossos compostos i problemes. La teoria, les figures 3D
+(`solids.py`, `fig11.py`) i els ginys (`app.js`, `window.FM29`) són els de 3r; els problemes resolts, la «Practica» de cada apartat i
+part del qüestionari són nous, i cada resultat es comprova amb `ck()`. A `materials.js` és del bloc de geometria. La fitxa
+(`_eines/fonts-latex/2eso-t9/genera.py`, 63 exercicis en 8 seccions, bilingüe amb `T()`) dibuixa els cossos en TikZ amb el `tz()`
+de la fitxa de 3r; `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t9/build.py
+cd _eines/fonts-latex/2eso-t9 && python3 genera.py && python3 genera-es.py
+pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex && pdflatex t9-fitxa-exercicis-es.tex && pdflatex t9-fitxa-solucions-es.tex
+```
+
 Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
 `2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
 
