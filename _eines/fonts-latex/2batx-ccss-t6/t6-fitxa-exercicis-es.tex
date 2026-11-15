@@ -1,0 +1,342 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\AtBeginDocument{\renewcommand{\sin}{\operatorname{sen}}\renewcommand{\arcsin}{\operatorname{arcsen}}}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 6: Aplicaciones de la derivada. 2º Bach.},pdfsubject={Matemáticas CCSS 2º Bach.},pdfkeywords={aplicaciones de la derivada, recta tangente, recta normal, monotonía, crecimiento, decrecimiento, máximos, mínimos, extremos absolutos, optimización, PAU}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 6: Aplicaciones de la derivada · 2\textsuperscript{o} Bach.}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+% etiqueta dels exercicis de la PAU d'altres comunitats
+\newcommand{\pau}[1]{{\color{teal}\small\bfseries\faUniversity\ PAU · #1.}\ }
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\input{../comu/fentmates.tex}
+\fmcurs{2batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas CCSS}{2\textsuperscript{o} Bach.}{Ficha de ejercicios · Unidad 6}{Aplicaciones de la derivada}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Los ejercicios marcados con {\color{teal}\bfseries\faUniversity\ PAU} son de las pruebas de acceso a la universidad de otras comunidades autónomas. Resuélvelos en el cuaderno mostrando todos los pasos: en los problemas de optimización, justifica siempre que el resultado es un máximo o un mínimo y responde a la pregunta con las unidades.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Recta tangente y recta normal}
+
+\ex{1} Calcula la ecuación de la recta tangente y de la recta normal a la gráfica de cada función en el punto indicado:\begin{tasks}(2)
+  \task $f(x)=x^3-2x^2+1$ en $x=2$
+  \task $f(x)=\dfrac{2x-1}{x+1}$ en $x=0$
+  \task $f(x)=x\ln x$ en $x=1$
+  \task $f(x)=e^{x^2-1}$ en $x=1$
+\end{tasks}\recorda{Tangente: $y-f(a)=f'(a)\,(x-a)$. \ Normal: $y-f(a)=-\dfrac{1}{f'(a)}\,(x-a)$ (si $f'(a)=0$, la normal es la recta vertical $x=a$).}
+
+\ex{2} Halla los puntos de la gráfica de $f(x)=x^3-6x^2+8$ en los que la recta tangente es paralela a la recta $y=-9x+4$ y escribe la ecuación de estas tangentes.\recorda{Las rectas paralelas tienen la misma pendiente: resolvemos $f'(x)=m$.}
+
+\ex{2} Calcula el punto de la gráfica de $f(x)=\sqrt{2x+1}$ en el que la recta normal es paralela a la recta $y=-3x$. Escribe la ecuación de esta recta normal.
+
+\ex{1} \pau{Madrid, EvAU julio 2019} Se considera la función $f(x)=2x^3-8x$. Determina en qué puntos la tangente a la curva $y=f(x)$ es horizontal.
+
+\ex{2} \pau{Cataluña, PAU junio 2019} La gráfica de la función $f(x)=ax+b+\dfrac8x$ pasa por el punto $(-2,-6)$ y la recta tangente en este punto es paralela al eje de abscisas. Calcula los valores de $a$ y de $b$.
+
+\ex{2} \pau{Andalucía, PEvAU junio 2018} Considera la función\[f(x)=\begin{cases}x^3+ax^2&\text{si }x<1\\[3pt]bx+\dfrac2x&\text{si }x\geq1\end{cases}\]\begin{tasks}(1)
+  \task Calcula los valores de $a$ y $b$ para que la función sea continua y derivable en $x=1$.
+  \task Para $b=3$, determina la ecuación de la recta tangente a la gráfica de la función en el punto de abscisa $x=2$.
+\end{tasks}
+
+\ex{1} \pau{Murcia, EBAU septiembre 2019} Dada la función $f(x)=2e^{x+1}$, halla la ecuación de la recta tangente a la función en el punto $x=1$.
+
+
+% =====================================================
+\seccio{2}{Monotonía de una función}
+
+\ex{1} Estudia la monotonía (intervalos de crecimiento y de decrecimiento) de las funciones polinómicas siguientes:\begin{tasks}(2)
+  \task $f(x)=x^3-3x^2-9x+5$
+  \task $f(x)=x^4-8x^2$
+  \task $f(x)=-x^3+3x+1$
+  \task $f(x)=x^3+3x$
+\end{tasks}\recorda{1) Dominio. 2) Calculamos $f'(x)$ y la factorizamos. 3) Resolvemos $f'(x)=0$ y añadimos los puntos fuera del dominio. 4) Miramos el signo de $f'$ en cada intervalo con un valor de prueba: $f'>0\Rightarrow$ creciente, $f'<0\Rightarrow$ decreciente.}
+
+\ex{2} Estudia la monotonía de las funciones racionales siguientes (cuidado con los puntos que no son del dominio):\begin{tasks}(2)
+  \task $f(x)=\dfrac{x}{x-2}$
+  \task $f(x)=\dfrac{x^2+1}{x}$
+  \task $f(x)=\dfrac{1}{x^2+1}$
+  \task $f(x)=\dfrac{x^2}{x^2-1}$
+\end{tasks}
+
+\ex{2} Estudia la monotonía de las funciones exponenciales y logarítmicas siguientes:\begin{tasks}(2)
+  \task $f(x)=x^2e^x$
+  \task $f(x)=\dfrac{e^x}{x}$
+  \task $f(x)=\ln(x^2+4)$
+  \task $f(x)=x^2-2\ln x$
+\end{tasks}\recorda{$e^{g(x)}>0$ siempre y los cuadrados del denominador también: no cambian el signo de $f'$.}
+
+\ex{1} Observa la gráfica de la función $f$ y responde:
+
+\begin{center}\begin{tikzpicture}[scale=0.62,baseline=(current bounding box.center)]\begin{scope}\draw[muted!30,very thin] (-4,-3) grid (4,4);\draw[-latex,thick] (-4,0)--(4.4,0);\draw[-latex,thick] (0,-3)--(0,4.4);\clip (-4,-3) rectangle (4,4);\draw[accent,line width=1.5pt,smooth,samples=80,domain=-2.6:2.6] plot (\x,{(\x*\x*\x-3*\x)/1});\fill[accent] (-1,2) circle (0.12);\fill[accent] (1,-2) circle (0.12);\node[below,font=\scriptsize] at (-1,0) {$-1$};\node[above,font=\scriptsize] at (1,0) {$1$};\node[right,font=\scriptsize] at (0,2) {$2$};\node[left,font=\scriptsize] at (0,-2) {$-2$};\end{scope}\end{tikzpicture}\end{center}\begin{tasks}(1)
+  \task ¿En qué intervalos es creciente? ¿Y decreciente?
+  \task ¿Cuáles son los máximos y los mínimos relativos?
+  \task ¿Qué signo tienen $f'(0)$ y $f'(2)$? ¿Cuánto vale $f'(-1)$?
+\end{tasks}
+
+\ex{2} \pau{Madrid, EvAU junio 2018} Se considera la función $f(x)=\dfrac{x^3}{(x+1)^2}$.\begin{tasks}(1)
+  \task Calcula su dominio.
+  \task Determina sus intervalos de crecimiento y de decrecimiento.
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, PBAU ordinaria 2021} Dada la función $f(x)=ax^3+bx^2+x$, definida para todo $x\in\mathbb R$:\begin{tasks}(1)
+  \task Halla $a$ y $b$ sabiendo que $f(x)$ tiene un punto crítico en $x=1$ y que su gráfica pasa por el punto $(3,0)$.
+  \task Estudia el crecimiento y el decrecimiento de $f(x)$ para $a=3$ y $b=3$.
+\end{tasks}
+
+\ex{2} \pau{Canarias, EBAU junio 2017} Una máquina de revelado pasa a papel 13 fotografías por minuto, pero sus cualidades se deterioran con el tiempo. El número de fotografías por minuto, en función de los años $x$ transcurridos desde la compra, es\[f(x)=\begin{cases}-0{,}5x+13&\text{si }0\leq x\leq6\\[3pt]\dfrac{5(x+14)}{x+4}&\text{si }x>6\end{cases}\]\begin{tasks}(1)
+  \task Comprueba que el número de fotografías por minuto decrece con el paso de los años.
+  \task Justifica que a partir de los 6 años revelará menos de 10 fotografías por minuto y que no revelará menos de 5 por muy vieja que sea la máquina.
+\end{tasks}
+
+
+% =====================================================
+\seccio{3}{Máximos y mínimos relativos}
+
+\ex{1} Calcula los máximos y mínimos relativos de las funciones siguientes usando la segunda derivada:\begin{tasks}(2)
+  \task $f(x)=2x^3-9x^2+12x-4$
+  \task $f(x)=x^4-2x^2+3$
+  \task $f(x)=x+\dfrac1x$
+  \task $f(x)=x\,e^{-x}$
+\end{tasks}\recorda{Candidatos: $f'(x)=0$. \ Si $f''(a)<0$, máximo; si $f''(a)>0$, mínimo; si $f''(a)=0$, estudiamos el cambio de signo de $f'$. Da el resultado como punto $(a,f(a))$.}
+
+\ex{2} Estudia los extremos relativos de $f(x)=3x^4-4x^3$. ¿Qué ocurre en $x=0$?
+
+\ex{1} \pau{La Rioja, EBAU julio 2017} Sea $f(x)=2x^3-3x^2-12x-7$.\begin{tasks}(1)
+  \task Estudia los intervalos de crecimiento y de decrecimiento de la función.
+  \task Determina los extremos relativos de la función.
+\end{tasks}
+
+\ex{1} \pau{Navarra, EvAU ordinaria 2020} Sea la función $y=x^3-3x^2$. Calcula los intervalos de crecimiento y de decrecimiento, y los máximos y mínimos.
+
+\ex{1} \pau{País Vasco, EAU junio 2019} Se considera la curva $f(x)=x^3-6x^2+9x$.\begin{tasks}(1)
+  \task Estudia los intervalos de crecimiento y de decrecimiento de la función.
+  \task Determina los máximos y mínimos relativos.
+\end{tasks}
+
+\ex{2} \pau{Cataluña, PAU ordinaria 2021} Considera la función $f(x)=4x^3+ax^2-2$.\begin{tasks}(1)
+  \task Determina el valor del parámetro $a$ para que la función tenga un extremo relativo en el punto de abscisa $x=-1$.
+  \task Calcula los intervalos de crecimiento y de decrecimiento de $f(x)$ cuando $a=12$. Indica también los extremos relativos y clasifícalos.
+\end{tasks}
+
+\ex{2} \pau{Murcia, EBAU julio 2020} Sea la función $f(x)=x^3+ax^2+bx+1$.\begin{tasks}(1)
+  \task Determina los valores de $a$ y $b$ para que la función tenga un extremo relativo en $x=1$ y la recta tangente a la gráfica en el punto de abscisa $x=0$ tenga pendiente $m=-1$.
+  \task Si $a=-2$ y $b=-4$, determina los intervalos de crecimiento y de decrecimiento y los extremos relativos.
+\end{tasks}
+
+\ex{2} \pau{País Vasco, EAU julio 2019} Sea la función $f(x)=x^3+ax^2+bx+c$. Halla los valores de $a$, $b$ y $c$ para que la función pase por el punto $(0,0)$ y tenga un extremo relativo en el punto $(2,-4)$. Determina después sus máximos y mínimos.
+
+\ex{2} \pau{La Rioja, EBAU ordinaria 2020} Consideremos la función $f(x)=x^4-ax^2+b$.\begin{tasks}(1)
+  \task ¿Qué valores deben tomar $a$ y $b$ para que la función tenga un mínimo en el punto $(1,0)$?
+  \task Con estos valores, calcula los puntos en los que $f(x)$ tiene tangente paralela a la recta $y=1$.
+  \task Calcula la recta tangente a la función en el punto $x=1$.
+\end{tasks}
+
+\ex{3} \pau{Murcia, EBAU septiembre 2019} Determina el punto de la gráfica de la función $f(x)=-x^3+6x^2-7x+5$ en el que la pendiente de la recta tangente es máxima. ¿Cuál es la ecuación de la recta tangente en este punto?
+
+
+% =====================================================
+\seccio{4}{Extremos absolutos en un intervalo cerrado}
+
+\ex{1} Calcula el máximo y el mínimo absolutos de cada función en el intervalo indicado:\begin{tasks}(1)
+  \task $f(x)=x^3-3x$ en $[0,2]$
+  \task $f(x)=x^2-6x+5$ en $[-1,4]$
+  \task $f(x)=x+\dfrac4x$ en $[1,5]$
+\end{tasks}\recorda{Comparamos el valor de $f$ en los puntos críticos de dentro del intervalo y en los extremos del intervalo.}
+
+\ex{2} \pau{Andalucía, PEvAU septiembre 2018} El consumo de cereales en una ciudad, en miles de toneladas, viene dado por la función $c(t)=t^3-15t^2+63t+10$, para $0\leq t\leq12$, donde $t$ representa el tiempo.\begin{tasks}(1)
+  \task ¿En qué instante se alcanza el máximo consumo de cereales y cuántas toneladas se consumen en ese momento?
+  \task ¿En qué intervalo de tiempo decrece el consumo de cereales?
+\end{tasks}
+
+\ex{2} \pau{Extremadura, EBAU ordinaria 2020} El gasto $G$ (en euros) por el consumo de energía eléctrica en un taller durante las 8 horas de funcionamiento varía de acuerdo con la función $G(t)=2t^3-27t^2+84t+60$, $0\leq t\leq8$, donde $t$ es el tiempo transcurrido en horas. Determina a qué horas se producen los gastos máximo y mínimo y los valores de estos gastos.
+
+\ex{2} \pau{Extremadura, EBAU julio 2019} La potencia requerida por la maquinaria eléctrica de una empresa durante las 10 horas de funcionamiento viene dada por $P(t)=-t^3+15t^2-48t+50$, $0\leq t\leq10$, donde $t$ es el tiempo en horas y $P(t)$ la potencia en kilovatios. Determina a qué horas se producen el máximo y el mínimo de esta potencia y calcula sus valores.
+
+\ex{2} \pau{Aragón, EvAU ordinaria 2020} El coste unitario de fabricación de un producto (en euros) depende del volumen de producción según la fórmula $C(x)=\dfrac{1}{10}\left(x^2-16x+100\right)$, donde $x\in[2,15]$ es el volumen de producción (en miles de unidades).\begin{tasks}(1)
+  \task Si se producen 5\,000 unidades, ¿cuánto vale el coste unitario?
+  \task ¿Para qué volumen de producción se alcanza el coste unitario mínimo? ¿Y el máximo? ¿Cuánto valen estos costes?
+\end{tasks}
+
+\ex{2} \pau{Navarra, EvAU junio 2019} El beneficio de una empresa, en miles de euros, viene dado por $f(x)=-3x^2+30x+20$, con $0\leq x\leq8$, donde $x$ es el gasto en publicidad, en miles de euros.\begin{tasks}(1)
+  \task ¿Cuál es el beneficio si la empresa no gasta en publicidad? ¿Y si gasta 1\,000 euros?
+  \task Determina el gasto en publicidad que produce el beneficio máximo. ¿Cuál es ese beneficio?
+  \task Explica cómo aumenta o disminuye el beneficio en función del gasto en publicidad.
+  \task ¿Cuánto gasta la empresa en publicidad cuando el beneficio es mínimo? ¿A cuánto asciende?
+\end{tasks}
+
+\ex{3} \pau{Andalucía, PEvAU septiembre 2018} El beneficio, en miles de euros, que ha obtenido una almazara a lo largo de 50 años viene dado por la función continua\[B(t)=\begin{cases}-0{,}04t^2+2{,}4t&\text{si }0\leq t\leq40\\[3pt]\dfrac{40t-320}{t}&\text{si }40<t\leq50\end{cases}\]donde $t$ es el tiempo transcurrido. Estudia la monotonía de $B(t)$ y determina en qué momento fueron mayores los beneficios de la almazara, así como el beneficio máximo.
+
+\ex{2} \pau{Canarias, EBAU julio 2019} El beneficio de un parque acuático, en millones de euros, a lo largo del último año dividido en meses es\[f(x)=\begin{cases}\dfrac{x+8}{2}&\text{si }0\leq x\leq4\\[3pt]-x^2+12x-26&\text{si }4<x\leq8\\[3pt]6&\text{si }8<x\leq12\end{cases}\]\begin{tasks}(1)
+  \task ¿Cuándo ha crecido y cuándo ha decrecido el beneficio?
+  \task ¿En qué momentos se obtuvieron los beneficios máximo y mínimo y a cuánto ascendían?
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, PBAU julio 2018} Los beneficios (en miles de euros) por la venta de un producto en función de la inversión en promoción $x$ (en miles de euros) vienen dados por la función continua\[B(x)=\begin{cases}5x+15&\text{si }0\leq x\leq3\\[3pt]-(x-3)^2+30&\text{si }3<x\leq8\end{cases}\]\begin{tasks}(1)
+  \task Determina sus intervalos de crecimiento y de decrecimiento.
+  \task Determina su beneficio máximo y su beneficio mínimo.
+\end{tasks}
+
+
+% =====================================================
+\seccio{5}{Problemas de optimización: conocemos la función}
+
+\ex{1} \pau{Andalucía, PEvAU junio 2018} La función de costes de una empresa es $f(x)=40-6x+x^2$, para $x\geq0$, donde $x$ representa la cantidad producida de un artículo. ¿Disminuye el coste alguna vez? Determina la cantidad producida cuando el coste es mínimo y cuál es ese coste.\recorda{Derivamos, igualamos a cero, justificamos si es máximo o mínimo (segunda derivada o monotonía) y respondemos a la pregunta con las unidades.}
+
+\ex{1} \pau{Castilla y León, EBAU julio 2019} La capacidad de atención de un alumno en una clase de 60 minutos viene dada por $f(t)=-2t^2+120t+5$, con $t\in[0,60]$.\begin{tasks}(1)
+  \task Calcula la capacidad de atención cuando lleva una hora de clase.
+  \task ¿En qué instante la capacidad de atención es máxima? ¿Cuál es esa capacidad máxima?
+\end{tasks}
+
+\ex{1} \pau{Murcia, EBAU julio 2020} El beneficio semanal de una empresa de ordenadores viene dado por $B(x)=-2x^2+24x-36$, donde $x$ es el número de ordenadores vendidos cada semana. Calcula el número de ordenadores que hay que vender cada semana para que el beneficio sea máximo. ¿Cuál es ese beneficio?
+
+\ex{1} \pau{Islas Baleares, PBAU ordinaria 2021} El beneficio, en euros, que obtiene una empresa por la venta de $x$ unidades de un producto es $B(x)=-x^2+300x-16\,100$, para $x\geq0$.\begin{tasks}(1)
+  \task Calcula el beneficio si se venden 110 unidades.
+  \task ¿Cuántas unidades debe vender para que el beneficio sea máximo? ¿Cuál es ese beneficio?
+\end{tasks}
+
+\ex{2} \pau{Islas Baleares, PBAU ordinaria 2020} En una empresa se pueden producir hasta 500 mesas al mes. El coste de producir $q$ mesas es $C(q)=\dfrac{q^3}{50}+8q+40$, y el coste medio de cada mesa es $Q(q)=\dfrac{C(q)}{q}$.\begin{tasks}(1)
+  \task Calcula el coste medio de cada mesa si la empresa produce 5. ¿Y si produce 20?
+  \task Determina cuántas mesas hay que producir para que el coste medio sea mínimo. Justifica que se trata de un mínimo y calcula ese coste medio.
+\end{tasks}
+
+\ex{2} \pau{Cataluña, PAU ordinaria 2021} Una fábrica estima que el beneficio mensual, en miles de euros, por cada tonelada de confeti vendida es $f(x)=\dfrac{-0{,}2x^2+5x-20}{x}$, donde $x$ es el número de toneladas vendidas.\begin{tasks}(1)
+  \task Determina en qué intervalo de valores debe estar $x$ para que la fábrica no tenga pérdidas.
+  \task Calcula la cantidad de toneladas que proporciona el beneficio máximo y cuál es ese beneficio.
+\end{tasks}
+
+\ex{2} \pau{Aragón, EvAU ordinaria 2021} Unos emprendedores estiman que los beneficios, en cientos de miles de euros, vendrán dados por $B(t)=\dfrac{2t-6}{t+4}$, donde $t$ son los años transcurridos desde la apertura.\begin{tasks}(1)
+  \task ¿En qué intervalo tendrá pérdidas la empresa?
+  \task ¿En qué momento $t\in[3,10]$ se alcanza el beneficio máximo y a cuántos euros asciende? Justifícalo.
+  \task ¿Cuánto tiempo debe pasar para obtener un beneficio de 150\,000 €?
+\end{tasks}
+
+\ex{2} \pau{Aragón, EvAU junio 2018} Una empresa debe decidir el precio de venta $x$ de un juguete, entre 1 y 10 euros. El beneficio, en millones de euros, será $B(x)=\dfrac9x-\dfrac{18}{x^2}-1$.\begin{tasks}(1)
+  \task ¿Para qué valores de $x\in[1,10]$ el beneficio es positivo?
+  \task ¿Qué precio de venta maximiza el beneficio? ¿Cuál es el beneficio máximo?
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU julio 2019} El precio de venta de un electrodoméstico (en cientos de euros) viene dado por $P(t)=\dfrac{44}{t^2-4t+16}+2$, donde $t$ es el tiempo en años desde que se puso a la venta.\begin{tasks}(1)
+  \task Calcula el precio de lanzamiento. ¿En qué momento el precio vuelve a ser el de lanzamiento?
+  \task Determina los períodos en los que el precio ha aumentado y ha disminuido. ¿Cuál ha sido el precio máximo y cuándo se ha producido?
+  \task Estudia la tendencia del precio con el paso del tiempo.
+\end{tasks}
+
+\ex{2} \pau{Asturias, EBAU julio 2019} Dos fuentes de energía A y B producen electricidad a la vez durante 6 horas. En un instante $x\in[0,6]$, la fuente A produce $f(x)=-x^2+6x+3$ y la fuente B, $g(x)=x+9$.\begin{tasks}(1)
+  \task ¿En qué momentos producen ambas la misma cantidad de electricidad? ¿Cuál es esa producción?
+  \task ¿En qué momentos decrece la producción de la fuente A?
+  \task ¿En qué instante es máxima la producción conjunta de las dos fuentes?
+\end{tasks}
+
+
+% =====================================================
+\seccio{6}{Problemas de optimización: construimos la función}
+
+\ex{1} \pau{Castilla y León, EBAU septiembre 2017} Halla razonadamente dos números reales positivos sabiendo que su suma es 10 y que el producto de sus cuadrados es máximo.\recorda{1) Variables y ecuación que las relaciona (despejamos una). 2) Función que hay que optimizar, de una sola variable. 3) Derivamos e igualamos a 0. 4) Comprobamos si es máximo o mínimo. 5) Calculamos la otra variable e interpretamos el resultado.}
+
+\ex{1} \pau{Cataluña, PAU ordinaria 2021} Un granjero quiere construir un corral rectangular para los conejos y solo dispone de 40 m de valla. Llamamos $x$ a la anchura del corral e $y$ a la longitud.\begin{tasks}(1)
+  \task Escribe la función que da el área del corral en función solo de la anchura $x$.
+  \task ¿Cuáles deben ser la anchura y la longitud para que el área sea máxima? ¿Cuál es esa área?
+\end{tasks}
+
+\ex{2} \pau{La Rioja, EBAU julio 2017} Queremos construir un campo rectangular de 3\,200 m² a lo largo de un río; no hace falta vallar el lado de la orilla.\begin{tasks}(1)
+  \task ¿Qué dimensiones debe tener el campo para que se necesite el mínimo posible de metros de valla?
+  \task Determina el coste del vallado si cada metro perpendicular al río cuesta 500 € y cada metro paralelo al río, 400 €.
+\end{tasks}
+
+\ex{3} \pau{La Rioja, EBAU junio 2018} Consideremos un rectángulo de lados $x$ e $y$.\begin{tasks}(1)
+  \task Halla el rectángulo de perímetro mínimo si los lados verifican la relación $xy^2=4$.
+  \task Halla el rectángulo de área máxima si los lados verifican la relación $x+3y^2=1$.
+\end{tasks}
+
+\ex{2} \pau{Murcia, EBAU junio 2019} Una empresa vende un artículo a 40 euros la unidad y tiene la función de coste $C(x)=2x^2+4x+98$, donde $x$ es el número de unidades producidas. Calcula el número de unidades que debe vender para que el beneficio (ingresos menos costes) sea máximo y ese beneficio máximo.
+
+\ex{2} \pau{Murcia, EBAU junio 2018} Una empresa vende un producto a 15 euros la unidad. La función de costes es $C(x)=2x^2-45x+100$, donde $x$ es el número de unidades. Halla el número de unidades que debe vender para obtener el beneficio máximo y calcula ese beneficio.
+
+\ex{2} \pau{Murcia, EBAU ordinaria 2021} El coste de producción de $x$ unidades de un producto es $C(x)=\dfrac14x^2+35x+25$ y el precio de venta es $p=50-\dfrac x4$ euros. Halla:\begin{tasks}(1)
+  \task El número de unidades que hay que vender diariamente para que el beneficio sea máximo.
+  \task El precio al que se deben vender estas unidades.
+  \task El beneficio máximo.
+\end{tasks}
+
+\ex{2} \pau{Galicia, ABAU extraordinaria 2021} Una empresa puede vender $x$ unidades al mes de un producto al precio de $518-x^2$ euros la unidad. Tiene unos gastos mensuales fijos de 225 € y otros de $275x$ euros.\begin{tasks}(1)
+  \task Determina las funciones $I(x)$ y $B(x)$ de los ingresos y de los beneficios. ¿Qué beneficio se obtiene si se venden 10 unidades?
+  \task Calcula el número de unidades que se deben producir para obtener el beneficio máximo. ¿A cuánto ascendería? ¿Cuál sería el precio de una unidad?
+\end{tasks}
+
+\ex{3} \pau{Cataluña, PAU ordinaria 2020} Elaborar un menú en un restaurante cuesta 8 €. Si el precio del menú es de 18 €, comen 120 clientes, y por cada euro que se sube (o se baja) el precio, hay 4 clientes menos (o más).\begin{tasks}(1)
+  \task Obtén la función que expresa el beneficio en función de los euros $x$ en que se sube o se baja el precio inicial.
+  \task ¿Cuánto hay que subir o bajar el precio para que el beneficio sea máximo? ¿Cuál sería el precio final y el beneficio?
+\end{tasks}
+
+\ex{2} Queremos construir un depósito abierto por arriba, con base cuadrada y un volumen de 4 m³. ¿Qué dimensiones debe tener para que se necesite la mínima cantidad de material?
+
+\ex{3} De una cartulina rectangular de 16 cm × 10 cm recortamos un cuadrado de lado $x$ en cada esquina y doblamos para hacer una caja sin tapa. ¿Cuál debe ser $x$ para que el volumen sea máximo? ¿Cuál es ese volumen?
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con la herramienta de estudio de la monotonía y los extremos de los apuntes interactivos.\end{center}
+
+\end{document}
