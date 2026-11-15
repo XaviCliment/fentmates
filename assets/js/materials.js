@@ -371,6 +371,26 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 77 exercicis: tots els de les fitxes del departament i molts més, dels vectors a la mediatriu", es: "PDF · 77 ejercicios: todos los de las fichas del departamento y muchos más, de los vectores a la mediatriz", en: "PDF · 77 exercises: all those from the department worksheets and many more, from vectors to perpendicular bisectors" }, url: { va: "materials/4eso-b/t6-fitxa-exercicis.pdf", es: "materials/4eso-b/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 77 exercicis", es: "PDF · Soluciones de los 77 ejercicios", en: "PDF · Solutions to all 77 exercises" }, url: { va: "materials/4eso-b/t6-fitxa-solucions.pdf", es: "materials/4eso-b/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
         ]
+      },
+      {
+        num: "7",
+        ill: "grafiques", block: "an",
+        title: { va: "Estudi de funcions", es: "Estudio de funciones", en: "Studying functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t7-estudi-funcions.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 40 exercicis: del concepte de funció a l'estudi complet d'una gràfica, amb simetries, periodicitat i funció inversa", es: "PDF · 40 ejercicios: del concepto de función al estudio completo de una gráfica, con simetrías, periodicidad y función inversa", en: "PDF · 40 exercises: from the idea of a function to the full study of a graph, with symmetry, periodicity and inverse functions" }, url: { va: "materials/4eso-b/t7-fitxa-exercicis.pdf", es: "materials/4eso-b/t7-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 40 exercicis", es: "PDF · Soluciones de los 40 ejercicios", en: "PDF · Solutions to all 40 exercises" }, url: { va: "materials/4eso-b/t7-fitxa-solucions.pdf", es: "materials/4eso-b/t7-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
+      },
+      {
+        num: "8",
+        ill: "grafiques", block: "an",
+        title: { va: "Funcions elementals", es: "Funciones elementales", en: "Elementary functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t8-funcions-elementals.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 45 exercicis: tots els de la fitxa del departament i molts més, de les rectes als problemes amb funcions", es: "PDF · 45 ejercicios: todos los de la ficha del departamento y muchos más, de las rectas a los problemas con funciones", en: "PDF · 45 exercises: all those from the department worksheet and many more, from lines to word problems" }, url: { va: "materials/4eso-b/t8-fitxa-exercicis.pdf", es: "materials/4eso-b/t8-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 45 exercicis", es: "PDF · Soluciones de los 45 ejercicios", en: "PDF · Solutions to all 45 exercises" }, url: { va: "materials/4eso-b/t8-fitxa-solucions.pdf", es: "materials/4eso-b/t8-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
       }
     ]
   },

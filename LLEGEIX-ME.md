@@ -448,6 +448,24 @@ python3 _eines/apunts/4eso-b-t5/build.py
 cd _eines/fonts-latex/4eso-b-t5 && python3 genera.py && pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex
 ```
 
+- **Unitat 7 (Estudi de funcions, `4eso-b-t7`)**: parteix de la unitat 6 de 1r Batx MI, sense translacions ni composició i amb
+  els dominis només de funcions polinòmiques, racionals i radicals. 9 apartats (concepte, imatges i antiimatges; domini i
+  recorregut; talls; creixement i extrems; continuïtat; simetries; periodicitat; funció inversa; estudi complet d'una gràfica)
+  i 8 ginys. Els intervals s'escriuen com a la resta de 4t, `(a,b)`. `fig.py` (figures fixes dels apunts i de les fitxes de les
+  unitats 7 i 8) és en aquesta carpeta. La fitxa (bilingüe, com la de la unitat 6) té 40 exercicis en 9 seccions; sympy
+  comprova talls, simetries i inverses i `ckdom` comprova numèricament cada domini.
+- **Unitat 8 (Funcions elementals, `4eso-b-t8`)**: parteix de la unitat 7 de 1r Batx MI, sense cúbiques, radicals,
+  trigonomètriques ni quocients de polinomis. 8 apartats (lineals, quadràtiques, proporcionalitat inversa, a trossos, valor
+  absolut, exponencials, logarítmiques i problemes amb funcions) i 8 ginys. «Lineal» és y = mx + n, com a 3r d'ESO. La fitxa
+  (bilingüe) té 45 exercicis en 8 seccions: tots els de la fitxa del departament («Fitxa 5: Funcions 2», marcats amb `(D)` al
+  codi) i d'altres de nous, amb una secció de problemes. A `fm-materials.js`, les unitats 7 i 8 són del bloc d'anàlisi.
+
+```
+python3 _eines/apunts/4eso-b-t7/build.py && python3 _eines/apunts/4eso-b-t8/build.py
+cd _eines/fonts-latex/4eso-b-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+cd _eines/fonts-latex/4eso-b-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
 ## 2n Batx MII: unitat 7 (Aplicacions de la derivada)
 
 Els apunts es generen amb `_eines/apunts/2batx-mii-t7/build.py` (contingut a `contingut-*.html`, ginys a `app.js`,
