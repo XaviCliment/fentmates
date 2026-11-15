@@ -294,7 +294,7 @@ S_.append(("Interpretación de gráficas", [
      tasks(1, [r"\rest{2 paradas} de $\res{5\text{ min}}$", r"\res{30\text{ km}} en \res{20\text{ min}}", r"\res{90\text{ km}} en \res{70\text{ min}}"])),
  (3, r"Ana y Pablo hacen la misma ruta en bici. Observa la gráfica y responde." + center(F47)
      + tasks(1, [r"¿Quién sale primero? ¿Cuánto rato antes?", r"¿Cuántos km hace cada uno en una hora? ¿Quién va más deprisa?", r"¿Dónde y cuándo alcanza Pablo a Ana?"]),
-     tasks(1, [r"\rest{Ana}, \res{1 hora} antes.", r"Ana: $75:5=\res{15\text{ km}}$; Pablo: $100:4=\res{25\text{ km}}$. \rest{Pablo} va más deprisa.", r"Las líneas se cortan a las $\res{2{,}5\text{ h}}$, a $\res{37{,}5\text{ km}}$ de la salida."])),
+     tasks(1, [r"\rest{Ana}, \res{1\text{ hora}} antes.", r"Ana: $75:5=\res{15\text{ km}}$; Pablo: $100:4=\res{25\text{ km}}$. \rest{Pablo} va más deprisa.", r"Las líneas se cortan a las $\res{2{,}5\text{ h}}$, a $\res{37{,}5\text{ km}}$ de la salida."])),
  (3, r"Marcos sale de casa, camina 1\,km en 20 minutos hasta la biblioteca, se queda allí media hora y vuelve a casa en 10 minutos. Dibuja la gráfica (tiempo en minutos, distancia a casa en km). ¿En qué tramo va más deprisa?",
      center(F48) + r"Puntos: $(0,\ 0)$, $(20,\ 1)$, $(50,\ 1)$, $(60,\ 0)$. Va más deprisa a la \rest{vuelta}: el tramo es más inclinado."),
 ]))

@@ -278,7 +278,7 @@ S_.append(("Interpretació de gràfics", [
  (1, r"El gràfic mostra l'excursió en bici de la Núria (distància a casa al llarg del temps)." + center(F41)
      + tasks(1, [r"A quina distància de casa estava a les 3 hores? I a les 6 hores?", r"Quantes vegades va parar i quant de temps cada vegada?", r"Quina és la distància màxima a què va arribar? A quina hora?", r"Quant va tardar a tornar? Quina distància va recórrer en total?"])
      + recorda(r"Gràfic de distància i temps: si puja, s'allunya; si és horitzontal, està parat; si baixa, torna. Com més inclinat, més de pressa."),
-     tasks(1, [r"$\res{10\text{ km}}$ i $\res{7\text{ km}}$", r"\rest{dues} vegades, d'\res{1 hora} cada una (de 1 a 2 h i de 4 a 5 h)", r"$\res{14\text{ km}}$, de les 4 a les 5 h", r"de 5 a 7 h: $\res{2\text{ hores}}$; en total, $14+14=\res{28\text{ km}}$"])),
+     tasks(1, [r"$\res{10\text{ km}}$ i $\res{7\text{ km}}$", r"\rest{dues} vegades, d'\res{1\text{ hora}} cada una (de 1 a 2 h i de 4 a 5 h)", r"$\res{14\text{ km}}$, de les 4 a les 5 h", r"de 5 a 7 h: $\res{2\text{ hores}}$; en total, $14+14=\res{28\text{ km}}$"])),
  (1, r"El gràfic dona la temperatura al llarg d'un dia." + center(F42) + tasks(1, [r"Quina va ser la temperatura màxima? I la mínima?", r"En quins intervals de temps la temperatura puja? En quins baixa? Quan es manté constant?"]),
      tasks(1, [r"Màxima: $\res{18\ ^\circ\text{C}}$ (a les 14 h). Mínima: $\res{4\ ^\circ\text{C}}$ (de 2 a 6 h).", r"Puja de \rest{6 a 14 h}; baixa de \rest{0 a 2 h} i de \rest{14 a 24 h}; és constant de \rest{2 a 6 h}."])),
  (1, r"El gràfic mostra l'altura d'una planta durant 6 setmanes." + center(F43) + tasks(1, [r"Quant feia en començar? I a la 4a setmana?", r"En quina setmana va créixer més?", r"Què passa entre la 5a i la 6a setmana?"]),
@@ -289,10 +289,10 @@ S_.append(("Interpretació de gràfics", [
      + tasks(1, [r"La Sara va a casa d'una amiga sense parar.", r"L'Òscar ix de casa, para a comprar el pa i continua fins a l'escola.", r"La Lucía va al quiosc, s'hi queda una estona i torna a casa."]),
      tasks(3, [r"\rest{B}", r"\rest{C}", r"\rest{A}"]) + r"Sobra el D (comença lluny de casa i s'acosta)."),
  (2, r"El gràfic mostra el viatge d'un tren." + center(F46) + tasks(1, [r"Quantes parades fa i quant duren?", r"Quants km fa entre parada i parada? Quant tarda?", r"Quina distància total recorre i quant de temps tarda?"]),
-     tasks(1, [r"\rest{2 parades} de \res{5 min}", r"\res{30\text{ km}} en \res{20\text{ min}}", r"\res{90\text{ km}} en \res{70\text{ min}}"])),
+     tasks(1, [r"\rest{2 parades} de \res{5\text{ min}}", r"\res{30\text{ km}} en \res{20\text{ min}}", r"\res{90\text{ km}} en \res{70\text{ min}}"])),
  (3, r"L'Anna i el Pau fan la mateixa ruta en bici. Observa el gràfic i respon." + center(F47)
      + tasks(1, [r"Qui ix primer? Quanta estona abans?", r"Quants km fa cadascun en una hora? Qui va més de pressa?", r"On i quan atrapa el Pau l'Anna?"]),
-     tasks(1, [r"L'\rest{Anna}, \res{1 hora} abans.", r"Anna: $75:5=\res{15\text{ km}}$; Pau: $100:4=\res{25\text{ km}}$. El \rest{Pau} va més de pressa.", r"Les línies es tallen a les $\res{2{,}5\text{ h}}$, a $\res{37{,}5\text{ km}}$ de l'eixida."])),
+     tasks(1, [r"L'\rest{Anna}, \res{1\text{ hora}} abans.", r"Anna: $75:5=\res{15\text{ km}}$; Pau: $100:4=\res{25\text{ km}}$. El \rest{Pau} va més de pressa.", r"Les línies es tallen a les $\res{2{,}5\text{ h}}$, a $\res{37{,}5\text{ km}}$ de l'eixida."])),
  (3, r"En Marc ix de casa, camina 1\,km en 20 minuts fins a la biblioteca, hi està mitja hora i torna a casa en 10 minuts. Dibuixa el gràfic (temps en minuts, distància a casa en km). En quin tram va més de pressa?",
      center(F48) + r"Punts: $(0,\ 0)$, $(20,\ 1)$, $(50,\ 1)$, $(60,\ 0)$. Va més de pressa a la \rest{tornada}: el tram és més inclinat."),
 ]))

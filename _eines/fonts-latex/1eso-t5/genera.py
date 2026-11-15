@@ -171,7 +171,7 @@ S.append(("Dividir amb decimals", [
      tasks(3, ['$%s=%s=\\res{%s}$' % (tx(e), tx(conv), fmt(val(e))) for e, conv in zip(DIV3, ['45:9', '27.3:7', '600:12', '1260:35', '14.4:12', '90:3'])])),
  (2, r"Calcula amb dues xifres decimals i indica el residu: \ a) $10:3$ \quad b) $5:7$ \quad c) $25,4:6$",
      r"a) $\res{3,33}$, residu $0,01$ \quad b) $\res{0,71}$, residu $0,03$ \quad c) $\res{4,23}$, residu $0,02$."),
- (2, r"Amb una botella de $1,5$ L, quants gots de $0,25$ L podem omplir? I amb una garrafa de 5 L?",
+ (2, r"Amb una ampolla de $1,5$ L, quants gots de $0,25$ L podem omplir? I amb una garrafa de 5 L?",
      r"$1,5:0,25=150:25=\res{6\text{ gots}}$; \ $5:0,25=500:25=\res{20\text{ gots}}$."),
  (3, r"Un tros de formatge de $0,85$ kg costa $11,39$\,€. Quin és el preu d'un quilo? Quant costaria un tros de $1,2$ kg?",
      r"$11,39:0,85=1139:85=\res{13,40\text{\,€/kg}}$. \ $1,2\cdot13,40=\res{16,08\text{\,€}}$."),

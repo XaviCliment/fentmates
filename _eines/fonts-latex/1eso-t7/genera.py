@@ -295,8 +295,8 @@ S_.append(("Triangles", [
      r"$x+(x+15)+(x+30)=180\ \Rightarrow\ 3x+45=180\ \Rightarrow\ x=45$. \ Angles: \rest{$45^\circ$, $60^\circ$ i $75^\circ$}: \rest{acutangle} i escalé."),
  (3, r"Dos costats d'un triangle mesuren 5\,cm i 12\,cm. Quines longituds (en centímetres sencers) pot tindre el tercer costat?",
      r"El tercer costat ha de ser més menut que $5+12=17$ i més gran que $12-5=7$: \ \rest{8, 9, 10, …, 16\,cm} (9 possibilitats)."),
- (3, r"Prolonguem un costat d'un triangle i, en un vèrtex, l'angle interior i l'angle adjacent que es forma fora del triangle fan $130^\circ$ (l'adjacent). Un altre angle del triangle fa $60^\circ$. Calcula els tres angles del triangle.",
-     r"L'angle adjacent fa $180^\circ-130^\circ=50^\circ$. \ El tercer: $180^\circ-60^\circ-50^\circ=70^\circ$. \ Angles: \rest{$50^\circ$, $60^\circ$ i $70^\circ$}."),
+ (3, r"Prolonguem un costat d'un triangle i, en un dels vèrtexs, l'angle adjacent a l'interior que es forma fora del triangle fa $130^\circ$. Un altre angle del triangle fa $60^\circ$. Calcula els tres angles del triangle.",
+     r"L'angle interior d'aquest vèrtex fa $180^\circ-130^\circ=50^\circ$. \ El tercer: $180^\circ-60^\circ-50^\circ=70^\circ$. \ Angles: \rest{$50^\circ$, $60^\circ$ i $70^\circ$}."),
 ]))
 
 # =====================================================================

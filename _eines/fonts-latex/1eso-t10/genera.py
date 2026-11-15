@@ -181,7 +181,7 @@ S_.append(("Població, mostra i variables estadístiques", [
  (2, r"Escriu tres valors possibles de cada variable i classifica-la:" + tasks(3, [r"pes d'un gos", r"nacionalitat", r"nombre de cosins"]),
      tasks(3, [r"12,5\,kg; 30\,kg; 7,2\,kg: \rest{contínua}", r"italiana, xinesa, marroquina: \rest{qualitativa}", r"0, 3, 8: \rest{discreta}"])),
  (3, r"Vols saber quant de temps dediquen a llegir cada setmana els 600 alumnes del teu institut. Descriu com faries l'estudi: quina és la població, com triaries una mostra representativa de 60 alumnes, quina pregunta faries i de quin tipus seria la variable.",
-     r"Resposta oberta. Per exemple: població, \rest{els 600 alumnes}; mostra, \rest{6 alumnes triats a l'atzar de cadascun dels 10 grups} (així hi ha alumnes de tots els cursos); pregunta: «Quantes hores llegeixes a la setmana?»; variable quantitativa \rest{contínua}."),
+     r"Resposta oberta. Per exemple:\par Població, \rest{els 600 alumnes}; mostra, \rest{6 alumnes per grup}, triats a l'atzar en cadascun dels 10 grups (així hi ha alumnes de tots els cursos); pregunta: «Quantes hores llegeixes a la setmana?»; variable quantitativa \rest{contínua}."),
 ]))
 
 # =====================================================================
