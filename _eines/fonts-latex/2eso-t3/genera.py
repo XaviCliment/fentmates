@@ -131,8 +131,8 @@ VM = [('-3x^2', dict(x=4)), ('2x^3', dict(x=-2)), ('-a^2b', dict(a=-3, b=2)), ('
 X.append((2, T("Calcula el valor numèric de cada monomi:", "Calcula el valor numérico de cada monomio:") + tasks(2, [r'$%s$ \ %s $%s$' % (tx(e), T('per a', 'para'), vtx({k: tx(str(v)) for k, v in d.items()})) for e, d in VM], '5pt'),
     tasks(2, [r'$\res{%s}$' % ntex(val(e, **d)) for e, d in VM], '4pt')))
 assert [val(e, **d) for e, d in VM] == [-48, -16, -18, 18]
-X.append((2, T(r"Escriu un monomi: a) semblant a $-6x^2y$ amb coeficient positiu; b) de grau 5 amb dues lletres i coeficient $-\tfrac{1}{2}$; c) oposat a $3ab^2$; d) de grau 0.", r"Escribe un monomio: a) semejante a $-6x^2y$ con coeficiente positivo; b) de grado 5 con dos letras y coeficiente $-\tfrac{1}{2}$; c) opuesto a $3ab^2$; d) de grado 0."),
-    T(r"Per exemple: a) $\res{4x^2y}$ \quad b) $\res{-\tfrac{1}{2}x^3y^2}$ \quad c) $\res{-3ab^2}$ (només n'hi ha un) \quad d) $\res{7}$ (qualsevol nombre).", r"Por ejemplo: a) $\res{4x^2y}$ \quad b) $\res{-\tfrac{1}{2}x^3y^2}$ \quad c) $\res{-3ab^2}$ (solo hay uno) \quad d) $\res{7}$ (cualquier número).")))
+X.append((2, T("Escriu un monomi:", "Escribe un monomio:") + tasks(1, [T(r"semblant a $-6x^2y$ amb coeficient positiu;", r"semejante a $-6x^2y$ con coeficiente positivo;"), T(r"de grau 5 amb dues lletres i coeficient $-\tfrac{1}{2}$;", r"de grado 5 con dos letras y coeficiente $-\tfrac{1}{2}$;"), T(r"oposat a $3ab^2$;", r"opuesto a $3ab^2$;"), T("de grau 0.", "de grado 0.")], '3pt'),
+    T("Per exemple:", "Por ejemplo:") + tasks(1, [r"$\res{4x^2y}$", r"$\res{-\tfrac{1}{2}x^3y^2}$", T(r"$\res{-3ab^2}$ (només n'hi ha un)", r"$\res{-3ab^2}$ (solo hay uno)"), T(r"$\res{7}$ (qualsevol nombre)", r"$\res{7}$ (cualquier número)")], '3pt')))
 X.append((3, T(r"Troba $m$ i $n$ perquè els monomis $5x^{m}y^{3}$ i $-2x^{4}y^{n+1}$ siguen semblants. Quin grau tenen?", r"Halla $m$ y $n$ para que los monomios $5x^{m}y^{3}$ y $-2x^{4}y^{n+1}$ sean semejantes. ¿Qué grado tienen?"),
     T(r"Han de tindre la mateixa part literal: $m=4$ i $n+1=3$. \ $\res{m=4}$, $\res{n=2}$; \ grau $4+3=\res{7}$.", r"Deben tener la misma parte literal: $m=4$ y $n+1=3$. \ $\res{m=4}$, $\res{n=2}$; \ grado $4+3=\res{7}$.")))
 X.append((3, T(r"Escriu un monomi de grau 4, en les lletres $x$ i $y$, amb coeficient 2, que valga 54 per a $x=3$, $y=1$.", r"Escribe un monomio de grado 4, en las letras $x$ e $y$, con coeficiente 2, que valga 54 para $x=3$, $y=1$."),
@@ -239,8 +239,8 @@ SM = ['(x^2-4x+3)-(2x^2+x-5)+(x^2-1)', '(5x^3-2x)-(x^3+x^2-2x+4)', '-(x^2-3)+(4x
 q, s = ops(SM, 1, 1)
 X.append((2, T("Opera i redueix:", "Opera y reduce:") + q, s))
 chk('(x^2-4x+3)-(2x^2+x-5)+(x^2-1)', '-5x+7')
-X.append((3, T(r"Troba el polinomi $X(x)$ en cada cas: \ a) $X(x)+(2x^2-3x+1)=5x^2+x-4$; \ b) $(x^3-x+2)-X(x)=3x^2+x$.", r"Halla el polinomio $X(x)$ en cada caso: \ a) $X(x)+(2x^2-3x+1)=5x^2+x-4$; \ b) $(x^3-x+2)-X(x)=3x^2+x$."),
-    r"a) $X=(5x^2+x-4)-(2x^2-3x+1)=\res{%s}$ \qquad b) $X=(x^3-x+2)-(3x^2+x)=\res{%s}$" % (pt('(5x^2+x-4)-(2x^2-3x+1)'), pt('(x^3-x+2)-(3x^2+x)'))))
+X.append((3, T(r"Troba el polinomi $X(x)$ en cada cas:", r"Halla el polinomio $X(x)$ en cada caso:") + tasks(1, [r"$X(x)+(2x^2-3x+1)=5x^2+x-4$", r"$(x^3-x+2)-X(x)=3x^2+x$"], '4pt'),
+    tasks(1, [r"$X=(5x^2+x-4)-(2x^2-3x+1)=\res{%s}$" % pt('(5x^2+x-4)-(2x^2-3x+1)'), r"$X=(x^3-x+2)-(3x^2+x)=\res{%s}$" % pt('(x^3-x+2)-(3x^2+x)')], '4pt')))
 chk('(3x^2+4x-5)+(2x^2-3x+1)', '5x^2+x-4'); chk('(x^3-x+2)-(x^3-3x^2-2x+2)', '3x^2+x')
 X.append((3, T(r"Els costats d'un pentàgon fan $x^2+1$, $2x$, $x^2-x+3$, $3x+2$ i $2x^2-4$ cm. Escriu-ne el perímetre i calcula'l per a $x=4$. Quant més llarg és el costat més llarg que el més curt quan $x=4$?",
                r"Los lados de un pentágono miden $x^2+1$, $2x$, $x^2-x+3$, $3x+2$ y $2x^2-4$ cm. Escribe su perímetro y calcúlalo para $x=4$. ¿Cuánto más largo es el lado más largo que el más corto cuando $x=4$?"),
@@ -333,8 +333,8 @@ X.append((3, T("Factoritza tant com pugues (primer el factor comú i després un
 K4 = [('x(x+2)+3(x+2)', '(x+2)(x+3)'), ('2x(x-5)-(x-5)', '(x-5)(2x-1)'), ('(x+1)^2+4(x+1)', '(x+1)(x+5)')]
 q, s = fc(K4, 3, 1)
 X.append((3, T("Trau factor comú (el factor comú és un binomi):", "Saca factor común (el factor común es un binomio):") + q, s))
-X.append((3, T(r"Sense calculadora: a) $99^2+99$; \ b) $13\cdot87+13^2$; \ c) Demostra que $n^2+n$ sempre és parell per a qualsevol nombre natural $n$.", r"Sin calculadora: a) $99^2+99$; \ b) $13\cdot87+13^2$; \ c) Demuestra que $n^2+n$ siempre es par para cualquier número natural $n$."),
-    T(r"a) $99\cdot(99+1)=\res{9900}$ \quad b) $13\cdot(87+13)=\res{1300}$ \quad c) $n^2+n=\res{n(n+1)}$: és el producte de dos nombres consecutius i un dels dos sempre és parell.", r"a) $99\cdot(99+1)=\res{9900}$ \quad b) $13\cdot(87+13)=\res{1300}$ \quad c) $n^2+n=\res{n(n+1)}$: es el producto de dos números consecutivos y uno de los dos siempre es par.")))
+X.append((3, T("Sense calculadora:", "Sin calculadora:") + tasks(1, [r"$99^2+99$", r"$13\cdot87+13^2$", T(r"Demostra que $n^2+n$ sempre és parell per a qualsevol nombre natural $n$.", r"Demuestra que $n^2+n$ siempre es par para cualquier número natural $n$.")], '4pt'),
+    tasks(1, [r"$99\cdot(99+1)=\res{9900}$", r"$13\cdot(87+13)=\res{1300}$", T(r"$n^2+n=\res{n(n+1)}$: és el producte de dos nombres consecutius i un dels dos sempre és parell.", r"$n^2+n=\res{n(n+1)}$: es el producto de dos números consecutivos y uno de los dos siempre es par.")], '4pt')))
 assert 99 ** 2 + 99 == 9900 and 13 * 87 + 13 ** 2 == 1300; chk('n(n+1)', 'n^2+n')
 
 # =====================================================================
