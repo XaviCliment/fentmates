@@ -186,6 +186,22 @@ python3 _eines/apunts/1eso-t4/build.py
 
 `_eines/apunts/relabel.py` fa que cada exercici dels quadres «Practica» comence per a) i ajusta les solucions.
 
+Els apunts de 2n ESO de la unitat 1 (Nombres naturals i enters, carpeta `2eso-t1`) funcionen com els de 1r ESO. Tenen 10
+apartats (1.1-1.10), i `app.js` ajunta els ginys de les unitats 2 (divisibilitat, mcm i MCD) i 3 (enters) de 1r ESO. A més, hi afig
+el giny de potències d'enters, el de l'arrel quadrada (exacta o entera) i una calculadora pas a pas que també accepta `^` i `√`.
+A `materials.js` la unitat és la primera targeta de 2n ESO (bloc d'aritmètica). La fitxa (`_eines/fonts-latex/2eso-t1/`) té 50
+exercicis en 10 seccions. Excepcionalment, els exercicis de les dues llengües són a un sol fitxer, `exercicis.py`, que també
+calcula i comprova les solucions; `genera.py` (valencià) i `genera-es.py` (castellà) només escriuen els `.tex`:
+
+```
+python3 _eines/apunts/2eso-t1/build.py
+cd _eines/fonts-latex/2eso-t1 && python3 genera.py && python3 genera-es.py
+pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex && pdflatex t1-fitxa-exercicis-es.tex && pdflatex t1-fitxa-solucions-es.tex
+```
+
+Compte: en acabar, `build.py` executa `_eines/tema/aplica.py`, que pot posar una versió antiga del tema a altres pàgines de `materials/`.
+Desfés aquests canvis abans de fer el commit (`git checkout` de les pàgines que no són de la unitat).
+
 Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
 `2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
 

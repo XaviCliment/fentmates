@@ -8,13 +8,14 @@
 # de Fira Sans porta un guió baix; a les metadades del PDF (que no es veuen) es deixa el caràcter «º».
 # Les metadades del PDF van a \AtBeginDocument: dins de les opcions de hyperref, «º» no compila.
 #
-# Per a altres cursos, passa curs='1eso', '4eso-b', '1batx-mi', '2batx-ccss' o '2batx-mii' a preambul()
+# Per a altres cursos, passa curs='1eso', '2eso', '4eso-b', '1batx-mi', '2batx-ccss' o '2batx-mii' a preambul()
 # i fes servir assignatura(curs) en lloc d'ASSIGNATURA (\capcalera{Matemáticas ...}{curs}).
 import re
 
 # clau -> (curs al text, curs a les metadades, assignatura)
 CURSOS = {
     "1eso": (r"1\textsuperscript{o} ESO", "1º ESO", "Matemáticas"),
+    "2eso": (r"2\textsuperscript{o} ESO", "2º ESO", "Matemáticas"),
     "3eso": (r"3\textsuperscript{o} ESO", "3º ESO", "Matemáticas"),
     "4eso-b": (r"4\textsuperscript{o} ESO", "4º ESO", "Matemáticas B"),
     "1batx-mi": (r"1\textsuperscript{o} Bach.", "1º Bach.", "Matemáticas I"),
