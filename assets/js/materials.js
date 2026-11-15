@@ -197,6 +197,15 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "proporcionalitat", block: "ari",
+        title: { va: "Proporcionalitat i percentatges", es: "Proporcionalidad y porcentajes", en: "Proportionality and percentages" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2eso/t6-proporcionalitat-percentatges.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 57 exercicis graduats per nivells de dificultat", es: "PDF · 57 ejercicios graduados por niveles de dificultad", en: "PDF · 57 exercises graded by difficulty" }, url: { va: "materials/2eso/t6-fitxa-exercicis.pdf", es: "materials/2eso/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 57 exercicis", es: "PDF · Soluciones de los 57 ejercicios", en: "PDF · Solutions to all 57 exercises" }, url: { va: "materials/2eso/t6-fitxa-solucions.pdf", es: "materials/2eso/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
+      },
+      {
         ill: "pitagores", block: "geo",
         title: { va: "Teorema de Pitàgores. Perímetres i àrees", es: "Teorema de Pitágoras. Perímetros y áreas", en: "Pythagoras' theorem. Perimeters and areas" },
         items: [

@@ -243,6 +243,22 @@ cd _eines/fonts-latex/2eso-t5 && python3 genera.py && python3 genera-es.py
 pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t5-fitxa-exercicis-es.tex && pdflatex t5-fitxa-solucions-es.tex
 ```
 
+La unitat 6 de 2n ESO (Proporcionalitat i percentatges, carpeta `2eso-t6`) té 8 apartats (6.1-6.8): raons i proporcions,
+magnituds directament i inversament proporcionals (reducció a la unitat, taula i regla de tres), proporcionalitat composta,
+repartiments directament i inversament proporcionals, percentatges, càlcul del tant per cent i del total, i augments i
+disminucions percentuals (índex de variació, quantitat inicial i variacions encadenades). El contingut és a `prop1.py` (6.1-6.5)
+i `prop2.py` (6.6-6.8), amb comprovacions `ck`; `comu.py` és el de la unitat 5 de 1r ESO. `app.js` és el de la unitat 5 de 1r
+ESO sense els ginys de decimals, amb el repartidor i el solucionador de proporcionalitat composta de 3r ESO (funció `M3`, amb
+els seus propis formats numèrics), dues calculadores de percentatges (classe `w-pctc`), entrenadors nous i un qüestionari
+propi. A `materials.js` és del bloc d'aritmètica. La fitxa (`_eines/fonts-latex/2eso-t6/genera.py`, 57 exercicis en 8
+seccions) comprova tots els resultats amb fraccions i decimals exactes; `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t6/build.py
+cd _eines/fonts-latex/2eso-t6 && python3 genera.py && python3 genera-es.py
+pdflatex t6-fitxa-exercicis.tex && pdflatex t6-fitxa-solucions.tex && pdflatex t6-fitxa-exercicis-es.tex && pdflatex t6-fitxa-solucions-es.tex
+```
+
 La unitat 7 de 2n ESO (Teorema de Pitàgores. Perímetres i àrees, carpeta `2eso-t7`) és l'adaptació de la unitat 9 de 3r
 (`3eso-t9`) sense la distància entre dos punts del pla i amb un apartat nou de problemes amb enunciat. Té 9 apartats (7.1-7.9):
 el teorema de Pitàgores (càlcul d'un costat i ternes), el recíproc (és rectangle un triangle?), aplicacions en figures planes,
