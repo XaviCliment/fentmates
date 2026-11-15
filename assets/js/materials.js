@@ -434,8 +434,8 @@ window.LEVELS = {
         title: { va: "Estudi de funcions", es: "Estudio de funciones", en: "Studying functions" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t6-estudi-funcions.html", date: "2026-11-11" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 30 exercicis, del domini a la funció inversa", es: "PDF · 30 ejercicios, del dominio a la función inversa", en: "PDF · 30 exercises, from domains to inverse functions" }, url: "materials/1batx-mi/t6-fitxa-exercicis.pdf", download: true, date: "2026-11-11" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 30 exercicis", es: "PDF · Soluciones de los 30 ejercicios", en: "PDF · Solutions to all 30 exercises" }, url: "materials/1batx-mi/t6-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-11" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 30 exercicis, del domini a la funció inversa", es: "PDF · 30 ejercicios, del dominio a la función inversa", en: "PDF · 30 exercises, from domains to inverse functions" }, url: { va: "materials/1batx-mi/t6-fitxa-exercicis.pdf", es: "materials/1batx-mi/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-11" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 30 exercicis", es: "PDF · Soluciones de los 30 ejercicios", en: "PDF · Solutions to all 30 exercises" }, url: { va: "materials/1batx-mi/t6-fitxa-solucions.pdf", es: "materials/1batx-mi/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-11" }
         ]
       },
       {
