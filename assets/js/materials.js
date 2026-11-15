@@ -177,6 +177,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis graduats per nivells de dificultat", es: "PDF · 63 ejercicios graduados por niveles de dificultad", en: "PDF · 63 exercises graded by difficulty" }, url: { va: "materials/2eso/t3-fitxa-exercicis.pdf", es: "materials/2eso/t3-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: { va: "materials/2eso/t3-fitxa-solucions.pdf", es: "materials/2eso/t3-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
         ]
+      },
+      {
+        ill: "equacions", block: "alg",
+        title: { va: "Equacions de 1r i 2n grau", es: "Ecuaciones de 1.er y 2.º grado", en: "Linear and quadratic equations" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2eso/t4-equacions.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 70 exercicis graduats per nivells de dificultat", es: "PDF · 70 ejercicios graduados por niveles de dificultad", en: "PDF · 70 exercises graded by difficulty" }, url: { va: "materials/2eso/t4-fitxa-exercicis.pdf", es: "materials/2eso/t4-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 70 exercicis", es: "PDF · Soluciones de los 70 ejercicios", en: "PDF · Solutions to all 70 exercises" }, url: { va: "materials/2eso/t4-fitxa-solucions.pdf", es: "materials/2eso/t4-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
       }
     ]
   },

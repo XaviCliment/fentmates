@@ -216,6 +216,19 @@ cd _eines/fonts-latex/2eso-t3 && python3 genera.py && python3 genera-es.py
 pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex && pdflatex t3-fitxa-exercicis-es.tex && pdflatex t3-fitxa-solucions-es.tex
 ```
 
+La unitat 4 de 2n ESO (Equacions de 1r i 2n grau, carpeta `2eso-t4`) té 9 apartats (4.1-4.9): elements i solucions, primer grau,
+parèntesis, denominadors, problemes de primer grau, segon grau incompletes i completes, el discriminant i problemes de segon
+grau. El contingut és a `eq1.py` (4.1-4.5) i `eq2.py` (4.6-4.9), amb comprovacions sympy (`ce`), i `app.js` és el de la unitat 5
+de 3r ESO sense Ruffini, amb entrenadors nous (parèntesis, denominadors i problemes de segon grau) i un qüestionari propi. A
+`materials.js` és del bloc d'àlgebra. La fitxa (`_eines/fonts-latex/2eso-t4/genera.py`, 70 exercicis en 9 seccions) resol les
+equacions pas a pas amb el resolutor de la fitxa de 3r (`sol`) i ho comprova tot amb sympy; `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t4/build.py
+cd _eines/fonts-latex/2eso-t4 && python3 genera.py && python3 genera-es.py
+pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex && pdflatex t4-fitxa-exercicis-es.tex && pdflatex t4-fitxa-solucions-es.tex
+```
+
 Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
 `2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
 
