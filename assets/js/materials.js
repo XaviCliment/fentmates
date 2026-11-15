@@ -123,8 +123,8 @@ window.LEVELS = {
         title: { va: "Gràfics de funcions", es: "Gráficas de funciones", en: "Graphs of functions" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1eso/t9-grafics-funcions.html", date: "2026-11-02" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 61 exercicis graduats per nivells de dificultat", es: "PDF · 61 ejercicios graduados por niveles de dificultad", en: "PDF · 61 exercises graded by difficulty" }, url: "materials/1eso/t9-fitxa-exercicis.pdf", download: true, date: "2026-11-02" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 61 exercicis", es: "PDF · Soluciones de los 61 ejercicios", en: "PDF · Solutions to all 61 exercises" }, url: "materials/1eso/t9-fitxa-solucions.pdf", download: true, hidden: true, date: "2026-11-02" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 61 exercicis graduats per nivells de dificultat", es: "PDF · 61 ejercicios graduados por niveles de dificultad", en: "PDF · 61 exercises graded by difficulty" }, url: { va: "materials/1eso/t9-fitxa-exercicis.pdf", es: "materials/1eso/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-02" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 61 exercicis", es: "PDF · Soluciones de los 61 ejercicios", en: "PDF · Solutions to all 61 exercises" }, url: { va: "materials/1eso/t9-fitxa-solucions.pdf", es: "materials/1eso/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-02" }
         ]
       },
       {
