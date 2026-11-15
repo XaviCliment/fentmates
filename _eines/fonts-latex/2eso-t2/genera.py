@@ -445,8 +445,8 @@ PC = [
    r"\left(-\dfrac{2}{3}\right)^{6-5}-\left(-\dfrac{1}{4}\right)^2=-\dfrac{2}{3}-\dfrac{1}{16}", '[(-2/3)^2]^3:(-2/3)^5-(1/2-3/4)^2', Fr(-35, 48)),
   (r"\left(\dfrac{5}{4}\right)^4\cdot\left(\dfrac{8}{5}\right)^4:2^4+\left(1-\dfrac{4}{5}\right)^2\cdot5^2",
    r"\left(\dfrac{5}{4}\cdot\dfrac{8}{5}\right)^4:2^4+\left(\dfrac{1}{5}\cdot5\right)^2=2^4:2^4+1^2=1+1", '(5/4)^4·(8/5)^4:2^4+(1-4/5)^2·5^2', Fr(2)),
-  (r"\left[\left(\dfrac{1}{2}\right)^3-\left(\dfrac{1}{2}\right)^2\right]:\left(-\dfrac{1}{2}\right)^3-\left(\dfrac{9}{10}\right)^3\cdot\left(\dfrac{5}{3}\right)^3:\left(\dfrac{3}{2}\right)^3",
-   r"\left(\dfrac{1}{8}-\dfrac{1}{4}\right):\left(-\dfrac{1}{8}\right)-\left(\dfrac{9}{10}\cdot\dfrac{5}{3}\right)^3:\left(\dfrac{3}{2}\right)^3=\left(-\dfrac{1}{8}\right):\left(-\dfrac{1}{8}\right)-\left(\dfrac{3}{2}\right)^3:\left(\dfrac{3}{2}\right)^3=1-1", '[(1/2)^3-(1/2)^2]:(-1/2)^3-(9/10)^3·(5/3)^3:(3/2)^3', Fr(0)),
+  (r"\left[\left(\dfrac{1}{2}\right)^3-\left(\dfrac{1}{2}\right)^2\right]:\left(-\dfrac{1}{2}\right)^3-\left(\dfrac{9}{10}\right)^2\cdot\left(\dfrac{5}{3}\right)^2",
+   r"\left(-\dfrac{1}{8}\right):\left(-\dfrac{1}{8}\right)-\left(\dfrac{9}{10}\cdot\dfrac{5}{3}\right)^2=1-\dfrac{9}{4}", '[(1/2)^3-(1/2)^2]:(-1/2)^3-(9/10)^2·(5/3)^2', Fr(-5, 4)),
 ]
 for _, _, e, v in PC: ck(V(e), v)
 X.append((3, T(r"Calcula fent servir les propietats de les potències (sense calcular potències amb exponents grans):", r"Calcula usando las propiedades de las potencias (sin calcular potencias con exponentes grandes):")
