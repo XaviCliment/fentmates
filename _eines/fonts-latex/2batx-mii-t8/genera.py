@@ -254,7 +254,7 @@ sec("Asímptotes verticals i horitzontals",
      r"Domini $\mathbb R-\{-1,8\}$; AV \res{x=-1,\ x=8}, AH \res{y=0}. $f'=\frac{-(x+10)(x-2)}{(x^2-7x-8)^2}$: decreix en $(-\infty,-10)\cup(2,8)\cup(8,+\infty)$, creix en $(-10,-1)\cup(-1,2)$; \res{\text{mín. en }x=-10}, \res{\text{màx. en }x=2}."),
  (2, r"\pau{País Basc, extraordinària 2025} Asímptotes i monotonia de $f(x)=\dfrac{x}{x^2-3x-4}$, i recta tangent en $x=0$.",
      r"AV \res{x=-1,\ x=4}, AH \res{y=0}. $f'=\frac{-(x^2+4)}{(x^2-3x-4)^2}<0$: decreixent en tot el domini. Tangent: \res{y=-\frac x4}."),
- (3, r"\pau{La Rioja, juny 2018} Sigui $f(x)=x\,e^{-ax}$. Estudia'n les asímptotes segons els valors de $a$ i troba $a$ perquè tinga un extrem relatiu en $x=1$. És màxim o mínim?",
+ (3, r"\pau{La Rioja, juny 2018} Siga $f(x)=x\,e^{-ax}$. Estudia'n les asímptotes segons els valors de $a$ i troba $a$ perquè tinga un extrem relatiu en $x=1$. És màxim o mínim?",
      r"Sense AV ni AO. Si $a>0$: AH $y=0$ només quan $x\to+\infty$; si $a<0$: AH $y=0$ només quan $x\to-\infty$; si $a=0$ ($f=x$), cap. $f'=(1-ax)e^{-ax}$, $f'(1)=0\Rightarrow\res{a=1}$, i és un \rest{màxim} ($f'$ passa de $+$ a $-$)."),
 )
 
@@ -275,9 +275,9 @@ sec("Asímptotes obliqües i branques parabòliques",
      + recorda(r"$m=\displaystyle\lim_{x\to\pm\infty}\frac{f(x)}{x}$ (finit i $\neq0$), $n=\displaystyle\lim_{x\to\pm\infty}\big(f(x)-mx\big)$. En les racionals, l'AO és el quocient de la divisió."),
      tasks(1, [r"$f=x+1+\frac{1}{x-1}$: AV \res{x=1}, AO \res{y=x+1}. $f'=\frac{x(x-2)}{(x-1)^2}$: \res{\text{màx. }(0,0)}, \res{\text{mín. }(2,4)}",
                r"$f=2x+\frac{1}{x^2}$: AV \res{x=0} ($\to+\infty$ pels dos costats), AO \res{y=2x}. $f'=2-\frac{2}{x^3}$: \res{\text{mín. }(1,3)}; creix en $(-\infty,0)\cup(1,+\infty)$"])),
- (2, r"\pau{Cantàbria, ordinària 2025} Sigui $f(x)=\dfrac{x^3-8}{x^2-4}$ si $x\neq2$ i $f(2)=e^k$." + tasks(1, [r"Troba $k$ perquè sigui contínua en $x=2$.", r"Calcula'n les asímptotes.", r"Escriu la recta tangent en $x=1$."]),
+ (2, r"\pau{Cantàbria, ordinària 2025} Siga $f(x)=\dfrac{x^3-8}{x^2-4}$ si $x\neq2$ i $f(2)=e^k$." + tasks(1, [r"Troba $k$ perquè siga contínua en $x=2$.", r"Calcula'n les asímptotes.", r"Escriu la recta tangent en $x=1$."]),
      tasks(1, [r"$f=\frac{x^2+2x+4}{x+2}\to3$: $e^k=3\Rightarrow\res{k=\ln3}$", r"AV \res{x=-2}; sense AH; $f=x+\frac{4}{x+2}$: AO \res{y=x}", r"$f(1)=\frac73$, $f'(1)=1-\frac49=\frac59$: \res{y=\frac59x+\frac{16}9}"])),
- (2, r"\pau{Canàries, ordinària 2021} Sigui $f(x)=\dfrac{ax^2-2}{b-x}$." + tasks(1, [r"Troba $a$ i $b$ perquè $f(-2)=2$ i $f$ siga contínua en $\mathbb R-\{5\}$.", r"Per a $a=-1$, $b=-3$, calcula les asímptotes."]),
+ (2, r"\pau{Canàries, ordinària 2021} Siga $f(x)=\dfrac{ax^2-2}{b-x}$." + tasks(1, [r"Troba $a$ i $b$ perquè $f(-2)=2$ i $f$ siga contínua en $\mathbb R-\{5\}$.", r"Per a $a=-1$, $b=-3$, calcula les asímptotes."]),
      tasks(1, [r"$b=5$ i $\frac{4a-2}{7}=2\Rightarrow\res{a=4,\ b=5}$", r"$f=\frac{x^2+2}{x+3}=x-3+\frac{11}{x+3}$: AV \res{x=-3}, AO \res{y=x-3}"])),
  (2, r"\pau{Castella i Lleó, juliol 2018} Troba $a$ i $b$ perquè $f(x)=\dfrac1x+ax+b$ tinga un mínim relatiu en $\left(\frac12,6\right)$ i, amb aquests valors, troba'n les asímptotes.",
      r"$f'\left(\frac12\right)=-4+a=0\Rightarrow\res{a=4}$; $f\left(\frac12\right)=2+2+b=6\Rightarrow\res{b=2}$. AV \res{x=0}, AO \res{y=4x+2}."),
@@ -299,7 +299,7 @@ f_ = x**4 - 4 * x**3; crit(f_, [0, 3]); ext(f_, 3, 'min', -27); infl(f_, 0, 0); 
 f_ = x**2 * ln(x); crit(f_, [sp.exp(-R(1, 2))], 0.001, 50); ext(f_, sp.exp(-R(1, 2)), 'min', -1 / (2 * E)); infl(f_, sp.exp(-R(3, 2)))
 f_ = (x - 1) / x**2; crit(f_, [2]); ext(f_, 2, 'max', R(1, 4)); infl(f_, 3, R(2, 9))
 sec("Monotonia, extrems i curvatura",
- (1, r"\pau{Catalunya, extraordinària 2022} Sigui $f(x)=\dfrac{9}{x^2+x-2}$. Determina'n el domini, les asímptotes, els extrems relatius i els intervals de creixement i decreixement."
+ (1, r"\pau{Catalunya, extraordinària 2022} Siga $f(x)=\dfrac{9}{x^2+x-2}$. Determina'n el domini, les asímptotes, els extrems relatius i els intervals de creixement i decreixement."
      + recorda(r"Taula de signes de $f'$ amb els zeros de $f'$ i els punts que no són del domini; $f''$ per a la curvatura."),
      r"Domini $\mathbb R-\{-2,1\}$; AV \res{x=-2,\ x=1}, AH \res{y=0}. $f'=\frac{-9(2x+1)}{(x^2+x-2)^2}$: creix en $(-\infty,-2)\cup\left(-2,-\frac12\right)$, decreix en $\left(-\frac12,1\right)\cup(1,+\infty)$; \res{\text{màx. }\left(-\tfrac12,-4\right)}."),
  (2, r"\pau{Extremadura, ordinària 2021} Asímptotes, monotonia, extrems relatius i punts d'inflexió de $f(x)=e^{-x^2}$.",
@@ -360,7 +360,7 @@ sec("Representació de funcions radicals",
  (2, rep(fx(r'\dfrac{x+1}{\sqrt{x^2+3}}')),
      r"AH \res{y=1} ($+\infty$) i \res{y=-1} ($-\infty$). $f'=\frac{3-x}{(x^2+3)^{3/2}}$: creix en $(-\infty,3)$, decreix en $(3,+\infty)$; \res{\text{màx. abs. }\left(3,\tfrac{2}{\sqrt3}\right)}."
      + cen(graf([lambda v: (v + 1) / math.sqrt(v * v + 3)], (-10, 12, -1.5, 1.5), ha=[1, -1], mx=[(3, 2 / r3)], pts=[(-1, 0), (0, 1 / r3)]))),
- (3, r"Sigui $f(x)=x\sqrt{4-x^2}$. Estudia'n el domini, la simetria, els extrems absoluts i els punts en què la tangent és vertical, i representa-la.",
+ (3, r"Siga $f(x)=x\sqrt{4-x^2}$. Estudia'n el domini, la simetria, els extrems absoluts i els punts en què la tangent és vertical, i representa-la.",
      r"Domini $[-2,2]$, senar. $f'=\frac{2(2-x^2)}{\sqrt{4-x^2}}$: \res{\text{mín. abs. }\left(-\sqrt2,-2\right)}, \res{\text{màx. abs. }\left(\sqrt2,2\right)}; tangents verticals en \res{x=\pm2}; P.I. $(0,0)$."
      + cen(graf([(lambda v: v * msq(4 - v * v), -2, 2)], (-2.6, 2.6, -2.6, 2.6), mx=[(r2, 2)], mn=[(-r2, -2)], ip=[(0, 0)], pts=[(-2, 0), (2, 0)]))),
 )
@@ -411,7 +411,7 @@ sec("Representació de funcions trigonomètriques",
  (2, r"Estudia $f(x)=\tan x-2x$ en $\left(-\frac\pi2,\frac\pi2\right)$: asímptotes, extrems i curvatura.",
      r"Senar; AV \res{x=\pm\frac\pi2}. $f'=\frac{1}{\cos^2x}-2=0\Leftrightarrow\cos^2x=\frac12$: \res{\text{màx. }\left(-\tfrac\pi4,\tfrac\pi2-1\right)}, \res{\text{mín. }\left(\tfrac\pi4,1-\tfrac\pi2\right)}. $f''=\frac{2\sin x}{\cos^3x}$: \res{\text{P.I. }(0,0)}."
      + cen(graf([(lambda v: mt(v) - 2 * v, -PI / 2 + 0.01, PI / 2 - 0.01)], (-1.8, 1.8, -4, 4), va=[-PI / 2, PI / 2], mx=[(-PI / 4, PI / 2 - 1)], mn=[(PI / 4, 1 - PI / 2)], ip=[(0, 0)]))),
- (2, r"\pau{Cantàbria, extraordinària 2020} Sigui $f(x)=\dfrac{1-\cos x}{x}$. Calcula $\displaystyle\lim_{x\to0}f(x)$ i les asímptotes de $f$.",
+ (2, r"\pau{Cantàbria, extraordinària 2020} Siga $f(x)=\dfrac{1-\cos x}{x}$. Calcula $\displaystyle\lim_{x\to0}f(x)$ i les asímptotes de $f$.",
      r"$\left[\frac00\right]\overset{\text{L'H}}{=}\lim\frac{\sin x}{1}=\res{0}$: no hi ha AV. Com que $0\leq1-\cos x\leq2$, $\left|f\right|\leq\frac2{|x|}\to0$: AH \res{y=0} (en tots dos costats); sense AO."),
  (2, r"Estudia la monotonia i la curvatura de $f(x)=x+\cos x$ en $[0,2\pi]$ i representa-la.",
      r"$f'=1-\sin x\geq0$: \rest{creixent} (amb tangent horitzontal en $\frac\pi2$). $f''=-\cos x$: \res{\text{P.I. en }\tfrac\pi2\text{ i }\tfrac{3\pi}2}; còncava en $\left(0,\frac\pi2\right)\cup\left(\frac{3\pi}2,2\pi\right)$."
@@ -435,10 +435,10 @@ sec("Funcions a trossos, amb valor absolut i transformacions",
  (2, r"A partir de les gràfiques de les funcions elementals, dibuixa:" + tasks(2, [r"$y=\sqrt{x+4}-2$", r"$y=-\sqrt{-x}$", r"$y=2-e^{-x}$", r"$y=\left|\ln(x+1)\right|$"]),
      tasks(1, [r"$\sqrt x$ traslladada 4 a l'esquerra i 2 avall: comença en $(-4,-2)$ i passa per \res{(0,0)}", r"$\sqrt x$ amb simetries respecte de OY i de OX (respecte de l'origen): domini $(-\infty,0]$",
                r"$e^x$ $\to$ $e^{-x}$ (simetria OY) $\to$ $-e^{-x}$ (simetria OX) $\to$ $+2$: AH \res{y=2} en $+\infty$, tall \res{(0,1)}", r"$\ln(x+1)$ (AV $x=-1$) amb la part negativa reflectida: \res{\text{mín. anguló }(0,0)}"])),
- (2, r"\pau{Galícia, juny 2017} Calcula $a$ i $b$ perquè sigui derivable en $x=3$ la funció $f(x)=\begin{cases}ax^2+b&\text{si }x<3\\ \ln(x-2)&\text{si }x\geq3\end{cases}$ i representa-la.",
+ (2, r"\pau{Galícia, juny 2017} Calcula $a$ i $b$ perquè siga derivable en $x=3$ la funció $f(x)=\begin{cases}ax^2+b&\text{si }x<3\\ \ln(x-2)&\text{si }x\geq3\end{cases}$ i representa-la.",
      r"Contínua: $9a+b=\ln1=0$; derivable: $6a=\frac{1}{3-2}=1$. \res{a=\frac16,\ b=-\frac32}. Paràbola de vèrtex $\left(0,-\frac32\right)$ fins a $(3,0)$ i després $\ln(x-2)$, sense angle."
      + cen(graf([(lambda v: v * v / 6 - 1.5, -5, 3), (lambda v: mlog(v - 2), 3, 9)], (-4.5, 9, -2, 3), mn=[(0, -1.5)], pts=[(3, 0), (-3, 0)]))),
- (3, r"\pau{Madrid, extraordinària 2022} Sigui $f(x)=\begin{cases}x&\text{si }x\leq0\\ x\ln x&\text{si }x>0\end{cases}$." + tasks(1, [r"Estudia la continuïtat i la derivabilitat en $x=0$.", r"Estudia'n la monotonia i els extrems relatius, i representa-la."]),
+ (3, r"\pau{Madrid, extraordinària 2022} Siga $f(x)=\begin{cases}x&\text{si }x\leq0\\ x\ln x&\text{si }x>0\end{cases}$." + tasks(1, [r"Estudia la continuïtat i la derivabilitat en $x=0$.", r"Estudia'n la monotonia i els extrems relatius, i representa-la."]),
      tasks(1, [r"$\lim_{x\to0^+}x\ln x=0=f(0)$: \rest{contínua}. $f'(0^-)=1$ i $f'(0^+)=\lim(\ln x+1)=-\infty$: \rest{no derivable}.",
                r"Creix en $(-\infty,0)$, decreix en $\left(0,\frac1e\right)$, creix en $\left(\frac1e,+\infty\right)$: \res{\text{màx. }(0,0)} (no derivable), \res{\text{mín. }\left(\tfrac1e,-\tfrac1e\right)}."
                + cen(graf([(lambda v: v, -3, 0), (lambda v: v * mlog(v), 0.0001, 3)], (-2.5, 2.8, -1.5, 2), mx=[(0, 0)], mn=[(1 / math.e, -1 / math.e)], pts=[(1, 0)]))])),

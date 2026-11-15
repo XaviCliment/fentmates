@@ -157,7 +157,7 @@ S.append(("Integrals quasi immediates", [
      + recorda(r"$\displaystyle\int u'\,u^n\,dx=\frac{u^{n+1}}{n+1}+C$, \ $\displaystyle\int\frac{u'}{u}\,dx=\ln|u|+C$, \ $\displaystyle\int u'\,e^{u}\,dx=e^{u}+C$. Si falta un factor constant, multipliquem i dividim per ell."),
      tasks(2, [r"$\frac15\int5(5x+2)^3\,dx=\res{\frac{(5x+2)^4}{20}+C}$", r"$\res{\frac{(x^3-1)^5}{5}+C}$", r"$\frac12\int2x(x^2+5)^2\,dx=\res{\frac{(x^2+5)^3}{6}+C}$",
                r"$2\int\frac{2x+1}{x^2+x+1}\,dx=\res{2\ln(x^2+x+1)+C}$", r"$\res{\frac12\ln|2x-5|+C}$", r"$\res{-\frac{e^{-2x}}{2}+C}$", r"$\res{e^{x^2+x}+C}$", r"$\res{\frac{e^{x^4}}{4}+C}$"])),
- (2, r"Calcula $\displaystyle\int(x+2)^2\,dx$ de dues maneres: com a integral quasi immediata i desenvolupant el quadrat. Ixen el mateix resultat? Explica-ho.",
+ (2, r"Calcula $\displaystyle\int(x+2)^2\,dx$ de dues maneres: com a integral quasi immediata i desenvolupant el quadrat. Ix el mateix resultat? Explica-ho.",
      r"Quasi immediata: $\res{\frac{(x+2)^3}{3}+C}$. Desenvolupant: $\int(x^2+4x+4)\,dx=\res{\frac{x^3}{3}+2x^2+4x+C}$. Com que $\frac{(x+2)^3}{3}=\frac{x^3}{3}+2x^2+4x+\frac83$, "
      r"les dues primitives \rest{només es diferencien en una constant}: totes dues són correctes."),
 ]))

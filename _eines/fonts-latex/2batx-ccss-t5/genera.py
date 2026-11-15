@@ -119,7 +119,7 @@ S.append(("Regla de la cadena", [
      tasks(1, [r"$f(1)=\frac12$, $f'(x)=\frac{-1}{(x+1)^2}$, $f'(1)=-\frac14$: \ $y-\frac12=-\frac14(x-1)\Rightarrow\res{y=-0{,}25x+0{,}75}$",
                r"$f(-2)=3$, $f'(x)=\frac{x}{\sqrt{5+x^2}}$, $f'(-2)=-\frac23$: \ $y-3=-\frac23(x+2)\Rightarrow\res{y=-\frac23x+\frac53}$",
                r"$f(1)=-\frac13$, $f'(x)=\frac{-x^2-4}{(x^2-4)^2}$, $f'(1)=-\frac59$: \ $y+\frac13=-\frac59(x-1)\Rightarrow\res{5x+9y-2=0}$"])),
- (3, r"\pau{Balears, PBAU extraordinària 2021} Considera la funció $f(x)=\dfrac3x+8$." + tasks(1, [r"Troba els punts de la gràfica en els quals la recta tangent és paral·lela a la recta $3x+4y+5=0$.", "Calcula les equacions de les rectes tangents en els punts trobats en l'apartat anterior."]),
+ (3, r"\pau{Illes Balears, PBAU extraordinària 2021} Considera la funció $f(x)=\dfrac3x+8$." + tasks(1, [r"Troba els punts de la gràfica en els quals la recta tangent és paral·lela a la recta $3x+4y+5=0$.", "Calcula les equacions de les rectes tangents en els punts trobats en l'apartat anterior."]),
      tasks(1, [r"La recta té pendent $-\frac34$. \ $f'(x)=-\frac{3}{x^2}=-\frac34\Rightarrow x^2=4\Rightarrow x=\pm2$: \ punts $\res{(-2;\ 6{,}5)}$ i $\res{(2;\ 9{,}5)}$.",
                r"En $x=-2$: $\res{y=-\frac34x+5}$; \ en $x=2$: $\res{y=-\frac34x+11}$."])),
  (2, r"Troba els paràmetres en cada cas:" + tasks(1, [r"\pau{Madrid, EvAU extraordinària 2022} $a$ i $b$ perquè $f(x)=ax+\dfrac bx$ verifique $f(2)=4$ i $f'(2)=0$.",
@@ -158,7 +158,7 @@ S.append(("Derivabilitat de funcions a trossos", [
      r"$f(-2)=10-5=5$, \ $\lim_{x\to-2^+}(x^2+1)=5$: \rest{contínua} en $x=-2$. \ $f'(-2^-)=\frac52$, \ $f'(-2^+)=2\cdot(-2)=-4$: \rest{no és derivable} en $x=-2$."),
  (2, r"\pau{Andalusia, PEvAU ordinària 2024} La velocitat del vent, en km/h, prevista per a cert dia en una zona de Sierra Nevada ve donada per la funció" + dm(pw((r't^2-8t+60', r'0\leq t\leq10'), (r'-t^2+32t-140', r'10<t\leq24'), name='v(t)')) + r"on $t$ és el temps en hores. Comprova que la funció $v$ és contínua i derivable.",
      r"$t=10$: $v(10)=80$, $\lim_{t\to10^+}v=-100+320-140=80$: contínua. \ $v'(t)=2t-8$ si $0<t<10$ i $-2t+32$ si $10<t<24$: $v'(10^-)=12=v'(10^+)$. \ \rest{Contínua en $[0,24]$ i derivable en $(0,24)$}."),
- (2, r"\pau{Navarra, EvAU ordinària 2024} Sigui la funció" + dm(pw((r'-x^2-4x', r'x<-1'), (r'4-x', r'-1\leq x<1'), (r'x^2-6x+8', r'x\geq1'))) + tasks(1, [r"Estudia la continuïtat de $f(x)$, classificant-ne els punts de discontinuïtat.", r"Estudia la derivabilitat de $f(x)$."]),
+ (2, r"\pau{Navarra, EvAU ordinària 2024} Siga la funció" + dm(pw((r'-x^2-4x', r'x<-1'), (r'4-x', r'-1\leq x<1'), (r'x^2-6x+8', r'x\geq1'))) + tasks(1, [r"Estudia la continuïtat de $f(x)$, classificant-ne els punts de discontinuïtat.", r"Estudia la derivabilitat de $f(x)$."]),
      tasks(1, [r"$x=-1$: $\lim_{x\to-1^-}f=3$, $\lim_{x\to-1^+}f=5=f(-1)$: \rest{salt finit}. \ $x=1$: $3=3=f(1)$: contínua. \ Contínua en $\res{\mathbb R-\{-1\}}$.",
                r"En $x=-1$ no és derivable (no és contínua). \ $f'(1^-)=-1$, $f'(1^+)=2-6=-4$: no derivable. \ Derivable en $\res{\mathbb R-\{-1,1\}}$."])),
  (2, r"\pau{Andalusia, PEvAU extraordinària 2021} Considera la funció" + dm(pw((r'2^{x+1}', 'x<0'), (r'x^2-2x', r'x\geq0'))) + r"Estudia la continuïtat i la derivabilitat de la funció $f$ en el seu domini.",
@@ -176,11 +176,11 @@ S.append(("Funcions a trossos amb paràmetres", [
      r"Continuïtat en $x=1$: $3=a+b+2$. \ Derivabilitat: $f'(1^-)=6$, $f'(1^+)=2a+b\Rightarrow2a+b=6$. \ $\begin{cases}a+b=1\\2a+b=6\end{cases}\Rightarrow\res{a=5,\ b=-4}$."),
  (2, r"\pau{Andalusia, PEvAU extraordinària 2020} Considera la funció" + dm(pw((r'2+\dfrac{a}{x-1}', 'x<0'), (r'a+be^x', r'x\geq0'))) + r"Calcula els valors de $a$ i $b$ perquè la funció siga contínua i derivable en el seu domini.",
      r"Continuïtat en $x=0$: $2-a=a+b$. \ $f'(x)=\frac{-a}{(x-1)^2}$ si $x<0$ i $be^x$ si $x>0$: $-a=b$. \ Substituint: $2-a=0\Rightarrow\res{a=2,\ b=-2}$ ($x=1$ no és de $x<0$)."),
- (2, r"\pau{Balears, PBAU ordinària 2022} Considerem la funció a trossos" + dm(pw((r'x^2-3x+2', 'x<0'), (r'x^2+ax+2', r'x\geq0'))) + r"Calcula els valors de $a$ perquè $f(x)$ siga contínua i derivable.",
+ (2, r"\pau{Illes Balears, PBAU ordinària 2022} Considerem la funció a trossos" + dm(pw((r'x^2-3x+2', 'x<0'), (r'x^2+ax+2', r'x\geq0'))) + r"Calcula els valors de $a$ perquè $f(x)$ siga contínua i derivable.",
      r"Continuïtat: $2=2$, contínua per a qualsevol $a$. \ $f'(0^-)=-3$, $f'(0^+)=a\Rightarrow\res{a=-3}$."),
- (2, r"\pau{Balears, PBAU ordinària 2021} Considera la funció a trossos" + dm(pw((r'x^2-3x+2', 'x<0'), (r'e^{ax}+1', r'x\geq0'))) + r"Calcula els valors de $a$ perquè $f$ siga contínua i derivable.",
+ (2, r"\pau{Illes Balears, PBAU ordinària 2021} Considera la funció a trossos" + dm(pw((r'x^2-3x+2', 'x<0'), (r'e^{ax}+1', r'x\geq0'))) + r"Calcula els valors de $a$ perquè $f$ siga contínua i derivable.",
      r"Continuïtat: $2=e^0+1=2$, per a qualsevol $a$. \ $f'(0^-)=-3$, $f'(0^+)=a\,e^{0}=a\Rightarrow\res{a=-3}$."),
- (2, r"\pau{Balears, PBAU extraordinària 2021} Considera la funció definida a trossos" + dm(pw((r'-4x+a', r'x\leq-2'), (r'x^2-5', r'-2<x<1'), (r'-7x+3', r'x\geq1'))) + tasks(1, [r"Calcula els valors de $a$ perquè $f(x)$ siga contínua.", r"És $f(x)$ derivable per a $a=1$?"]),
+ (2, r"\pau{Illes Balears, PBAU extraordinària 2021} Considera la funció definida a trossos" + dm(pw((r'-4x+a', r'x\leq-2'), (r'x^2-5', r'-2<x<1'), (r'-7x+3', r'x\geq1'))) + tasks(1, [r"Calcula els valors de $a$ perquè $f(x)$ siga contínua.", r"És $f(x)$ derivable per a $a=1$?"]),
      tasks(1, [r"$x=-2$: $8+a=4-5\Rightarrow\res{a=-9}$. \ ($x=1$: $-4=-4$ sempre.)", r"Per a $a=1$ no és contínua en $x=-2$ ($9\neq-1$): no és derivable. En $x=1$: $f'(1^-)=2\neq-7=f'(1^+)$. \ \rest{No és derivable en $x=-2$ ni en $x=1$}."])),
  (3, r"\pau{Aragó, EvAU ordinària 2022} Sent $a$, $b$ paràmetres reals, es considera la funció" + dm(pw((r'x^2+2\sqrt3', r'x\leq0'), (r'\sqrt{ax+b}', r'0<x\leq3'), (r'\dfrac72-\dfrac x6', 'x>3'))) + tasks(1, [r"Determina el valor dels paràmetres perquè $f(x)$ siga contínua.", r"Per a aquests valors, analitza si $f(x)$ és derivable en $x=0$ i en $x=3$."]),
      tasks(1, [r"$x=0$: $2\sqrt3=\sqrt b\Rightarrow b=12$. \ $x=3$: $\sqrt{3a+12}=\frac72-\frac12=3\Rightarrow\res{a=-1,\ b=12}$.",
@@ -266,7 +266,7 @@ TIT = "Càlcul de derivades. Derivabilitat d'una funció"
 def build(sol):
     t = 'Solucions de la fitxa' if sol else "Fitxa d'exercicis"
     p = pre.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
-                    "pdftitle={%s de la unitat 5: %s 2n de Batxillerat CCSS}" % (t, TIT))
+                    "pdftitle={%s de la unitat 5: %s. 2n de Batxillerat CCSS}" % (t, TIT))
     p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat 5: Càlcul de derivades · 2n Batxillerat CCSS" % t)
     assert 'Unitat 5' in p and 'unitat 5' in p
     out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
