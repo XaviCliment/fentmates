@@ -229,6 +229,20 @@ cd _eines/fonts-latex/2eso-t4 && python3 genera.py && python3 genera-es.py
 pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex && pdflatex t4-fitxa-exercicis-es.tex && pdflatex t4-fitxa-solucions-es.tex
 ```
 
+La unitat 5 de 2n ESO (Sistemes d'equacions, carpeta `2eso-t5`) té 7 apartats (5.1-5.7): equacions de primer grau amb dues
+incògnites, què és i què representa un sistema, substitució, igualació, reducció (amb «Quin mètode triem?»), mètode gràfic (amb
+quantes solucions pot tindre un sistema, sense els noms SCD/SCI/SI) i problemes. El contingut és a `sis1.py` (5.1-5.3) i `sis2.py`
+(5.4-5.7), amb comprovacions sympy (`cs`, `ok`, `same`), i `app.js` és el de la unitat 6 de 3r ESO amb els entrenadors nous «troba
+la y» (`val`) i «quin és el sistema?» (`tra`) i un qüestionari propi. A `materials.js` és del bloc d'àlgebra. La fitxa
+(`_eines/fonts-latex/2eso-t5/genera.py`, 53 exercicis en 7 seccions) resol els sistemes pas a pas amb els resolutors de la fitxa
+de 3r (`m_sub`, `m_igu`, `m_red`) i ho comprova tot amb sympy; `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t5/build.py
+cd _eines/fonts-latex/2eso-t5 && python3 genera.py && python3 genera-es.py
+pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t5-fitxa-exercicis-es.tex && pdflatex t5-fitxa-solucions-es.tex
+```
+
 Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
 `2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
 
