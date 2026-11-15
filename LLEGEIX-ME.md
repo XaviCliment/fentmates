@@ -118,6 +118,9 @@ python3 _eines/casio/build_casio.py
 Al text, `[[EXE]]` dibuixa una tecla, `<<Matriz>>` una opció de menú i `$...$` una fórmula.
 Després enllaça la pàgina a `materials.js` amb `type: "calc"`.
 
+La versió en castellà de cada guia és a `_eines/casio/guies_es.py` (mateixa estructura, textos traduïts); el mateix
+`build_casio.py` genera les dues versions (`casio-…-es.html`). Si canvies una guia, canvia-la als dos fitxers.
+
 ## Fitxes d'exercicis en PDF (LaTeX)
 
 Les fonts són a `_eines/fonts-latex/<curs-unitat>/` (per exemple `3eso-t3`, `1eso-t1`). Cada carpeta té la fitxa,
@@ -135,14 +138,17 @@ si encara no han de ser visibles). Els fitxers auxiliars de LaTeX (`.aux`, `.log
 
 ### Versió en castellà de les fitxes
 
-Algunes fitxes tenen versió en castellà (totes les de 3r ESO, unitats 1 a 12): la font és
+Totes les fitxes d'exercicis i de solucions tenen versió en castellà (tots els cursos; només el model d'examen
+de la unitat 2 de 3r ESO no en té): la font és
 el mateix nom acabat en `-es.tex` (p. ex. `t1-fitxa-exercicis-es.tex`) i el PDF es copia a
-`materials/<curs>/` acabat en `-es.pdf`. A les unitats que es generen amb `genera.py` (de la 4 a la 12), la versió en
+`materials/<curs>/` acabat en `-es.pdf`. A les unitats que es generen amb `genera.py` (totes menys 3r ESO 1–3), la versió en
 castellà té el seu propi `genera-es.py` (mateixos exercicis i càlculs, amb els textos traduïts, i el preàmbul en
 castellà el fa `comu/castella.py`): executa `python3 genera-es.py` i compila els dos `-es.tex`. Si canvies un
 exercici a `genera.py`, fes el mateix canvi a `genera-es.py`. Usen `\usepackage[spanish,es-minimal,es-noshorthands]{babel}` i
 les metadades del PDF van dins de `\AtBeginDocument{\hypersetup{...}}` (amb «º» a les opcions de
-`hyperref` no compila). El curs s'escriu «3º ESO»: al text, `3\textsuperscript{o} ESO` (el caràcter «º» de
+`hyperref` no compila). `castella.py` també fa que el sinus s'escriga «sen» (i l'arcsinus, «arcsen»). Per a cursos que no són 3r ESO,
+passa `curs='1eso'`, `'4eso-b'`, `'1batx-mi'`, `'2batx-ccss'` o `'2batx-mii'` a `preambul()` i fes servir `assignatura(curs)`
+(4t ESO B: `eso4b.build(..., lang='es')`). El curs s'escriu «3º ESO»: al text, `3\textsuperscript{o} ESO` (el caràcter «º» de
 Fira Sans porta un guió baix). A `materials.js`, l'`url` porta els dos fitxers i la web mostra el de l'idioma triat
 (en anglés, el valencià):
 
@@ -151,6 +157,20 @@ url: { va: "materials/3eso/t1-fitxa-exercicis.pdf", es: "materials/3eso/t1-fitxa
 ```
 
 Si canvies una fitxa que té versió en castellà, recorda canviar també el `-es.tex`.
+
+### Versió en castellà de les pàgines PAU
+
+Les pàgines `materials/2batx-*/pau-….html` tenen una versió `pau-…-es.html`, que fa
+`_eines/pau/castella/tradueix.py` a partir de la valenciana amb un diccionari de frases
+(`_eines/pau/castella/<curs>-<pàgina>.json`; les fórmules de cada frase hi apareixen com a ⟨1⟩, ⟨2⟩…).
+Després de tornar a generar una pàgina PAU en valencià:
+
+```
+python3 _eines/pau/castella/tradueix.py materials/2batx-ccss/pau-u1-matrius.html --falten
+```
+
+escriu a `<curs>-<pàgina>.falten.json` les frases noves que encara no tenen traducció: tradueix-les, afig-les al
+`.json` del diccionari i torna a executar l'ordre sense `--falten` (o `--totes` per a totes les pàgines).
 
 ## Apunts interactius generats
 
