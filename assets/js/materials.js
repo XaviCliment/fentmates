@@ -361,6 +361,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 64 exercicis, dels radians a la reducció al primer quadrant", es: "PDF · 64 ejercicios, de los radianes a la reducción al primer cuadrante", en: "PDF · 64 exercises, from radians to reduction to the first quadrant" }, url: { va: "materials/4eso-b/t5-fitxa-exercicis.pdf", es: "materials/4eso-b/t5-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-14" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 64 exercicis", es: "PDF · Soluciones de los 64 ejercicios", en: "PDF · Solutions to all 64 exercises" }, url: { va: "materials/4eso-b/t5-fitxa-solucions.pdf", es: "materials/4eso-b/t5-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-14" }
         ]
+      },
+      {
+        num: "6",
+        ill: "geometria", block: "geo",
+        title: { va: "Vectors i rectes", es: "Vectores y rectas", en: "Vectors and lines" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-b/t6-vectors-rectes.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 77 exercicis: tots els de les fitxes del departament i molts més, dels vectors a la mediatriu", es: "PDF · 77 ejercicios: todos los de las fichas del departamento y muchos más, de los vectores a la mediatriz", en: "PDF · 77 exercises: all those from the department worksheets and many more, from vectors to perpendicular bisectors" }, url: { va: "materials/4eso-b/t6-fitxa-exercicis.pdf", es: "materials/4eso-b/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 77 exercicis", es: "PDF · Soluciones de los 77 ejercicios", en: "PDF · Solutions to all 77 exercises" }, url: { va: "materials/4eso-b/t6-fitxa-solucions.pdf", es: "materials/4eso-b/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
       }
     ]
   },
