@@ -274,6 +274,21 @@ cd _eines/fonts-latex/2eso-t7 && python3 genera.py && python3 genera-es.py
 pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex && pdflatex t7-fitxa-exercicis-es.tex && pdflatex t7-fitxa-solucions-es.tex
 ```
 
+La unitat 8 de 2n ESO (Semblança. Teorema de Tales, carpeta `2eso-t8`) és l'adaptació de la unitat 10 de 3r (`3eso-t10`), amb
+els apartats reordenats i sense el mitjà proporcional ni la raó dels volums. Té 5 apartats (8.1-8.5): figures semblants (raó de
+semblança, perímetres i àrees), plànols, mapes i maquetes (escales numèrica i gràfica), el teorema de Tales (proporcions i divisió
+d'un segment), aplicació a la semblança de triangles (posició de Tales i criteris) i problemes (ombres, mirall, fanal, rampa, riu).
+El contingut és a `s123.py` i `s45.py`, amb `ck()`; `app.js` (`window.FM28`), `comu.py`, `fig8.py` i `extra.css` són els de 3r, i
+`quiz.js` és nou. A `materials.js` és del bloc de geometria (il·lustració `tales`). La fitxa (`_eines/fonts-latex/2eso-t8/genera.py`,
+56 exercicis en 5 seccions, bilingüe amb `T()`) dibuixa les figures en TikZ amb el `tz()` de la fitxa de 3r; `genera-es.py`
+l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t8/build.py
+cd _eines/fonts-latex/2eso-t8 && python3 genera.py && python3 genera-es.py
+pdflatex t8-fitxa-exercicis.tex && pdflatex t8-fitxa-solucions.tex && pdflatex t8-fitxa-exercicis-es.tex && pdflatex t8-fitxa-solucions-es.tex
+```
+
 La unitat 9 de 2n ESO (Cossos geomètrics. Àrees i volums, carpeta `2eso-t9`) és l'adaptació de la unitat 11 de 3r
 (`3eso-t11`) sense troncs de piràmide i de con ni la Terra i les coordenades geogràfiques. Té 8 apartats (9.1-9.8): poliedres,
 fórmula d'Euler i poliedres regulars, prismes, piràmides, cossos de revolució (cilindre i con), l'esfera, volum de prismes i

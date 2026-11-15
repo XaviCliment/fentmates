@@ -215,6 +215,15 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "tales", block: "geo",
+        title: { va: "Semblança. Teorema de Tales", es: "Semejanza. Teorema de Tales", en: "Similarity. Thales' theorem" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2eso/t8-semblanca-tales.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 56 exercicis graduats per nivells de dificultat", es: "PDF · 56 ejercicios graduados por niveles de dificultad", en: "PDF · 56 exercises graded by difficulty" }, url: { va: "materials/2eso/t8-fitxa-exercicis.pdf", es: "materials/2eso/t8-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 56 exercicis", es: "PDF · Soluciones de los 56 ejercicios", en: "PDF · Solutions to all 56 exercises" }, url: { va: "materials/2eso/t8-fitxa-solucions.pdf", es: "materials/2eso/t8-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
+      },
+      {
         ill: "cossos", block: "geo",
         title: { va: "Cossos geomètrics. Àrees i volums", es: "Cuerpos geométricos. Áreas y volúmenes", en: "Solids. Surface area and volume" },
         items: [
