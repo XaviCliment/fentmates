@@ -168,6 +168,15 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 66 exercicis graduats per nivells de dificultat", es: "PDF · 66 ejercicios graduados por niveles de dificultad", en: "PDF · 66 exercises graded by difficulty" }, url: { va: "materials/2eso/t2-fitxa-exercicis.pdf", es: "materials/2eso/t2-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 66 exercicis", es: "PDF · Soluciones de los 66 ejercicios", en: "PDF · Solutions to all 66 exercises" }, url: { va: "materials/2eso/t2-fitxa-solucions.pdf", es: "materials/2eso/t2-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
         ]
+      },
+      {
+        ill: "polinomis", block: "alg",
+        title: { va: "Introducció a l'àlgebra. Polinomis", es: "Introducción al álgebra. Polinomios", en: "Introduction to algebra. Polynomials" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2eso/t3-algebra-polinomis.html", date: "2026-11-15" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 63 exercicis graduats per nivells de dificultat", es: "PDF · 63 ejercicios graduados por niveles de dificultad", en: "PDF · 63 exercises graded by difficulty" }, url: { va: "materials/2eso/t3-fitxa-exercicis.pdf", es: "materials/2eso/t3-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-15" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 63 exercicis", es: "PDF · Soluciones de los 63 ejercicios", en: "PDF · Solutions to all 63 exercises" }, url: { va: "materials/2eso/t3-fitxa-solucions.pdf", es: "materials/2eso/t3-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-15" }
+        ]
       }
     ]
   },

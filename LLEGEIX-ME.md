@@ -202,6 +202,20 @@ pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex && pdflatex t
 Compte: en acabar, `build.py` executa `_eines/tema/aplica.py`, que pot posar una versió antiga del tema a altres pàgines de `materials/`.
 Desfés aquests canvis abans de fer el commit (`git checkout` de les pàgines que no són de la unitat).
 
+La unitat 3 de 2n ESO (Introducció a l'àlgebra. Polinomis, carpeta `2eso-t3`) té 8 apartats (3.1-3.8): l'àlgebra i el llenguatge
+algebraic, monomis, operacions amb monomis (també potències i operacions combinades), polinomis, suma i resta, producte, identitats
+notables i factor comú (sense divisió de polinomis). El contingut és a `alg.py` (3.1-3.3) i `pol.py` (3.4-3.8), amb comprovacions
+sympy (`chk`), i `app.js` és el de la unitat 4 de 3r ESO amb la potència d'un monomi al giny d'operacions, entrenadors nous
+(reduir termes semblants, potències i operacions combinades de monomis) i un qüestionari propi. A `materials.js` és del bloc
+d'àlgebra. La fitxa (`_eines/fonts-latex/2eso-t3/genera.py`, 63 exercicis en 8 seccions) calcula amb sympy els resultats i en
+comprova els escrits a mà; com a la unitat 2, `genera-es.py` només executa `genera.py` en castellà:
+
+```
+python3 _eines/apunts/2eso-t3/build.py
+cd _eines/fonts-latex/2eso-t3 && python3 genera.py && python3 genera-es.py
+pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex && pdflatex t3-fitxa-exercicis-es.tex && pdflatex t3-fitxa-solucions-es.tex
+```
+
 Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
 `2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
 
