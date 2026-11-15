@@ -243,6 +243,21 @@ cd _eines/fonts-latex/2eso-t5 && python3 genera.py && python3 genera-es.py
 pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t5-fitxa-exercicis-es.tex && pdflatex t5-fitxa-solucions-es.tex
 ```
 
+La unitat 7 de 2n ESO (Teorema de Pitàgores. Perímetres i àrees, carpeta `2eso-t7`) és l'adaptació de la unitat 9 de 3r
+(`3eso-t9`) sense la distància entre dos punts del pla i amb un apartat nou de problemes amb enunciat. Té 9 apartats (7.1-7.9):
+el teorema de Pitàgores (càlcul d'un costat i ternes), el recíproc (és rectangle un triangle?), aplicacions en figures planes,
+perímetres i àrees de triangles i quadrilàters, polígons regulars, longitud de la circumferència i arcs, àrea del cercle i figures
+circulars, figures compostes i problemes amb enunciat (estratègia, perímetre o àrea?, entrenador `prob` nou). El contingut és a
+`p12.py`, `p34.py`, `p56.py`, `p78.py` i `p9.py`, amb `ck()`; `app.js` (`window.FM27`) i `extra.css` són els de 3r. La fitxa
+(`_eines/fonts-latex/2eso-t7/genera.py`, 81 exercicis en 9 seccions) és la de 3r adaptada, amb la secció 9 nova; com la de 3r, la
+versió en castellà és un fitxer a part (`genera-es.py`), i un canvi s'ha de fer en tots dos:
+
+```
+python3 _eines/apunts/2eso-t7/build.py
+cd _eines/fonts-latex/2eso-t7 && python3 genera.py && python3 genera-es.py
+pdflatex t7-fitxa-exercicis.tex && pdflatex t7-fitxa-solucions.tex && pdflatex t7-fitxa-exercicis-es.tex && pdflatex t7-fitxa-solucions-es.tex
+```
+
 La unitat 9 de 2n ESO (Cossos geomètrics. Àrees i volums, carpeta `2eso-t9`) és l'adaptació de la unitat 11 de 3r
 (`3eso-t11`) sense troncs de piràmide i de con ni la Terra i les coordenades geogràfiques. Té 8 apartats (9.1-9.8): poliedres,
 fórmula d'Euler i poliedres regulars, prismes, piràmides, cossos de revolució (cilindre i con), l'esfera, volum de prismes i
