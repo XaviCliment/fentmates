@@ -525,7 +525,7 @@ python3 _eines/pau/an/build.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica i la 3, del d'àlgebra.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -558,6 +558,21 @@ pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex && pdflatex t
 python3 _eines/apunts/4eso-a-t2/build.py
 cd _eines/fonts-latex/4eso-a-t2 && python3 genera.py && python3 genera-es.py
 pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex && pdflatex t2-fitxa-exercicis-es.tex && pdflatex t2-fitxa-solucions-es.tex
+```
+
+- **Unitat 3 (Polinomis, `4eso-a-t3`)**: adaptació a Matemàtiques A dels apunts de la unitat 2 de 4t ESO B (mateix `build.py`, `app.js` i
+  `extra.css`, sense binomi de Newton, m.c.d./m.c.m. ni fraccions algebraiques, i amb més exemples resolts). 8 apartats (3.1-3.8): monomis
+  (operacions i valor numèric), polinomis i valor numèric, suma i resta, producte (per un monomi i de polinomis) i identitats notables,
+  divisió, regla de Ruffini (i valor numèric amb Ruffini), arrels i factorització (factor comú, identitats notables, segon grau i Ruffini).
+  El contingut és a `contingut-1..4.html`; els ginys nous (operacions amb monomis `w-mon`, taula de valors `w-vn`, identitats notables
+  `w-id` i factor comú + identitat notable `w-fci`) són a `nous.js`, que `build.py` posa al lloc de `/*@@NOUS@@*/`, i el qüestionari
+  (22 preguntes) a `quiz.js`. La fitxa (`_eines/fonts-latex/4eso-a-t3/genera.py`, 58 exercicis en 12 seccions) calcula totes les solucions
+  amb sympy (`pt`, `fac`, `rft` per a les taules de Ruffini, `dv`); és bilingüe amb `T(va, es)` i `genera-es.py` l'executa en castellà.
+
+```
+python3 _eines/apunts/4eso-a-t3/build.py
+cd _eines/fonts-latex/4eso-a-t3 && python3 genera.py && python3 genera-es.py
+pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex && pdflatex t3-fitxa-exercicis-es.tex && pdflatex t3-fitxa-solucions-es.tex
 ```
 
 ## 4t ESO Matemàtiques B
