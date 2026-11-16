@@ -51,4 +51,13 @@
       e: { va: "Potència d'una potència: multipliquem els exponents, $2\\cdot3=6$.", es: "Potencia de una potencia: multiplicamos los exponentes, $2\\cdot3=6$.", en: "Power of a power: multiply the exponents, $2\\cdot3=6$." } },
     { q: { va: "$2^5\\cdot5^5=$", es: "$2^5\\cdot5^5=$", en: "$2^5\\cdot5^5=$" },
       o: [{ va: "$10^{10}$" }, { va: "$7^5$" }, { va: "$10^5=100\\,000$" }, { va: "$10^{25}$" }], a: 2,
-      e: { va: "Mateix exponent: multipliquem les bases, $(2\\cdot5)^5=10^5=100\\,000$.", es: "Mismo exponente: multiplicamos las bases, $(2\\cdot5)^5=10^5=100\\,000$.", en: "Same exponent: multiply the bases, $(2\\cdot5)^5=10^5=100\\,000$." } }
+      e: { va: "Mateix exponent: multipliquem les bases, $(2\\cdot5)^5=10^5=100\\,000$.", es: "Mismo exponente: multiplicamos las bases, $(2\\cdot5)^5=10^5=100\\,000$.", en: "Same exponent: multiply the bases, $(2\\cdot5)^5=10^5=100\\,000$." } },
+    { q: { va: "$2^{-3}=$", es: "$2^{-3}=$", en: "$2^{-3}=$" },
+      o: [{ va: "$-8$" }, { va: "$-6$" }, { va: "$\\frac{1}{8}$" }, { va: "$-\\frac{1}{8}$" }], a: 2,
+      e: { va: "L'exponent negatiu inverteix la base, no canvia el signe: $2^{-3}=\\frac{1}{2^3}=\\frac{1}{8}$.", es: "El exponente negativo invierte la base, no cambia el signo: $2^{-3}=\\frac{1}{2^3}=\\frac{1}{8}$.", en: "A negative exponent flips the base; it does not change the sign: $2^{-3}=\\frac{1}{2^3}=\\frac{1}{8}$." } },
+    { q: { va: "$\\left(\\frac{2}{5}\\right)^{-2}=$", es: "$\\left(\\frac{2}{5}\\right)^{-2}=$", en: "$\\left(\\frac{2}{5}\\right)^{-2}=$" },
+      o: [{ va: "$\\frac{4}{25}$" }, { va: "$-\\frac{4}{25}$" }, { va: "$\\frac{25}{4}$" }, { va: "$-\\frac{25}{4}$" }], a: 2,
+      e: { va: "Donem la volta a la fracció i l'exponent passa a ser positiu: $\\left(\\frac{5}{2}\\right)^2=\\frac{25}{4}$.", es: "Damos la vuelta a la fracción y el exponente pasa a ser positivo: $\\left(\\frac{5}{2}\\right)^2=\\frac{25}{4}$.", en: "Turn the fraction upside down and the exponent becomes positive: $\\left(\\frac{5}{2}\\right)^2=\\frac{25}{4}$." } },
+    { q: { va: "$3^{4}:3^{-2}=$", es: "$3^{4}:3^{-2}=$", en: "$3^{4}:3^{-2}=$" },
+      o: [{ va: "$3^{2}$" }, { va: "$3^{6}$" }, { va: "$3^{-8}$" }, { va: "$3^{-2}$" }], a: 1,
+      e: { va: "Mateixa base: restem els exponents, $4-(-2)=6$.", es: "Misma base: restamos los exponentes, $4-(-2)=6$.", en: "Same base: subtract the exponents, $4-(-2)=6$." } }

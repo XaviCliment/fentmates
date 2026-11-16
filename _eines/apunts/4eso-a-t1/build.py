@@ -1,10 +1,10 @@
 import os, re, sys
 
 # Genera materials/4eso-a/t1-naturals-enters-fraccions.html. Ús: python3 _eines/apunts/4eso-a-t1/build.py
-# 4t ESO Matemàtiques A, Unitat 1: Nombres naturals, enters i fraccionaris (10 apartats).
+# 4t ESO Matemàtiques A, Unitat 1: Nombres naturals, enters i fraccionaris (11 apartats).
 # Agafa la capçalera i l'estil de materials/3eso/t3-proporcionalitat-percentatges.html i els estils propis de 2eso-t1, 1eso-t4,
 # 1eso-t5 i 2eso-t2. El contingut és a nat.py (1.1-1.4), fra4.py (1.5-1.8, que importa apartats de ../2eso-t2/fra.py i pot.py)
-# i pot4.py (1.9-1.10); les ajudes, a eines4a.py.
+# pot4.py (1.9-1.10) i neg4.py (1.11); les ajudes, a eines4a.py.
 # app.js té dues parts: la 1 és l'app.js de 2eso-t2 (fraccions, potències de fraccions, índex, idioma i qüestionari;
 # window.FM4A1) i la 2, el de 2eso-t1 (naturals i enters: els ginys amb classe «wz»; window.FM4A1z). El qüestionari és a quiz.js.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +16,7 @@ from eines4a import L, P, sec
 from nat import s1, s2, s3, s4
 from fra4 import s5, s6, s7, s8
 from pot4 import s9, s10
+from neg4 import s11
 
 # ============================================================ muntatge
 SECS = [
@@ -29,6 +30,7 @@ SECS = [
   (L('Problemes amb fraccions', 'Problemas con fracciones', 'Fraction word problems'), s8),
   (L('Potències amb base entera i racional', 'Potencias con base entera y racional', 'Powers with integer and rational bases'), s9),
   (L('Propietats de les potències', 'Propiedades de las potencias', 'Laws of powers'), s10),
+  (L("Potències d'exponent zero i negatiu", 'Potencias de exponente cero y negativo', 'Zero and negative exponents'), s11),
 ]
 NS = len(SECS)
 src = open(SRC, encoding='utf-8').read().split('\n')
@@ -66,9 +68,9 @@ body = f'''<body>
   <div class="in">
     <span class="kicker">{L("Apunts de teoria · 4t ESO · Matemàtiques A", "Apuntes de teoría · 4º ESO · Matemáticas A", "Theory notes · 4th ESO · Mathematics A")}</span>
     <h1><span class="u">{L("Unitat 1", "Unidad 1", "Unit 1")}</span> · {L("Nombres naturals, enters i fraccionaris", "Números naturales, enteros y fraccionarios", "Natural numbers, integers and fractions")}</h1>
-    <p>{L("Els nombres naturals i les operacions combinades amb potències i arrels, els nombres enters i el valor absolut, les operacions combinades amb enters, les fraccions (equivalència, simplificació i amplificació), les operacions i les operacions combinades amb fraccions, els problemes amb fraccions i les potències amb base entera o racional i les seues propietats: teoria explicada pas a pas, problemes resolts per nivells i eines interactives per a practicar.",
-          "Los números naturales y las operaciones combinadas con potencias y raíces, los números enteros y el valor absoluto, las operaciones combinadas con enteros, las fracciones (equivalencia, simplificación y amplificación), las operaciones y las operaciones combinadas con fracciones, los problemas con fracciones y las potencias con base entera o racional y sus propiedades: teoría explicada paso a paso, problemas resueltos por niveles y herramientas interactivas para practicar.",
-          "Natural numbers and mixed operations with powers and roots, integers and absolute value, mixed operations with integers, fractions (equivalence, simplifying and scaling up), operations and mixed operations with fractions, fraction word problems, and powers with integer or rational bases and their laws: theory explained step by step, worked problems by level and interactive tools to practise.")}</p>
+    <p>{L("Els nombres naturals i les operacions combinades amb potències i arrels, els nombres enters i el valor absolut, les operacions combinades amb enters, les fraccions (equivalència, simplificació i amplificació), les operacions i les operacions combinades amb fraccions, els problemes amb fraccions les potències amb base entera o racional i les seues propietats, i les potències d'exponent zero i negatiu: teoria explicada pas a pas, problemes resolts per nivells i eines interactives per a practicar.",
+          "Los números naturales y las operaciones combinadas con potencias y raíces, los números enteros y el valor absoluto, las operaciones combinadas con enteros, las fracciones (equivalencia, simplificación y amplificación), las operaciones y las operaciones combinadas con fracciones, los problemas con fracciones las potencias con base entera o racional y sus propiedades, y las potencias de exponente cero y negativo: teoría explicada paso a paso, problemas resueltos por niveles y herramientas interactivas para practicar.",
+          "Natural numbers and mixed operations with powers and roots, integers and absolute value, mixed operations with integers, fractions (equivalence, simplifying and scaling up), operations and mixed operations with fractions, fraction word problems, and powers with integer or rational bases and their laws, and zero and negative exponents: theory explained step by step, worked problems by level and interactive tools to practise.")}</p>
     <div class="chips"><span>{L(f"{NS} apartats", f"{NS} apartados", f"{NS} sections")}</span><span>{L(f"{ntools} eines interactives", f"{ntools} herramientas interactivas", f"{ntools} interactive tools")}</span><span>{L("Problemes per nivells ★☆☆ → ★★★", "Problemas por niveles ★☆☆ → ★★★", "Problems by level ★☆☆ → ★★★")}</span><span>{L("Autoavaluació final", "Autoevaluación final", "Final self-check")}</span></div>
   </div>
 </section>

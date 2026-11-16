@@ -527,15 +527,16 @@ Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles forma
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
 `curs='4eso-a'` a `castella.py`). A `fm-materials.js`, la unitat 1 és del bloc d'aritmètica.
 
-- **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 10 apartats (1.1-1.10): naturals i divisió entera, potències,
+- **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
   (simplificació i amplificació), operacions, operacions combinades i problemes amb fraccions, potències amb base entera i racional
-  i propietats de les potències. El contingut és a `nat.py` (1.1-1.4), `fra4.py` (1.5-1.8) i `pot4.py` (1.9-1.10), i les ajudes a
+  propietats de les potències i potències d'exponent zero i negatiu. El contingut és a `nat.py` (1.1-1.4), `fra4.py` (1.5-1.8),
+  `pot4.py` (1.9-1.10) i `neg4.py` (1.11), i les ajudes a
   `eines4a.py`. `fra4.py` **importa** els apartats 2.5, 2.7, 2.8, 2.10 i 2.11 de 2n ESO (`_eines/apunts/2eso-t2/fra.py` i `pot.py`) i
   hi afig problemes d'aplicació: si es canvien allà, també canvien ací. `app.js` té dues parts: la 1 és l'`app.js` de 2eso-t2
   (fraccions, índex, idioma i qüestionari) i la 2, el de 2eso-t1 reduït als ginys d'enters (els que porten la classe `wz`), que
   segueix l'idioma de la part 1; hi ha un entrenador nou d'operacions combinades amb naturals (`natc`). El qüestionari és a `quiz.js`.
-  La fitxa té 62 exercicis en 10 seccions (la 10, potències d'exponent negatiu, va més enllà dels apunts; nivell pujat per a acostar-lo al del llibre de text); com a 2eso-t1, `exercicis.py` té les dues llengües i calcula i comprova les solucions
+  La fitxa té 62 exercicis en 10 seccions (nivell pujat per a acostar-lo al del llibre de text; la 10, potències d'exponent negatiu, correspon a l'apartat 1.11); com a 2eso-t1, `exercicis.py` té les dues llengües i calcula i comprova les solucions
   (les fraccions s'escriuen entre claus, `{3/4}`; exponents negatius `2^-3`, valor absolut `abs(…)` i fraccions compostes `⟦num¦den⟧`); `genera.py` i `genera-es.py` només escriuen els `.tex`.
 
 ```
