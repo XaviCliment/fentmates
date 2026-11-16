@@ -525,7 +525,7 @@ python3 _eines/pau/an/build.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica i la 3 i la 4, del d'àlgebra.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica i les 3-5, del d'àlgebra.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -592,6 +592,25 @@ pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex && pdflatex t
 python3 _eines/apunts/4eso-a-t4/build.py
 cd _eines/fonts-latex/4eso-a-t4 && python3 genera.py && python3 genera-es.py
 pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex && pdflatex t4-fitxa-exercicis-es.tex && pdflatex t4-fitxa-solucions-es.tex
+```
+
+- **Unitat 5 (Sistemes d'equacions i inequacions, `4eso-a-t5`)**: adaptació a Matemàtiques A dels apunts de la unitat 4 de 4t ESO B (mateix
+  `build.py` que la unitat 4), sense inequacions amb dues incògnites i amb les inequacions de la unitat 3 de 4t ESO B. 8 apartats (5.1-5.8): mètode
+  gràfic (equacions amb dues incògnites, classificació), substitució, igualació i reducció (amb «Quin mètode triem?»), sistemes amb parèntesis i
+  denominadors, no lineals, problemes, inequacions de primer grau, de segon grau i sistemes d'inequacions. `app.js` ajunta el motor de 4eso-b-t3
+  (polinomis, intervals, gràfiques) i els ginys de 4eso-b-t4 (`w-gr`, `w-met`, `w-nl`, `w-sys1`; els passos de `w-met` són a `metRows`) i de
+  4eso-b-t3 (`w-lin`, i `w-sign` només de segon grau). Els nous són a `nous.js`: el resolutor de sistemes amb parèntesis i denominadors (`w-sred`,
+  `parseLinEq`), el resolutor d'inequacions de primer i segon grau escrites amb text (`w-in1`, `w-in2`, amb `parseSide` de la unitat 4) i
+  l'entrenador de problemes amb sistemes lineals i no lineals (`w-psys1`, `w-psys2`, dues respostes). Qüestionari de 22 preguntes a `quiz.js`.
+  La fitxa (`_eines/fonts-latex/4eso-a-t5/genera.py`, 45 exercicis en 9 seccions) escriu cada sistema o inequació una sola vegada (`Q()` en fa
+  el TeX i l'expressió de sympy, també amb `y` i amb `<`, `<=`, `>`, `>=`); sympy en calcula la forma reduïda i les solucions (`lsr`, `iq`,
+  `iqs`) i comprova les escrites a mà (`ls`, `kind`, `nls`, `chk`). Bilingüe amb `T(va, es)`. Compte: amb `icomma`, els punts s'escriuen
+  `(2,\,3)` (si no, `2,3` es llig com un decimal).
+
+```
+python3 _eines/apunts/4eso-a-t5/build.py
+cd _eines/fonts-latex/4eso-a-t5 && python3 genera.py && python3 genera-es.py
+pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t5-fitxa-exercicis-es.tex && pdflatex t5-fitxa-solucions-es.tex
 ```
 
 ## 4t ESO Matemàtiques B
