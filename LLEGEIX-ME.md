@@ -525,7 +525,7 @@ python3 _eines/pau/an/build.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, la unitat 1 és del bloc d'aritmètica.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -543,6 +543,21 @@ i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 
 python3 _eines/apunts/4eso-a-t1/build.py
 cd _eines/fonts-latex/4eso-a-t1 && python3 genera.py && python3 genera-es.py
 pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex && pdflatex t1-fitxa-exercicis-es.tex && pdflatex t1-fitxa-solucions-es.tex
+```
+
+- **Unitat 2 (Nombres reals, `4eso-a-t2`)**: adaptació a Matemàtiques A dels apunts de la unitat 1 de 4t ESO B (mateix `build.py`,
+  `app.js` i `extra.css`, sense valor absolut ni logaritmes i amb més exemples resolts). 7 apartats (2.1-2.7): classificació dels nombres
+  i fracció generatriu, intervals i semirectes, operacions amb intervals, arrels i radicals (pas a potència i a l'inrevés), radicals
+  equivalents (simplificació, índex comú, extracció i introducció de factors), operacions amb radicals i racionalització. El contingut és a
+  `contingut-1..4.html` (convencions ⟪va‖es‖en⟫) i el qüestionari, a `quiz.js` (`build.py` el posa al lloc de `/*@@QUIZ@@*/`). Hi ha
+  8 ginys; el de suma i resta de radicals (`w-sum`, a 2.6) és nou. La fitxa (`_eines/fonts-latex/4eso-a-t2/genera.py`, 57 exercicis en
+  11 seccions) fa servir les eines de `comu/eso4b.py` amb `build(..., curs='4eso-a')`; és bilingüe amb `T(va, es)` i `genera-es.py`
+  l'executa en castellà. Els intervals es calculen amb aritmètica exacta i els radicals es comproven amb sympy (`eq`).
+
+```
+python3 _eines/apunts/4eso-a-t2/build.py
+cd _eines/fonts-latex/4eso-a-t2 && python3 genera.py && python3 genera-es.py
+pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex && pdflatex t2-fitxa-exercicis-es.tex && pdflatex t2-fitxa-solucions-es.tex
 ```
 
 ## 4t ESO Matemàtiques B

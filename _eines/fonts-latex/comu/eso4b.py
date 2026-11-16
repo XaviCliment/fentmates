@@ -116,15 +116,16 @@ def check():
     for l, r in CHK:
         assert l == r, (l, r)
 
-def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre='', lang='va'):
+def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre='', lang='va', curs='4eso-b'):
     """escriu tN-fitxa-exercicis.tex i tN-fitxa-solucions.tex (lang='es': tN-fitxa-exercicis-es.tex i tN-fitxa-solucions-es.tex,
-    amb titol, keywords, intro_ex i intro_sol ja en castellà)"""
+    amb titol, keywords, intro_ex i intro_sol ja en castellà). curs='4eso-a' fa la capçalera de Matemàtiques A (unitats 4eso-a-tN)."""
     es = lang == 'es'
+    lt = curs[-1].upper()   # B (4eso-b) o A (4eso-a)
     check()
     pre = open(os.path.join(here, 'preamble.tex'), encoding='utf-8').read()
     pre = pre.split('% ---------- recta real ----------')[0]
     pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda mm: 'pdfkeywords={%s}' % keywords, pre)
-    pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques B 4t ESO}')
+    pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques %s 4t ESO}' % lt)
     pre = pre.replace('after-item-skip=2pt', 'after-item-skip=5pt')
     pre = pre.replace(r'\stepcounter{exer}', r'\refstepcounter{exer}')
     pre = pre.replace(r'\needspace{10\baselineskip}\bigskip', r'\needspace{16\baselineskip}\bigskip')
@@ -141,26 +142,26 @@ def build(here, num, titol, S, keywords, intro_ex, intro_sol, extra_pre='', lang
             from castella import preambul, assignatura
             t = 'Soluciones de la ficha' if sol else 'Ficha de ejercicios'
             p = preambul(pre, pdftitle='%s de la unidad %d: %s' % (t, num, titol), capcalera='%s · Unidad %d: %s' % (t, num, titol),
-                         pdfkeywords=keywords, curs='4eso-b')
+                         pdfkeywords=keywords, curs=curs)
             a = r'\textsuperscript{o} ESO}' + '\n'
             assert p.count(a) == 1
-            p = p.replace(a, r'\textsuperscript{o} ESO B}' + '\n')   # com a la versió valenciana: «4º ESO B» a la capçalera
+            p = p.replace(a, r'\textsuperscript{o} ESO ' + lt + '}' + '\n')   # com a la versió valenciana: «4º ESO B» a la capçalera
         else:
           p = pre.replace("pdftitle={Fitxa d'exercicis de la unitat 3: Proporcionalitat i percentatges. 3r d'ESO}",
-                        "pdftitle={%s de la unitat %d: %s. 4t d'ESO Matemàtiques B}" % (t, num, titol))
-          p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat %d: %s · 4t ESO B" % (t, num, titol))
+                        "pdftitle={%s de la unitat %d: %s. 4t d'ESO Matemàtiques %s}" % (t, num, titol, lt))
+          p = p.replace("Fitxa d'exercicis · Unitat 3: Proporcionalitat i percentatges · 3r d'ESO", "%s · Unitat %d: %s · 4t ESO %s" % (t, num, titol, lt))
           assert ('Unitat %d' % num) in p and ('unitat %d' % num) in p
         out = [p, '\\newcommand{\\res}[1]{\\boxed{#1}}\\newcommand{\\rest}[1]{\\fbox{#1}}\n' if sol else '\\newcommand{\\res}[1]{#1}\\newcommand{\\rest}[1]{#1}\n']
         out.append(r'''
 \def\fmneed{11}% que el títol d'una secció no quede sol al final del full
 \input{../comu/fentmates.tex}
-\fmcurs{4eso-b}
+\fmcurs{''' + curs + r'''}
 
 \begin{document}
 \thispagestyle{primera}
 
-''' + (assignatura('4eso-b') + '{' + ('Soluciones de la ficha · Unidad %d' % num if sol else 'Ficha de ejercicios · Unidad %d' % num) if es else
-       '\\capcalera{Matemàtiques B}{4t ESO}{' + ('Solucions de la fitxa · Unitat %d' % num if sol else "Fitxa d'exercicis · Unitat %d" % num)) + r'''}{\raggedright ''' + titol + r'''}
+''' + (assignatura(curs) + '{' + ('Soluciones de la ficha · Unidad %d' % num if sol else 'Ficha de ejercicios · Unidad %d' % num) if es else
+       '\\capcalera{Matemàtiques %s}{4t ESO}{' % lt + ('Solucions de la fitxa · Unitat %d' % num if sol else "Fitxa d'exercicis · Unitat %d" % num)) + r'''}{\raggedright ''' + titol + r'''}
 ''')
         if not sol:
             if es: out.append('\\vspace{10pt}\nNombre y apellidos: \\rule{6.6cm}{0.4pt}\\hfill Grupo: \\rule{1.6cm}{0.4pt}\\hfill Fecha: \\rule{2.2cm}{0.4pt}\n')
