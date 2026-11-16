@@ -693,7 +693,19 @@ window.LEVELS = {
       es: "Matemática financiera, álgebra, funciones, estadística y probabilidad.",
       en: "Financial maths, algebra, functions, statistics and probability."
     },
-    units: []
+    cards: true,
+    units: [
+      {
+        num: "3",
+        ill: "pl", block: "alg",
+        title: { va: "Inequacions i sistemes d'inequacions", es: "Inecuaciones y sistemas de inecuaciones", en: "Inequalities and systems of inequalities" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t3-inequacions.html", date: "2026-11-16" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 31 exercicis graduats per nivells de dificultat", es: "PDF · 31 ejercicios graduados por niveles de dificultad", en: "PDF · 31 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t3-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t3-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-16" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 31 exercicis", es: "PDF · Soluciones de los 31 ejercicios", en: "PDF · Solutions to all 31 exercises" }, url: { va: "materials/1batx-ccss/t3-fitxa-solucions.pdf", es: "materials/1batx-ccss/t3-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-16" }
+        ]
+      }
+    ]
   },
 
   "2batx-mii": {

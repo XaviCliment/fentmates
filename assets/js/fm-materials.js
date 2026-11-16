@@ -57,6 +57,7 @@
     if (/^2batx/.test(course)) return "alg";
     if (course === "4eso-a") return n <= 2 ? "ari" : n >= 3 && n <= 5 ? "alg" : n === 6 ? "an" : "all";
     if (course === "4eso-b") return n === 1 ? "ari" : n >= 2 && n <= 4 ? "alg" : n === 5 || n === 6 ? "geo" : n === 7 || n === 8 ? "an" : n === 9 ? "pr" : "all";
+    if (course === "1batx-ccss") return n === 3 ? "alg" : "all";
     if (course === "1batx-mi") return n === 1 ? "ari" : n === 2 || n === 3 ? "alg" : n === 4 || n === 5 ? "geo" : n >= 6 && n <= 9 ? "an" : n === 10 ? "pr" : "all";
     return "all";
   }
