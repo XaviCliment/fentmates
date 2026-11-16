@@ -304,6 +304,23 @@ cd _eines/fonts-latex/2eso-t9 && python3 genera.py && python3 genera-es.py
 pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex && pdflatex t9-fitxa-exercicis-es.tex && pdflatex t9-fitxa-solucions-es.tex
 ```
 
+La unitat 10 de 2n ESO (Funcions, carpeta `2eso-t10`) està feta a partir de la unitat 9 de 1r (`1eso-t9`). Té 8 apartats
+(10.1-10.8): concepte de funció (variables, maneres de donar una funció i prova de la recta vertical), funcions donades per taules
+de valors (unir o no els punts, valors intermedis i fórmula a partir de la taula), funcions donades per la seua equació (taula,
+gràfic, punts del gràfic i càlcul de la $x$), funció de proporcionalitat $y=mx$, pendent d'una recta, funcions lineals $y=mx+n$,
+funcions constants $y=k$ (rectes horitzontals i verticals, funcions constants a trossos) i interpretació de gràfics i problemes. El
+contingut és a `s12.py`, `s345.py`, `s67.py` i `s8.py` (aquest, fet a partir dels apartats 9.4 i 9.7 de 1r), amb `comu.py` i `ck()`.
+`app.js` (`window.FM210`) és el de 1r amb el lector d'expressions de 3r (`3eso-t7`) i ginys nous (recta vertical, gràfic d'una
+equació, pendent entre dos punts, rectes horitzontals i verticals) i entrenadors nous; `quiz.js` és nou. A `materials.js` és del
+bloc d'anàlisi (il·lustració `grafiques`). La fitxa (`_eines/fonts-latex/2eso-t10/genera.py`, 59 exercicis en 8 seccions,
+bilingüe amb `T()`) dibuixa els gràfics amb el `tp()` de la fitxa de 1r; `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t10/build.py
+cd _eines/fonts-latex/2eso-t10 && python3 genera.py && python3 genera-es.py
+pdflatex t10-fitxa-exercicis.tex && pdflatex t10-fitxa-solucions.tex && pdflatex t10-fitxa-exercicis-es.tex && pdflatex t10-fitxa-solucions-es.tex
+```
+
 La unitat 11 de 2n ESO (Atzar i probabilitat, carpeta `2eso-t11`) és l'adaptació de la unitat 12 de 3r (`3eso-t12`), sense
 operacions amb esdeveniments ni les fórmules del contrari i de la unió. Té 5 apartats (11.1-11.5): experiments aleatoris i
 deterministes (amb el llenguatge de l'atzar i l'entrenador nou `det`), espai mostral i esdeveniments, probabilitat d'un esdeveniment
@@ -311,7 +328,7 @@ deterministes (amb el llenguatge de l'atzar i l'entrenador nou `det`), espai mos
 diagrames d'arbre (també amb i sense reemplaçament), la taula de doble entrada dels dos daus i la taula de contingència (giny
 `w-cont` amb caselles editables i entrenador `cont`, nous). El contingut és a `s12.py`, `s3.py`, `s4.py` i `s5.py`, amb `ck()` i
 fraccions exactes; `app.js` (`window.FM211`), `comu.py` (amb `ctab()` per a les taules de contingència) i `extra.css` són els de 3r
-ampliats, i `quiz.js` és nou. A `materials.js` és la unitat amb `num: "11"` (encara no hi ha la 10), del bloc de probabilitat. La
+ampliats, i `quiz.js` és nou. A `materials.js` és la unitat amb `num: "11"` (es va publicar abans que la 10), del bloc de probabilitat. La
 fitxa (`_eines/fonts-latex/2eso-t11/genera.py`, 54 exercicis en 5 seccions, bilingüe amb `T()`) reaprofita part dels exercicis de 3r
 i en comprova totes les probabilitats amb fraccions; `genera-es.py` l'executa en castellà:
 

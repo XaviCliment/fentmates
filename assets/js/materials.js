@@ -233,6 +233,15 @@ window.LEVELS = {
         ]
       },
       {
+        ill: "grafiques", block: "an",
+        title: { va: "Funcions", es: "Funciones", en: "Functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/2eso/t10-funcions.html", date: "2026-11-16" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 59 exercicis graduats per nivells de dificultat", es: "PDF · 59 ejercicios graduados por niveles de dificultad", en: "PDF · 59 exercises graded by difficulty" }, url: { va: "materials/2eso/t10-fitxa-exercicis.pdf", es: "materials/2eso/t10-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-16" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 59 exercicis", es: "PDF · Soluciones de los 59 ejercicios", en: "PDF · Solutions to all 59 exercises" }, url: { va: "materials/2eso/t10-fitxa-solucions.pdf", es: "materials/2eso/t10-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-16" }
+        ]
+      },
+      {
         num: "11",
         ill: "probabilitat", block: "pr",
         title: { va: "Atzar i probabilitat", es: "Azar y probabilidad", en: "Chance and probability" },
