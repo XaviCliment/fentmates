@@ -25,6 +25,12 @@ def r3(a, ma, b, mb, c, mc, x='x'):
     return r'$\begin{array}{rcl}%s\ \text{%s}&\longrightarrow&%s\ \text{%s}\\ %s\ \text{%s}&\longrightarrow&%s\end{array}$' % (a, ma, b, mb, c, mc, x)
 def comp(heads, r1, r2):
     return (r'$\begin{array}{' + 'c' * len(heads) + '}' + ' & '.join(r'\text{%s}' % h for h in heads) + r'\\ \hline ' + ' & '.join(r1) + r'\\ ' + ' & '.join(r2) + r'\end{array}$')
+def gtab(heads, rows, w='3.9cm'):
+    """Graella amb totes les línies: capçaleres a dalt (en negreta) i una fila per a cada cas"""
+    col = '|' + (r'>{\centering\arraybackslash}m{%s}|' % w) * len(heads)
+    return (r'{\renewcommand{\arraystretch}{2.3}\begin{tabular}[t]{' + col + r'}\hline '
+            + ' & '.join(r'\textbf{%s}' % h for h in heads) + r'\\ \hline\hline '
+            + ''.join(' & '.join(r) + r'\\ \hline ' for r in rows) + r'\end{tabular}}')
 def ptab(r1, r2, h1, h2):
     n = len(r1)
     return (r'\begin{tabular}{l|' + 'c' * n + '}' + h1 + ' & ' + ' & '.join(r1) + r'\\ \hline ' + h2 + ' & ' + ' & '.join(r2) + r'\end{tabular}')
@@ -160,8 +166,12 @@ ck(Fr(60, 2), 30); ck(15 * 30, 450)
 # =====================================================================
 # 6. Percentatges
 S_.append((T("Percentatges: concepte i càlcul", "Porcentajes: concepto y cálculo"), [
- (1, T(r"Completa la taula:", r"Completa la tabla:") + '\\\\[4pt]' + r'\begin{tabular}{l|cccccc}' + T('Percentatge', 'Porcentaje') + r' & 30\,\% & & & 2\,\% & & 150\,\% \\ \hline ' + T('Fracció irreductible', 'Fracción irreducible') + r' & & $\frac{3}{4}$ & & & $\frac{1}{8}$ & \\ ' + 'Decimal' + r' & & & 0,05 & & & \end{tabular}',
-     r'\begin{tabular}{l|cccccc}' + T('Percentatge', 'Porcentaje') + r' & 30\,\% & \rest{75\,\%} & \rest{5\,\%} & 2\,\% & \rest{12{,}5\,\%} & 150\,\% \\ \hline ' + T('Fracció', 'Fracción') + r' & $\res{\frac{3}{10}}$ & $\frac{3}{4}$ & $\res{\frac{1}{20}}$ & $\res{\frac{1}{50}}$ & $\frac{1}{8}$ & $\res{\frac{3}{2}}$ \\ Decimal & \rest{0,3} & \rest{0,75} & 0,05 & \rest{0,02} & \rest{0,125} & \rest{1,5} \end{tabular}'),
+ (1, T(r"Completa la taula:", r"Completa la tabla:") + '\\\\[4pt]' + gtab(
+        [T('Percentatge', 'Porcentaje'), T('Fracció irreductible', 'Fracción irreducible'), 'Decimal'],
+        [[r'30\,\%', '', ''], ['', r'$\dfrac{3}{4}$', ''], ['', '', '0,05'], [r'2\,\%', '', ''], ['', r'$\dfrac{1}{8}$', ''], [r'150\,\%', '', '']]),
+     gtab([T('Percentatge', 'Porcentaje'), T('Fracció irreductible', 'Fracción irreducible'), 'Decimal'],
+        [[r'30\,\%', r'$\res{\frac{3}{10}}$', r'\rest{0,3}'], [r'\rest{75\,\%}', r'$\dfrac{3}{4}$', r'\rest{0,75}'], [r'\rest{5\,\%}', r'$\res{\frac{1}{20}}$', '0,05'],
+         [r'2\,\%', r'$\res{\frac{1}{50}}$', r'\rest{0,02}'], [r'\rest{12{,}5\,\%}', r'$\dfrac{1}{8}$', r'\rest{0,125}'], [r'150\,\%', r'$\res{\frac{3}{2}}$', r'\rest{1,5}']])),
  (1, T(r"Calcula mentalment:", r"Calcula mentalmente:") + tasks(4, [r'10\,\% de 480', r'50\,\% de 76', r'25\,\% de 360', r'5\,\% de 240', r'20\,\% de 45', r'1\,\% de 3500', r'15\,\% de 60', r'75\,\% de 80'])
      + recorda(T(r"El 10 \% és dividir entre 10; el 5 \%, la meitat del 10 \%; el 50 \%, la meitat; el 25 \%, la quarta part; el 20 \%, la cinquena part.", r"El 10 \% es dividir entre 10; el 5 \%, la mitad del 10 \%; el 50 \%, la mitad; el 25 \%, la cuarta parte; el 20 \%, la quinta parte.")),
      tasks(4, [r'\res{48}', r'\res{38}', r'\res{90}', r'\res{12}', r'\res{9}', r'\res{35}', r'\res{9}', r'\res{60}'])),
