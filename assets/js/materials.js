@@ -448,6 +448,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 45 exercicis graduats per nivells de dificultat", es: "PDF · 45 ejercicios graduados por niveles de dificultad", en: "PDF · 45 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t5-fitxa-exercicis.pdf", es: "materials/4eso-a/t5-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-16" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 45 exercicis", es: "PDF · Soluciones de los 45 ejercicios", en: "PDF · Solutions to all 45 exercises" }, url: { va: "materials/4eso-a/t5-fitxa-solucions.pdf", es: "materials/4eso-a/t5-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-16" }
         ]
+      },
+      {
+        num: "6",
+        ill: "grafiques", block: "an",
+        title: { va: "Funcions. Característiques", es: "Funciones. Características", en: "Functions and their features" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-a/t6-funcions.html", date: "2026-11-16" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 50 exercicis graduats per nivells de dificultat", es: "PDF · 50 ejercicios graduados por niveles de dificultad", en: "PDF · 50 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t6-fitxa-exercicis.pdf", es: "materials/4eso-a/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-16" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 50 exercicis", es: "PDF · Soluciones de los 50 ejercicios", en: "PDF · Solutions to all 50 exercises" }, url: { va: "materials/4eso-a/t6-fitxa-solucions.pdf", es: "materials/4eso-a/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-16" }
+        ]
       }
     ]
   },

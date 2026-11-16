@@ -525,7 +525,7 @@ python3 _eines/pau/an/build.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica i les 3-5, del d'àlgebra.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra i la 6, del d'anàlisi.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -611,6 +611,24 @@ pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex && pdflatex t
 python3 _eines/apunts/4eso-a-t5/build.py
 cd _eines/fonts-latex/4eso-a-t5 && python3 genera.py && python3 genera-es.py
 pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t5-fitxa-exercicis-es.tex && pdflatex t5-fitxa-solucions-es.tex
+```
+
+- **Unitat 6 (Funcions. Característiques, `4eso-a-t6`)**: adaptació a Matemàtiques A dels apunts de la unitat 7 de 4t ESO B (mateix `app.js`
+  i `extra.css`, sense simetries ni funció inversa; els dominis, només de polinòmiques, racionals i arrels quadrades de radicand de primer grau).
+  8 apartats (6.1-6.8): concepte de funció (variables, formes d'expressar-la, unir o no els punts, imatges i antiimatges), domini i recorregut,
+  punts de tall, continuïtat i tipus de discontinuïtats (amb l'exemple d'un aparcament que cobra per hores), creixement i decreixement amb
+  màxims i mínims, periodicitat, interpretació de gràfics (excursió, temperatura) i construcció de funcions a partir d'un enunciat (taxi,
+  corral, comparació d'ofertes). Les figures són les de `4eso-b-t7/fig.py` més les pròpies de `fig6.py`. Els ginys de 4t B que es queden són
+  la recta vertical, la calculadora de dominis, els talls, les discontinuïtats, la monotonia i el període; els nous, a `nous.js`: lectura d'un
+  gràfic amb context (`w-read`: excursió, dipòsit i temperatura, amb el ritme de cada tram) i construcció d'una funció a partir d'un enunciat
+  (`w-build`: taxi, dipòsit que es buida, corral de perímetre fix i repartiment, amb taula, fórmula, domini i gràfica). Qüestionari de 22
+  preguntes a `quiz.js`. La fitxa (`_eines/fonts-latex/4eso-a-t6/genera.py`, 50 exercicis en 8 seccions) parteix de la de 4eso-b-t7; sympy
+  comprova talls i solucions, `ckdom` cada domini i `ok()`/`lin()` les dades dels problemes i dels gràfics. Bilingüe amb `T(va, es)`
+  (`genera-es.py` l'executa amb `FM_LANG=es`).
+
+```
+python3 _eines/apunts/4eso-a-t6/build.py
+cd _eines/fonts-latex/4eso-a-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques B
