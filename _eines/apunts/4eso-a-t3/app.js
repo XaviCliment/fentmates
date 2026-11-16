@@ -691,6 +691,41 @@
     $(w, "p").addEventListener("input", draw); onLang(draw);
   }
 
+  /* ---------- 3.9 simplificació de fraccions algebraiques ---------- */
+  function wFrs() {
+    var w = byId("w-frs"); if (!w) return;
+    var info = w.querySelector(".info");
+    var PRE = [["x^2+3x", "5x"], ["x^2-9", "x^2+6x+9"], ["x^3-4x", "x^3-4x^2+4x"], ["x^2-5x+6", "x^2-9"]];
+    presetBtns($(w, "pre"), function () { return PRE.map(function (p) { return tex("\\frac{" + pTex(parsePoly(p[0])) + "}{" + pTex(parsePoly(p[1])) + "}"); }); }, function (i) { $(w, "n").value = PRE[i][0]; $(w, "d").value = PRE[i][1]; draw(); });
+    function clone(F) { return { c: F.c, k: F.k, lin: F.lin.map(function (x) { return { r: x.r, m: x.m }; }), irr: F.irr.map(function (Q) { return { roots: Q.roots, m: Q.m, D: Q.D }; }), rest: F.rest.map(function (R) { return { P: R.P, m: R.m, key: R.key }; }) }; }
+    function draw() {
+      var N = parsePoly($(w, "n").value), D = parsePoly($(w, "d").value);
+      var gN = N && pDeg(N) >= 0 && pDeg(N) <= 8, gD = D && pDeg(D) >= 1 && pDeg(D) <= 8;
+      $(w, "n").classList.toggle("bad", !gN); $(w, "d").classList.toggle("bad", !gD);
+      if (!gN || !gD) { info.innerHTML = u("badP") + " " + t3("(el denominador ha de tindre grau 1 o més)", "(el denominador tiene que tener grado 1 o más)", "(the denominator must have degree 1 or more)"); return; }
+      if (pDeg(N) === -Infinity) { info.innerHTML = tex("\\dfrac{0}{" + pTex(D) + "}=0"); return; }
+      var fn = pDeg(N) >= 1 ? factorPoly(N) : { c: N[0], k: 0, lin: [], irr: [], rest: [], roots: [] }, fd = factorPoly(D), a = clone(fn), b = clone(fd), common = [];
+      var mk = Math.min(a.k, b.k); if (mk) { a.k -= mk; b.k -= mk; common.push(mk === 1 ? "x" : "x^{" + mk + "}"); }
+      a.lin.forEach(function (L) { b.lin.forEach(function (M) { if (L.r.eq(M.r)) { var m = Math.min(L.m, M.m); if (m) { L.m -= m; M.m -= m; common.push("(" + linT(L.r) + ")" + (m > 1 ? "^{" + m + "}" : "")); } } }); });
+      a.irr.forEach(function (Q) { b.irr.forEach(function (S) { if (Q.D.eq(S.D) && Math.abs(Q.roots[0].v - S.roots[0].v) < 1e-12) { var m = Math.min(Q.m, S.m); Q.m -= m; S.m -= m; if (m) common.push("\\ldots"); } }); });
+      a.rest.forEach(function (R) { b.rest.forEach(function (S) { if (R.key === S.key) { var m = Math.min(R.m, S.m); R.m -= m; S.m -= m; if (m) common.push("(" + pTex(R.P) + ")"); } }); });
+      var c = fn.c.div(fd.c), na = facParts(a), nb = facParts(b);
+      var top = (na.length ? (c.n === 1 ? "" : c.n === -1 ? "-" : String(c.n)) + na.join("") : String(c.n)), bot = (c.d === 1 ? "" : String(c.d)) + nb.join("");
+      function strip(t) { var m = t.match(/^\(([^()]*)\)$/); return m ? m[1] : t; }
+      top = strip(top); bot = strip(bot);
+      var resT = bot === "" ? top : "\\dfrac{" + top + "}{" + bot + "}";
+      var excl = fd.roots.filter(function (r) { return !r.ap; }).map(function (r) { return r.tex; });
+      info.innerHTML = kv([
+        [t3("Factoritzem", "Factorizamos", "Factorise"), tex("\\dfrac{" + facTex(fn) + "}{" + facTex(fd) + "}")],
+        [t3("Factors comuns", "Factores comunes", "Common factors"), common.length ? tex(common.join(",\\ ")) : t3("cap: la fracció ja és irreductible", "ninguno: la fracción ya es irreducible", "none: the fraction is already in lowest terms")],
+        [t3("Simplificada", "Simplificada", "Simplified"), tex(resT)],
+        [t3("Té sentit si", "Tiene sentido si", "Defined for"), excl.length ? tex("x\\neq " + excl.join(",\\ x\\neq ")) + "<br><small>" + t3("Compte: els valors que anul·len el denominador original continuen exclosos encara que el factor s'haja simplificat.", "Cuidado: los valores que anulan el denominador original siguen excluidos aunque el factor se haya simplificado.", "Careful: values that make the original denominator zero stay excluded even after cancelling.") + "</small>" : tex("x\\in\\mathbb R")]
+      ]);
+    }
+    ["n", "d"].forEach(function (r) { $(w, r).addEventListener("input", draw); });
+    onLang(draw);
+  }
+
   /*@@NOUS@@*/
   /* ---------- autoavaluació ---------- */
   function q3(va, es, en) { return { va: va, es: es === undefined ? va : es, en: en === undefined ? va : en }; }
@@ -711,7 +746,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wMon, wVn, wPop, wId, wDiv, wRuf, wRes, wArr, wFci, wFac, wQuiz];
+    var all = [wChrome, wSteps, wNav, wMon, wVn, wPop, wId, wDiv, wRuf, wRes, wArr, wFci, wFac, wFrs, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
     window.FM43 = { monOps: monOps, idDev: idDev, fciSteps: fciSteps, parsePoly: parsePoly, factorPoly: factorPoly, facTex: facTex, pTex: pTex, quadRoots: quadRoots, Fr: Fr, facList: facList, pMul: pMul };
   }

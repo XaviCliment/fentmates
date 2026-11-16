@@ -561,12 +561,13 @@ pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex && pdflatex t
 ```
 
 - **Unitat 3 (Polinomis, `4eso-a-t3`)**: adaptació a Matemàtiques A dels apunts de la unitat 2 de 4t ESO B (mateix `build.py`, `app.js` i
-  `extra.css`, sense binomi de Newton, m.c.d./m.c.m. ni fraccions algebraiques, i amb més exemples resolts). 8 apartats (3.1-3.8): monomis
+  `extra.css`, sense binomi de Newton, m.c.d./m.c.m. ni operacions amb fraccions algebraiques, i amb més exemples resolts). 9 apartats (3.1-3.9): monomis
   (operacions i valor numèric), polinomis i valor numèric, suma i resta, producte (per un monomi i de polinomis) i identitats notables,
-  divisió, regla de Ruffini (i valor numèric amb Ruffini), arrels i factorització (factor comú, identitats notables, segon grau i Ruffini).
+  divisió, regla de Ruffini (i valor numèric amb Ruffini), arrels, factorització (factor comú, identitats notables, segon grau i Ruffini) i, com a aplicació, simplificació de fraccions
+  algebraiques (ginys `w-frs`, portat de `4eso-b-t2/app.js`).
   El contingut és a `contingut-1..4.html`; els ginys nous (operacions amb monomis `w-mon`, taula de valors `w-vn`, identitats notables
   `w-id` i factor comú + identitat notable `w-fci`) són a `nous.js`, que `build.py` posa al lloc de `/*@@NOUS@@*/`, i el qüestionari
-  (22 preguntes) a `quiz.js`. La fitxa (`_eines/fonts-latex/4eso-a-t3/genera.py`, 58 exercicis en 12 seccions) calcula totes les solucions
+  (24 preguntes) a `quiz.js`. La fitxa (`_eines/fonts-latex/4eso-a-t3/genera.py`, 62 exercicis en 13 seccions) calcula totes les solucions
   amb sympy (`pt`, `fac`, `rft` per a les taules de Ruffini, `dv`); és bilingüe amb `T(va, es)` i `genera-es.py` l'executa en castellà.
 
 ```

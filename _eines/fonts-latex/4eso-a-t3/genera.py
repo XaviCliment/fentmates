@@ -366,7 +366,41 @@ S.append((T("Factorització de polinomis", "Factorización de polinomios"), [
 ck([fac(f114[0]), fac(f114[1])], ['(x-1)^{3}', '(x+2)^{2}(x-2)^{2}'])
 
 # =====================================================================
-# 12. Problemes
+# 12. Aplicació: simplificació de fraccions algebraiques
+def sfr(N, D, res):
+    """solució: numerador i denominador factoritzats i fracció simplificada (comprovada amb sympy)"""
+    assert sp.cancel(E(N) / E(D) - E(res[1])) == 0, (N, D, res)
+    return r'$\dfrac{' + fac(N) + '}{' + fac(D) + '}=' + Rm(res[0]) + '$'
+def efr(N, D): return r'$\dfrac{' + pt(N) + '}{' + pt(D) + '}$'
+f121 = [('6*x**3', '9*x**2', (r'\dfrac{2x}{3}', '2*x/3')), ('4*x**2-8*x', '4*x', ('x-2', 'x-2')), ('3*x+6', 'x**2+2*x', (r'\dfrac{3}{x}', '3/x')),
+        ('x**2-5*x', '2*x-10', (r'\dfrac{x}{2}', 'x/2')), ('5*x**3+10*x**2', '15*x**2', (r'\dfrac{x+2}{3}', '(x+2)/3')), ('2*x-6', '4*x-12', (r'\dfrac{1}{2}', 'Rational(1,2)'))]
+f122 = [('x**2-9', 'x+3', ('x-3', 'x-3')), ('x**2-4', 'x**2+4*x+4', (r'\dfrac{x-2}{x+2}', '(x-2)/(x+2)')), ('2*x**2-2', 'x**2-2*x+1', (r'\dfrac{2(x+1)}{x-1}', '2*(x+1)/(x-1)')),
+        ('x**2+6*x+9', '2*x+6', (r'\dfrac{x+3}{2}', '(x+3)/2')), ('x**3-x', 'x**2+x', ('x-1', 'x-1')), ('3*x**2-12', '3*x**2-6*x', (r'\dfrac{x+2}{x}', '(x+2)/x'))]
+f123 = [('x**2-5*x+6', 'x**2-9', (r'\dfrac{x-2}{x+3}', '(x-2)/(x+3)')), ('x**2+x-2', 'x**2-1', (r'\dfrac{x+2}{x+1}', '(x+2)/(x+1)')),
+        ('x**3-2*x**2-5*x+6', 'x**2+x-2', ('x-3', 'x-3')), ('x**3-4*x', 'x**3-4*x**2+4*x', (r'\dfrac{x+2}{x-2}', '(x+2)/(x-2)'))]
+S.append((T("Aplicació: simplificació de fraccions algebraiques", "Aplicación: simplificación de fracciones algebraicas"), [
+ (1, T("Simplifica traient factor comú en el numerador i en el denominador:", "Simplifica sacando factor común en el numerador y en el denominador:") + Tk([efr(*f[:2]) for f in f121], 3, gap='8pt')
+     + recorda(T(r"Per a simplificar una fracció algebraica, \textbf{factoritzem} el numerador i el denominador i eliminem els \textbf{factors} comuns: $\dfrac{x^2+3x}{5x}=\dfrac{x(x+3)}{5x}=\dfrac{x+3}{5}$.",
+                 r"Para simplificar una fracción algebraica, \textbf{factorizamos} el numerador y el denominador y eliminamos los \textbf{factores} comunes: $\dfrac{x^2+3x}{5x}=\dfrac{x(x+3)}{5x}=\dfrac{x+3}{5}$.")),
+     Tk([sfr(*f) for f in f121], 2, gap='6pt')),
+ (2, T("Simplifica fent servir les identitats notables (i el factor comú, si cal):", "Simplifica usando las identidades notables (y el factor común, si hace falta):") + Tk([efr(*f[:2]) for f in f122], 3, gap='8pt'),
+     Tk([sfr(*f) for f in f122], 2, gap='6pt')),
+ (3, T("Simplifica (factoritza amb l'equació de segon grau o amb Ruffini):", "Simplifica (factoriza con la ecuación de segundo grado o con Ruffini):") + Tk([efr(*f[:2]) for f in f123], 2, gap='8pt'),
+     Tk([sfr(*f) for f in f123], 1, gap='6pt')),
+ (2, T(r"Hi ha alumnes que han simplificat així. Indica quines simplificacions són correctes i explica l'error de les altres.",
+       r"Hay alumnos que han simplificado así. Indica qué simplificaciones son correctas y explica el error de las otras.")
+     + Tk([r"$\dfrac{x+6}{6}=x$", r"$\dfrac{3x}{6x^2}=\dfrac{1}{2x}$", r"$\dfrac{x^2-1}{x-1}=x+1$", r"$\dfrac{x^2+4}{x+2}=x+2$"], 4, gap='8pt'),
+     Tk([T(r"Incorrecta: el 6 és un \emph{sumand}, no un factor; la fracció no es pot simplificar.", r"Incorrecta: el 6 es un \emph{sumando}, no un factor; la fracción no se puede simplificar."),
+         T(r"Correcta: $\dfrac{3x}{6x^2}=\dfrac{3x}{3x\cdot2x}=" + Rm(r"\dfrac{1}{2x}") + "$.", r"Correcta: $\dfrac{3x}{6x^2}=\dfrac{3x}{3x\cdot2x}=" + Rm(r"\dfrac{1}{2x}") + "$."),
+         T(r"Correcta: $\dfrac{(x+1)(x-1)}{x-1}=" + Rm("x+1") + "$.", r"Correcta: $\dfrac{(x+1)(x-1)}{x-1}=" + Rm("x+1") + "$."),
+         T(r"Incorrecta: $x^2+4\neq(x+2)^2=x^2+4x+4$. $x^2+4$ no té arrels i no es pot factoritzar: la fracció és " + R(r"\text{irreductible}") + ".",
+           r"Incorrecta: $x^2+4\neq(x+2)^2=x^2+4x+4$. $x^2+4$ no tiene raíces y no se puede factorizar: la fracción es " + R(r"\text{irreducible}") + ".")], 1)),
+]))
+assert sp.cancel(E('3*x')/E('6*x**2') - 1/(2*x)) == 0 and sp.cancel(E('x**2-1')/E('x-1') - (x+1)) == 0
+assert sp.cancel(E('x**2+4')/E('x+2') - (x+2)) != 0 and sp.cancel(E('x+6')/6 - x) != 0
+
+# =====================================================================
+# 13. Problemes
 V122 = E('x*(20-2*x)*(30-2*x)'); ck([V122.subs(x, 5)], [1000])
 b123, r123 = dv('x**2+5*x+6', 'x+2'); ck([r123], [0])
 S.append((T("Problemes", "Problemas"), [
@@ -383,8 +417,8 @@ fe('(x+3)**2-x**2', '6*x+9'); fe('2*(x+2)+2*(x+3)', '4*x+10'); fe('(x+2)**2-x**2
 
 # =====================================================================
 TITOL = T("Polinomis", "Polinomios")
-KW = T("polinomis, monomis, valor numèric, suma de polinomis, resta de polinomis, producte de polinomis, identitats notables, divisió de polinomis, regla de Ruffini, teorema del residu, arrels, factorització, factor comú",
-       "polinomios, monomios, valor numérico, suma de polinomios, resta de polinomios, producto de polinomios, identidades notables, división de polinomios, regla de Ruffini, teorema del resto, raíces, factorización, factor común")
+KW = T("polinomis, monomis, valor numèric, suma de polinomis, resta de polinomis, producte de polinomis, identitats notables, divisió de polinomis, regla de Ruffini, teorema del residu, arrels, factorització, factor comú, fraccions algebraiques, simplificació",
+       "polinomios, monomios, valor numérico, suma de polinomios, resta de polinomios, producto de polinomios, identidades notables, división de polinomios, regla de Ruffini, teorema del resto, raíces, factorización, factor común, fracciones algebraicas, simplificación")
 INTRO_EX = T(r"Resol-los al quadern mostrant tots els passos. Pots comprovar els resultats amb les eines interactives dels apunts.", r"Resuélvelos en el cuaderno mostrando todos los pasos. Puedes comprobar los resultados con las herramientas interactivas de los apuntes.")
 INTRO_SOL = T(r"Intenta resoldre cada exercici abans de mirar-ne la solució. Si no t'ix el mateix resultat, repassa els passos o consulta els apunts interactius de la unitat.",
               r"Intenta resolver cada ejercicio antes de mirar su solución. Si no te sale el mismo resultado, repasa los pasos o consulta los apuntes interactivos de la unidad.")
