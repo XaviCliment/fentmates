@@ -525,7 +525,7 @@ python3 _eines/pau/an/build.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica i la 3, del d'àlgebra.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica i la 3 i la 4, del d'àlgebra.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -573,6 +573,24 @@ pdflatex t2-fitxa-exercicis.tex && pdflatex t2-fitxa-solucions.tex && pdflatex t
 python3 _eines/apunts/4eso-a-t3/build.py
 cd _eines/fonts-latex/4eso-a-t3 && python3 genera.py && python3 genera-es.py
 pdflatex t3-fitxa-exercicis.tex && pdflatex t3-fitxa-solucions.tex && pdflatex t3-fitxa-exercicis-es.tex && pdflatex t3-fitxa-solucions-es.tex
+```
+
+- **Unitat 4 (Equacions, `4eso-a-t4`)**: adaptació a Matemàtiques A dels apunts de la unitat 3 de 4t ESO B (mateix `app.js` i `extra.css`,
+  sense biquadrades, Ruffini, exponencials, logarítmiques ni inequacions; `build.py` com el de la unitat 3). 8 apartats (4.1-4.8): primer grau
+  (parèntesis, denominadors i casos sense solució o amb infinites), problemes de primer grau, segon grau completes i incompletes (discriminant),
+  segon grau amb parèntesis i denominadors, problemes de segon grau, equacions factoritzades, racionals (valors prohibits) i amb radicals (un
+  radical, o dos sense més termes). Els ginys de 4t B que es queden són la gràfica de segon grau (`w-quad`), les factoritzades (`w-feq`) i els
+  radicals (`w-rad`); els nous són a `nous.js`: un resolutor pas a pas d'equacions escrites amb parèntesis, `/` i `^` (`parseEqn`, fraccions de
+  polinomis exactes; m.c.m., valors prohibits, forma reduïda, incompletes, fórmula i comprovació), amb tres instàncies (`w-eq1`, `w-eq2`,
+  `w-eqr`), i un entrenador de problemes amb nombres aleatoris (`w-prob1` de primer grau i `w-prob2` de segon). El qüestionari (22 preguntes) és
+  a `quiz.js`. La fitxa (`_eines/fonts-latex/4eso-a-t4/genera.py`, 51 exercicis en 10 seccions) escriu cada equació una sola vegada en la
+  mateixa notació que el resolutor (`Q()` en fa el TeX i l'expressió de sympy) i en calcula les solucions (`lin`, `qd`, `rac`); `chk()`
+  comprova també les escrites a mà (en els radicals, descarta les que donen l'arrel d'un negatiu). És bilingüe amb `T(va, es)`.
+
+```
+python3 _eines/apunts/4eso-a-t4/build.py
+cd _eines/fonts-latex/4eso-a-t4 && python3 genera.py && python3 genera-es.py
+pdflatex t4-fitxa-exercicis.tex && pdflatex t4-fitxa-solucions.tex && pdflatex t4-fitxa-exercicis-es.tex && pdflatex t4-fitxa-solucions-es.tex
 ```
 
 ## 4t ESO Matemàtiques B
