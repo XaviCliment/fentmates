@@ -535,8 +535,8 @@ i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 
   hi afig problemes d'aplicació: si es canvien allà, també canvien ací. `app.js` té dues parts: la 1 és l'`app.js` de 2eso-t2
   (fraccions, índex, idioma i qüestionari) i la 2, el de 2eso-t1 reduït als ginys d'enters (els que porten la classe `wz`), que
   segueix l'idioma de la part 1; hi ha un entrenador nou d'operacions combinades amb naturals (`natc`). El qüestionari és a `quiz.js`.
-  La fitxa té 52 exercicis en 9 seccions; com a 2eso-t1, `exercicis.py` té les dues llengües i calcula i comprova les solucions
-  (les fraccions s'escriuen entre claus, `{3/4}`); `genera.py` i `genera-es.py` només escriuen els `.tex`.
+  La fitxa té 62 exercicis en 10 seccions (la 10, potències d'exponent negatiu, va més enllà dels apunts; nivell pujat per a acostar-lo al del llibre de text); com a 2eso-t1, `exercicis.py` té les dues llengües i calcula i comprova les solucions
+  (les fraccions s'escriuen entre claus, `{3/4}`; exponents negatius `2^-3`, valor absolut `abs(…)` i fraccions compostes `⟦num¦den⟧`); `genera.py` i `genera-es.py` només escriuen els `.tex`.
 
 ```
 python3 _eines/apunts/4eso-a-t1/build.py
