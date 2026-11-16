@@ -304,6 +304,23 @@ cd _eines/fonts-latex/2eso-t9 && python3 genera.py && python3 genera-es.py
 pdflatex t9-fitxa-exercicis.tex && pdflatex t9-fitxa-solucions.tex && pdflatex t9-fitxa-exercicis-es.tex && pdflatex t9-fitxa-solucions-es.tex
 ```
 
+La unitat 11 de 2n ESO (Atzar i probabilitat, carpeta `2eso-t11`) és l'adaptació de la unitat 12 de 3r (`3eso-t12`), sense
+operacions amb esdeveniments ni les fórmules del contrari i de la unió. Té 5 apartats (11.1-11.5): experiments aleatoris i
+deterministes (amb el llenguatge de l'atzar i l'entrenador nou `det`), espai mostral i esdeveniments, probabilitat d'un esdeveniment
+(freqüències, llei dels grans nombres i propietats), la llei de Laplace (experiments regulars i irregulars) i estratègies de càlcul:
+diagrames d'arbre (també amb i sense reemplaçament), la taula de doble entrada dels dos daus i la taula de contingència (giny
+`w-cont` amb caselles editables i entrenador `cont`, nous). El contingut és a `s12.py`, `s3.py`, `s4.py` i `s5.py`, amb `ck()` i
+fraccions exactes; `app.js` (`window.FM211`), `comu.py` (amb `ctab()` per a les taules de contingència) i `extra.css` són els de 3r
+ampliats, i `quiz.js` és nou. A `materials.js` és la unitat amb `num: "11"` (encara no hi ha la 10), del bloc de probabilitat. La
+fitxa (`_eines/fonts-latex/2eso-t11/genera.py`, 54 exercicis en 5 seccions, bilingüe amb `T()`) reaprofita part dels exercicis de 3r
+i en comprova totes les probabilitats amb fraccions; `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/2eso-t11/build.py
+cd _eines/fonts-latex/2eso-t11 && python3 genera.py && python3 genera-es.py
+pdflatex t11-fitxa-exercicis.tex && pdflatex t11-fitxa-solucions.tex && pdflatex t11-fitxa-exercicis-es.tex && pdflatex t11-fitxa-solucions-es.tex
+```
+
 Els de 2n Batx CCSS de les unitats 4, 5 i 6 funcionen igual, amb les carpetes `2batx-ccss-t4`, `2batx-ccss-t5` i
 `2batx-ccss-t6` (la 6, Aplicacions de la derivada, reaprofita el codi de les unitats 4 i 5):
 
