@@ -14,6 +14,22 @@
 
 window.CHALLENGES = [
   {
+    date: "2026-11-16",
+    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
+    title: { va: "Síndries al sol", es: "Sandías al sol", en: "Watermelons in the sun" },
+    hideSolution: true,
+    statement: {
+      va: "Un llaurador té 100 kg de síndries, i el 99 % del seu pes és aigua. Les deixa uns dies al sol i s'assequen una mica: ara l'aigua és el 98 % del pes. Quant pesen ara les síndries? Pensa-ho bé abans de respondre: el resultat sorprén quasi tothom.",
+      es: "Un agricultor tiene 100 kg de sandías, y el 99 % de su peso es agua. Las deja unos días al sol y se secan un poco: ahora el agua es el 98 % del peso. ¿Cuánto pesan ahora las sandías? Piénsalo bien antes de responder: el resultado sorprende a casi todo el mundo.",
+      en: "A farmer has 100 kg of watermelons, and 99% of their weight is water. He leaves them in the sun for a few days and they dry out a little: now water is 98% of the weight. How much do the watermelons weigh now? Think carefully before answering: the result surprises almost everyone."
+    },
+    solution: {
+      va: "La part que no és aigua no canvia. Al principi és l'1 % de 100 kg, és a dir, $1$ kg. Després, l'aigua és el 98 %, així que eixe quilo és el 2 % del pes nou: $P = 1 : 0{,}02 = \\mathbf{50}$ kg. Han perdut la meitat del pes! Que l'aigua passe del 99 % al 98 % vol dir que la part seca passa de l'1 % al 2 %: la seua proporció es duplica, i per això el total es fa la meitat.",
+      es: "La parte que no es agua no cambia. Al principio es el 1 % de 100 kg, es decir, $1$ kg. Después, el agua es el 98 %, así que ese kilo es el 2 % del peso nuevo: $P = 1 : 0{,}02 = \\mathbf{50}$ kg. ¡Han perdido la mitad del peso! Que el agua pase del 99 % al 98 % significa que la parte seca pasa del 1 % al 2 %: su proporción se duplica, y por eso el total se reduce a la mitad.",
+      en: "The part that isn't water doesn't change. At first it is 1% of 100 kg, that is, $1$ kg. Afterwards water is 98%, so that kilo is 2% of the new weight: $P = 1 \\div 0.02 = \\mathbf{50}$ kg. They have lost half their weight! Water going from 99% to 98% means the dry part goes from 1% to 2%: its share doubles, so the total halves."
+    }
+  },
+  {
     date: "2026-11-02",
     level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
     title: { va: "El secret del full A4", es: "El secreto del folio A4", en: "The secret of A4 paper" },
@@ -126,25 +142,6 @@ window.CURIOSITIES = [
 ];
 
 /* Reptes guardats per a més endavant (traure'ls del comentari i posar-los dins de CHALLENGES amb la data).
-
-   Per a quan donem percentatges (3r ESO, unitat 3):
-
-  {
-    date: "AAAA-MM-DD",
-    level: { va: "3r ESO", es: "3º ESO", en: "3rd ESO" },
-    title: { va: "Síndries al sol", es: "Sandías al sol", en: "Watermelons in the sun" },
-    hideSolution: true,
-    statement: {
-      va: "Un llaurador té 100 kg de síndries, i el 99 % del seu pes és aigua. Les deixa uns dies al sol i s'assequen una mica: ara l'aigua és el 98 % del pes. Quant pesen ara les síndries? Pensa-ho bé abans de respondre: el resultat sorprén quasi tothom.",
-      es: "Un agricultor tiene 100 kg de sandías, y el 99 % de su peso es agua. Las deja unos días al sol y se secan un poco: ahora el agua es el 98 % del peso. ¿Cuánto pesan ahora las sandías? Piénsalo bien antes de responder: el resultado sorprende a casi todo el mundo.",
-      en: "A farmer has 100 kg of watermelons, and 99% of their weight is water. He leaves them in the sun for a few days and they dry out a little: now water is 98% of the weight. How much do the watermelons weigh now? Think carefully before answering: the result surprises almost everyone."
-    },
-    solution: {
-      va: "La part que no és aigua no canvia. Al principi és l'1 % de 100 kg, és a dir, $1$ kg. Després, l'aigua és el 98 %, així que eixe quilo és el 2 % del pes nou: $P = 1 : 0{,}02 = \\mathbf{50}$ kg. Han perdut la meitat del pes! Que l'aigua passe del 99 % al 98 % vol dir que la part seca passa de l'1 % al 2 %: la seua proporció es duplica, i per això el total es fa la meitat.",
-      es: "La parte que no es agua no cambia. Al principio es el 1 % de 100 kg, es decir, $1$ kg. Después, el agua es el 98 %, así que ese kilo es el 2 % del peso nuevo: $P = 1 : 0{,}02 = \\mathbf{50}$ kg. ¡Han perdido la mitad del peso! Que el agua pase del 99 % al 98 % significa que la parte seca pasa del 1 % al 2 %: su proporción se duplica, y por eso el total se reduce a la mitad.",
-      en: "The part that isn't water doesn't change. At first it is 1% of 100 kg, that is, $1$ kg. Afterwards water is 98%, so that kilo is 2% of the new weight: $P = 1 \\div 0.02 = \\mathbf{50}$ kg. They have lost half their weight! Water going from 99% to 98% means the dry part goes from 1% to 2%: its share doubles, so the total halves."
-    }
-  }
 
    Per a quan donem identitats notables (3r ESO, unitat 4):
 
