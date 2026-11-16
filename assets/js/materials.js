@@ -398,7 +398,18 @@ window.LEVELS = {
       es: "Matemáticas aplicadas: números, álgebra, funciones, estadística y probabilidad.",
       en: "Applied maths: numbers, algebra, functions, statistics and probability."
     },
-    units: []
+    units: [
+      {
+        num: "1",
+        ill: "fraccions", block: "ari",
+        title: { va: "Nombres naturals, enters i fraccionaris", es: "Números naturales, enteros y fraccionarios", en: "Natural numbers, integers and fractions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-a/t1-naturals-enters-fraccions.html", date: "2026-11-16" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 52 exercicis graduats per nivells de dificultat", es: "PDF · 52 ejercicios graduados por niveles de dificultad", en: "PDF · 52 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t1-fitxa-exercicis.pdf", es: "materials/4eso-a/t1-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-16" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 52 exercicis", es: "PDF · Soluciones de los 52 ejercicios", en: "PDF · Solutions to all 52 exercises" }, url: { va: "materials/4eso-a/t1-fitxa-solucions.pdf", es: "materials/4eso-a/t1-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-16" }
+        ]
+      }
+    ]
   },
 
   "4eso-b": {

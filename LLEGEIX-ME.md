@@ -521,6 +521,29 @@ perquè algun apartat és d'aquestes unitats. Les solucions són a `sol_a.py`, `
 python3 _eines/pau/an/build.py
 ```
 
+## 4t ESO Matemàtiques A
+
+Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
+i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, la unitat 1 és del bloc d'aritmètica.
+
+- **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 10 apartats (1.1-1.10): naturals i divisió entera, potències,
+  arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
+  (simplificació i amplificació), operacions, operacions combinades i problemes amb fraccions, potències amb base entera i racional
+  i propietats de les potències. El contingut és a `nat.py` (1.1-1.4), `fra4.py` (1.5-1.8) i `pot4.py` (1.9-1.10), i les ajudes a
+  `eines4a.py`. `fra4.py` **importa** els apartats 2.5, 2.7, 2.8, 2.10 i 2.11 de 2n ESO (`_eines/apunts/2eso-t2/fra.py` i `pot.py`) i
+  hi afig problemes d'aplicació: si es canvien allà, també canvien ací. `app.js` té dues parts: la 1 és l'`app.js` de 2eso-t2
+  (fraccions, índex, idioma i qüestionari) i la 2, el de 2eso-t1 reduït als ginys d'enters (els que porten la classe `wz`), que
+  segueix l'idioma de la part 1; hi ha un entrenador nou d'operacions combinades amb naturals (`natc`). El qüestionari és a `quiz.js`.
+  La fitxa té 52 exercicis en 9 seccions; com a 2eso-t1, `exercicis.py` té les dues llengües i calcula i comprova les solucions
+  (les fraccions s'escriuen entre claus, `{3/4}`); `genera.py` i `genera-es.py` només escriuen els `.tex`.
+
+```
+python3 _eines/apunts/4eso-a-t1/build.py
+cd _eines/fonts-latex/4eso-a-t1 && python3 genera.py && python3 genera-es.py
+pdflatex t1-fitxa-exercicis.tex && pdflatex t1-fitxa-solucions.tex && pdflatex t1-fitxa-exercicis-es.tex && pdflatex t1-fitxa-solucions-es.tex
+```
+
 ## 4t ESO Matemàtiques B
 
 Els apunts de 4t ESO B parteixen dels de 1r Batx MI, simplificats (carpetes `_eines/apunts/4eso-b-tN`). Funcionen igual: el
