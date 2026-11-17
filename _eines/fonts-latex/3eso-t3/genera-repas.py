@@ -66,7 +66,7 @@ d) & $120\,\%%$ & & \\ \hline
 \end{tabular}\par}
 """)
 TAULA_SOL = (r"""\smallskip
-{\renewcommand{\arraystretch}{1.8}\centering
+{\renewcommand{\arraystretch}{2.8}\centering
 \begin{tabular}{|C{0.6cm}|C{3.6cm}|C{3.6cm}|C{3.6cm}|}
 \hline
 \rowcolor{soft} & \textbf{%s} & \textbf{%s} & \textbf{Decimal} \\ \hline
