@@ -549,7 +549,7 @@ cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra i la 6, del d'anàlisi.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra i les 6 i 7, del d'anàlisi.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -653,6 +653,24 @@ pdflatex t5-fitxa-exercicis.tex && pdflatex t5-fitxa-solucions.tex && pdflatex t
 ```
 python3 _eines/apunts/4eso-a-t6/build.py
 cd _eines/fonts-latex/4eso-a-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 7 (Funcions elementals, `4eso-a-t7`)**: adaptació a Matemàtiques A dels apunts de la unitat 8 de 4t ESO B (mateix `app.js`
+  i `extra.css`), amb menys profunditat, sense funcions a trossos, valor absolut ni logaritmes, i amb les funcions radicals. 9 apartats
+  (7.1-7.9): funcions lineals (proporcionalitat directa, afí i constant), equació punt-pendent (pendent per dos punts, rectes paral·leles,
+  punts alineats), funció quadràtica (forma, vèrtex, eix, talls, casos incomplets), representació de funcions quadràtiques (sis passos),
+  funcions radicals ($\sqrt x$ i les seues translacions), proporcionalitat inversa ($y=k/x$), translacions de la hipèrbola
+  ($y=k/x\pm a$, $y=k/(x\pm a)$), funcions exponencials ($a^x$ i $C\cdot a^t$ amb percentatges) i problemes amb funcions. Les figures
+  són les de `4eso-b-t7/fig.py` més les pròpies de `fig7.py`. Els ginys de 4t B que es queden són la recta per dos punts, el laboratori
+  de paràboles i els laboratoris de radicals i d'hipèrboles (`wTrans`); els nous, a `nous.js`: tipus de rectes amb m i n
+  (`w-types`), paràbola pas a pas (`w-qstep`), rectangle d'àrea k de la hipèrbola (`w-inv`), creixement i decreixement exponencial
+  (`w-grow`) i comparació de dues tarifes lineals (`w-cmp`). Qüestionari de 23 preguntes a `quiz.js`. La fitxa
+  (`_eines/fonts-latex/4eso-a-t7/genera.py`, 55 exercicis en 9 seccions) parteix de la de 4eso-b-t8; sympy comprova talls, vèrtexs i
+  solucions i `ok()` les dades dels problemes (49 comprovacions). Bilingüe amb `T(va, es)` (`genera-es.py` l'executa amb `FM_LANG=es`).
+
+```
+python3 _eines/apunts/4eso-a-t7/build.py
+cd _eines/fonts-latex/4eso-a-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques B
