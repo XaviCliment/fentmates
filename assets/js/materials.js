@@ -470,6 +470,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 55 exercicis graduats per nivells de dificultat", es: "PDF · 55 ejercicios graduados por niveles de dificultad", en: "PDF · 55 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t7-fitxa-exercicis.pdf", es: "materials/4eso-a/t7-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-18" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 55 exercicis", es: "PDF · Soluciones de los 55 ejercicios", en: "PDF · Solutions to all 55 exercises" }, url: { va: "materials/4eso-a/t7-fitxa-solucions.pdf", es: "materials/4eso-a/t7-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-18" }
         ]
+      },
+      {
+        num: "8",
+        ill: "tales", block: "geo",
+        title: { va: "Semblança. Aplicacions", es: "Semejanza. Aplicaciones", en: "Similarity. Applications" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-a/t8-semblanca-aplicacions.html", date: "2026-11-18" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 76 exercicis graduats per nivells de dificultat", es: "PDF · 76 ejercicios graduados por niveles de dificultad", en: "PDF · 76 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t8-fitxa-exercicis.pdf", es: "materials/4eso-a/t8-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-18" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 76 exercicis", es: "PDF · Soluciones de los 76 ejercicios", en: "PDF · Solutions to all 76 exercises" }, url: { va: "materials/4eso-a/t8-fitxa-solucions.pdf", es: "materials/4eso-a/t8-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-18" }
+        ]
       }
     ]
   },

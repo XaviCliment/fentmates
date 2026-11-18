@@ -549,7 +549,7 @@ cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra i les 6 i 7, del d'anàlisi.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi i la 8, del de geometria.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -671,6 +671,25 @@ cd _eines/fonts-latex/4eso-a-t6 && python3 genera.py && python3 genera-es.py   #
 ```
 python3 _eines/apunts/4eso-a-t7/build.py
 cd _eines/fonts-latex/4eso-a-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 8 (Semblança. Aplicacions, `4eso-a-t8`)**: adaptació a Matemàtiques A dels apunts de la unitat 8 de 2n ESO (`2eso-t8`, que ja
+  venien dels de 3r, `3eso-t10`), amb el mateix `build.py`, `comu.py`, `extra.css` i `app.js` (`window.FM48`). 7 apartats (8.1-8.7): figures
+  semblants (amb els volums de cossos semblants, giny `w-k` i entrenador `k23` de 3r), plànols, mapes i maquetes (amb els volums d'una maqueta),
+  el teorema de Tales, semblança de triangles (posició de Tales i criteris), aplicació: distància a un punt inaccessible (mètode dels triangles en
+  posició de Tales i dels triangles oposats pel vèrtex), semblança de triangles rectangles (criteris, ombres, mirall i l'altura sobre la hipotenusa
+  amb els teoremes de l'altura i del catet) i problemes de semblança. El contingut és a `s123.py` (8.1-8.3, el de 2n amb els volums), `s4.py`,
+  `s5.py` i `s67.py` (8.6-8.7; les ombres, el mirall i el fanal són els de 2n), amb `ck()`; `fig8.py` hi afig `inacc_tales()`, `inacc_cross()` i
+  `alt_fig()`. Els ginys nous són l'amplària d'un riu (`w-inacc`, amb els dos mètodes) i l'altura i els catets d'un triangle rectangle
+  (`w-alt`), i els entrenadors nous, `inacc`, `rect` i `mix` (problemes variats). Qüestionari de 22 preguntes a `quiz.js`. A `materials.js`
+  és del bloc de geometria (il·lustració `tales`). La fitxa (`_eines/fonts-latex/4eso-a-t8/genera.py`, 76 exercicis en 7 seccions, bilingüe
+  amb `T()`) és la de 2n amb exercicis de volums i de maquetes i amb les seccions noves 5 (distància inaccessible; s'hi passa el riu de
+  l'antiga secció de problemes) i 6 (triangles rectangles); dins de cada secció, els exercicis s'ordenen per estrelles. `genera-es.py`
+  l'executa en castellà:
+
+```
+python3 _eines/apunts/4eso-a-t8/build.py
+cd _eines/fonts-latex/4eso-a-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques B
