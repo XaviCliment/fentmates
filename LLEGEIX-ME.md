@@ -549,7 +549,7 @@ cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi i la 8, del de geometria.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi, la 8, del de geometria i la 9, del d'estadística i probabilitat.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -690,6 +690,27 @@ cd _eines/fonts-latex/4eso-a-t7 && python3 genera.py && python3 genera-es.py   #
 ```
 python3 _eines/apunts/4eso-a-t8/build.py
 cd _eines/fonts-latex/4eso-a-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 9 (Estadística, `4eso-a-t9`)**: adaptació a Matemàtiques A dels apunts de la unitat 10 de 1r ESO (`1eso-t10`), amb el mateix
+  `build.py`, `comu.py`, `extra.css` i `app.js` (`window.FM49`). 8 apartats (9.1-9.8): població, mostra i variables (amb el mostreig aleatori,
+  sistemàtic i estratificat), taules de freqüències amb dades aïllades ($f_i$, $F_i$, $h_i$, percentatges), taules amb dades agrupades (marca de
+  classe i com es fan els intervals amb la regla de l'arrel), gràfics estadístics (barres, polígons, histogrames, sectors i pictogrames),
+  paràmetres de centralització (també amb taules i amb dades agrupades: interval modal i interval medià), de dispersió (rang, desviació mitjana,
+  variància, desviació típica i coeficient de variació), de posició (quartils i percentils, amb el criteri de la mediana: posició $k\cdot N/100$; si
+  és entera, la mitjana d'eixa dada i la següent) i el diagrama de caixes (amb els valors atípics com a ampliació). El contingut és a `s123.py`
+  (9.1-9.3, fet a partir del 10.1-10.3 de 1r), `s4.py` (10.4 i 10.5 de 1r), `s5.py` (10.6, 10.7 i 10.9 de 1r, amb les dades agrupades), `s6.py` i
+  `s78.py` (nous); `comu.py` hi afig `var`, `pctl`, `five`, `ckr` (comprovació arrodonida) i el diagrama de caixes en SVG (`caixes`). Els ginys nous
+  són agrupar dades en intervals (`w-grp`), la variància pas a pas amb una taula (`w-var`), els quartils i percentils (`w-quart`) i els diagrames
+  de caixes de dos grups (`w-box`); `w-disp` ara també dona $\sigma$ i el $CV$. Entrenadors nous: `interval`, `marca`, `var`, `cv`, `quart`, `perc`,
+  `boxread` i `boxpct`. Qüestionari de 25 preguntes a `quiz.js` (10 de 1r i 15 noves). A `materials.js` és del bloc d'estadística i probabilitat
+  (il·lustració `estadistica`). La fitxa (`_eines/fonts-latex/4eso-a-t9/genera.py`, 54 exercicis en 8 seccions, bilingüe amb `T()`) calcula
+  tots els resultats amb fraccions (`EQ`) o arrodonits (`AP`) i dibuixa barres, histogrames, sectors i caixes en TikZ (`tbar`, `thist`, `tpie`,
+  `tbox`). `genera-es.py` l'executa en castellà:
+
+```
+python3 _eines/apunts/4eso-a-t9/build.py
+cd _eines/fonts-latex/4eso-a-t9 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques B
