@@ -745,7 +745,8 @@ cd _eines/fonts-latex/4eso-a-t10 && python3 genera.py && python3 genera-es.py   
   20 preguntes a `quiz.js`. A `materials.js` és del bloc d'estadística i probabilitat (il·lustració `probabilitat`). La fitxa
   (`_eines/fonts-latex/4eso-a-t11/genera.py`, 56 exercicis en 7 seccions, bilingüe amb `T()`) parteix de la de 2n: els seus exercicis
   es guarden a `OLD` i es reparteixen amb `O(secció, número)`, i s'hi afigen els d'operacions, propietats, independència, probabilitat
-  condicionada i taules a partir de percentatges:
+  condicionada i taules a partir de percentatges; `apartats()` posa en línies independents (entorn `tasks` d'una columna) els
+  apartats a), b)… que el text escriu en línia, tant als enunciats com a les solucions:
 
 ```
 python3 _eines/apunts/4eso-a-t11/build.py

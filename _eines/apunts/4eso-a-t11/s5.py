@@ -25,7 +25,7 @@ s5 += box('prop', L('Experiències independents. Regla del producte', 'Experienc
   + D(r"P(A\cap B)=P(A)\cdot P(B)")
   + figs(TC2)
   + D(r"P(CC)=\frac12\cdot\frac12=\frac14\qquad P(\text{%s})=P(CX)+P(XC)=\frac14+\frac14=\frac12" % Lt('una cara i una creu', 'una cara y una cruz', 'one heads, one tails'))
-  + P(r"També funciona amb decimals. Si la probabilitat que plogue dissabte és 0,3 i la que plogue diumenge és 0,6 (independents), la probabilitat que plogue els dos dies és \(0{,}3\cdot0{,}6=0{,}18\):",
+  + P(r"També funciona amb decimals. Si la probabilitat que ploga dissabte és 0,3 i la que ploga diumenge és 0,6 (independents), la probabilitat que ploga els dos dies és \(0{,}3\cdot0{,}6=0{,}18\):",
       r"También funciona con decimales. Si la probabilidad de que llueva el sábado es 0,3 y la de que llueva el domingo es 0,6 (independientes), la probabilidad de que llueva los dos días es \(0{,}3\cdot0{,}6=0{,}18\):",
       r"It also works with decimals. If the probability of rain on Saturday is 0.3 and on Sunday 0.6 (independent), the probability of rain on both days is \(0.3\cdot0.6=0.18\):")
   + figs(TIND))

@@ -558,7 +558,7 @@ S_.append((T("Càlcul de probabilitats", "Cálculo de probabilidades"), [
 
 S_.append((T("Experiències compostes. Probabilitat", "Experiencias compuestas. Probabilidad"), [
  O(4, 0), O(4, 1),
- (1, T(r"La probabilitat que plogue dissabte és 0,3 i la que plogue diumenge, 0,6 (suposem que són independents). Fes el diagrama d'arbre i calcula la probabilitat que: a) plogue els dos dies; b) no plogue cap dia; c) plogue almenys un dia; d) plogue exactament un dia.",
+ (1, T(r"La probabilitat que ploga dissabte és 0,3 i la que ploga diumenge, 0,6 (suposem que són independents). Fes el diagrama d'arbre i calcula la probabilitat que: a) ploga els dos dies; b) no ploga cap dia; c) ploga almenys un dia; d) ploga exactament un dia.",
        r"La probabilidad de que llueva el sábado es 0,3 y la de que llueva el domingo, 0,6 (suponemos que son independientes). Haz el diagrama de árbol y calcula la probabilidad de que: a) llueva los dos días; b) no llueva ningún día; c) llueva al menos un día; d) llueva exactamente un día.") + RC_IND,
      cen(TPL) + T(r"a) $0{,}3\cdot0{,}6=\res{0{,}18}$. \ b) $0{,}7\cdot0{,}4=\res{0{,}28}$. \ c) $1-0{,}28=\res{0{,}72}$. \ d) $0{,}3\cdot0{,}4+0{,}7\cdot0{,}6=0{,}12+0{,}42=\res{0{,}54}$.",
                   r"a) $0{,}3\cdot0{,}6=\res{0{,}18}$. \ b) $0{,}7\cdot0{,}4=\res{0{,}28}$. \ c) $1-0{,}28=\res{0{,}72}$. \ d) $0{,}3\cdot0{,}4+0{,}7\cdot0{,}6=0{,}12+0{,}42=\res{0{,}54}$.")),
@@ -658,7 +658,7 @@ def build(sol_):
     for i, (title, exs) in enumerate(S_, 1):
         out.append('\n%% =====================================================\n\\seccio{%d}{%s}\n\n' % (i, title))
         for st, q, s in exs:
-            out.append('\\ex{%d} %s\n\n' % (st, s if sol_ else q))
+            out.append('\\ex{%d} %s\n\n' % (st, apartats(s if sol_ else q)))
     if not sol_:
         out.append('\\vfill\n\\begin{center}\\color{muted}\\small\\faCheckCircle[regular]\\ \\ ' + T("Ànim! Comprova els teus resultats amb les eines interactives dels apunts de la unitat.", "¡Ánimo! Comprueba tus resultados con las herramientas interactivas de los apuntes de la unidad.") + '\\end{center}\n')
     out.append('\n\\end{document}\n')
@@ -669,5 +669,34 @@ for _, exs in S_:
     for st, q, s in exs:
         assert st in (1, 2, 3) and q and s
         assert '2º' not in q + s and '1º' not in q + s, 'º a la fitxa: usa \\textsuperscript{o}'
+
+# ---------- apartats en línies independents ----------
+STOP = ('\\par', '\\recorda', '\\begin{')
+def apartats(s):
+    """Si el text té apartats en línia (a) …; b) …), els posa en un entorn tasks d'una columna (un apartat per línia)."""
+    pos, k, i = [], 0, 0
+    def math_ok(j): return s[:j].count('$') % 2 == 0
+    while True:
+        lab = '%s) ' % 'abcdefgh'[k]
+        j = s.find(lab, i)
+        while j >= 0 and not ((j == 0 or s[j - 1] in ' :;.}\n') and math_ok(j)):
+            j = s.find(lab, j + 1)
+        if j < 0: break
+        if k and any(t in s[pos[-1]:j] for t in STOP): break
+        pos.append(j); i = j + 3; k += 1
+    if len(pos) < 2: return s
+    ends = [s.find(t, pos[-1]) for t in STOP]
+    end = min([e for e in ends if e >= 0] or [len(s)])
+    parts = []
+    for a, b in zip(pos, pos[1:] + [end]):
+        t = s[a + 3:b].strip()
+        while True:
+            t2 = re.sub(r'(\s*\\\s*|\s*;|\s*,|\s+(i|y))$', '', t).strip()
+            if t2 == t: break
+            t = t2
+        parts.append(t)
+    if not any(x.endswith('.') for x in parts[:-1]) and parts[-1].endswith('.') and not parts[-1].endswith('..'): parts[-1] = parts[-1][:-1]
+    head = re.sub(r'(\s*\\\s*)$', '', s[:pos[0]]).rstrip()
+    return head + '\n' + tasks(1, parts) + ('\n' + s[end:] if end < len(s) else '')
 build(False); build(True)
 print(sum(len(x[1]) for x in S_), T('exercicis', 'ejercicios'))
