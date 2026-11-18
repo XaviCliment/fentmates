@@ -549,7 +549,7 @@ cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi, la 8, del de geometria i la 9 i la 10, del d'estadística i probabilitat.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi, la 8, del de geometria i les 9-11, del d'estadística i probabilitat.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -729,6 +729,27 @@ cd _eines/fonts-latex/4eso-a-t9 && python3 genera.py && python3 genera-es.py   #
 ```
 python3 _eines/apunts/4eso-a-t10/build.py
 cd _eines/fonts-latex/4eso-a-t10 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 11 (Probabilitat, `4eso-a-t11`)**: feta a partir dels apunts de probabilitat de 2n ESO (`2eso-t11`, d'on venen `comu.py`,
+  `extra.css` i la base d'`app.js`) i de 3r ESO (`3eso-t12`: operacions amb esdeveniments i propietats). 7 apartats (11.1-11.7):
+  experiments (aleatoris i deterministes, espai mostral i experiments compostos), esdeveniments (tipus, unió, intersecció, contrari i
+  incompatibles), probabilitat d'un esdeveniment (freqüències, llei dels grans nombres i propietats amb el contrari i la unió),
+  càlcul de probabilitats (Laplace i la taula dels dos daus), experiències compostes (independents, regla del producte i «almenys un»
+  amb el contrari), experiències dependents i probabilitat condicionada ($P(B/A)$, $P(A\cap B)=P(A)\cdot P(B/A)$ i dues urnes) i
+  taules de contingència (condicionades a una fila o a una columna, de percentatges a la taula i a l'arbre, independència). El
+  contingut és a `s12.py`, `s3.py`, `s4.py`, `s5.py`, `s6.py` i `s7.py`, amb fraccions exactes (`ck()`); molts problemes resolts són
+  els de 2n i 3r. `app.js` (`window.FM411`) afig a l'app de 2n els ginys `w-ops` i `w-prop` de 3r i els nous `w-ind` (dues experiències
+  independents) i `w-urn` (dues urnes); la taula de contingència (`w-cont`) té condicionades per files i per columnes i un context nou
+  (vacuna). Entrenadors `det`, `tipus`, `ops`, `freq`, `falta`, `prop`, `lap`, `dice`, `ind`, `tree`, `dep`, `urn` i `cont`; qüestionari de
+  20 preguntes a `quiz.js`. A `materials.js` és del bloc d'estadística i probabilitat (il·lustració `probabilitat`). La fitxa
+  (`_eines/fonts-latex/4eso-a-t11/genera.py`, 56 exercicis en 7 seccions, bilingüe amb `T()`) parteix de la de 2n: els seus exercicis
+  es guarden a `OLD` i es reparteixen amb `O(secció, número)`, i s'hi afigen els d'operacions, propietats, independència, probabilitat
+  condicionada i taules a partir de percentatges:
+
+```
+python3 _eines/apunts/4eso-a-t11/build.py
+cd _eines/fonts-latex/4eso-a-t11 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques B

@@ -500,6 +500,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 41 exercicis graduats per nivells de dificultat", es: "PDF · 41 ejercicios graduados por niveles de dificultad", en: "PDF · 41 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t10-fitxa-exercicis.pdf", es: "materials/4eso-a/t10-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-18" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 41 exercicis", es: "PDF · Soluciones de los 41 ejercicios", en: "PDF · Solutions to all 41 exercises" }, url: { va: "materials/4eso-a/t10-fitxa-solucions.pdf", es: "materials/4eso-a/t10-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-18" }
         ]
+      },
+      {
+        num: "11",
+        ill: "probabilitat", block: "pr",
+        title: { va: "Probabilitat", es: "Probabilidad", en: "Probability" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-a/t11-probabilitat.html", date: "2026-11-18" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 56 exercicis graduats per nivells de dificultat", es: "PDF · 56 ejercicios graduados por niveles de dificultad", en: "PDF · 56 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t11-fitxa-exercicis.pdf", es: "materials/4eso-a/t11-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-18" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 56 exercicis", es: "PDF · Soluciones de los 56 ejercicios", en: "PDF · Solutions to all 56 exercises" }, url: { va: "materials/4eso-a/t11-fitxa-solucions.pdf", es: "materials/4eso-a/t11-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-18" }
+        ]
       }
     ]
   },
