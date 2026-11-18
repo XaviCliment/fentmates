@@ -549,7 +549,7 @@ cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py
 
 Matemàtiques A és l'opció més aplicada de 4t (alumnat que farà cicles formatius). Els apunts són a `_eines/apunts/4eso-a-tN`
 i les fitxes, a `_eines/fonts-latex/4eso-a-tN` (capçalera «Matemàtiques A · 4t ESO», `\fmcurs{4eso-a}` i, en castellà,
-`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi, la 8, del de geometria i la 9, del d'estadística i probabilitat.
+`curs='4eso-a'` a `castella.py`). A `fm-materials.js`, les unitats 1 i 2 són del bloc d'aritmètica, les 3-5, del d'àlgebra, les 6 i 7, del d'anàlisi, la 8, del de geometria i la 9 i la 10, del d'estadística i probabilitat.
 
 - **Unitat 1 (Nombres naturals, enters i fraccionaris, `4eso-a-t1`)**: 11 apartats (1.1-1.11): naturals i divisió entera, potències,
   arrels i operacions combinades amb naturals, enters i valor absolut, operacions combinades amb enters, fraccions equivalents
@@ -692,7 +692,7 @@ python3 _eines/apunts/4eso-a-t8/build.py
 cd _eines/fonts-latex/4eso-a-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
-- **Unitat 9 (Estadística, `4eso-a-t9`)**: adaptació a Matemàtiques A dels apunts de la unitat 10 de 1r ESO (`1eso-t10`), amb el mateix
+- **Unitat 9 (Estadística Unidimensional, `4eso-a-t9`)**: adaptació a Matemàtiques A dels apunts de la unitat 10 de 1r ESO (`1eso-t10`), amb el mateix
   `build.py`, `comu.py`, `extra.css` i `app.js` (`window.FM49`). 8 apartats (9.1-9.8): població, mostra i variables (amb el mostreig aleatori,
   sistemàtic i estratificat), taules de freqüències amb dades aïllades ($f_i$, $F_i$, $h_i$, percentatges), taules amb dades agrupades (marca de
   classe i com es fan els intervals amb la regla de l'arrel), gràfics estadístics (barres, polígons, histogrames, sectors i pictogrames),
@@ -711,6 +711,24 @@ cd _eines/fonts-latex/4eso-a-t8 && python3 genera.py && python3 genera-es.py   #
 ```
 python3 _eines/apunts/4eso-a-t9/build.py
 cd _eines/fonts-latex/4eso-a-t9 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 10 (Estadística bidimensional, `4eso-a-t10`)**: apunts nous amb la mateixa estructura que els de la unitat 9 (`build.py`,
+  `comu.py`, `app.js`; l'`extra.css` s'afegeix després del de `4eso-a-t9`). 6 apartats (10.1-10.6): distribucions bidimensionals (parelles,
+  taules simples i de doble entrada, relació funcional, estadística o cap), núvol de punts i centre de gravetat, correlació (sentit, força,
+  lineal o no, correlació i causalitat), coeficient de correlació (covariància i $r$ amb una taula), recta de regressió (a ull i amb
+  $y-\bar y=\frac{\sigma_{xy}}{\sigma_x^2}(x-\bar x)$) i estimacions (interpolació, extrapolació i fiabilitat). El contingut és a `s12.py`, `s3.py`,
+  `s4.py` i `s56.py`; `comu.py` hi afig `bi()`, `rl()` i els núvols en SVG (`nuvol`, `nuvolR` per a núvols amb una $r$ exacta), i `app.js` en té
+  una còpia (`cloud`, `cloudR`). Ginys: taula de doble entrada (`w-dbl`), núvol amb el centre de gravetat (`w-cloud`), el núvol segons $r$
+  (`w-slide`), $r$ pas a pas (`w-cov`), endevina $r$ (`w-guess`), recta a ull amb la suma dels quadrats dels errors (`w-eye`), recta de
+  regressió (`w-reg`) i estimacions amb la fiabilitat (`w-est`). Entrenadors `rel`, `cg`, `tipus`, `sentit`, `cov`, `rcalc`, `rint`, `recta`, `est` i
+  `fiab`; qüestionari de 20 preguntes a `quiz.js`. A `materials.js` és del bloc d'estadística i probabilitat (il·lustració nova `regressio`).
+  La fitxa (`_eines/fonts-latex/4eso-a-t10/genera.py`, 41 exercicis en 6 seccions, bilingüe amb `T()`) escriu els càlculs de $r$ i de la recta
+  pas a pas a partir de les dades (`passos_r`, `passos_recta`) i dibuixa els núvols en TikZ (`nuvol`, `gen`):
+
+```
+python3 _eines/apunts/4eso-a-t10/build.py
+cd _eines/fonts-latex/4eso-a-t10 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques B

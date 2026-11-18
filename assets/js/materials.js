@@ -484,11 +484,21 @@ window.LEVELS = {
       {
         num: "9",
         ill: "estadistica", block: "pr",
-        title: { va: "Estadística", es: "Estadística", en: "Statistics" },
+        title: { va: "Estadística Unidimensional", es: "Estadística Unidimensional", en: "One-Variable Statistics" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-a/t9-estadistica.html", date: "2026-11-18" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 54 exercicis graduats per nivells de dificultat", es: "PDF · 54 ejercicios graduados por niveles de dificultad", en: "PDF · 54 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t9-fitxa-exercicis.pdf", es: "materials/4eso-a/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-18" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 54 exercicis", es: "PDF · Soluciones de los 54 ejercicios", en: "PDF · Solutions to all 54 exercises" }, url: { va: "materials/4eso-a/t9-fitxa-solucions.pdf", es: "materials/4eso-a/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-18" }
+        ]
+      },
+      {
+        num: "10",
+        ill: "regressio", block: "pr",
+        title: { va: "Estadística bidimensional", es: "Estadística bidimensional", en: "Bivariate Statistics" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/4eso-a/t10-estadistica-bidimensional.html", date: "2026-11-18" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 41 exercicis graduats per nivells de dificultat", es: "PDF · 41 ejercicios graduados por niveles de dificultad", en: "PDF · 41 exercises graded by difficulty" }, url: { va: "materials/4eso-a/t10-fitxa-exercicis.pdf", es: "materials/4eso-a/t10-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-18" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 41 exercicis", es: "PDF · Soluciones de los 41 ejercicios", en: "PDF · Solutions to all 41 exercises" }, url: { va: "materials/4eso-a/t10-fitxa-solucions.pdf", es: "materials/4eso-a/t10-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-18" }
         ]
       }
     ]

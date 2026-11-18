@@ -1045,7 +1045,7 @@
     onLang(function () { paintTheme(); paintLang(); });
   }
 
-  var TITLES = { va: "Estadística · FentMates", es: "Estadística · FentMates", en: "Statistics · FentMates" };
+  var TITLES = { va: "Estadística Unidimensional · FentMates", es: "Estadística Unidimensional · FentMates", en: "One-Variable Statistics · FentMates" };
   function setLang(l) {
     if (LANGS.indexOf(l) < 0) return;
     lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);

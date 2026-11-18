@@ -1,0 +1,692 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\AtBeginDocument{\renewcommand{\sin}{\operatorname{sen}}\renewcommand{\arcsin}{\operatorname{arcsen}}}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\AtBeginDocument{\hypersetup{pdftitle={Ficha de ejercicios de la unidad 10: Estadística bidimensional. 4º ESO},pdfsubject={Matemáticas A 4º ESO},pdfkeywords={estadística bidimensional, distribuciones bidimensionales, tabla de doble entrada, nube de puntos, centro de gravedad, correlación, covarianza, coeficiente de correlación, recta de regresión, estimaciones}}}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Ficha de ejercicios · Unidad 10: Estadística bidimensional · 4\textsuperscript{o} ESO}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\stepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ {\small\estrelles{#1}}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{10\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\definecolor{violet}{HTML}{7C6CF0}
+\definecolor{gold}{HTML}{E0A21B}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recuerda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{#1}\newcommand{\rest}[1]{#1}
+
+\def\fmneed{14}
+\input{../comu/fentmates.tex}
+\fmcurs{4eso-a}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemáticas A}{4\textsuperscript{o} ESO}{Ficha de ejercicios · Unidad 10}{Estadística bidimensional}
+\vspace{10pt}
+Nombre y apellidos: \rule{6.6cm}{0.4pt}\hfill Grupo: \rule{1.6cm}{0.4pt}\hfill Fecha: \rule{2.2cm}{0.4pt}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Ejercicios graduados por niveles de dificultad:\quad \estrelles{1}\ básico \qquad \estrelles{2}\ medio \qquad \estrelles{3}\ avanzado.\\[2pt] Resuélvelos en el cuaderno mostrando todos los pasos. Puedes usar la calculadora en modo estadístico de dos variables ($y=a+bx$) para comprobar los resultados. Las secciones siguen el orden de los apuntes de la unidad (10.1--10.6).
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Distribuciones bidimensionales}
+
+\ex{1} Di si la relación entre las variables es funcional, estadística o si no hay relación:\recorda{\textbf{Funcional}: hay una fórmula exacta. \textbf{Estadística}: hay una tendencia, pero no una fórmula. \textbf{Ninguna}: una variable no dice nada de la otra.}\begin{tasks}(2)
+  \task Radio de un círculo y área.
+  \task Peso y altura de unas personas.
+  \task Nota de música y número de calzado.
+  \task Km de un taxi y precio (2 € más 1,10 €/km).
+  \task Horas de sueño y rendimiento en un examen.
+  \task Año de nacimiento y edad a 31 de diciembre.
+\end{tasks}
+
+\ex{1} Esta tabla da la distancia (km) entre la casa y el instituto de 8 alumnos y el tiempo (minutos) que tardan en llegar:\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|}\hline Distancia (km) & $1$ & $2$ & $2{,}5$ & $3$ & $4$ & $5$ & $6$ & $8$\\\hline Tiempo (min) & $10$ & $12$ & $15$ & $14$ & $20$ & $22$ & $25$ & $30$\\\hline\end{tabular}}\end{center}\begin{tasks}(1)
+  \task Escribe las parejas de datos. ¿Cuánto vale $N$?
+  \task ¿Cuántos alumnos viven a más de 3 km? ¿Cuántos tardan más de un cuarto de hora?
+  \task ¿La relación entre las variables es funcional o estadística? ¿Por qué?
+\end{tasks}
+
+\ex{1} Se ha preguntado a 30 alumnos cuántos hermanos tienen ($X$) y cuántas mascotas ($Y$):\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.25}\begin{tabular}{|c|c|c|c|c|}\hline $X\backslash Y$ & $0$ & $1$ & $2$ & $f_x$\\\hline $0$ & $3$ & $4$ & $1$ & $8$\\\hline $1$ & $5$ & $6$ & $3$ & $14$\\\hline $2$ & $2$ & $4$ & $2$ & $8$\\\hline $f_y$ & $10$ & $14$ & $6$ & $30$\\\hline\end{tabular}}\end{center}\begin{tasks}(1)
+  \task ¿Cuántos alumnos tienen 1 hermano y 2 mascotas?
+  \task ¿Cuántos alumnos no tienen mascota?
+  \task ¿Cuántos tienen tantos hermanos como mascotas?
+  \task ¿Qué porcentaje tiene 2 hermanos?
+\end{tasks}
+
+\ex{2} Haz la tabla de doble entrada de estas 16 parejas, con los totales de las filas y de las columnas:\par\smallskip\begin{center}$(1,0),\ (2,1),\ (1,1),\ (3,2),\ (2,1),\ (1,0),\ (2,2),\ (3,1),\ (2,1),\ (1,1),\ (3,2),\ (2,0),\ (1,1),\ (2,1),\ (3,2),\ (2,2)$\end{center}
+
+\ex{2} Con la tabla del ejercicio 3, calcula el número medio de hermanos y el número medio de mascotas de los 30 alumnos.\recorda{La última columna ($f_x$) es la distribución de $X$ y la última fila ($f_y$), la de $Y$.}
+
+\ex{3} Completa la tabla de doble entrada:\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.25}\begin{tabular}{|c|c|c|c|c|}\hline $X\backslash Y$ & $0$ & $1$ & $2$ & $f_x$\\\hline $1$ & $4$ & \phantom{00} & $1$ & $7$\\\hline $2$ & \phantom{00} & $5$ & $2$ & $10$\\\hline $3$ & $1$ & $3$ & \phantom{00} & $8$\\\hline $f_y$ & \phantom{00} & $10$ & $7$ & \phantom{00}\\\hline\end{tabular}}\end{center}
+
+
+% =====================================================
+\seccio{2}{Nube de puntos}
+
+\ex{1} Dibuja la nube de puntos de esta distribución y calcula su centro de gravedad:\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|}\hline $x_i$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$\\\hline $y_i$ & $2$ & $4$ & $3$ & $6$ & $5$ & $7$\\\hline\end{tabular}}\end{center}\recorda{El \textbf{centro de gravedad} es el punto $(\bar x,\,\bar y)$, con $\bar x=\frac{\sum x_i}{N}$ e $\bar y=\frac{\sum y_i}{N}$.}
+
+\ex{1} Escribe la tabla de datos de esta nube de puntos y calcula su centro de gravedad.\par\smallskip\begin{center}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.556,0)--(0.556,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.556,0) {$1$};
+\draw[muted!25,line width=0.3pt] (1.111,0)--(1.111,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.111,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.667,0)--(1.667,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.667,0) {$3$};
+\draw[muted!25,line width=0.3pt] (2.222,0)--(2.222,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.222,0) {$4$};
+\draw[muted!25,line width=0.3pt] (2.778,0)--(2.778,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.778,0) {$5$};
+\draw[muted!25,line width=0.3pt] (3.333,0)--(3.333,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (3.333,0) {$6$};
+\draw[muted!25,line width=0.3pt] (3.889,0)--(3.889,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (3.889,0) {$7$};
+\draw[muted!25,line width=0.3pt] (4.444,0)--(4.444,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (4.444,0) {$8$};
+\draw[muted!25,line width=0.3pt] (5.000,0)--(5.000,3.600); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (5.000,0) {$9$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(5.000,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.400)--(5.000,0.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.400) {$1$};
+\draw[muted!25,line width=0.3pt] (0,0.800)--(5.000,0.800); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.800) {$2$};
+\draw[muted!25,line width=0.3pt] (0,1.200)--(5.000,1.200); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.200) {$3$};
+\draw[muted!25,line width=0.3pt] (0,1.600)--(5.000,1.600); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.600) {$4$};
+\draw[muted!25,line width=0.3pt] (0,2.000)--(5.000,2.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.000) {$5$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(5.000,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$6$};
+\draw[muted!25,line width=0.3pt] (0,2.800)--(5.000,2.800); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.800) {$7$};
+\draw[muted!25,line width=0.3pt] (0,3.200)--(5.000,3.200); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,3.200) {$8$};
+\draw[muted!25,line width=0.3pt] (0,3.600)--(5.000,3.600); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,3.600) {$9$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(5.300,0) node[right,font=\scriptsize,text=navy]{X};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,3.900) node[above,font=\scriptsize,text=navy]{Y};
+\fill[teal] (0.556,3.200) circle (0.085);
+\fill[teal] (1.111,2.400) circle (0.085);
+\fill[teal] (2.222,2.000) circle (0.085);
+\fill[teal] (2.778,1.200) circle (0.085);
+\fill[teal] (4.444,1.200) circle (0.085);
+\end{tikzpicture}\end{center}
+
+\ex{2} Dibuja la nube de puntos de las alturas (cm) y los pesos (kg) de seis personas. Haz que los ejes no empiecen en 0 y calcula el centro de gravedad.\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|}\hline Altura & $150$ & $155$ & $160$ & $165$ & $170$ & $175$\\\hline Peso & $45$ & $52$ & $54$ & $60$ & $63$ & $70$\\\hline\end{tabular}}\end{center}
+
+\ex{2} Dibuja la nube de puntos de la tabla del ejercicio 3. Escribe al lado de cada punto su frecuencia. ¿Cuál es el centro de gravedad?
+
+\ex{2} En una distribución de 5 parejas, cuatro son $(2,\,7),\ \allowbreak (3,\,5),\ \allowbreak (5,\,6),\ \allowbreak (6,\,2)$ y el centro de gravedad es $(4{,}2;\ 5)$. Encuentra la pareja que falta.
+
+\ex{3} ¿Qué punto hay que añadir a $(2,\,3),\ \allowbreak (4,\,7),\ \allowbreak (6,\,5)$ para que el centro de gravedad no cambie? ¿Y para que pase a ser $(5,\ 6)$?
+
+
+% =====================================================
+\seccio{3}{Correlación}
+
+\ex{1} Describe la correlación (sentido y fuerza) de cada nube de puntos:\recorda{\textbf{Sentido}: positiva si la nube sube, negativa si baja, nula si ni sube ni baja. \textbf{Fuerza}: fuerte si los puntos están cerca de una recta, débil si están dispersos.}\par\smallskip\begin{center}\begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.527,1.280) circle (0.055);
+\fill[teal] (2.071,1.495) circle (0.055);
+\fill[teal] (1.045,0.844) circle (0.055);
+\fill[teal] (1.950,1.742) circle (0.055);
+\fill[teal] (1.361,0.990) circle (0.055);
+\fill[teal] (1.360,1.292) circle (0.055);
+\fill[teal] (2.376,1.968) circle (0.055);
+\fill[teal] (1.557,1.320) circle (0.055);
+\fill[teal] (1.463,1.331) circle (0.055);
+\fill[teal] (1.826,1.596) circle (0.055);
+\fill[teal] (2.013,1.782) circle (0.055);
+\fill[teal] (1.468,1.265) circle (0.055);
+\fill[teal] (1.759,1.436) circle (0.055);
+\fill[teal] (1.025,0.912) circle (0.055);
+\fill[teal] (1.310,1.076) circle (0.055);
+\fill[teal] (1.277,1.148) circle (0.055);
+\fill[teal] (0.856,0.774) circle (0.055);
+\fill[teal] (0.773,0.902) circle (0.055);
+\fill[teal] (0.718,0.565) circle (0.055);
+\fill[teal] (1.371,1.108) circle (0.055);
+\fill[teal] (1.402,1.145) circle (0.055);
+\fill[teal] (1.332,0.980) circle (0.055);
+\fill[teal] (1.515,1.514) circle (0.055);
+\fill[teal] (0.855,0.608) circle (0.055);
+\fill[teal] (1.445,1.244) circle (0.055);
+\fill[teal] (1.595,1.325) circle (0.055);
+\fill[teal] (1.836,1.718) circle (0.055);
+\fill[teal] (1.085,0.815) circle (0.055);
+\fill[teal] (1.295,1.274) circle (0.055);
+\fill[teal] (0.535,0.551) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{A}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.692,1.463) circle (0.055);
+\fill[teal] (1.977,1.235) circle (0.055);
+\fill[teal] (0.880,1.197) circle (0.055);
+\fill[teal] (0.826,1.749) circle (0.055);
+\fill[teal] (1.479,0.905) circle (0.055);
+\fill[teal] (2.198,0.846) circle (0.055);
+\fill[teal] (1.506,1.123) circle (0.055);
+\fill[teal] (0.687,1.823) circle (0.055);
+\fill[teal] (0.891,1.735) circle (0.055);
+\fill[teal] (1.267,1.102) circle (0.055);
+\fill[teal] (1.790,0.904) circle (0.055);
+\fill[teal] (1.290,1.044) circle (0.055);
+\fill[teal] (1.107,2.076) circle (0.055);
+\fill[teal] (1.177,1.217) circle (0.055);
+\fill[teal] (1.384,1.202) circle (0.055);
+\fill[teal] (0.909,1.017) circle (0.055);
+\fill[teal] (1.297,0.799) circle (0.055);
+\fill[teal] (1.435,0.892) circle (0.055);
+\fill[teal] (2.147,0.840) circle (0.055);
+\fill[teal] (1.267,1.534) circle (0.055);
+\fill[teal] (1.798,0.956) circle (0.055);
+\fill[teal] (0.762,1.490) circle (0.055);
+\fill[teal] (1.742,1.497) circle (0.055);
+\fill[teal] (1.380,0.876) circle (0.055);
+\fill[teal] (1.017,1.219) circle (0.055);
+\fill[teal] (1.284,1.431) circle (0.055);
+\fill[teal] (1.765,0.579) circle (0.055);
+\fill[teal] (1.129,1.485) circle (0.055);
+\fill[teal] (1.830,1.149) circle (0.055);
+\fill[teal] (2.087,0.615) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{B}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.038,1.165) circle (0.055);
+\fill[teal] (1.576,1.450) circle (0.055);
+\fill[teal] (2.071,1.010) circle (0.055);
+\fill[teal] (2.182,1.874) circle (0.055);
+\fill[teal] (2.019,1.420) circle (0.055);
+\fill[teal] (1.495,1.980) circle (0.055);
+\fill[teal] (1.625,1.270) circle (0.055);
+\fill[teal] (1.359,1.088) circle (0.055);
+\fill[teal] (0.869,0.859) circle (0.055);
+\fill[teal] (1.259,1.511) circle (0.055);
+\fill[teal] (1.909,1.582) circle (0.055);
+\fill[teal] (1.587,1.235) circle (0.055);
+\fill[teal] (1.327,1.347) circle (0.055);
+\fill[teal] (0.987,1.086) circle (0.055);
+\fill[teal] (1.430,1.009) circle (0.055);
+\fill[teal] (1.206,1.070) circle (0.055);
+\fill[teal] (1.490,0.418) circle (0.055);
+\fill[teal] (1.696,0.759) circle (0.055);
+\fill[teal] (0.424,1.233) circle (0.055);
+\fill[teal] (1.431,1.229) circle (0.055);
+\fill[teal] (0.800,1.641) circle (0.055);
+\fill[teal] (1.044,1.447) circle (0.055);
+\fill[teal] (0.903,1.369) circle (0.055);
+\fill[teal] (1.984,1.176) circle (0.055);
+\fill[teal] (1.781,0.251) circle (0.055);
+\fill[teal] (1.701,1.187) circle (0.055);
+\fill[teal] (1.132,0.832) circle (0.055);
+\fill[teal] (0.812,1.399) circle (0.055);
+\fill[teal] (1.298,1.068) circle (0.055);
+\fill[teal] (1.566,1.036) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{C}\end{tabular}\end{center}\par\smallskip\begin{center}\begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (0.941,1.419) circle (0.055);
+\fill[teal] (0.954,0.804) circle (0.055);
+\fill[teal] (1.715,1.190) circle (0.055);
+\fill[teal] (0.473,1.241) circle (0.055);
+\fill[teal] (1.375,0.735) circle (0.055);
+\fill[teal] (0.489,0.461) circle (0.055);
+\fill[teal] (1.896,1.667) circle (0.055);
+\fill[teal] (1.520,1.871) circle (0.055);
+\fill[teal] (2.003,1.287) circle (0.055);
+\fill[teal] (1.223,0.368) circle (0.055);
+\fill[teal] (1.602,1.473) circle (0.055);
+\fill[teal] (1.315,0.957) circle (0.055);
+\fill[teal] (1.125,0.871) circle (0.055);
+\fill[teal] (1.496,1.348) circle (0.055);
+\fill[teal] (0.908,0.899) circle (0.055);
+\fill[teal] (1.286,1.164) circle (0.055);
+\fill[teal] (1.727,1.251) circle (0.055);
+\fill[teal] (1.459,1.554) circle (0.055);
+\fill[teal] (1.263,1.486) circle (0.055);
+\fill[teal] (2.352,1.788) circle (0.055);
+\fill[teal] (1.459,1.071) circle (0.055);
+\fill[teal] (1.189,1.224) circle (0.055);
+\fill[teal] (1.502,1.357) circle (0.055);
+\fill[teal] (1.216,0.748) circle (0.055);
+\fill[teal] (1.273,0.947) circle (0.055);
+\fill[teal] (1.288,1.376) circle (0.055);
+\fill[teal] (2.283,1.707) circle (0.055);
+\fill[teal] (1.444,1.095) circle (0.055);
+\fill[teal] (1.508,1.287) circle (0.055);
+\fill[teal] (1.717,1.355) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{D}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.436,1.105) circle (0.055);
+\fill[teal] (1.636,0.998) circle (0.055);
+\fill[teal] (1.199,1.653) circle (0.055);
+\fill[teal] (1.583,0.917) circle (0.055);
+\fill[teal] (1.854,0.672) circle (0.055);
+\fill[teal] (1.611,0.974) circle (0.055);
+\fill[teal] (2.154,0.682) circle (0.055);
+\fill[teal] (0.999,1.458) circle (0.055);
+\fill[teal] (1.449,1.368) circle (0.055);
+\fill[teal] (1.084,1.293) circle (0.055);
+\fill[teal] (1.047,1.367) circle (0.055);
+\fill[teal] (1.330,1.256) circle (0.055);
+\fill[teal] (1.521,0.964) circle (0.055);
+\fill[teal] (1.615,0.916) circle (0.055);
+\fill[teal] (1.657,1.036) circle (0.055);
+\fill[teal] (2.472,0.341) circle (0.055);
+\fill[teal] (1.824,0.835) circle (0.055);
+\fill[teal] (0.664,1.824) circle (0.055);
+\fill[teal] (1.513,1.297) circle (0.055);
+\fill[teal] (1.123,1.510) circle (0.055);
+\fill[teal] (1.173,1.370) circle (0.055);
+\fill[teal] (2.034,0.808) circle (0.055);
+\fill[teal] (1.312,1.147) circle (0.055);
+\fill[teal] (0.495,2.041) circle (0.055);
+\fill[teal] (1.564,1.151) circle (0.055);
+\fill[teal] (1.279,1.308) circle (0.055);
+\fill[teal] (0.862,1.601) circle (0.055);
+\fill[teal] (0.982,1.630) circle (0.055);
+\fill[teal] (1.122,1.372) circle (0.055);
+\fill[teal] (1.406,1.108) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{E}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (0.168,0.633) circle (0.055);
+\fill[teal] (0.272,0.690) circle (0.055);
+\fill[teal] (0.375,1.166) circle (0.055);
+\fill[teal] (0.479,1.175) circle (0.055);
+\fill[teal] (0.582,1.368) circle (0.055);
+\fill[teal] (0.686,1.649) circle (0.055);
+\fill[teal] (0.790,1.845) circle (0.055);
+\fill[teal] (0.893,1.834) circle (0.055);
+\fill[teal] (0.997,1.907) circle (0.055);
+\fill[teal] (1.100,2.053) circle (0.055);
+\fill[teal] (1.204,2.139) circle (0.055);
+\fill[teal] (1.308,2.137) circle (0.055);
+\fill[teal] (1.411,2.153) circle (0.055);
+\fill[teal] (1.515,2.076) circle (0.055);
+\fill[teal] (1.618,1.996) circle (0.055);
+\fill[teal] (1.722,2.183) circle (0.055);
+\fill[teal] (1.826,1.926) circle (0.055);
+\fill[teal] (1.929,1.866) circle (0.055);
+\fill[teal] (2.033,1.639) circle (0.055);
+\fill[teal] (2.136,1.630) circle (0.055);
+\fill[teal] (2.240,1.521) circle (0.055);
+\fill[teal] (2.344,1.110) circle (0.055);
+\fill[teal] (2.447,1.117) circle (0.055);
+\fill[teal] (2.551,0.863) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{F}\end{tabular}\end{center}
+
+\ex{1} ¿Qué correlación (positiva, negativa o nula) esperas entre estas variables?\begin{tasks}(2)
+  \task Temperatura y consumo de calefacción.
+  \task Horas de entrenamiento y marca en una carrera de 100 m.
+  \task Superficie de un piso y precio.
+  \task Edad y número de dientes de un niño de 2 a 6 años.
+  \task Número de teléfono y altura.
+  \task Velocidad de un coche y tiempo para hacer un trayecto.
+\end{tasks}
+
+\ex{1} Asocia cada nube con su coeficiente de correlación: $r=0{,}9$; \ $r=-0{,}9$; \ $r=0{,}4$; \ $r=0$.\par\smallskip\begin{center}\begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.579,1.037) circle (0.055);
+\fill[teal] (1.447,1.190) circle (0.055);
+\fill[teal] (0.976,1.638) circle (0.055);
+\fill[teal] (2.227,0.488) circle (0.055);
+\fill[teal] (0.567,2.005) circle (0.055);
+\fill[teal] (1.315,1.235) circle (0.055);
+\fill[teal] (1.739,0.977) circle (0.055);
+\fill[teal] (1.620,0.871) circle (0.055);
+\fill[teal] (1.606,1.376) circle (0.055);
+\fill[teal] (0.834,1.893) circle (0.055);
+\fill[teal] (2.188,0.743) circle (0.055);
+\fill[teal] (0.976,1.595) circle (0.055);
+\fill[teal] (1.286,1.108) circle (0.055);
+\fill[teal] (1.311,1.047) circle (0.055);
+\fill[teal] (1.306,1.173) circle (0.055);
+\fill[teal] (1.060,1.430) circle (0.055);
+\fill[teal] (2.039,0.558) circle (0.055);
+\fill[teal] (1.342,1.210) circle (0.055);
+\fill[teal] (1.778,0.971) circle (0.055);
+\fill[teal] (0.571,1.593) circle (0.055);
+\fill[teal] (1.592,1.320) circle (0.055);
+\fill[teal] (1.210,1.337) circle (0.055);
+\fill[teal] (1.501,1.149) circle (0.055);
+\fill[teal] (1.412,0.905) circle (0.055);
+\fill[teal] (1.519,1.148) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{A}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.042,0.740) circle (0.055);
+\fill[teal] (1.342,0.952) circle (0.055);
+\fill[teal] (1.757,0.962) circle (0.055);
+\fill[teal] (1.284,2.044) circle (0.055);
+\fill[teal] (1.070,1.341) circle (0.055);
+\fill[teal] (0.848,0.850) circle (0.055);
+\fill[teal] (1.850,1.427) circle (0.055);
+\fill[teal] (1.456,1.580) circle (0.055);
+\fill[teal] (1.254,0.618) circle (0.055);
+\fill[teal] (1.108,1.220) circle (0.055);
+\fill[teal] (0.454,1.049) circle (0.055);
+\fill[teal] (1.586,1.110) circle (0.055);
+\fill[teal] (1.136,1.292) circle (0.055);
+\fill[teal] (1.525,1.556) circle (0.055);
+\fill[teal] (2.202,1.271) circle (0.055);
+\fill[teal] (1.391,0.915) circle (0.055);
+\fill[teal] (1.489,1.439) circle (0.055);
+\fill[teal] (1.973,1.268) circle (0.055);
+\fill[teal] (1.464,1.238) circle (0.055);
+\fill[teal] (1.614,1.878) circle (0.055);
+\fill[teal] (1.045,1.121) circle (0.055);
+\fill[teal] (1.157,0.978) circle (0.055);
+\fill[teal] (0.841,0.406) circle (0.055);
+\fill[teal] (1.995,1.357) circle (0.055);
+\fill[teal] (2.119,1.387) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{B}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (1.523,1.401) circle (0.055);
+\fill[teal] (1.346,0.994) circle (0.055);
+\fill[teal] (0.863,0.654) circle (0.055);
+\fill[teal] (1.704,1.722) circle (0.055);
+\fill[teal] (1.455,1.164) circle (0.055);
+\fill[teal] (1.479,1.203) circle (0.055);
+\fill[teal] (1.407,1.282) circle (0.055);
+\fill[teal] (1.991,1.922) circle (0.055);
+\fill[teal] (1.721,1.089) circle (0.055);
+\fill[teal] (1.849,1.810) circle (0.055);
+\fill[teal] (1.219,1.092) circle (0.055);
+\fill[teal] (1.149,1.132) circle (0.055);
+\fill[teal] (0.912,0.632) circle (0.055);
+\fill[teal] (1.236,1.112) circle (0.055);
+\fill[teal] (0.205,0.452) circle (0.055);
+\fill[teal] (2.021,1.707) circle (0.055);
+\fill[teal] (1.398,1.101) circle (0.055);
+\fill[teal] (1.375,1.112) circle (0.055);
+\fill[teal] (1.703,1.373) circle (0.055);
+\fill[teal] (1.183,1.145) circle (0.055);
+\fill[teal] (1.444,1.269) circle (0.055);
+\fill[teal] (1.666,1.347) circle (0.055);
+\fill[teal] (0.682,0.723) circle (0.055);
+\fill[teal] (2.069,1.590) circle (0.055);
+\fill[teal] (1.399,0.975) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{C}\end{tabular}\quad \begin{tabular}{c}\begin{tikzpicture}[baseline=(current bounding box.center),line cap=round]
+\draw[muted!25,line width=0.3pt] (0.000,0)--(0.000,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.000,0) {$0$};
+\draw[muted!25,line width=0.3pt] (0.560,0)--(0.560,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (0.560,0) {$2$};
+\draw[muted!25,line width=0.3pt] (1.120,0)--(1.120,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.120,0) {$4$};
+\draw[muted!25,line width=0.3pt] (1.680,0)--(1.680,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (1.680,0) {$6$};
+\draw[muted!25,line width=0.3pt] (2.240,0)--(2.240,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.240,0) {$8$};
+\draw[muted!25,line width=0.3pt] (2.800,0)--(2.800,2.400); \node[below,font=\tiny,text=muted,inner sep=1.5pt] at (2.800,0) {$10$};
+\draw[muted!25,line width=0.3pt] (0,0.000)--(2.800,0.000); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.000) {$0$};
+\draw[muted!25,line width=0.3pt] (0,0.480)--(2.800,0.480); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.480) {$2$};
+\draw[muted!25,line width=0.3pt] (0,0.960)--(2.800,0.960); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,0.960) {$4$};
+\draw[muted!25,line width=0.3pt] (0,1.440)--(2.800,1.440); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.440) {$6$};
+\draw[muted!25,line width=0.3pt] (0,1.920)--(2.800,1.920); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,1.920) {$8$};
+\draw[muted!25,line width=0.3pt] (0,2.400)--(2.800,2.400); \node[left,font=\tiny,text=muted,inner sep=1.5pt] at (0,2.400) {$10$};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(3.100,0) node[right,font=\scriptsize,text=navy]{};
+\draw[-latex,muted,line width=0.6pt] (0,0)--(0,2.700) node[above,font=\scriptsize,text=navy]{};
+\fill[teal] (0.809,1.253) circle (0.055);
+\fill[teal] (1.302,1.259) circle (0.055);
+\fill[teal] (1.962,1.433) circle (0.055);
+\fill[teal] (0.588,1.027) circle (0.055);
+\fill[teal] (1.739,1.117) circle (0.055);
+\fill[teal] (1.116,1.055) circle (0.055);
+\fill[teal] (1.875,1.020) circle (0.055);
+\fill[teal] (1.260,1.104) circle (0.055);
+\fill[teal] (1.342,1.499) circle (0.055);
+\fill[teal] (1.607,1.495) circle (0.055);
+\fill[teal] (1.146,0.916) circle (0.055);
+\fill[teal] (1.394,1.335) circle (0.055);
+\fill[teal] (1.317,0.613) circle (0.055);
+\fill[teal] (2.042,1.113) circle (0.055);
+\fill[teal] (1.541,1.499) circle (0.055);
+\fill[teal] (0.650,1.373) circle (0.055);
+\fill[teal] (1.554,2.171) circle (0.055);
+\fill[teal] (1.498,1.419) circle (0.055);
+\fill[teal] (1.394,0.937) circle (0.055);
+\fill[teal] (2.000,1.228) circle (0.055);
+\fill[teal] (1.854,0.837) circle (0.055);
+\fill[teal] (0.708,1.658) circle (0.055);
+\fill[teal] (1.978,1.038) circle (0.055);
+\fill[teal] (1.164,1.342) circle (0.055);
+\fill[teal] (1.162,0.259) circle (0.055);
+\end{tikzpicture}\\[-1pt] \small\textbf{D}\end{tabular}\end{center}
+
+\ex{2} Una tienda ha probado cinco precios (€) para un producto y ha apuntado las unidades vendidas en una semana. Dibuja la nube de puntos y describe su correlación.\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|}\hline Precio (€) & $1$ & $2$ & $3$ & $4$ & $5$\\\hline Unidades & $50$ & $44$ & $40$ & $32$ & $24$\\\hline\end{tabular}}\end{center}
+
+\ex{2} En los incendios en los que trabajan más bomberos hay más daños. ¿Quiere decir esto que los bomberos causan los daños? Explícalo.
+
+\ex{3} Inventa cinco parejas de datos con una correlación negativa y fuerte, y cinco más con correlación nula. Dibuja sus nubes.
+
+\ex{3} Las notas de matemáticas y de física de 8 alumnos son $(4,\,5),\ \allowbreak (5,\,5),\ \allowbreak (6,\,7),\ \allowbreak (7,\,6),\ \allowbreak (8,\,8),\ \allowbreak (9,\,9),\ \allowbreak (3,\,4)$ y $(9,\,2)$. Dibuja la nube. ¿Qué punto rompe la tendencia? ¿Cómo sería la correlación sin ese punto?
+
+
+% =====================================================
+\seccio{4}{Coeficiente de correlación}
+
+\ex{1} Di qué tipo de correlación indica cada coeficiente:\recorda{$-1\le r\le1$. El \textbf{signo} de $r$ dice el sentido y $|r|$, la fuerza: $|r|\ge0{,}8$ fuerte; $0{,}5\le|r|<0{,}8$ moderada; $|r|<0{,}5$ débil; $r\approx0$ nula.}\begin{tasks}(6)
+  \task $r=0{,}87$
+  \task $r=-0{,}35$
+  \task $r=0{,}02$
+  \task $r=-0{,}96$
+  \task $r=0{,}61$
+  \task $r=1$
+\end{tasks}
+
+\ex{1} Calcula el coeficiente de correlación y di cómo es la correlación:\recorda{$\sigma_{xy}=\frac{\sum x_iy_i}{N}-\bar x\cdot\bar y$ \quad y \quad $r=\frac{\sigma_{xy}}{\sigma_x\cdot\sigma_y}$.}\begin{tasks}(1)
+  \task $\sigma_{xy}=-6$, \ $\sigma_x=2{,}5$, \ $\sigma_y=3$
+  \task $N=8$, \ $\sum x_iy_i=210$, \ $\bar x=4$, \ $\bar y=6$, \ $\sigma_x=2$, \ $\sigma_y=3$
+  \task $N=10$, \ $\sum x_iy_i=420$, \ $\bar x=5$, \ $\bar y=8$, \ $\sigma_x=1{,}5$, \ $\sigma_y=2{,}2$
+\end{tasks}
+
+\ex{2} Calcula el coeficiente de correlación de la distribución $(1,\,1),\ \allowbreak (2,\,3),\ \allowbreak (3,\,2),\ \allowbreak (4,\,5),\ \allowbreak (5,\,4)$ e interprétalo.
+
+\ex{2} Calcula el coeficiente de correlación de la distribución $(2,\,9),\ \allowbreak (4,\,7),\ \allowbreak (6,\,6),\ \allowbreak (8,\,4),\ \allowbreak (10,\,4)$ e interprétalo.
+
+\ex{2} Calcula el coeficiente de correlación entre la distancia y el tiempo del ejercicio 2. ¿Coincide con lo que esperabas?
+
+\ex{3} Todas las parejas de una distribución cumplen $y=-3x+2$. ¿Cuánto vale $r$? ¿Y si cumplen $y=5$ (con valores de $x$ distintos)?
+
+\ex{3} Multiplica por 10 todos los valores de $x$ del ejercicio 22 y calcula de nuevo $r$. ¿Qué observas? ¿Por qué pasa?
+
+
+% =====================================================
+\seccio{5}{Recta de regresión}
+
+\ex{1} Escribe la recta de regresión en cada caso:\recorda{$y-\bar y=\frac{\sigma_{xy}}{\sigma_x^2}\,(x-\bar x)$: pasa por el centro de gravedad y tiene pendiente $m=\frac{\sigma_{xy}}{\sigma_x^2}$.}\begin{tasks}(2)
+  \task $\bar x=5$, \ $\bar y=8$, \ $\sigma_x^2=4$, \ $\sigma_{xy}=6$
+  \task $\bar x=10$, \ $\bar y=20$, \ $\sigma_x^2=5$, \ $\sigma_{xy}=-4$
+\end{tasks}
+
+\ex{1} El centro de gravedad de una nube es $(3,\,7)$. ¿Cuál de estas rectas puede ser su recta de regresión? \quad $y=2x+3$; \quad $y=2x+1$; \quad $y=-x+4$.
+
+\ex{2} Calcula la recta de regresión de la distribución del ejercicio 22 y dibújala sobre la nube de puntos.
+
+\ex{2} Calcula la recta de regresión de la distribución del ejercicio 23. ¿Qué indica la pendiente?
+
+\ex{2} Calcula el coeficiente de correlación y la recta de regresión del precio y las unidades vendidas del ejercicio 16. ¿Qué quiere decir la pendiente?
+
+\ex{2} Dibuja la nube del ejercicio 7, traza a ojo una recta que se ajuste (que pase por el centro de gravedad) y escribe su ecuación. Después calcula la recta de regresión y compáralas.
+
+\ex{3} La recta de regresión de una distribución es $y=-1{,}5x+20$ e $\bar y=11$. ¿Cuánto vale $\bar x$? ¿La correlación es positiva o negativa?
+
+\ex{3} De una distribución sabemos que $r=0{,}8$, $\sigma_x=2$, $\sigma_y=5$, $\bar x=10$ e $\bar y=30$. Encuentra la covarianza y la recta de regresión.
+
+
+% =====================================================
+\seccio{6}{Estimaciones}
+
+\ex{1} La recta de regresión de una distribución es $y=2{,}5x+10$ y $r=0{,}92$. Los datos de $x$ van de 2 a 9. Estima el valor de $y$ para $x=4$ y para $x=6{,}2$.\recorda{La estimación es $\hat y=m\cdot x_0+n$. Es fiable si $|r|$ está cerca de 1 y $x_0$ está dentro de los datos.}
+
+\ex{1} Di si estas estimaciones son fiables y por qué:\begin{tasks}(1)
+  \task $r=0{,}96$; los datos de $x$ van de 10 a 30 y estimamos para $x=18$.
+  \task $r=0{,}28$; estimamos para un valor de $x$ dentro de los datos.
+  \task $r=-0{,}91$; los datos de $x$ van de 1 a 6 y estimamos para $x=40$.
+  \task $r=-0{,}85$; estimamos para $x=\bar x$.
+\end{tasks}
+
+\ex{2} Con la recta del ejercicio 29, estima $y$ para $x=3{,}5$ y para $x=20$. ¿Son fiables?
+
+\ex{2} Con los datos del ejercicio 2, encuentra la recta de regresión y estima cuánto tardará un alumno que vive a 7 km. ¿Y uno que vive a 50 km?
+
+\ex{2} Con la recta $y=-6{,}4x+57{,}2$ del ejercicio 31 ($r\approx-0{,}99$), ¿a qué precio hay que vender el producto para vender 40 unidades?
+
+\ex{3} Una heladería ha apuntado la temperatura máxima (°C) y los helados vendidos durante 8 días:\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{0.7cm}|C{0.7cm}|C{0.7cm}|C{0.7cm}|C{0.7cm}|C{0.7cm}|C{0.7cm}|C{0.7cm}|}\hline Temperatura & $14$ & $18$ & $20$ & $23$ & $25$ & $28$ & $30$ & $32$\\\hline Helados & $20$ & $35$ & $40$ & $60$ & $65$ & $80$ & $95$ & $105$\\\hline\end{tabular}}\end{center}\begin{tasks}(1)
+  \task Calcula el coeficiente de correlación e interprétalo.
+  \task Encuentra la recta de regresión.
+  \task ¿Cuántos helados esperan vender un día a 27 °C? ¿Y un día a 40 °C? ¿Qué estimación es más fiable?
+\end{tasks}
+
+\ex{3} La edad (años) y el precio (miles de euros) de cinco coches de segunda mano del mismo modelo son:\par\smallskip\begin{center}{\renewcommand{\arraystretch}{1.3}\begin{tabular}{|l|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|}\hline Edad & $1$ & $2$ & $3$ & $5$ & $9$\\\hline Precio & $19$ & $17$ & $15$ & $12$ & $7$\\\hline\end{tabular}}\end{center}\begin{tasks}(1)
+  \task Calcula el coeficiente de correlación y la recta de regresión.
+  \task Estima el precio de un coche de 6 años y el de uno de 20 años. ¿Tiene sentido el segundo resultado?
+\end{tasks}
+
+\vfill
+\begin{center}\color{muted}\small\faCheckCircle[regular]\ \ ¡Ánimo! Comprueba tus resultados con las herramientas interactivas de los apuntes de la unidad.\end{center}
+
+\end{document}

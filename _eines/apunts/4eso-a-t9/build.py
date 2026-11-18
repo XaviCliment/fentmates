@@ -33,10 +33,10 @@ SECS = [
 NS = len(SECS)
 src = open(SRC, encoding='utf-8').read().split('\n')
 head = '\n'.join(src[:253])
-head = head.replace('<title>Proporcionalitat i percentatges · FentMates</title>', "<title>Estadística · FentMates</title>")
-head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Apunts interactius de la Unitat 9 (Estadística: població, mostra i variables, taules de freqüències amb dades aïllades i agrupades, gràfics estadístics, paràmetres de centralització, dispersió i posició i diagrama de caixes) de 4t d\'ESO Matemàtiques A, en valencià, castellà i anglés.">', head)
+head = head.replace('<title>Proporcionalitat i percentatges · FentMates</title>', "<title>Estadística Unidimensional · FentMates</title>")
+head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Apunts interactius de la Unitat 9 (Estadística Unidimensional: població, mostra i variables, taules de freqüències amb dades aïllades i agrupades, gràfics estadístics, paràmetres de centralització, dispersió i posició i diagrama de caixes) de 4t d\'ESO Matemàtiques A, en valencià, castellà i anglés.">', head)
 head = head.replace('.hero::after { content: "%";', '.hero::after { content: "x̄";')
-assert "Estadística · FentMates" in head and 'content: "x̄"' in head
+assert "Estadística Unidimensional · FentMates" in head and 'content: "x̄"' in head
 wide = '\n'.join(src[344:350])
 assert 'FentMates: 80%' in wide
 css8 = open(os.path.join(HERE, '..', '3eso-t8', 'extra.css'), encoding='utf-8').read()
@@ -50,7 +50,7 @@ assert 'NSEC = %d' % NS in js and '/*QUIZ*/' not in js
 
 ntools = sum(b.count('class="widget') for _, b in SECS)
 toc = ''.join(f'        <li><a href="#s{i}"><span class="n">9.{i}</span>{t}<span class="ck">✓</span></a></li>\n' for i, (t, _) in enumerate(SECS, 1))
-TIT = L("Estadística", "Estadística", "Statistics")
+TIT = L("Estadística Unidimensional", "Estadística Unidimensional", "One-Variable Statistics")
 body = f'''<body>
 <header class="topbar">
   <div class="in">
@@ -103,7 +103,7 @@ body = f'''<body>
 </div>
 
 <footer class="foot">
-  <p>{L("Apunts de teoria · Unitat 9: Estadística · 4t ESO Matemàtiques A", "Apuntes de teoría · Unidad 9: Estadística · 4º ESO Matemáticas A", "Theory notes · Unit 9: Statistics · 4th ESO Maths A")}</p>
+  <p>{L("Apunts de teoria · Unitat 9: Estadística Unidimensional · 4t ESO Matemàtiques A", "Apuntes de teoría · Unidad 9: Estadística Unidimensional · 4º ESO Matemáticas A", "Theory notes · Unit 9: One-Variable Statistics · 4th ESO Maths A")}</p>
   <p><a href="../../index.html">FentMates</a> · {L("Fet amb ♥ per a l'alumnat", "Hecho con ♥ para el alumnado", "Made with ♥ for students")}</p>
 </footer>
 <button class="icon-btn to-top" type="button" id="to-top" aria-label="↑">↑</button>

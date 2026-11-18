@@ -496,7 +496,7 @@ pre += r'''\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
 '''
 if ES: pre = pre.replace(r'\textbf{Recorda:}', r'\textbf{Recuerda:}')
-TIT = T("Estadística", 'Estadística')
+TIT = T("Estadística Unidimensional", 'Estadística Unidimensional')
 NU = 9
 
 def build(sol_):
