@@ -44,6 +44,8 @@ window.LEVELS = {
     symbol: "½",
     stage: "eso",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     name: { va: "1r ESO", es: "1º ESO", en: "1st ESO (Year 7)" },
     desc: {
       va: "Nombres naturals i enters, fraccions, proporcionalitat, àlgebra i geometria plana.",
@@ -149,6 +151,8 @@ window.LEVELS = {
     symbol: "%",
     stage: "eso",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     name: { va: "2n ESO", es: "2º ESO", en: "2nd ESO (Year 8)" },
     desc: {
       va: "Fraccions i decimals, percentatges, àlgebra inicial, equacions i geometria.",
@@ -262,6 +266,7 @@ window.LEVELS = {
   "3eso": {
     stage: "eso",
     cards: true,
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
     color: "#ff7a50",
     symbol: "x²",
@@ -400,6 +405,8 @@ window.LEVELS = {
     symbol: "Δ",
     stage: "eso",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     name: { va: "4t ESO Matemàtiques A", es: "4º ESO Matemáticas A", en: "4th ESO Maths A" },
     desc: {
       va: "Matemàtiques aplicades: nombres, àlgebra, funcions, estadística i probabilitat.",
@@ -525,6 +532,8 @@ window.LEVELS = {
     symbol: "√",
     stage: "eso",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     name: { va: "4t ESO Matemàtiques B", es: "4º ESO Matemáticas B", en: "4th ESO Maths B" },
     desc: {
       va: "Radicals i logaritmes, àlgebra, trigonometria, geometria analítica, funcions, recompte i probabilitat.",
@@ -630,6 +639,8 @@ window.LEVELS = {
     symbol: "sin",
     stage: "batx",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     name: { va: "1r Batxillerat MI", es: "1º Bachillerato MI", en: "1st Baccalaureate Maths I" },
     desc: {
       va: "Nombres reals, àlgebra, geometria analítica, trigonometria, anàlisi i estadística.",
@@ -772,6 +783,8 @@ window.LEVELS = {
     stage: "batx",
     pau: true,
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     name: { va: "2n Batxillerat MII", es: "2º Bachillerato MII", en: "2nd Baccalaureate Maths II" },
     desc: {
       va: "Matrius, geometria a l'espai, anàlisi i probabilitat. Preparació de la PAU.",
