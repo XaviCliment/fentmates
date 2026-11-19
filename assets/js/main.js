@@ -423,6 +423,26 @@
       : '<div class="icards">' + items.map(function (it) { return icardHTML(it, b); }).join("") + "</div>";
     box.innerHTML = body + '<a class="back-units" href="#">← ' + esc(t("level.allunits")) + "</a>";
     typeset(box);
+    if (L.sections) equalCards(box);
+  }
+
+  // totes les targetes de les columnes amb la mateixa alçada (la de la més alta)
+  function equalCards(box) {
+    function run() {
+      var cards = box.querySelectorAll(".scols .icard");
+      if (!cards.length) return;
+      cards.forEach(function (c) { c.style.minHeight = ""; });
+      var h = 0;
+      cards.forEach(function (c) { h = Math.max(h, c.offsetHeight); });
+      cards.forEach(function (c) { c.style.minHeight = h + "px"; });
+    }
+    run();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+    if (!equalCards.bound) {
+      equalCards.bound = true;
+      var tm;
+      window.addEventListener("resize", function () { clearTimeout(tm); tm = setTimeout(function () { equalCards(box); }, 120); });
+    }
   }
 
   /* Cursos amb byBlock: true -> les unitats s'agrupen per bloc (Àlgebra, Anàlisi…) amb un títol
