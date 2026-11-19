@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Targetes de les unitats · FentMates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<style>
+body { background: var(--bg); }
+.proposal-bar { background: #fff6d6; color: #5a4300; border-bottom: 1px solid #f0d98a; font-size: .92rem; padding: 10px 16px; text-align: center; }
+.picker { display: flex; flex-wrap: wrap; gap: 8px; padding: 22px 0 6px; align-items: center; }
+.picker button { font: 600 .92rem "Inter", sans-serif; border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  padding: 8px 14px; border-radius: 999px; cursor: pointer; }
+.picker button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.picker .sep { width: 1px; height: 26px; background: var(--border); margin: 0 6px; }
+.explain { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin: 14px 0 0; font-size: .95rem; color: var(--muted); }
+.explain b { color: var(--text); }
+.stage { padding: 10px 0 80px; }
+.ucards { padding-top: 24px; }
+a { cursor: pointer; }
+
+/* ---- A: per blocs ---- */
+.bhead { display: flex; align-items: center; gap: 12px; margin: 34px 0 16px; font: 800 1.3rem "Outfit", sans-serif; color: var(--text); }
+.bhead i { width: 14px; height: 14px; border-radius: 4px; background: var(--c2); }
+.bhead small { font: 600 .85rem "Inter"; color: var(--muted); }
+.bhead::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--c2) 35%, var(--border)); }
+.wide-banner { display: flex; align-items: center; gap: 22px; margin-top: 26px; padding: 20px 24px; border-radius: 20px; color: #fff; text-decoration: none;
+  background: var(--c2); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.wide-banner .ill { position: absolute; right: 10px; top: 0; bottom: 0; width: 240px; color: #fff; opacity: .22; }
+.wide-banner .ill svg { width: 100%; height: 100%; }
+.wide-banner .st { font: 800 2.2rem "Outfit"; }
+.wide-banner .h { font: 700 1.35rem "Outfit"; }
+.wide-banner .m { font-size: .9rem; opacity: .9; }
+.ucards.a { padding-top: 0; }
+
+/* ---- B: mosaic ---- */
+.bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 190px; gap: 16px; padding-top: 26px; }
+.bento .ucard { min-height: 0; }
+.bento .big { grid-column: span 2; grid-row: span 2; }
+.bento .big .num { font-size: 4rem; }
+.bento .big .h { font-size: 1.8rem; }
+.bento .wide { grid-column: span 2; }
+@media (max-width: 900px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .bento { grid-template-columns: 1fr; grid-auto-rows: 170px; } .bento .big, .bento .wide { grid-column: auto; grid-row: auto; } .bento .big .num { font-size: 2.6rem; } .bento .big .h { font-size: 1.3rem; } }
+
+/* ---- C: files per bloc ---- */
+.row { margin-top: 30px; }
+.row .bhead { margin: 0 0 12px; }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: 250px; gap: 14px; overflow-x: auto; padding: 4px 2px 14px; scroll-snap-type: x mandatory; }
+.rail .ucard { min-height: 180px; scroll-snap-align: start; }
+
+/* ---- D: ruta ---- */
+.path { position: relative; margin: 30px auto 0; max-width: 900px; }
+.path::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; margin-left: -2px; border-radius: 4px;
+  background: linear-gradient(var(--path)); }
+.stop { position: relative; display: grid; grid-template-columns: 1fr 64px 1fr; align-items: center; margin-bottom: 18px; }
+.stop .dot { grid-column: 2; justify-self: center; width: 52px; height: 52px; border-radius: 50%; background: var(--c2); color: #fff;
+  display: grid; place-items: center; font: 800 1.35rem "Outfit"; box-shadow: 0 0 0 6px var(--bg); z-index: 1; }
+.stop .pc { grid-row: 1; display: flex; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 12px 16px; text-decoration: none; color: inherit; transition: transform .2s, border-color .2s; }
+.stop .pc:hover { transform: translateY(-2px); border-color: var(--c2); }
+.stop.l .pc { grid-column: 1; } .stop.r .pc { grid-column: 3; }
+.stop .pc .ill { width: 58px; height: 46px; flex: none; color: var(--c2); }
+.stop .pc .ill svg { width: 100%; height: 100%; }
+.stop .pc .b { font: 700 .7rem "Inter"; letter-spacing: .08em; text-transform: uppercase; color: var(--c2); }
+.stop .pc .h { font: 700 1.05rem/1.25 "Outfit"; }
+.stop .pc .m { font-size: .82rem; color: var(--muted); }
+@media (max-width: 700px) {
+  .path::before { left: 26px; }
+  .stop { grid-template-columns: 52px 1fr; gap: 12px; }
+  .stop .dot { grid-column: 1; }
+  .stop.l .pc, .stop.r .pc { grid-column: 2; }
+}
+
+/* ---- E: amb apartats ---- */
+.ecards { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px; padding-top: 26px; }
+.ec { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+  text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s; }
+.ec:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.ec .top { position: relative; height: 112px; background: var(--c2); color: #fff; }
+.ec .top .ill { position: absolute; inset: 6px 6px 6px 40%; opacity: .3; }
+.ec .top .ill svg { width: 100%; height: 100%; }
+.ec .top .num { position: absolute; left: 18px; bottom: 10px; font: 800 3rem/1 "Outfit"; }
+.ec .top .blk { position: absolute; left: 16px; top: 12px; font: 700 .68rem "Inter"; letter-spacing: .08em; text-transform: uppercase;
+  background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); padding: 3px 9px; border-radius: 999px; }
+.ec .bd { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.ec .h { font: 700 1.15rem/1.25 "Outfit"; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.chip { display: inline-flex; align-items: center; gap: 5px; font: 600 .75rem "Inter"; padding: 3px 9px; border-radius: 999px;
+  color: var(--sc); background: color-mix(in srgb, var(--sc) 13%, transparent); }
+.chip svg { width: 15px; height: 13px; }
+.chip.off { color: var(--muted); background: var(--surface-2); opacity: .55; }
+</style>
+</head>
+<body>
+<div class="proposal-bar">🔎 <b>Proposta</b> · Distribucions per a les targetes de les unitats d'un curs · No forma part del web publicat</div>
+
+<div class="container">
+  <div class="picker" id="picker"></div>
+  <div class="explain" id="explain"></div>
+  <div class="stage" id="stage"></div>
+</div>
+
+<script src="../../assets/js/illustrations.js"></script>
+<script src="../../assets/js/materials.js"></script>
+<script>
+var I = window.ILLUSTRATIONS || {}, LV = window.LEVELS || {};
+var BLOCKS = {
+  all: { c2: "#c98a0c", n: "Tot el curs" }, ari: { c2: "#c99a2e", n: "Aritmètica" }, alg: { c2: "#3d6aa0", n: "Àlgebra" },
+  algg: { c2: "#2a4f80", n: "Àlgebra · Prova global" }, pl: { c2: "#dc7a29", n: "Programació lineal" }, geo: { c2: "#dc7a29", n: "Geometria" },
+  an: { c2: "#6a8a33", n: "Anàlisi" }, pr: { c2: "#684e88", n: "Probabilitat" }
+};
+var SECS = [{ k: "notes", n: "Apunts", c: "#4e81bd", ill: "notes" }, { k: "exercises", n: "Exercicis", c: "#f79645", ill: "worksheet" },
+  { k: "pau", n: "PAU", c: "#8064a1", ill: "pau" }, { k: "calc", n: "Calc.", c: "#2bb3a3", ill: "calc" }];
+function tx(v) { return v && typeof v === "object" ? (v.va || v.es || "") : (v || ""); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function ill(g, k) { return (I[g] && I[g][k]) || ""; }
+function vis(u) { return (u.items || []).filter(function (i) { return !i.hidden; }); }
+function count(u) { var k = vis(u).filter(function (i) { return tx(i.url); }).length; return k ? k + (k === 1 ? " material" : " materials") : "Pròximament"; }
+function secOf(it) { return it.type === "calc" ? "calc" : it.type === "exam" ? "pau" : it.type === "exercises" ? (/pau/i.test(tx(it.title)) ? "pau" : "exercises") : "notes"; }
+function blk(u) { return BLOCKS[u.block] || BLOCKS.all; }
+function prep(L) {
+  var n = 0;
+  return L.units.map(function (u, i) { var num = u.num || String(++n); return { u: u, i: i, num: num, special: !/^\d+$/.test(num), b: blk(u) }; });
+}
+function ucard(x, cls) {
+  return '<a class="ucard ' + (cls || "") + '" style="--c2:' + x.b.c2 + '"><span class="ill" aria-hidden="true">' + ill("units", x.u.ill) + "</span>" +
+    '<span class="block">' + esc(x.b.n) + '</span><span class="content"><span class="num">' + esc(x.num) + '</span><span class="h">' + esc(tx(x.u.title)) +
+    '</span><span class="meta">' + esc(count(x.u)) + "</span></span></a>";
+}
+function byBlock(xs) {
+  var out = [], seen = {};
+  xs.forEach(function (x) { var k = x.u.block || "all"; if (k === "algg") k = "alg"; if (!seen[k]) { seen[k] = { k: k, b: BLOCKS[k], xs: [] }; out.push(seen[k]); } seen[k].xs.push(x); });
+  return out;
+}
+
+var OPTS = {
+  A: { n: "A · Per blocs", t: "<b>Agrupades per bloc.</b> Les targetes de sempre, però separades amb un títol per bloc (Àlgebra, Anàlisi…) i el nombre d'unitats. El Resum teòric passa a ser una franja ampla a dalt, perquè és de tot el curs. Fa visible l'estructura del curs i encaixa amb les columnes de dins de la unitat." },
+  B: { n: "B · Mosaic", t: "<b>Mosaic.</b> Graella de mides diferents: la primera unitat de cada bloc és gran i les seccions especials (Resum, Global) són amples. Molt atractiva i «de revista», però les mides no signifiquen res de concret; en mòbil queden totes iguals." },
+  C: { n: "C · Files per bloc", t: "<b>Files per bloc.</b> Cada bloc és una fila que es desplaça cap als costats (com les plataformes de vídeo). La pàgina queda curta encara que hi haja moltes unitats; en mòbil es llisca amb el dit. Inconvenient: algunes unitats queden amagades fins que es llisca." },
+  D: { n: "D · Ruta del curs", t: "<b>Ruta del curs.</b> Les unitats es mostren com a parades d'un camí, alternant a esquerra i dreta i amb el color de cada bloc al llarg de la línia. Transmet l'ordre del curs i on estem; en mòbil la línia passa al costat esquerre." },
+  E: { n: "E · Amb apartats", t: "<b>Targetes amb apartats.</b> Targeta blanca amb la capçalera de color del bloc i, a baix, xips amb els apartats que té la unitat (Apunts, Exercicis, PAU, Calculadora). L'alumne veu d'un colp què hi trobarà, i lliga amb les columnes de dins de la unitat. Es pot combinar amb A." }
+};
+var state = { opt: "A", lvl: "2batx-ccss" };
+
+function render() {
+  var L = LV[state.lvl], xs = prep(L), html = "", st = document.getElementById("stage");
+  document.getElementById("explain").innerHTML = OPTS[state.opt].t;
+  var specials = xs.filter(function (x) { return x.u.block === "all"; }), rest = xs.filter(function (x) { return x.u.block !== "all"; });
+  if (state.opt === "A") {
+    html = specials.map(function (x) {
+      return '<a class="wide-banner" style="--c2:' + x.b.c2 + '"><span class="ill">' + ill("units", x.u.ill) + '</span><span class="st">' + esc(x.num) +
+        '</span><span><span class="h">' + esc(tx(x.u.title)) + '</span><br><span class="m">Tot el curs · ' + esc(count(x.u)) + "</span></span></a>"; }).join("") +
+      byBlock(rest).map(function (g) {
+        var nu = g.xs.filter(function (x) { return !x.special; }).length;
+        return '<div class="bhead" style="--c2:' + g.b.c2 + '"><i></i>' + esc(g.b.n) + " <small>" + nu + (nu === 1 ? " unitat" : " unitats") + "</small></div>" +
+          '<div class="ucards a">' + g.xs.map(function (x) { return ucard(x); }).join("") + "</div>"; }).join("");
+  } else if (state.opt === "B") {
+    var firstOf = {};
+    html = '<div class="bento">' + xs.map(function (x) {
+      var k = x.u.block || "all", cls = "";
+      if (x.special) cls = "wide"; else if (!firstOf[k]) { firstOf[k] = 1; cls = "big"; }
+      return ucard(x, cls); }).join("") + "</div>";
+  } else if (state.opt === "C") {
+    html = byBlock(xs).map(function (g) {
+      return '<div class="row"><div class="bhead" style="--c2:' + g.b.c2 + '"><i></i>' + esc(g.b.n) + " <small>" + g.xs.length + "</small></div>" +
+        '<div class="rail">' + g.xs.map(function (x) { return ucard(x); }).join("") + "</div></div>"; }).join("");
+  } else if (state.opt === "D") {
+    var stops = xs.map(function (x) { return x.b.c2; });
+    html = '<div class="path" style="--path:' + stops.join(",") + '">' + xs.map(function (x, i) {
+      return '<div class="stop ' + (i % 2 ? "r" : "l") + '" style="--c2:' + x.b.c2 + '"><span class="dot">' + esc(x.num) + '</span><a class="pc"><span class="ill">' +
+        ill("units", x.u.ill) + '</span><span><span class="b">' + esc(x.b.n) + '</span><br><span class="h">' + esc(tx(x.u.title)) + '</span><br><span class="m">' +
+        esc(count(x.u)) + "</span></span></a></div>"; }).join("") + "</div>";
+  } else {
+    html = '<div class="ecards">' + xs.map(function (x) {
+      var has = {}; vis(x.u).forEach(function (it) { if (tx(it.url)) has[secOf(it)] = 1; });
+      var chips = SECS.filter(function (s) { return has[s.k] || s.k === "notes" || s.k === "exercises"; }).map(function (s) {
+        return '<span class="chip' + (has[s.k] ? "" : " off") + '" style="--sc:' + s.c + '">' + ill("items", s.ill) + s.n + "</span>"; }).join("");
+      return '<a class="ec" style="--c2:' + x.b.c2 + '"><span class="top"><span class="ill">' + ill("units", x.u.ill) + '</span><span class="blk">' + esc(x.b.n) +
+        '</span><span class="num">' + esc(x.num) + '</span></span><span class="bd"><span class="h">' + esc(tx(x.u.title)) + '</span><span class="chips">' + chips +
+        "</span></span></a>"; }).join("") + "</div>";
+  }
+  st.innerHTML = html;
+  document.querySelectorAll("#picker button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.opt === state.opt || b.dataset.lvl === state.lvl); });
+}
+var p = document.getElementById("picker");
+var lvls = Object.keys(LV).filter(function (k) { return LV[k].cards && LV[k].units && LV[k].units.length; });
+p.innerHTML = Object.keys(OPTS).map(function (k) { return '<button data-opt="' + k + '">' + OPTS[k].n + "</button>"; }).join("") + '<span class="sep"></span>' +
+  lvls.map(function (k) { return '<button data-lvl="' + k + '">' + esc(tx(LV[k].name)) + "</button>"; }).join("");
+p.querySelectorAll("button").forEach(function (b) {
+  b.onclick = function () { if (b.dataset.opt) state.opt = b.dataset.opt; if (b.dataset.lvl) state.lvl = b.dataset.lvl; render(); };
+});
+render();
+</script>
+</body>
+</html>

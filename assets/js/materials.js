@@ -22,6 +22,8 @@
    Cursos amb cards: true -> les unitats es mostren com a targetes. Cada unitat porta
    ill (dibuix: vegeu assets/js/illustrations.js, p. ex. naturals, fraccions, matrius, pl…)
    i block (color: all, ari, alg, pl, geo, an, pr), com als blocs del resum teòric.
+   Cursos amb byBlock: true -> les targetes de les unitats s'agrupen per bloc, amb un títol
+   per bloc; les unitats de block: "all" (Resum teòric) van a dalt en una franja ampla.
    Cursos amb sections: true -> dins de cada unitat, els materials es reparteixen en
    columnes: Apunts (notes, video, resource), Exercicis (exercises), PAU (exercises amb
    «PAU» al títol i exam) i Calculadora (calc).
@@ -260,6 +262,7 @@ window.LEVELS = {
   "3eso": {
     stage: "eso",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
     color: "#ff7a50",
     symbol: "x²",
     name: { va: "3r ESO", es: "3º ESO", en: "3rd ESO (Year 9)" },
@@ -892,6 +895,7 @@ window.LEVELS = {
   "2batx-ccss": {
     stage: "batx",
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
     sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     color: "#2bb3a3",
     symbol: "∫",

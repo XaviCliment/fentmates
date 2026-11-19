@@ -406,12 +406,14 @@
     var nums = unitNums(L);
     var idx = currentUnit(L);
     if (idx < 0) {
-      box.innerHTML = '<div class="ucards">' + L.units.map(function (u, i) {
+      var ucard = function (u, i) {
         var b = blockOf(u);
         return '<a class="ucard" href="#u' + i + '" style="--c2:' + b.c2 + '"><span class="ill" aria-hidden="true">' + ill("units", u.ill) + "</span>" +
           '<span class="block">' + esc(t("block." + (u.block || "all"))) + "</span>" +
           '<span class="content"><span class="num">' + esc(nums[i]) + "</span><span class=\"h\">" + esc(tx(u.title)) + '</span><span class="meta">' + esc(countLabel(u)) + "</span></span></a>";
-      }).join("") + "</div>";
+      };
+      box.innerHTML = L.byBlock ? byBlockHTML(L, nums, ucard)
+        : '<div class="ucards">' + L.units.map(ucard).join("") + "</div>";
       return;
     }
     var u = L.units[idx], b = blockOf(u);
@@ -421,6 +423,32 @@
       : '<div class="icards">' + items.map(function (it) { return icardHTML(it, b); }).join("") + "</div>";
     box.innerHTML = body + '<a class="back-units" href="#">← ' + esc(t("level.allunits")) + "</a>";
     typeset(box);
+  }
+
+  /* Cursos amb byBlock: true -> les unitats s'agrupen per bloc (Àlgebra, Anàlisi…) amb un títol
+     per bloc. Les unitats de tot el curs (block: "all", p. ex. el Resum teòric) van a dalt en una
+     franja ampla, i la prova global (block: "algg") va dins del bloc d'Àlgebra. */
+  function byBlockHTML(L, nums, ucard) {
+    var html = "", groups = [], byKey = {};
+    L.units.forEach(function (u, i) {
+      var k = u.block || "all";
+      if (k === "all") {
+        html += '<a class="ubanner" href="#u' + i + '" style="--c2:' + blockOf(u).c2 + '"><span class="ill" aria-hidden="true">' + ill("units", u.ill) + "</span>" +
+          '<span class="num">' + esc(nums[i]) + '</span><span class="txt"><span class="h">' + esc(tx(u.title)) + '</span><span class="meta">' +
+          esc(t("level.wholecourse")) + " · " + esc(countLabel(u)) + "</span></span></a>";
+        return;
+      }
+      if (k === "algg") k = "alg";
+      if (!byKey[k]) { byKey[k] = { k: k, list: [] }; groups.push(byKey[k]); }
+      byKey[k].list.push(i);
+    });
+    groups.forEach(function (g) {
+      var n = g.list.filter(function (i) { return /^\d+$/.test(nums[i]); }).length;
+      html += '<h2 class="bhead" style="--c2:' + (BLOCKS[g.k] || BLOCKS.all).c2 + '"><i aria-hidden="true"></i>' + esc(t("block." + g.k)) +
+        (n ? " <small>" + n + " " + esc(t(n === 1 ? "level.unit1" : "level.units")) + "</small>" : "") + "</h2>" +
+        '<div class="ucards">' + g.list.map(function (i) { return ucard(L.units[i], i); }).join("") + "</div>";
+    });
+    return html;
   }
 
   /* Cursos amb sections: true -> dins de la unitat, els materials van en columnes
