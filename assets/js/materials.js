@@ -22,6 +22,9 @@
    Cursos amb cards: true -> les unitats es mostren com a targetes. Cada unitat porta
    ill (dibuix: vegeu assets/js/illustrations.js, p. ex. naturals, fraccions, matrius, pl…)
    i block (color: all, ari, alg, pl, geo, an, pr), com als blocs del resum teòric.
+   Cursos amb sections: true -> dins de cada unitat, els materials es reparteixen en
+   columnes: Apunts (notes, video, resource), Exercicis (exercises), PAU (exercises amb
+   «PAU» al títol i exam) i Calculadora (calc).
    Per afegir un curs nou: copia un bloc de LEVELS, canvia la clau
    i crea una pàgina .html com 3eso.html amb data-level="clau-nova".
    ========================================================== */
@@ -889,6 +892,7 @@ window.LEVELS = {
   "2batx-ccss": {
     stage: "batx",
     cards: true,
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     color: "#2bb3a3",
     symbol: "∫",
     pau: true,

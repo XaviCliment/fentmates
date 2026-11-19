@@ -416,10 +416,36 @@
     }
     var u = L.units[idx], b = blockOf(u);
     var items = visible(u.items);
-    box.innerHTML = '<div class="icards">' + (items.length ? items.map(function (it) { return icardHTML(it, b);
-    }).join("") : '<p class="empty">' + esc(t("level.soon")) + "</p>") + "</div>" +
-      '<a class="back-units" href="#">← ' + esc(t("level.allunits")) + "</a>";
+    var body = !items.length ? '<p class="empty">' + esc(t("level.soon")) + "</p>"
+      : L.sections ? sectionsHTML(items)
+      : '<div class="icards">' + items.map(function (it) { return icardHTML(it, b); }).join("") + "</div>";
+    box.innerHTML = body + '<a class="back-units" href="#">← ' + esc(t("level.allunits")) + "</a>";
     typeset(box);
+  }
+
+  /* Cursos amb sections: true -> dins de la unitat, els materials van en columnes
+     per apartat (Apunts, Exercicis, PAU, Calculadora). Els apartats buits no es mostren. */
+  var SECTIONS = [
+    { k: "notes", c: "#4e81bd", ill: "notes" },
+    { k: "exercises", c: "#f79645", ill: "worksheet" },
+    { k: "pau", c: "#8064a1", ill: "pau" },
+    { k: "calc", c: "#2bb3a3", ill: "calc" }
+  ];
+  function sectionOf(it) {
+    if (it.type === "calc") return "calc";
+    if (it.type === "exam") return "pau";
+    if (it.type === "exercises") return /pau/i.test(tx(it.title)) ? "pau" : "exercises";
+    return "notes"; // apunts, vídeos i recursos
+  }
+  function sectionsHTML(items) {
+    var gs = SECTIONS.map(function (s) {
+      return { s: s, items: items.filter(function (it) { return sectionOf(it) === s.k; }) };
+    }).filter(function (g) { return g.items.length; });
+    return '<div class="scols n' + gs.length + '" style="--n:' + gs.length + '">' + gs.map(function (g) {
+      return '<section class="scol" style="--sc:' + g.s.c + '"><h2 class="scol-h"><span class="ico" aria-hidden="true">' + ill("items", g.s.ill) + "</span>" +
+        esc(t("sec." + g.s.k)) + ' <span class="n">' + g.items.length + "</span></h2>" +
+        '<div class="icards">' + g.items.map(function (it) { return icardHTML(it, { c: g.s.c }); }).join("") + "</div></section>";
+    }).join("") + "</div>";
   }
 
   function ytId(url) {
