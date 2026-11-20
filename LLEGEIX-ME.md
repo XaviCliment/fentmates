@@ -524,7 +524,7 @@ python3 _eines/pau/an/build.py
 ## 1r Batx CCSS (Matemàtiques Aplicades a les CCSS I)
 
 A `materials.js` el curs porta `cards: true`, `byBlock: true` i `sections: true`, com la resta de cursos; a `fm-materials.js`, la
-unitat 1 és del bloc d'aritmètica i la 2 i la 3, del d'àlgebra (la resta, de moment, `all`).
+unitat 1 és del bloc d'aritmètica, la 2 i la 3, del d'àlgebra, i la 4, del d'anàlisi (la resta, de moment, `all`).
 Les fitxes usen `\fmcurs{1batx-ccss}` i, en castellà, `curs='1batx-ccss'` a `castella.py` («Matemáticas CCSS»).
 
 - **Unitat 1 (Nombres reals, `1batx-ccss-t1`)**: parteix de la unitat 1 de 1r Batx MI (mateix `app.js`, mateixos ginys i el mateix
@@ -580,6 +580,17 @@ cd _eines/fonts-latex/1batx-ccss-t2 && python3 genera.py && python3 genera-es.py
 ```
 python3 _eines/apunts/1batx-ccss-t3/build.py
 cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 4 (Estudi de funcions, `1batx-ccss-t4`, pàgina `t4-estudi-funcions.html`)**: el mateix contingut que la unitat 6 de 1r Batx MI
+  (`1batx-mi-t6`: apunts, ginys, `fig.py` i fitxa de 30 exercicis), copiat i renumerat com a unitat 4 (apartats 4.1-4.9). Canvis respecte
+  de MI: curs i capçaleres, la clau de progrés (`fm-1batx-ccss-u4-funcions-done`), les referències a «la unitat 7» (ara «la unitat
+  següent») i el missatge de la calculadora de dominis amb funcions trigonomètriques. `genera.py` i `genera-es.py` són dos fitxers
+  separats, com a MI; si canvies un exercici, canvia'l als dos (i, si cal, també a `1batx-mi-t6`).
+
+```
+python3 _eines/apunts/1batx-ccss-t4/build.py
+cd _eines/fonts-latex/1batx-ccss-t4 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques A

@@ -795,6 +795,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 51 exercicis graduats per nivells de dificultat", es: "PDF · 51 ejercicios graduados por niveles de dificultad", en: "PDF · 51 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t3-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t3-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 51 exercicis", es: "PDF · Soluciones de los 51 ejercicios", en: "PDF · Solutions to all 51 exercises" }, url: { va: "materials/1batx-ccss/t3-fitxa-solucions.pdf", es: "materials/1batx-ccss/t3-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
         ]
+      },
+      {
+        num: "4",
+        ill: "grafiques", block: "an",
+        title: { va: "Estudi de funcions", es: "Estudio de funciones", en: "Studying functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t4-estudi-funcions.html", date: "2026-11-20" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 30 exercicis graduats per nivells de dificultat", es: "PDF · 30 ejercicios graduados por niveles de dificultad", en: "PDF · 30 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t4-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t4-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 30 exercicis", es: "PDF · Soluciones de los 30 ejercicios", en: "PDF · Solutions to all 30 exercises" }, url: { va: "materials/1batx-ccss/t4-fitxa-solucions.pdf", es: "materials/1batx-ccss/t4-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
+        ]
       }
     ]
   },
