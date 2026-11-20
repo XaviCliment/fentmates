@@ -524,7 +524,7 @@ python3 _eines/pau/an/build.py
 ## 1r Batx CCSS (Matemàtiques Aplicades a les CCSS I)
 
 A `materials.js` el curs porta `cards: true`, `byBlock: true` i `sections: true`, com la resta de cursos; a `fm-materials.js`, la
-unitat 1 és del bloc d'aritmètica i la 3, del d'àlgebra (la resta, de moment, `all`).
+unitat 1 és del bloc d'aritmètica i la 2 i la 3, del d'àlgebra (la resta, de moment, `all`).
 Les fitxes usen `\fmcurs{1batx-ccss}` i, en castellà, `curs='1batx-ccss'` a `castella.py` («Matemáticas CCSS»).
 
 - **Unitat 1 (Nombres reals, `1batx-ccss-t1`)**: parteix de la unitat 1 de 1r Batx MI (mateix `app.js`, mateixos ginys i el mateix
@@ -540,6 +540,20 @@ Les fitxes usen `\fmcurs{1batx-ccss}` i, en castellà, `curs='1batx-ccss'` a `ca
 ```
 python3 _eines/apunts/1batx-ccss-t1/build.py
 cd _eines/fonts-latex/1batx-ccss-t1 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 2 (Àlgebra, `1batx-ccss-t2`)**: parteix de la unitat 2 de 1r Batx MI (mateix `build.py` i ginys), sense les inequacions (que
+  són a la unitat 3) ni l'apartat de problemes, en 9 apartats (2.1-2.9): polinomis i operacions, Ruffini i teorema del residu,
+  factorització, fraccions algebraiques (amb operacions combinades), equacions polinòmiques (primer grau amb parèntesis i denominadors,
+  segon grau, biquadrades i grau superior), amb radicals, racionals, exponencials i logarítmiques. Giny nou a `app.js`: `w-lin` (equació
+  de primer grau pas a pas: m.c.m., parèntesis, transposició i solució, amb casos sense solució i identitat, i equacions aleatòries);
+  s'han tret `w-sign` i `w-tap`. Qüestionari de 12 preguntes. La fitxa (`_eines/fonts-latex/1batx-ccss-t2/genera.py`, 62 exercicis en
+  10 seccions, la darrera de problemes de context) és bilingüe amb `T(va, es)`; sympy calcula o comprova totes les solucions.
+  `fm-materials.js`: les unitats 2 i 3 són d'àlgebra.
+
+```
+python3 _eines/apunts/1batx-ccss-t2/build.py
+cd _eines/fonts-latex/1batx-ccss-t2 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 - **Unitat 3 (Inequacions i sistemes d'inequacions, `1batx-ccss-t3`)**: 6 apartats (3.1-3.6): inequacions de primer grau (regles,
