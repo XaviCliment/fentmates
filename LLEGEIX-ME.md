@@ -571,7 +571,7 @@ cd _eines/fonts-latex/1batx-ccss-t2 && python3 genera.py && python3 genera-es.py
   (`w-nl`) copiats de la unitat 3 de 1r Batx MI, un lector d'expressions amb parèntesis (`parseExpr`), inequacions de primer grau pas a
   pas (`w-lin`), sistemes d'inequacions amb una incògnita escrites amb text (`w-sys1`, `solvePoly`, `interS`) i el resolutor de
   programació lineal pas a pas (`w-pl`: regió, vèrtexs, valors de $F$, òptim i recta de nivell; detecta infinites solucions i problemes
-  sense òptim), i el qüestionari (18 preguntes). La fitxa (`_eines/fonts-latex/1batx-ccss-t3/genera.py`, 45 exercicis en 10 seccions) és
+  sense òptim), i el qüestionari (18 preguntes). La fitxa (`_eines/fonts-latex/1batx-ccss-t3/genera.py`, 51 exercicis en 10 seccions) és
   bilingüe amb `T(va, es)` (`genera-es.py` l'executa amb `FM_LANG=es`); sympy resol els sistemes d'equacions (`s2`, `gsol`, `nlsol`; `red`
   comprova les formes reduïdes), resol cada inequació i sistema i `iq()` la compara amb la solució esperada, `regck` comprova els vèrtexs
   de les regions i `pl()`, els vèrtexs, els valors de $F$ i l'òptim dels problemes de programació lineal (també que l'òptim existeix quan la

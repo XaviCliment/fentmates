@@ -272,6 +272,14 @@ G2 = [[x + 2 * y - 3 * z - 7, 2 * x + y - z - 6, 3 * x - y - z - 6], [x - y + z 
 G2t = [sist(r"x+2y-3z=7", r"2x+y-z=6", r"3x-y-z=6"), sist(r"x-y+z=2", r"2x+y-z=1", r"x+2y+3z=14"), sist(r"x+y-z=5", r"3x-2y-2z=5", r"2x-3y-z=3"), sist(r"2x+y+z=5", r"2x-y+3z=3", r"3x+2y+z=8")]
 ck(sp.linsolve(G2[0], [x, y, z]) == sp.FiniteSet((2, 1, -1)) and sp.linsolve(G2[1], [x, y, z]) == sp.FiniteSet((1, 2, 3)))
 ck(sp.linsolve(G2[2], [x, y, z]) == sp.S.EmptySet)
+G3 = [[x + y + z - 3, 2 * x - y + 3 * z - 12, x + 2 * y - z + 4], [x + 2 * y - 5, y - z - 1, x + z - 2], [x + y + z - 4, 2 * x + y - z - 1, 3 * x + 2 * y - 5],
+      [x - y + 2 * z - 1, 2 * x + y + z - 3, 3 * x + 3 * z - 5], [2 * x + 3 * y - z - 1, x - y + 2 * z - 8, 3 * x + y + z - 8]]
+G3t = [sist(r"x+y+z=3", r"2x-y+3z=12", r"x+2y-z=-4"), sist(r"x+2y=5", r"y-z=1", r"x+z=2"), sist(r"x+y+z=4", r"2x+y-z=1", r"3x+2y=5"), sist(r"x-y+2z=1", r"2x+y+z=3", r"3x+3z=5"),
+       sist(r"2x+3y-z=1", r"x-y+2z=8", r"3x+y+z=8")]
+ck(sp.linsolve(G3[0], [x, y, z]) == sp.FiniteSet((1, -1, 3)) and sp.linsolve(G3[1], [x, y, z]) == sp.FiniteSet((1, 2, 1)) and sp.linsolve(G3[4], [x, y, z]) == sp.FiniteSet((1, 1, 4)))
+ck(sp.linsolve(G3[3], [x, y, z]) == sp.S.EmptySet)
+ck(sp.linsolve([x + y + z - 32, x - y - 4, y - z - 2], [x, y, z]) == sp.FiniteSet((14, 10, 8)))
+ck(sp.linsolve([x + y + z - 50, x + 2 * y + 3 * z - 105, y - x - z], [x, y, z]) == sp.FiniteSet((10, 25, 15)))
 ck(sp.linsolve([2 * x + y + z - 9, x + 2 * y + z - 10, x + y + 2 * z - 13], [x, y, z]) == sp.FiniteSet((1, 2, 5)))
 ck(sp.linsolve([x + y + z - 30, 2 * x - y - 36, x - 2 * y - 2 * z], [x, y, z]) == sp.FiniteSet((20, 4, 6)))
 S.append((T("Mètode de Gauss", "Método de Gauss"), [
@@ -281,12 +289,21 @@ S.append((T("Mètode de Gauss", "Método de Gauss"), [
  (2, T(r"Resol pel mètode de Gauss i classifica:", r"Resuelve por el método de Gauss y clasifica:") + tasks(2, ["$" + t + "$" for t in G2t])
      + recorda(T(r"Fes zeros davall de la diagonal. L'última fila $(0\ \ 0\ \ m\,|\,n)$ decideix: $m\neq0$ SCD; $m=n=0$ SCI; $m=0,\ n\neq0$ SI.", r"Haz ceros debajo de la diagonal. La última fila $(0\ \ 0\ \ m\,|\,n)$ decide: $m\neq0$ SCD; $m=n=0$ SCI; $m=0,\ n\neq0$ SI.")),
      tasks(1, [gsol(s_) for s_ in G2])),
+ (2, T(r"Resol aquests altres sistemes pel mètode de Gauss i classifica'ls:", r"Resuelve estos otros sistemas por el método de Gauss y clasifícalos:") + tasks(3, ["$" + t + "$" for t in G3t])
+     + recorda(T(r"Si falta una incògnita en alguna equació, posa un 0 en la matriu ampliada. Si pots, comença per una fila amb un 1 en la primera columna.", r"Si falta una incógnita en alguna ecuación, pon un 0 en la matriz ampliada. Si puedes, empieza por una fila con un 1 en la primera columna.")),
+     tasks(1, [gsol(s_) for s_ in G3])),
  (2, T(r"En una papereria, 2 bolígrafs, 1 llibreta i 1 carpeta costen 9 €; 1 bolígraf, 2 llibretes i 1 carpeta, 10 €, i 1 bolígraf, 1 llibreta i 2 carpetes, 13 €. Quant costa cada article?",
        r"En una papelería, 2 bolígrafos, 1 libreta y 1 carpeta cuestan 9 €; 1 bolígrafo, 2 libretas y 1 carpeta, 10 €, y 1 bolígrafo, 1 libreta y 2 carpetas, 13 €. ¿Cuánto cuesta cada artículo?"),
      "$" + sist(r"2x+y+z=9", r"x+2y+z=10", r"x+y+2z=13") + T(r"$ (sumant-les, $x+y+z=8$): \ ", r"$ (sumándolas, $x+y+z=8$): \ ") + R(T(r"\text{bolígraf 1 €, llibreta 2 €, carpeta 5 €}", r"\text{bolígrafo 1 €, libreta 2 €, carpeta 5 €}"))),
  (3, T(r"Un examen tipus test té 30 preguntes. Cada encert suma 2 punts, cada error resta 1 punt i les preguntes en blanc no compten. Una alumna ha tret 36 punts i ha tingut el doble d'encerts que d'errors i preguntes en blanc juntes. Quantes preguntes ha encertat, ha fallat i ha deixat en blanc?",
        r"Un examen tipo test tiene 30 preguntas. Cada acierto suma 2 puntos, cada error resta 1 punto y las preguntas en blanco no cuentan. Una alumna ha sacado 36 puntos y ha tenido el doble de aciertos que de errores y preguntas en blanco juntas. ¿Cuántas preguntas ha acertado, ha fallado y ha dejado en blanco?"),
      "$" + sist(r"x+y+z=30", r"2x-y=36", r"x=2(y+z)") + r"\Rightarrow\left(\begin{array}{rrr|r}1&1&1&30\\ 2&-1&0&36\\ 1&-2&-2&0\end{array}\right)$: \ " + R(T(r"20\text{ encerts, }4\text{ errors i }6\text{ en blanc}", r"20\text{ aciertos, }4\text{ errores y }6\text{ en blanco}"))),
+ (2, T(r"La suma de les edats de tres germans és 32 anys. El major té 4 anys més que el mitjà, i el mitjà, 2 anys més que el menor. Quina edat té cadascun?",
+       r"La suma de las edades de tres hermanos es 32 años. El mayor tiene 4 años más que el mediano, y el mediano, 2 años más que el menor. ¿Qué edad tiene cada uno?"),
+     "$" + sist(r"x+y+z=32", r"x-y=4", r"y-z=2") + r"\Rightarrow\left(\begin{array}{rrr|r}1&1&1&32\\ 1&-1&0&4\\ 0&1&-1&2\end{array}\right)$: \ " + R(T(r"14,\ 10\text{ i }8\text{ anys}", r"14,\ 10\text{ y }8\text{ años}"))),
+ (3, T(r"Un hotel té 50 habitacions entre individuals, dobles i triples, amb un total de 105 llits. El nombre d'habitacions dobles és igual al d'individuals i triples juntes. Quantes habitacions hi ha de cada tipus?",
+       r"Un hotel tiene 50 habitaciones entre individuales, dobles y triples, con un total de 105 camas. El número de habitaciones dobles es igual al de individuales y triples juntas. ¿Cuántas habitaciones hay de cada tipo?"),
+     "$" + sist(r"x+y+z=50", r"x+2y+3z=105", r"x-y+z=0") + r"\Rightarrow y=25,\ x+z=25,\ x+3z=55$: \ " + R(T(r"10\text{ individuals, }25\text{ dobles i }15\text{ triples}", r"10\text{ individuales, }25\text{ dobles y }15\text{ triples}"))),
 ]))
 
 # =====================================================================
@@ -300,6 +317,13 @@ NL1 = [([x + y - 7, x * y - 12], [(3, 4), (4, 3)], r"$y=7-x\Rightarrow x^2-7x+12
        ([2 * x - y - 1, x ** 2 + y ** 2 - 2], [(1, 1), (Q(-1, 5), Q(-7, 5))], r"$y=2x-1\Rightarrow 5x^2-4x-1=0$"), ([x + y - 2, x * y - 5], [], r"$y=2-x\Rightarrow x^2-2x+5=0,\ \Delta\lt0$")]
 NL2 = [([x ** 2 + y ** 2 - 13, x ** 2 - y ** 2 - 5], [(3, 2), (3, -2), (-3, 2), (-3, -2)], T(r"Sumant: $2x^2=18$, $y^2=4$", r"Sumando: $2x^2=18$, $y^2=4$")),
        ([x ** 2 + 2 * y ** 2 - 18, 2 * x ** 2 - y ** 2 - 31], [(4, 1), (4, -1), (-4, 1), (-4, -1)], T(r"La 1a més el doble de la 2a: $5x^2=80$, $y^2=1$", r"La 1.ª más el doble de la 2.ª: $5x^2=80$, $y^2=1$"))]
+NL3 = [([x + y - 5, 1 / x + 1 / y - Q(5, 6)], [(2, 3), (3, 2)], r"$\frac{x+y}{xy}=\frac56\Rightarrow xy=6\Rightarrow x^2-5x+6=0$"),
+       ([x - y - 1, x / y + y / x - Q(13, 6)], [(3, 2), (-2, -3)], r"$6(x^2+y^2)=13xy$, $x=y+1\Rightarrow y^2+y-6=0$"),
+       ([2 / x + 3 / y - 2, x + y - 5], [(2, 3), (Q(5, 2), Q(5, 2))], r"$2y+3x=2xy$, $y=5-x\Rightarrow 2x^2-9x+10=0$")]
+NL4 = [([sp.sqrt(x) + y - 5, x - y - 7], [(9, 2)], T(r"$\sqrt{y+7}=5-y\Rightarrow y^2-11y+18=0$; $y=9$ no val ($4\ne-4$)", r"$\sqrt{y+7}=5-y\Rightarrow y^2-11y+18=0$; $y=9$ no vale ($4\ne-4$)")),
+       ([sp.sqrt(x + y) - 3, x - y - 1], [(5, 4)], r"$x+y=9,\ x-y=1$"),
+       ([sp.sqrt(x) + sp.sqrt(y) - 5, x - y - 5], [(9, 4)], r"$(\sqrt x-\sqrt y)(\sqrt x+\sqrt y)=5\Rightarrow\sqrt x-\sqrt y=1$")]
+ck(sp.solve([x * y - 600, (x + 2) * (y - 25) - 600], [x, y]) == [(-8, -75), (6, 100)])
 ck(sp.solve([x + y - 17, x ** 2 + y ** 2 - 169], [x, y]) == [(5, 12), (12, 5)])
 ck(sp.solve([x - y - 3, x * y - 40], [x, y]) == [(-5, -8), (8, 5)])
 S.append((T("Sistemes d'equacions no lineals", "Sistemas de ecuaciones no lineales"), [
@@ -308,10 +332,19 @@ S.append((T("Sistemes d'equacions no lineals", "Sistemas de ecuaciones no lineal
      tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL1])),
  (2, T(r"Resol pel mètode de reducció:", r"Resuelve por el método de reducción:") + tasks(2, ["$" + sist(r"x^2+y^2=13", r"x^2-y^2=5") + "$", "$" + sist(r"x^2+2y^2=18", r"2x^2-y^2=31") + "$"]),
      tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL2])),
+ (2, T(r"Resol aquests sistemes amb denominadors:", r"Resuelve estos sistemas con denominadores:") + tasks(3, ["$" + sistd(r"x+y=5", r"\dfrac1x+\dfrac1y=\dfrac56") + "$", "$" + sistd(r"x-y=1", r"\dfrac xy+\dfrac yx=\dfrac{13}{6}") + "$", "$" + sistd(r"\dfrac2x+\dfrac3y=2", r"x+y=5") + "$"])
+     + recorda(T(r"Multiplica pel m.c.m. dels denominadors (on hi ha incògnites) i comprova que cap solució no anul·la un denominador.", r"Multiplica por el m.c.m. de los denominadores (donde hay incógnitas) y comprueba que ninguna solución anula un denominador.")),
+     tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL3])),
+ (3, T(r"Resol aquests sistemes amb radicals:", r"Resuelve estos sistemas con radicales:") + tasks(3, ["$" + sist(r"\sqrt x+y=5", r"x-y=7") + "$", "$" + sist(r"\sqrt{x+y}=3", r"x-y=1") + "$", "$" + sist(r"\sqrt x+\sqrt y=5", r"x-y=5") + "$"])
+     + recorda(T(r"Aïlla el radical i eleva al quadrat. En elevar al quadrat poden aparéixer solucions falses: comprova-les en el sistema inicial.", r"Aísla el radical y eleva al cuadrado. Al elevar al cuadrado pueden aparecer soluciones falsas: compruébalas en el sistema inicial.")),
+     tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL4])),
  (2, T(r"El perímetre d'un rectangle fa 34 cm i la seua diagonal, 13 cm. Quant mesuren els costats?", r"El perímetro de un rectángulo mide 34 cm y su diagonal, 13 cm. ¿Cuánto miden los lados?"),
      "$" + sist(r"x+y=17", r"x^2+y^2=169") + r"\Rightarrow x^2-17x+60=0$: \ " + R(T(r"5\text{ cm i }12\text{ cm}", r"5\text{ cm y }12\text{ cm}"))),
  (2, T(r"La diferència de dos nombres és 3 i el seu producte, 40. Quins són?", r"La diferencia de dos números es 3 y su producto, 40. ¿Cuáles son?"),
      "$" + sist(r"x-y=3", r"xy=40") + r"\Rightarrow y^2+3y-40=0\Rightarrow y=5,\ y=-8$: \ " + R(T(r"8\text{ i }5,\ \text{o bé }-5\text{ i }-8", r"8\text{ y }5,\ \text{o bien }-5\text{ y }-8"))),
+ (3, T(r"Un grup d'amics lloga un apartament per 600 €, a pagar a parts iguals. Si foren 2 persones més, cadascú pagaria 25 € menys. Quants amics són i quant paga cadascú?",
+       r"Un grupo de amigos alquila un apartamento por 600 €, a pagar a partes iguales. Si fueran 2 personas más, cada uno pagaría 25 € menos. ¿Cuántos amigos son y cuánto paga cada uno?"),
+     "$" + sist(r"xy=600", r"(x+2)(y-25)=600") + r"\Rightarrow x^2+2x-48=0\Rightarrow x=6$ " + T(r"($-8$ no val): \ ", r"($-8$ no vale): \ ") + R(T(r"6\text{ amics, }100\text{ € cadascú}", r"6\text{ amigos, }100\text{ € cada uno}"))),
 ]))
 
 # =====================================================================
