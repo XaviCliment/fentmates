@@ -172,6 +172,17 @@ S.append(("Matrius. Definicions i tipus", [
 ]))
 
 # =====================================================================
+OA1, OB1, OC1 = [[2, -1, 3], [0, 4, -2]], [[1, 5, -2], [-3, 0, 1]], [[-1, 0, 2], [4, -3, 1]]
+OX1 = sc(F(1, 3), sub(sc(2, OB1), OA1)); ck(eq(add(sc(3, OX1), OA1), sc(2, OB1)))
+OA2, OB2 = [[1, -2, 0], [3, 1, 4]], [[2, 1], [0, -3], [5, 2]]
+ck(eq(tr(add(OA2, tr(OB2))), add(tr(OA2), OB2))); ck(eq(tr(tr(OA2)), OA2))
+OA3, OB3, OC3, OD3 = [[1, 0, 2], [-1, 3, 1]], [[2, 1], [0, -1], [1, 3]], [[1, -1], [2, 0]], [[1], [-2], [3]]
+OA4, OB4 = [[1, 2, 0], [-1, 1, 3], [2, 0, 1]], [[0, 1, -1], [2, 0, 1], [1, -1, 2]]
+ck(not eq(mul(OA4, OB4), mul(OB4, OA4))); ck(eq(mul(OA4, eye(3)), OA4) and eq(mul(eye(3), OA4), OA4))
+OA5 = [[1, 2], [0, -1], [3, 1]]
+ck(sym(mul(tr(OA5), OA5)) and sym(mul(OA5, tr(OA5))))
+sol_o6 = [(x, y) for x in range(-9, 10) for y in range(-9, 10) if mul([[x, 1], [2, y]], [[1, 2], [3, -1]])[0][0] == 5 and mul([[x, 1], [2, y]], [[1, 2], [3, -1]])[1][1] == 7]
+ck(sol_o6 == [(2, -3)], sol_o6); ck(eq(mul([[2, 1], [2, -3]], [[1, 2], [3, -1]]), [[5, 3], [-7, 7]]))
 A5, B5, C5 = [[1, -2, 0], [3, 1, -1]], [[2, 1], [0, -1], [4, 3]], [[1, 2], [-1, 0]]
 AB5 = mul(A5, B5)
 ck(eq(tr(AB5), mul(tr(B5), tr(A5))))
@@ -200,6 +211,31 @@ for n in range(1, 60): ck(eq(pw(A12, n), add(eye(2), sc(n, N12))))
 A13 = [[1, 2], [3, 4]]
 ck(eq(pw(A13, 2), lin(5, A13, 2, eye(2)))); ck(eq(pw(A13, 3), lin(27, A13, 10, eye(2)))); ck(eq(pw(A13, 4), lin(145, A13, 54, eye(2))))
 S.append(("Operacions amb matrius", [
+ (1, r"Donades les matrius d'ordre $2\times3$ \ $A=" + pm(OA1) + r"$, \ $B=" + pm(OB1) + r"$ \ i \ $C=" + pm(OC1) + r"$, \ calcula:"
+     + tasks(3, [r'$A+B$', r'$A-B$', r'$2A-3B+C$', r'$-A+B-C$', r'$A-(B-2C)$', r'$\tfrac12(A+C)$']) + r"Troba, a més, la matriu $X$ que compleix $3X+A=2B$."
+     + recorda(r"Per a sumar o restar matrius, han de tenir el \textbf{mateix ordre}, i es fa element a element. Per a multiplicar un nombre per una matriu, es multiplica cada element pel nombre."),
+     tasks(3, [r"$" + pm(add(OA1, OB1)) + r"$", r"$" + pm(sub(OA1, OB1)) + r"$", r"$" + pm(add(sub(sc(2, OA1), sc(3, OB1)), OC1)) + r"$",
+               r"$" + pm(sub(add(sc(-1, OA1), OB1), OC1)) + r"$", r"$" + pm(sub(OA1, sub(OB1, sc(2, OC1)))) + r"$", r"$" + pm(sc(F(1, 2), add(OA1, OC1))) + r"$"])
+     + r"$3X=2B-A\Rightarrow X=\tfrac13(2B-A)=\tfrac13" + pm(sub(sc(2, OB1), OA1)) + r"=\res{" + pm(OX1) + r"}$"),
+ (1, r"Donades \ $A=" + pm(OA2) + r"$ \ i \ $B=" + pm(OB2) + r"$, \ calcula:" + tasks(3, [r'$A^t$', r'$B^t$', r'$A^t+B$', r'$A-2B^t$', r'$\left(A^t\right)^t$', r'$\left(A+B^t\right)^t$'])
+     + r"Comprova que $\left(A+B^t\right)^t=A^t+B$."
+     + recorda(r"La transposada $A^t$ s'obté canviant les files per les columnes: si $A$ és $n\times m$, $A^t$ és $m\times n$. \ $\left(A^t\right)^t=A$, \ $(A+B)^t=A^t+B^t$, \ $(kA)^t=kA^t$."),
+     tasks(3, [r"$" + pm(tr(OA2)) + r"$", r"$" + pm(tr(OB2)) + r"$", r"$" + pm(add(tr(OA2), OB2)) + r"$", r"$" + pm(sub(OA2, sc(2, tr(OB2)))) + r"$", r"$A=" + pm(OA2) + r"$", r"$" + pm(tr(add(OA2, tr(OB2)))) + r"$"])
+     + r"L'últim resultat coincideix amb $A^t+B$ (apartat c): \ \rest{$(A+B^t)^t=A^t+(B^t)^t=A^t+B$}."),
+ (1, r"Siguen \ $A=" + pm(OA3) + r"$, \ $B=" + pm(OB3) + r"$, \ $C=" + pm(OC3) + r"$ \ i \ $D=" + pm(OD3) + r"$. Indica quins d'aquests productes es poden fer i calcula'ls:"
+     + tasks(4, [r'$A\cdot B$', r'$B\cdot A$', r'$A\cdot C$', r'$C\cdot A$', r'$A\cdot D$', r'$D\cdot A$', r'$B\cdot C$', r'$D^t\cdot B$'])
+     + recorda(r"$A\cdot B$ només existeix si el nombre de \textbf{columnes} de $A$ és igual al nombre de \textbf{files} de $B$: \ $(n\times m)\cdot(m\times p)=n\times p$. Cada element $(i,j)$ del producte és la fila $i$ de la primera per la columna $j$ de la segona."),
+     tasks(2, [r"$(2\times3)(3\times2)$: \ $\res{" + pm(mul(OA3, OB3)) + r"}$", r"$(3\times2)(2\times3)$: \ $\res{" + pm(mul(OB3, OA3)) + r"}$",
+               r"$(2\times3)(2\times2)$: \ \rest{no es pot fer}", r"$(2\times2)(2\times3)$: \ $\res{" + pm(mul(OC3, OA3)) + r"}$",
+               r"$(2\times3)(3\times1)$: \ $\res{" + pm(mul(OA3, OD3)) + r"}$", r"$(3\times1)(2\times3)$: \ \rest{no es pot fer}",
+               r"$(3\times2)(2\times2)$: \ $\res{" + pm(mul(OB3, OC3)) + r"}$", r"$(1\times3)(3\times2)$: \ $\res{" + pm(mul(tr(OD3), OB3)) + r"}$"])),
+ (1, r"Donades \ $A=" + pm(OA4) + r"$ \ i \ $B=" + pm(OB4) + r"$, \ calcula $A\cdot B$ i $B\cdot A$, i comprova que $A\cdot I=I\cdot A=A$, on $I$ és la matriu identitat d'ordre 3.",
+     r"$A\cdot B=\res{" + pm(mul(OA4, OB4)) + r"}$, \qquad $B\cdot A=\res{" + pm(mul(OB4, OA4)) + r"}$: \ \rest{$AB\neq BA$}. \ La matriu identitat fa el paper de l'1: cada fila de $A$ per una columna de $I$ torna l'element corresponent de $A$."),
+ (2, r"Siga \ $A=" + pm(OA5) + r"$." + tasks(1, [r"Calcula $A^t\cdot A$ i $A\cdot A^t$. Quin ordre té cadascuna?", r"Comprova que totes dues són simètriques i demostra que $A\cdot A^t$ és simètrica per a qualsevol matriu $A$."]),
+     tasks(1, [r"$A^tA=" + pm(tr(OA5)) + pm(OA5) + r"=\res{" + pm(mul(tr(OA5), OA5)) + r"}$ \ ($2\times2$), \qquad $AA^t=\res{" + pm(mul(OA5, tr(OA5))) + r"}$ \ ($3\times3$)",
+               r"En totes dues, $a_{ij}=a_{ji}$. En general: \ $\left(AA^t\right)^t=\left(A^t\right)^tA^t=AA^t$."])),
+ (2, r"Troba $x$, $y$, $z$ i $t$ perquè es complisca \ $\begin{pmatrix}x & 1\\ 2 & y\end{pmatrix}\cdot\begin{pmatrix}1 & 2\\ 3 & -1\end{pmatrix}=\begin{pmatrix}5 & z\\ t & 7\end{pmatrix}$.",
+     r"$\begin{pmatrix}x+3 & 2x-1\\ 2+3y & 4-y\end{pmatrix}=\begin{pmatrix}5 & z\\ t & 7\end{pmatrix}$: \ $x+3=5$, \ $4-y=7$, \ $z=2x-1$, \ $t=2+3y$:\par $\res{x=2;\ y=-3;\ z=3;\ t=-7}$"),
  (1, r"Donades \ $A=" + pm(A5) + r"$, \ $B=" + pm(B5) + r"$ \ i \ $C=" + pm(C5) + r"$:" + tasks(1, [r"Calcula $(AB)^t-2C$ i $A\cdot B\cdot C$.", r"Calcula $B\cdot A$. Té sentit comparar $AB$ i $BA$?",
      r"Comprova que $(AB)^t=B^tA^t$ i explica per què, en general, $A^tB^t$ no és igual a $(AB)^t$ (en aquest cas, ni tan sols tenen el mateix ordre)."]),
      tasks(1, [r"$AB=" + pm(AB5) + r"$, \ \ $(AB)^t-2C=" + pm(tr(AB5)) + '-' + pm(sc(2, C5)) + '=' + r"\res{" + pm(sub(tr(AB5), sc(2, C5))) + r"}$, \ \ $ABC=\res{" + pm(mul(AB5, C5)) + r"}$",
@@ -243,6 +279,13 @@ S.append(("Operacions amb matrius", [
 ]))
 
 # =====================================================================
+DD1 = [[[3, -2], [5, 4]], [[-1, 7], [2, -3]], [[0, 5], [-6, 9]], [[F(1, 2), 3], [F(1, 3), 4]]]
+ck([det(M) for M in DD1] == [22, -11, 30, 1], [det(M) for M in DD1])
+for x in G: ck(det([[x, x + 1], [x - 1, x]]) == 1); ck(det([[x, 2 * x], [3, 6]]) == 0)
+DD2 = [[[1, 2, 3], [0, -1, 4], [2, 1, 0]], [[2, -1, 1], [3, 0, 2], [1, 4, -1]], [[-2, 3, 1], [4, 1, -3], [0, 2, 5]]]
+for x in G: ck(det([[x, 1, 0], [0, x, 1], [1, 0, x]]) == x ** 3 + 1)
+DA3 = [[3, 0, -1], [2, 5, 4], [1, 0, 2]]
+ck(det(DA3) == 5 * cof(DA3, 1, 1)); ck(det(DA3) == 35)
 M15 = [[1, 0, 2, 0], [3, -1, 1, 2], [0, 2, 1, -1], [2, 1, 0, 3]]
 m15a, m15b = menor(M15, 0, 0), menor(M15, 0, 2)
 ck(det(M15) == det(m15a) + 2 * det(m15b))
@@ -255,11 +298,21 @@ for x in G:
     ck(det(menor(D4(x), 0, 1)) == det(D2(x)))
 for r in ((1 + 5 ** .5) / 2, -(1 + 5 ** .5) / 2, (5 ** .5 - 1) / 2, -(5 ** .5 - 1) / 2): ck(abs(r ** 4 - 3 * r * r + 1) < 1e-12)
 S.append(("Determinants", [
+ (1, r"Calcula els determinants d'ordre 2 següents:" + tasks(3, [m(vm(M)) for M in DD1] + [r'$\begin{vmatrix}a & a+1\\ a-1 & a\end{vmatrix}$', r'$\begin{vmatrix}x & 2x\\ 3 & 6\end{vmatrix}$'])
+     + recorda(r"$\begin{vmatrix}a & b\\ c & d\end{vmatrix}=ad-bc$. \ Només tenen determinant les matrius quadrades."),
+     tasks(3, [r"$" + q(M[0][0] * M[1][1]) + '-(' + q(M[0][1] * M[1][0]) + r")=\res{" + q(det(M)) + "}$" for M in DD1] + [r"$a^2-(a^2-1)=\res{1}$", r"$6x-6x=\res{0}$"])),
+ (1, r"Calcula, amb la regla de Sarrus:" + tasks(2, [m(vm(M)) for M in DD2] + [r'$\begin{vmatrix}a & 1 & 0\\ 0 & a & 1\\ 1 & 0 & a\end{vmatrix}$'])
+     + recorda(r"Sarrus: sumem els productes de la diagonal principal i de les dues ``paral·leles'' i restem els de la diagonal secundària i les seues ``paral·leles''."),
+     tasks(1, [m(sarrus(M)) for M in DD2] + [r"$(a^3+1+0)-(0+0+0)=\res{a^3+1}$"])),
+ (2, r"Donada la matriu \ $A=" + pm(DA3) + r"$:" + tasks(1, [r"Calcula els adjunts $A_{12}$, $A_{22}$ i $A_{31}$.", r"Calcula $|A|$ desenvolupant per la columna que tinga més zeros, i comprova el resultat amb la regla de Sarrus."])
+     + recorda(r"L'adjunt de l'element $a_{ij}$ és $A_{ij}=(-1)^{i+j}\cdot\alpha_{ij}$, on $\alpha_{ij}$ és el menor que s'obté en suprimir la fila $i$ i la columna $j$. El determinant és la suma dels productes dels elements d'una fila (o columna) pels seus adjunts."),
+     tasks(1, [r"$A_{12}=-" + vm(menor(DA3, 0, 1)) + '=' + q(cof(DA3, 0, 1)) + r"$, \ \ $A_{22}=+" + vm(menor(DA3, 1, 1)) + '=' + q(cof(DA3, 1, 1)) + r"$, \ \ $A_{31}=+" + vm(menor(DA3, 2, 0)) + '=' + q(cof(DA3, 2, 0)) + r"$",
+               r"Per la 2a columna (només $a_{22}=5$ és no nul): \ $|A|=5\cdot A_{22}=5\cdot" + q(cof(DA3, 1, 1)) + r"=\res{" + q(det(DA3)) + r"}$. \ Per Sarrus: \ $" + sarrus(DA3) + "$"])),
+ (2, r"Resol l'equació \ $\begin{vmatrix}x & 2 & 3\\ x & x & 3\\ x & x & x\end{vmatrix}=0$.",
+     r"Per Sarrus: \ $x^3+6x+3x^2-(3x^2+3x^2+2x^2)=x^3-5x^2+6x=x(x-2)(x-3)=0$: \ $\res{x=0;\ x=2;\ x=3}$"),
  (1, r"Calcula el determinant \ $|M|=" + vm(M15) + r"$ \ desenvolupant per la primera fila.",
      r"La primera fila només té dos elements no nuls ($a_{11}=1$ i $a_{13}=2$, tots dos amb signe $+$):"
      + dm(r'|M|=1\cdot' + vm(m15a) + r'+2\cdot' + vm(m15b) + '=' + q(det(m15a)) + '+2\cdot(' + q(det(m15b)) + r')=\boxed{' + q(det(M15)) + '}')),
- (2, r"Resol l'equació \ $\begin{vmatrix}x & 2 & 3\\ x & x & 3\\ x & x & x\end{vmatrix}=0$.",
-     r"Per Sarrus: \ $x^3+6x+3x^2-(3x^2+3x^2+2x^2)=x^3-5x^2+6x=x(x-2)(x-3)=0$: \ $\res{x=0;\ x=2;\ x=3}$"),
  (3, r"Considera els determinants \ $D_2=\begin{vmatrix}m & 1\\ 1 & m\end{vmatrix}$, \ $D_3=\begin{vmatrix}m & 1 & 0\\ 1 & m & 1\\ 0 & 1 & m\end{vmatrix}$ \ i \ $D_4=\begin{vmatrix}m & 1 & 0 & 0\\ 1 & m & 1 & 0\\ 0 & 1 & m & 1\\ 0 & 0 & 1 & m\end{vmatrix}$."
      + tasks(1, [r"Calcula $D_3$ i troba els valors de $m$ que l'anul·len.", r"Desenvolupant per la primera fila, comprova que $D_4=m\cdot D_3-D_2$. Calcula $D_4$ i troba els valors de $m$ que l'anul·len."]),
      tasks(1, [r"$D_3=m^3-m-m=m^3-2m=m(m^2-2)$: \ s'anul·la per a \ $\res{m=0;\ m=\pm\sqrt2}$",
