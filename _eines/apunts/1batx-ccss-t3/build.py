@@ -1,19 +1,19 @@
 import os, re, sys, glob
 
-# Genera materials/1batx-ccss/t3-inequacions.html. Ús: python3 _eines/apunts/1batx-ccss-t3/build.py
+# Genera materials/1batx-ccss/t3-sistemes-inequacions.html. Ús: python3 _eines/apunts/1batx-ccss-t3/build.py
 # Com les unitats de 1r Batx MI, agafa l'estil comú i el JavaScript genèric (passos, índex, qüestionari, idioma i tema) de
 # materials/2batx-ccss/t3-programacio-lineal.html, i els extra.css de les unitats 4 i 9 de 2n Batx CCSS (controls dels ginys,
 # taules, botons). app.js ajunta el nucli de la unitat 2 de 1r Batx MI (polinomis, factorització, intervals, recta real i taula de signes)
-# i els ginys de rectes apilades i semiplans de la unitat 3 de 1r Batx MI; els ginys nous (primer grau pas a pas, sistemes amb una
-# incògnita i programació lineal), el lector d'expressions i el qüestionari són a nous.js, que es posa al lloc de /*@@NOUS@@*/.
+# i els ginys de rectes apilades i semiplans de la unitat 3 de 1r Batx MI; els ginys nous (sistemes 2x2 pas a pas, primer grau pas a pas,
+# sistemes amb una incògnita i programació lineal), els de Gauss i recta-circumferència (copiats de la unitat 3 de 1r Batx MI), el lector d'expressions i el qüestionari són a nous.js, que es posa al lloc de /*@@NOUS@@*/.
 # El contingut és a contingut-*.html (en ordre). Les convencions ⟪va‖es‖en⟫, ⟦va‖es‖en⟧ i \SI són les mateixes que a la unitat 4.
 HERE = os.path.dirname(os.path.abspath(__file__))
 T4 = os.path.join(HERE, "..", "2batx-ccss-t4")
 T9 = os.path.join(HERE, "..", "2batx-ccss-t9")
 SITE = sys.argv[1] if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SRC = os.path.join(SITE, "materials/2batx-ccss/t3-programacio-lineal.html")
-OUT = os.path.join(SITE, "materials/1batx-ccss/t3-inequacions.html")
-NSEC = 6
+OUT = os.path.join(SITE, "materials/1batx-ccss/t3-sistemes-inequacions.html")
+NSEC = 9
 
 def read(name, d=HERE): return open(os.path.join(d, name), encoding="utf-8").read()
 def L(va, es, en): return f'<span data-l="va">{va}</span><span data-l="es">{es}</span><span data-l="en">{en}</span>'
@@ -51,9 +51,9 @@ def cut(a, b, s=src):
 # fm-materials.js sap que la unitat 3 de 1r Batx CCSS és d'àlgebra des del 16/11/2026: la versió força a recarregar-lo
 VER = r"fm-materials.\1?v=20261116c3"
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
-head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Inequacions i sistemes d'inequacions · FentMates</title>")
+head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Sistemes d'equacions i inequacions · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
-              '<meta name="description" content="Apunts interactius de la Unitat 3 (Inequacions i sistemes d\'inequacions: primer grau, segon grau i grau superior, sistemes amb una i dues incògnites i programació lineal) de 1r de Batxillerat de Matemàtiques Aplicades a les CCSS, en valencià, castellà i anglés.">', head)
+              '<meta name="description" content="Apunts interactius de la Unitat 3 (Sistemes d\'equacions i inequacions: sistemes lineals amb parèntesis i denominadors, mètode de Gauss, sistemes no lineals, inequacions de primer grau, de segon grau i de grau superior, sistemes d\'inequacions amb una i dues incògnites i programació lineal) de 1r de Batxillerat de Matemàtiques Aplicades a les CCSS, en valencià, castellà i anglés.">', head)
 head = re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, head)
 head += read("extra.css", T4) + "\n" + read("extra.css", T9) + "\n" + read("extra.css") + "\n" + \
     re.sub(r"fm-materials\.(css|js)\?v=\w+", VER, cut("/* FentMates: 80% de l'ample", "</head>")) + "</head>\n"

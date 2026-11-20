@@ -3,7 +3,7 @@
   var root = document.documentElement;
   var LANGS = ["va", "es", "en"];
   var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
-  var UNIT_KEY = "fm-1batx-ccss-u3-inequacions-done";
+  var UNIT_KEY = "fm-1batx-ccss-u3-sistemes-done";
 
   /* ---------- textos de la interfície ---------- */
   var UI = {
@@ -417,7 +417,7 @@
   }
 
 
-  /* ---------- 2.10 taula de signes ---------- */
+  /* ---------- 3.5 taula de signes ---------- */
   function wSign() {
     var w = byId("w-sign"); if (!w) return;
     var info = w.querySelector(".info"), tbl = $(w, "tbl"), svg = w.querySelector("svg.nl-svg"), op = 3;
@@ -490,7 +490,7 @@
   }
 
 
-  /* ---------- 3.3 rectes reals una sobre l'altra ---------- */
+  /* ---------- 3.6 rectes reals una sobre l'altra ---------- */
   // cada interval és [a, a inclòs, b, b inclòs]
   var INF = Infinity, STACKS = {
     a: { range: [-4, 5], rows: [{ l: "3x − 2 ≤ x + 4", S: [[-INF, 0, 3, 1]] }, { l: "2x + 1 &gt; −3", S: [[-2, 0, INF, 0]] }], sol: [[-2, 0, 3, 1]] },
@@ -536,7 +536,7 @@
   }
 
 
-  /* ---------- 3.5 semiplans i sistemes ---------- */
+  /* ---------- 3.8 semiplans i sistemes ---------- */
   var OPT = { "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " };
   function clipHalf(P, A, B, C, s) {
     var out = [], n = P.length; if (!n) return out;
@@ -622,7 +622,7 @@
     onLang(draw);
   }
 
-  /* ---------- 3.4 i 3.5: figures dels exemples ---------- */
+  /* ---------- 3.7 i 3.8: figures dels exemples ---------- */
   function halfLine(G, c, V, col) {
     var pts = Math.abs(c.b) > 1e-12 ? [[V[0] - 1, (c.c - c.a * (V[0] - 1)) / c.b], [V[1] + 1, (c.c - c.a * (V[1] + 1)) / c.b]] : [[c.c / c.a, V[2] - 1], [c.c / c.a, V[3] + 1]];
     return '<line x1="' + G.X(pts[0][0]) + '" y1="' + G.Y(pts[0][1]) + '" x2="' + G.X(pts[1][0]) + '" y2="' + G.Y(pts[1][1]) + '" stroke="' + col + '" stroke-width="2.4"' + (c.op.length === 1 ? ' stroke-dasharray="7 5"' : "") + "/>";
@@ -641,7 +641,7 @@
     });
   }
 
-  /* ---------- 3.4 inequació amb dues incògnites pas a pas ---------- */
+  /* ---------- 3.7 inequació amb dues incògnites pas a pas ---------- */
   function wSemi() {
     var w = byId("w-semi"); if (!w) return;
     var info = w.querySelector(".info"), svg = w.querySelector("svg"), ia = $(w, "a"), ib = $(w, "b"), ic = $(w, "c"), sel = $(w, "op"), st, res;
@@ -709,7 +709,7 @@
   /*@@NOUS@@*/
 
   /*@@GENERIC@@*/
-  var TITLES = { va: "Inequacions i sistemes d'inequacions · FentMates", es: "Inecuaciones y sistemas de inecuaciones · FentMates", en: "Inequalities and systems of inequalities · FentMates" };
+  var TITLES = { va: "Sistemes d'equacions i inequacions · FentMates", es: "Sistemas de ecuaciones e inecuaciones · FentMates", en: "Systems of equations and inequalities · FentMates" };
   function setLang(l) {
     if (LANGS.indexOf(l) < 0) return;
     lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; document.title = TITLES[l]; store("lang", l);
@@ -724,7 +724,7 @@
       window.renderMathInElement(document.body, { delimiters: Dl, ignoredClasses: ["widget", "lab"], throwOnError: false });
       document.querySelectorAll(".widget .wt, .widget label, .widget .legend, .widget > p").forEach(function (el) { window.renderMathInElement(el, { delimiters: Dl, throwOnError: false }); });
     }
-    var all = [wChrome, wSteps, wNav, wStacks, wFigs, wLin, wSign, wSys1, wSemi, wHalf, wPl, wQuiz];
+    var all = [wChrome, wSteps, wNav, wStacks, wFigs, wSis2, wGauss, wNl, wLin, wSign, wSys1, wSemi, wHalf, wPl, wQuiz];
     all.forEach(function (fn) { try { fn(); } catch (e) { if (window.console) console.error(fn.name, e); } });
   }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);

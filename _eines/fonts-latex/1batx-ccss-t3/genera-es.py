@@ -1,4 +1,4 @@
-# Versió en castellà de la fitxa de la unitat 3 de 1r Batx CCSS (Inequacions i sistemes d'inequacions).
+# Versió en castellà de la fitxa de la unitat 3 de 1r Batx CCSS (Sistemes d'equacions i inequacions).
 # Tot el text és a genera.py, en les dues llengües (T(valencià, castellà)): aquest fitxer només l'executa amb FM_LANG=es.
 # Ús: python3 genera-es.py && pdflatex t3-fitxa-exercicis-es.tex (dues vegades) && pdflatex t3-fitxa-solucions-es.tex (dues vegades)
 import os, runpy

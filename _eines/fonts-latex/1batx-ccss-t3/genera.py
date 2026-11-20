@@ -1,8 +1,8 @@
-# Genera t3-fitxa-exercicis.tex i t3-fitxa-solucions.tex (1r Batxillerat CCSS, Unitat 3: Inequacions i sistemes d'inequacions)
+# Genera t3-fitxa-exercicis.tex i t3-fitxa-solucions.tex (1r Batxillerat CCSS, Unitat 3: Sistemes d'equacions i inequacions)
 # a partir d'una sola llista d'exercicis: cada exercici és (estrelles, enunciat, solució); a Batxillerat no es mostren les estrelles.
 # Bilingüe: T(valencià, castellà); genera-es.py l'executa amb FM_LANG=es i escriu els -es.tex.
 # Les eines (recta real, semiplans i regions en TikZ amb aritmètica exacta) són les de la fitxa de la unitat 3 de 1r Batx MI.
-# sympy resol cada inequació i sistema (ineq, sysI) i ck() les compara amb la solució esperada escrita a mà; les regions es
+# sympy resol cada sistema d'equacions (s2, gsol, nlsol; red comprova les formes reduïdes) i cada inequació i sistema (ineq, sysI) i ck() les compara amb la solució esperada escrita a mà; les regions es
 # comproven amb regck (vèrtexs exactes) i els problemes de programació lineal amb pl() (vèrtexs, valors de F i òptim).
 # Ús: python3 genera.py && python3 genera-es.py, i pdflatex (dues vegades) dels quatre .tex
 import os, re, math
@@ -23,6 +23,7 @@ def L(e):
     s = sp.latex(e, order='lex')
     return s.replace(r'\left(', '(').replace(r'\right)', ')')
 def sist(*rows): return r'\left\{\begin{array}{l}' + r'\\'.join(rows) + r'\end{array}\right.'
+def sistd(*rows): return r'\left\{\begin{array}{l}' + r'\\[5pt]'.join(rows) + r'\end{array}\right.'  # amb fraccions
 NOSOL = T(r'\text{no té solució}', r'\text{no tiene solución}')
 
 CHK = []
@@ -201,7 +202,120 @@ def pl(cons, a_, b_, goal, expect_opt, expect_val, view, wd=4.4, unit=''):
 S = []  # [(títol, [(estrelles, enunciat, solució)])]
 
 # =====================================================================
-# 1. Inequacions de primer grau
+# 1. Sistemes d'equacions lineals (2x2, amb parèntesis i denominadors)
+y, z, w = sp.symbols('y z w')
+lam = sp.Symbol(r'\lambda')
+def s2(eqs, expect, vars_=None):
+    """resol el sistema lineal i comprova la solució: expect és una tupla, 'SI' o 'SCI'"""
+    vars_ = vars_ or [x, y]
+    S_ = sp.linsolve([sp.expand(e.lhs - e.rhs) if isinstance(e, sp.Equality) else e for e in eqs], vars_)
+    if expect == 'SI': ck(S_ == sp.S.EmptySet, 'SI %s' % eqs); return
+    sol = list(S_)[0]
+    if expect == 'SCI': ck(any(s.free_symbols & set(vars_) for s in sol), 'SCI %s' % eqs); return sol
+    ck(tuple(sol) == tuple(sp.sympify(v) for v in expect), 'SCD %s -> %s' % (eqs, sol))
+    return sol
+def red(e, form):
+    """comprova que l'equació e és equivalent a la forma reduïda form (a x + b y = c)"""
+    d1, d2 = sp.expand(e.lhs - e.rhs), sp.expand(form.lhs - form.rhs)
+    ck(sp.simplify(d1 / d2).is_number, 'forma %s ~ %s' % (e, form))
+def gsol(eqs, vars_=(x, y, z)):
+    S_ = sp.linsolve(eqs, list(vars_))
+    if S_ == sp.S.EmptySet: return r'\rest{SI}: ' + T(r'incompatible (apareix una equació $0=k\neq0$)', r'incompatible (aparece una ecuación $0=k\neq0$)')
+    sol = list(S_)[0]
+    free = [v for v in vars_ if any(s.has(v) for s in sol)]
+    if not free: return r'\rest{SCD}: \ ' + R(r'(%s)=(%s)' % (','.join(L(v) for v in vars_), r',\ '.join(L(s) for s in sol)))
+    sol = [s.subs(free[0], lam) for s in sol]
+    return r'\rest{SCI}: \ ' + R(r'(%s)=(%s),\ \lambda\in\mathbb R' % (','.join(L(v) for v in vars_), r',\ '.join(L(sp.expand(s)) for s in sol)))
+E = sp.Eq
+P1 = [s2([E(2 * x + y, 7), E(x - y, 2)], (3, 1)), s2([E(3 * x - 2 * y, 4), E(x + y, 3)], (2, 1)), s2([E(x + 3 * y, 10), E(2 * x - y, -1)], (1, 3)), s2([E(4 * x + 3 * y, 1), E(2 * x - y, 3)], (1, -1))]
+P2e = [[E(2 * (x + 1) - 3 * y, 7), E(x - (y - 2), 5)], [E(5 * (x - 2) + y, 3 * (y + 1)), E(2 * x - 3 * (y - 1), 6)], [E(4 * (x + y) - 3 * (x - y), 17), E(2 * (x - 3 * y) + y, -4)]]
+P2f = [[E(2 * x - 3 * y, 5), E(x - y, 3)], [E(5 * x - 2 * y, 13), E(2 * x - 3 * y, 3)], [E(x + 7 * y, 17), E(2 * x - 5 * y, -4)]]
+P2s = [(4, 1), (3, 1), (3, 2)]
+P3e = [[E(x / 3 + y / 2, 3), E((x - y) / 2, 2)], [E((x + 1) / 2 - (y - 1) / 3, 2), E((x + y) / 3, 3)], [E(x / 2 - y / 5, 1), E((x + 2) / 3 + y / 5, 3)]]
+P3f = [[E(2 * x + 3 * y, 18), E(x - y, 4)], [E(3 * x - 2 * y, 7), E(x + y, 9)], [E(5 * x - 2 * y, 10), E(5 * x + 3 * y, 35)]]
+P3s = [(6, 2), (5, 4), (4, 5)]
+for es_, fs_, so in zip(P2e + P3e, P2f + P3f, P2s + P3s):
+    for e_, f_ in zip(es_, fs_): red(e_, f_)
+    s2(es_, so); s2(fs_, so)
+s2([E((x + 1) / 2 - y, 1), E(3 * x - 6 * y, 3)], 'SCI'); s2([E(2 * (x - y), 3), E(x - y, 1)], 'SI'); s2([E(x + 2 * y, 4), E(2 * x + y, 5)], (2, 1))
+s2([E(x + y, 30), E(2 * x + 4 * y, 80)], (20, 10)); s2([E(x + y, 120), E(7 * x + 5 * y, 720)], (60, 60))
+S.append((T("Sistemes d'equacions lineals", "Sistemas de ecuaciones lineales"), [
+ (1, T(r"Resol pel mètode que preferisques (substitució, igualació o reducció):", r"Resuelve por el método que prefieras (sustitución, igualación o reducción):")
+     + tasks(4, ["$" + sist(r"2x+y=7", r"x-y=2") + "$", "$" + sist(r"3x-2y=4", r"x+y=3") + "$", "$" + sist(r"x+3y=10", r"2x-y=-1") + "$", "$" + sist(r"4x+3y=1", r"2x-y=3") + "$"]),
+     tasks(4, [R(r"x=3,\ y=1"), R(r"x=2,\ y=1"), R(r"x=1,\ y=3"), R(r"x=1,\ y=-1")])),
+ (2, T(r"Lleva parèntesis, simplifica cada equació fins a la forma $ax+by=c$ i resol:", r"Quita paréntesis, simplifica cada ecuación hasta la forma $ax+by=c$ y resuelve:")
+     + tasks(3, ["$" + sist(r"2(x+1)-3y=7", r"x-(y-2)=5") + "$", "$" + sist(r"5(x-2)+y=3(y+1)", r"2x-3(y-1)=6") + "$", "$" + sist(r"4(x+y)-3(x-y)=17", r"2(x-3y)+y=-4") + "$"])
+     + recorda(T(r"Compte amb el signe $-$ davant d'un parèntesi: canvia el signe de tots els termes de dins.", r"Cuidado con el signo $-$ delante de un paréntesis: cambia el signo de todos los términos de dentro.")),
+     tasks(1, ["$" + sist(r"2x-3y=5", r"x-y=3") + r"$ \ " + R(r"x=4,\ y=1"), "$" + sist(r"5x-2y=13", r"2x-3y=3") + r"$ \ " + R(r"x=3,\ y=1"), "$" + sist(r"x+7y=17", r"2x-5y=-4") + r"$ \ " + R(r"x=3,\ y=2")])),
+ (2, T(r"Lleva denominadors i resol:", r"Quita denominadores y resuelve:")
+     + tasks(3, ["$" + sistd(r"\dfrac x3+\dfrac y2=3", r"\dfrac{x-y}{2}=2") + "$", "$" + sistd(r"\dfrac{x+1}{2}-\dfrac{y-1}{3}=2", r"\dfrac{x+y}{3}=3") + "$", "$" + sistd(r"\dfrac x2-\dfrac y5=1", r"\dfrac{x+2}{3}+\dfrac y5=3") + "$"])
+     + recorda(T(r"Multiplica els dos membres de cada equació pel m.c.m. dels seus denominadors.", r"Multiplica los dos miembros de cada ecuación por el m.c.m. de sus denominadores.")),
+     tasks(1, [T(r"Per 6 i per 2: ", r"Por 6 y por 2: ") + "$" + sist(r"2x+3y=18", r"x-y=4") + r"$ \ " + R(r"x=6,\ y=2"), T(r"Per 6 i per 3: ", r"Por 6 y por 3: ") + "$" + sist(r"3x-2y=7", r"x+y=9") + r"$ \ " + R(r"x=5,\ y=4"),
+               T(r"Per 10 i per 15: ", r"Por 10 y por 15: ") + "$" + sist(r"5x-2y=10", r"5x+3y=35") + r"$ \ " + R(r"x=4,\ y=5")])),
+ (2, T(r"Resol i classifica cada sistema. Interpreta'l gràficament:", r"Resuelve y clasifica cada sistema. Interprétalo gráficamente:")
+     + tasks(3, ["$" + sistd(r"\dfrac{x+1}{2}-y=1", r"3x-6y=3") + "$", "$" + sist(r"2(x-y)=3", r"x-y=1") + "$", "$" + sist(r"x+2y=4", r"2x+y=5") + "$"]),
+     tasks(1, [T(r"Les dues queden $x-2y=1$: rectes coincidents. ", r"Las dos quedan $x-2y=1$: rectas coincidentes. ") + r"\rest{SCI}: \ " + R(r"(x,y)=(1+2\lambda,\ \lambda)"),
+               T(r"$2x-2y=3$ i $2x-2y=2$: rectes paral·leles. ", r"$2x-2y=3$ y $2x-2y=2$: rectas paralelas. ") + r"\rest{SI}: \ " + R(NOSOL),
+               T(r"Rectes que es tallen en un punt. ", r"Rectas que se cortan en un punto. ") + r"\rest{SCD}: \ " + R(r"(x,y)=(2,\,1)")])),
+ (2, T(r"En una granja hi ha gallines i conills. En total hi ha 30 caps i 80 potes. Quantes gallines i quants conills hi ha?", r"En una granja hay gallinas y conejos. En total hay 30 cabezas y 80 patas. ¿Cuántas gallinas y cuántos conejos hay?"),
+     "$" + sist(r"x+y=30", r"2x+4y=80") + T(r"\Rightarrow 2y=20$: \ ", r"\Rightarrow 2y=20$: \ ") + R(T(r"20\text{ gallines i }10\text{ conills}", r"20\text{ gallinas y }10\text{ conejos}"))),
+ (2, T(r"Un cine ven entrades normals a 7 € i reduïdes a 5 €. Un dia ha venut 120 entrades i ha recaptat 720 €. Quantes n'ha venut de cada tipus?", r"Un cine vende entradas normales a 7 € y reducidas a 5 €. Un día ha vendido 120 entradas y ha recaudado 720 €. ¿Cuántas ha vendido de cada tipo?"),
+     "$" + sist(r"x+y=120", r"7x+5y=720") + r"\Rightarrow 7x+5(120-x)=720\Rightarrow 2x=120$: \ " + R(T(r"60\text{ normals i }60\text{ reduïdes}", r"60\text{ normales y }60\text{ reducidas}"))),
+]))
+
+# =====================================================================
+# 2. Mètode de Gauss
+ck(sp.linsolve([x + y + z - 6, y - z + 1, 2 * z - 6], [x, y, z]) == sp.FiniteSet((1, 2, 3)))
+ck(sp.linsolve([2 * x - y + z - 3, 3 * y - z - 1, z - 2], [x, y, z]) == sp.FiniteSet((1, 1, 2)))
+G2 = [[x + 2 * y - 3 * z - 7, 2 * x + y - z - 6, 3 * x - y - z - 6], [x - y + z - 2, 2 * x + y - z - 1, x + 2 * y + 3 * z - 14], [x + y - z - 5, 3 * x - 2 * y - 2 * z - 5, 2 * x - 3 * y - z - 3],
+      [2 * x + y + z - 5, 2 * x - y + 3 * z - 3, 3 * x + 2 * y + z - 8]]
+G2t = [sist(r"x+2y-3z=7", r"2x+y-z=6", r"3x-y-z=6"), sist(r"x-y+z=2", r"2x+y-z=1", r"x+2y+3z=14"), sist(r"x+y-z=5", r"3x-2y-2z=5", r"2x-3y-z=3"), sist(r"2x+y+z=5", r"2x-y+3z=3", r"3x+2y+z=8")]
+ck(sp.linsolve(G2[0], [x, y, z]) == sp.FiniteSet((2, 1, -1)) and sp.linsolve(G2[1], [x, y, z]) == sp.FiniteSet((1, 2, 3)))
+ck(sp.linsolve(G2[2], [x, y, z]) == sp.S.EmptySet)
+ck(sp.linsolve([2 * x + y + z - 9, x + 2 * y + z - 10, x + y + 2 * z - 13], [x, y, z]) == sp.FiniteSet((1, 2, 5)))
+ck(sp.linsolve([x + y + z - 30, 2 * x - y - 36, x - 2 * y - 2 * z], [x, y, z]) == sp.FiniteSet((20, 4, 6)))
+S.append((T("Mètode de Gauss", "Método de Gauss"), [
+ (1, T(r"Resol aquests sistemes esglaonats, de baix cap amunt:", r"Resuelve estos sistemas escalonados, de abajo hacia arriba:")
+     + tasks(2, ["$" + sist(r"x+y+z=6", r"y-z=-1", r"2z=6") + "$", "$" + sist(r"2x-y+z=3", r"3y-z=1", r"z=2") + "$"]),
+     tasks(2, [r"$z=3,\ y=2,\ x=1$: \ " + R(r"(1,\,2,\,3)"), r"$z=2,\ y=1,\ x=1$: \ " + R(r"(1,\,1,\,2)")])),
+ (2, T(r"Resol pel mètode de Gauss i classifica:", r"Resuelve por el método de Gauss y clasifica:") + tasks(2, ["$" + t + "$" for t in G2t])
+     + recorda(T(r"Fes zeros davall de la diagonal. L'última fila $(0\ \ 0\ \ m\,|\,n)$ decideix: $m\neq0$ SCD; $m=n=0$ SCI; $m=0,\ n\neq0$ SI.", r"Haz ceros debajo de la diagonal. La última fila $(0\ \ 0\ \ m\,|\,n)$ decide: $m\neq0$ SCD; $m=n=0$ SCI; $m=0,\ n\neq0$ SI.")),
+     tasks(1, [gsol(s_) for s_ in G2])),
+ (2, T(r"En una papereria, 2 bolígrafs, 1 llibreta i 1 carpeta costen 9 €; 1 bolígraf, 2 llibretes i 1 carpeta, 10 €, i 1 bolígraf, 1 llibreta i 2 carpetes, 13 €. Quant costa cada article?",
+       r"En una papelería, 2 bolígrafos, 1 libreta y 1 carpeta cuestan 9 €; 1 bolígrafo, 2 libretas y 1 carpeta, 10 €, y 1 bolígrafo, 1 libreta y 2 carpetas, 13 €. ¿Cuánto cuesta cada artículo?"),
+     "$" + sist(r"2x+y+z=9", r"x+2y+z=10", r"x+y+2z=13") + T(r"$ (sumant-les, $x+y+z=8$): \ ", r"$ (sumándolas, $x+y+z=8$): \ ") + R(T(r"\text{bolígraf 1 €, llibreta 2 €, carpeta 5 €}", r"\text{bolígrafo 1 €, libreta 2 €, carpeta 5 €}"))),
+ (3, T(r"Un examen tipus test té 30 preguntes. Cada encert suma 2 punts, cada error resta 1 punt i les preguntes en blanc no compten. Una alumna ha tret 36 punts i ha tingut el doble d'encerts que d'errors i preguntes en blanc juntes. Quantes preguntes ha encertat, ha fallat i ha deixat en blanc?",
+       r"Un examen tipo test tiene 30 preguntas. Cada acierto suma 2 puntos, cada error resta 1 punto y las preguntas en blanco no cuentan. Una alumna ha sacado 36 puntos y ha tenido el doble de aciertos que de errores y preguntas en blanco juntas. ¿Cuántas preguntas ha acertado, ha fallado y ha dejado en blanco?"),
+     "$" + sist(r"x+y+z=30", r"2x-y=36", r"x=2(y+z)") + r"\Rightarrow\left(\begin{array}{rrr|r}1&1&1&30\\ 2&-1&0&36\\ 1&-2&-2&0\end{array}\right)$: \ " + R(T(r"20\text{ encerts, }4\text{ errors i }6\text{ en blanc}", r"20\text{ aciertos, }4\text{ errores y }6\text{ en blanco}"))),
+]))
+
+# =====================================================================
+# 3. Sistemes d'equacions no lineals
+def nlsol(eqs, expect):
+    r_ = sp.solve(eqs, [x, y], dict=True)
+    got = sorted([(d[x], d[y]) for d in r_ if d[x].is_real and d[y].is_real], key=lambda p: (float(p[0]), float(p[1])))
+    ck(got == sorted([tuple(sp.sympify(v) for v in p) for p in expect], key=lambda p: (float(p[0]), float(p[1]))), 'nl %s %s' % (eqs, got))
+    return R(r',\ '.join('(%s,\\,%s)' % (L(p[0]), L(p[1])) for p in got)) if got else R(NOSOL)
+NL1 = [([x + y - 7, x * y - 12], [(3, 4), (4, 3)], r"$y=7-x\Rightarrow x^2-7x+12=0$"), ([y - x ** 2 + 4, y - x - 2], [(3, 5), (-2, 0)], r"$x^2-4=x+2\Rightarrow x^2-x-6=0$"),
+       ([2 * x - y - 1, x ** 2 + y ** 2 - 2], [(1, 1), (Q(-1, 5), Q(-7, 5))], r"$y=2x-1\Rightarrow 5x^2-4x-1=0$"), ([x + y - 2, x * y - 5], [], r"$y=2-x\Rightarrow x^2-2x+5=0,\ \Delta\lt0$")]
+NL2 = [([x ** 2 + y ** 2 - 13, x ** 2 - y ** 2 - 5], [(3, 2), (3, -2), (-3, 2), (-3, -2)], T(r"Sumant: $2x^2=18$, $y^2=4$", r"Sumando: $2x^2=18$, $y^2=4$")),
+       ([x ** 2 + 2 * y ** 2 - 18, 2 * x ** 2 - y ** 2 - 31], [(4, 1), (4, -1), (-4, 1), (-4, -1)], T(r"La 1a més el doble de la 2a: $5x^2=80$, $y^2=1$", r"La 1.ª más el doble de la 2.ª: $5x^2=80$, $y^2=1$"))]
+ck(sp.solve([x + y - 17, x ** 2 + y ** 2 - 169], [x, y]) == [(5, 12), (12, 5)])
+ck(sp.solve([x - y - 3, x * y - 40], [x, y]) == [(-5, -8), (8, 5)])
+S.append((T("Sistemes d'equacions no lineals", "Sistemas de ecuaciones no lineales"), [
+ (2, T(r"Resol pel mètode de substitució:", r"Resuelve por el método de sustitución:") + tasks(4, ["$" + sist(r"x+y=7", r"xy=12") + "$", "$" + sist(r"y=x^2-4", r"y=x+2") + "$", "$" + sist(r"2x-y=1", r"x^2+y^2=2") + "$", "$" + sist(r"x+y=2", r"xy=5") + "$"])
+     + recorda(T(r"Aïlla una incògnita de l'equació lineal i substitueix-la en l'altra. Per cada valor que trobes, calcula el de l'altra incògnita.", r"Despeja una incógnita de la ecuación lineal y sustitúyela en la otra. Por cada valor que encuentres, calcula el de la otra incógnita.")),
+     tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL1])),
+ (2, T(r"Resol pel mètode de reducció:", r"Resuelve por el método de reducción:") + tasks(2, ["$" + sist(r"x^2+y^2=13", r"x^2-y^2=5") + "$", "$" + sist(r"x^2+2y^2=18", r"2x^2-y^2=31") + "$"]),
+     tasks(1, [e[2] + r": \ " + nlsol(e[0], e[1]) for e in NL2])),
+ (2, T(r"El perímetre d'un rectangle fa 34 cm i la seua diagonal, 13 cm. Quant mesuren els costats?", r"El perímetro de un rectángulo mide 34 cm y su diagonal, 13 cm. ¿Cuánto miden los lados?"),
+     "$" + sist(r"x+y=17", r"x^2+y^2=169") + r"\Rightarrow x^2-17x+60=0$: \ " + R(T(r"5\text{ cm i }12\text{ cm}", r"5\text{ cm y }12\text{ cm}"))),
+ (2, T(r"La diferència de dos nombres és 3 i el seu producte, 40. Quins són?", r"La diferencia de dos números es 3 y su producto, 40. ¿Cuáles son?"),
+     "$" + sist(r"x-y=3", r"xy=40") + r"\Rightarrow y^2+3y-40=0\Rightarrow y=5,\ y=-8$: \ " + R(T(r"8\text{ i }5,\ \text{o bé }-5\text{ i }-8", r"8\text{ y }5,\ \text{o bien }-5\text{ y }-8"))),
+]))
+
+# =====================================================================
+# 4. Inequacions de primer grau
 A1 = [iq(3 * x - 7 > 5, Io(4, oo)), iq(2 * x + 5 <= 4 * x - 1, Iro(3, oo)), iq(5 - 2 * x >= 11, Ilo(-oo, -3)),
       iq(4 * (x - 1) < 2 * x + 6, Io(-oo, 5)), iq(3 * (2 - x) >= 2 * (x + 8), Ilo(-oo, -2)), iq(x - 2 * (x + 3) > 4 - 3 * x, Io(5, oo))]
 A2 = [iq(x / 2 + 1 <= x / 3 + 2, Ilo(-oo, 6)), iq((x - 1) / 3 - (x + 2) / 4 > 1, Io(22, oo)), iq((2 * x + 1) / 5 >= (x - 3) / 2, Ilo(-oo, 17)),
@@ -233,7 +347,7 @@ S.append((T("Inequacions de primer grau", "Inecuaciones de primer grado"), [
 ]))
 
 # =====================================================================
-# 2. Inequacions de segon grau
+# 5. Inequacions de segon grau
 B1 = [iq(x ** 2 - 3 * x - 4 < 0, Io(-1, 4)), iq(x ** 2 - x - 6 >= 0, sp.Union(Ilo(-oo, -2), Iro(3, oo))), iq(x ** 2 - 16 > 0, sp.Union(Io(-oo, -4), Io(4, oo))),
       iq(x ** 2 + 3 * x <= 0, Ic(-3, 0)), iq(-x ** 2 + 4 * x - 3 > 0, Io(1, 3)), iq(2 * x ** 2 - 5 * x + 2 <= 0, Ic(Q(1, 2), 2))]
 B2 = [iq(x ** 2 + x + 1 > 0, sp.S.Reals), iq(x ** 2 + 2 * x + 4 <= 0, sp.S.EmptySet), iq(x ** 2 - 4 * x + 4 > 0, sp.Union(Io(-oo, 2), Io(2, oo))), iq(x ** 2 - 6 * x + 9 <= 0, sp.FiniteSet(3))]
@@ -259,7 +373,7 @@ S.append((T("Inequacions de segon grau", "Inecuaciones de segundo grado"), [
 ck(sp.solve(x ** 2 + x + 1) == [] and sp.solve(x ** 2 + 2 * x + 4) == [])
 
 # =====================================================================
-# 3. Inequacions de grau superior
+# 6. Inequacions de grau superior
 C1 = [iq(x ** 3 - 4 * x >= 0, sp.Union(Ic(-2, 0), Iro(2, oo))), iq((x - 1) * (x + 2) * (x - 3) < 0, sp.Union(Io(-oo, -2), Io(1, 3))),
       iq(x ** 3 - x ** 2 - 2 * x > 0, sp.Union(Io(-1, 0), Io(2, oo))), iq(x ** 3 - 6 * x ** 2 + 11 * x - 6 >= 0, sp.Union(Ic(1, 2), Iro(3, oo)))]
 C2 = [iq(x ** 3 + x ** 2 - x - 1 <= 0, Ilo(-oo, 1)), iq(x ** 2 * (x - 3) <= 0, Ilo(-oo, 3)), iq((x + 2) ** 2 * (x - 1) > 0, Io(1, oo))]
@@ -278,7 +392,7 @@ S.append((T("Inequacions de grau superior", "Inecuaciones de grado superior"), [
 ]))
 
 # =====================================================================
-# 4. Sistemes d'inequacions amb una incògnita
+# 7. Sistemes d'inequacions amb una incògnita
 D1 = [iq([x + 3 > 0, 2 * x - 1 <= 5], Ilo(-3, 3)), iq([3 * x - 2 < x + 4, 5 - x <= 2 * x + 2], Iro(1, 3)), iq([2 * x + 1 > x + 4, 3 * x - 5 < x + 1], sp.S.EmptySet),
       iq([(x + 1) / 2 >= x - 1, 4 * x + 3 > x], Ilo(-1, 3)), iq([x ** 2 - 4 < 0, 2 * x + 1 >= 0], Iro(-Q(1, 2), 2)), iq([x ** 2 - 5 * x + 4 <= 0, x ** 2 - 9 > 0], Ilo(3, 4))]
 D2 = iq([3 * x - 5 > 10, 2 * x + 1 < 21], Io(5, 10))
@@ -297,7 +411,7 @@ S.append((T("Sistemes d'inequacions amb una incògnita", "Sistemas de inecuacion
 ]))
 
 # =====================================================================
-# 5. Inequacions amb dues incògnites
+# 8. Inequacions amb dues incògnites
 E1 = [([C(1, 1, '<=', 4)], (-2, 6, -2, 6), T(r"Recta contínua per $(4,0)$ i $(0,4)$; $O$: $0\le4$ \checkmark: semiplà de $O$.", r"Recta continua por $(4,0)$ y $(0,4)$; $O$: $0\le4$ \checkmark: semiplano de $O$.")),
       ([C(2, -1, '>', 2)], (-2, 4, -4, 3), T(r"Recta discontínua per $(1,0)$ i $(0,-2)$; $O$: $0\gt2$ fals: semiplà que \rest{no} conté $O$.", r"Recta discontinua por $(1,0)$ y $(0,-2)$; $O$: $0\gt2$ falso: semiplano que \rest{no} contiene $O$.")),
       ([C(-3, 1, '<', 0)], (-3, 3, -4, 4), T(r"Recta discontínua per $(0,0)$ i $(1,3)$; amb $(1,0)$: $0\lt3$ \checkmark: semiplà de $(1,0)$.", r"Recta discontinua por $(0,0)$ y $(1,3)$; con $(1,0)$: $0\lt3$ \checkmark: semiplano de $(1,0)$.")),
@@ -316,7 +430,7 @@ S.append((T("Inequacions amb dues incògnites", "Inecuaciones con dos incógnita
 ]))
 
 # =====================================================================
-# 6. Sistemes d'inequacions amb dues incògnites
+# 9. Sistemes d'inequacions amb dues incògnites
 F1 = [(regck([C(1, 1, '<=', 4)] + NN, [(0, 0), (4, 0), (0, 4)], True), (-1, 5, -1, 5)),
       (regck([C(1, 2, '<=', 8), C(1, 0, '<=', 4)] + NN, [(0, 0), (4, 0), (4, 2), (0, 4)], True), (-1, 6, -1, 5)),
       (regck([C(-1, 1, '<=', 0), C(1, 0, '<=', 3), C(0, 1, '>=', 0)], [(0, 0), (3, 0), (3, 3)], True), (-1, 4, -1, 4)),
@@ -345,7 +459,7 @@ S.append((T("Sistemes d'inequacions amb dues incògnites", "Sistemas de inecuaci
 ]))
 
 # =====================================================================
-# 7. Programació lineal
+# 10. Programació lineal
 G1 = [C(1, 1, '<=', 5), C(1, 0, '<=', 3)] + NN
 g1 = pl(G1, 3, 2, 'max', [(3, 2)], 13, (-1, 6, -1, 6))
 G2 = [C(1, 1, '>=', 4), C(1, 0, '<=', 5), C(0, 1, '<=', 5)] + NN
@@ -403,8 +517,8 @@ NEX = sum(len(s_[1]) for s_ in S)
 # =====================================================================
 pre = open(os.path.join(HERE, 'preamble.tex'), encoding='utf-8').read()
 pre = pre.split('% ---------- recta real ----------')[0]
-KW = T("inequacions, primer grau, segon grau, sistemes d'inequacions, semiplans, regions del pla, programació lineal",
-       "inecuaciones, primer grado, segundo grado, sistemas de inecuaciones, semiplanos, regiones del plano, programación lineal")
+KW = T("sistemes d'equacions lineals, mètode de Gauss, sistemes no lineals, inequacions, primer grau, segon grau, sistemes d'inequacions, semiplans, regions del pla, programació lineal",
+       "sistemas de ecuaciones lineales, método de Gauss, sistemas no lineales, inecuaciones, primer grado, segundo grado, sistemas de inecuaciones, semiplanos, regiones del plano, programación lineal")
 if not ES:
     pre = re.sub(r'pdfkeywords=\{[^}]*\}', lambda mm: 'pdfkeywords={' + KW + '}', pre)
     pre = pre.replace('pdfsubject={Matemàtiques 3r ESO}', 'pdfsubject={Matemàtiques Aplicades a les CCSS I}')
@@ -422,7 +536,7 @@ pre += r'''\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{''' + T('Recorda', 'Recuerda') + r''':}\ #1\end{tcolorbox}}
 '''
 
-TIT = T("Inequacions i sistemes d'inequacions", "Inecuaciones y sistemas de inecuaciones")
+TIT = T("Sistemes d'equacions i inequacions", "Sistemas de ecuaciones e inecuaciones")
 def spc(t):
     # «, » separa elements; amb icomma la coma és un símbol normal i un «-» darrere seu seria una resta: el posem entre claus
     return re.sub(r'\$[^$]*\$', lambda mm: re.sub(r',((?:\\,|\\ |\\;|\s)+)-', r',\1{-}', mm.group(0).replace(', ', r',\, ')), t)

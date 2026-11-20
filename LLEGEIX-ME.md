@@ -556,19 +556,26 @@ python3 _eines/apunts/1batx-ccss-t2/build.py
 cd _eines/fonts-latex/1batx-ccss-t2 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
-- **Unitat 3 (Inequacions i sistemes d'inequacions, `1batx-ccss-t3`)**: 6 apartats (3.1-3.6): inequacions de primer grau (regles,
-  parèntesis, denominadors, casos $\mathbb R$ i $\varnothing$, problemes), de segon grau i de grau superior (estudi del signe, paràbola,
-  $\Delta\lt0$, arrels dobles, Ruffini), sistemes amb una incògnita, inequacions i sistemes amb dues incògnites i programació lineal (teorema
-  fonamental, problemes de màxim i de mínim, infinites solucions i sense òptim). `app.js` ajunta el nucli de la unitat 2 de 1r Batx MI
-  (polinomis, factorització, intervals, recta real i taula de signes `w-sign`, ara només amb polinomis) i els ginys de rectes apilades
-  (`STACKS`), semiplans (`w-semi`) i regions (`w-half`) de la unitat 3 de 1r Batx MI; `wFigs` accepta `data-step` per al pas de la
-  quadrícula. Els ginys nous són a `nous.js` (al lloc de `/*@@NOUS@@*/`): un lector d'expressions amb parèntesis (`parseExpr`), primer grau
-  pas a pas (`w-lin`), sistemes d'inequacions amb una incògnita escrites amb text (`w-sys1`, `solvePoly`, `interS`) i el resolutor de
+- **Unitat 3 (Sistemes d'equacions i inequacions, `1batx-ccss-t3`, pàgina `t3-sistemes-inequacions.html`)**: 9 apartats (3.1-3.9):
+  sistemes d'equacions lineals 2x2 (classificació SCD/SCI/SI i interpretació gràfica, mètodes, equacions amb parèntesis i denominadors),
+  mètode de Gauss (sistemes esglaonats, classificació i un problema), sistemes no lineals (substitució i reducció), inequacions de primer
+  grau (regles, parèntesis, denominadors, casos $\mathbb R$ i $\varnothing$, problemes), de segon grau i de grau superior (estudi del signe,
+  paràbola, $\Delta\lt0$, arrels dobles, Ruffini), sistemes amb una incògnita, inequacions i sistemes amb dues incògnites i programació lineal
+  (teorema fonamental, problemes de màxim i de mínim, infinites solucions i sense òptim). Els apartats 3.1-3.3 es van afegir el 20/11/2026
+  davant dels sis que hi havia (la pàgina abans es deia `t3-inequacions.html` i la unitat, «Inequacions i sistemes d'inequacions»; la clau
+  de progrés és ara `fm-1batx-ccss-u3-sistemes-done`). `app.js` ajunta el nucli de la unitat 2 de 1r Batx MI (polinomis, factorització,
+  intervals, recta real i taula de signes `w-sign`, ara només amb polinomis) i els ginys de rectes apilades (`STACKS`), semiplans (`w-semi`)
+  i regions (`w-half`) de la unitat 3 de 1r Batx MI; `wFigs` accepta `data-step` per al pas de la quadrícula. Els ginys nous són a `nous.js`
+  (al lloc de `/*@@NOUS@@*/`): sistemes 2x2 pas a pas per reducció amb les dues rectes (`w-sis2`, amb el lector `parseLin`/`parseEq2`, que
+  no simplifica per un factor comú perquè es vegen les equacions proporcionals), Gauss pas a pas (`w-gauss`) i recta-circumferència
+  (`w-nl`) copiats de la unitat 3 de 1r Batx MI, un lector d'expressions amb parèntesis (`parseExpr`), inequacions de primer grau pas a
+  pas (`w-lin`), sistemes d'inequacions amb una incògnita escrites amb text (`w-sys1`, `solvePoly`, `interS`) i el resolutor de
   programació lineal pas a pas (`w-pl`: regió, vèrtexs, valors de $F$, òptim i recta de nivell; detecta infinites solucions i problemes
-  sense òptim), i el qüestionari (14 preguntes). La fitxa (`_eines/fonts-latex/1batx-ccss-t3/genera.py`, 31 exercicis en 7 seccions) és
-  bilingüe amb `T(va, es)` (`genera-es.py` l'executa amb `FM_LANG=es`); sympy resol cada inequació i sistema i `iq()` la compara amb la
-  solució esperada, `regck` comprova els vèrtexs de les regions i `pl()`, els vèrtexs, els valors de $F$ i l'òptim dels problemes de
-  programació lineal (també que l'òptim existeix quan la regió no és fitada), que es dibuixen amb la recta de nivell en verd.
+  sense òptim), i el qüestionari (18 preguntes). La fitxa (`_eines/fonts-latex/1batx-ccss-t3/genera.py`, 45 exercicis en 10 seccions) és
+  bilingüe amb `T(va, es)` (`genera-es.py` l'executa amb `FM_LANG=es`); sympy resol els sistemes d'equacions (`s2`, `gsol`, `nlsol`; `red`
+  comprova les formes reduïdes), resol cada inequació i sistema i `iq()` la compara amb la solució esperada, `regck` comprova els vèrtexs
+  de les regions i `pl()`, els vèrtexs, els valors de $F$ i l'òptim dels problemes de programació lineal (també que l'òptim existeix quan la
+  regió no és fitada), que es dibuixen amb la recta de nivell en verd.
 
 ```
 python3 _eines/apunts/1batx-ccss-t3/build.py
