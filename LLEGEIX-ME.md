@@ -524,7 +524,7 @@ python3 _eines/pau/an/build.py
 ## 1r Batx CCSS (Matemàtiques Aplicades a les CCSS I)
 
 A `materials.js` el curs porta `cards: true`, `byBlock: true` i `sections: true`, com la resta de cursos; a `fm-materials.js`, la
-unitat 1 és del bloc d'aritmètica, la 2 i la 3, del d'àlgebra, i la 4, del d'anàlisi (la resta, de moment, `all`).
+unitat 1 és del bloc d'aritmètica, la 2 i la 3, del d'àlgebra, i de la 4 a la 6, del d'anàlisi (la resta, de moment, `all`).
 Les fitxes usen `\fmcurs{1batx-ccss}` i, en castellà, `curs='1batx-ccss'` a `castella.py` («Matemáticas CCSS»).
 
 - **Unitat 1 (Nombres reals, `1batx-ccss-t1`)**: parteix de la unitat 1 de 1r Batx MI (mateix `app.js`, mateixos ginys i el mateix
@@ -591,6 +591,24 @@ cd _eines/fonts-latex/1batx-ccss-t3 && python3 genera.py && python3 genera-es.py
 ```
 python3 _eines/apunts/1batx-ccss-t4/build.py
 cd _eines/fonts-latex/1batx-ccss-t4 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
+
+- **Unitat 5 (Funcions elementals, `1batx-ccss-t5`, pàgina `t5-funcions-elementals.html`)**: el mateix contingut que la unitat 7 de
+  1r Batx MI (`1batx-mi-t7`) **sense les funcions trigonomètriques**: fora l'apartat 7.7 (teoria, giny `w-trig` i pregunta del
+  qüestionari sobre la tangent) i la secció de trigonomètriques de la fitxa (2 exercicis). Queden 8 apartats (5.1-5.8: lineals,
+  quadràtiques i cúbiques, racionals, radicals, exponencials, logarítmiques, a trossos i valor absolut, i problemes de màxims i
+  mínims) i 33 exercicis en 7 seccions. `build.py` i els `genera*.py` agafen `fig.py` de `1batx-ccss-t4`; les referències a la
+  unitat d'estudi de funcions apunten a la unitat 4 (apartats 4.7 i 4.9). Clau de progrés `fm-1batx-ccss-u5-elementals-done`.
+- **Unitat 6 (Límits i continuïtat, `1batx-ccss-t6`, pàgina `t6-limits-continuitat.html`)**: el mateix contingut que la unitat 8 de
+  1r Batx MI (`1batx-mi-t8`: apunts, ginys i fitxa de 36 exercicis), renumerat com a unitat 6 (apartats 6.1-6.10), amb el curs i les
+  capçaleres de CCSS i la clau de progrés `fm-1batx-ccss-u6-limits-done`. Si canvies un exercici, canvia'l a `genera.py` i a
+  `genera-es.py` (i, si cal, també a `1batx-mi-t8`).
+
+```
+python3 _eines/apunts/1batx-ccss-t5/build.py
+python3 _eines/apunts/1batx-ccss-t6/build.py
+cd _eines/fonts-latex/1batx-ccss-t5 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+cd _eines/fonts-latex/1batx-ccss-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques A

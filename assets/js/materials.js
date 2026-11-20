@@ -805,6 +805,26 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 30 exercicis graduats per nivells de dificultat", es: "PDF · 30 ejercicios graduados por niveles de dificultad", en: "PDF · 30 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t4-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t4-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 30 exercicis", es: "PDF · Soluciones de los 30 ejercicios", en: "PDF · Solutions to all 30 exercises" }, url: { va: "materials/1batx-ccss/t4-fitxa-solucions.pdf", es: "materials/1batx-ccss/t4-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
         ]
+      },
+      {
+        num: "5",
+        ill: "grafiques", block: "an",
+        title: { va: "Funcions elementals", es: "Funciones elementales", en: "Elementary functions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t5-funcions-elementals.html", date: "2026-11-20" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 33 exercicis graduats per nivells de dificultat", es: "PDF · 33 ejercicios graduados por niveles de dificultad", en: "PDF · 33 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t5-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t5-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 33 exercicis", es: "PDF · Soluciones de los 33 ejercicios", en: "PDF · Solutions to all 33 exercises" }, url: { va: "materials/1batx-ccss/t5-fitxa-solucions.pdf", es: "materials/1batx-ccss/t5-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
+        ]
+      },
+      {
+        num: "6",
+        ill: "limits", block: "an",
+        title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t6-limits-continuitat.html", date: "2026-11-20" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis graduats per nivells de dificultat", es: "PDF · 36 ejercicios graduados por niveles de dificultad", en: "PDF · 36 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t6-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: { va: "materials/1batx-ccss/t6-fitxa-solucions.pdf", es: "materials/1batx-ccss/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
+        ]
       }
     ]
   },
