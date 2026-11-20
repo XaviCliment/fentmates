@@ -16,6 +16,7 @@
     ari: { c: "#e6b84a", c2: "#c99a2e", icon: "sum" },
     alg: { c: "#4e81bd", c2: "#3d6aa0", icon: "calc" },
     algg: { c: "#3a669f", c2: "#2a4f80", icon: "calc" },
+    plg: { c: "#e07f30", c2: "#b9601a", icon: "pi" },
     pl:  { c: "#f79645", c2: "#dc7a29", icon: "pi" },
     geo: { c: "#f79645", c2: "#dc7a29", icon: "compass" },
     an:  { c: "#7fa040", c2: "#6a8a33", icon: "graph" },
@@ -45,6 +46,7 @@
     var course = m[1], file = m[2];
     if (/resum-teoric/.test(file)) return "all";
     if (/^global-algebra/.test(file)) return "algg";
+    if (/^global-pl/.test(file)) return "plg";
     var n = (file.match(/(?:^t|-u)(\d+)/) || [])[1];
     n = n ? +n : 0;
     if (course === "1eso") return n === 6 ? "alg" : n === 7 || n === 8 ? "geo" : n === 9 ? "an" : n === 10 ? "pr" : "ari";

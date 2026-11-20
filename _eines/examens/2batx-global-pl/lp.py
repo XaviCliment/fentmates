@@ -143,7 +143,7 @@ def tab_html(P, fname, fs, marks=None):
         fs = [fs]
         fname = [fname]
     marks = marks or {}
-    head = "<th></th>" + "".join("<th>\\(%s(x,y)\\)</th>" % n if "(" not in n else "<th>\\(%s\\)</th>" % n for n in fname)
+    head = "<th></th>" + "".join("<th>\\(%s(x,y)\\)</th>" % n if len(n) == 1 else "<th>\\(%s\\)</th>" % n for n in fname)
     body = ""
     for n, v in zip(P["names"], P["verts"]):
         p = tuple(map(fr, v))
@@ -248,6 +248,7 @@ def svg(P, level=None, best=None, seg=None, show_lines=True, labels=True, extra_
     o.append('<text class="tk" x="%.1f" y="%.1f">x</text>' % (X(x1) - 10, (Y(0) if y0 <= 0 <= y1 else Y(y0)) - 5))
     o.append('<text class="tk" x="%.1f" y="%.1f">y</text>' % ((X(0) if x0 <= 0 <= x1 else X(x0)) + 5, Y(y1) + 11))
     # rectes
+    placed = []
     if show_lines:
         for k, (a, b, op, c) in enumerate(P["cons"]):
             if (a == 0 and c == 0) or (b == 0 and c == 0):
@@ -258,14 +259,32 @@ def svg(P, level=None, best=None, seg=None, show_lines=True, labels=True, extra_
             (ax_, ay_), (bx_, by_) = s
             o.append('<line class="ln l%d" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (k % 6, X(ax_), Y(ay_), X(bx_), Y(by_)))
             if line_names:
-                t = 0.86
-                lx, ly = ax_ + t * (bx_ - ax_), ay_ + t * (by_ - ay_)
-                if Y(ly) < 14:
-                    t = 0.7; lx, ly = ax_ + t * (bx_ - ax_), ay_ + t * (by_ - ay_)
-                o.append('<text class="lt l%d" x="%.1f" y="%.1f" text-anchor="%s">%s</text>' % (
-                    k % 6, X(lx) + 4, Y(ly) - 5, "end" if X(lx) > W - 90 else "start", plain(a, b, c)))
-    if level:
-        a, b, kk = map(float, level)
+                txt = plain(a, b, c)
+                wlab = 6.1 * len(txt)
+                best_s, best_p = None, None
+                for t in (0.88, 0.8, 0.72, 0.12, 0.2, 0.3, 0.62, 0.4, 0.5):
+                    px, py = X(ax_ + t * (bx_ - ax_)), Y(ay_ + t * (by_ - ay_))
+                    anc_end = px > W - wlab - 12
+                    lx0 = px - wlab - 4 if anc_end else px + 4
+                    cx_, cy_ = lx0 + wlab / 2, py - 9
+                    if lx0 < 2 or lx0 + wlab > W - 2 or cy_ < 8 or cy_ > H - 6:
+                        continue
+                    sc = min([abs(cx_ - X(float(v[0]))) / (wlab / 2 + 18) + abs(cy_ - Y(float(v[1]))) / 20
+                              for v in P["verts"]] + [9])
+                    sc = min([sc] + [abs(cx_ - q[0]) / (wlab / 2 + q[2] / 2 + 4) + abs(cy_ - q[1]) / 14 for q in placed])
+                    if y0 <= 0 <= y1 and abs(cy_ - Y(0)) < 16:
+                        sc -= 0.6
+                    if x0 <= 0 <= x1 and lx0 - 22 < X(0) < lx0 + wlab + 4:
+                        sc -= 0.3
+                    if best_s is None or sc > best_s + 1e-9:
+                        best_s, best_p = sc, (px, py, anc_end, cx_, cy_)
+                if best_p:
+                    px, py, anc_end, cx_, cy_ = best_p
+                    placed.append((cx_, cy_, wlab))
+                    o.append('<text class="lt l%d" x="%.1f" y="%.1f" text-anchor="%s">%s</text>' % (
+                        k % 6, px + (-4 if anc_end else 4), py - 5, "end" if anc_end else "start", txt))
+    for lev in ([] if not level else level if isinstance(level[0], (list, tuple)) else [level]):
+        a, b, kk = map(float, lev)
         s = seg_in_box(a, b, kk, (x0, x1, y0, y1))
         if s:
             o.append('<line class="lv" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (X(s[0][0]), Y(s[0][1]), X(s[1][0]), Y(s[1][1])))
@@ -290,6 +309,15 @@ def svg(P, level=None, best=None, seg=None, show_lines=True, labels=True, extra_
             o.append('<circle class="%s" cx="%.1f" cy="%.1f" r="4.2"/>' % (cls, X(v[0]), Y(v[1])))
             lab = n if hide_vertex_coords else "%s(%s, %s)" % (n, num(fr(v[0]), False) if False else dec(dict(zip(P["names"], P["verts"]))[n][0]),
                                                            dec(dict(zip(P["names"], P["verts"]))[n][1]))
+            wl = 6.6 * len(lab)
+            left = tx - (wl if anc == "end" else wl / 2 if anc == "middle" else 0)
+            if left < 3:
+                tx, anc = X(v[0]) + 7, "start"
+                ty = Y(v[1]) + (16 if dy >= 0 else -8)
+            elif left + wl > W - 3:
+                tx, anc = X(v[0]) - 7, "end"
+                ty = Y(v[1]) + (16 if dy >= 0 else -8)
+            ty = min(max(ty, 12), H - 4)
             o.append('<text class="vl" x="%.1f" y="%.1f" text-anchor="%s">%s</text>' % (tx, ty, anc, lab))
     for (px, py, name, cls) in extra_pts:
         o.append('<circle class="%s" cx="%.1f" cy="%.1f" r="4"/>' % (cls, X(px), Y(py)))

@@ -341,7 +341,7 @@
   /* ---------- Cursos amb targetes (cards: true a materials.js) ---------- */
   var BLOCKS = {
     all: { c: "#e3a21a", c2: "#c98a0c" }, ari: { c: "#e6b84a", c2: "#c99a2e" }, alg: { c: "#4e81bd", c2: "#3d6aa0" },
-    algg: { c: "#3a669f", c2: "#2a4f80" },
+    algg: { c: "#3a669f", c2: "#2a4f80" }, plg: { c: "#e07f30", c2: "#b9601a" },
     pl: { c: "#f79645", c2: "#dc7a29" }, geo: { c: "#f79645", c2: "#dc7a29" },
     an: { c: "#7fa040", c2: "#6a8a33" }, pr: { c: "#8064a1", c2: "#684e88" }
   };
@@ -448,7 +448,7 @@
 
   /* Cursos amb byBlock: true -> les unitats s'agrupen per bloc (Àlgebra, Anàlisi…) amb un títol
      per bloc. Les unitats de tot el curs (block: "all", p. ex. el Resum teòric) van a dalt en una
-     franja ampla, i la prova global (block: "algg") va dins del bloc d'Àlgebra. */
+     franja ampla, i les proves globals (block: "algg", "plg") van dins del bloc d'Àlgebra i del de PL. */
   function byBlockHTML(L, nums, ucard) {
     var html = "", groups = [], byKey = {};
     L.units.forEach(function (u, i) {
@@ -460,6 +460,7 @@
         return;
       }
       if (k === "algg") k = "alg";
+      if (k === "plg") k = "pl";
       if (!byKey[k]) { byKey[k] = { k: k, list: [] }; groups.push(byKey[k]); }
       byKey[k].list.push(i);
     });

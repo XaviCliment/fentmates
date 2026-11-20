@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ca-ES-valencia" data-lang="va">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prova global de Programació lineal · FentMates</title>
+<meta name="description" content="Prova global tipus PAU (Comunitat Valenciana) de la unitat 3 (Programació lineal). Matemàtiques Aplicades a les CCSS II. Amb solucions i criteris de correcció.">
+<meta name="theme-color" content="#1b2748">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script>
+(function () {
+  var L = ["va", "es", "en"], p = new URLSearchParams(location.search), l = p.get("lang"), t = null;
+  try { if (L.indexOf(l) < 0) l = localStorage.getItem("lang"); t = localStorage.getItem("theme"); } catch (e) {}
+  if (L.indexOf(l) < 0) l = "va";
+  var d = document.documentElement;
+  d.setAttribute("data-lang", l);
+  d.lang = { va: "ca-ES-valencia", es: "es", en: "en" }[l];
+  if (t) d.setAttribute("data-theme", t);
+  var embed = p.get("embed") === "1";
+  try { if (window.self !== window.top) embed = true; } catch (e) { embed = true; }
+  if (embed) d.setAttribute("data-embed", "1");
+})();
+</script>
+<style>
+/*BASE_CSS*/
+
+/* ---- examen ---- */
+.exam { max-width: 900px; margin: 0 auto; padding: 28px 16px 80px; }
+@media (min-width: 1101px) { .exam { max-width: 80vw; } } /* 80% de l'ample, com la resta de la web */
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 18px; padding: 0; list-style: none; }
+.rules li { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; font-size: .92rem; display: flex; gap: 10px; align-items: flex-start; }
+.rules li b { display: block; font-family: "Outfit", sans-serif; font-size: 1rem; }
+.rules .ic { font-size: 1.3rem; line-height: 1.2; }
+.toolbar { position: sticky; top: calc(var(--header-h) + 8px); z-index: 30; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center;
+  background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 8px 6px 16px; margin: 0 0 22px; box-shadow: var(--shadow); }
+.timer { font: 800 1.35rem "Outfit", sans-serif; font-variant-numeric: tabular-nums; min-width: 4.6ch; }
+.timer.warn { color: var(--accent); } .timer.over { color: var(--minus); }
+.toolbar .sp { flex: 1; }
+.prob { border: 1.5px solid var(--def); border-radius: var(--radius); background: var(--surface); margin: 0 0 26px; overflow: hidden; box-shadow: var(--shadow); }
+.prob > .ph { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: var(--def); color: #fff; }
+:root[data-theme="dark"] .prob > .ph { color: #0f1526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .prob > .ph { color: #0f1526; } }
+.prob > .ph h2 { font-size: 1.25rem; margin: 0; flex: 1; }
+.prob > .ph .pts { font: 700 .8rem "Inter", sans-serif; background: rgba(255,255,255,.22); padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+.prob > .pb { padding: 8px 22px 16px; }
+.prob .topic { font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; color: var(--def); margin-top: 10px; }
+ol.parts { list-style: none; padding: 0; margin: 10px 0 0; counter-reset: p; }
+ol.parts > li { counter-increment: p; position: relative; padding: 8px 0 8px 2.4em; border-top: 1px dashed var(--border); }
+ol.parts > li::before { content: counter(p, lower-alpha) ")"; position: absolute; left: 0; top: 8px; font: 700 1rem "Outfit", sans-serif; color: var(--def); }
+.pp { font-size: .78rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+details.sol { border-style: solid; border-color: var(--def); background: var(--def-bg); margin-top: 14px; }
+details.sol > summary { color: var(--def); }
+details.sol h4 { font: 700 .95rem "Outfit", sans-serif; margin: 14px 0 4px; color: var(--def); }
+.crit { margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: var(--pr-bg); border: 1px solid color-mix(in srgb, var(--pr) 40%, transparent); font-size: .9rem; }
+.crit b { color: var(--pr); }
+.crit ul { margin: 4px 0 0; padding-left: 1.2em; }
+.final { text-align: center; color: var(--muted); font-size: .9rem; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+.links a { text-decoration: none; }
+.disclaimer { font-size: .82rem; color: var(--muted); text-align: center; margin: 4px 0 18px; }
+@media (max-width: 560px) {
+  .toolbar { border-radius: 16px; }
+  .prob > .pb { padding: 6px 14px 14px; }
+  .prob > .ph { padding: 10px 14px; }
+}
+@media print {
+  .toolbar, details.sol, .links, .final { display: none !important; }
+  .prob { box-shadow: none; break-inside: avoid; border-color: #333; }
+  .prob > .ph { background: none; color: #000; border-bottom: 1px solid #333; }
+  .rules li { border-color: #999; }
+  body { font-size: 14px; }
+  .exam { padding: 0; }
+}
+/*LP_CSS*/
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="../../index.html"><span class="logo">∑</span>FentMates</a>
+    <span class="crumb"><a href="../../2batx-ccss.html#u5">[[2n Batxillerat CCSS||2º Bachillerato CCSS||2nd Baccalaureate (Social Sciences)]]</a> / [[Global de Programació lineal||Global de Programación lineal||Linear programming block test]]</span>
+    <span class="spacer"></span>
+    <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-setlang="va">VA</button><button type="button" data-setlang="es">ES</button><button type="button" data-setlang="en">EN</button>
+    </div>
+    <button class="icon-btn" type="button" id="theme-btn" aria-label="Mode clar / fosc"></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <span class="kicker">[[Matemàtiques Aplicades a les CCSS II · Tipus PAU||Matemáticas Aplicadas a las CCSS II · Tipo PAU||Applied Maths for Social Sciences II · PAU style]]</span>
+    <h1><span class="u">[[Prova global||Prueba global||Block test]]</span> · [[Programació lineal (unitat 3)||Programación lineal (unidad 3)||Linear programming (unit 3)]]</h1>
+    <p>[[Quatre problemes amb el format i el nivell de les PAU de la Comunitat Valenciana que recullen tota la unitat: inequacions i regions factibles, vèrtexs, optimització en regions fitades i no fitades, solucions múltiples (infinites solucions i solucions enteres), plantejament de problemes i lectura d'una regió a partir del gràfic. Fes-la amb el cronòmetre i, quan acabes, corregeix-la amb les solucions i els criteris.||Cuatro problemas con el formato y el nivel de las PAU de la Comunitat Valenciana que recogen toda la unidad: inecuaciones y regiones factibles, vértices, optimización en regiones acotadas y no acotadas, soluciones múltiples (infinitas soluciones y soluciones enteras), planteamiento de problemas y lectura de una región a partir de la gráfica. Hazla con el cronómetro y, cuando acabes, corrígela con las soluciones y los criterios.||Four problems in the format and at the level of the Valencian PAU (university entrance exam) covering the whole unit: inequalities and feasible regions, vertices, optimisation over bounded and unbounded regions, multiple solutions (infinitely many solutions and integer solutions), setting up word problems and reading a region from a graph. Do it against the clock and, when you finish, mark it with the solutions and criteria.]]</p>
+  </div>
+</section>
+
+<main class="exam">
+  <ul class="rules">
+    <li><span class="ic">⏱</span><span><b>[[1 h 30 min||1 h 30 min||1 h 30 min]]</b>[[Temps màxim||Tiempo máximo||Time allowed]]</span></li>
+    <li><span class="ic">🧮</span><span><b>[[Calculadora||Calculadora||Calculator]]</b>[[Científica no programable||Científica no programable||Non-programmable scientific]]</span></li>
+    <li><span class="ic">📐</span><span><b>[[Regle i paper||Regla y papel||Ruler and paper]]</b>[[Dibuixa les regions amb cura i escala||Dibuja las regiones con cuidado y escala||Draw the regions carefully and to scale]]</span></li>
+    <li><span class="ic">🎯</span><span><b>[[10 punts||10 puntos||10 points]]</b>[[4 problemes de 2,5 punts||4 problemas de 2,5 puntos||4 problems × 2.5 points]]</span></li>
+  </ul>
+
+  <div class="toolbar">
+    <span class="timer" id="timer">90:00</span>
+    <button class="btn primary" type="button" id="t-start">▶ [[Comença||Empieza||Start]]</button>
+    <button class="btn" type="button" id="t-reset">↺</button>
+    <span class="sp"></span>
+    <button class="btn" type="button" id="sol-all">👁 [[Mostra totes les solucions||Mostrar todas las soluciones||Show all solutions]]</button>
+    <button class="btn" type="button" id="print">🖨 [[Imprimeix||Imprimir||Print]]</button>
+  </div>
+
+  <!-- ===================== PROBLEMA 1 ===================== -->
+  <section class="prob" id="p1">
+    <div class="ph"><h2>[[Problema 1||Problema 1||Problem 1]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Regió factible, vèrtexs, optimització i infinites solucions amb paràmetre||Región factible, vértices, optimización e infinitas soluciones con parámetro||Feasible region, vertices, optimisation and infinitely many solutions with a parameter]]</div>
+      <p>[[Es considera la regió del pla determinada pel sistema d'inequacions||Se considera la región del plano determinada por el sistema de inecuaciones||Consider the region of the plane given by the system of inequalities]]</p>
+      \[-x+y\le 3,\qquad x+2y\le 12,\qquad 2x-y\le 9,\qquad y\ge -1.\]
+      <ol class="parts">
+        <li>[[Representeu gràficament la regió i calculeu-ne els vèrtexs.||Representad gráficamente la región y calculad sus vértices.||Draw the region and find its vertices.]] <span class="pp">([[1 punt||1 punto||1 point]])</span></li>
+        <li>[[Justifiqueu si els punts \(P(0,4)\) i \(Q(3,2)\) pertanyen a la regió.||Justificad si los puntos \(P(0,4)\) y \(Q(3,2)\) pertenecen a la región.||Justify whether the points \(P(0,4)\) and \(Q(3,2)\) belong to the region.]] <span class="pp">([[0,25 punts||0,25 puntos||0.25 points]])</span></li>
+        <li>[[Determineu el valor màxim i el valor mínim de \(f(x,y)=3x+2y\) en la regió i els punts on s'assoleixen.||Determinad el valor máximo y el valor mínimo de \(f(x,y)=3x+2y\) en la región y los puntos donde se alcanzan.||Find the maximum and minimum values of \(f(x,y)=3x+2y\) on the region and the points where they are attained.]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Es considera la funció \(g(x,y)=kx+2y\), on \(k\) és un nombre real. Trobeu els valors de \(k\) perquè el <strong>màxim</strong> de \(g\) en la regió s'assolisca en tots els punts d'un costat. Per a cada valor, indiqueu el costat i el valor màxim.||Se considera la función \(g(x,y)=kx+2y\), donde \(k\) es un número real. Hallad los valores de \(k\) para que el <strong>máximo</strong> de \(g\) en la región se alcance en todos los puntos de un lado. Para cada valor, indicad el lado y el valor máximo.||Consider the function \(g(x,y)=kx+2y\), where \(k\) is a real number. Find the values of \(k\) for which the <strong>maximum</strong> of \(g\) on the region is attained at every point of one side. For each value, state the side and the maximum value.]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        <p>[[Dibuixem cada recta amb dos punts i triem el semiplà amb un punt de prova, per exemple \(O(0,0)\): \(0\le3\), \(0\le12\), \(0\le9\) i \(0\ge-1\) es compleixen totes, així que la regió és el costat de cada recta on queda l'origen. Els vèrtexs són els talls de rectes consecutives:||Dibujamos cada recta con dos puntos y elegimos el semiplano con un punto de prueba, por ejemplo \(O(0,0)\): \(0\le3\), \(0\le12\), \(0\le9\) y \(0\ge-1\) se cumplen todas, así que la región es el lado de cada recta donde queda el origen. Los vértices son los cortes de rectas consecutivas:||We draw each line from two points and choose the half-plane with a test point, e.g. \(O(0,0)\): \(0\le3\), \(0\le12\), \(0\le9\) and \(0\ge-1\) all hold, so the region lies on the origin's side of each line. The vertices are the intersections of consecutive lines:]]</p>
+        <!--VTX:m1-->
+        <!--FIG:m1-->
+        <h4>b)</h4>
+        <p>\(P(0,4)\): \(-0+4=4\not\le 3\). [[Incompleix la primera inequació: \(P\) <strong>no</strong> és de la regió.||Incumple la primera inecuación: \(P\) <strong>no</strong> pertenece a la región.||It fails the first inequality: \(P\) is <strong>not</strong> in the region.]]<br>
+        \(Q(3,2)\): \(-1\le3,\ 7\le12,\ 4\le9,\ 2\ge-1\). [[Les compleix totes: \(Q\) <strong>sí</strong> que és de la regió.||Las cumple todas: \(Q\) <strong>sí</strong> pertenece a la región.||It satisfies all of them: \(Q\) <strong>is</strong> in the region.]]</p>
+        <h4>c)</h4>
+        <p>[[La regió és fitada, així que el màxim i el mínim s'assoleixen en vèrtexs:||La región es acotada, así que el máximo y el mínimo se alcanzan en vértices:||The region is bounded, so the maximum and minimum are attained at vertices:]]</p>
+        <!--TAB:m1|fname="f", fs=(3,2)-->
+        <p>[[Màxim:||Máximo:||Maximum:]] \(\boxed{f(6,3)=24}\) [[en||en||at]] \(C\). [[Mínim:||Mínimo:||Minimum:]] \(\boxed{f(-4,-1)=-14}\) [[en||en||at]] \(A\).</p>
+        <h4>d)</h4>
+        <p>[[Les rectes de nivell \(kx+2y=c\) tenen pendent \(-\frac k2\). Perquè l'òptim s'assolisca en tot un costat, han de ser paral·leles a aquest costat. Provem amb cada costat:||Las rectas de nivel \(kx+2y=c\) tienen pendiente \(-\frac k2\). Para que el óptimo se alcance en todo un lado, deben ser paralelas a ese lado. Probamos con cada lado:||The level lines \(kx+2y=c\) have slope \(-\frac k2\). For the optimum to be attained along a whole side, they must be parallel to that side. We try each side:]]</p>
+        <ul>
+          <li>[[Costat \(CD\) (\(x+2y=12\), pendent \(-\frac12\)): \(k=1\). Amb \(g=x+2y\): \(g(A)=-6,\ g(B)=2,\ g(C)=g(D)=12\). <strong>El màxim, 12, s'assoleix en tot el segment \(CD\)</strong>.||Lado \(CD\) (\(x+2y=12\), pendiente \(-\frac12\)): \(k=1\). Con \(g=x+2y\): \(g(A)=-6,\ g(B)=2,\ g(C)=g(D)=12\). <strong>El máximo, 12, se alcanza en todo el segmento \(CD\)</strong>.||Side \(CD\) (\(x+2y=12\), slope \(-\frac12\)): \(k=1\). With \(g=x+2y\): \(g(A)=-6,\ g(B)=2,\ g(C)=g(D)=12\). <strong>The maximum, 12, is attained along the whole segment \(CD\)</strong>.]]</li>
+          <li>[[Costat \(DA\) (\(-x+y=3\), pendent \(1\)): \(k=-2\). Amb \(g=-2x+2y\): \(g(A)=g(D)=6,\ g(B)=-10,\ g(C)=-6\). <strong>El màxim, 6, s'assoleix en tot el segment \(DA\)</strong>.||Lado \(DA\) (\(-x+y=3\), pendiente \(1\)): \(k=-2\). Con \(g=-2x+2y\): \(g(A)=g(D)=6,\ g(B)=-10,\ g(C)=-6\). <strong>El máximo, 6, se alcanza en todo el segmento \(DA\)</strong>.||Side \(DA\) (\(-x+y=3\), slope \(1\)): \(k=-2\). With \(g=-2x+2y\): \(g(A)=g(D)=6,\ g(B)=-10,\ g(C)=-6\). <strong>The maximum, 6, is attained along the whole segment \(DA\)</strong>.]]</li>
+          <li>[[Costats \(AB\) (\(k=0\)) i \(BC\) (\(k=-4\)): en tots dos casos el costat dona el <strong>mínim</strong>, no el màxim (per exemple, amb \(k=0\), \(g=2y\) val \(-2\) en \(AB\) i 10 en \(D\)). No serveixen.||Lados \(AB\) (\(k=0\)) y \(BC\) (\(k=-4\)): en ambos casos el lado da el <strong>mínimo</strong>, no el máximo (por ejemplo, con \(k=0\), \(g=2y\) vale \(-2\) en \(AB\) y 10 en \(D\)). No sirven.||Sides \(AB\) (\(k=0\)) and \(BC\) (\(k=-4\)): in both cases the side gives the <strong>minimum</strong>, not the maximum (e.g. with \(k=0\), \(g=2y\) is \(-2\) on \(AB\) and 10 at \(D\)). They do not work.]]</li>
+        </ul>
+        <!--FIG:m1|seg=("C","D"), level=(1,2,12)-->
+        <p class="leg">[[Amb \(k=1\): la recta de nivell \(x+2y=12\) (discontínua) conté el costat \(CD\): infinites solucions.||Con \(k=1\): la recta de nivel \(x+2y=12\) (discontinua) contiene el lado \(CD\): infinitas soluciones.||With \(k=1\): the level line \(x+2y=12\) (dashed) contains side \(CD\): infinitely many solutions.]]</p>
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,5 per la representació correcta de la regió (rectes i semiplans); 0,5 pels quatre vèrtexs (0,125 cadascun).</li><li>b) 0,125 per cada punt ben justificat.</li><li>c) 0,25 pel màxim i 0,25 pel mínim, amb el punt on s'assoleixen.</li><li>d) 0,25 per raonar el paral·lelisme amb un costat; 0,25 per cada valor de \(k\) correcte amb el costat i el màxim. Si només es dona \(k=1\), màxim 0,5.</li></ul>||<ul><li>a) 0,5 por la representación correcta de la región (rectas y semiplanos); 0,5 por los cuatro vértices (0,125 cada uno).</li><li>b) 0,125 por cada punto bien justificado.</li><li>c) 0,25 por el máximo y 0,25 por el mínimo, con el punto donde se alcanzan.</li><li>d) 0,25 por razonar el paralelismo con un lado; 0,25 por cada valor de \(k\) correcto con el lado y el máximo. Si solo se da \(k=1\), máximo 0,5.</li></ul>||<ul><li>a) 0.5 for drawing the region correctly (lines and half-planes); 0.5 for the four vertices (0.125 each).</li><li>b) 0.125 for each correctly justified point.</li><li>c) 0.25 for the maximum and 0.25 for the minimum, with the point where each is attained.</li><li>d) 0.25 for reasoning that the level lines must be parallel to a side; 0.25 for each correct value of \(k\) with its side and maximum. If only \(k=1\) is given, maximum 0.5.</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 2 ===================== -->
+  <section class="prob" id="p2">
+    <div class="ph"><h2>[[Problema 2||Problema 2||Problem 2]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Plantejament i maximització · Solucions enteres múltiples||Planteamiento y maximización · Soluciones enteras múltiples||Setting up and maximising · Multiple integer solutions]]</div>
+      <p>[[Una cooperativa citrícola prepara dos tipus de caixes de regal. Cada caixa del tipus A porta 2 kg de taronges i 1 kg de mandarines, i cada caixa del tipus B porta 1 kg de taronges i 2 kg de mandarines. La cooperativa disposa de 100 kg de taronges i de 80 kg de mandarines. Per a atendre les comandes ha de preparar, com a mínim, 20 caixes en total, i almenys 10 han de ser del tipus B. Per cada caixa del tipus A guanya 5 € i per cada caixa del tipus B, 4 €.||Una cooperativa citrícola prepara dos tipos de cajas de regalo. Cada caja del tipo A lleva 2 kg de naranjas y 1 kg de mandarinas, y cada caja del tipo B lleva 1 kg de naranjas y 2 kg de mandarinas. La cooperativa dispone de 100 kg de naranjas y de 80 kg de mandarinas. Para atender los pedidos debe preparar, como mínimo, 20 cajas en total, y al menos 10 deben ser del tipo B. Por cada caja del tipo A gana 5 € y por cada caja del tipo B, 4 €.||A citrus cooperative makes two kinds of gift box. Each type A box holds 2 kg of oranges and 1 kg of mandarins, and each type B box holds 1 kg of oranges and 2 kg of mandarins. The cooperative has 100 kg of oranges and 80 kg of mandarins. To meet its orders it must make at least 20 boxes in total, and at least 10 of them must be type B. It earns €5 on each type A box and €4 on each type B box.]]</p>
+      <ol class="parts">
+        <li>[[Plantegeu el problema de programació lineal que permet maximitzar el benefici: definiu les variables, la funció objectiu i les restriccions.||Plantead el problema de programación lineal que permite maximizar el beneficio: definid las variables, la función objetivo y las restricciones.||Set up the linear programming problem that maximises the profit: define the variables, the objective function and the constraints.]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Representeu la regió factible i calculeu-ne els vèrtexs.||Representad la región factible y calculad sus vértices.||Draw the feasible region and find its vertices.]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Quantes caixes de cada tipus ha de preparar per a obtindre el benefici màxim? Quin és aquest benefici?||¿Cuántas cajas de cada tipo debe preparar para obtener el beneficio máximo? ¿Cuál es ese beneficio?||How many boxes of each type should it make to obtain the maximum profit? What is that profit?]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Si el benefici passara a ser de 6 € per caixa A i de 3 € per caixa B, quantes maneres hi hauria d'obtindre el benefici màxim? Indiqueu-les totes i el benefici.||Si el beneficio pasara a ser de 6 € por caja A y de 3 € por caja B, ¿de cuántas maneras se podría obtener el beneficio máximo? Indicadlas todas y el beneficio.||If the profit became €6 per type A box and €3 per type B box, in how many ways could the maximum profit be obtained? List them all and give the profit.]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        <p>[[\(x\) = nombre de caixes del tipus A, \(y\) = nombre de caixes del tipus B. Maximitzar \(B(x,y)=5x+4y\) subjecte a:||\(x\) = número de cajas del tipo A, \(y\) = número de cajas del tipo B. Maximizar \(B(x,y)=5x+4y\) sujeto a:||\(x\) = number of type A boxes, \(y\) = number of type B boxes. Maximise \(B(x,y)=5x+4y\) subject to:]]</p>
+        \[\begin{cases}2x+y\le 100 & \text{([[taronges||naranjas||oranges]])}\\ x+2y\le 80 & \text{([[mandarines||mandarinas||mandarins]])}\\ x+y\ge 20 & \text{([[total de caixes||total de cajas||total boxes]])}\\ y\ge 10 & \text{([[caixes B||cajas B||type B boxes]])}\\ x\ge 0 \end{cases}\]
+        <h4>b)</h4>
+        <!--VTX:m2-->
+        <!--FIG:m2-->
+        <h4>c)</h4>
+        <!--TAB:m2|fname="B", fs=(5,4), only="max"-->
+        <p>[[El màxim és en \(D(40,20)\), que té coordenades enteres: <strong>40 caixes del tipus A i 20 del tipus B</strong>, amb un benefici màxim de <strong>280 €</strong>.||El máximo está en \(D(40,20)\), que tiene coordenadas enteras: <strong>40 cajas del tipo A y 20 del tipo B</strong>, con un beneficio máximo de <strong>280 €</strong>.||The maximum is at \(D(40,20)\), which has integer coordinates: <strong>40 type A boxes and 20 type B boxes</strong>, for a maximum profit of <strong>€280</strong>.]]</p>
+        <h4>d)</h4>
+        <p>[[Ara \(B(x,y)=6x+3y=3(2x+y)\): les rectes de nivell són paral·leles a la recta de les taronges \(2x+y=100\).||Ahora \(B(x,y)=6x+3y=3(2x+y)\): las rectas de nivel son paralelas a la recta de las naranjas \(2x+y=100\).||Now \(B(x,y)=6x+3y=3(2x+y)\): the level lines are parallel to the oranges line \(2x+y=100\).]]</p>
+        <!--TAB:m2|fname="B", fs=(6,3), only="max"-->
+        <p>[[El màxim, 300 €, s'assoleix en \(C\), en \(D\) i en tots els punts del segment \(CD\) (infinites solucions). Però les caixes han de ser nombres enters: busquem els punts de \(2x+y=100\) amb \(40\le x\le45\):||El máximo, 300 €, se alcanza en \(C\), en \(D\) y en todos los puntos del segmento \(CD\) (infinitas soluciones). Pero las cajas deben ser números enteros: buscamos los puntos de \(2x+y=100\) con \(40\le x\le45\):||The maximum, €300, is attained at \(C\), at \(D\) and at every point of segment \(CD\) (infinitely many solutions). But the numbers of boxes must be whole: we look for the points of \(2x+y=100\) with \(40\le x\le45\):]]</p>
+        \[(40,20),\ (41,18),\ (42,16),\ (43,14),\ (44,12),\ (45,10)\]
+        <p>[[Hi ha <strong>6 maneres</strong> d'obtindre el benefici màxim de <strong>300 €</strong>.||Hay <strong>6 maneras</strong> de obtener el beneficio máximo de <strong>300 €</strong>.||There are <strong>6 ways</strong> to obtain the maximum profit of <strong>€300</strong>.]]</p>
+        <!--FIG:m2|seg=("C","D"), level=(2,1,100)-->
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,25 variables i funció objectiu; 0,5 restriccions (0,125 cadascuna, \(x\ge0\) inclosa amb la darrera).</li><li>b) 0,25 representació; 0,5 vèrtexs (0,1 cadascun).</li><li>c) 0,25 solució òptima; 0,25 benefici màxim.</li><li>d) 0,25 reconéixer que l'òptim és tot el segment \(CD\); 0,25 donar les 6 solucions enteres i el benefici.</li></ul>||<ul><li>a) 0,25 variables y función objetivo; 0,5 restricciones (0,125 cada una, \(x\ge0\) incluida con la última).</li><li>b) 0,25 representación; 0,5 vértices (0,1 cada uno).</li><li>c) 0,25 solución óptima; 0,25 beneficio máximo.</li><li>d) 0,25 reconocer que el óptimo es todo el segmento \(CD\); 0,25 dar las 6 soluciones enteras y el beneficio.</li></ul>||<ul><li>a) 0.25 variables and objective function; 0.5 constraints (0.125 each, with \(x\ge0\) counted with the last one).</li><li>b) 0.25 drawing; 0.5 vertices (0.1 each).</li><li>c) 0.25 optimal solution; 0.25 maximum profit.</li><li>d) 0.25 recognising that the optimum is the whole segment \(CD\); 0.25 giving the 6 integer solutions and the profit.</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 3 ===================== -->
+  <section class="prob" id="p3">
+    <div class="ph"><h2>[[Problema 3||Problema 3||Problem 3]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Minimització en una regió no fitada||Minimización en una región no acotada||Minimisation over an unbounded region]]</div>
+      <p>[[Un ramader alimenta el seu bestiar amb dos pinsos, P1 i P2. Cada sac de P1 aporta 3 unitats de proteïnes, 1 de fibra i 1 de minerals; cada sac de P2 aporta 1 unitat de proteïnes, 1 de fibra i 3 de minerals. Cada setmana el bestiar necessita, com a mínim, 15 unitats de proteïnes, 9 de fibra i 15 de minerals. Un sac de P1 costa 40 € i un sac de P2, 30 €.||Un ganadero alimenta a su ganado con dos piensos, P1 y P2. Cada saco de P1 aporta 3 unidades de proteínas, 1 de fibra y 1 de minerales; cada saco de P2 aporta 1 unidad de proteínas, 1 de fibra y 3 de minerales. Cada semana el ganado necesita, como mínimo, 15 unidades de proteínas, 9 de fibra y 15 de minerales. Un saco de P1 cuesta 40 € y un saco de P2, 30 €.||A farmer feeds his livestock with two feeds, P1 and P2. Each bag of P1 provides 3 units of protein, 1 of fibre and 1 of minerals; each bag of P2 provides 1 unit of protein, 1 of fibre and 3 of minerals. Each week the livestock need at least 15 units of protein, 9 of fibre and 15 of minerals. A bag of P1 costs €40 and a bag of P2 €30.]]</p>
+      <ol class="parts">
+        <li>[[Plantegeu el problema que permet trobar quants sacs de cada pinso ha de comprar setmanalment per a cobrir les necessitats amb el cost mínim.||Plantead el problema que permite hallar cuántos sacos de cada pienso debe comprar semanalmente para cubrir las necesidades con el coste mínimo.||Set up the problem of finding how many bags of each feed to buy each week to meet the needs at minimum cost.]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Representeu la regió factible i calculeu-ne els vèrtexs. És una regió fitada?||Representad la región factible y calculad sus vértices. ¿Es una región acotada?||Draw the feasible region and find its vertices. Is the region bounded?]] <span class="pp">([[0,75 punts||0,75 puntos||0.75 points]])</span></li>
+        <li>[[Resoleu el problema: quants sacs de cada tipus ha de comprar i quin és el cost mínim?||Resolved el problema: ¿cuántos sacos de cada tipo debe comprar y cuál es el coste mínimo?||Solve the problem: how many bags of each type should he buy, and what is the minimum cost?]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Té sentit preguntar-se pel cost màxim? Raoneu-ho. Si el ramader comprara 4 sacs de cada pinso, cobriria les necessitats?||¿Tiene sentido preguntarse por el coste máximo? Razonadlo. Si el ganadero comprara 4 sacos de cada pienso, ¿cubriría las necesidades?||Does it make sense to ask for the maximum cost? Explain. If the farmer bought 4 bags of each feed, would the needs be met?]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        <p>[[\(x\) = sacs de P1, \(y\) = sacs de P2. Minimitzar \(C(x,y)=40x+30y\) subjecte a:||\(x\) = sacos de P1, \(y\) = sacos de P2. Minimizar \(C(x,y)=40x+30y\) sujeto a:||\(x\) = bags of P1, \(y\) = bags of P2. Minimise \(C(x,y)=40x+30y\) subject to:]]</p>
+        \[\begin{cases}3x+y\ge 15 & \text{([[proteïnes||proteínas||protein]])}\\ x+y\ge 9 & \text{([[fibra||fibra||fibre]])}\\ x+3y\ge 15 & \text{([[minerals||minerales||minerals]])}\\ x\ge 0,\ y\ge 0\end{cases}\]
+        <h4>b)</h4>
+        <!--VTX:m3-->
+        <!--FIG:m3-->
+        <p>[[La regió <strong>no és fitada</strong>: s'estén indefinidament cap amunt i cap a la dreta (comprant més sacs sempre es compleixen les necessitats).||La región <strong>no es acotada</strong>: se extiende indefinidamente hacia arriba y hacia la derecha (comprando más sacos siempre se cumplen las necesidades).||The region is <strong>unbounded</strong>: it extends indefinitely upwards and to the right (buying more bags always meets the needs).]]</p>
+        <h4>c)</h4>
+        <!--TAB:m3|fname="C", fs=(40,30), only="min"-->
+        <p>[[En una regió no fitada cal comprovar que el mínim existeix: els coeficients de \(C\) són positius, així que \(C\) creix quan ens allunyem de l'origen i el mínim s'assoleix en un vèrtex. El cost mínim és <strong>300 €</strong>, comprant <strong>3 sacs de P1 i 6 sacs de P2</strong> (vèrtex \(B\)). La recta de nivell \(40x+30y=300\) (discontínua) deixa tota la regió al seu costat de cost més gran.||En una región no acotada hay que comprobar que el mínimo existe: los coeficientes de \(C\) son positivos, así que \(C\) crece cuando nos alejamos del origen y el mínimo se alcanza en un vértice. El coste mínimo es de <strong>300 €</strong>, comprando <strong>3 sacos de P1 y 6 sacos de P2</strong> (vértice \(B\)). La recta de nivel \(40x+30y=300\) (discontinua) deja toda la región en su lado de coste mayor.||In an unbounded region we must check that the minimum exists: the coefficients of \(C\) are positive, so \(C\) grows as we move away from the origin and the minimum is attained at a vertex. The minimum cost is <strong>€300</strong>, buying <strong>3 bags of P1 and 6 bags of P2</strong> (vertex \(B\)). The level line \(40x+30y=300\) (dashed) leaves the whole region on its higher-cost side.]]</p>
+        <!--FIG:m3|best="B", level=(40,30,300)-->
+        <h4>d)</h4>
+        <p>[[No: com que la regió no és fitada, podem prendre punts de la regió amb \(x\) i \(y\) tan grans com vulguem i el cost \(40x+30y\) creix indefinidament. <strong>No hi ha cost màxim.</strong>||No: como la región no está acotada, podemos tomar puntos de la región con \(x\) e \(y\) tan grandes como queramos y el coste \(40x+30y\) crece indefinidamente. <strong>No hay coste máximo.</strong>||No: since the region is unbounded, we can take points of the region with \(x\) and \(y\) as large as we like and the cost \(40x+30y\) grows without limit. <strong>There is no maximum cost.</strong>]]</p>
+        <p>[[Amb \((4,4)\): proteïnes \(16\ge15\) ✓, fibra \(8\not\ge 9\) ✗, minerals \(16\ge15\) ✓. <strong>No cobriria les necessitats de fibra</strong>: el punt queda fora de la regió factible.||Con \((4,4)\): proteínas \(16\ge15\) ✓, fibra \(8\not\ge 9\) ✗, minerales \(16\ge15\) ✓. <strong>No cubriría las necesidades de fibra</strong>: el punto queda fuera de la región factible.||With \((4,4)\): protein \(16\ge15\) ✓, fibre \(8\not\ge 9\) ✗, minerals \(16\ge15\) ✓. <strong>The fibre requirement would not be met</strong>: the point lies outside the feasible region.]]</p>
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,25 variables i funció objectiu; 0,5 restriccions.</li><li>b) 0,25 representació; 0,25 vèrtexs; 0,25 dir que no és fitada.</li><li>c) 0,25 solució òptima; 0,25 cost mínim. Si no es justifica l'existència del mínim en una regió no fitada, es resta 0,1.</li><li>d) 0,25 raonar que no hi ha màxim; 0,25 comprovar el punt (4, 4).</li></ul>||<ul><li>a) 0,25 variables y función objetivo; 0,5 restricciones.</li><li>b) 0,25 representación; 0,25 vértices; 0,25 decir que no es acotada.</li><li>c) 0,25 solución óptima; 0,25 coste mínimo. Si no se justifica la existencia del mínimo en una región no acotada, se resta 0,1.</li><li>d) 0,25 razonar que no hay máximo; 0,25 comprobar el punto (4, 4).</li></ul>||<ul><li>a) 0.25 variables and objective function; 0.5 constraints.</li><li>b) 0.25 drawing; 0.25 vertices; 0.25 stating that the region is unbounded.</li><li>c) 0.25 optimal solution; 0.25 minimum cost. Deduct 0.1 if the existence of the minimum over an unbounded region is not justified.</li><li>d) 0.25 explaining there is no maximum; 0.25 checking the point (4, 4).</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEMA 4 ===================== -->
+  <section class="prob" id="p4">
+    <div class="ph"><h2>[[Problema 4||Problema 4||Problem 4]]</h2><span class="pts">[[2,5 punts||2,5 puntos||2.5 points]]</span></div>
+    <div class="pb">
+      <div class="topic">[[Restriccions a partir del gràfic · Mínim en tot un costat · Nova restricció||Restricciones a partir de la gráfica · Mínimo en todo un lado · Nueva restricción||Constraints from a graph · Minimum along a whole side · New constraint]]</div>
+      <p>[[La regió ombrejada és la regió factible d'un problema de programació lineal. Els vèrtexs tenen coordenades enteres.||La región sombreada es la región factible de un problema de programación lineal. Los vértices tienen coordenadas enteras.||The shaded region is the feasible region of a linear programming problem. The vertices have integer coordinates.]]</p>
+      <!--FIG:m4|hide_vertex_coords=True, line_names=False-->
+      <ol class="parts">
+        <li>[[Determineu el sistema d'inequacions que defineix la regió.||Determinad el sistema de inecuaciones que define la región.||Find the system of inequalities that defines the region.]] <span class="pp">([[1 punt||1 punto||1 point]])</span></li>
+        <li>[[Calculeu el màxim i el mínim de \(f(x,y)=2x+y\) en la regió i on s'assoleixen.||Calculad el máximo y el mínimo de \(f(x,y)=2x+y\) en la región y dónde se alcanzan.||Find the maximum and minimum of \(f(x,y)=2x+y\) on the region and where they are attained.]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[Estudieu en quins punts de la regió assoleix el màxim i el mínim la funció \(h(x,y)=x+2y\). Alguna de les dues solucions és única?||Estudiad en qué puntos de la región alcanza el máximo y el mínimo la función \(h(x,y)=x+2y\). ¿Alguna de las dos soluciones es única?||Find at which points of the region the function \(h(x,y)=x+2y\) attains its maximum and minimum. Is either solution unique?]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+        <li>[[S'afegeix la restricció \(x\le5\). Dibuixeu la nova regió, calculeu els vèrtexs nous i trobeu el nou màxim de \(f\).||Se añade la restricción \(x\le5\). Dibujad la nueva región, calculad los vértices nuevos y hallad el nuevo máximo de \(f\).||The constraint \(x\le5\) is added. Draw the new region, find the new vertices and the new maximum of \(f\).]] <span class="pp">([[0,5 punts||0,5 puntos||0.5 points]])</span></li>
+      </ol>
+      <details class="sol"><summary>[[Solució i criteris de correcció||Solución y criterios de corrección||Solution and marking criteria]]</summary><div>
+        <h4>a)</h4>
+        <p>[[Llegim els vèrtexs: \(A(0,2),\ B(4,0),\ C(7,3),\ D(4,6),\ E(0,6)\). Calculem la recta de cada costat i triem el signe amb un punt interior, per exemple \((2,3)\):||Leemos los vértices: \(A(0,2),\ B(4,0),\ C(7,3),\ D(4,6),\ E(0,6)\). Calculamos la recta de cada lado y elegimos el signo con un punto interior, por ejemplo \((2,3)\):||We read the vertices: \(A(0,2),\ B(4,0),\ C(7,3),\ D(4,6),\ E(0,6)\). We find the line of each side and choose the sign using an interior point, e.g. \((2,3)\):]]</p>
+        <ul>
+          <li>\(AB\): [[recta per \((0,2)\) i \((4,0)\)||recta por \((0,2)\) y \((4,0)\)||line through \((0,2)\) and \((4,0)\)]]: \(x+2y=4\); \(2+6=8\ge4\ \Rightarrow\ x+2y\ge4\).</li>
+          <li>\(BC\): [[per \((4,0)\) i \((7,3)\)||por \((4,0)\) y \((7,3)\)||through \((4,0)\) and \((7,3)\)]]: \(y=x-4\), [[és a dir,||es decir,||that is,]] \(x-y=4\); \(2-3=-1\le4\ \Rightarrow\ x-y\le4\).</li>
+          <li>\(CD\): [[per \((7,3)\) i \((4,6)\)||por \((7,3)\) y \((4,6)\)||through \((7,3)\) and \((4,6)\)]]: \(x+y=10\); \(5\le10\ \Rightarrow\ x+y\le10\).</li>
+          <li>\(DE\): \(y=6\ \Rightarrow\ y\le6\). \(EA\): \(x=0\ \Rightarrow\ x\ge0\).</li>
+        </ul>
+        \[\begin{cases}x+2y\ge4\\ x-y\le4\\ x+y\le10\\ y\le6\\ x\ge0\end{cases}\]
+        <h4>b) [[i||y||and]] c)</h4>
+        <!--TAB:m4|fname=["f(x,y)=2x+y","h(x,y)=x+2y"], fs=[(2,1),(1,2)]-->
+        <p class="leg"><span class="vmx">[[màxim||máximo||maximum]]</span> <span class="vmn">[[mínim||mínimo||minimum]]</span></p>
+        <p>b) [[Màxim de \(f\): \(\boxed{17}\) en \(C(7,3)\). Mínim de \(f\): \(\boxed{2}\) en \(A(0,2)\).||Máximo de \(f\): \(\boxed{17}\) en \(C(7,3)\). Mínimo de \(f\): \(\boxed{2}\) en \(A(0,2)\).||Maximum of \(f\): \(\boxed{17}\) at \(C(7,3)\). Minimum of \(f\): \(\boxed{2}\) at \(A(0,2)\).]]</p>
+        <p>c) [[Màxim de \(h\): \(\boxed{16}\) només en \(D(4,6)\) (solució única). Mínim de \(h\): \(\boxed{4}\) en \(A\) i en \(B\): les rectes de nivell de \(h\) són paral·leles al costat \(x+2y=4\), així que el mínim s'assoleix en <strong>tots els punts del segment \(AB\)</strong> (infinites solucions).||Máximo de \(h\): \(\boxed{16}\) solo en \(D(4,6)\) (solución única). Mínimo de \(h\): \(\boxed{4}\) en \(A\) y en \(B\): las rectas de nivel de \(h\) son paralelas al lado \(x+2y=4\), así que el mínimo se alcanza en <strong>todos los puntos del segmento \(AB\)</strong> (infinitas soluciones).||Maximum of \(h\): \(\boxed{16}\) only at \(D(4,6)\) (unique solution). Minimum of \(h\): \(\boxed{4}\) at \(A\) and at \(B\): the level lines of \(h\) are parallel to side \(x+2y=4\), so the minimum is attained at <strong>every point of segment \(AB\)</strong> (infinitely many solutions).]]</p>
+        <!--FIG:m4|seg=("A","B"), best="D"-->
+        <h4>d)</h4>
+        <p>[[La recta \(x=5\) talla la regió i en retalla la punta \(C\). Vèrtexs nous:||La recta \(x=5\) corta la región y le recorta la punta \(C\). Vértices nuevos:||The line \(x=5\) cuts the region and removes the corner at \(C\). New vertices:]] \(\begin{cases}x=5\\x-y=4\end{cases}\Rightarrow F(5,1)\), \(\begin{cases}x=5\\x+y=10\end{cases}\Rightarrow G(5,5)\).</p>
+        <!--FIG:m4b|best="G"-->
+        <!--TAB:m4b|fname="f", fs=(2,1), only="max"-->
+        <p>[[El nou màxim de \(f\) és \(\boxed{15}\), en \(G(5,5)\).||El nuevo máximo de \(f\) es \(\boxed{15}\), en \(G(5,5)\).||The new maximum of \(f\) is \(\boxed{15}\), at \(G(5,5)\).]]</p>
+        <div class="crit"><b>[[Criteris de correcció||Criterios de corrección||Marking criteria]]</b>
+          [[<ul><li>a) 0,2 per cada inequació correcta (recta i sentit de la desigualtat).</li><li>b) 0,25 màxim; 0,25 mínim.</li><li>c) 0,25 màxim en \(D\); 0,25 mínim en tot el segment \(AB\) (si només es diu un vèrtex, 0,1).</li><li>d) 0,25 nova regió i vèrtexs \(F\) i \(G\); 0,25 nou màxim.</li></ul>||<ul><li>a) 0,2 por cada inecuación correcta (recta y sentido de la desigualdad).</li><li>b) 0,25 máximo; 0,25 mínimo.</li><li>c) 0,25 máximo en \(D\); 0,25 mínimo en todo el segmento \(AB\) (si solo se da un vértice, 0,1).</li><li>d) 0,25 nueva región y vértices \(F\) y \(G\); 0,25 nuevo máximo.</li></ul>||<ul><li>a) 0.2 for each correct inequality (line and direction).</li><li>b) 0.25 maximum; 0.25 minimum.</li><li>c) 0.25 maximum at \(D\); 0.25 minimum along the whole segment \(AB\) (0.1 if only one vertex is given).</li><li>d) 0.25 new region and vertices \(F\) and \(G\); 0.25 new maximum.</li></ul>]]
+        </div>
+      </div></details>
+    </div>
+  </section>
+
+  <p class="disclaimer">[[Prova d'elaboració pròpia amb el format de les PAU de la Comunitat Valenciana. Inclou tots els continguts de la unitat 3: inequacions lineals i regions factibles, vèrtexs, funció objectiu i rectes de nivell, regions fitades i no fitades, infinites solucions, solucions enteres, problemes amb paràmetres, plantejament de problemes i lectura de restriccions a partir d'un gràfic. Els criteris de correcció són orientatius.||Prueba de elaboración propia con el formato de las PAU de la Comunitat Valenciana. Incluye todos los contenidos de la unidad 3: inecuaciones lineales y regiones factibles, vértices, función objetivo y rectas de nivel, regiones acotadas y no acotadas, infinitas soluciones, soluciones enteras, problemas con parámetros, planteamiento de problemas y lectura de restricciones a partir de una gráfica. Los criterios de corrección son orientativos.||Original test in the format of the Valencian PAU. It covers everything in unit 3: linear inequalities and feasible regions, vertices, objective function and level lines, bounded and unbounded regions, infinitely many solutions, integer solutions, problems with parameters, setting up word problems and reading constraints from a graph. The marking criteria are a guide only.]]</p>
+  <div class="final">
+    [[Vols practicar més?||¿Quieres practicar más?||Want more practice?]]
+    <div class="links">
+      <a class="btn" href="global-pl-pau.html">📝 [[Exercicis PAU de tot l'Estat||Ejercicios PAU de toda España||PAU exercises from across Spain]]</a>
+      <a class="btn" href="pau-u3-programacio-lineal.html">📚 [[Exercicis PAU valencians de la unitat 3||Ejercicios PAU valencianos de la unidad 3||Valencian PAU exercises for unit 3]]</a>
+      <a class="btn" href="t3-programacio-lineal.html">📖 [[Apunts de la unitat||Apuntes de la unidad||Unit notes]]</a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>[[Prova global de Programació lineal · Unitat 3 · 2n Batxillerat CCSS II||Prueba global de Programación lineal · Unidad 3 · 2º Bachillerato CCSS II||Linear programming block test · Unit 3 · 2nd Baccalaureate, Social Sciences II]]</p>
+  <p><a href="../../index.html">FentMates</a> · [[Fet amb ♥ per a l'alumnat||Hecho con ♥ para el alumnado||Made with ♥ for students]]</p>
+</footer>
+<!--SCRIPT-->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement, LANGS = ["va", "es", "en"];
+  var HTML_LANG = { va: "ca-ES-valencia", es: "es", en: "en" };
+  var TITLES = { va: "Prova global de Programació lineal · FentMates", es: "Prueba global de Programación lineal · FentMates", en: "Linear programming block test · FentMates" };
+  var UI = {
+    va: { start: "▶ Comença", pause: "⏸ Pausa", resume: "▶ Continua", show: "👁 Mostra totes les solucions", hide: "🙈 Amaga les solucions", theme: "Canvia entre mode clar i fosc", over: "Temps esgotat!" },
+    es: { start: "▶ Empieza", pause: "⏸ Pausa", resume: "▶ Continúa", show: "👁 Mostrar todas las soluciones", hide: "🙈 Ocultar las soluciones", theme: "Cambiar entre modo claro y oscuro", over: "¡Tiempo agotado!" },
+    en: { start: "▶ Start", pause: "⏸ Pause", resume: "▶ Resume", show: "👁 Show all solutions", hide: "🙈 Hide solutions", theme: "Toggle light and dark mode", over: "Time's up!" }
+  };
+  var lang = root.getAttribute("data-lang") || "va", refreshers = [];
+  function u(k) { return UI[lang][k]; }
+  function onLang(fn) { refreshers.push(fn); fn(); }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  /* cronòmetre (compte enrere de 90 min) */
+  var TOTAL = 90 * 60, left = TOTAL, timerId = null, started = false;
+  var tEl = document.getElementById("timer"), bStart = document.getElementById("t-start");
+  function fmt(s) { var a = Math.abs(s), m = Math.floor(a / 60), r = a % 60; return (s < 0 ? "−" : "") + m + ":" + (r < 10 ? "0" : "") + r; }
+  function paint() {
+    tEl.textContent = fmt(left);
+    tEl.classList.toggle("warn", left <= 600 && left > 0);
+    tEl.classList.toggle("over", left <= 0);
+    tEl.title = left <= 0 ? u("over") : "";
+    bStart.textContent = timerId ? u("pause") : (started ? u("resume") : u("start"));
+  }
+  bStart.addEventListener("click", function () {
+    if (timerId) { clearInterval(timerId); timerId = null; }
+    else { started = true; timerId = setInterval(function () { left--; paint(); }, 1000); }
+    paint();
+  });
+  document.getElementById("t-reset").addEventListener("click", function () { clearInterval(timerId); timerId = null; started = false; left = TOTAL; paint(); });
+  onLang(paint);
+
+  /* solucions */
+  var sols = [].slice.call(document.querySelectorAll("details.sol")), bSol = document.getElementById("sol-all");
+  function paintSol() { var all = sols.every(function (d) { return d.open; }); bSol.textContent = all ? u("hide") : u("show"); }
+  bSol.addEventListener("click", function () { var all = sols.every(function (d) { return d.open; }); sols.forEach(function (d) { d.open = !all; }); paintSol(); });
+  sols.forEach(function (d) { d.addEventListener("toggle", paintSol); });
+  onLang(paintSol);
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+
+  /* tema i idioma (compartits amb la web) */
+  var ICON = {
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  };
+  function curTheme() { var t = root.getAttribute("data-theme"); return t || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+  var tb = document.getElementById("theme-btn");
+  function paintTheme() { tb.innerHTML = curTheme() === "dark" ? ICON.sun : ICON.moon; tb.setAttribute("aria-label", u("theme")); }
+  tb.addEventListener("click", function () { var n = curTheme() === "dark" ? "light" : "dark"; root.setAttribute("data-theme", n); store("theme", n); paintTheme(); });
+  var lb = document.querySelectorAll("[data-setlang]");
+  function paintLang() { lb.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setlang === lang)); }); document.title = TITLES[lang]; }
+  lb.forEach(function (b) { b.addEventListener("click", function () {
+    var l = b.dataset.setlang; if (LANGS.indexOf(l) < 0) return;
+    lang = l; root.setAttribute("data-lang", l); root.lang = HTML_LANG[l]; store("lang", l);
+    try { var url = new URL(location.href); if (url.searchParams.has("lang")) { url.searchParams.set("lang", l); history.replaceState(null, "", url); } } catch (e) {}
+    refreshers.forEach(function (fn) { fn(); });
+  }); });
+  onLang(function () { paintTheme(); paintLang(); });
+
+  function render() {
+    if (window.renderMathInElement) window.renderMathInElement(document.body, {
+      delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }], throwOnError: false
+    });
+  }
+  if (document.readyState === "complete") render(); else window.addEventListener("load", render);
+})();
+</script>
+</body>
+</html>

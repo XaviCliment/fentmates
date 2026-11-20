@@ -64,9 +64,9 @@ def table(key, fname="f", fs=(1, 1), only=None, **k):
         hi, lo = max(v for v, _ in vals), min(v for v, _ in vals)
         for val, n in vals:
             if val == hi and only != "min":
-                marks[(n, j)] = "mx"
+                marks[(n, j)] = "vmx"
             if val == lo and only != "max":
-                marks[(n, j)] = "mn"
+                marks[(n, j)] = "vmn"
     return lp.tab_html(Pk, fname if len(fname) > 1 else fname[0], fs if len(fs) > 1 else fs[0], marks)
 
 
@@ -98,4 +98,5 @@ if __name__ == "__main__":
     run_checks()
     print("comprovacions:", lp.CHECKS[0])
     for s, o in PAGES:
-        build(s, o)
+        if os.path.exists(os.path.join(HERE, s)):
+            build(s, o)

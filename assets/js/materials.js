@@ -999,6 +999,16 @@ window.LEVELS = {
         ]
       },
       {
+        // prova global de la unitat 3: estrella com el Global d'Àlgebra i taronja més fosc (block: "plg", va dins del bloc de PL)
+        num: "★",
+        ill: "globalpl", block: "plg",
+        title: { va: "Global de Programació lineal", es: "Global de Programación lineal", en: "Linear programming block test" },
+        items: [
+          { type: "exercises", title: { va: "Selecció d'exercicis PAU", es: "Selección de ejercicios PAU", en: "Selected PAU exercises" }, desc: { va: "22 exercicis resolts de la PAU (2021–2026) de 9 comunitats: sense enunciat, infinites solucions, gràfics i problemes", es: "22 ejercicios resueltos de la PAU (2021–2026) de 9 comunidades: sin enunciado, infinitas soluciones, gráficas y problemas", en: "22 solved PAU exercises (2021–2026) from 9 regions: no context, infinitely many solutions, graphs and word problems" }, url: "materials/2batx-ccss/global-pl-pau.html", date: "2026-11-20" },
+          { type: "exam", title: { va: "Prova global tipus PAU", es: "Prueba global tipo PAU", en: "PAU-style block test" }, desc: { va: "4 problemes de la unitat 3 amb solucions i criteris de correcció", es: "4 problemas de la unidad 3 con soluciones y criterios de corrección", en: "4 problems on unit 3 with solutions and marking criteria" }, url: "materials/2batx-ccss/global-pl-prova-model1.html", date: "2026-11-20" }
+        ]
+      },
+      {
         ill: "limits", block: "an",
         title: { va: "Límits i continuïtat", es: "Límites y continuidad", en: "Limits and continuity" },
         items: [
