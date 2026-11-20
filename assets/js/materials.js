@@ -763,7 +763,19 @@ window.LEVELS = {
       en: "Financial maths, algebra, functions, statistics and probability."
     },
     cards: true,
+    byBlock: true,    // unitats agrupades per bloc (Àlgebra, Anàlisi…)
+    sections: true,   // dins de cada unitat: columnes Apunts / Exercicis / PAU / Calculadora
     units: [
+      {
+        num: "1",
+        ill: "reals", block: "ari",
+        title: { va: "Nombres reals", es: "Números reales", en: "Real numbers" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t1-nombres-reals.html", date: "2026-11-20" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 51 exercicis graduats per nivells de dificultat", es: "PDF · 51 ejercicios graduados por niveles de dificultad", en: "PDF · 51 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t1-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t1-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 51 exercicis", es: "PDF · Soluciones de los 51 ejercicios", en: "PDF · Solutions to all 51 exercises" }, url: { va: "materials/1batx-ccss/t1-fitxa-solucions.pdf", es: "materials/1batx-ccss/t1-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
+        ]
+      },
       {
         num: "3",
         ill: "pl", block: "alg",

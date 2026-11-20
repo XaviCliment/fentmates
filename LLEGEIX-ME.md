@@ -523,8 +523,24 @@ python3 _eines/pau/an/build.py
 
 ## 1r Batx CCSS (Matemàtiques Aplicades a les CCSS I)
 
-A `materials.js` el curs porta `cards: true`; a `fm-materials.js`, la unitat 3 és del bloc d'àlgebra (la resta, de moment, `all`).
+A `materials.js` el curs porta `cards: true`, `byBlock: true` i `sections: true`, com la resta de cursos; a `fm-materials.js`, la
+unitat 1 és del bloc d'aritmètica i la 3, del d'àlgebra (la resta, de moment, `all`).
 Les fitxes usen `\fmcurs{1batx-ccss}` i, en castellà, `curs='1batx-ccss'` a `castella.py` («Matemáticas CCSS»).
+
+- **Unitat 1 (Nombres reals, `1batx-ccss-t1`)**: parteix de la unitat 1 de 1r Batx MI (mateix `app.js`, mateixos ginys i el mateix
+  `build.py`), reorganitzada en 8 apartats (1.1-1.8): nombres reals ($\mathbb N$, $\mathbb Z$, $\mathbb Q$, $\mathbb I$ i fracció generatriu),
+  intervals i semirectes, valor absolut (equacions i desigualtats; sense el nom d'entorn), unió i intersecció (`w-ops` ja no fa
+  diferències), radicals (forma exponencial i simplificació, índex comú, extracció i introducció de factors, i suma, resta, producte,
+  quocient i potència), racionalització, logaritmes i propietats dels logaritmes. Ginys nous a `app.js`: `w-rad` (radical ↔ potència,
+  simplificació i extracció), `w-ic` (reducció a índex comú, comparació, producte i quocient) i `w-lp` (propietats dels logaritmes amb
+  nombres), i el qüestionari (16 preguntes). La fitxa (`_eines/fonts-latex/1batx-ccss-t1/genera.py`, 51 exercicis en 9 seccions, la
+  darrera de problemes de context) és bilingüe amb `T(va, es)` com la de la unitat 3; els intervals i les desigualtats amb valor absolut
+  es calculen amb fraccions exactes (`absI`) i les solucions de radicals i logaritmes es comproven numèricament (`cn`).
+
+```
+python3 _eines/apunts/1batx-ccss-t1/build.py
+cd _eines/fonts-latex/1batx-ccss-t1 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+```
 
 - **Unitat 3 (Inequacions i sistemes d'inequacions, `1batx-ccss-t3`)**: 6 apartats (3.1-3.6): inequacions de primer grau (regles,
   parèntesis, denominadors, casos $\mathbb R$ i $\varnothing$, problemes), de segon grau i de grau superior (estudi del signe, paràbola,
