@@ -735,8 +735,8 @@ window.LEVELS = {
         title: { va: "Derivades i aplicacions", es: "Derivadas y aplicaciones", en: "Derivatives and applications" },
         items: [
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-mi/t9-derivades.html", date: "2026-11-13" },
-          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 31 exercicis graduats per nivells de dificultat", es: "PDF · 31 ejercicios graduados por niveles de dificultad", en: "PDF · 31 exercises graded by difficulty" }, url: { va: "materials/1batx-mi/t9-fitxa-exercicis.pdf", es: "materials/1batx-mi/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-13" },
-          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 31 exercicis", es: "PDF · Soluciones de los 31 ejercicios", en: "PDF · Solutions to all 31 exercises" }, url: { va: "materials/1batx-mi/t9-fitxa-solucions.pdf", es: "materials/1batx-mi/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-13" }
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis graduats per nivells de dificultat", es: "PDF · 36 ejercicios graduados por niveles de dificultad", en: "PDF · 36 exercises graded by difficulty" }, url: { va: "materials/1batx-mi/t9-fitxa-exercicis.pdf", es: "materials/1batx-mi/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-13" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: { va: "materials/1batx-mi/t9-fitxa-solucions.pdf", es: "materials/1batx-mi/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-13" }
         ]
       },
       {
@@ -824,6 +824,16 @@ window.LEVELS = {
           { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t6-limits-continuitat.html", date: "2026-11-20" },
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 36 exercicis graduats per nivells de dificultat", es: "PDF · 36 ejercicios graduados por niveles de dificultad", en: "PDF · 36 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t6-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t6-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 36 exercicis", es: "PDF · Soluciones de los 36 ejercicios", en: "PDF · Solutions to all 36 exercises" }, url: { va: "materials/1batx-ccss/t6-fitxa-solucions.pdf", es: "materials/1batx-ccss/t6-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
+        ]
+      },
+      {
+        num: "7",
+        ill: "derivades", block: "an",
+        title: { va: "Derivades i aplicacions", es: "Derivadas y aplicaciones", en: "Derivatives and applications" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t7-derivades.html", date: "2026-11-20" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 39 exercicis graduats per nivells de dificultat", es: "PDF · 39 ejercicios graduados por niveles de dificultad", en: "PDF · 39 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t7-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t7-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-20" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 39 exercicis", es: "PDF · Soluciones de los 39 ejercicios", en: "PDF · Solutions to all 39 exercises" }, url: { va: "materials/1batx-ccss/t7-fitxa-solucions.pdf", es: "materials/1batx-ccss/t7-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-20" }
         ]
       }
     ]

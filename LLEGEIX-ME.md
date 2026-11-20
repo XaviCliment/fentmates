@@ -482,7 +482,7 @@ abans dels problemes d'optimització (9.9). `contingut-2.html` i `app.js` són c
 es toquen): `app.js` té el nucli comú (nucli de la unitat 4 + derivació simbòlica de la 5 + estudi de la 6) i tres mòduls
 (`M5`, `M6`, `M7`), cadascun amb els seus textos (`UI`), figures i ginys; els textos del nucli són la unió dels tres. Els
 laboratoris es diuen `w-lab5` (calculadora de derivades) i `w-lab7` (estudi complet, dins de 9.8). La fitxa
-(`_eines/fonts-latex/1batx-mi-t9/genera.py`) té 31 exercicis en 8 seccions; `comprova.py` verifica amb sympy cada derivada,
+(`_eines/fonts-latex/1batx-mi-t9/genera.py`) té 36 exercicis en 8 seccions (9 d'estudi i representació gràfica, 6 de racionals); `comprova.py` verifica amb sympy cada derivada,
 valor, punt crític i signe:
 
 ```
@@ -603,12 +603,21 @@ cd _eines/fonts-latex/1batx-ccss-t4 && python3 genera.py && python3 genera-es.py
   1r Batx MI (`1batx-mi-t8`: apunts, ginys i fitxa de 36 exercicis), renumerat com a unitat 6 (apartats 6.1-6.10), amb el curs i les
   capçaleres de CCSS i la clau de progrés `fm-1batx-ccss-u6-limits-done`. Si canvies un exercici, canvia'l a `genera.py` i a
   `genera-es.py` (i, si cal, també a `1batx-mi-t8`).
+- **Unitat 7 (Derivades i aplicacions, `1batx-ccss-t7`, pàgina `t7-derivades.html`)**: parteix de la unitat 9 de 1r Batx MI
+  (`1batx-mi-t9`), renumerada (apartats 7.1-7.9), **sense funcions trigonomètriques** (taules de derivades, exemples, exercicis,
+  ginys `w-fd` i `w-chain` i calculadora) i amb l'apartat 7.9 d'optimització refet: o bé la funció és coneguda i cal estudiar-ne
+  el creixement i el decreixement, o bé cal construir una funció de benefici, ingressos o costos (contextos empresarials i socials;
+  sense problemes geomètrics). El giny `w-build` té els casos «Benefici = I − C», «Cafeteria», «Agència de viatges» i «Bosses».
+  La fitxa té 39 exercicis en 8 seccions (les 9 de representació gràfica, com a MI; 10 d'optimització) i `comprova.py` en verifica
+  amb sympy 211 resultats. Clau de progrés `fm-1batx-ccss-u7-derivades-done`.
 
 ```
 python3 _eines/apunts/1batx-ccss-t5/build.py
 python3 _eines/apunts/1batx-ccss-t6/build.py
+python3 _eines/apunts/1batx-ccss-t7/build.py
 cd _eines/fonts-latex/1batx-ccss-t5 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+cd _eines/fonts-latex/1batx-ccss-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques A

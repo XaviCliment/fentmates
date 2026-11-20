@@ -34,3 +34,9 @@ def SIGN(f, pts):
 def TVM(f, a, b, v):
     assert simplify((P(f).subs(x, P(b)) - P(f).subs(x, P(a))) / (P(b) - P(a)) - P(v)) == 0, (f, a, b, v)
     NCHK[0] += 1
+def LIM(f, a, d, v):
+    """límit de f quan x→a pel costat d ('+' o '-'; '' per a ±oo); v en text sympy (oo, -oo, 1...)"""
+    from sympy import limit
+    got = limit(P(f), x, P(a), d) if d else limit(P(f), x, P(a))
+    assert got == P(v), (f, a, d, v, got)
+    NCHK[0] += 1

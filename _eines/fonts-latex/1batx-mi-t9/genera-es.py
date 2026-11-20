@@ -7,7 +7,7 @@
 import os, re, sys, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from comprova import DER, VAL, EQL, CRIT, SIGN, TVM, NCHK
+from comprova import DER, VAL, EQL, CRIT, SIGN, TVM, LIM, NCHK
 
 def tasks(n, items):
     return '\\begin{tasks}(%d)\n' % n + ''.join('  \\task %s\n' % i for i in items) + '\\end{tasks}'
@@ -187,6 +187,26 @@ G3 = tzg(-5, 5, -3, 3, CV % ('-5:5', '4*\\x/(\\x*\\x+1)') + dot(-1, -2) + dot(1,
 CRIT('4*x/(x**2+1)', [-1, 1]); VAL('4*x/(x**2+1)', 1, 2); DER('4*x/(x**2+1)', '4*(1-x**2)/(x**2+1)**2')
 G4 = tzg(-3, 3, -2, 3, CV % ('-1.85:1.85', '\\x*\\x*\\x*\\x-2*\\x*\\x') + dot(-1, -1) + dot(1, -1) + dot(0, 0) + dot(-1.414, 0) + dot(1.414, 0))
 CRIT('x**4-2*x**2', [-1, 0, 1]); VAL('x**4-2*x**2', 1, -1)
+# exercicis nous de representació (polinomi i quatre racionals)
+G5 = tzg(-1, 5, -2, 5, CV % ('-0.45:4.45', '\\x*\\x*\\x-6*\\x*\\x+9*\\x') + dot(0, 0) + dot(1, 4) + dot(3, 0) + lab(1, 4, '(1,4)') + lab(3, 0, '(3,0)', 'below'))
+EQL('x**3-6*x**2+9*x', 'x*(x-3)**2'); DER('x**3-6*x**2+9*x', '3*(x-1)*(x-3)'); CRIT('x**3-6*x**2+9*x', [1, 3]); VAL('x**3-6*x**2+9*x', 1, 4); VAL('x**3-6*x**2+9*x', 3, 0)
+SIGN('x**3-6*x**2+9*x', [(0, '+'), (2, '-'), (4, '+')])
+G6 = tzg(-6, 6, -8, 8, CV % ('-6:-0.45', '(\\x*\\x+4)/\\x') + CV % ('0.45:6', '(\\x*\\x+4)/\\x') + dl(-6, -6, 6, 6) + dot(-2, -4) + dot(2, 4) + lab(2, 4, '(2,4)', 'below right') + lab(-2, -4, '(-2,-4)'), sc=0.3)
+f6 = '(x**2+4)/x'
+EQL(f6, 'x+4/x'); DER(f6, '(x**2-4)/x**2'); CRIT(f6, [-2, 2]); VAL(f6, -2, -4); VAL(f6, 2, 4); LIM(f6, 0, '-', '-oo'); LIM(f6, 0, '+', 'oo')
+SIGN(f6, [(-3, '+'), (-1, '-'), (1, '-'), (3, '+')])
+G7 = tzg(-6, 6, -4, 5, CV % ('-6:-2.08', '\\x*\\x/(\\x*\\x-4)') + CV % ('-1.92:1.92', '\\x*\\x/(\\x*\\x-4)') + CV % ('2.08:6', '\\x*\\x/(\\x*\\x-4)') + dl(-2, -4, -2, 5) + dl(2, -4, 2, 5) + dl(-6, 1, 6, 1) + dot(0, 0), sc=0.36)
+f7 = 'x**2/(x**2-4)'
+DER(f7, '-8*x/(x**2-4)**2'); CRIT(f7, [0]); VAL(f7, 0, 0); LIM(f7, 2, '-', '-oo'); LIM(f7, 2, '+', 'oo'); LIM(f7, -2, '-', 'oo'); LIM(f7, -2, '+', '-oo'); LIM(f7, 'oo', '', 1)
+SIGN(f7, [(-3, '+'), (-1, '+'), (1, '-'), (3, '-')])
+G8 = tzg(-7, 6, -14, 6, CV % ('-7:-1.25', '(\\x-1)*(\\x-1)/(\\x+1)') + CV % ('-0.7:6', '(\\x-1)*(\\x-1)/(\\x+1)') + dl(-1, -14, -1, 6) + dl(-7, -10, 6, 3) + dot(-3, -8) + dot(1, 0) + dot(0, 1) + lab(-3, -8, '(-3,-8)') + lab(1, 0, '(1,0)', 'below right'), sc=0.3)
+f8 = '(x-1)**2/(x+1)'
+EQL('x**2-2*x+1', '(x+1)*(x-3)+4'); DER(f8, '(x-1)*(x+3)/(x+1)**2'); CRIT(f8, [-3, 1]); VAL(f8, -3, -8); VAL(f8, 1, 0); VAL(f8, 0, 1); LIM(f8, -1, '-', '-oo'); LIM(f8, -1, '+', 'oo')
+LIM(f8 + '-(x-3)', 'oo', '', 0); SIGN(f8, [(-4, '+'), (-2, '-'), (0, '-'), (2, '+')])
+G9 = tzg(-6, 6, -4, 4, CV % ('-6:-2.06', '\\x/(\\x*\\x-4)') + CV % ('-1.94:1.94', '\\x/(\\x*\\x-4)') + CV % ('2.06:6', '\\x/(\\x*\\x-4)') + dl(-2, -4, -2, 4) + dl(2, -4, 2, 4) + dot(0, 0), sc=0.36)
+f9 = 'x/(x**2-4)'
+DER(f9, '-(x**2+4)/(x**2-4)**2'); CRIT(f9, []); LIM(f9, -2, '-', '-oo'); LIM(f9, -2, '+', 'oo'); LIM(f9, 2, '-', '-oo'); LIM(f9, 2, '+', 'oo'); LIM(f9, 'oo', '', 0)
+SIGN(f9, [(-3, '-'), (-1, '-'), (1, '-'), (3, '-')]); VAL(f9, -1, '1/3'); VAL(f9, 1, '-1/3'); VAL(f9, 3, '3/5'); VAL(f9, -3, '-3/5')
 S_.append(("Representación gráfica de funciones", [
  (2, r"Estudia y representa la función $f(x)=x^3-3x$: dominio, puntos de corte, simetría, asíntotas, monotonía y extremos."
      + recorda(r"Pasos: dominio, puntos de corte, simetría, asíntotas, monotonía y puntos singulares, signo de la función, tabla de valores y representación gráfica."),
@@ -197,6 +217,16 @@ S_.append(("Representación gráfica de funciones", [
      r"$D=\mathbb R$; corte $(0,0)$; \rest{impar}. \ Sin AV; AH $\res{y=0}$ ($\lim_{x\to\pm\infty}f=0$). \ $f'(x)=\frac{4(1-x^2)}{(x^2+1)^2}$: decrece en $(-\infty,-1)\cup(1,+\infty)$ y crece en $(-1,1)$; mínimo $\res{(-1,-2)}$ y máximo $\res{(1,2)}$. Positiva si $x>0$." + G(G3)),
  (2, r"Estudia y representa $f(x)=x^4-2x^2$.",
      r"$D=\mathbb R$; cortes $(0,0)$ y $(\pm\sqrt2,0)$; \rest{par}; sin asíntotas. \ $f'(x)=4x^3-4x=4x(x-1)(x+1)$: decrece en $(-\infty,-1)\cup(0,1)$ y crece en $(-1,0)\cup(1,+\infty)$; mínimos $\res{(\pm1,-1)}$ y máximo $\res{(0,0)}$." + G(G4)),
+ (2, r"Estudia y representa $f(x)=x^3-6x^2+9x$.",
+     r"$D=\mathbb R$; $f(x)=x(x-3)^2$: cortes $(0,0)$ y $(3,0)$; sin simetría ni asíntotas. \ $f'(x)=3x^2-12x+9=3(x-1)(x-3)$: crece en $(-\infty,1)\cup(3,+\infty)$ y decrece en $(1,3)$; máximo $\res{(1,4)}$ y mínimo $\res{(3,0)}$. Negativa si $x<0$." + G(G5)),
+ (2, r"Estudia y representa $f(x)=\dfrac{x^2+4}{x}$.",
+     r"$D=\mathbb R-\{0\}$; no corta los ejes; \rest{impar}. \ AV $x=0$: $\lim_{x\to0^-}f=-\infty$, $\lim_{x\to0^+}f=+\infty$. \ $f(x)=x+\frac4x$: AO $\res{y=x}$. \ $f'(x)=\frac{x^2-4}{x^2}$: crece en $(-\infty,-2)\cup(2,+\infty)$ y decrece en $(-2,0)\cup(0,2)$; máximo $\res{(-2,-4)}$ y mínimo $\res{(2,4)}$. Negativa si $x<0$ y positiva si $x>0$." + G(G6)),
+ (2, r"Estudia y representa $f(x)=\dfrac{x^2}{x^2-4}$.",
+     r"$D=\mathbb R-\{-2,2\}$; corte $(0,0)$; \rest{par}. \ AV $x=2$: $\lim_{x\to2^-}f=-\infty$, $\lim_{x\to2^+}f=+\infty$; AV $x=-2$: $\lim_{x\to-2^-}f=+\infty$, $\lim_{x\to-2^+}f=-\infty$. \ AH $\res{y=1}$. \ $f'(x)=\frac{-8x}{(x^2-4)^2}$: crece en $(-\infty,-2)\cup(-2,0)$ y decrece en $(0,2)\cup(2,+\infty)$; máximo relativo $\res{(0,0)}$. Positiva en $(-\infty,-2)\cup(2,+\infty)$ y negativa en $(-2,0)\cup(0,2)$." + G(G7)),
+ (3, r"Estudia y representa $f(x)=\dfrac{(x-1)^2}{x+1}$, con sus asíntotas verticales y oblicuas.",
+     r"$D=\mathbb R-\{-1\}$; cortes $(1,0)$ y $(0,1)$; sin simetría. \ AV $x=-1$: $\lim_{x\to-1^-}f=-\infty$, $\lim_{x\to-1^+}f=+\infty$. \ $x^2-2x+1=(x+1)(x-3)+4$: AO $\res{y=x-3}$. \ $f'(x)=\frac{(x-1)(x+3)}{(x+1)^2}$: crece en $(-\infty,-3)\cup(1,+\infty)$ y decrece en $(-3,-1)\cup(-1,1)$; máximo $\res{(-3,-8)}$ y mínimo $\res{(1,0)}$. Negativa si $x<-1$." + G(G8)),
+ (3, r"Estudia y representa $f(x)=\dfrac{x}{x^2-4}$. ¿Tiene extremos relativos?",
+     r"$D=\mathbb R-\{-2,2\}$; corte $(0,0)$; \rest{impar}. \ AV $x=-2$: $\lim_{x\to-2^-}f=-\infty$, $\lim_{x\to-2^+}f=+\infty$; AV $x=2$: $\lim_{x\to2^-}f=-\infty$, $\lim_{x\to2^+}f=+\infty$. \ AH $\res{y=0}$. \ $f'(x)=\frac{-(x^2+4)}{(x^2-4)^2}<0$: \rest{decreciente} en todo el dominio y \rest{sin extremos}. Positiva en $(-2,0)\cup(2,+\infty)$ y negativa en $(-\infty,-2)\cup(0,2)$." + G(G9)),
 ]))
 
 # =====================================================================
