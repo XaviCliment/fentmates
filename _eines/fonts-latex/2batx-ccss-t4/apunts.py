@@ -2,26 +2,51 @@
 # per a l'alumnat, a partir dels apunts interactius (_eines/apunts/2batx-ccss-t4/contingut.html, només el valencià).
 # Deixa fora els ginys, les caixes «Practica», la calculadora i l'autoavaluació. Les gràfiques es redibuixen amb
 # pgfplots a partir de les mateixes funcions que fa servir app.js (diccionari FIG).
-# Ús: python3 apunts.py && pdflatex t4-apunts-teoria.tex (dues vegades, per l'índex)
-import os, re
+# Ús: python3 apunts.py [va|es] && pdflatex t4-apunts-teoria.tex (o t4-apuntes-teoria.tex en castellà), dues vegades per l'índex
+import os, re, sys
+LANG = sys.argv[1] if len(sys.argv) > 1 else 'va'
+assert LANG in ('va', 'es')
+LI = {'va': 0, 'es': 1}[LANG]
+# textos escrits ací (no vénen de contingut.html)
+TXT = {
+ 'va': dict(out='t4-apunts-teoria.tex', babel='catalan', sol='Solució:', box1='Exemples: llegim els límits a la gràfica',
+            pdftitle="Apunts de teoria. Unitat 4: Límits i continuïtat. 2n de Batxillerat CCSS", head='2n Batxillerat CCSS · Unitat 4: Límits i continuïtat',
+            kicker='Apunts de teoria · 2n Batxillerat CCSS II', unit='Unitat 4', title='Límits i continuïtat', toc='Índex',
+            toc8="Estudi de la continuïtat d'una funció", toc9="Funcions a trossos depenents d'un paràmetre",
+            heroa=r'\s*,?\s*eines interactives', herob=('Teoria, exemples resolts pas a pas i:', 'Teoria i exemples resolts pas a pas:'),
+            inf=['Asímptota horitzontal $y=2$ pels dos costats.', 'Asímptota horitzontal $y=-1$ només per l’esquerra.', 'No té asímptota horitzontal.',
+                 r'Osci\lgem{}a entre $-1$ i $1$ sense parar.', 'Domini $[2,+\infty)$: no està definida per a $x<2$.', 'Domini $[-3,3]$: no arriba a cap dels dos infinits.']),
+ 'es': dict(out='t4-apuntes-teoria.tex', babel='spanish,es-noshorthands,es-nodecimaldot', sol='Solución:', box1='Ejemplos: leemos los límites en la gráfica',
+            pdftitle="Apuntes de teoría. Unidad 4: Límites y continuidad. 2.º de Bachillerato CCSS", head='2º Bachillerato CCSS · Unidad 4: Límites y continuidad',
+            kicker='Apuntes de teoría · 2º Bachillerato CCSS II', unit='Unidad 4', title='Límites y continuidad', toc='Índice',
+            toc8='Estudio de la continuidad de una función', toc9='Funciones a trozos dependientes de un parámetro',
+            heroa=r'\s*y herramientas interactivas', herob=('Teoría, ejemplos resueltos paso a paso:', 'Teoría y ejemplos resueltos paso a paso:'),
+            inf=['Asíntota horizontal $y=2$ por los dos lados.', 'Asíntota horizontal $y=-1$ solo por la izquierda.', 'No tiene asíntota horizontal.',
+                 'Oscila entre $-1$ y $1$ sin parar.', 'Dominio $[2,+\infty)$: no está definida para $x<2$.', 'Dominio $[-3,3]$: no llega a ninguno de los dos infinitos.']),
+}[LANG]
+# els retocs de l'HTML (fix) s'escriuen en valencià; en castellà es tradueixen aquestes peces
+FIXES_ES = [('Amb arrels:', 'Con raíces:'), (r'+\infty\) i \(', r'+\infty\) y \('), ('Mateix ordre:', 'Mismo orden:'), ('Substituïm:', 'Sustituimos:'),
+            (') Dividim', ') Dividimos'), ('Factoritzem (', 'Factorizamos ('), (r'(x+1)\) i \(x^2', r'(x+1)\) y \(x^2')]
 from html.parser import HTMLParser
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, '..', '..', 'apunts', '2batx-ccss-t4', 'contingut.html')
 
 # ---------- 1. HTML en valencià ----------
 src = open(SRC, encoding='utf-8').read()
-src = re.sub(r'⟦(.*?)‖.*?‖.*?⟧', r'\1', src, flags=re.S)
-src = re.sub(r'⟪(.*?)‖.*?‖.*?⟫', r'\1', src, flags=re.S)
+src = re.sub(r'⟦(.*?)⟧', lambda m: m.group(1).split('‖')[LI], src, flags=re.S)
+src = re.sub(r'⟪(.*?)⟫', lambda m: m.group(1).split('‖')[LI], src, flags=re.S)
 src = src.replace(r'\SI', r'\text{si }')
 hero = re.search(r'<section class="hero">.*?<p>(.*?)</p>', src, re.S).group(1)
 body = src[src.index('<section class="unit" id="s1">'):src.index('<section class="unit" id="lab">')]
 
 def fix(a, b):
     global body
+    if LANG == 'es':
+        for x, y in FIXES_ES: a, b = a.replace(x, y), b.replace(x, y)
     assert body.count(a) == 1, a[:80]
     body = body.replace(a, b)
 # primer requadre d'exemples: es compon a mà (fórmula dalt, límits i asímptota baix), vegeu INF_EXAMPLES
-i = body.index('<div class="two">', body.index('Exemples: llegim els límits a la gràfica'))
+i = body.index('<div class="two">', body.index(TXT['box1']))
 j = body.index('<p class="note">', i)
 body = body[:i] + '<div class="pdf-inf"></div>\n      ' + body[j:]
 # 4.2, quocients, cas 4: els dos límits un davall de l'altre, sense «i»
@@ -97,12 +122,12 @@ def cell(f, key, lims, note):
     return (r'\begin{minipage}[t]{0.48\linewidth}\centering $%s$\par\smallskip %s\par\smallskip $%s$\par %s\end{minipage}'
             % (f, FIG[key], lims, note))
 INF = [
- (r'f(x)=\dfrac{2x^2}{x^2+1}', 'inf1', r'\displaystyle\lim_{x\to+\infty}f(x)=2,\qquad\lim_{x\to-\infty}f(x)=2', r'Asímptota horitzontal $y=2$ pels dos costats.'),
- (r'g(x)=2^x-1', 'inf2', r'\displaystyle\lim_{x\to-\infty}g(x)=-1,\qquad\lim_{x\to+\infty}g(x)=+\infty', r'Asímptota horitzontal $y=-1$ només per l’esquerra.'),
- (r'h(x)=\dfrac{x^3}{10}-x', 'inf3', r'\displaystyle\lim_{x\to-\infty}h(x)=-\infty,\qquad\lim_{x\to+\infty}h(x)=+\infty', r'No té asímptota horitzontal.'),
- (r'k(x)=\sin x', 'inf4', r'\displaystyle\nexists\lim_{x\to-\infty}\sin x,\qquad\nexists\lim_{x\to+\infty}\sin x', r'Osci\lgem{}a entre $-1$ i $1$ sense parar.'),
- (r'm(x)=\sqrt{x-2}', 'inf5', r'\displaystyle\nexists\lim_{x\to-\infty}m(x),\qquad\lim_{x\to+\infty}m(x)=+\infty', r'Domini $[2,+\infty)$: no està definida per a $x<2$.'),
- (r'n(x)=\sqrt{9-x^2}', 'inf6', r'\displaystyle\nexists\lim_{x\to-\infty}n(x),\qquad\nexists\lim_{x\to+\infty}n(x)', r'Domini $[-3,3]$: no arriba a cap dels dos infinits.'),
+ (r'f(x)=\dfrac{2x^2}{x^2+1}', 'inf1', r'\displaystyle\lim_{x\to+\infty}f(x)=2,\qquad\lim_{x\to-\infty}f(x)=2', TXT['inf'][0]),
+ (r'g(x)=2^x-1', 'inf2', r'\displaystyle\lim_{x\to-\infty}g(x)=-1,\qquad\lim_{x\to+\infty}g(x)=+\infty', TXT['inf'][1]),
+ (r'h(x)=\dfrac{x^3}{10}-x', 'inf3', r'\displaystyle\lim_{x\to-\infty}h(x)=-\infty,\qquad\lim_{x\to+\infty}h(x)=+\infty', TXT['inf'][2]),
+ (r'k(x)=\sin x', 'inf4', r'\displaystyle\nexists\lim_{x\to-\infty}\sin x,\qquad\nexists\lim_{x\to+\infty}\sin x', TXT['inf'][3]),
+ (r'm(x)=\sqrt{x-2}', 'inf5', r'\displaystyle\nexists\lim_{x\to-\infty}m(x),\qquad\lim_{x\to+\infty}m(x)=+\infty', TXT['inf'][4]),
+ (r'n(x)=\sqrt{9-x^2}', 'inf6', r'\displaystyle\nexists\lim_{x\to-\infty}n(x),\qquad\nexists\lim_{x\to+\infty}n(x)', TXT['inf'][5]),
 ]
 INF_EXAMPLES = '\n' + '\n\\vfill\n'.join(r'\noindent ' + cell(*INF[i]) + r'\hfill' + cell(*INF[i + 1]) + r'\par' for i in range(0, 6, 2)) + '\n\\vfill\n'
 
@@ -180,7 +205,7 @@ def conv(n):
         return text(n)
     if t == 'details':  # solucions curtes: es mostren
         inner = ''.join(conv(k) for k in n.kids if not (not isinstance(k, str) and k.tag == 'summary'))
-        return '\n\n' + r'\textit{Solució:} ' + inner.strip() + '\n\n'
+        return '\n\n' + r'\textit{%s} ' % TXT['sol'] + inner.strip() + '\n\n'
     if 'steps' in c:
         return '\n' + ''.join(conv(k) for k in n.kids) + '\n'
     if 'step' in c: return '\n\n' + text(n).strip() + '\n\n'
@@ -279,7 +304,7 @@ latex = re.sub(r'\n{3,}', '\n\n', latex)
 PRE = r'''\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[catalan]{babel}
+\usepackage[BABEL]{babel}
 \usepackage{lmodern}
 \linespread{1.22}
 \usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
@@ -298,7 +323,7 @@ PRE = r'''\documentclass[11pt,a4paper]{article}
 \usepackage{needspace}
 \usepackage[most]{tcolorbox}
 \usepackage{titlesec}
-\usepackage[hidelinks,pdftitle={Apunts de teoria. Unitat 4: Límits i continuïtat. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={límits, indeterminacions, continuïtat, asímptotes}]{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 % colors de la web (FentMates, bloc d'anàlisi)
 \definecolor{fmnavy}{HTML}{1B2748}
@@ -350,7 +375,7 @@ PRE = r'''\documentclass[11pt,a4paper]{article}
 % capçalera i peu
 \pagestyle{fancy}\fancyhf{}
 \fancyhead[L]{\small\fmbrand}
-\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 4: Límits i continuïtat}
+\fancyhead[R]{\small\color{fmmuted}HEADTXT}
 \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
 \fancyfoot[R]{\small\color{fmmuted}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
@@ -394,6 +419,7 @@ PRE = r'''\documentclass[11pt,a4paper]{article}
 '''
 
 TITLE = r'''
+\hypersetup{pdftitle={PDFTITLE},pdfsubject={PDFSUBJ},pdfkeywords={PDFKW}}
 \begin{document}
 \thispagestyle{primera}
 \begin{tikzpicture}[remember picture,overlay]
@@ -405,22 +431,22 @@ TITLE = r'''
   \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{../../logo/pdf/horitzontal-clar.pdf}}};
 \end{tikzpicture}
 \vspace*{0.55cm}
-\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries KICKER}
 
 \vspace{4pt}
-{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unitat 4} · Límits i continuïtat\par}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}UNITNUM} · UNITTITLE\par}
 \vspace{6pt}
 \begin{minipage}{\linewidth}\color{white!88!fmgreen}\small HERO\end{minipage}
 \vspace{1.1cm}
 
 \begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
-\small\textbf{Índex}\par\smallskip
+\small\textbf{TOCWORD}\par\smallskip
 \begin{minipage}[t]{0.49\linewidth}\small TOC1\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small TOC2\end{minipage}
 \end{tcolorbox}
 '''
 
 secs = re.findall(r'\\section\{(.*?)\}\n', latex)
-TOCNAME = {8: "Estudi de la continuïtat d'una funció", 9: "Funcions a trossos depenents d'un paràmetre"}
+TOCNAME = {8: TXT['toc8'], 9: TXT['toc9']}
 toc = [r'\mbox{\hyperlink{sec%d}{\textbf{\color{fmgreen}4.%d}\ \ %s}}\\[3pt]' % (i + 1, i + 1, (esc(TOCNAME[i + 1]) if i + 1 in TOCNAME else s)) for i, s in enumerate(secs)]
 half = (len(toc) + 1) // 2
 k = [0]
@@ -428,8 +454,13 @@ def anchor(m):
     k[0] += 1
     return '\\section{%s}\\hypertarget{sec%d}{}\n' % (m.group(1), k[0])
 latex = re.sub(r'\\section\{(.*?)\}\n', anchor, latex)
-hero_tex = esc(re.sub(r'\s*,?\s*eines interactives', '', hero).replace('Teoria, exemples resolts pas a pas i:', 'Teoria i exemples resolts pas a pas:'))
+hero_tex = esc(re.sub(TXT['heroa'], '', hero).replace(*TXT['herob']))
 title = TITLE.replace('HERO', hero_tex).replace('TOC1', '\n'.join(toc[:half])).replace('TOC2', '\n'.join(toc[half:]))
-doc = PRE + title + latex + '\n\\end{document}\n'
-open(os.path.join(HERE, 't4-apunts-teoria.tex'), 'w', encoding='utf-8').write(doc)
+pre = PRE
+SUBJ = {'va': ('Matemàtiques Aplicades a les Ciències Socials II', 'límits, indeterminacions, continuïtat, asímptotes'),
+        'es': ('Matemáticas Aplicadas a las Ciencias Sociales II', 'límites, indeterminaciones, continuidad, asíntotas')}[LANG]
+for k, v in [('BABEL', TXT['babel']), ('PDFTITLE', TXT['pdftitle']), ('HEADTXT', TXT['head']), ('PDFSUBJ', SUBJ[0]), ('PDFKW', SUBJ[1])]: pre = pre.replace(k, v)
+for k, v in [('PDFTITLE', TXT['pdftitle']), ('PDFSUBJ', SUBJ[0]), ('PDFKW', SUBJ[1]), ('KICKER', TXT['kicker']), ('UNITNUM', TXT['unit']), ('UNITTITLE', TXT['title']), ('TOCWORD', TXT['toc'])]: title = title.replace(k, v)
+doc = pre + title + latex + '\n\\end{document}\n'
+open(os.path.join(HERE, TXT['out']), 'w', encoding='utf-8').write(doc)
 print(len(secs), 'apartats,', len(doc), 'caràcters')

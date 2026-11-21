@@ -1,0 +1,740 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 5: Cálculo de derivadas. Derivabilidad de una función. 2.º de Bachillerato CCSS},pdfsubject={Matemáticas Aplicadas a las Ciencias Sociales II},pdfkeywords={derivadas, tasa de variación, recta tangente, reglas de derivación, regla de la cadena, derivabilidad, funciones a trozos}}
+
+% colors de la web (FentMates, bloc d'anàlisi)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{5.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «derivades»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (24,92) .. controls (60,92) and (70,20) .. (110,22) .. controls (150,24) and (150,100) .. (186,86) .. controls (210,76) and (214,50) .. (226,40);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (60,22)--(160,22);
+  \fill (110,22) circle (6);
+  \draw[line width=4pt,opacity=0.55] (150,108)--(222,38);
+  \node[anchor=base west,inner sep=0pt,scale=2.4,font=\large\itshape] at (118,46) {$f'(x)=0$};
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato CCSS · Unidad 5: Cálculo de derivadas}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unidad 5} · Cálculo de derivadas.\\[2pt] Derivabilidad de una función\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: tasa de variación, definición de derivada y cálculo por definición, propiedades y reglas de derivación (con la regla de la cadena), relación entre continuidad y derivabilidad, derivadas laterales y derivabilidad de funciones a trozos, con parámetros y con ejercicios de la PAU.\end{minipage}
+\vspace{1.1cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}5.1}\ \ Tasa de variación media}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}5.2}\ \ Derivada de una función en un punto}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}5.3}\ \ Cálculo de derivadas por definición}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}5.4}\ \ Función derivada y propiedades de la derivada}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}5.5}\ \ Derivadas de las funciones elementales}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}5.6}\ \ Regla de la cadena}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}5.7}\ \ Continuidad y derivabilidad}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}5.8}\ \ Derivabilidad de funciones a trozos}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}5.9}\ \ Funciones a trozos con parámetros}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{12\baselineskip}
+\section{Tasa de variación media}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición: tasa de variación media (TVM)}
+La \textbf{tasa de variación media} de una función \fmm{f} en el intervalo \fmm{[a,b]} mide cuánto cambia, de media, la función por cada unidad que aumenta \fmm{x}:
+
+      
+\[\text{TVM}[a,b]=\frac{f(b)-f(a)}{b-a}\]
+
+      
+
+Si escribimos \fmm{b=a+h} (\fmm{h} es la longitud del intervalo): \fmm{\ \text{TVM}[a,a+h]=\dfrac{f(a+h)-f(a)}{h}}.
+
+      
+
+\fmuline{Interpretación geométrica}: la TVM es la \textbf{pendiente de la recta secante} que pasa por los puntos \fmm{(a,f(a))} y \fmm{(b,f(b))} de la gráfica. Si es positiva, la función, de media, sube; si es negativa, baja.
+
+      
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=8cm,height=5.6cm,xmin=-0.5,xmax=7,ymin=-2,ymax=28]\addplot[fmcurve,domain=-0.5:7,samples=160]{-x^2+10*x};\addplot[fmteal,line width=1.2pt,domain=-0.5:7]{6*(x-(1))+(9)};\draw[fmguide] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:3,0}|-{rel axis cs:0,0}) -- ({axis cs:3,0}|-{rel axis cs:0,1});\node[fmdot] at (axis cs:1,9) {};\node[fmdot] at (axis cs:3,21) {};\draw[fmguide] (axis cs:1,9)--(axis cs:3,9);\draw[fmguide] (axis cs:3,9)--(axis cs:3,21);\node[anchor=west,font=\small] at (axis cs:1.05,-1.2) {$a$};\node[anchor=west,font=\small] at (axis cs:3.05,-1.2) {$b$};\node[anchor=west,font=\small] at (axis cs:3.1,15) {$f(b)-f(a)$};\node[anchor=west,font=\small] at (axis cs:1.6,7.3) {$b-a$};\end{axis}\end{tikzpicture}\end{center}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo}
+El beneficio (en miles de euros) de una empresa \fmm{x} años después de crearse es \fmm{B(x)=-x^2+10x}. Calcula la TVM en los intervalos \fmm{[1,3]}, \fmm{[3,5]} y \fmm{[5,7]} e interprétala.
+
+      
+
+        
+
+\fmm{B(1)=9,\ B(3)=21,\ B(5)=25,\ B(7)=21}.
+
+        
+
+\fmm{\text{TVM}[1,3]=\dfrac{21-9}{3-1}=6}: entre el primer y el tercer año, el beneficio aumenta de media 6 000 € por año.
+
+        
+
+\fmm{\text{TVM}[3,5]=\dfrac{25-21}{2}=2}: sigue creciendo, pero más despacio.
+
+        
+
+\fmm{\text{TVM}[5,7]=\dfrac{21-25}{2}=-2}: el beneficio disminuye de media 2 000 € por año.
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Derivada de una función en un punto}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición de derivada}
+Si hacemos el intervalo \fmm{[a,a+h]} cada vez más pequeño (\fmm{h\to0}), la TVM se convierte en la \textbf{tasa de variación instantánea}: la rapidez con la que cambia la función \emph{justo} en el punto \fmm{a}. Este límite es la \textbf{derivada de \fmm{f} en \fmm{x=a}}:
+
+      
+\[f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}\qquad\left(\text{o también}\quad f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}\right)\]
+
+      
+
+Si este límite existe y es un número real, decimos que \fmm{f} es \textbf{derivable} en \fmm{x=a}.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Interpretación geométrica: la recta tangente}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Cuando \fmm{h\to0}, el segundo punto de la secante se acerca a \fmm{P=(a,f(a))} y las secantes se acercan a la \textbf{recta tangente} a la curva en \fmm{P}. Por tanto:
+
+          
+\begin{center}\colorbox{fmyellow!45}{\parbox{0.9\linewidth}{\centering\strut \fmm{f'(a)} es la pendiente de la recta tangente a la gráfica de \fmm{f} en \fmm{x=a}.\strut}}\end{center}
+
+          
+
+La ecuación de la recta tangente es (punto-pendiente):
+
+          
+\[y-f(a)=f'(a)\,(x-a)\]
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-1,xmax=4,ymin=-0.5,ymax=7]\addplot[fmcurve,domain=-1:4,samples=160]{x^2/2+1};\addplot[fmteal,line width=1.2pt,domain=-1:4]{1*(x-(1))+(1.5)};\addplot[fmsi,line width=1.2pt,domain=-1:4]{2.5*(x-(1))+(1.5)};\addplot[fmsi,line width=1.2pt,domain=-1:4]{1.6*(x-(1))+(1.5)};\node[fmdot] at (axis cs:1,1.5) {};\node[fmdot] at (axis cs:2.2,3.42) {};\node[anchor=west,font=\small] at (axis cs:0.45,2.2) {$P$};\node[anchor=west,font=\small] at (axis cs:2.35,2.15) {$\text{tangente}$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}\fmuline{En economía}: si \fmm{C(x)} es el coste de producir \fmm{x} unidades, \fmm{C'(x)} es el \textbf{coste marginal}, el coste aproximado de producir una unidad más. Igualmente, \fmm{B'(x)} es el beneficio marginal.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sabemos que \fmm{f(2)=3} y \fmm{f'(2)=-1}. La recta tangente en \fmm{x=2} es \fmm{y-3=-1\,(x-2)}, es decir, \fmm{y=-x+5}.
+\item Para \fmm{f(x)=x^2}, la herramienta de arriba indica que \fmm{f'(1)=2} (lo calcularemos en el apartado siguiente). Como \fmm{f(1)=1}, la tangente en \fmm{x=1} es \fmm{y-1=2(x-1)}, es decir, \fmm{y=2x-1}.
+\item Si \fmm{f'(a)\gt0}, la tangente sube y la función es creciente cerca de \fmm{a}; si \fmm{f'(a)\lt0}, es decreciente; si \fmm{f'(a)=0}, la tangente es \textbf{horizontal}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Cálculo de derivadas por definición}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método}
+Para calcular \fmm{f'(a)} aplicando la definición:
+
+      
+\begin{enumerate}
+\item Calculamos \fmm{f(a+h)} y \fmm{f(a)}.
+\item Restamos y simplificamos \fmm{f(a+h)-f(a)}: \textbf{siempre} nos tiene que quedar un factor \fmm{h}.
+\item Dividimos por \fmm{h} y simplificamos: así deshacemos la indeterminación \fmm{\frac00}.
+\item Calculamos el límite cuando \fmm{h\to0}.
+\end{enumerate}
+
+      
+
+Si hacemos lo mismo con un \fmm{x} cualquiera en lugar de \fmm{a}, obtenemos la \textbf{función derivada} \fmm{f'(x)=\displaystyle\lim_{h\to0}\frac{f(x+h)-f(x)}{h}}.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Polinomio: \fmm{f(x)=x^2-3x} en \fmm{a=2}.
+          
+
+            
+
+\fmm{f(2+h)=(2+h)^2-3(2+h)=4+4h+h^2-6-3h=h^2+h-2}; \fmm{\ f(2)=4-6=-2}.
+
+            
+
+\fmm{f(2+h)-f(2)=h^2+h-2-(-2)=h^2+h=h(h+1)}
+
+            
+
+\fmm{f'(2)=\displaystyle\lim_{h\to0}\frac{h(h+1)}{h}=\lim_{h\to0}(h+1)=1}
+\item Función racional: \fmm{f(x)=\dfrac3x} en \fmm{a=1}.
+          
+
+            
+
+\fmm{f(1+h)-f(1)=\dfrac{3}{1+h}-3=\dfrac{3-3(1+h)}{1+h}=\dfrac{-3h}{1+h}} (hacemos la resta con denominador común)
+
+            
+
+\fmm{f'(1)=\displaystyle\lim_{h\to0}\frac{\frac{-3h}{1+h}}{h}=\lim_{h\to0}\frac{-3}{1+h}=-3}
+\item Con una raíz (multiplicamos por el conjugado, como en la unidad 4): \fmm{f(x)=\sqrt x} en \fmm{a=4}.
+          
+
+            
+
+\fmm{\dfrac{f(4+h)-f(4)}{h}=\dfrac{\sqrt{4+h}-2}{h}=\dfrac{(\sqrt{4+h}-2)(\sqrt{4+h}+2)}{h(\sqrt{4+h}+2)}=\dfrac{4+h-4}{h(\sqrt{4+h}+2)}}
+
+            
+
+\fmm{f'(4)=\displaystyle\lim_{h\to0}\frac{1}{\sqrt{4+h}+2}=\frac14}
+\item \fmpau{PAU Navarra 2023}Calcule la derivada de la función \fmm{g(x)=-x^2+4x+3} en el punto \fmm{x=1}, aplicando la definición de derivada.
+          
+
+            
+
+\fmm{g(1+h)=-(1+2h+h^2)+4+4h+3=-h^2+2h+6}; \fmm{\ g(1)=6}.
+
+            
+
+\fmm{g'(1)=\displaystyle\lim_{h\to0}\frac{-h^2+2h}{h}=\lim_{h\to0}(-h+2)=2}
+\item Función derivada de \fmm{f(x)=x^2} y de \fmm{g(x)=\dfrac1x}:
+          
+
+            
+
+\fmm{f'(x)=\displaystyle\lim_{h\to0}\frac{(x+h)^2-x^2}{h}=\lim_{h\to0}\frac{2xh+h^2}{h}=\lim_{h\to0}(2x+h)=2x}
+
+            
+
+\fmm{g'(x)=\displaystyle\lim_{h\to0}\frac{\frac{1}{x+h}-\frac1x}{h}=\lim_{h\to0}\frac{\frac{x-(x+h)}{x(x+h)}}{h}=\lim_{h\to0}\frac{-1}{x(x+h)}=-\frac{1}{x^2}}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Función derivada y propiedades de la derivada}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Función derivada}
+La \textbf{función derivada} \fmm{f'} asocia a cada \fmm{x} el valor \fmm{f'(x)}, es decir, la pendiente de la tangente en cada punto. Si derivamos \fmm{f'} obtenemos la \textbf{derivada segunda} \fmm{f''}, y así sucesivamente.
+
+      
+
+Calcular siempre por definición sería muy largo. Por eso usamos unas \textbf{propiedades} y una \textbf{tabla de derivadas} (apartados 5.5 y 5.6). De momento basta con estas, que se demuestran por definición como en el apartado anterior:
+
+      
+\[(k)'=0\qquad(x)'=1\qquad(x^n)'=n\,x^{n-1}\qquad\big(\text{p. ej. }(x^2)'=2x,\ (x^5)'=5x^4\big)\]
+
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades de la derivada (operaciones)}
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccc}\toprule
+\textbf{Operación} & \textbf{Regla} & \textbf{Ejemplo}\\\midrule
+Suma y resta & $[f(x)\pm g(x)]'=f'(x)\pm g'(x)$ & $(x^3+x^2)'=3x^2+2x$\\
+Constante por función & $[k\cdot f(x)]'=k\cdot f'(x)$ & $(5x^4)'=5\cdot4x^3=20x^3$\\
+Producto & $[f(x)\cdot g(x)]'=f'(x)\cdot g(x)+f(x)\cdot g'(x)$ & $[x^2(x+1)]'=2x(x+1)+x^2\cdot1$\\
+Cociente & $\left[\dfrac{f(x)}{g(x)}\right]'=\dfrac{f'(x)\cdot g(x)-f(x)\cdot g'(x)}{[g(x)]^2}$ & $\left(\dfrac{x}{x+1}\right)'=\dfrac{1}{(x+1)^2}$\\
+\bottomrule\end{tabular}\end{center}
+
+      
+\begin{fmnote}\fmuline{¡Cuidado!} La derivada de un producto \textbf{no} es el producto de las derivadas: \fmm{(f\cdot g)'\neq f'\cdot g'}. Por ejemplo, \fmm{(x\cdot x)'=(x^2)'=2x}, pero \fmm{(x)'\cdot(x)'=1}. Tampoco la derivada de un cociente es el cociente de las derivadas. Y en el cociente, el orden de la resta importa: primero \fmm{f'g}.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Truco}: si el denominador es un número, no hace falta la regla del cociente: \fmm{\left(\dfrac{x^3-x}{4}\right)'=\dfrac{3x^2-1}{4}}. Y si el numerador es un número: \fmm{\left(\dfrac{k}{g}\right)'=\dfrac{-k\,g'}{g^2}}.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=3x^4-5x^2+2x-7\ \Rightarrow\ f'(x)=12x^3-10x+2} (y \fmm{f''(x)=36x^2-10})
+\item Producto: \fmm{f(x)=(x^2+1)(x^3-2x)}
+          
+
+            
+
+\fmm{f'(x)=2x\,(x^3-2x)+(x^2+1)(3x^2-2)}
+
+            
+
+\fmm{=2x^4-4x^2+3x^4-2x^2+3x^2-2=5x^4-3x^2-2} (también podíamos multiplicar primero y después derivar).
+\item Cociente: \fmm{f(x)=\dfrac{2x+1}{x-3}}
+          
+
+            
+
+\fmm{f'(x)=\dfrac{2\,(x-3)-(2x+1)\cdot1}{(x-3)^2}}
+
+            
+
+\fmm{=\dfrac{2x-6-2x-1}{(x-3)^2}=\dfrac{-7}{(x-3)^2}}
+\item \fmm{f(x)=\dfrac{x^2}{x^2+1}\ \Rightarrow\ f'(x)=\dfrac{2x(x^2+1)-x^2\cdot2x}{(x^2+1)^2}=\dfrac{2x}{(x^2+1)^2}}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Derivadas de las funciones elementales}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Tabla de derivadas (funciones simples)}
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccc}\toprule
+\textbf{Función} & \textbf{Derivada} & \textbf{Función} & \textbf{Derivada}\\\midrule
+$f(x)=k$ & $f'(x)=0$ & $f(x)=\sin x$ & $f'(x)=\cos x$\\
+$f(x)=x$ & $f'(x)=1$ & $f(x)=\cos x$ & $f'(x)=-\sin x$\\
+$f(x)=x^n$ & $f'(x)=n\,x^{n-1}$ & $f(x)=\tan x$ & $f'(x)=1+\tan^2x=\dfrac{1}{\cos^2x}$\\
+$f(x)=a^x$ & $f'(x)=a^x\cdot\ln a$ & $f(x)=\arcsin x$ & $f'(x)=\dfrac{1}{\sqrt{1-x^2}}$\\
+$f(x)=e^x$ & $f'(x)=e^x$ & $f(x)=\arccos x$ & $f'(x)=\dfrac{-1}{\sqrt{1-x^2}}$\\
+$f(x)=\log_a x$ & $f'(x)=\dfrac{1}{x\cdot\ln a}$ & $f(x)=\arctan x$ & $f'(x)=\dfrac{1}{1+x^2}$\\
+$f(x)=\ln x$ & $f'(x)=\dfrac1x$ &  & \\
+\bottomrule\end{tabular}\end{center}
+
+      
+\begin{fmnote}\fmuline{Raíces e inversas como potencias}: la regla \fmm{(x^n)'=nx^{n-1}} vale para \textbf{cualquier} exponente \fmm{n}, también negativo o fraccionario. Por eso escribimos antes las raíces y las fracciones como potencias:
+        \fmm{\sqrt x=x^{1/2}}, \fmm{\ \sqrt[3]{x^2}=x^{2/3}}, \fmm{\ \dfrac{1}{x^3}=x^{-3}}. En particular, \fmm{\left(\sqrt x\right)'=\dfrac{1}{2\sqrt x}} y \fmm{\left(\dfrac1x\right)'=-\dfrac{1}{x^2}}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\sqrt[3]{x^2}=x^{2/3}\ \Rightarrow\ f'(x)=\tfrac23x^{-1/3}=\dfrac{2}{3\sqrt[3]{x}}}
+\item \fmm{f(x)=\dfrac{4}{x^3}=4x^{-3}\ \Rightarrow\ f'(x)=-12x^{-4}=\dfrac{-12}{x^4}}
+\item \fmm{f(x)=3^x+\log_2x\ \Rightarrow\ f'(x)=3^x\ln3+\dfrac{1}{x\ln2}}
+\item Producto: \fmm{f(x)=x\ln x\ \Rightarrow\ f'(x)=1\cdot\ln x+x\cdot\dfrac1x=\ln x+1}
+\item Producto: \fmm{f(x)=e^x\sin x\ \Rightarrow\ f'(x)=e^x\sin x+e^x\cos x=e^x(\sin x+\cos x)}
+\item Cociente: \fmm{f(x)=\dfrac{\ln x}{x}\ \Rightarrow\ f'(x)=\dfrac{\frac1x\cdot x-\ln x\cdot1}{x^2}=\dfrac{1-\ln x}{x^2}}
+\item De dónde sale la derivada de la tangente: 
+\[\left(\dfrac{\sin x}{\cos x}\right)'=\dfrac{\cos x\cos x-\sin x(-\sin x)}{\cos^2x}=\dfrac{\cos^2x+\sin^2x}{\cos^2x}=\dfrac{1}{\cos^2x}\]
+
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Regla de la cadena: derivadas de funciones compuestas}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Regla de la cadena}
+Una función como \fmm{\sqrt{x^2+1}} es una \textbf{función compuesta}: primero calculamos \fmm{g(x)=x^2+1} (función de dentro) y después le aplicamos la raíz (función de fuera). Para derivarla, derivamos la función de fuera (dejando dentro \fmm{g(x)}) y multiplicamos por la derivada de la de dentro:
+
+      
+\[\big[f(g(x))\big]'=f'\big(g(x)\big)\cdot g'(x)\]
+
+      
+
+Aplicándola a cada fila de la tabla anterior, obtenemos la tabla de derivadas de las funciones compuestas:
+
+      
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccc}\toprule
+\textbf{Función} & \textbf{Derivada} & \textbf{Función} & \textbf{Derivada}\\\midrule
+$f(x)=[g(x)]^n$ & $f'(x)=n[g(x)]^{n-1}\cdot g'(x)$ & $f(x)=\sin g(x)$ & $f'(x)=\cos(g(x))\cdot g'(x)$\\
+$f(x)=\sqrt{g(x)}$ & $f'(x)=\dfrac{g'(x)}{2\sqrt{g(x)}}$ & $f(x)=\cos g(x)$ & $f'(x)=-\sin(g(x))\cdot g'(x)$\\
+$f(x)=a^{g(x)}$ & $f'(x)=a^{g(x)}\cdot g'(x)\cdot\ln a$ & $f(x)=\tan g(x)$ & $f'(x)=\dfrac{g'(x)}{\cos^2(g(x))}$\\
+$f(x)=e^{g(x)}$ & $f'(x)=e^{g(x)}\cdot g'(x)$ & $f(x)=\arcsin g(x)$ & $f'(x)=\dfrac{g'(x)}{\sqrt{1-g^2(x)}}$\\
+$f(x)=\log_a g(x)$ & $f'(x)=\dfrac{g'(x)}{g(x)\cdot\ln a}$ & $f(x)=\arccos g(x)$ & $f'(x)=\dfrac{-g'(x)}{\sqrt{1-g^2(x)}}$\\
+$f(x)=\ln g(x)$ & $f'(x)=\dfrac{g'(x)}{g(x)}$ & $f(x)=\arctan g(x)$ & $f'(x)=\dfrac{g'(x)}{1+g^2(x)}$\\
+\bottomrule\end{tabular}\end{center}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=(x^2+1)^5\ \Rightarrow\ f'(x)=5(x^2+1)^4\cdot2x=10x(x^2+1)^4}
+\item \fmm{f(x)=\sqrt{3x-1}\ \Rightarrow\ f'(x)=\dfrac{3}{2\sqrt{3x-1}}}
+\item \fmm{f(x)=e^{x^2-x}\ \Rightarrow\ f'(x)=e^{x^2-x}\cdot(2x-1)}
+\item \fmm{f(x)=\ln(x^2+1)\ \Rightarrow\ f'(x)=\dfrac{2x}{x^2+1}}
+\item \fmm{f(x)=\sin 3x\ \Rightarrow\ f'(x)=3\cos3x}
+\item \fmm{g(x)=\cos^2x=(\cos x)^2\ \Rightarrow\ g'(x)=2\cos x\cdot(-\sin x)=-2\sin x\cos x}
+\item \fmm{f(x)=2^{3x}\ \Rightarrow\ f'(x)=2^{3x}\cdot3\cdot\ln2}
+\item \fmm{g(x)=\arctan x^2\ \Rightarrow\ g'(x)=\dfrac{2x}{1+x^4}}
+\item \fmpau{PAU Andalusia 2021}Deriva \fmm{f(x)=\ln\left(\dfrac{x-1}{x+1}\right)}. Antes de derivar, conviene aplicar las propiedades de los logaritmos:
+          
+
+            
+
+\fmm{f(x)=\ln(x-1)-\ln(x+1)}
+
+            
+
+\fmm{f'(x)=\dfrac{1}{x-1}-\dfrac{1}{x+1}=\dfrac{(x+1)-(x-1)}{(x-1)(x+1)}=\dfrac{2}{x^2-1}}
+\item \fmpau{PAU Andalusia 2024}Deriva \fmm{f(x)=(x^2+2)^3\cdot e^{-2x}} (producto y regla de la cadena):
+          
+
+            
+
+\fmm{f'(x)=3(x^2+2)^2\cdot2x\cdot e^{-2x}+(x^2+2)^3\cdot e^{-2x}\cdot(-2)}
+
+            
+
+Sacamos factor común \fmm{2(x^2+2)^2e^{-2x}}: 
+\[f'(x)=2(x^2+2)^2e^{-2x}\big(3x-(x^2+2)\big)=-2(x^2-3x+2)(x^2+2)^2e^{-2x}\]
+
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Continuidad y derivabilidad}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Relación entre continuidad y derivabilidad}
+\begin{itemize}
+\item Si una función es \textbf{derivable} en \fmm{x=a} \fmm{\Rightarrow} es \textbf{continua} en \fmm{x=a}.
+\item Por tanto, si una función \textbf{no es continua} en \fmm{x=a} \fmm{\Rightarrow} \textbf{no es derivable} en \fmm{x=a}.
+\item El recíproco \textbf{no} es cierto: una función puede ser continua y no ser derivable (por ejemplo, \fmm{f(x)=|x|} en \fmm{x=0}).
+\end{itemize}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Derivadas laterales}
+Igual que hay límites laterales, hay \textbf{derivadas laterales}: hacemos \fmm{h\to0} solo por la izquierda o solo por la derecha.
+
+      
+\[f'(a^-)=\lim_{h\to0^-}\frac{f(a+h)-f(a)}{h}\qquad\qquad f'(a^+)=\lim_{h\to0^+}\frac{f(a+h)-f(a)}{h}\]
+
+      
+\begin{center}\colorbox{fmyellow!45}{\parbox{0.9\linewidth}{\centering\strut \fmm{f} es derivable en \fmm{a} \fmm{\iff} \fmm{f'(a^-)} y \fmm{f'(a^+)} existen, son números reales y son iguales.\strut}}\end{center}
+
+      
+
+Gráficamente, una función derivable en \fmm{a} es «suave» en ese punto: si hacemos zoom, la gráfica se confunde con su tangente. Hay tres situaciones típicas en las que una función \textbf{no} es derivable:
+
+      
+\par\noindent \begin{minipage}[t]{0.317\linewidth}\centering {\centering Punto anguloso\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.8cm,height=3.8cm,xmin=-3,xmax=3,ymin=-1,ymax=3]\addplot[fmcurve,domain=-3:3,samples=161]{abs(x)};\addplot[fmteal,line width=1.2pt,domain=-3:0]{-1*(x-(0))+(0)};\addplot[fmsi,line width=1.2pt,domain=0:3]{1*(x-(0))+(0)};\node[fmdot] at (axis cs:0,0) {};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize \fmm{f'(a^-)\neq f'(a^+)}\par}\end{minipage}\hfill\begin{minipage}[t]{0.317\linewidth}\centering {\centering Tangente vertical\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.8cm,height=3.8cm,xmin=-3,xmax=3,ymin=-2,ymax=2]\addplot[fmcurve,domain=-3:3,samples=301]{sign(x)*abs(x)^(1/3)};\draw[fmguide] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\node[fmdot] at (axis cs:0,0) {};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize \fmm{f'(a^\pm)=+\infty}\par}\end{minipage}\hfill\begin{minipage}[t]{0.317\linewidth}\centering {\centering No continua\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.8cm,height=3.8cm,xmin=-1,xmax=4,ymin=-1,ymax=5]\addplot[fmcurve,domain=-1:1,samples=160]{x+1};\addplot[fmcurve,domain=1:4,samples=160]{x+2};\node[fmdot] at (axis cs:1,2) {};\node[fmopen] at (axis cs:1,3) {};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize salto, asíntota\dots{}\par}\end{minipage}\par
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=|x|} en \fmm{x=0}. Es continua (\fmm{\lim_{x\to0}|x|=0=f(0)}). Derivadas laterales:
+          
+
+            
+
+\fmm{f'(0^-)=\displaystyle\lim_{h\to0^-}\frac{|h|-0}{h}=\lim_{h\to0^-}\frac{-h}{h}=-1\qquad f'(0^+)=\lim_{h\to0^+}\frac{h}{h}=1}
+
+            
+
+Son distintas: \fmm{f} \textbf{no es derivable} en \fmm{x=0}. Es un punto anguloso: la gráfica hace un «pico».
+\item \fmm{f(x)=\sqrt[3]{x}} en \fmm{x=0}: \fmm{\ \displaystyle\lim_{h\to0}\frac{\sqrt[3]{h}-0}{h}=\lim_{h\to0}\frac{1}{\sqrt[3]{h^2}}=+\infty}. Continua, pero no derivable: la tangente en el origen es vertical (\fmm{x=0}).
+\item \fmm{f(x)=|x^2-4|} en \fmm{x=2}. Cerca de 2, por la izquierda \fmm{x^2-4\lt0} y por la derecha \fmm{x^2-4\gt0}: \fmm{f(x)=4-x^2} si \fmm{x\lt2} (cerca de 2) y \fmm{f(x)=x^2-4} si \fmm{x\geq2}. \fmm{\ f'(2^-)=-2\cdot2=-4}, \fmm{\ f'(2^+)=2\cdot2=4}: punto anguloso, no derivable.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Derivabilidad de funciones a trozos}\hypertarget{sec8}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método}
+\begin{enumerate}
+\item \textbf{Primero estudiamos la continuidad} (como en la unidad 4). En los puntos donde no es continua, ya sabemos que \textbf{no es derivable}.
+\item \textbf{Derivamos trozo a trozo}, en los intervalos abiertos: en la función derivada \textbf{no ponemos el igual} en los puntos de cambio (todavía no sabemos si hay derivada).
+\item En cada punto de cambio \fmm{a} donde \fmm{f} es continua, calculamos las \textbf{derivadas laterales} sustituyendo en la derivada de cada trozo: \fmm{f'(a^-)} con el trozo de la izquierda y \fmm{f'(a^+)} con el de la derecha.
+\item Si coinciden, es derivable en \fmm{a}; si no, no lo es. \textbf{Conclusión}: dónde es derivable.
+\end{enumerate}
+
+      
+\begin{fmnote}\fmuline{Importante}: el paso 3 (calcular las derivadas laterales con la derivada de cada trozo) solo es válido si la función es \textbf{continua} en \fmm{a}. Por eso siempre empezamos por la continuidad.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (con ejercicios de la PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Estudia la derivabilidad de \fmm{\ f(x)=\begin{cases}x+1&\text{si } x\lt2\\x^2-1&\text{si } x\geq2\end{cases}}
+          
+
+            
+
+Continuidad en \fmm{x=2}: \fmm{\ f(2)=3}, \fmm{\ \displaystyle\lim_{x\to2^-}(x+1)=3}, \fmm{\ \displaystyle\lim_{x\to2^+}(x^2-1)=3}. Es continua en \fmm{\mathbb R}.
+
+            
+
+Derivamos trozo a trozo (sin el igual): \fmm{\ f'(x)=\begin{cases}1&\text{si } x\lt2\\2x&\text{si } x\gt2\end{cases}}
+
+            
+
+\fmm{f'(2^-)=1}, \fmm{\ f'(2^+)=2\cdot2=4}. Son distintas: \fmm{\nexists f'(2)}. \fmm{f} es derivable en \fmm{\mathbb R-\{2\}}.
+
+              
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=7cm,height=5.2cm,xmin=-1,xmax=3.6,ymin=-1,ymax=10]\addplot[fmcurve,domain=-1:2,samples=160]{x+1};\addplot[fmcurve,domain=2:3.6,samples=160]{x^2-1};\addplot[fmteal,line width=1.2pt,domain=1:2]{1*(x-(2))+(3)};\addplot[fmsi,line width=1.2pt,domain=2:3]{4*(x-(2))+(3)};\node[fmdot] at (axis cs:2,3) {};\end{axis}\end{tikzpicture}\end{center}
+\item \fmpau{PAU Andalusia 2024}Estudie su continuidad y derivabilidad: \fmm{\ f(x)=\begin{cases}-x^2+4x+3&\text{si } x\lt4\\2x-5&\text{si } x\geq4\end{cases}}
+          
+
+            
+
+Trozos polinómicos. En \fmm{x=4}: \fmm{f(4)=3}, \fmm{\displaystyle\lim_{x\to4^-}(-x^2+4x+3)=3}, \fmm{\displaystyle\lim_{x\to4^+}(2x-5)=3}: continua en \fmm{\mathbb R}.
+
+            
+
+\fmm{f'(x)=\begin{cases}-2x+4&\text{si } x\lt4\\2&\text{si } x\gt4\end{cases}\qquad f'(4^-)=-4,\quad f'(4^+)=2}
+
+            
+
+\fmm{f} es derivable en \fmm{\mathbb R-\{4\}} (en \fmm{x=4} hay un punto anguloso).
+\item \fmpau{PAU Andalusia 2024}La velocidad del viento (km/h) en \fmm{t} horas es la función siguiente. Compruebe que es continua y derivable. \fmm{\ v(t)=\begin{cases}t^2-8t+60&\text{si } 0\leq t\leq10\\-t^2+32t-140&\text{si } 10\lt t\leq24\end{cases}}
+          
+
+            
+
+\fmm{t=10}: \fmm{\ v(10)=100-80+60=80}; \fmm{\ \displaystyle\lim_{t\to10^+}(-t^2+32t-140)=-100+320-140=80}. Continua en \fmm{[0,24]}.
+
+            
+
+\fmm{v'(t)=\begin{cases}2t-8&\text{si } 0\lt t\lt10\\-2t+32&\text{si } 10\lt t\lt24\end{cases}\qquad v'(10^-)=12=v'(10^+)}
+
+            
+
+Derivable en \fmm{(0,24)}, con \fmm{v'(10)=12}: los dos trozos se «pegan» suavemente.
+\item \fmpau{PAU Navarra 2024}Estudie la continuidad y la derivabilidad de \fmm{\ f(x)=\begin{cases}-x^2-4x&\text{si } x\lt-1\\4-x&\text{si } -1\leq x\lt1\\x^2-6x+8&\text{si } x\geq1\end{cases}}
+          
+
+            
+
+\fmm{x=-1}: \fmm{\displaystyle\lim_{x\to-1^-}(-x^2-4x)=3}, \fmm{\ \displaystyle\lim_{x\to-1^+}(4-x)=5=f(-1)}. Salto finito: no es continua y, por tanto, \textbf{no es derivable} en \fmm{x=-1}.
+
+            
+
+\fmm{x=1}: \fmm{\displaystyle\lim_{x\to1^-}(4-x)=3}, \fmm{\ f(1)=\displaystyle\lim_{x\to1^+}(x^2-6x+8)=3}: continua.
+
+            
+
+\fmm{f'(x)=\begin{cases}-2x-4&\text{si } x\lt-1\\-1&\text{si } -1\lt x\lt1\\2x-6&\text{si } x\gt1\end{cases}\qquad f'(1^-)=-1,\quad f'(1^+)=-4}
+
+            
+
+\fmm{f} es continua en \fmm{\mathbb R-\{-1\}} y derivable en \fmm{\mathbb R-\{-1,1\}}.
+\item \fmpau{PAU Andalusia 2021}\fmm{f(x)=\begin{cases}2^{x+1}&\text{si } x\lt0\\x^2-2x&\text{si } x\geq0\end{cases}}: \fmm{\ \displaystyle\lim_{x\to0^-}2^{x+1}=2\neq0=\lim_{x\to0^+}(x^2-2x)}. No es continua en \fmm{x=0}, así que tampoco es derivable. Es continua y derivable en \fmm{\mathbb R-\{0\}}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{12\baselineskip}
+\section{Funciones a trozos con parámetros: continuas y derivables}\hypertarget{sec9}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método}
+Queremos encontrar los parámetros que hacen que la función sea continua y derivable. En cada punto de cambio \fmm{a} planteamos \textbf{dos condiciones}:
+
+      
+\begin{enumerate}
+\item \textbf{Continuidad}: \fmm{\displaystyle\lim_{x\to a^-}f(x)=\lim_{x\to a^+}f(x)=f(a)}.
+\item \textbf{Derivabilidad}: \fmm{f'(a^-)=f'(a^+)} (derivando cada trozo).
+\end{enumerate}
+
+      
+
+Con dos parámetros obtenemos un \textbf{sistema de dos ecuaciones}. Al final, comprobamos que cada trozo es derivable en su intervalo para los valores encontrados.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (con ejercicios de la PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Andalusia 2022}Determine los valores de \fmm{a} y \fmm{b} para que \fmm{f} sea continua y derivable en todo su dominio: \fmm{\ f(x)=\begin{cases}6x-3&\text{si } x\leq1\\ax^2+bx+2&\text{si } x\gt1\end{cases}}
+          
+
+            
+
+Continuidad en \fmm{x=1}: \fmm{f(1)=\displaystyle\lim_{x\to1^-}(6x-3)=3}, \fmm{\ \displaystyle\lim_{x\to1^+}(ax^2+bx+2)=a+b+2\ \Rightarrow\ a+b+2=3}
+
+            
+
+\fmm{f'(x)=\begin{cases}6&\text{si } x\lt1\\2ax+b&\text{si } x\gt1\end{cases}\ \Rightarrow\ f'(1^-)=6,\ f'(1^+)=2a+b\ \Rightarrow\ 2a+b=6}
+
+            
+
+\fmm{\begin{cases}a+b=1\\2a+b=6\end{cases}\Rightarrow a=5,\ b=-4}
+\item \fmpau{PAU Andalusia 2020}Calcule los valores \fmm{a} y \fmm{b} para que la función sea continua y derivable en su dominio: \fmm{\ f(x)=\begin{cases}2+\dfrac{a}{x-1}&\text{si } x\lt0\\a+be^x&\text{si } x\geq0\end{cases}}
+          
+
+            
+
+El primer trozo falla en \fmm{x=1}, que no es de \fmm{x\lt0}. Continuidad en 0: \fmm{\displaystyle\lim_{x\to0^-}\left(2+\frac{a}{x-1}\right)=2-a}, \fmm{\ f(0)=a+b\ \Rightarrow\ 2-a=a+b}
+
+            
+
+\fmm{f'(x)=\begin{cases}\dfrac{-a}{(x-1)^2}&\text{si } x\lt0\\be^x&\text{si } x\gt0\end{cases}\ \Rightarrow\ f'(0^-)=-a,\ f'(0^+)=b\ \Rightarrow\ b=-a}
+
+            
+
+Sustituyendo: \fmm{2-a=a-a=0\Rightarrow a=2,\ b=-2}
+\item Halla \fmm{a} y \fmm{b} para que \fmm{f} sea derivable en \fmm{\mathbb R}: \fmm{\ f(x)=\begin{cases}ax^2+3x&\text{si } x\leq2\\bx-4&\text{si } x\gt2\end{cases}}
+          
+
+            
+
+Continuidad: \fmm{4a+6=2b-4}. Derivabilidad: \fmm{f'(2^-)=2a\cdot2+3=4a+3}, \fmm{f'(2^+)=b\ \Rightarrow\ b=4a+3}.
+
+            
+
+\fmm{4a+6=2(4a+3)-4=8a+2\Rightarrow4a=4\Rightarrow a=1,\ b=7}
+\item \fmpau{PAU Aragó 2022}Determine el valor de los parámetros para que \fmm{f(x)} sea continua. Para dichos valores, analice si es derivable en \fmm{x=0} y en \fmm{x=3}: \fmm{\ f(x)=\begin{cases}x^2+2\sqrt3&\text{si } x\leq0\\\sqrt{ax+b}&\text{si } 0\lt x\leq3\\\dfrac72-\dfrac x6&\text{si } x\gt3\end{cases}}
+          
+
+            
+
+\fmm{x=0}: \fmm{2\sqrt3=\sqrt b\Rightarrow b=12}. \fmm{\ x=3}: \fmm{\sqrt{3a+12}=\frac72-\frac12=3\Rightarrow3a+12=9\Rightarrow a=-1}.
+
+            
+
+Para \fmm{0\lt x\lt3}: \fmm{f'(x)=\dfrac{-1}{2\sqrt{12-x}}}. \fmm{\ f'(0^-)=2\cdot0=0}, \fmm{\ f'(0^+)=\dfrac{-1}{2\sqrt{12}}\neq0}: no derivable en \fmm{x=0}.
+
+            
+
+\fmm{f'(3^-)=\dfrac{-1}{2\sqrt9}=-\dfrac16}, \fmm{\ f'(3^+)=-\dfrac16}: derivable en \fmm{x=3}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
