@@ -610,14 +610,29 @@ cd _eines/fonts-latex/1batx-ccss-t4 && python3 genera.py && python3 genera-es.py
   sense problemes geomètrics). El giny `w-build` té els casos «Benefici = I − C», «Cafeteria», «Agència de viatges» i «Bosses».
   La fitxa té 39 exercicis en 8 seccions (les 9 de representació gràfica, com a MI; 10 d'optimització) i `comprova.py` en verifica
   amb sympy 211 resultats. Clau de progrés `fm-1batx-ccss-u7-derivades-done`.
+- **Unitat 8 (Distribucions bidimensionals, `1batx-ccss-t8`, pàgina `t8-distribucions-bidimensionals.html`)**: parteix de la part
+  bidimensional de la unitat 10 de 1r Batx MI (`1batx-mi-t10`, apartats 10.4-10.9), **sense l'estadística unidimensional** i
+  reorganitzada en 6 apartats: 8.1 distribucions bidimensionals i taules de freqüències (taula simple, doble entrada, freqüències
+  relatives, distribucions condicionades i dades agrupades en intervals), 8.2 núvol de punts, 8.3 correlació i regressió (dependència
+  funcional, estadística i independència; relacions no lineals; correlació i causalitat), 8.4 correlació lineal i covariància, 8.5
+  coeficient de correlació (propietats, només mesura la relació lineal, valors atípics) i 8.6 rectes de regressió (les dues rectes,
+  coeficients de regressió, $m_{yx}\cdot m_{xy}=r^2$, quina és quina, fiabilitat). Exemple conductor nou: publicitat i vendes.
+  `app.js` afig a la de MI la segona recta (opció `reg2` de `cloud`, en verd discontinu), el giny `w-reg` amb les dues rectes i les
+  dues estimacions, `w-two` (l'angle entre les rectes segons $r$) i `w-lines` (de dues rectes escrites amb text al centre de gravetat,
+  quina és quina i $r$; `parseLine`, `linesInfo`), i un qüestionari de 19 preguntes. La fitxa (`genera.py`, bilingüe amb `T(va, es)`;
+  `genera-es.py` l'executa amb `FM_LANG=es`) té 35 exercicis en 6 seccions; tots els resultats es calculen amb `Fraction` i per a cada
+  recta es comprova que passa per $(\bar x,\bar y)$, que fa mínima la suma de quadrats i que $m_{yx}\cdot m_{xy}=r^2$.
+  Clau de progrés `fm-1batx-ccss-u8-bidimensionals-done`.
 
 ```
 python3 _eines/apunts/1batx-ccss-t5/build.py
 python3 _eines/apunts/1batx-ccss-t6/build.py
 python3 _eines/apunts/1batx-ccss-t7/build.py
+python3 _eines/apunts/1batx-ccss-t8/build.py
 cd _eines/fonts-latex/1batx-ccss-t5 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+cd _eines/fonts-latex/1batx-ccss-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques A
