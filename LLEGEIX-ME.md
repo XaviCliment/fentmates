@@ -633,6 +633,16 @@ cd _eines/fonts-latex/1batx-ccss-t4 && python3 genera.py && python3 genera-es.py
   permutacions amb repetició) i un qüestionari de 22 preguntes. La fitxa (`genera.py`, bilingüe amb `T(va, es)`; `genera-es.py`
   l'executa amb `FM_LANG=es`) té 49 exercicis en 7 seccions i 149 comprovacions (recomptes amb `math.comb`/`math.perm` o enumerant
   els casos amb `itertools`, probabilitats amb `Fraction`). Clau de progrés `fm-1batx-ccss-u9-probabilitat-done`.
+- **Unitat 10 (Distribucions de probabilitat, `1batx-ccss-t10`, pàgina `t10-distribucions-probabilitat.html`)**: 9 apartats.
+  Parteix de la unitat 10 de 2n Batx CCSS (`2batx-ccss-t10`): 10.3-10.4 i 10.6-10.9 són els seus 10.2-10.3 i 10.5-10.8 (binomial,
+  taula de la binomial, normal, normal típica i taula, tipificació, aproximació de la binomial a la normal), sense la insistència
+  en la PAU. Són nous 10.1 (variables aleatòries discretes i contínues, paral·lelisme amb l'estadística), 10.2 (funció de
+  probabilitat i de distribució, mitjana i desviació típica, jocs justos; giny `w-disc`) i 10.5 (funció de densitat sense
+  integrals, amb àrees de rectangles, triangles i trapezis, i distribució uniforme; giny `w-dens`). `build.py` calcula les taules
+  de la binomial i de la normal $N(0,1)$ com a 2n. `app.js` és el de 2n amb `wDisc`, `wDens` i un qüestionari de 18 preguntes.
+  La fitxa (`genera.py`, bilingüe amb `T(va, es)`; `genera-es.py` l'executa amb `FM_LANG=es`) té 42 exercicis en 6 seccions (12 de
+  la PAU d'altres comunitats, els mateixos que a la fitxa de 2n) i 98 comprovacions: discretes amb `Fraction`, normal com a la PAU
+  (z arredonit a dues decimals i taula a quatre decimals). Clau de progrés `fm-1batx-ccss-u10-distribucions-done`.
 
 ```
 python3 _eines/apunts/1batx-ccss-t5/build.py
@@ -640,11 +650,13 @@ python3 _eines/apunts/1batx-ccss-t6/build.py
 python3 _eines/apunts/1batx-ccss-t7/build.py
 python3 _eines/apunts/1batx-ccss-t8/build.py
 python3 _eines/apunts/1batx-ccss-t9/build.py
+python3 _eines/apunts/1batx-ccss-t10/build.py
 cd _eines/fonts-latex/1batx-ccss-t5 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t9 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+cd _eines/fonts-latex/1batx-ccss-t10 && python3 genera.py && python3 genera-es.py  # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques A

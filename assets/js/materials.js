@@ -855,6 +855,16 @@ window.LEVELS = {
           { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 49 exercicis graduats per nivells de dificultat", es: "PDF · 49 ejercicios graduados por niveles de dificultad", en: "PDF · 49 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t9-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t9-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-21" },
           { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 49 exercicis", es: "PDF · Soluciones de los 49 ejercicios", en: "PDF · Solutions to all 49 exercises" }, url: { va: "materials/1batx-ccss/t9-fitxa-solucions.pdf", es: "materials/1batx-ccss/t9-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-21" }
         ]
+      },
+      {
+        num: "10",
+        ill: "probabilitat", block: "pr",
+        title: { va: "Distribucions de probabilitat", es: "Distribuciones de probabilidad", en: "Probability distributions" },
+        items: [
+          { type: "notes", title: { va: "Apunts interactius de la unitat", es: "Apuntes interactivos de la unidad", en: "Interactive unit notes" }, url: "materials/1batx-ccss/t10-distribucions-probabilitat.html", date: "2026-11-21" },
+          { type: "exercises", title: { va: "Fitxa d'exercicis per practicar", es: "Ficha de ejercicios para practicar", en: "Practice worksheet" }, desc: { va: "PDF · 42 exercicis graduats per nivells de dificultat", es: "PDF · 42 ejercicios graduados por niveles de dificultad", en: "PDF · 42 exercises graded by difficulty" }, url: { va: "materials/1batx-ccss/t10-fitxa-exercicis.pdf", es: "materials/1batx-ccss/t10-fitxa-exercicis-es.pdf" }, download: true, date: "2026-11-21" },
+          { type: "exercises", title: { va: "Solucions de la fitxa d'exercicis", es: "Soluciones de la ficha de ejercicios", en: "Worksheet solutions" }, desc: { va: "PDF · Solucions dels 42 exercicis", es: "PDF · Soluciones de los 42 ejercicios", en: "PDF · Solutions to all 42 exercises" }, url: { va: "materials/1batx-ccss/t10-fitxa-solucions.pdf", es: "materials/1batx-ccss/t10-fitxa-solucions-es.pdf" }, download: true, hidden: true, date: "2026-11-21" }
+        ]
       }
     ]
   },
