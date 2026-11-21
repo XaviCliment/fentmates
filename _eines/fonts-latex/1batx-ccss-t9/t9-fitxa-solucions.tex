@@ -1,0 +1,285 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[sfdefault,lining]{FiraSans}
+\usepackage[a4paper,top=2.3cm,bottom=2.2cm,left=1.8cm,right=1.8cm,headheight=1.3cm,headsep=0.4cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tasks}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+\usepackage[hidelinks,pdftitle={Solucions de la fitxa de la unitat 9: Combinatòria i probabilitat. 1r de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les CCSS I},pdfkeywords={combinatòria, recompte, variacions, permutacions, combinacions, nombres combinatoris, probabilitat, regla de Laplace, probabilitat condicionada, successos independents, experiències compostes, probabilitat total, teorema de Bayes}]{hyperref}
+
+\definecolor{navy}{HTML}{1B2748}
+\definecolor{accent}{HTML}{E8603A}
+\definecolor{teal}{HTML}{1F9E90}
+\definecolor{soft}{HTML}{EEF1F8}
+\definecolor{muted}{HTML}{5D6685}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\settasks{label=\alph*), label-format=\bfseries\color{navy}, label-width=1.3em, item-indent=1.8em, column-sep=0.6em, after-item-skip=5pt, before-skip=3pt, after-skip=4pt}
+
+% ---------- capçalera i peu ----------
+\newcommand{\llicencia}{\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-gva.png}}}
+\fancyhead[C]{\small\color{muted}Solucions de la fitxa · Unitat 9: Combinatòria i probabilitat · 1r Batxillerat CCSS}
+\fancyhead[R]{\raisebox{-0.35\height}{\includegraphics[height=0.95cm]{logo-vermellar.png}}}
+\fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+\fancyfoot[R]{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{muted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{muted}\llicencia}
+  \fancyfoot[R]{\small\color{muted}\thepage}}
+
+% ---------- nivells i exercicis ----------
+\newcommand{\estrelles}[1]{{\color{accent}\ifcase#1\or\faStar\faStar[regular]\faStar[regular]\or\faStar\faStar\faStar[regular]\or\faStar\faStar\faStar\fi}}
+\newcounter{exer}
+\newcommand{\ex}[1]{\par\needspace{4\baselineskip}\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+
+\newcommand{\seccio}[2]{\par\needspace{16\baselineskip}\bigskip
+  \begin{tcolorbox}[colback=navy,colframe=navy,coltext=white,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=1.2mm,bottom=1.2mm]
+  {\large\bfseries #1\quad #2}
+  \end{tcolorbox}\vspace{-2pt}}
+
+\usetikzlibrary{calc,trees}
+\usepackage{enumitem}
+\newcommand{\exf}[1]{\par\medskip\refstepcounter{exer}\noindent{\color{navy}\bfseries\theexer.}\ \ }
+\providecommand{\gt}{>}\providecommand{\lt}{<}
+% quadre de recordatori (només a la fitxa d'exercicis)
+\newcommand{\recorda}[1]{\par\smallskip\begin{tcolorbox}[colback=accent!7,colframe=accent!55,arc=2mm,boxrule=0.5pt,left=2.5mm,right=2.5mm,top=1mm,bottom=1mm]\small{\color{accent}\faLightbulb[regular]}\ \textbf{Recorda:}\ #1\end{tcolorbox}}
+\newcommand{\res}[1]{\boxed{#1}}\newcommand{\rest}[1]{\fbox{#1}}
+
+\def\fmneed{11}% que el títol d'una secció no quede sol al final del full
+\input{../comu/fentmates.tex}
+\fmcurs{1batx-ccss}
+
+\begin{document}
+\thispagestyle{primera}
+
+\capcalera{Matemàtiques CCSS}{1r Batx}{Solucions de la fitxa · Unitat 9}{\raggedright Combinatòria i probabilitat}
+\vspace{8pt}
+
+\begin{tcolorbox}[colback=soft,colframe=soft,arc=2mm,left=3mm,right=3mm,top=1.5mm,bottom=1.5mm]
+\small Intenta resoldre cada exercici abans de mirar-ne la solució. Si no t'ix el mateix resultat, repassa els passos o comprova'l amb les calculadores dels apunts interactius de la unitat.
+\end{tcolorbox}
+
+% =====================================================
+\seccio{1}{Tècniques de recompte. Principi de multiplicació i factorial}
+
+\exf{1} $4\cdot5\cdot3=\res{60}$; \ sense peix: $4\cdot3\cdot3=\res{36}$.
+
+\ex{1} $26^3\cdot10^3=\res{17\,576\,000}$; \ $26\cdot25\cdot24\cdot10\cdot9\cdot8=\res{11\,232\,000}$.
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Primera: 9 opcions; segona i tercera: 10; última (parella): 5. $9\cdot10\cdot10\cdot5=\res{4\,500}$\item $9\cdot9\cdot8\cdot7=\res{4\,536}$ (la segona ja pot ser 0)\item Les dues últimes xifres queden determinades per les dues primeres: $9\cdot10=\res{90}$\end{enumerate}
+
+\ex{1} \begin{tasks}(4)
+  \task $\res{720}$
+  \task $9\cdot8=\res{72}$
+  \task $\dfrac{10\cdot9\cdot8}{6}=\res{120}$
+  \task $\res{(n+1)\,n}$
+\end{tasks}$n(n-1)=30\Rightarrow n^2-n-30=0\Rightarrow n=\res{6}$ (la solució $n=-5$ no té sentit).
+
+\ex{2} D'una xifra: 3; de dues: $3^2=9$; de tres: $3^3=27$. En total, $3+9+27=\res{39}$.
+
+\ex{2} $6^4=\res{1\,296}$. \ Pel contrari, sense cap 6 n'hi ha $5^4=625$: $1\,296-625=\res{671}$.
+
+
+% =====================================================
+\seccio{2}{Variacions i permutacions}
+
+\exf{1} \begin{tasks}(5)
+  \task $8\cdot7\cdot6=\res{336}$
+  \task $5^3=\res{125}$
+  \task $5!=\res{120}$
+  \task $\frac{6!}{2!\,2!\,2!}=\res{90}$
+  \task $4!=\res{24}$
+\end{tasks}
+
+\ex{1} Importa l'ordre (cada càrrec és diferent) i no es repeteix: $V_{20,\,3}=20\cdot19\cdot18=\res{6\,840}$.
+
+\ex{2} $V_{9,\,5}=9\cdot8\cdot7\cdot6\cdot5=\res{15\,120}$; \ fixades la primera i l'última: $V_{7,\,3}=\res{210}$; \ parells: la darrera, de 4 maneres (2, 4, 6, 8), i la resta: $4\cdot V_{8,\,4}=4\cdot1\,680=\res{6\,720}$.
+
+\ex{2} $VR_{2,\,10}=2^{10}=\res{1\,024}$; \ són ordenacions de 4 C i 6 X: $PR_{10}^{\,4,\,6}=\frac{10!}{4!\,6!}=\res{210}$.
+
+\ex{2} Hi ha 3 A, 2 T i 1 P: $PR_6^{\,3,\,2,\,1}=\frac{6!}{3!\,2!}=\res{60}$. \ Per P: queden AATTA, $\frac{5!}{3!\,2!}=\res{10}$. \ A--A: queden P, T, T, A al mig, $\frac{4!}{2!}=\res{12}$.
+
+\ex{2} $P_9=9!=\res{362\,880}$; \ junts: ordenem els 3 blocs i, dins de cada bloc, els llibres: $3!\cdot4!\cdot3!\cdot2!=\res{1\,728}$.
+
+\ex{3} $PC_7=6!=\res{720}$. \ Junts (com un sol bloc, que es pot girar): $2\cdot PC_6=2\cdot5!=240$. Separats: $720-240=es{480}$.
+
+\ex{2} La fila pot començar per xic o per xica (2 maneres); després, els xics s'ordenen de $3!$ maneres i les xiques de $3!$: $2\cdot3!\cdot3!=\res{72}$.
+
+
+% =====================================================
+\seccio{3}{Combinacions i nombres combinatoris}
+
+\exf{1} \begin{tasks}(4)
+  \task $\frac{9\cdot8\cdot7\cdot6}{4!}=\res{126}$
+  \task $\binom{12}{2}=\res{66}$
+  \task $\binom{20}{2}=\res{190}$
+  \task $\res{1}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $\frac{n(n-1)}{2}=28\Rightarrow n^2-n-56=0\Rightarrow n=\res{8}$
+  \task $3+5=x\Rightarrow x=\res{8}$
+  \task $x+(x+2)=10\Rightarrow x=\res{4}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(3)
+  \task $\binom{10}{5}=\res{252}$
+  \task $2^6=\res{64}$
+  \task $\binom84+\binom85=\binom95=\res{126}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(1)
+  \task $x^4+4\cdot x^3\cdot2+6\cdot x^2\cdot4+4\cdot x\cdot8+16=\res{x^4+8x^3+24x^2+32x+16}$
+  \task $(2x)^4-4(2x)^3+6(2x)^2-4(2x)+1=\res{16x^4-32x^3+24x^2-8x+1}$
+\end{tasks}
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $\binom{12}{4}=\res{495}$\item $\binom72\cdot\binom52=21\cdot10=\res{210}$\item Pel contrari (cap dona): $495-\binom54=495-5=\res{490}$\end{enumerate}
+
+\ex{1} $\binom{10}{7}=\binom{10}{3}=\res{120}$; \ cal triar-ne 4 de les 7 restants: $\binom74=\res{35}$.
+
+\ex{2} Segments entre dos vèrtexs: $\binom82=28$; en traiem els 8 costats: $\res{20}$ diagonals. \ Triangles: $\binom83=\res{56}$.
+
+\ex{2} Primitiva: $\binom{49}{6}=\res{13\,983\,816}$. \ Euromilions: $\binom{50}{5}\cdot\binom{12}{2}=2\,118\,760\cdot66=\res{139\,838\,160}$.
+
+\ex{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item Permutacions: $P_5=\res{120}$\item Combinacions: $\binom{10}{3}=\res{120}$\item Variacions amb repetició: $VR_{10,\,4}=10^4=\res{10\,000}$\item Variacions: $V_{10,\,3}=\res{720}$\item Permutacions amb repetició (dues R): $\frac{5!}{2!}=\res{60}$\end{enumerate}
+
+
+% =====================================================
+\seccio{4}{Successos. Probabilitat i regla de Laplace}
+
+\exf{1} $E=\{CCC,\,CCX,\,CXC,\,CXX,\,XCC,\,XCX,\,XXC,\,XXX\}$ (8 resultats equiprobables); \ $A=\{CCC,\,CCX,\,CXC,\,XCC\}$, \ $B=\{XCC,\,XCX,\,XXC,\,XXX\}$.\par$A\cap B=\{XCC\}$, $P=\res{\frac18}$; \ $P(A\cup B)=\frac48+\frac48-\frac18=\res{\frac78}$; \ $P(\overline A)=\res{\frac12}$; \ $B\cap\overline A=\{XCX,\,XXC,\,XXX\}$, $P=\res{\frac38}$.
+
+\ex{1} Hi ha 36 parelles equiprobables.\begin{tasks}(1)
+  \task $\frac{5}{36}$: (2,6), (3,5), (4,4), (5,3), (6,2). \ $\res{\frac5{36}}$
+  \task $\frac{3+2+1}{36}=\res{\frac16}$
+  \task Pel contrari: cap dau és 3 ni 6, $\frac{4\cdot4}{36}$; \ $1-\frac{16}{36}=\res{\frac59}$
+  \task Diferència 0: 6; diferència 1: 10. \ $\frac{16}{36}=\res{\frac49}$
+\end{tasks}
+
+\ex{1} \begin{tasks}(4)
+  \task $\frac{10}{40}=\res{\frac14}$
+  \task $\frac{12}{40}=\res{\frac3{10}}$
+  \task $\frac{10+12-3}{40}=\res{\frac{19}{40}}$
+  \task $1-\frac{4+10-1}{40}=\res{\frac{27}{40}}$
+\end{tasks}
+
+\ex{2} Casos possibles: $\binom{10}{3}=120$.\begin{tasks}(3)
+  \task $\frac{\binom63}{120}=\frac{20}{120}=\res{\frac16}$
+  \task $\frac{\binom62\binom41}{120}=\frac{60}{120}=\res{\frac12}$
+  \task $1-\frac16=\res{\frac56}$
+\end{tasks}
+
+\ex{2} Casos possibles: $5!=120$. Junts: $2\cdot4!=48$, $P=\frac{48}{120}=\res{\frac25}$. \ Per simetria, en la meitat de les ordenacions A va abans que B: $\res{\frac12}$.
+
+\ex{3} $P(6)=\dfrac1{\binom{49}6}=\res{\dfrac1{13\,983\,816}}\approx7{,}15\cdot10^{-8}$. \ Exactament 5: 5 dels 6 guanyadors i 1 dels 43 restants: $\dfrac{\binom65\binom{43}1}{\binom{49}6}=\dfrac{258}{13\,983\,816}\approx\res{1{,}85\cdot10^{-5}}$.
+
+\ex{2} $\dfrac{V_{10,\,4}}{VR_{10,\,4}}=\dfrac{5\,040}{10\,000}=\res{0{,}504}$; \ capicua: $\dfrac{10^2}{10^4}=\res{0{,}01}$.
+
+\ex{2} $1-\dfrac{\binom{12}3}{\binom{20}3}=1-\dfrac{220}{1\,140}=\res{\dfrac{46}{57}}\approx0{,}807$
+
+
+% =====================================================
+\seccio{5}{Propietats de la probabilitat. Probabilitat condicionada}
+
+\exf{1} \begin{tasks}(3)
+  \task $0{,}5+0{,}4-0{,}2=\res{0{,}7}$
+  \task $1-P(A\cup B)=\res{0{,}3}$
+  \task $0{,}5-0{,}2=\res{0{,}3}$
+  \task $1-P(A\cap B)=\res{0{,}8}$
+  \task $\frac{0{,}2}{0{,}4}=\res{0{,}5}$
+  \task $\frac{0{,}2}{0{,}5}=\res{0{,}4}$
+\end{tasks}
+
+\ex{2} $P(A\cap B)=0{,}6+0{,}3-0{,}7=\res{0{,}2}$; \ $P(A\,|\,B)=\frac{0{,}2}{0{,}3}=\res{\frac23}$; \ $P(B\,|\,\overline A)=\dfrac{P(B)-P(A\cap B)}{1-P(A)}=\frac{0{,}1}{0{,}4}=\res{0{,}25}$.
+
+\ex{1} $P(A\cup B)=0{,}35+0{,}45=\res{0{,}8}$; \ $P(\overline A\cap\overline B)=1-0{,}8=\res{0{,}2}$; \ $P(A\,|\,B)=\frac{0}{0{,}45}=\res{0}$ (si passa $B$, $A$ no pot passar).
+
+\ex{2} \par\smallskip\begin{center}{\small\renewcommand{\arraystretch}{1.2}\begin{tabular}{l|ccc}
+\rowcolor{soft}  & Fuma ($F$) & No fuma ($\overline F$) & Total\\\hline
+Dona ($D$) & 30 & 90 & 120\\
+Home ($H$) & 25 & 55 & 80\\
+Total & 55 & 145 & 200\\
+\end{tabular}}\end{center}\begin{tasks}(3)
+  \task $\frac{55}{200}=\res{\frac{11}{40}}$
+  \task $\frac{30}{200}=\res{\frac3{20}}$
+  \task $\frac{30}{120}=\res{\frac14}$
+  \task $\frac{30}{55}=\res{\frac6{11}}$
+  \task $\frac{80+30}{200}=\res{\frac{11}{20}}$
+\end{tasks}
+
+\ex{2} \begin{tasks}(2)
+  \task $0{,}6+0{,}5-0{,}35=\res{0{,}75}$
+  \task $1-0{,}75=\res{0{,}25}$
+  \task $0{,}75-0{,}35=\res{0{,}4}$
+  \task $P(A\,|\,M)=\frac{0{,}35}{0{,}6}=\res{\frac7{12}}\approx0{,}583$
+  \task $P(M\,|\,\overline A)=\frac{0{,}6-0{,}35}{0{,}5}=\res{0{,}5}$
+\end{tasks}
+
+\ex{1} Juguen a algun: $18+12-6=24$; a cap: $\frac{6}{30}=\res{\frac15}$. \ $P(B\,|\,F)=\frac6{18}=\res{\frac13}$; \ $P(F\,|\,B)=\frac6{12}=\res{\frac12}$.
+
+
+% =====================================================
+\seccio{6}{Experiències compostes. Successos i experiències dependents i independents}
+
+\exf{2} \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $0{,}5\cdot0{,}4=0{,}2=P(A\cap B)$: \rest{independents}\item $P(A\cap B)=0{,}3+0{,}6-0{,}72=0{,}18=0{,}3\cdot0{,}6$: \rest{independents}\item $P(A\,|\,B)=0{,}6\neq0{,}4=P(A)$: \rest{dependents} (saber que ha passat $B$ fa més probable $A$)\end{enumerate}
+
+\ex{2} \begin{tasks}(2)
+  \task $0{,}7\cdot0{,}4=\res{0{,}28}$
+  \task $0{,}7+0{,}4-0{,}28=\res{0{,}82}$
+  \task $0{,}7\cdot0{,}6+0{,}3\cdot0{,}4=\res{0{,}54}$
+  \task $0{,}3\cdot0{,}6=\res{0{,}18}$
+\end{tasks}
+
+\ex{2} (a) Experiències independents: $P(RR)=\frac4{10}\cdot\frac4{10}=\res{\frac4{25}}$; \ $P(\text{colors diferents})=2\cdot\frac4{10}\cdot\frac6{10}=\res{\frac{12}{25}}$.\par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=20mm,level 1/.style={sibling distance=22mm},level 2/.style={sibling distance=11mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {R} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{2}{15}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{1}{3}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{4}{15}$}] {B} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{2}{3}$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{2}{5}$}} child {node[] {B} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{4}{15}$}] {R} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{4}{9}$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$\dfrac{1}{3}$}] {B} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{5}{9}$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$\dfrac{3}{5}$}};
+\end{tikzpicture}\end{center}(b) Experiències dependents: $P(RR)=\frac4{10}\cdot\frac39=\res{\frac2{15}}$; \ $P(RB)+P(BR)=\frac4{10}\cdot\frac69+\frac6{10}\cdot\frac49=\res{\frac8{15}}$; \ $P(R_2)=\frac{12}{90}+\frac{24}{90}=\res{\frac25}$ (la mateixa que en la primera extracció!).
+
+\ex{2} \begin{tasks}(2)
+  \task $0{,}8^3=\res{0{,}512}$
+  \task $0{,}2^3=\res{0{,}008}$
+  \task $1-0{,}008=\res{0{,}992}$
+  \task 3 camins (EEF, EFE, FEE): $3\cdot0{,}8^2\cdot0{,}2=\res{0{,}384}$
+\end{tasks}
+
+\ex{2} $\frac{10}{40}\cdot\frac{9}{39}\cdot\frac{8}{38}=\frac{720}{59\,280}=\res{\frac3{247}}\approx0{,}0121$. \ Amb combinacions: $\dfrac{\binom{10}{3}}{\binom{40}{3}}=\dfrac{120}{9\,880}=\dfrac3{247}$.
+
+\ex{3} $1-\left(\frac56\right)^4=\res{\frac{671}{1\,296}}\approx0{,}518$. \ $1-\left(\frac56\right)^n>0{,}9\iff\left(\frac56\right)^n<0{,}1\iff n>\dfrac{\log0{,}1}{\log(5/6)}\approx12{,}6$: com a mínim $\res{13}$ llançaments.
+
+\ex{3} Després de la primera extracció l'urna té 6 boles: 4 B i 2 N si la primera era blanca, 3 B i 3 N si era negra. \ $P(B_1\cap B_2)=\frac35\cdot\frac46=\res{\frac25}$; \ $P(B_2)=\frac35\cdot\frac46+\frac25\cdot\frac36=\res{\frac35}$.
+
+
+% =====================================================
+\seccio{7}{Teorema de la probabilitat total i teorema de Bayes}
+
+\exf{2} \par\smallskip\begin{center}\begin{tikzpicture}[grow'=right,level distance=20mm,level 1/.style={sibling distance=17mm},level 2/.style={sibling distance=8mm},every node/.style={font=\small\bfseries},edge from parent/.style={draw=muted,thick}]
+\node[circle,fill=navy,inner sep=1.2pt] {} child {node[] {A} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}015$}] {D} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}03$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}485$}] {$\overline{D}$} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}97$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}5$}} child {node[] {B} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}012$}] {D} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}04$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}288$}] {$\overline{D}$} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}96$}} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}3$}} child {node[] {C} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}01$}] {D} edge from parent node[above,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}05$}} child {node[label={[font=\footnotesize,xshift=1mm]right:$0{,}19$}] {$\overline{D}$} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}95$}} edge from parent node[below,pos=.55,font=\footnotesize,text=teal!70!black,inner sep=1.5pt] {$0{,}2$}};
+\end{tikzpicture}\end{center}\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]\item $P(D)=0{,}5\cdot0{,}03+0{,}3\cdot0{,}04+0{,}2\cdot0{,}05=0{,}015+0{,}012+0{,}01=\res{0{,}037}$\item $P(A\,|\,D)=\dfrac{0{,}015}{0{,}037}=\res{\dfrac{15}{37}}\approx0{,}405$\item $P(C\,|\,\overline D)=\dfrac{0{,}2\cdot0{,}95}{1-0{,}037}=\dfrac{0{,}19}{0{,}963}\approx\res{0{,}197}$\end{enumerate}
+
+\ex{2} $P(B)=\frac12\cdot\frac35+\frac12\cdot\frac15=\frac3{10}+\frac1{10}=\res{\frac25}$; \ $P(\mathrm{I}\,|\,B)=\dfrac{3/10}{2/5}=\res{\dfrac34}$.
+
+\ex{3} $P(+)=0{,}02\cdot0{,}95+0{,}98\cdot0{,}05=0{,}019+0{,}049=0{,}068$; \ $P(M\,|\,+)=\dfrac{0{,}019}{0{,}068}\approx\res{0{,}279}$; \ $P(\overline M\,|\,-)=\dfrac{0{,}98\cdot0{,}95}{0{,}932}\approx\res{0{,}999}$. \ Encara que la prova és bona, com que la malaltia és rara la majoria dels positius són falsos positius: un positiu s'ha de confirmar amb una altra prova. Un negatiu, en canvi, és molt fiable.
+
+\ex{2} $P(T)=0{,}3\cdot0{,}1+0{,}5\cdot0{,}05+0{,}2\cdot0{,}15=0{,}03+0{,}025+0{,}03=0{,}085$: \rest{8{,}5 \%}. \ $P(\text{bus}\,|\,T)=\dfrac{0{,}03}{0{,}085}=\res{\dfrac6{17}}\approx0{,}353$; \ $P(\text{peu}\,|\,\overline T)=\dfrac{0{,}5\cdot0{,}95}{0{,}915}\approx\res{0{,}519}$.
+
+\ex{2} $P(R)=\frac13\cdot\frac25+\frac23\cdot\frac45=\frac2{15}+\frac8{15}=\res{\frac23}$; \ $P(A\,|\,V)=\dfrac{\frac13\cdot\frac35}{1-\frac23}=\dfrac{1/5}{1/3}=\res{\dfrac35}$.
+
+
+\end{document}

@@ -623,16 +623,28 @@ cd _eines/fonts-latex/1batx-ccss-t4 && python3 genera.py && python3 genera-es.py
   `genera-es.py` l'executa amb `FM_LANG=es`) té 35 exercicis en 6 seccions; tots els resultats es calculen amb `Fraction` i per a cada
   recta es comprova que passa per $(\bar x,\bar y)$, que fa mínima la suma de quadrats i que $m_{yx}\cdot m_{xy}=r^2$.
   Clau de progrés `fm-1batx-ccss-u8-bidimensionals-done`.
+- **Unitat 9 (Combinatòria i probabilitat, `1batx-ccss-t9`, pàgina `t9-combinatoria-probabilitat.html`)**: 14 apartats. 9.1-9.4
+  (tècniques de recompte i combinatòria) parteixen dels 9.1-9.3 de 4t ESO B (`4eso-b-t9`) i hi afigen el principi de la suma, les
+  permutacions amb repetició i circulars, les propietats dels nombres combinatoris (Stifel, triangle de Tartaglia, suma d'una fila) i
+  el binomi de Newton. 9.5-9.14 són els apartats 10.1-10.10 de 2n Batx MII (`2batx-mii-t10`, terminologia «succés»), sense les
+  variables aleatòries ni la binomial: 9.8 (Laplace) remet a la combinatòria de 9.1-9.4, 9.12 és «successos dependents i
+  independents» i 9.13 «experiències compostes», amb un quadre nou d'experiències independents i dependents. `app.js` és el de MII
+  sense `wBin` ni `wNmin`, amb els ginys de recompte de 4t ESO B (`w-comb`, `w-mult`, `w-llista`, `w-tipus`; `w-tipus` amb
+  permutacions amb repetició) i un qüestionari de 22 preguntes. La fitxa (`genera.py`, bilingüe amb `T(va, es)`; `genera-es.py`
+  l'executa amb `FM_LANG=es`) té 49 exercicis en 7 seccions i 149 comprovacions (recomptes amb `math.comb`/`math.perm` o enumerant
+  els casos amb `itertools`, probabilitats amb `Fraction`). Clau de progrés `fm-1batx-ccss-u9-probabilitat-done`.
 
 ```
 python3 _eines/apunts/1batx-ccss-t5/build.py
 python3 _eines/apunts/1batx-ccss-t6/build.py
 python3 _eines/apunts/1batx-ccss-t7/build.py
 python3 _eines/apunts/1batx-ccss-t8/build.py
+python3 _eines/apunts/1batx-ccss-t9/build.py
 cd _eines/fonts-latex/1batx-ccss-t5 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t6 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t7 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 cd _eines/fonts-latex/1batx-ccss-t8 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
+cd _eines/fonts-latex/1batx-ccss-t9 && python3 genera.py && python3 genera-es.py   # i pdflatex (dues vegades) dels quatre .tex
 ```
 
 ## 4t ESO Matemàtiques A
