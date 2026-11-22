@@ -532,7 +532,8 @@ def conv_table(n):
         for r in rows:
             cs = elems(r)
             head = all(c.tag == 'th' for c in cs) or r.parent.tag == 'thead'
-            s += ' & '.join(cell(c, head) for c in cs) + r'\\' + (r'\midrule' if head else r'[3pt]') + '\n'
+            pad = ['&'] * (m - len(cs)) if any('rowspan' in c.a for r2 in rows for c in elems(r2)) else []  # files que continuen un rowspan: les cel·les buides van davant
+            s += ''.join(x + ' ' for x in pad) + ' & '.join(cell(c, head) for c in cs) + r'\\' + (r'\midrule' if head else r'[3pt]') + '\n'
         IN_TABLE[0] = False
         return '\n\\begin{center}\\renewcommand{\\arraystretch}{1.5}%s\\bottomrule\\end{tabularx}\\end{center}\n' % s
     IN_TABLE[0] = True
@@ -856,6 +857,24 @@ if N == 2:  # retocs de l'autor sobre el .tex de l'escriptori (22/11/2026)
 
 if N == 3:  # el títol fa dues línies: tot el text de la franja puja perquè l'última línia no quede apegada a la vora
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
+    # 3.2 no salta a pàgina nova (deixava mitja pàgina en blanc): el títol i el principi del requadre caben baix
+    retoc('\\Needspace{18\\baselineskip}\n\\section{Aplica', '\\Needspace{5\\baselineskip}\n\\section{Aplica')
+    # retocs de l'autor sobre el .tex de l'escriptori (22/11/2026): valen per als dos idiomes
+    retoc(r':\n(          \\fmm\{\\ \\dfrac\{c_1-a_1\}\{b_1-a_1\}[^\n]*\n)', r':\\\\[2ex]\n\1          \\newpage\n', True)
+    for k in (4, 6):  # 3.4 i 3.6 comencen on acaba l'apartat anterior
+        retoc(r'\\Needspace\{18\\baselineskip\}(\n\\section\{[^\n]*\}\\hypertarget\{sec%d\}\{\})' % k, r'\\Needspace{7\\baselineskip}\1', True)
+    retoc('\\end{vmatrix}}\n\n\\begin{itemize}\n\\item ', '\\end{vmatrix}}\n\\newpage\n\\begin{itemize}\n\\item ')
+    retoc('z=3-\\lambda\\end{cases}}\n\n', 'z=3-\\lambda\\end{cases}}\\\\\n\n\\vspace*{0.2cm}\n')
+    # taules (per ordre d'aparició): equacions de la recta, casos del pla, recta i pla, dos plans
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) >= 6, len(pos)
+    for i, (st, w) in reversed(list(enumerate([('1.5', '4.2cm'), ('1.5', '7.2cm'), ('2.5', '3.2cm'), ('2.5', '5.2cm')]))):
+        j = pos[[0, 2, 4, 5][i]]
+        doc = doc[:j] + TB.replace('{1.5}', '{%s}' % st).replace('3.2cm', w) + doc[j + len(TB):]
+    # una mica d'aire abans de les notes «Notació» (3.7) i «Compte» (3.11), que van just després d'una llista
+    assert doc.count('\\end{itemize}\n\n\\begin{fmnote}\\fmuline{') == 2
+    doc = doc.replace('\\end{itemize}\n\n\\begin{fmnote}\\fmuline{', '\\end{itemize}\n\\vspace*{0.2cm}\n\\begin{fmnote}\\fmuline{')
 if N == 4:  # l'apartat 4.1 i el primer requadre comencen a la portada
     retoc('\\vspace*{\\dimexpr 8.6cm-\\pagetotal\\relax}', '\\vspace*{\\dimexpr 8.2cm-\\pagetotal\\relax}')
     doc = doc.replace('}}\\\\[3pt]\n', '}}\\\\[1pt]\n')
