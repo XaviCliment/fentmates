@@ -75,7 +75,7 @@ def cut(a, b, s=src):
 
 # ---------- capçalera i estil ----------
 # fm-materials.js sap que la unitat 10 és de probabilitat des del 27/10/2026: la versió força a recarregar-lo
-VER = r"fm-materials.\1?v=20261027u10"
+VER = r"fm-materials.\1?v=20261025a"  # versió comuna actual de tot el web
 head = cut("<!doctype html>", "/* unitat 3: programació lineal */")
 head = head.replace("<title>Programació lineal · FentMates</title>", "<title>Distribució binomial i normal · FentMates</title>")
 head = re.sub(r'<meta name="description" content="[^"]*">',
