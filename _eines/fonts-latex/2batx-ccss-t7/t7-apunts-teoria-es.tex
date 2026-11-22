@@ -1,0 +1,915 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 7: Representación gráfica de funciones. 2.º de Bachillerato CCSS},pdfsubject={Matemáticas Aplicadas a las Ciencias Sociales II},pdfkeywords={dominio, puntos de corte, simetrías, asíntotas, asíntota oblicua, monotonía, máximos y mínimos, representación gráfica}}
+
+% colors de la web (FentMates, bloc d'anàlisi)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{7.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «grafiques»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \draw[line width=3pt] (14,98)--(226,98) (30,114)--(30,6);
+  \draw[line width=3pt,dash pattern=on 10pt off 10pt] (110,6)--(110,114) (14,108)--(226,34);
+  \draw[line width=4.5pt] (20,113) .. controls (48,100) and (66,88) .. (80,90) .. controls (94,92) and (101,102) .. (105,114);
+  \draw[line width=4.5pt] (115,6) .. controls (118,34) and (128,54) .. (150,54) .. controls (178,54) and (202,38) .. (226,26);
+  \fill (80,90) circle (5) (150,54) circle (5);
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato CCSS · Unidad 7: Representación gráfica de funciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unidad 7} · Representación\\[2pt] gráfica de funciones\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso para estudiar una función y dibujar su gráfica: dominio, puntos de corte con los ejes, simetrías, asíntotas verticales, horizontales y oblicuas (por el método del cociente), monotonía y máximos y mínimos. Lo aplicamos a funciones polinómicas, racionales, radicales, exponenciales, logarítmicas y definidas a trozos.\end{minipage}
+\vspace{1.1cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}7.1}\ \ Dominio de una función}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}7.2}\ \ Puntos de corte con los ejes}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}7.3}\ \ Simetrías}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}7.4}\ \ Asíntotas verticales y horizontales}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}7.5}\ \ Asíntotas oblicuas}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}7.6}\ \ Monotonía, máximos y mínimos}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}7.7}\ \ Polinómicas y racionales}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}7.8}\ \ Exponenciales, logarítmicas y a trozos}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+\vspace*{0.4cm}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Guion para representar una función}
+Para dibujar la gráfica de una función \fmm{y=f(x)} sin hacer una tabla de valores enorme, estudiamos sus características principales en este orden:
+
+    
+\begin{enumerate}
+\item \textbf{Dominio}: dónde existe la función.
+\item \textbf{Puntos de corte} con los ejes OX y OY.
+\item \textbf{Simetrías}: si es par o impar, solo hay que estudiar la mitad.
+\item \textbf{Asíntotas}: verticales, horizontales y oblicuas.
+\item \textbf{Monotonía y extremos}: dónde crece, dónde decrece, máximos y mínimos relativos (unidad 6).
+\item \textbf{Gráfica}: colocamos toda la información y unimos los puntos respetándola.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{18\baselineskip}
+\section{Dominio de una función}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dominio}
+El \textbf{dominio} de una función, \fmm{\mathrm{Dom}\,f}, es el conjunto de valores de \fmm{x} para los que se puede calcular \fmm{f(x)}. En la gráfica, son las \fmm{x} donde «hay curva».
+
+      
+\begin{center}\renewcommand{\arraystretch}{1.35}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{4.5cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipo de función} & \textbf{Dominio} & \textbf{Ejemplo}\\\midrule
+Polinómica & $\mathbb R$ & $f(x)=x^3-2x+1\Rightarrow\mathrm{Dom}\,f=\mathbb R$\\[3pt]
+Racional $\dfrac{P(x)}{Q(x)}$ & $\mathbb R$ menos los ceros del denominador & $f(x)=\dfrac{x+1}{x^2-4}$: $\ x^2-4=0\Rightarrow x=\pm2\Rightarrow\mathrm{Dom}\,f=\mathbb R-\{-2,2\}$\\[3pt]
+Exponencial $e^{g(x)}$ & el dominio de $g$ & $f(x)=e^{1/x}\Rightarrow\mathrm{Dom}\,f=\mathbb R-\{0\}$\\[3pt]
+Logarítmica $\ln g(x)$ & donde $g(x)\gt0$ & $f(x)=\ln(x-3)$: $\ x-3\gt0\Rightarrow\mathrm{Dom}\,f=(3,+\infty)$\\[3pt]
+Radical de índice par $\sqrt{g(x)},\ \sqrt[4]{g(x)},\dots$ & donde $g(x)\geq0$ & $f(x)=\sqrt{x-2}$: $\ x-2\geq0\Rightarrow\mathrm{Dom}\,f=[2,+\infty)$\\[3pt]
+Radical de índice impar $\sqrt[3]{g(x)},\dots$ & el dominio de $g$ & $f(x)=\sqrt[3]{x^2-1}\Rightarrow\mathrm{Dom}\,f=\mathbb R$\\[3pt]
+A trozos & la unión de los dominios de cada trozo (dentro de su intervalo) & ver el apartado 7.8\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+\begin{fmnote}Si en la misma función hay varias condiciones (un denominador y un logaritmo, por ejemplo), el dominio es el conjunto de \fmm{x} que las cumplen \textbf{todas} a la vez.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Funciones radicales}: la raíz cuadrada de un número negativo no existe, pero la de cero sí (\fmm{\sqrt0=0}): por eso ponemos \fmm{g(x)\geq0} y los extremos donde \fmm{g(x)=0} \textbf{sí} son del dominio (corchete \fmm{[\ ]}). Si la raíz está en un \textbf{denominador}, tampoco puede valer cero: hace falta \fmm{g(x)\gt0}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{9\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Dominio de \fmm{f(x)=\dfrac{2x}{x^2-5x+6}}.
+          
+
+            
+
+Es racional: buscamos dónde se anula el denominador. \fmm{x^2-5x+6=0\Rightarrow x=\dfrac{5\pm1}{2}\Rightarrow x=2,\ x=3}
+
+            
+
+\fmm{\mathrm{Dom}\,f=\mathbb R-\{2,3\}}
+\item Dominio de \fmm{f(x)=\dfrac{3}{x^2+1}}.
+          
+
+            
+
+\fmm{x^2+1=0\Rightarrow x^2=-1}: no tiene solución real. El denominador no se anula nunca.
+
+            
+
+\fmm{\mathrm{Dom}\,f=\mathbb R}
+\newpage
+\item Dominio de \fmm{f(x)=\ln(x^2-4)}.
+          
+
+            
+
+El argumento tiene que ser positivo: \fmm{x^2-4\gt0}. Las raíces de \fmm{x^2-4} son \fmm{\pm2} y estudiamos el signo en cada intervalo:
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccc}\toprule
+\textbf{$x$} & $(-\infty,-2)$ & $-2$ & $(-2,2)$ & $2$ & $(2,+\infty)$\\\midrule
+\textbf{$x^2-4$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-\infty,-2)\cup(2,+\infty)} (los extremos \fmm{\pm2} no entran: \fmm{\ln0} no existe).
+\vspace*{0.2cm}
+
+\item Dominio de \fmm{f(x)=\dfrac{x}{\ln x}}.
+          
+
+            
+
+Logaritmo: \fmm{x\gt0}. Denominador: \fmm{\ln x\neq0\Rightarrow x\neq1}.
+
+            
+
+\fmm{\mathrm{Dom}\,f=(0,1)\cup(1,+\infty)}
+\vspace*{0.2cm}
+
+\item Dominio de \fmm{f(x)=\sqrt{6-2x}}.
+          
+
+            
+
+El radicando tiene que ser positivo o cero: \fmm{6-2x\geq0\Rightarrow-2x\geq-6\Rightarrow x\leq3} (al dividir por un número negativo, la desigualdad cambia de sentido).
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-\infty,3]} (\fmm{x=3} entra: \fmm{f(3)=\sqrt0=0}).
+\vspace*{0.2cm}
+
+\item Dominio de \fmm{f(x)=\sqrt{x^2-9}}.
+          
+
+            
+
+\fmm{x^2-9\geq0}. Las raíces de \fmm{x^2-9} son \fmm{\pm3}; estudiamos el signo:
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccc}\toprule
+\textbf{$x$} & $(-\infty,-3)$ & $-3$ & $(-3,3)$ & $3$ & $(3,+\infty)$\\\midrule
+\textbf{$x^2-9$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-\infty,-3]\cup[3,+\infty)} (ahora los extremos \fmm{\pm3} sí entran, a diferencia del logaritmo).
+\vspace*{0.2cm}
+
+\item Dominio de \fmm{f(x)=\dfrac{x}{\sqrt{4-x^2}}}.
+          
+
+            
+
+La raíz está en el denominador: el radicando tiene que ser \textbf{estrictamente} positivo, \fmm{4-x^2\gt0}. Las raíces son \fmm{\pm2}, y \fmm{4-x^2} es positivo entre ellas (por ejemplo, en \fmm{x=0} vale 4).
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-2,2)}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Puntos de corte con los ejes}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Cortes con OX y con OY}
+\begin{itemize}
+\item \textbf{Eje OX} (eje de abscisas): los puntos de la gráfica tienen \fmm{y=0}. Resolvemos la ecuación \fmm{f(x)=0}; cada solución \fmm{x=a} del dominio da el punto \fmm{(a,0)}. Puede haber ninguno, uno o varios.
+\item \textbf{Eje OY} (eje de ordenadas): hacemos \fmm{x=0}. Si \fmm{0} es del dominio, el punto es \fmm{(0,f(0))}. Hay \textbf{como mucho uno}.
+\end{itemize}
+
+      
+\begin{fmnote}\fmuline{Recuerda}: una fracción es cero cuando lo es el numerador (y el denominador no); \fmm{e^{g(x)}} nunca es cero; \fmm{\ln g(x)=0\Leftrightarrow g(x)=1}.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Funciones radicales}: \fmm{\sqrt{g(x)}=0\Leftrightarrow g(x)=0}. Si hay más términos, \textbf{aislamos la raíz}, elevamos los dos miembros al cuadrado y resolvemos. Al elevar al cuadrado pueden aparecer \textbf{soluciones falsas}: hay que comprobarlas todas en la ecuación inicial. Y, para el corte con OY, recuerda mirar antes si \fmm{x=0} es del dominio.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=x^3-4x}
+          
+
+            
+
+OX: \fmm{x^3-4x=x(x^2-4)=0\Rightarrow x=0,\ x=2,\ x=-2}. Puntos \fmm{(-2,0),\ (0,0),\ (2,0)}.
+
+            
+
+OY: \fmm{f(0)=0\Rightarrow(0,0)} (es el mismo punto).
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=\dfrac{x^2-1}{x+2}}
+          
+
+            
+
+OX: \fmm{x^2-1=0\Rightarrow x=\pm1} (ninguno anula el denominador). Puntos \fmm{(-1,0)} y \fmm{(1,0)}.
+
+            
+
+OY: \fmm{f(0)=\dfrac{-1}{2}\Rightarrow\left(0,-\tfrac12\right)}
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=e^x-2}
+          
+
+            
+
+OX: \fmm{e^x=2\Rightarrow x=\ln2\approx0{,}69}. Punto \fmm{(\ln2,0)}.
+
+            
+
+OY: \fmm{f(0)=1-2=-1\Rightarrow(0,-1)}
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=\ln(x+1)}
+          
+
+            
+
+OX: \fmm{\ln(x+1)=0\Rightarrow x+1=1\Rightarrow x=0}. OY: \fmm{f(0)=\ln1=0}. Corta los dos ejes en \fmm{(0,0)}.
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=\sqrt{x^2-4}}
+          
+
+            
+
+Dominio: \fmm{x^2-4\geq0\Rightarrow(-\infty,-2]\cup[2,+\infty)}.
+
+            
+
+OX: \fmm{\sqrt{x^2-4}=0\Rightarrow x^2-4=0\Rightarrow x=\pm2}. Puntos \fmm{(-2,0)} y \fmm{(2,0)}.
+
+            
+
+OY: \fmm{x=0} no es del dominio (\fmm{\sqrt{-4}} no existe): \textbf{no corta} el eje OY.
+
+\newpage
+\item \fmm{f(x)=\sqrt{x+3}-x-1}
+          
+
+            
+
+Dominio: \fmm{x+3\geq0\Rightarrow[-3,+\infty)}. \\
+
+OX: aislamos la raíz y elevamos al cuadrado: \\ \vspace*{0.1cm}
+
+\fmm{\sqrt{x+3}=x+1\Rightarrow x+3=x^2+2x+1\Rightarrow x^2+x-2=0\Rightarrow x=1,\ x=-2}.
+
+            
+
+Comprobamos: \fmm{x=1}: \fmm{\sqrt4-1-1=0} . \fmm{\ x=-2}: \fmm{\sqrt1+2-1=2\neq0}  (solución falsa). Solo está el punto \fmm{(1,0)}.
+
+            
+
+OY: \fmm{f(0)=\sqrt3-1\approx0{,}73\Rightarrow\left(0,\sqrt3-1\right)}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Simetrías}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Funciones pares e impares}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una función es \textbf{par} si \fmm{f(-x)=f(x)} para todo \fmm{x} del dominio. La gráfica es \textbf{simétrica respecto del eje OY}: la parte de la izquierda es el «espejo» de la de la derecha.
+
+          
+
+Ejemplos: \fmm{x^2,\ x^4-3x^2,\ \dfrac{1}{x^2+1},\ e^{-x^2}}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-3,xmax=3,ymin=-0.5,ymax=4]\addplot[fmcurve,domain=-3:3,samples=160]{x^4/8-x^2+2.5};\draw[fmguide] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmteal,line width=1.2pt] (axis cs:-1.7,0.6540125000000001)--(axis cs:1.7,0.6540125000000001);\node[fmdot] at (axis cs:-1.7,0.6540125000000001) {};\node[fmdot] at (axis cs:1.7,0.6540125000000001) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1.7,1.1540125) {$(-a,f(a))$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1.7,1.1540125) {$(a,f(a))$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una función es \textbf{impar} si \fmm{f(-x)=-f(x)} para todo \fmm{x} del dominio. La gráfica es \textbf{simétrica respecto del origen}: si giramos la gráfica 180° alrededor de \fmm{(0,0)}, queda igual.
+
+          
+
+Ejemplos: \fmm{x^3,\ x^3-3x,\ \dfrac{x}{x^2+1},\ \dfrac{1}{x}}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-3,xmax=3,ymin=-2.5,ymax=2.5]\addplot[fmcurve,domain=-3:3,samples=160]{x^3/3-x};\draw[fmteal,line width=1.2pt] (axis cs:-2.1,-0.9870000000000001)--(axis cs:2.1,0.9870000000000001);\node[fmdot] at (axis cs:-2.1,-0.9870000000000001) {};\node[fmdot] at (axis cs:2.1,0.9870000000000001) {};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,0) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:2.0,1.387) {$(a,f(a))$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:-2.0,-1.437) {$(-a,-f(a))$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+
+\fmuline{Método}: calculamos \fmm{f(-x)} (cambiamos cada \fmm{x} por \fmm{-x}) y lo comparamos con \fmm{f(x)} y con \fmm{-f(x)}. Si no coincide con ninguno de los dos, la función no tiene estas simetrías.
+
+      
+\begin{fmnote}\fmuline{Truco para polinomios}: si solo hay potencias pares de \fmm{x} (y constantes), es par; si solo hay potencias impares, es impar. Si hay de los dos tipos, no es ni par ni impar. Además, para que haya simetría, el dominio tiene que ser simétrico.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Funciones radicales}: empezamos por el dominio. Si no es simétrico (por ejemplo, \fmm{[-2,+\infty)}), ya no hay simetría. Si lo es, calculamos \fmm{f(-x)} como siempre: dentro de la raíz, \fmm{(-x)^2=x^2}; fuera, el signo de \fmm{-x} se mantiene.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\dfrac{x^2}{x^2-1}}
+          
+
+            
+
+\fmm{f(-x)=\dfrac{(-x)^2}{(-x)^2-1}=\dfrac{x^2}{x^2-1}=f(x)\Rightarrow} \textbf{par}: simétrica respecto de OY.
+\item \fmm{f(x)=\dfrac{x}{x^2+1}}
+          
+
+            
+
+\fmm{f(-x)=\dfrac{-x}{x^2+1}=-\dfrac{x}{x^2+1}=-f(x)\Rightarrow} \textbf{impar}: simétrica respecto del origen.
+\item \fmm{f(x)=x^2+x}
+          
+
+            
+
+\fmm{f(-x)=x^2-x}. No es igual a \fmm{f(x)=x^2+x} ni a \fmm{-f(x)=-x^2-x}: \textbf{no tiene simetrías}. (Nos damos cuenta con un solo valor: \fmm{f(1)=2}, \fmm{f(-1)=0}.)
+\item \fmm{f(x)=\ln(x+2)}
+          
+
+            
+
+El dominio \fmm{(-2,+\infty)} no es simétrico: \fmm{f(3)} existe pero \fmm{f(-3)} no. \textbf{No tiene simetrías}.
+\item \fmm{f(x)=\sqrt{9-x^2}}
+          
+
+            
+
+Dominio: \fmm{9-x^2\geq0\Rightarrow[-3,3]}, simétrico. \fmm{\ f(-x)=\sqrt{9-(-x)^2}=\sqrt{9-x^2}=f(x)\Rightarrow} \textbf{par} (es una semicircunferencia centrada en el origen).
+\item \fmm{f(x)=x\sqrt{x^2+1}}
+          
+
+            
+
+Dominio \fmm{\mathbb R} (\fmm{x^2+1\gt0}). \fmm{\ f(-x)=(-x)\sqrt{(-x)^2+1}=-x\sqrt{x^2+1}=-f(x)\Rightarrow} \textbf{impar}.
+\item \fmm{f(x)=\sqrt{x+2}}
+          
+
+            
+
+Dominio \fmm{[-2,+\infty)}, no simétrico: \fmm{f(3)=\sqrt5} existe pero \fmm{f(-3)=\sqrt{-1}} no. \textbf{No tiene simetrías}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Asíntotas verticales y horizontales}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Asíntotas}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una \textbf{asíntota} es una recta a la que la gráfica se acerca cada vez más, sin llegar a ella, cuando nos alejamos hacia el infinito.
+
+          
+\begin{itemize}
+\item \textbf{Asíntota vertical} \fmm{x=a}: si al menos uno de los límites laterales en \fmm{a} es infinito, \fmm{\displaystyle\lim_{x\to a^-}f(x)=\pm\infty} o \fmm{\displaystyle\lim_{x\to a^+}f(x)=\pm\infty}.
+\item \textbf{Asíntota horizontal} \fmm{y=b}: si \fmm{\displaystyle\lim_{x\to+\infty}f(x)=b} o \fmm{\displaystyle\lim_{x\to-\infty}f(x)=b}, con \fmm{b} un número.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-3,xmax=7,ymin=-4,ymax=6]\draw[fmasy] ({axis cs:2,0}|-{rel axis cs:0,0}) -- ({axis cs:2,0}|-{rel axis cs:0,1});\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,1}) -- ({rel axis cs:1,0}|-{axis cs:0,1});\addplot[fmcurve,domain=-3:1.85,samples=160]{1/(x-2)+1};\addplot[fmcurve,domain=2.15:7,samples=160]{1/(x-2)+1};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:2.15,5.3) {$x=2$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:-2.8,1.45) {$y=1$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}Una gráfica \textbf{no puede cortar nunca} una asíntota vertical (en \fmm{x=a} la función no existe o da un salto infinito), pero sí puede cortar una asíntota horizontal en algún punto.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{¿Dónde buscamos las asíntotas?}
+\begin{center}\renewcommand{\arraystretch}{1.35}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{5.3cm}}\toprule
+\textbf{Función} & \textbf{Verticales} & \textbf{Horizontales}\\\midrule
+Polinómica & no tiene & no tiene ($\lim_{x\to\pm\infty}f=\pm\infty$)\\[3pt]
+Racional $\dfrac{P}{Q}$ & en los ceros de $Q$ que no anulan $P$ (si $\frac{k}{0}$, con $k\neq0$) & según los grados (ver abajo)\\[3pt]
+$a\cdot e^{g(x)}+k$ & donde $g$ tiene asíntota vertical & $y=k$ en el lado donde $e^{g(x)}\to0$\\[3pt]
+$\ln g(x)$ & donde $g(x)\to0^+$ (borde del dominio) & normalmente no tiene\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+
+\fmuline{Racionales: asíntota horizontal según los grados}
+
+      
+\begin{itemize}
+\item grado \fmm{P\lt} grado \fmm{Q} $\Rightarrow$ \fmm{y=0}.
+\item grado \fmm{P=} grado \fmm{Q} $\Rightarrow$ \fmm{y=\dfrac{\text{coef. principal de }P}{\text{coef. principal de }Q}}.
+\item grado \fmm{P\gt} grado \fmm{Q} $\Rightarrow$ no tiene (el límite es infinito); si grado \fmm{P=} grado \fmm{Q+1}, tiene asíntota oblicua (apartado 7.5).
+\end{itemize}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Asíntotas de \fmm{f(x)=\dfrac{2x+1}{x-3}}.
+          
+
+            
+
+Verticales: \fmm{x-3=0\Rightarrow x=3}. Límites laterales: \fmm{\displaystyle\lim_{x\to3^-}\frac{2x+1}{x-3}=\frac{7}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to3^+}\frac{2x+1}{x-3}=\frac{7}{0^+}=+\infty}. AV: \fmm{x=3}.
+
+            
+
+Horizontales: grados iguales, \fmm{\displaystyle\lim_{x\to\pm\infty}\frac{2x+1}{x-3}=\frac21=2}. AH: \fmm{y=2}.
+\item Asíntotas de \fmm{f(x)=\dfrac{x}{x^2-1}}.
+          
+
+            
+
+\fmm{x^2-1=0\Rightarrow x=\pm1}; el numerador no se anula ahí: AV \fmm{x=-1} y \fmm{x=1}.
+
+            
+
+Grado del numerador menor: \fmm{\displaystyle\lim_{x\to\pm\infty}f(x)=0}. AH: \fmm{y=0}.
+\item Asíntotas de \fmm{f(x)=\dfrac{x^2-1}{x-1}}.
+          
+
+            
+
+\fmm{x=1}: \fmm{\ \dfrac{0}{0}}. Simplificamos: \fmm{\dfrac{(x-1)(x+1)}{x-1}=x+1\Rightarrow\displaystyle\lim_{x\to1}f(x)=2}. El límite es finito: \textbf{no} hay asíntota vertical, sino un agujero en \fmm{(1,2)} (discontinuidad evitable).
+\item Asíntotas de \fmm{f(x)=2-e^{-x}}.
+          
+
+            
+
+Dominio \fmm{\mathbb R}: no tiene verticales. \fmm{\displaystyle\lim_{x\to+\infty}(2-e^{-x})=2-0=2\Rightarrow} AH \fmm{y=2} cuando \fmm{x\to+\infty}.
+
+            
+
+\fmm{\displaystyle\lim_{x\to-\infty}(2-e^{-x})=2-\infty=-\infty}: por la izquierda no hay.
+\item Asíntotas de \fmm{f(x)=\ln(x+2)}.
+          
+
+            
+
+Dominio \fmm{(-2,+\infty)}. \fmm{\displaystyle\lim_{x\to-2^+}\ln(x+2)=\ln0^+=-\infty\Rightarrow} AV \fmm{x=-2}.
+
+            
+
+\fmm{\displaystyle\lim_{x\to+\infty}\ln(x+2)=+\infty}: no tiene asíntota horizontal.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Asíntotas oblicuas: método del cociente}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Asíntota oblicua}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una recta \fmm{y=mx+n}, con \fmm{m\neq0}, es una \textbf{asíntota oblicua} si la gráfica se acerca a ella cuando \fmm{x\to+\infty} o \fmm{x\to-\infty}:
+
+          
+\[\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0\]
+
+          
+
+En una función racional \fmm{f(x)=\dfrac{P(x)}{Q(x)}} ocurre cuando \textbf{grado \fmm{P=} grado \fmm{Q+1}}. Entonces no puede tener asíntota horizontal en el mismo lado.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-7,xmax=9,ymin=-12,ymax=16]\draw[fmasy] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\addplot[fmasy,domain=-7:9]{1*x+1};\addplot[fmcurve,domain=-7:0.75,samples=200]{(x^2+3)/(x-1)};\addplot[fmcurve,domain=1.25:9,samples=200]{(x^2+3)/(x-1)};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:1.3,14.5) {$x=1$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:8.8,6.5) {$y=x+1$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Método del cociente}
+Hacemos la división de polinomios \fmm{P(x):Q(x)} y obtenemos un cociente \fmm{C(x)} y un resto \fmm{R(x)}, con grado \fmm{R\lt} grado \fmm{Q}:
+
+      
+\[P(x)=Q(x)\cdot C(x)+R(x)\quad\Longrightarrow\quad f(x)=\frac{P(x)}{Q(x)}=C(x)+\frac{R(x)}{Q(x)}\]
+
+      
+
+Cuando \fmm{x\to\pm\infty}, la fracción \fmm{\dfrac{R(x)}{Q(x)}\to0} (grado de arriba menor), así que \fmm{f(x)} se acerca a \fmm{C(x)}. Si el cociente es de grado 1, \fmm{C(x)=mx+n}, \textbf{la asíntota oblicua es \fmm{y=C(x)}}.
+
+      
+\begin{fmnote}\fmuline{Posición}: el signo de \fmm{\dfrac{R(x)}{Q(x)}} para \fmm{x} muy grande (o muy negativo) nos dice si la gráfica queda por encima (\fmm{+}) o por debajo (\fmm{-}) de la asíntota.\end{fmnote}
+
+      
+\begin{fmnote}También se pueden calcular con límites: \fmm{m=\displaystyle\lim_{x\to\pm\infty}\frac{f(x)}{x}}, \fmm{n=\displaystyle\lim_{x\to\pm\infty}\big[f(x)-mx\big]}. Para funciones racionales, la división es más rápida.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Asíntotas de \fmm{f(x)=\dfrac{x^2+3}{x-1}}.
+          
+
+            
+
+AV: \fmm{x-1=0\Rightarrow x=1} (\fmm{\frac{4}{0}}): \fmm{\displaystyle\lim_{x\to1^-}f(x)=-\infty,\ \lim_{x\to1^+}f(x)=+\infty}.
+
+            
+
+Grados 2 y 1: no tiene horizontal, pero sí oblicua. \\
+
+Dividimos: \fmm{\ (x^2+3):(x-1)}: \fmm{\ x^2:x=x}; \fmm{\ x(x-1)=x^2-x}; \fmm{\ (x^2+3)-(x^2-x)=x+3}; \fmm{\ x:x=1}; \fmm{\ 1\cdot(x-1)=x-1}; \fmm{\ (x+3)-(x-1)=4}.
+
+            
+
+\fmm{C(x)=x+1,\ R(x)=4\Rightarrow f(x)=x+1+\dfrac{4}{x-1}}. AO: \fmm{y=x+1}.
+
+            
+
+Posición: si \fmm{x\to+\infty}, \fmm{\frac{4}{x-1}\gt0}: la gráfica queda por encima; si \fmm{x\to-\infty}, \fmm{\frac{4}{x-1}\lt0}: queda por debajo.
+\item Asíntotas de \fmm{f(x)=\dfrac{2x^2-x+1}{x}}.
+          
+
+            
+
+AV: \fmm{x=0}. Aquí la división es directa: \fmm{f(x)=\dfrac{2x^2}{x}-\dfrac{x}{x}+\dfrac1x=2x-1+\dfrac1x}.
+
+            
+
+AO: \fmm{y=2x-1}.
+\item Asíntotas de \fmm{f(x)=\dfrac{x^3}{x^2-1}}.
+          
+
+            
+
+AV: \fmm{x=-1} y \fmm{x=1}. Dividimos: \fmm{x^3=(x^2-1)\cdot x+x\Rightarrow f(x)=x+\dfrac{x}{x^2-1}}.
+
+            
+
+AO: \fmm{y=x}.
+\item ¿Tiene asíntota oblicua \fmm{f(x)=\dfrac{x^3+1}{x}}?
+          
+
+            
+
+Grados 3 y 1: la diferencia es 2. El cociente es \fmm{x^2}, de grado 2: \textbf{no} tiene asíntota oblicua (tiene ramas parabólicas).
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Monotonía, máximos y mínimos}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Recordatorio de la unidad 6}
+\begin{enumerate}
+\item Calculamos \fmm{f'(x)} y la factorizamos.
+\item Resolvemos \fmm{f'(x)=0} (puntos críticos) y añadimos los puntos que no son del dominio.
+\item Hacemos la tabla de signos de \fmm{f'}: donde \fmm{f'\gt0}, creciente ($\nearrow$); donde \fmm{f'\lt0}, decreciente ($\searrow$).
+\item Si \fmm{f} pasa de $\nearrow$ a $\searrow$ en un punto crítico, hay un \textbf{máximo relativo}; si pasa de $\searrow$ a $\nearrow$, un \textbf{mínimo relativo}. También podemos usar la segunda derivada: \fmm{f''(a)\lt0} máximo, \fmm{f''(a)\gt0} mínimo.
+\end{enumerate}
+
+      
+\begin{fmnote}Para dibujar, calculamos también la altura de los extremos: el punto es \fmm{(a,f(a))}. Los puntos que no son del dominio (asíntotas verticales) separan intervalos, pero nunca son extremos.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Monotonía y extremos de \fmm{f(x)=\dfrac{x^2}{x^2-4}}.
+          
+
+            
+
+Dominio \fmm{\mathbb R-\{-2,2\}}. \fmm{\ f'(x)=\dfrac{2x(x^2-4)-x^2\cdot2x}{(x^2-4)^2}=\dfrac{-8x}{(x^2-4)^2}}
+
+            
+
+\fmm{f'(x)=0\Rightarrow x=0}. Tabla de signos (el denominador es siempre positivo):
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccccc}\toprule
+\textbf{$x$} & $(-\infty,-2)$ & \cellcolor{fmsurface}$-2$ & $(-2,0)$ & \cellcolor{fmsurface}$0$ & $(0,2)$ & \cellcolor{fmsurface}$2$ & $(2,+\infty)$\\\midrule
+\textbf{$f'(x)$} & \textbf{\color{fmok}$+$} & \cellcolor{fmsurface}$\nexists$ & \textbf{\color{fmok}$+$} & \cellcolor{fmsurface}0 & \textbf{\color{fmas}$-$} & \cellcolor{fmsurface}$\nexists$ & \textbf{\color{fmas}$-$}\\\midrule
+\textbf{$f(x)$} & {\Large\color{fmok}$\nearrow$} & \cellcolor{fmsurface}$\nexists$ & {\Large\color{fmok}$\nearrow$} & \cellcolor{fmsurface}máx & {\Large\color{fmas}$\searrow$} & \cellcolor{fmsurface}$\nexists$ & {\Large\color{fmas}$\searrow$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+Creciente en \fmm{(-\infty,-2)\cup(-2,0)}, decreciente en \fmm{(0,2)\cup(2,+\infty)}. Máximo relativo en \fmm{(0,0)}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Representación de funciones polinómicas y racionales}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Qué tenemos que tener en cuenta}
+\begin{itemize}
+\item \textbf{Polinómicas}: dominio \fmm{\mathbb R}, continuas y sin asíntotas. En los extremos, \fmm{f(x)\to\pm\infty} según el signo del término de mayor grado. La forma la deciden los cortes con OX y los máximos y mínimos.
+\item \textbf{Racionales}: el dominio y las asíntotas verticales salen de los ceros del denominador; las horizontales u oblicuas, de comparar los grados. Los límites laterales nos dicen por dónde «sube» o «baja» la gráfica al lado de cada asíntota vertical.
+\end{itemize}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=x^3-6x^2+9x}.
+          
+
+            
+
+\textbf{Dominio} \fmm{\mathbb R}. \textbf{Cortes}: \fmm{x(x^2-6x+9)=x(x-3)^2=0\Rightarrow(0,0),\ (3,0)}. OY: \fmm{(0,0)}.
+
+            
+
+\textbf{Simetría}: hay potencias pares e impares: ninguna. \textbf{Asíntotas}: ninguna (polinómica); \fmm{\lim_{x\to+\infty}f=+\infty}, \fmm{\lim_{x\to-\infty}f=-\infty}.
+
+            
+
+\fmm{f'(x)=3x^2-12x+9=3(x-1)(x-3)=0\Rightarrow x=1,\ x=3}. Creciente en \fmm{(-\infty,1)\cup(3,+\infty)} y decreciente en \fmm{(1,3)}: máximo \fmm{(1,4)}, mínimo \fmm{(3,0)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-1,xmax=4.5,ymin=-2,ymax=6]\addplot[fmcurve,domain=-1:4.5,samples=160]{x^3-6*x^2+9*x};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,0) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,4) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:3,0) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,4.7) {$(1,4)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:3.2,-0.8) {$(3,0)$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=x^4-2x^2}.
+          
+
+            
+
+Dominio \fmm{\mathbb R}. Cortes: \fmm{x^2(x^2-2)=0\Rightarrow(0,0),\ (\pm\sqrt2,0)}. \textbf{Par} (solo potencias pares): simétrica respecto de OY. Ninguna asíntota.
+
+            
+
+\fmm{f'(x)=4x^3-4x=4x(x-1)(x+1)=0\Rightarrow x=-1,0,1}. Decreciente en \fmm{(-\infty,-1)\cup(0,1)}, creciente en \fmm{(-1,0)\cup(1,+\infty)}. Mínimos \fmm{(-1,-1)} y \fmm{(1,-1)}; máximo \fmm{(0,0)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-2.2,xmax=2.2,ymin=-1.6,ymax=3]\addplot[fmcurve,domain=-2.2:2.2,samples=160]{x^4-2*x^2};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:-1.41421,0) {};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:1.41421,0) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,0) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,-1) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,-1) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1,-1.42) {$(-1,-1)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,-1.42) {$(1,-1)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:0,0.4) {$(0,0)$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=\dfrac{x^2}{x^2-4}}.
+          
+
+            
+
+Dominio \fmm{\mathbb R-\{-2,2\}}. Cortes: solo \fmm{(0,0)}. \textbf{Par}: \fmm{f(-x)=f(x)}.
+
+            
+
+AV \fmm{x=2}: \fmm{\displaystyle\lim_{x\to2^-}\frac{x^2}{x^2-4}=\frac{4}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to2^+}=\frac{4}{0^+}=+\infty}; por simetría, también \fmm{x=-2}. AH \fmm{y=1} (grados iguales).
+
+            
+
+Monotonía (apartado 7.6): máximo relativo \fmm{(0,0)}; creciente a la izquierda de 0 y decreciente a la derecha.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-6,xmax=6,ymin=-5,ymax=6]\draw[fmasy] ({axis cs:-2,0}|-{rel axis cs:0,0}) -- ({axis cs:-2,0}|-{rel axis cs:0,1});\draw[fmasy] ({axis cs:2,0}|-{rel axis cs:0,0}) -- ({axis cs:2,0}|-{rel axis cs:0,1});\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,1}) -- ({rel axis cs:1,0}|-{axis cs:0,1});\addplot[fmcurve,domain=-6:-2.05,samples=200]{x^2/(x^2-4)};\addplot[fmcurve,domain=-1.95:1.95,samples=200]{x^2/(x^2-4)};\addplot[fmcurve,domain=2.05:6,samples=200]{x^2/(x^2-4)};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,0) {};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:-5.8,1.5) {$y=1$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:-2.15,5.3) {$x=-2$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:2.15,5.3) {$x=2$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=\dfrac{x^2+3}{x-1}}.
+          
+
+            
+
+Dominio \fmm{\mathbb R-\{1\}}. OX: \fmm{x^2+3=0} no tiene solución. OY: \fmm{(0,-3)}. Sin simetrías (el dominio no es simétrico).
+
+            
+
+AV \fmm{x=1} (\fmm{-\infty} por la izquierda, \fmm{+\infty} por la derecha). AO \fmm{y=x+1} (apartado 7.5).
+
+            
+
+\fmm{f'(x)=\dfrac{2x(x-1)-(x^2+3)}{(x-1)^2}=\dfrac{x^2-2x-3}{(x-1)^2}=\dfrac{(x-3)(x+1)}{(x-1)^2}}. \\
+
+\vspace*{0.1cm}
+
+Creciente en \fmm{(-\infty,-1)\cup(3,+\infty)}, decreciente en \fmm{(-1,1)\cup(1,3)}. Máximo \fmm{(-1,-2)}, mínimo \fmm{(3,6)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-7,xmax=9,ymin=-12,ymax=16]\draw[fmasy] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\addplot[fmasy,domain=-7:9]{1*x+1};\addplot[fmcurve,domain=-7:0.75,samples=200]{(x^2+3)/(x-1)};\addplot[fmcurve,domain=1.25:9,samples=200]{(x^2+3)/(x-1)};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,-3) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,-2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:3,6) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:-1.4,-0.4) {$(-1,-2)$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:3.4,4.4) {$(3,6)$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:8.8,6.5) {$y=x+1$};\end{axis}\end{tikzpicture}\end{center}
+
+              
+\begin{fmnote}Fíjate: el máximo relativo \fmm{(-1,-2)} está más abajo que el mínimo relativo \fmm{(3,6)}. Son extremos \emph{relativos}, no absolutos.\end{fmnote}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Funciones exponenciales, logarítmicas y a trozos}\hypertarget{sec8}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Las gráficas básicas}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exponencial} \fmm{y=a^x} (\fmm{a\gt0}, \fmm{a\neq1}): dominio \fmm{\mathbb R}; siempre positiva; pasa por \fmm{(0,1)}; asíntota horizontal \fmm{y=0}. Si \fmm{a\gt1} (como \fmm{e^x}) es creciente y la asíntota es por la izquierda; si \fmm{0\lt a\lt1}, decreciente y la asíntota es por la derecha.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-4,xmax=4,ymin=-1,ymax=5]\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmcurve,domain=-4:4,samples=160]{exp(x)};\addplot[fmsi,line width=1.6pt,smooth,domain=-4:4,samples=160]{exp(-x*ln(2))};\node[circle,fill=black,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,1) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:1.75,4.5) {$y=e^x$};\node[anchor=west,font=\scriptsize,inner sep=1pt,text=fmsi] at (axis cs:-2.2,4.5) {$y=\left(\frac12\right)^{x}$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Logarítmica} \fmm{y=\log_a x}: dominio \fmm{(0,+\infty)}; pasa por \fmm{(1,0)}; asíntota vertical \fmm{x=0}; no tiene asíntota horizontal. Si \fmm{a\gt1} (como \fmm{\ln x}) es creciente; si \fmm{0\lt a\lt1}, decreciente.
+
+          
+\begin{fmnote}Recuerda la comparación de infinitos de la unidad 4: cuando \fmm{x\to+\infty}, la exponencial gana a cualquier potencia y la potencia gana al logaritmo. Por eso \fmm{\displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0} y \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}.\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-1,xmax=7,ymin=-3.5,ymax=3.5]\draw[fmasy] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\addplot[fmcurve,domain=0.03:7,samples=160]{ln(x)};\addplot[fmsi,line width=1.6pt,smooth,domain=0.08:7,samples=160]{-ln(x)/ln(2)};\node[circle,fill=black,inner sep=0pt,minimum size=5.5pt] at (axis cs:1,0) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:6.8,2.3) {$y=\ln x$};\node[anchor=east,font=\scriptsize,inner sep=1pt,text=fmsi] at (axis cs:6.8,-2.3) {$y=\log_{1/2}x$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=x\,e^x}.
+          
+
+            
+
+Dominio \fmm{\mathbb R}. Cortes: \fmm{x\,e^x=0\Rightarrow x=0}: \fmm{(0,0)}. Sin simetría: \fmm{f(-1)=-\frac1e}, \fmm{f(1)=e}.
+
+            
+
+Ninguna AV. \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}: AH \fmm{y=0} por la izquierda. \fmm{\displaystyle\lim_{x\to+\infty}x\,e^x=+\infty} y \fmm{\dfrac{f(x)}{x}=e^x\to+\infty}: por la derecha no hay.
+
+            
+
+\fmm{f'(x)=(1+x)e^x=0\Rightarrow x=-1}. Decreciente en \fmm{(-\infty,-1)}, creciente en \fmm{(-1,+\infty)}. Mínimo \fmm{\left(-1,-\frac1e\right)\approx(-1;\,-0{,}37)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-6,xmax=1.5,ymin=-1,ymax=3]\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmcurve,domain=-6:1.5,samples=160]{x*exp(x)};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,0) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,-0.36787944123356736) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1,-0.72) {$(-1,-1/e)$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=\dfrac{\ln x}{x}}.
+          
+
+            
+
+Dominio \fmm{(0,+\infty)}. Cortes: \fmm{\ln x=0\Rightarrow(1,0)}; OY: no (0 no es del dominio). Sin simetría.
+
+            
+
+\fmm{\displaystyle\lim_{x\to0^+}\frac{\ln x}{x}=\frac{-\infty}{0^+}=-\infty\Rightarrow} AV \fmm{x=0}. \fmm{\ \displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0\Rightarrow} AH \fmm{y=0} por la derecha.
+
+            
+
+\fmm{f'(x)=\dfrac{\frac1x\cdot x-\ln x}{x^2}=\dfrac{1-\ln x}{x^2}=0\Rightarrow\ln x=1\Rightarrow x=e}. Creciente en \fmm{(0,e)}, decreciente en \fmm{(e,+\infty)}. Máximo \fmm{\left(e,\frac1e\right)\approx(2{,}72;\,0{,}37)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=3.6cm,xmin=-0.5,xmax=12,ymin=-2,ymax=1]\draw[fmasy] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmcurve,domain=0.35:12,samples=200]{ln(x)/x};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:1,0) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:2.718281828,0.36787944123356736) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:2.718281828,0.65) {$(e,1/e)$};\end{axis}\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Funciones definidas a trozos}
+Para representar una función a trozos:
+
+      
+\begin{enumerate}
+\item Dibujamos cada trozo \textbf{solo en su intervalo}: normalmente son rectas, parábolas, hipérbolas, exponenciales o logaritmos, que sabemos dibujar con pocos puntos.
+\item En cada \textbf{punto de cambio} calculamos los límites laterales y el valor de la función: nos dicen si es continua o si hay un salto. Marcamos con punto lleno el valor que toma la función y con punto vacío el extremo que no pertenece.
+\item La monotonía y los extremos se estudian en cada trozo. En los puntos de cambio puede haber un máximo o un mínimo aunque la derivada no exista (punto anguloso).
+\item Las asíntotas horizontales solo las buscamos en los trozos que llegan a \fmm{\pm\infty}.
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=\begin{cases}x+3&\text{si } x\lt-1\\x^2+1&\text{si } -1\leq x\lt1\\\dfrac2x&\text{si } x\geq1\end{cases}}
+          
+
+            
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Trozos: una recta (pendiente 1), un trozo de parábola con vértice \fmm{(0,1)} y un trozo de hipérbola. Dominio \fmm{\mathbb R} (\fmm{\frac2x} solo se usa para \fmm{x\geq1}).
+
+            
+
+\fmm{x=-1}: \fmm{\ \displaystyle\lim_{x\to-1^-}(x+3)=2}, \fmm{\ \displaystyle\lim_{x\to-1^+}(x^2+1)=2}, \fmm{\ f(-1)=2}: continua.\newline \fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}(x^2+1)=2}, \fmm{\ \displaystyle\lim_{x\to1^+}\frac2x=2}, \fmm{\ f(1)=2}: continua.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-5,xmax=6,ymin=-1,ymax=4]\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmaccent,line width=1.6pt,domain=-5:-1]{x+3};\addplot[fmcurve,domain=-1:1,samples=160]{x^2+1};\addplot[fmcurve,domain=1:6,samples=160]{2/x};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,1) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,2) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1,2.5) {$(-1,2)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:0,0.5) {$(0,1)$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:1.2,2.5) {$(1,2)$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+            
+
+Asíntotas: \fmm{\displaystyle\lim_{x\to+\infty}\frac2x=0\Rightarrow} AH \fmm{y=0} por la derecha; por la izquierda, \fmm{x+3\to-\infty}.
+
+            
+
+Monotonía: creciente en \fmm{(-\infty,-1)} (recta), decreciente en \fmm{(-1,0)} y creciente en \fmm{(0,1)} (parábola), decreciente en \fmm{(1,+\infty)} (\fmm{f'(x)=-\frac{2}{x^2}\lt0}). Máximos relativos \fmm{(-1,2)} y \fmm{(1,2)} (puntos angulosos) y mínimo relativo \fmm{(0,1)}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

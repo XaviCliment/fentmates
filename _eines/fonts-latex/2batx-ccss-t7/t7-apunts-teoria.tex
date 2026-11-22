@@ -1,0 +1,914 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks,pdftitle={Apunts de teoria. Unitat 7: Representació gràfica de funcions. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={domini, punts de tall, simetries, asímptotes, asímptota obliqua, monotonia, màxims i mínims, representació gràfica}]{hyperref}
+
+% colors de la web (FentMates, bloc d'anàlisi)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{7.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «grafiques»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \draw[line width=3pt] (14,98)--(226,98) (30,114)--(30,6);
+  \draw[line width=3pt,dash pattern=on 10pt off 10pt] (110,6)--(110,114) (14,108)--(226,34);
+  \draw[line width=4.5pt] (20,113) .. controls (48,100) and (66,88) .. (80,90) .. controls (94,92) and (101,102) .. (105,114);
+  \draw[line width=4.5pt] (115,6) .. controls (118,34) and (128,54) .. (150,54) .. controls (178,54) and (202,38) .. (226,26);
+  \fill (80,90) circle (5) (150,54) circle (5);
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 7: Representació gràfica de funcions}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unitat 7} · Representació\\[2pt] gràfica de funcions\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas per estudiar una funció i dibuixar-ne la gràfica: domini, punts de tall amb els eixos, simetries, asímptotes verticals, horitzontals i obliqües (pel mètode del quocient), monotonia i màxims i mínims. Ho apliquem a funcions polinòmiques, racionals, radicals, exponencials, logarítmiques i definides a trossos.\end{minipage}
+\vspace{1.1cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}7.1}\ \ Domini d'una funció}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}7.2}\ \ Punts de tall amb els eixos}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}7.3}\ \ Simetries}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}7.4}\ \ Asímptotes verticals i horitzontals}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}7.5}\ \ Asímptotes obliqües}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}7.6}\ \ Monotonia, màxims i mínims}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}7.7}\ \ Polinòmiques i racionals}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}7.8}\ \ Exponencials, logarítmiques i a trossos}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+\vspace*{0.4cm}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Guió per a representar una funció}
+Per dibuixar la gràfica d'una funció \fmm{y=f(x)} sense fer una taula de valors enorme, n'estudiem les característiques principals en aquest ordre:
+
+    
+\begin{enumerate}
+\item \textbf{Domini}: on existeix la funció.
+\item \textbf{Punts de tall} amb els eixos OX i OY.
+\item \textbf{Simetries}: si és parella o senar, només cal estudiar la meitat.
+\item \textbf{Asímptotes}: verticals, horitzontals i obliqües.
+\item \textbf{Monotonia i extrems}: on creix, on decreix, màxims i mínims relatius (unitat 6).
+\item \textbf{Gràfica}: hi posem tota la informació i unim els punts respectant-la.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{18\baselineskip}
+\section{Domini d'una funció}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Domini}
+El \textbf{domini} d'una funció, \fmm{\mathrm{Dom}\,f}, és el conjunt de valors de \fmm{x} per als quals es pot calcular \fmm{f(x)}. A la gràfica, són les \fmm{x} on «hi ha corba».
+
+      
+\begin{center}\renewcommand{\arraystretch}{1.35}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{4.5cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipus de funció} & \textbf{Domini} & \textbf{Exemple}\\\midrule
+Polinòmica & $\mathbb R$ & $f(x)=x^3-2x+1\Rightarrow\mathrm{Dom}\,f=\mathbb R$\\[3pt]
+Racional $\dfrac{P(x)}{Q(x)}$ & $\mathbb R$ menys els zeros del denominador & $f(x)=\dfrac{x+1}{x^2-4}$: $\ x^2-4=0\Rightarrow x=\pm2\Rightarrow\mathrm{Dom}\,f=\mathbb R-\{-2,2\}$\\[3pt]
+Exponencial $e^{g(x)}$ & el domini de $g$ & $f(x)=e^{1/x}\Rightarrow\mathrm{Dom}\,f=\mathbb R-\{0\}$\\[3pt]
+Logarítmica $\ln g(x)$ & on $g(x)\gt0$ & $f(x)=\ln(x-3)$: $\ x-3\gt0\Rightarrow\mathrm{Dom}\,f=(3,+\infty)$\\[3pt]
+Radical d'índex parell $\sqrt{g(x)},\ \sqrt[4]{g(x)},\dots$ & on $g(x)\geq0$ & $f(x)=\sqrt{x-2}$: $\ x-2\geq0\Rightarrow\mathrm{Dom}\,f=[2,+\infty)$\\[3pt]
+Radical d'índex senar $\sqrt[3]{g(x)},\dots$ & el domini de $g$ & $f(x)=\sqrt[3]{x^2-1}\Rightarrow\mathrm{Dom}\,f=\mathbb R$\\[3pt]
+A trossos & la unió dels dominis de cada tros (dins del seu interval) & vegeu l'apartat 7.8\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+\begin{fmnote}Si en la mateixa funció hi ha diverses condicions (un denominador i un logaritme, per exemple), el domini és el conjunt de \fmm{x} que les compleixen \textbf{totes} alhora.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Funcions radicals}: l'arrel quadrada d'un nombre negatiu no existeix, però la de zero sí (\fmm{\sqrt0=0}): per això posem \fmm{g(x)\geq0} i els extrems on \fmm{g(x)=0} \textbf{sí} que són del domini (claudàtor \fmm{[\ ]}). Si l'arrel està en un \textbf{denominador}, tampoc no pot valdre zero: cal \fmm{g(x)\gt0}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{9\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Domini de \fmm{f(x)=\dfrac{2x}{x^2-5x+6}}.
+          
+
+            
+
+És racional: busquem on s'anu\lgem{}a el denominador. \fmm{x^2-5x+6=0\Rightarrow x=\dfrac{5\pm1}{2}\Rightarrow x=2,\ x=3}
+
+            
+
+\fmm{\mathrm{Dom}\,f=\mathbb R-\{2,3\}}
+\item Domini de \fmm{f(x)=\dfrac{3}{x^2+1}}.
+          
+
+            
+
+\fmm{x^2+1=0\Rightarrow x^2=-1}: no té solució real. El denominador no s'anu\lgem{}a mai.
+
+            
+
+\fmm{\mathrm{Dom}\,f=\mathbb R}
+\newpage
+\item Domini de \fmm{f(x)=\ln(x^2-4)}.
+          
+
+            
+
+L'argument ha de ser positiu: \fmm{x^2-4\gt0}. Les arrels de \fmm{x^2-4} són \fmm{\pm2} i estudiem el signe en cada interval:
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccc}\toprule
+\textbf{$x$} & $(-\infty,-2)$ & $-2$ & $(-2,2)$ & $2$ & $(2,+\infty)$\\\midrule
+\textbf{$x^2-4$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-\infty,-2)\cup(2,+\infty)} (els extrems \fmm{\pm2} no hi entren: \fmm{\ln0} no existeix).
+\vspace*{0.2cm}
+
+\item Domini de \fmm{f(x)=\dfrac{x}{\ln x}}.
+          
+
+            
+
+Logaritme: \fmm{x\gt0}. Denominador: \fmm{\ln x\neq0\Rightarrow x\neq1}.
+
+            
+
+\fmm{\mathrm{Dom}\,f=(0,1)\cup(1,+\infty)}
+\vspace*{0.2cm}
+
+\item Domini de \fmm{f(x)=\sqrt{6-2x}}.
+          
+
+            
+
+El radicand ha de ser positiu o zero: \fmm{6-2x\geq0\Rightarrow-2x\geq-6\Rightarrow x\leq3} (en dividir per un nombre negatiu, la desigualtat canvia de sentit).
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-\infty,3]} (\fmm{x=3} hi entra: \fmm{f(3)=\sqrt0=0}).
+\vspace*{0.2cm}
+
+\item Domini de \fmm{f(x)=\sqrt{x^2-9}}.
+          
+
+            
+
+\fmm{x^2-9\geq0}. Les arrels de \fmm{x^2-9} són \fmm{\pm3}; estudiem el signe:
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccc}\toprule
+\textbf{$x$} & $(-\infty,-3)$ & $-3$ & $(-3,3)$ & $3$ & $(3,+\infty)$\\\midrule
+\textbf{$x^2-9$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-\infty,-3]\cup[3,+\infty)} (ara els extrems \fmm{\pm3} sí que hi entren, a diferència del logaritme).
+\vspace*{0.2cm}
+
+\item Domini de \fmm{f(x)=\dfrac{x}{\sqrt{4-x^2}}}.
+          
+
+            
+
+L'arrel és al denominador: el radicand ha de ser \textbf{estrictament} positiu, \fmm{4-x^2\gt0}. Les arrels són \fmm{\pm2}, i \fmm{4-x^2} és positiu entre elles (per exemple, en \fmm{x=0} val 4).
+
+            
+
+\fmm{\mathrm{Dom}\,f=(-2,2)}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Punts de tall amb els eixos}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Talls amb OX i amb OY}
+\begin{itemize}
+\item \textbf{Eix OX} (eix d'abscisses): els punts de la gràfica tenen \fmm{y=0}. Resolem l'equació \fmm{f(x)=0}; cada solució \fmm{x=a} del domini dona el punt \fmm{(a,0)}. Pot haver-n'hi cap, un o diversos.
+\item \textbf{Eix OY} (eix d'ordenades): fem \fmm{x=0}. Si \fmm{0} és del domini, el punt és \fmm{(0,f(0))}. N'hi ha \textbf{com a molt un}.
+\end{itemize}
+
+      
+\begin{fmnote}\fmuline{Recorda}: una fracció és zero quan ho és el numerador (i el denominador no); \fmm{e^{g(x)}} no és mai zero; \fmm{\ln g(x)=0\Leftrightarrow g(x)=1}.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Funcions radicals}: \fmm{\sqrt{g(x)}=0\Leftrightarrow g(x)=0}. Si hi ha més termes, \textbf{aïllem l'arrel}, elevem els dos membres al quadrat i resolem. En elevar al quadrat poden aparéixer \textbf{solucions falses}: cal comprovar-les totes en l'equació inicial. I, per al tall amb OY, recorda mirar abans si \fmm{x=0} és del domini.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=x^3-4x}
+          
+
+            
+
+OX: \fmm{x^3-4x=x(x^2-4)=0\Rightarrow x=0,\ x=2,\ x=-2}. Punts \fmm{(-2,0),\ (0,0),\ (2,0)}.
+
+            
+
+OY: \fmm{f(0)=0\Rightarrow(0,0)} (és el mateix punt).
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=\dfrac{x^2-1}{x+2}}
+          
+
+            
+
+OX: \fmm{x^2-1=0\Rightarrow x=\pm1} (cap anu\lgem{}a el denominador). Punts \fmm{(-1,0)} i \fmm{(1,0)}.
+
+            
+
+OY: \fmm{f(0)=\dfrac{-1}{2}\Rightarrow\left(0,-\tfrac12\right)}
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=e^x-2}
+          
+
+            
+
+OX: \fmm{e^x=2\Rightarrow x=\ln2\approx0{,}69}. Punt \fmm{(\ln2,0)}.
+
+            
+
+OY: \fmm{f(0)=1-2=-1\Rightarrow(0,-1)}
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=\ln(x+1)}
+          
+
+            
+
+OX: \fmm{\ln(x+1)=0\Rightarrow x+1=1\Rightarrow x=0}. OY: \fmm{f(0)=\ln1=0}. Talla els dos eixos en \fmm{(0,0)}.
+
+\vspace*{0.2cm}
+
+\item \fmm{f(x)=\sqrt{x^2-4}}
+          
+
+            
+
+Domini: \fmm{x^2-4\geq0\Rightarrow(-\infty,-2]\cup[2,+\infty)}.
+
+            
+
+OX: \fmm{\sqrt{x^2-4}=0\Rightarrow x^2-4=0\Rightarrow x=\pm2}. Punts \fmm{(-2,0)} i \fmm{(2,0)}.
+
+            
+
+OY: \fmm{x=0} no és del domini (\fmm{\sqrt{-4}} no existeix): \textbf{no talla} l'eix OY.
+
+\newpage
+\item \fmm{f(x)=\sqrt{x+3}-x-1}
+          
+
+            
+
+Domini: \fmm{x+3\geq0\Rightarrow[-3,+\infty)}. \\
+
+OX: aïllem l'arrel i elevem al quadrat: \\ \vspace*{0.1cm}
+
+\fmm{\sqrt{x+3}=x+1\Rightarrow x+3=x^2+2x+1\Rightarrow x^2+x-2=0\Rightarrow x=1,\ x=-2}.
+
+            
+
+Comprovem: \fmm{x=1}: \fmm{\sqrt4-1-1=0} . \fmm{\ x=-2}: \fmm{\sqrt1+2-1=2\neq0}  (solució falsa). Només hi ha el punt \fmm{(1,0)}.
+
+            
+
+OY: \fmm{f(0)=\sqrt3-1\approx0{,}73\Rightarrow\left(0,\sqrt3-1\right)}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Simetries}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Funcions parelles i senars}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una funció és \textbf{parella} si \fmm{f(-x)=f(x)} per a tot \fmm{x} del domini. La gràfica és \textbf{simètrica respecte de l'eix OY}: la part de l'esquerra és l'«espill» de la de la dreta.
+
+          
+
+Exemples: \fmm{x^2,\ x^4-3x^2,\ \dfrac{1}{x^2+1},\ e^{-x^2}}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-3,xmax=3,ymin=-0.5,ymax=4]\addplot[fmcurve,domain=-3:3,samples=160]{x^4/8-x^2+2.5};\draw[fmguide] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmteal,line width=1.2pt] (axis cs:-1.7,0.6540125000000001)--(axis cs:1.7,0.6540125000000001);\node[fmdot] at (axis cs:-1.7,0.6540125000000001) {};\node[fmdot] at (axis cs:1.7,0.6540125000000001) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1.7,1.1540125) {$(-a,f(a))$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1.7,1.1540125) {$(a,f(a))$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una funció és \textbf{senar} si \fmm{f(-x)=-f(x)} per a tot \fmm{x} del domini. La gràfica és \textbf{simètrica respecte de l'origen}: si girem la gràfica 180° al voltant de \fmm{(0,0)}, queda igual.
+
+          
+
+Exemples: \fmm{x^3,\ x^3-3x,\ \dfrac{x}{x^2+1},\ \dfrac{1}{x}}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-3,xmax=3,ymin=-2.5,ymax=2.5]\addplot[fmcurve,domain=-3:3,samples=160]{x^3/3-x};\draw[fmteal,line width=1.2pt] (axis cs:-2.1,-0.9870000000000001)--(axis cs:2.1,0.9870000000000001);\node[fmdot] at (axis cs:-2.1,-0.9870000000000001) {};\node[fmdot] at (axis cs:2.1,0.9870000000000001) {};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,0) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:2.0,1.387) {$(a,f(a))$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:-2.0,-1.437) {$(-a,-f(a))$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+
+\fmuline{Mètode}: calculem \fmm{f(-x)} (canviem cada \fmm{x} per \fmm{-x}) i el comparem amb \fmm{f(x)} i amb \fmm{-f(x)}. Si no coincideix amb cap dels dos, la funció no té aquestes simetries.
+
+      
+\begin{fmnote}\fmuline{Truc per a polinomis}: si només hi ha potències parelles de \fmm{x} (i constants), és parella; si només hi ha potències senars, és senar. Si n'hi ha de tots dos tipus, no és ni parella ni senar. A més, perquè hi haja simetria, el domini ha de ser simètric.\end{fmnote}
+
+      
+\begin{fmnote}\fmuline{Funcions radicals}: comencem pel domini. Si no és simètric (per exemple, \fmm{[-2,+\infty)}), ja no hi ha simetria. Si ho és, calculem \fmm{f(-x)} com sempre: dins de l'arrel, \fmm{(-x)^2=x^2}; fora, el signe de \fmm{-x} es manté.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\dfrac{x^2}{x^2-1}}
+          
+
+            
+
+\fmm{f(-x)=\dfrac{(-x)^2}{(-x)^2-1}=\dfrac{x^2}{x^2-1}=f(x)\Rightarrow} \textbf{parella}: simètrica respecte de OY.
+\item \fmm{f(x)=\dfrac{x}{x^2+1}}
+          
+
+            
+
+\fmm{f(-x)=\dfrac{-x}{x^2+1}=-\dfrac{x}{x^2+1}=-f(x)\Rightarrow} \textbf{senar}: simètrica respecte de l'origen.
+\item \fmm{f(x)=x^2+x}
+          
+
+            
+
+\fmm{f(-x)=x^2-x}. No és igual a \fmm{f(x)=x^2+x} ni a \fmm{-f(x)=-x^2-x}: \textbf{no té simetries}. (Ens n'adonem amb un sol valor: \fmm{f(1)=2}, \fmm{f(-1)=0}.)
+\item \fmm{f(x)=\ln(x+2)}
+          
+
+            
+
+El domini \fmm{(-2,+\infty)} no és simètric: \fmm{f(3)} existeix però \fmm{f(-3)} no. \textbf{No té simetries}.
+\item \fmm{f(x)=\sqrt{9-x^2}}
+          
+
+            
+
+Domini: \fmm{9-x^2\geq0\Rightarrow[-3,3]}, simètric. \fmm{\ f(-x)=\sqrt{9-(-x)^2}=\sqrt{9-x^2}=f(x)\Rightarrow} \textbf{parella} (és una semicircumferència centrada en l'origen).
+\item \fmm{f(x)=x\sqrt{x^2+1}}
+          
+
+            
+
+Domini \fmm{\mathbb R} (\fmm{x^2+1\gt0}). \fmm{\ f(-x)=(-x)\sqrt{(-x)^2+1}=-x\sqrt{x^2+1}=-f(x)\Rightarrow} \textbf{senar}.
+\item \fmm{f(x)=\sqrt{x+2}}
+          
+
+            
+
+Domini \fmm{[-2,+\infty)}, no simètric: \fmm{f(3)=\sqrt5} existeix però \fmm{f(-3)=\sqrt{-1}} no. \textbf{No té simetries}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Asímptotes verticals i horitzontals}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Asímptotes}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una \textbf{asímptota} és una recta a la qual la gràfica s'acosta cada vegada més, sense arribar-hi, quan ens n'allunyem cap a l'infinit.
+
+          
+\begin{itemize}
+\item \textbf{Asímptota vertical} \fmm{x=a}: si almenys un dels límits laterals en \fmm{a} és infinit, \fmm{\displaystyle\lim_{x\to a^-}f(x)=\pm\infty} o \fmm{\displaystyle\lim_{x\to a^+}f(x)=\pm\infty}.
+\item \textbf{Asímptota horitzontal} \fmm{y=b}: si \fmm{\displaystyle\lim_{x\to+\infty}f(x)=b} o \fmm{\displaystyle\lim_{x\to-\infty}f(x)=b}, amb \fmm{b} un nombre.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-3,xmax=7,ymin=-4,ymax=6]\draw[fmasy] ({axis cs:2,0}|-{rel axis cs:0,0}) -- ({axis cs:2,0}|-{rel axis cs:0,1});\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,1}) -- ({rel axis cs:1,0}|-{axis cs:0,1});\addplot[fmcurve,domain=-3:1.85,samples=160]{1/(x-2)+1};\addplot[fmcurve,domain=2.15:7,samples=160]{1/(x-2)+1};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:2.15,5.3) {$x=2$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:-2.8,1.45) {$y=1$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}Una gràfica \textbf{no pot tallar mai} una asímptota vertical (en \fmm{x=a} la funció no existeix o hi fa un salt infinit), però sí que pot tallar una asímptota horitzontal en algun punt.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{On busquem les asímptotes?}
+\begin{center}\renewcommand{\arraystretch}{1.35}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.7cm}}\toprule
+\textbf{Funció} & \textbf{Verticals} & \textbf{Horitzontals}\\\midrule
+Polinòmica & no en té & no en té ($\lim_{x\to\pm\infty}f=\pm\infty$)\\[3pt]
+Racional $\dfrac{P}{Q}$ & en els zeros de $Q$ que no anu\lgem{}en $P$ (si $\frac{k}{0}$, amb $k\neq0$) & segons els graus (vegeu davall)\\[3pt]
+$a\cdot e^{g(x)}+k$ & on $g$ té asímptota vertical & $y=k$ en el costat on $e^{g(x)}\to0$\\[3pt]
+$\ln g(x)$ & on $g(x)\to0^+$ (vora del domini) & normalment no en té\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+
+\fmuline{Racionals: asímptota horitzontal segons els graus}
+
+      
+\begin{itemize}
+\item grau \fmm{P\lt} grau \fmm{Q} $\Rightarrow$ \fmm{y=0}.
+\item grau \fmm{P=} grau \fmm{Q} $\Rightarrow$ \fmm{y=\dfrac{\text{coef. principal de }P}{\text{coef. principal de }Q}}.
+\item grau \fmm{P\gt} grau \fmm{Q} $\Rightarrow$ no en té (el límit és infinit); si grau \fmm{P=} grau \fmm{Q+1}, té asímptota obliqua (apartat 7.5).
+\end{itemize}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Asímptotes de \fmm{f(x)=\dfrac{2x+1}{x-3}}.
+          
+
+            
+
+Verticals: \fmm{x-3=0\Rightarrow x=3}. Límits laterals: \fmm{\displaystyle\lim_{x\to3^-}\frac{2x+1}{x-3}=\frac{7}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to3^+}\frac{2x+1}{x-3}=\frac{7}{0^+}=+\infty}. AV: \fmm{x=3}.
+
+            
+
+Horitzontals: graus iguals, \fmm{\displaystyle\lim_{x\to\pm\infty}\frac{2x+1}{x-3}=\frac21=2}. AH: \fmm{y=2}.
+\item Asímptotes de \fmm{f(x)=\dfrac{x}{x^2-1}}.
+          
+
+            
+
+\fmm{x^2-1=0\Rightarrow x=\pm1}; el numerador no s'hi anu\lgem{}a: AV \fmm{x=-1} i \fmm{x=1}.
+
+            
+
+Grau del numerador menor: \fmm{\displaystyle\lim_{x\to\pm\infty}f(x)=0}. AH: \fmm{y=0}.
+\item Asímptotes de \fmm{f(x)=\dfrac{x^2-1}{x-1}}.
+          
+
+            
+
+\fmm{x=1}: \fmm{\ \dfrac{0}{0}}. Simplifiquem: \fmm{\dfrac{(x-1)(x+1)}{x-1}=x+1\Rightarrow\displaystyle\lim_{x\to1}f(x)=2}. El límit és finit: \textbf{no} hi ha asímptota vertical, sinó un forat en \fmm{(1,2)} (discontinuïtat evitable).
+\item Asímptotes de \fmm{f(x)=2-e^{-x}}.
+          
+
+            
+
+Domini \fmm{\mathbb R}: no té verticals. \fmm{\displaystyle\lim_{x\to+\infty}(2-e^{-x})=2-0=2\Rightarrow} AH \fmm{y=2} quan \fmm{x\to+\infty}.
+
+            
+
+\fmm{\displaystyle\lim_{x\to-\infty}(2-e^{-x})=2-\infty=-\infty}: per l'esquerra no n'hi ha.
+\item Asímptotes de \fmm{f(x)=\ln(x+2)}.
+          
+
+            
+
+Domini \fmm{(-2,+\infty)}. \fmm{\displaystyle\lim_{x\to-2^+}\ln(x+2)=\ln0^+=-\infty\Rightarrow} AV \fmm{x=-2}.
+
+            
+
+\fmm{\displaystyle\lim_{x\to+\infty}\ln(x+2)=+\infty}: no té asímptota horitzontal.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Asímptotes obliqües: mètode del quocient}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Asímptota obliqua}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una recta \fmm{y=mx+n}, amb \fmm{m\neq0}, és una \textbf{asímptota obliqua} si la gràfica s'hi acosta quan \fmm{x\to+\infty} o \fmm{x\to-\infty}:
+
+          
+\[\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0\]
+
+          
+
+En una funció racional \fmm{f(x)=\dfrac{P(x)}{Q(x)}} passa quan \textbf{grau \fmm{P=} grau \fmm{Q+1}}. Llavors no pot tindre asímptota horitzontal en el mateix costat.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-7,xmax=9,ymin=-12,ymax=16]\draw[fmasy] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\addplot[fmasy,domain=-7:9]{1*x+1};\addplot[fmcurve,domain=-7:0.75,samples=200]{(x^2+3)/(x-1)};\addplot[fmcurve,domain=1.25:9,samples=200]{(x^2+3)/(x-1)};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:1.3,14.5) {$x=1$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:8.8,6.5) {$y=x+1$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Mètode del quocient}
+Fem la divisió de polinomis \fmm{P(x):Q(x)} i obtenim un quocient \fmm{C(x)} i un residu \fmm{R(x)}, amb grau \fmm{R\lt} grau \fmm{Q}:
+
+      
+\[P(x)=Q(x)\cdot C(x)+R(x)\quad\Longrightarrow\quad f(x)=\frac{P(x)}{Q(x)}=C(x)+\frac{R(x)}{Q(x)}\]
+
+      
+
+Quan \fmm{x\to\pm\infty}, la fracció \fmm{\dfrac{R(x)}{Q(x)}\to0} (grau de dalt menor), així que \fmm{f(x)} s'acosta a \fmm{C(x)}. Si el quocient és de grau 1, \fmm{C(x)=mx+n}, \textbf{l'asímptota obliqua és \fmm{y=C(x)}}.
+
+      
+\begin{fmnote}\fmuline{Posició}: el signe de \fmm{\dfrac{R(x)}{Q(x)}} per a \fmm{x} molt gran (o molt negatiu) ens diu si la gràfica queda per damunt (\fmm{+}) o per davall (\fmm{-}) de l'asímptota.\end{fmnote}
+
+      
+\begin{fmnote}També es poden calcular amb límits: \fmm{m=\displaystyle\lim_{x\to\pm\infty}\frac{f(x)}{x}}, \fmm{n=\displaystyle\lim_{x\to\pm\infty}\big[f(x)-mx\big]}. Per a funcions racionals, la divisió és més ràpida.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Asímptotes de \fmm{f(x)=\dfrac{x^2+3}{x-1}}.
+          
+
+            
+
+AV: \fmm{x-1=0\Rightarrow x=1} (\fmm{\frac{4}{0}}): \fmm{\displaystyle\lim_{x\to1^-}f(x)=-\infty,\ \lim_{x\to1^+}f(x)=+\infty}.
+
+            
+
+Graus 2 i 1: no té horitzontal, però sí obliqua. \\
+
+Dividim: \fmm{\ (x^2+3):(x-1)}: \fmm{\ x^2:x=x}; \fmm{\ x(x-1)=x^2-x}; \fmm{\ (x^2+3)-(x^2-x)=x+3}; \fmm{\ x:x=1}; \fmm{\ 1\cdot(x-1)=x-1}; \fmm{\ (x+3)-(x-1)=4}.
+
+            
+
+\fmm{C(x)=x+1,\ R(x)=4\Rightarrow f(x)=x+1+\dfrac{4}{x-1}}. AO: \fmm{y=x+1}.
+
+            
+
+Posició: si \fmm{x\to+\infty}, \fmm{\frac{4}{x-1}\gt0}: la gràfica queda per damunt; si \fmm{x\to-\infty}, \fmm{\frac{4}{x-1}\lt0}: queda per davall.
+\item Asímptotes de \fmm{f(x)=\dfrac{2x^2-x+1}{x}}.
+          
+
+            
+
+AV: \fmm{x=0}. Ací la divisió és directa: \fmm{f(x)=\dfrac{2x^2}{x}-\dfrac{x}{x}+\dfrac1x=2x-1+\dfrac1x}.
+
+            
+
+AO: \fmm{y=2x-1}.
+\item Asímptotes de \fmm{f(x)=\dfrac{x^3}{x^2-1}}.
+          
+
+            
+
+AV: \fmm{x=-1} i \fmm{x=1}. Dividim: \fmm{x^3=(x^2-1)\cdot x+x\Rightarrow f(x)=x+\dfrac{x}{x^2-1}}.
+
+            
+
+AO: \fmm{y=x}.
+\item Té asímptota obliqua \fmm{f(x)=\dfrac{x^3+1}{x}}?
+          
+
+            
+
+Graus 3 i 1: la diferència és 2. El quocient és \fmm{x^2}, de grau 2: \textbf{no} té asímptota obliqua (té branques parabòliques).
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Monotonia, màxims i mínims}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Recordatori de la unitat 6}
+\begin{enumerate}
+\item Calculem \fmm{f'(x)} i la factoritzem.
+\item Resolem \fmm{f'(x)=0} (punts crítics) i hi afegim els punts que no són del domini.
+\item Fem la taula de signes de \fmm{f'}: on \fmm{f'\gt0}, creixent ($\nearrow$); on \fmm{f'\lt0}, decreixent ($\searrow$).
+\item Si \fmm{f} passa de $\nearrow$ a $\searrow$ en un punt crític, hi ha un \textbf{màxim relatiu}; si passa de $\searrow$ a $\nearrow$, un \textbf{mínim relatiu}. També podem fer servir la segona derivada: \fmm{f''(a)\lt0} màxim, \fmm{f''(a)\gt0} mínim.
+\end{enumerate}
+
+      
+\begin{fmnote}Per dibuixar, calculem també l'altura dels extrems: el punt és \fmm{(a,f(a))}. Els punts que no són del domini (asímptotes verticals) separen intervals, però no són mai extrems.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Monotonia i extrems de \fmm{f(x)=\dfrac{x^2}{x^2-4}}.
+          
+
+            
+
+Domini \fmm{\mathbb R-\{-2,2\}}. \fmm{\ f'(x)=\dfrac{2x(x^2-4)-x^2\cdot2x}{(x^2-4)^2}=\dfrac{-8x}{(x^2-4)^2}}
+
+            
+
+\fmm{f'(x)=0\Rightarrow x=0}. Taula de signes (el denominador és sempre positiu):
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccccc}\toprule
+\textbf{$x$} & $(-\infty,-2)$ & \cellcolor{fmsurface}$-2$ & $(-2,0)$ & \cellcolor{fmsurface}$0$ & $(0,2)$ & \cellcolor{fmsurface}$2$ & $(2,+\infty)$\\\midrule
+\textbf{$f'(x)$} & \textbf{\color{fmok}$+$} & \cellcolor{fmsurface}$\nexists$ & \textbf{\color{fmok}$+$} & \cellcolor{fmsurface}0 & \textbf{\color{fmas}$-$} & \cellcolor{fmsurface}$\nexists$ & \textbf{\color{fmas}$-$}\\\midrule
+\textbf{$f(x)$} & {\Large\color{fmok}$\nearrow$} & \cellcolor{fmsurface}$\nexists$ & {\Large\color{fmok}$\nearrow$} & \cellcolor{fmsurface}màx & {\Large\color{fmas}$\searrow$} & \cellcolor{fmsurface}$\nexists$ & {\Large\color{fmas}$\searrow$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+Creixent en \fmm{(-\infty,-2)\cup(-2,0)}, decreixent en \fmm{(0,2)\cup(2,+\infty)}. Màxim relatiu en \fmm{(0,0)}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Representació de funcions polinòmiques i racionals}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Què hem de tindre en compte}
+\begin{itemize}
+\item \textbf{Polinòmiques}: domini \fmm{\mathbb R}, contínues i sense asímptotes. Als extrems, \fmm{f(x)\to\pm\infty} segons el signe del terme de grau més alt. La forma la decideixen els talls amb OX i els màxims i mínims.
+\item \textbf{Racionals}: el domini i les asímptotes verticals surten dels zeros del denominador; les horitzontals o obliqües, de comparar els graus. Els límits laterals ens diuen per on «puja» o «baixa» la gràfica al costat de cada asímptota vertical.
+\end{itemize}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=x^3-6x^2+9x}.
+          
+
+            
+
+\textbf{Domini} \fmm{\mathbb R}. \textbf{Talls}: \fmm{x(x^2-6x+9)=x(x-3)^2=0\Rightarrow(0,0),\ (3,0)}. OY: \fmm{(0,0)}.
+
+            
+
+\textbf{Simetria}: hi ha potències parelles i senars: cap. \textbf{Asímptotes}: cap (polinòmica); \fmm{\lim_{x\to+\infty}f=+\infty}, \fmm{\lim_{x\to-\infty}f=-\infty}.
+
+            
+
+\fmm{f'(x)=3x^2-12x+9=3(x-1)(x-3)=0\Rightarrow x=1,\ x=3}. Creixent en \fmm{(-\infty,1)\cup(3,+\infty)} i decreixent en \fmm{(1,3)}: màxim \fmm{(1,4)}, mínim \fmm{(3,0)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-1,xmax=4.5,ymin=-2,ymax=6]\addplot[fmcurve,domain=-1:4.5,samples=160]{x^3-6*x^2+9*x};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,0) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,4) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:3,0) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,4.7) {$(1,4)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:3.2,-0.8) {$(3,0)$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=x^4-2x^2}.
+          
+
+            
+
+Domini \fmm{\mathbb R}. Talls: \fmm{x^2(x^2-2)=0\Rightarrow(0,0),\ (\pm\sqrt2,0)}. \textbf{Parella} (només potències parelles): simètrica respecte de OY. Cap asímptota.
+
+            
+
+\fmm{f'(x)=4x^3-4x=4x(x-1)(x+1)=0\Rightarrow x=-1,0,1}. Decreixent en \fmm{(-\infty,-1)\cup(0,1)}, creixent en \fmm{(-1,0)\cup(1,+\infty)}. Mínims \fmm{(-1,-1)} i \fmm{(1,-1)}; màxim \fmm{(0,0)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-2.2,xmax=2.2,ymin=-1.6,ymax=3]\addplot[fmcurve,domain=-2.2:2.2,samples=160]{x^4-2*x^2};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:-1.41421,0) {};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:1.41421,0) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,0) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,-1) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,-1) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1,-1.42) {$(-1,-1)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,-1.42) {$(1,-1)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:0,0.4) {$(0,0)$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=\dfrac{x^2}{x^2-4}}.
+          
+
+            
+
+Domini \fmm{\mathbb R-\{-2,2\}}. Talls: només \fmm{(0,0)}. \textbf{Parella}: \fmm{f(-x)=f(x)}.
+
+            
+
+AV \fmm{x=2}: \fmm{\displaystyle\lim_{x\to2^-}\frac{x^2}{x^2-4}=\frac{4}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to2^+}=\frac{4}{0^+}=+\infty}; per simetria, també \fmm{x=-2}. AH \fmm{y=1} (graus iguals).
+
+            
+
+Monotonia (apartat 7.6): màxim relatiu \fmm{(0,0)}; creixent a l'esquerra de 0 i decreixent a la dreta.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-6,xmax=6,ymin=-5,ymax=6]\draw[fmasy] ({axis cs:-2,0}|-{rel axis cs:0,0}) -- ({axis cs:-2,0}|-{rel axis cs:0,1});\draw[fmasy] ({axis cs:2,0}|-{rel axis cs:0,0}) -- ({axis cs:2,0}|-{rel axis cs:0,1});\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,1}) -- ({rel axis cs:1,0}|-{axis cs:0,1});\addplot[fmcurve,domain=-6:-2.05,samples=200]{x^2/(x^2-4)};\addplot[fmcurve,domain=-1.95:1.95,samples=200]{x^2/(x^2-4)};\addplot[fmcurve,domain=2.05:6,samples=200]{x^2/(x^2-4)};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,0) {};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:-5.8,1.5) {$y=1$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:-2.15,5.3) {$x=-2$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:2.15,5.3) {$x=2$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=\dfrac{x^2+3}{x-1}}.
+          
+
+            
+
+Domini \fmm{\mathbb R-\{1\}}. OX: \fmm{x^2+3=0} no té solució. OY: \fmm{(0,-3)}. Sense simetries (el domini no és simètric).
+
+            
+
+AV \fmm{x=1} (\fmm{-\infty} per l'esquerra, \fmm{+\infty} per la dreta). AO \fmm{y=x+1} (apartat 7.5).
+
+            
+
+\fmm{f'(x)=\dfrac{2x(x-1)-(x^2+3)}{(x-1)^2}=\dfrac{x^2-2x-3}{(x-1)^2}=\dfrac{(x-3)(x+1)}{(x-1)^2}}. \\
+
+\vspace*{0.1cm}
+
+Creixent en \fmm{(-\infty,-1)\cup(3,+\infty)}, decreixent en \fmm{(-1,1)\cup(1,3)}. Màxim \fmm{(-1,-2)}, mínim \fmm{(3,6)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-7,xmax=9,ymin=-12,ymax=16]\draw[fmasy] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\addplot[fmasy,domain=-7:9]{1*x+1};\addplot[fmcurve,domain=-7:0.75,samples=200]{(x^2+3)/(x-1)};\addplot[fmcurve,domain=1.25:9,samples=200]{(x^2+3)/(x-1)};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,-3) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,-2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:3,6) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:-1.4,-0.4) {$(-1,-2)$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:3.4,4.4) {$(3,6)$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:8.8,6.5) {$y=x+1$};\end{axis}\end{tikzpicture}\end{center}
+
+              
+\begin{fmnote}Fixa't: el màxim relatiu \fmm{(-1,-2)} està més avall que el mínim relatiu \fmm{(3,6)}. Són extrems \emph{relatius}, no absoluts.\end{fmnote}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Funcions exponencials, logarítmiques i a trossos}\hypertarget{sec8}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Les gràfiques bàsiques}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exponencial} \fmm{y=a^x} (\fmm{a\gt0}, \fmm{a\neq1}): domini \fmm{\mathbb R}; sempre positiva; passa per \fmm{(0,1)}; asímptota horitzontal \fmm{y=0}. Si \fmm{a\gt1} (com \fmm{e^x}) és creixent i l'asímptota és per l'esquerra; si \fmm{0\lt a\lt1}, decreixent i l'asímptota és per la dreta.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-4,xmax=4,ymin=-1,ymax=5]\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmcurve,domain=-4:4,samples=160]{exp(x)};\addplot[fmsi,line width=1.6pt,smooth,domain=-4:4,samples=160]{exp(-x*ln(2))};\node[circle,fill=black,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,1) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:1.75,4.5) {$y=e^x$};\node[anchor=west,font=\scriptsize,inner sep=1pt,text=fmsi] at (axis cs:-2.2,4.5) {$y=\left(\frac12\right)^{x}$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Logarítmica} \fmm{y=\log_a x}: domini \fmm{(0,+\infty)}; passa per \fmm{(1,0)}; asímptota vertical \fmm{x=0}; no té asímptota horitzontal. Si \fmm{a\gt1} (com \fmm{\ln x}) és creixent; si \fmm{0\lt a\lt1}, decreixent.
+
+          
+\begin{fmnote}Recorda la comparació d'infinits de la unitat 4: quan \fmm{x\to+\infty}, l'exponencial guanya a qualsevol potència i la potència guanya al logaritme. Per això \fmm{\displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0} i \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}.\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-1,xmax=7,ymin=-3.5,ymax=3.5]\draw[fmasy] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\addplot[fmcurve,domain=0.03:7,samples=160]{ln(x)};\addplot[fmsi,line width=1.6pt,smooth,domain=0.08:7,samples=160]{-ln(x)/ln(2)};\node[circle,fill=black,inner sep=0pt,minimum size=5.5pt] at (axis cs:1,0) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:6.8,2.3) {$y=\ln x$};\node[anchor=east,font=\scriptsize,inner sep=1pt,text=fmsi] at (axis cs:6.8,-2.3) {$y=\log_{1/2}x$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=x\,e^x}.
+          
+
+            
+
+Domini \fmm{\mathbb R}. Talls: \fmm{x\,e^x=0\Rightarrow x=0}: \fmm{(0,0)}. Sense simetria: \fmm{f(-1)=-\frac1e}, \fmm{f(1)=e}.
+
+            
+
+Cap AV. \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}: AH \fmm{y=0} per l'esquerra. \fmm{\displaystyle\lim_{x\to+\infty}x\,e^x=+\infty} i \fmm{\dfrac{f(x)}{x}=e^x\to+\infty}: per la dreta no n'hi ha.
+
+            
+
+\fmm{f'(x)=(1+x)e^x=0\Rightarrow x=-1}. Decreixent en \fmm{(-\infty,-1)}, creixent en \fmm{(-1,+\infty)}. Mínim \fmm{\left(-1,-\frac1e\right)\approx(-1;\,-0{,}37)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-6,xmax=1.5,ymin=-1,ymax=3]\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmcurve,domain=-6:1.5,samples=160]{x*exp(x)};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:0,0) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,-0.36787944123356736) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1,-0.72) {$(-1,-1/e)$};\end{axis}\end{tikzpicture}\end{center}
+\item Representa \fmm{f(x)=\dfrac{\ln x}{x}}.
+          
+
+            
+
+Domini \fmm{(0,+\infty)}. Talls: \fmm{\ln x=0\Rightarrow(1,0)}; OY: no (0 no és del domini). Sense simetria.
+
+            
+
+\fmm{\displaystyle\lim_{x\to0^+}\frac{\ln x}{x}=\frac{-\infty}{0^+}=-\infty\Rightarrow} AV \fmm{x=0}. \fmm{\ \displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0\Rightarrow} AH \fmm{y=0} per la dreta.
+
+            
+
+\fmm{f'(x)=\dfrac{\frac1x\cdot x-\ln x}{x^2}=\dfrac{1-\ln x}{x^2}=0\Rightarrow\ln x=1\Rightarrow x=e}. Creixent en \fmm{(0,e)}, decreixent en \fmm{(e,+\infty)}. Màxim \fmm{\left(e,\frac1e\right)\approx(2{,}72;\,0{,}37)}.
+
+            
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=3.6cm,xmin=-0.5,xmax=12,ymin=-2,ymax=1]\draw[fmasy] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmcurve,domain=0.35:12,samples=200]{ln(x)/x};\node[circle,fill=fmteal,inner sep=0pt,minimum size=5.5pt] at (axis cs:1,0) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:2.718281828,0.36787944123356736) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:2.718281828,0.65) {$(e,1/e)$};\end{axis}\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Funcions definides a trossos}
+Per representar una funció a trossos:
+
+      
+\begin{enumerate}
+\item Dibuixem cada tros \textbf{només en el seu interval}: normalment són rectes, paràboles, hipèrboles, exponencials o logaritmes, que sabem dibuixar amb pocs punts.
+\item En cada \textbf{punt de canvi} calculem els límits laterals i el valor de la funció: ens diuen si és contínua o si hi ha un salt. Marquem amb punt ple el valor que pren la funció i amb punt buit l'extrem que no hi pertany.
+\item La monotonia i els extrems s'estudien en cada tros. En els punts de canvi pot haver-hi un màxim o un mínim encara que la derivada no existisca (punt angulós).
+\item Les asímptotes horitzontals només les busquem en els trossos que arriben a \fmm{\pm\infty}.
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=\begin{cases}x+3&\text{si } x\lt-1\\x^2+1&\text{si } -1\leq x\lt1\\\dfrac2x&\text{si } x\geq1\end{cases}}
+          
+
+            
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Trossos: una recta (pendent 1), un tros de paràbola amb vèrtex \fmm{(0,1)} i un tros d'hipèrbola. Domini \fmm{\mathbb R} (\fmm{\frac2x} només s'usa per a \fmm{x\geq1}).
+
+            
+
+\fmm{x=-1}: \fmm{\ \displaystyle\lim_{x\to-1^-}(x+3)=2}, \fmm{\ \displaystyle\lim_{x\to-1^+}(x^2+1)=2}, \fmm{\ f(-1)=2}: contínua.\newline \fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}(x^2+1)=2}, \fmm{\ \displaystyle\lim_{x\to1^+}\frac2x=2}, \fmm{\ f(1)=2}: contínua.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.3cm,xmin=-5,xmax=6,ymin=-1,ymax=4]\draw[fmasy] ({rel axis cs:0,0}|-{axis cs:0,0}) -- ({rel axis cs:1,0}|-{axis cs:0,0});\addplot[fmaccent,line width=1.6pt,domain=-5:-1]{x+3};\addplot[fmcurve,domain=-1:1,samples=160]{x^2+1};\addplot[fmcurve,domain=1:6,samples=160]{2/x};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,1) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,2) {};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1,2.5) {$(-1,2)$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:0,0.5) {$(0,1)$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:1.2,2.5) {$(1,2)$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+            
+
+Asímptotes: \fmm{\displaystyle\lim_{x\to+\infty}\frac2x=0\Rightarrow} AH \fmm{y=0} per la dreta; per l'esquerra, \fmm{x+3\to-\infty}.
+
+            
+
+Monotonia: creixent en \fmm{(-\infty,-1)} (recta), decreixent en \fmm{(-1,0)} i creixent en \fmm{(0,1)} (paràbola), decreixent en \fmm{(1,+\infty)} (\fmm{f'(x)=-\frac{2}{x^2}\lt0}). Màxims relatius \fmm{(-1,2)} i \fmm{(1,2)} (punts angulosos) i mínim relatiu \fmm{(0,1)}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
