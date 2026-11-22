@@ -156,7 +156,7 @@ def conv(n):
     t, c = n.tag, n.cls()
     if n.a.get('data-l') and n.a['data-l'] != LANG: return ''
     if 'sarrus-fig' in c: return '\n' + SARRUS + '\n'
-    if t == 'figure' and 'plfig' in c: return r'\par\smallskip{\centering %s\par}\smallskip ' % plfig(n.a['data-fig'], *((4.6, 4.4) if TWO[0] else (5.6, 5.0)))
+    if t == 'figure' and 'plfig' in c: return r'\par\smallskip{\centering %s\par}\smallskip ' % plfig(n.a['data-fig'], *(PLSIZE.get(n.a['data-fig']) or ((4.6, 4.4) if TWO[0] else (5.6, 5.0))))
     if t in ('input', 'select', 'button', 'svg', 'summary', 'label', 'option', 'script', 'style'): return ''
     if 'widget' in c or 'box' in c and 'pr' in c or 'steps-ctl' in c or 'sec-head' in c: return ''
     if t == 'section': return conv_section(n)
@@ -222,6 +222,8 @@ def conv(n):
     return text(n)
 
 TWO = [False]
+# mides especials d'algunes figures: en castellà, la figura de la regió buida (3.5) un poc més baixa perquè l'últim exemple càpiga en la pàgina 14
+PLSIZE = {'empty': (4.0, 3.2)} if (N == 3 and ES) else {}
 def conv_cell(k): return conv(k) if k.tag == 'figure' else text(k)
 
 def rows_of(n):
@@ -486,6 +488,9 @@ if N == 2:  # retocs de l'autor sobre el .tex de l'escriptori (22/11/2026)
     retoc(r'(\\fmdisp\{\\left\\\{\\begin\{array\}\{ccccccccc\} a_\{11\}x_1 &\+& a_\{12\}x_2[^\n]*\n\n)', r'\1\\vspace*{0.2cm}\n\n', True)
     retoc(r'(\\fmm\{\\boxed\{x_1=x_2=\\cdots=x_n=0\}\}[^\n]*\n\n)', r'\1\\newpage\n', True)
     retoc('\\lambda,\\mu\\in\\mathbb{R}}}\n\n', '\\lambda,\\mu\\in\\mathbb{R}}}\n\\newpage\n')
+
+if N == 3 and ES:  # en castellà, la nota final de 3.5 quedava sola en una pàgina 15
+    retoc('\\begin{fmex}{Ejemplo 3: región factible vacía}', '\\enlargethispage{\\baselineskip}\n\\begin{fmex}{Ejemplo 3: región factible vacía}')
 
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)

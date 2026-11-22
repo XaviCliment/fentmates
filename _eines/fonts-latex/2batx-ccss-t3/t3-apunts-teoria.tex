@@ -1,0 +1,547 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 3: Programació lineal. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={inequacions lineals, sistemes d'inequacions, regió factible, vèrtexs, funció objectiu, rectes de nivell, màxim, mínim}}
+
+% colors de la web (FentMates, bloc de Programació lineal: taronja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+% noms que fan servir les gràfiques de programació lineal (../comu/pltikz.py)
+\colorlet{accent}{fmaccent}\colorlet{navy}{fmnavy}\colorlet{muted}{fmmuted}\colorlet{teal}{fmteal}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{3.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3.6pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (30,106)--(226,106) (30,106)--(30,6);
+  \fill[fill opacity=0.18] (30,106)--(30,34)--(92,22)--(160,56)--(180,106)--cycle;
+  \draw (30,106)--(30,34)--(92,22)--(160,56)--(180,106)--cycle;
+  \draw[opacity=0.6] (22,38)--(120,18) (80,0)--(200,66) (168,0)--(190,120);
+  \fill (30,34) circle (5) (92,22) circle (5) (160,56) circle (6.5) (180,106) circle (5);
+  \draw[dash pattern=on 9pt off 9pt] (120,120)--(232,50);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{23}{23}\itshape] at (198,40) {màx};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 3: Programació lineal}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 3} · Programació lineal\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: inequacions i sistemes d'inequacions amb dues incògnites, regió factible, plantejament i resolució de problemes de programació lineal (producció, dieta, transport, inversió) i casos especials.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}3.1}\ \ Inequacions amb dues incògnites}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}3.2}\ \ Sistemes d'inequacions}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}3.3}\ \ Problemes de programació lineal}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}3.4}\ \ Problemes clàssics}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}3.5}\ \ Casos especials}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Inequacions lineals amb dues incògnites}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició: inequació lineal amb dues incògnites}
+Una \textbf{inequació lineal amb dues incògnites} és una desigualtat que es pot escriure d'alguna d'aquestes formes:
+
+\fmdisp{ax+by\lt c\qquad ax+by\leq c\qquad ax+by\gt c\qquad ax+by\geq c}
+
+on \fmm{a}, \fmm{b} i \fmm{c} són nombres reals coneguts (amb \fmm{a} i \fmm{b} no nuls tots dos a la vegada) i \fmm{x}, \fmm{y} són les incògnites.
+
+\begin{itemize}
+\item Una \textbf{solució} de la inequació és un parell de nombres \fmm{(x_0,y_0)} que, en substituir-los, fan certa la desigualtat. Cada solució és, per tant, un \textbf{punt del pla}.
+\item \textbf{Resoldre} la inequació és trobar \emph{totes} les seues solucions. N'hi ha infinites, i les representem gràficament.
+\end{itemize}
+
+Per exemple, \fmm{(1,1)} és solució de \fmm{2x+y\leq4} perquè \fmm{2\cdot1+1=3\leq4}; en canvi, \fmm{(2,3)} no ho és perquè \fmm{2\cdot2+3=7\gt4}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Recta frontera i semiplans}
+La recta \fmm{ax+by=c}, anomenada \textbf{recta frontera}, divideix el pla en dos \textbf{semiplans}. En tots els punts d'un dels semiplans es compleix \fmm{ax+by\lt c} i en tots els punts de l'altre es compleix \fmm{ax+by\gt c}.
+
+Per tant, \textbf{la solució d'una inequació lineal amb dues incògnites és sempre un semipla}:
+
+\begin{itemize}
+\item Si la desigualtat és \textbf{no estricta} (\fmm{\leq} o \fmm{\geq}), la recta frontera forma part de la solució: la dibuixem \textbf{contínua} i diem que el semipla és \emph{tancat}.
+\item Si la desigualtat és \textbf{estricta} (\fmm{\lt} o \fmm{\gt}), la recta frontera no forma part de la solució: la dibuixem \textbf{discontínua} i diem que el semipla és \emph{obert}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Resolució gràfica d'una inequació}
+\begin{enumerate}
+\item \textbf{Dibuixem la recta frontera} \fmm{ax+by=c}. N'hi ha prou amb dos punts: normalment busquem els talls amb els eixos (fent \fmm{x=0} i després \fmm{y=0}) amb una petita taula de valors. Contínua si és \fmm{\leq,\geq}; discontínua si és \fmm{\lt,\gt}.
+\item \textbf{Triem un punt de prova} que no estiga sobre la recta. Si la recta no passa per l'origen, el més còmode és \fmm{(0,0)}.
+\item \textbf{Substituïm el punt en la inequació}. Si la compleix, la solució és el semipla que \underline{conté} el punt de prova; si no la compleix, és el semipla \underline{contrari}.
+\item \textbf{Ombregem} el semipla solució.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Truc}: si aïllem la \fmm{y} i queda \fmm{y\geq mx+n}, la solució és el semipla de \textbf{damunt} de la recta; si queda \fmm{y\leq mx+n}, el de \textbf{davall}. Compte: si en aïllar dividim per un nombre negatiu, la desigualtat canvia de sentit!\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples de resolució gràfica}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resolem gràficament \fmm{2x+y\leq4}.
+
+Recta frontera \fmm{2x+y=4} (contínua, perquè és \fmm{\leq}): \fmm{\ x=0\Rightarrow y=4}; \fmm{\ y=0\Rightarrow x=2}. Passa per \fmm{(0,4)} i \fmm{(2,0)}.
+
+Punt de prova \fmm{(0,0)}: \fmm{2\cdot0+0=0\leq4} . La solució és el semipla que conté l'origen:
+
+              \par\smallskip{\centering \begin{tikzpicture}[x=0.8000cm,y=0.6250cm,baseline=(current bounding box.center)]\begin{scope}\clip (-2,-2) rectangle (5,6);\foreach \i in {-2,-1,...,5} \draw[muted!25,very thin] (\i,-2)--(\i,6);\foreach \i in {-2,0,...,6} \draw[muted!25,very thin] (-2,\i)--(5,\i);\fill[teal!22] (-2.0000,-2.0000)--(3.0000,-2.0000)--(-1.0000,6.0000)--(-2.0000,6.0000)--cycle;\end{scope}\draw[-latex,thick] (-2,0)--(5.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-2)--(0,6.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (5,0) {$5$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\begin{scope}\clip (-2,-2) rectangle (5,6);\draw[accent,line width=1.1pt] (3.5000,-3.0000)--(-1.5000,7.0000);\end{scope}\fill[teal] (0,0) circle (2.2pt);\end{tikzpicture}\par}\smallskip
+\item Resolem gràficament \fmm{x-2y\gt2}.
+
+Recta frontera \fmm{x-2y=2} (discontínua, perquè és \fmm{\gt}): \fmm{\ x=0\Rightarrow y=-1}; \fmm{\ y=0\Rightarrow x=2}.
+
+Punt de prova \fmm{(0,0)}: \fmm{0-0=0\gt2} . La solució és el semipla que \textbf{no} conté l'origen (i sense la recta):
+
+              \par\smallskip{\centering \begin{tikzpicture}[x=0.7000cm,y=0.7000cm,baseline=(current bounding box.center)]\begin{scope}\clip (-2,-4) rectangle (6,3);\foreach \i in {-2,0,...,6} \draw[muted!25,very thin] (\i,-4)--(\i,3);\foreach \i in {-4,-3,...,3} \draw[muted!25,very thin] (-2,\i)--(6,\i);\fill[teal!22] (-2.0000,-4.0000)--(6.0000,-4.0000)--(6.0000,2.0000)--(-2.0000,-2.0000)--cycle;\end{scope}\draw[-latex,thick] (-2,0)--(6.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-4)--(0,3.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,-4) {$-4$};\node[left,font=\tiny,text=muted] at (0,-3) {$-3$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\begin{scope}\clip (-2,-4) rectangle (6,3);\draw[accent,line width=1.1pt,dashed] (-3.0000,-2.5000)--(7.0000,2.5000);\end{scope}\fill[red!70!black] (0,0) circle (2.2pt);\end{tikzpicture}\par}\smallskip
+\item Resolem gràficament \fmm{y\geq2x}.
+
+Recta frontera \fmm{y=2x}, que \textbf{passa per l'origen}: \fmm{(0,0)} i \fmm{(1,2)}. Ara no podem usar \fmm{(0,0)} com a punt de prova.
+
+Punt de prova \fmm{(1,0)}: \fmm{0\geq2\cdot1} . La solució és el semipla que no conté \fmm{(1,0)}, és a dir, el de damunt de la recta (també ho diu el truc: \fmm{y\geq\dots}):
+
+              \par\smallskip{\centering \begin{tikzpicture}[x=0.9333cm,y=0.6250cm,baseline=(current bounding box.center)]\begin{scope}\clip (-3,-3) rectangle (3,5);\foreach \i in {-3,-2,...,3} \draw[muted!25,very thin] (\i,-3)--(\i,5);\foreach \i in {-2,0,...,5} \draw[muted!25,very thin] (-3,\i)--(3,\i);\fill[teal!22] (-3.0000,-3.0000)--(-1.5000,-3.0000)--(2.5000,5.0000)--(-3.0000,5.0000)--cycle;\end{scope}\draw[-latex,thick] (-3,0)--(3.25,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-3)--(0,5.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (-3,0) {$-3$};\node[below,font=\tiny,text=muted] at (-2,0) {$-2$};\node[below,font=\tiny,text=muted] at (-1,0) {$-1$};\node[below,font=\tiny,text=muted] at (1,0) {$1$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (3,0) {$3$};\node[left,font=\tiny,text=muted] at (0,-2) {$-2$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\begin{scope}\clip (-3,-3) rectangle (3,5);\draw[accent,line width=1.1pt] (-2.0000,-4.0000)--(3.0000,6.0000);\end{scope}\fill[red!70!black] (1,0) circle (2.2pt);\end{tikzpicture}\par}\smallskip
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Sistemes d'inequacions amb dues incògnites}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició: sistema d'inequacions i regió factible}
+Un \textbf{sistema d'inequacions lineals amb dues incògnites} és un conjunt d'inequacions que s'han de complir \textbf{a la vegada}. Les seues solucions són els punts que pertanyen a \textbf{tots} els semiplans solució, és a dir, la \textbf{intersecció} de tots els semiplans. En programació lineal, aquest conjunt s'anomena \textbf{regió factible}.
+
+La regió factible (si no és buida) és sempre un conjunt \textbf{convex} i pot ser:
+
+\begin{itemize}
+\item \fmbadge{fmok}{$\bullet$} \textbf{Acotada}: un polígon convex tancat (es pot tancar dins d'un rectangle).
+\item \fmbadge{fmsf}{$\bullet$} \textbf{No acotada}: s'estén indefinidament en alguna direcció.
+\item \fmbadge{fmas}{$\bullet$} \textbf{Buida}: cap punt compleix totes les inequacions; el sistema no té solució.
+\end{itemize}
+
+Els \textbf{vèrtexs} de la regió factible són els punts on es tallen dues rectes frontera i que, a més, compleixen \emph{totes} les inequacions. Es calculen resolent el sistema d'equacions format per les dues rectes.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Resolució gràfica d'un sistema d'inequacions}
+\begin{enumerate}
+\item Resolem gràficament \textbf{cada inequació} per separat (recta frontera + punt de prova), sobre els mateixos eixos.
+\item La solució del sistema és la \textbf{zona comuna} a tots els semiplans (la regió factible).
+\item Calculem els \textbf{vèrtexs} resolent els sistemes d'equacions de les rectes que es tallen en cada vèrtex.
+\end{enumerate}
+
+\begin{fmnote}Consell: és molt útil acolorir cada recta d'un color i marcar amb una fletxa cap a quin costat queda el seu semipla. Així la zona comuna es veu de seguida.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Cas particular: inequacions $x\geq k$, $x\leq k$, $y\geq k$, $y\leq k$}
+Quan en la inequació només apareix \textbf{una de les dues incògnites}, la recta frontera és para\lgem{}ela a un dels eixos i \textbf{no cal punt de prova}: el semipla es veu directament.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Inequació} & \textbf{Recta frontera} & \textbf{Semipla solució}\\\midrule
+$x\geq k$ & $x=k$: vertical, per $(k,0)$ & a la \textbf{dreta} de la recta\\[3pt]
+$x\leq k$ & $x=k$: vertical, per $(k,0)$ & a l'\textbf{esquerra} de la recta\\[3pt]
+$y\geq k$ & $y=k$: horitzontal, per $(0,k)$ & per \textbf{damunt} de la recta\\[3pt]
+$y\leq k$ & $y=k$: horitzontal, per $(0,k)$ & per \textbf{davall} de la recta\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{itemize}
+\item Si la desigualtat és estricta (\fmm{x\gt k}, \fmm{y\lt k}\dots{}), la recta es dibuixa discontínua, com sempre.
+\item \textbf{Compte}: \fmm{x\geq3} \underline{no} és un punt ni una recta horitzontal. En el pla, \fmm{x=3} és la recta \textbf{vertical} formada per tots els punts d'abscissa 3: \fmm{(3,0),(3,1),(3,-2),\dots}
+\item Les \textbf{condicions de no negativitat} \fmm{x\geq0} (semipla a la dreta de l'eix \fmm{OY}) i \fmm{y\geq0} (semipla per damunt de l'eix \fmm{OX}) apareixen en quasi tots els problemes, perquè les incògnites solen ser quantitats que no poden ser negatives. Juntes, restringeixen la solució al \textbf{primer quadrant}.
+\item Una doble desigualtat com \fmm{1\leq x\leq5} equival a dues inequacions, \fmm{x\geq1} i \fmm{x\leq5}: la seua solució és una \textbf{franja vertical} entre les dues rectes.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple: sistema amb regió acotada}
+Resolem gràficament el sistema i calculem els vèrtexs de la regió solució:
+
+\fmdisp{\left\{\begin{aligned}x+y&\leq6\\ y&\leq4\\ x&\leq5\\ x&\geq1\\ y&\geq0\end{aligned}\right.}
+
+\textbf{Inequació \fmm{x+y\leq6}}: recta per \fmm{(0,6)} i \fmm{(6,0)}; amb \fmm{(0,0)}: \fmm{0\leq6}  $\to$ semipla de l'origen (per davall).
+
+\textbf{Les altres quatre són del tipus particular}, i no necessiten punt de prova: \fmm{y\leq4} $\to$ per davall de la recta horitzontal \fmm{y=4}; \fmm{x\leq5} $\to$ a l'esquerra de la vertical \fmm{x=5}; \fmm{x\geq1} $\to$ a la dreta de la vertical \fmm{x=1}; \fmm{y\geq0} $\to$ per damunt de l'eix \fmm{OX}.
+
+La regió factible és la zona comuna: un pentàgon (regió \textbf{acotada}).
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.7000cm,y=0.6250cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (7,7);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (\i,-1)--(\i,7);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (-1,\i)--(7,\i);\fill[teal!22] (5.0000,0.0000)--(5.0000,1.0000)--(2.0000,4.0000)--(1.0000,4.0000)--(1.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(7.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,7.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\begin{scope}\clip (-1,-1) rectangle (7,7);\draw[accent,line width=1.1pt] (8.0000,-2.0000)--(-2.0000,8.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,4.0000)--(8.0000,4.0000);\draw[violet,line width=1.1pt] (5.0000,-2.0000)--(5.0000,8.0000);\draw[orange!85!black,line width=1.1pt] (1.0000,-2.0000)--(1.0000,8.0000);\end{scope}\filldraw[fill=white,draw=navy] (5.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(5.0000,0.0000)+(-36.1:0.36cm)$) {$(5,\,0)$};\filldraw[fill=white,draw=navy] (5.0000,1.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(5.0000,1.0000)+(-18.0:0.36cm)$) {$(5,\,1)$};\filldraw[fill=white,draw=navy] (2.0000,4.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(2.0000,4.0000)+(112.2:0.36cm)$) {$(2,\,4)$};\filldraw[fill=white,draw=navy] (1.0000,4.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(1.0000,4.0000)+(132.5:0.36cm)$) {$(1,\,4)$};\filldraw[fill=white,draw=navy] (1.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(1.0000,0.0000)+(-138.2:0.36cm)$) {$(1,\,0)$};\end{tikzpicture}\par}\smallskip
+
+Calculem els vèrtexs tallant les rectes adequades:
+
+\fmdisp{A:\ \left\{\begin{aligned}x&=1\\ y&=0\end{aligned}\right.\Rightarrow(1,0)\qquad B:\ \left\{\begin{aligned}x&=5\\ y&=0\end{aligned}\right.\Rightarrow(5,0)\qquad C:\ \left\{\begin{aligned}x&=5\\ x+y&=6\end{aligned}\right.\Rightarrow(5,1)}
+
+\fmdisp{D:\ \left\{\begin{aligned}y&=4\\ x+y&=6\end{aligned}\right.\Rightarrow(2,4)\qquad E:\ \left\{\begin{aligned}x&=1\\ y&=4\end{aligned}\right.\Rightarrow(1,4)}
+
+\begin{fmnote}Fixa't que el punt de tall de \fmm{y=4} i \fmm{x=5}, el \fmm{(5,4)}, \textbf{no} és un vèrtex: no compleix \fmm{x+y\leq6} (\fmm{9\gt6}). Un punt de tall només és vèrtex si compleix \emph{totes} les restriccions.\end{fmnote}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples: regió no acotada i regió buida}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{\left\{\begin{aligned}x+y&\geq4\\ x&\geq1\\ y&\geq0\end{aligned}\right.}
+
+\fmm{(0,0)} no compleix \fmm{x+y\geq4}: el semipla és el de damunt de la recta. La regió és \textbf{no acotada} (s'estén cap amunt i cap a la dreta) i té dos vèrtexs: \fmm{(1,3)} i \fmm{(4,0)}.
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.5750cm,y=0.5500cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (7,7);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (\i,-1)--(\i,7);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (-1,\i)--(7,\i);\fill[teal!22] (7.0000,0.0000)--(7.0000,7.0000)--(1.0000,7.0000)--(1.0000,3.0000)--(4.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(7.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,7.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\begin{scope}\clip (-1,-1) rectangle (7,7);\draw[accent,line width=1.1pt] (6.0000,-2.0000)--(-4.0000,8.0000);\draw[blue!70!black,line width=1.1pt] (1.0000,-2.0000)--(1.0000,8.0000);\end{scope}\filldraw[fill=white,draw=navy] (1.0000,3.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(1.0000,3.0000)+(136.3:0.36cm)$) {$(1,\,3)$};\filldraw[fill=white,draw=navy] (4.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(4.0000,0.0000)+(-43.7:0.36cm)$) {$(4,\,0)$};\end{tikzpicture}\par}\smallskip\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{\left\{\begin{aligned}x+y&\leq2\\ x+y&\geq5\\ x\geq0,\ y&\geq0\end{aligned}\right.}
+
+Les rectes \fmm{x+y=2} i \fmm{x+y=5} són para\lgem{}eles; cap punt pot complir alhora \fmm{x+y\leq2} i \fmm{x+y\geq5}. La regió és \textbf{buida}: el sistema no té solució.
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.5750cm,y=0.5500cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (7,7);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (\i,-1)--(\i,7);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (-1,\i)--(7,\i);\end{scope}\draw[-latex,thick] (-1,0)--(7.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,7.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\begin{scope}\clip (-1,-1) rectangle (7,7);\draw[accent,line width=1.1pt] (4.0000,-2.0000)--(-6.0000,8.0000);\draw[blue!70!black,line width=1.1pt] (7.0000,-2.0000)--(-3.0000,8.0000);\end{scope}\end{tikzpicture}\par}\smallskip\end{minipage}\par\medskip
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Problemes de programació lineal}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició: problema de programació lineal}
+Un \textbf{problema de programació lineal} (amb dues variables) consisteix a \textbf{optimitzar} (maximitzar o minimitzar) una funció lineal
+
+\fmdisp{f(x,y)=ax+by}
+
+quan les variables \fmm{x}, \fmm{y} han de complir un sistema d'inequacions lineals. Vocabulari:
+
+\begin{itemize}
+\item \textbf{Variables de decisió}: les incògnites \fmm{x}, \fmm{y} (què hem de decidir).
+\item \textbf{Funció objectiu}: la funció \fmm{f(x,y)=ax+by} que volem fer màxima (beneficis, ingressos\dots{}) o mínima (costos, temps\dots{}).
+\item \textbf{Restriccions}: les inequacions que han de complir les variables (recursos limitats, mínims exigits, condicions de no negativitat\dots{}).
+\item \textbf{Regió factible}: el conjunt de punts que compleixen totes les restriccions. Cada punt és una \textbf{solució factible}.
+\item \textbf{Solució òptima}: la solució factible on la funció objectiu pren el valor màxim (o mínim). Aquest valor és el \textbf{valor òptim}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Teorema fonamental de la programació lineal}
+\begin{enumerate}
+\item Si la regió factible és \textbf{no buida i acotada}, la funció objectiu assoleix sempre un valor màxim i un valor mínim, i ho fa en algun dels \textbf{vèrtexs} de la regió.
+\item Si l'òptim s'assoleix en \textbf{dos vèrtexs}, també s'assoleix en \textbf{tots els punts del segment} que els uneix (infinites solucions).
+\item Si la regió factible és \textbf{no acotada}, pot ser que la funció objectiu no tinga màxim (o mínim). Si el té, també s'assoleix en un vèrtex.
+\end{enumerate}
+
+\begin{fmnote}Conseqüència pràctica: \textbf{no cal provar tots els punts} de la regió (n'hi ha infinits); n'hi ha prou amb avaluar la funció objectiu en els vèrtexs.\end{fmnote}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Passos per resoldre un problema de programació lineal}
+\begin{enumerate}
+\item \textbf{Llegim l'enunciat i triem les variables} \fmm{x}, \fmm{y}. Organitzem les dades en una \textbf{taula}.
+\item \textbf{Escrivim la funció objectiu} i indiquem si s'ha de maximitzar o minimitzar.
+\item \textbf{Escrivim les restriccions} (sense oblidar \fmm{x\geq0}, \fmm{y\geq0} quan calga).
+\item \textbf{Dibuixem la regió factible.}
+\item \textbf{Calculem els vèrtexs.}
+\item \textbf{Avaluem la funció objectiu en cada vèrtex} (mètode analític) o usem les \textbf{rectes de nivell} (mètode gràfic).
+\item \textbf{Interpretem el resultat} i responem la pregunta de l'enunciat amb les unitats corresponents.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt pas a pas: producció de bicicletes}
+Una empresa fabrica bicicletes de passeig i de muntanya. Per a cada bicicleta de passeig necessita 1 kg d'acer i 3 kg d'alumini, i per a cada bicicleta de muntanya, 2 kg d'acer i 2 kg d'alumini. Disposa de 80 kg d'acer i de 120 kg d'alumini. Si guanya 20 € per cada bicicleta de passeig i 15 € per cada bicicleta de muntanya, \textbf{quantes n'ha de fabricar de cada tipus per obtenir el màxim benefici?}
+
+\textbf{Pas 1. Variables i taula de dades.} \fmm{x} = nombre de bicicletes de passeig; \fmm{y} = nombre de bicicletes de muntanya.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{Acer (kg)} & \textbf{Alumini (kg)} & \textbf{Benefici (€)}\\\midrule
+\textbf{Passeig $(x)$} & 1 & 3 & 20\\[3pt]
+\textbf{Muntanya $(y)$} & 2 & 2 & 15\\[3pt]
+\textbf{Disponible} & 80 & 120 & —\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\textbf{Pas 2. Funció objectiu} (benefici, que volem maximitzar):
+
+\fmdisp{\max\ f(x,y)=20x+15y}
+
+\textbf{Pas 3. Restriccions.} L'acer i l'alumini gastats no poden superar el disponible, i no es pot fabricar un nombre negatiu de bicicletes:
+
+\fmdisp{\left\{\begin{aligned}x+2y&\leq80 &&\text{(acer)}\\ 3x+2y&\leq120 &&\text{(alumini)}\\ x\geq0,\ y&\geq0\end{aligned}\right.}
+
+\textbf{Pas 4. Regió factible.} \fmm{x+2y=80} passa per \fmm{(0,40)} i \fmm{(80,0)}; \fmm{3x+2y=120} passa per \fmm{(0,60)} i \fmm{(40,0)}. El punt \fmm{(0,0)} compleix les dues inequacions, així que en tots dos casos ens quedem amb el semipla de l'origen. Amb \fmm{x\geq0}, \fmm{y\geq0} obtenim:
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.1037cm,y=0.0725cm,baseline=(current bounding box.center)]\begin{scope}\clip (-4,-4) rectangle (50,65);\foreach \i in {0,10,...,50} \draw[muted!25,very thin] (\i,-4)--(\i,65);\foreach \i in {0,10,...,65} \draw[muted!25,very thin] (-4,\i)--(50,\i);\fill[teal!22] (40.0000,0.0000)--(20.0000,30.0000)--(0.0000,40.0000)--(0.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-4,0)--(52.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-4)--(0,67.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[below,font=\tiny,text=muted] at (20,0) {$20$};\node[below,font=\tiny,text=muted] at (30,0) {$30$};\node[below,font=\tiny,text=muted] at (40,0) {$40$};\node[below,font=\tiny,text=muted] at (50,0) {$50$};\node[left,font=\tiny,text=muted] at (0,10) {$10$};\node[left,font=\tiny,text=muted] at (0,20) {$20$};\node[left,font=\tiny,text=muted] at (0,30) {$30$};\node[left,font=\tiny,text=muted] at (0,40) {$40$};\node[left,font=\tiny,text=muted] at (0,50) {$50$};\node[left,font=\tiny,text=muted] at (0,60) {$60$};\begin{scope}\clip (-4,-4) rectangle (50,65);\draw[accent,line width=1.1pt] (-5.0000,42.5000)--(51.0000,14.5000);\draw[blue!70!black,line width=1.1pt] (43.3333,-5.0000)--(-4.0000,66.0000);\draw[navy,thick,densely dashed] (46.2500,-5.0000)--(-7.0000,66.0000);\end{scope}\filldraw[fill=white,draw=navy] (40.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(40.0000,0.0000)+(-26.1:0.36cm)$) {$(40,\,0)$};\fill[accent] (20.0000,30.0000) circle (2.3pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(20.0000,30.0000)+(60.2:0.36cm)$) {$(20,\,30)$};\filldraw[fill=white,draw=navy] (0.0000,40.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,40.0000)+(133.7:0.36cm)$) {$(0,\,40)$};\filldraw[fill=white,draw=navy] (0.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,0.0000)+(-140.8:0.36cm)$) {$(0,\,0)$};\end{tikzpicture}\par}\smallskip
+
+\textbf{Pas 5. Vèrtexs.} \fmm{O(0,0)}, \fmm{A(40,0)}, \fmm{C(0,40)} i el punt \fmm{B}, tall de les dues rectes:
+
+\fmdisp{\left\{\begin{aligned}x+2y&=80\\ 3x+2y&=120\end{aligned}\right.\xrightarrow{E_2-E_1}2x=40\Rightarrow x=20,\quad y=\frac{80-20}{2}=30\Rightarrow B(20,30)}
+
+\textbf{Pas 6. Avaluem la funció objectiu en els vèrtexs:}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Vèrtex} & \textbf{$f(x,y)=20x+15y$}\\\midrule
+$O(0,0)$ & $0$\\[3pt]
+$A(40,0)$ & $800$\\[3pt]
+\cellcolor{fmyellow!45}$B(20,30)$ & \cellcolor{fmyellow!45}$400+450=850$ $\leftarrow$ màxim\\[3pt]
+$C(0,40)$ & $600$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\textbf{Pas 7. Resposta.} S'han de fabricar \textbf{20 bicicletes de passeig i 30 de muntanya}. El benefici màxim és de \textbf{850 €}.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètode gràfic: rectes de nivell}
+Per a cada valor \fmm{k}, els punts on la funció objectiu val \fmm{k} formen la recta \fmm{ax+by=k}, anomenada \textbf{recta de nivell}. Totes les rectes de nivell són \textbf{para\lgem{}eles} a la recta \fmm{ax+by=0} (que passa per l'origen).
+
+\begin{enumerate}
+\item Dibuixem la recta \fmm{ax+by=0}.
+\item La desplacem para\lgem{}elament en el sentit en què \fmm{f} creix (per a \fmm{f=20x+15y}, cap amunt i a la dreta).
+\item Per \textbf{maximitzar}, busquem l'\textbf{últim} punt de la regió factible que toca la recta; per \textbf{minimitzar}, el \textbf{primer}.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Solucions enteres}: quan les variables compten objectes (bicicletes, persones, camions\dots{}) la solució ha de tenir coordenades enteres. Si el vèrtex òptim no és enter, cal estudiar els punts de coordenades enteres de la regió més pròxims a ell.\end{fmnote}
+\end{fmdef}
+
+\Needspace{18\baselineskip}
+\section{Tipus de problemes clàssics}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Problemes clàssics de programació lineal}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipus} & \textbf{Objectiu} & \textbf{Restriccions típiques}\\\midrule
+\textbf{Producció} & Maximitzar benefici o ingressos & Recursos limitats (matèria primera, hores\dots{}): $\leq$\\[3pt]
+\textbf{Dieta} & Minimitzar el cost & Necessitats mínimes de nutrients: $\geq$\\[3pt]
+\textbf{Transport} & Minimitzar el cost d'enviament & Existències dels orígens i demandes dels destins\\[3pt]
+\textbf{Inversió / mescla} & Maximitzar rendiment o minimitzar cost & Capital total, límits i proporcions entre variables\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}El problema de les bicicletes de l'apartat anterior és un problema de \textbf{producció}. Ara en veurem un de cada un dels altres tipus.\end{fmnote}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Problema de dieta}
+Un ramader prepara el pinso del seu bestiar barrejant dos productes, A i B. Cada kg del producte A aporta 3 unitats de proteïnes i 1 unitat de minerals; cada kg de B, 1 unitat de proteïnes i 2 de minerals. Diàriament el bestiar necessita \textbf{almenys} 12 unitats de proteïnes i 9 de minerals. Si el kg de A costa 5 € i el de B 3 €, quants kg de cada producte ha d'utilitzar perquè el cost siga \textbf{mínim}?
+
+\fmm{x} = kg de A, \fmm{y} = kg de B.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{Proteïnes} & \textbf{Minerals} & \textbf{Preu (€/kg)}\\\midrule
+\textbf{A $(x)$} & 3 & 1 & 5\\[3pt]
+\textbf{B $(y)$} & 1 & 2 & 3\\[3pt]
+\textbf{Mínim} & 12 & 9 & —\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\fmdisp{\min\ f(x,y)=5x+3y\qquad\text{s.a.}\ \left\{\begin{aligned}3x+y&\geq12\\ x+2y&\geq9\\ x\geq0,\ y&\geq0\end{aligned}\right.}
+
+Observa que, en els problemes de dieta, les restriccions principals són de tipus \fmm{\geq} (mínims exigits) i \fmm{(0,0)} \textbf{no} les compleix: la regió queda per damunt de les rectes i és \textbf{no acotada}.
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.4667cm,y=0.3333cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (11,14);\foreach \i in {0,2,...,11} \draw[muted!25,very thin] (\i,-1)--(\i,14);\foreach \i in {0,2,...,14} \draw[muted!25,very thin] (-1,\i)--(11,\i);\fill[teal!22] (11.0000,0.0000)--(11.0000,14.0000)--(0.0000,14.0000)--(0.0000,12.0000)--(3.0000,3.0000)--(9.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(11.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,14.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[below,font=\tiny,text=muted] at (8,0) {$8$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\node[left,font=\tiny,text=muted] at (0,8) {$8$};\node[left,font=\tiny,text=muted] at (0,10) {$10$};\node[left,font=\tiny,text=muted] at (0,12) {$12$};\node[left,font=\tiny,text=muted] at (0,14) {$14$};\begin{scope}\clip (-1,-1) rectangle (11,14);\draw[accent,line width=1.1pt] (4.6667,-2.0000)--(-1.0000,15.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,5.5000)--(12.0000,-1.5000);\draw[navy,thick,densely dashed] (6.0000,-2.0000)--(-4.2000,15.0000);\end{scope}\filldraw[fill=white,draw=navy] (0.0000,12.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,12.0000)+(128.7:0.36cm)$) {$(0,\,12)$};\fill[accent] (3.0000,3.0000) circle (2.3pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(3.0000,3.0000)+(-125.0:0.36cm)$) {$(3,\,3)$};\filldraw[fill=white,draw=navy] (9.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(9.0000,0.0000)+(-35.5:0.36cm)$) {$(9,\,0)$};\end{tikzpicture}\par}\smallskip
+
+Vèrtexs: \fmm{A(0,12)}, \fmm{C(9,0)} i el tall de les dues rectes:
+
+\fmdisp{\left\{\begin{aligned}3x+y&=12\\ x+2y&=9\end{aligned}\right.\Rightarrow y=12-3x\Rightarrow x+24-6x=9\Rightarrow x=3,\ y=3\Rightarrow B(3,3)}
+
+\fmm{f(A)=36}, \fmm{\ f(B)=15+9=24}, \fmm{\ f(C)=45}. Com que la regió és no acotada cap amunt i \fmm{f} té coeficients positius, \fmm{f} no té màxim, però sí \textbf{mínim}: \fmm{24} en \fmm{B(3,3)}.
+
+\textbf{Resposta:} cal barrejar \textbf{3 kg de A i 3 kg de B}, amb un cost mínim de \textbf{24 €} diaris.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Problema de transport}
+Una empresa té dos magatzems, M1 amb 50 tones de producte i M2 amb 40 tones, i ha de proveir dues botigues: B1 necessita 30 tones i B2 en necessita 40. Els costos de transport per tona (en €) són els de la taula. Com s'ha d'organitzar l'enviament perquè el cost siga mínim?
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Cost (€/t)} & \textbf{B1} & \textbf{B2} & \textbf{Existències}\\\midrule
+\textbf{M1} & 3 & 2 & 50\\[3pt]
+\textbf{M2} & 1 & 4 & 40\\[3pt]
+\textbf{Demanda} & 30 & 40 & \\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\textbf{La clau}: només cal triar dues variables. Si \fmm{x} són les tones que van de M1 a B1 i \fmm{y} les que van de M1 a B2, la resta queda determinada per les demandes:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccc}\toprule
+\textbf{Tones} & \textbf{B1} & \textbf{B2}\\\midrule
+\textbf{M1} & $x$ & $y$\\
+\textbf{M2} & $30-x$ & $40-y$\\
+\bottomrule\end{tabular}\end{center}
+
+Totes les quantitats han de ser \fmm{\geq0} i cada magatzem no pot enviar més del que té:
+
+\fmdisp{\left\{\begin{aligned}x\geq0,\ \ 30-x\geq0\ &\Rightarrow\ 0\leq x\leq30\\ y\geq0,\ \ 40-y\geq0\ &\Rightarrow\ 0\leq y\leq40\\ \text{M1}:\ x+y&\leq50\\ \text{M2}:\ (30-x)+(40-y)\leq40\ &\Rightarrow\ x+y\geq30\end{aligned}\right.}
+
+Cost total: \fmm{f(x,y)=3x+2y+1\cdot(30-x)+4\cdot(40-y)=2x-2y+190} (a minimitzar).
+
+Regió factible (fixa't en les restriccions de tipus \fmm{x\leq k}, \fmm{y\leq k}):
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.1273cm,y=0.0926cm,baseline=(current bounding box.center)]\begin{scope}\clip (-4,-4) rectangle (40,50);\foreach \i in {0,10,...,40} \draw[muted!25,very thin] (\i,-4)--(\i,50);\foreach \i in {0,10,...,50} \draw[muted!25,very thin] (-4,\i)--(40,\i);\fill[teal!22] (30.0000,20.0000)--(10.0000,40.0000)--(0.0000,40.0000)--(0.0000,30.0000)--(30.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-4,0)--(42.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-4)--(0,52.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[below,font=\tiny,text=muted] at (20,0) {$20$};\node[below,font=\tiny,text=muted] at (30,0) {$30$};\node[below,font=\tiny,text=muted] at (40,0) {$40$};\node[left,font=\tiny,text=muted] at (0,10) {$10$};\node[left,font=\tiny,text=muted] at (0,20) {$20$};\node[left,font=\tiny,text=muted] at (0,30) {$30$};\node[left,font=\tiny,text=muted] at (0,40) {$40$};\node[left,font=\tiny,text=muted] at (0,50) {$50$};\begin{scope}\clip (-4,-4) rectangle (40,50);\draw[accent,line width=1.1pt] (55.0000,-5.0000)--(-1.0000,51.0000);\draw[blue!70!black,line width=1.1pt] (35.0000,-5.0000)--(-21.0000,51.0000);\draw[violet,line width=1.1pt] (30.0000,-5.0000)--(30.0000,51.0000);\draw[orange!85!black,line width=1.1pt] (-5.0000,40.0000)--(41.0000,40.0000);\draw[navy,thick,densely dashed] (-45.0000,-5.0000)--(11.0000,51.0000);\end{scope}\filldraw[fill=white,draw=navy] (30.0000,20.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(30.0000,20.0000)+(-15.3:0.36cm)$) {$(30,\,20)$};\filldraw[fill=white,draw=navy] (10.0000,40.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(10.0000,40.0000)+(111.4:0.36cm)$) {$(10,\,40)$};\fill[accent] (0.0000,40.0000) circle (2.3pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,40.0000)+(144.0:0.36cm)$) {$(0,\,40)$};\filldraw[fill=white,draw=navy] (0.0000,30.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,30.0000)+(168.3:0.36cm)$) {$(0,\,30)$};\filldraw[fill=white,draw=navy] (30.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(30.0000,0.0000)+(-49.8:0.36cm)$) {$(30,\,0)$};\end{tikzpicture}\par}\smallskip
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccc}\toprule
+\textbf{Vèrtex} & \textbf{$(30,0)$} & \textbf{$(30,20)$} & \textbf{$(10,40)$} & \textbf{$(0,40)$} & \textbf{$(0,30)$}\\\midrule
+\textbf{$f=2x-2y+190$} & 250 & 210 & 130 & \cellcolor{fmyellow!45}110 & 130\\
+\bottomrule\end{tabular}\end{center}
+
+\textbf{Resposta:} el mínim és en \fmm{(0,40)}: M1 envia 0 t a B1 i 40 t a B2; M2 envia 30 t a B1 i 0 t a B2. El cost mínim és de \textbf{110 €}.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Problema d'inversió}
+Una persona vol invertir com a màxim 10 000 € en dos productes: A, amb una rendibilitat anual del 5 \%, i B, més arriscat, del 8 \%. Vol invertir almenys 2 000 € en A, com a màxim 6 000 € en B, i en B no més del doble del que invertisca en A. Com ha de repartir els diners per obtenir el màxim rendiment?
+
+\fmm{x} = milers d'euros en A, \fmm{y} = milers d'euros en B. Cada miler en A rendeix 50 € i cada miler en B, 80 €:
+
+\fmdisp{\max\ f(x,y)=50x+80y\qquad\text{s.a.}\ \left\{\begin{aligned}x+y&\leq10\\ x&\geq2\\ y&\leq6\\ y&\leq2x\\ y&\geq0\end{aligned}\right.}
+
+\par\smallskip{\centering \begin{tikzpicture}[x=0.4667cm,y=0.4667cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (11,8);\foreach \i in {0,2,...,11} \draw[muted!25,very thin] (\i,-1)--(\i,8);\foreach \i in {0,2,...,8} \draw[muted!25,very thin] (-1,\i)--(11,\i);\fill[teal!22] (10.0000,0.0000)--(4.0000,6.0000)--(3.0000,6.0000)--(2.0000,4.0000)--(2.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(11.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,8.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[below,font=\tiny,text=muted] at (8,0) {$8$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\node[left,font=\tiny,text=muted] at (0,8) {$8$};\begin{scope}\clip (-1,-1) rectangle (11,8);\draw[accent,line width=1.1pt] (12.0000,-2.0000)--(1.0000,9.0000);\draw[blue!70!black,line width=1.1pt] (2.0000,-2.0000)--(2.0000,9.0000);\draw[violet,line width=1.1pt] (-2.0000,6.0000)--(12.0000,6.0000);\draw[orange!85!black,line width=1.1pt] (-1.0000,-2.0000)--(4.5000,9.0000);\draw[navy,thick,densely dashed] (-2.0000,9.7500)--(12.0000,1.0000);\end{scope}\filldraw[fill=white,draw=navy] (10.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(10.0000,0.0000)+(-28.9:0.36cm)$) {$(10,\,0)$};\fill[accent] (4.0000,6.0000) circle (2.3pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(4.0000,6.0000)+(94.1:0.36cm)$) {$(4,\,6)$};\filldraw[fill=white,draw=navy] (3.0000,6.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(3.0000,6.0000)+(113.2:0.36cm)$) {$(3,\,6)$};\filldraw[fill=white,draw=navy] (2.0000,4.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(2.0000,4.0000)+(160.0:0.36cm)$) {$(2,\,4)$};\filldraw[fill=white,draw=navy] (2.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(2.0000,0.0000)+(-124.5:0.36cm)$) {$(2,\,0)$};\end{tikzpicture}\par}\smallskip
+
+Vèrtexs i valors: \fmm{f(2,0)=100}, \fmm{f(10,0)=500}, \fmm{f(4,6)=680}, \fmm{f(3,6)=630}, \fmm{f(2,4)=420}.
+
+\textbf{Resposta:} ha d'invertir \textbf{4 000 € en A i 6 000 € en B}; el rendiment màxim és de \textbf{680 €} anuals.
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Casos especials: infinites solucions i sense solució}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Possibles resultats d'un problema de programació lineal}
+\begin{enumerate}
+\item \fmbadge{fmok}{1} \textbf{Solució única}: l'òptim s'assoleix en un sol vèrtex. És el cas més habitual.
+\item \fmbadge{fmev}{$\infty$} \textbf{Infinites solucions}: l'òptim s'assoleix en dos vèrtexs consecutius i, per tant, en tot el costat que els uneix. Passa quan la funció objectiu és \textbf{para\lgem{}ela a un costat} de la regió (les rectes de nivell són para\lgem{}eles a eixa restricció) i eixe costat és el de l'òptim.
+\item \fmbadge{fmas}{$\emptyset$} \textbf{Sense solució}, per dos motius possibles:
+
+\begin{itemize}
+\item La \textbf{regió factible és buida}: les restriccions són incompatibles.
+\item La regió és \textbf{no acotada} i la funció objectiu pot créixer (o decréixer) indefinidament dins d'ella: no hi ha màxim (o mínim).
+\end{itemize}
+\end{enumerate}
+
+\begin{fmnote}Com saber si \fmm{f=ax+by} és para\lgem{}ela a la restricció \fmm{px+qy\leq r}? Han de tenir els coeficients proporcionals: \fmm{\dfrac{a}{p}=\dfrac{b}{q}} (és a dir, el mateix pendent).\end{fmnote}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple 1: infinites solucions}
+Reprenem el problema dels collars i les polseres, però ara suposem que el benefici és de 40 € per collar i 20 € per polsera:
+
+\fmdisp{\max\ f(x,y)=40x+20y\qquad\text{s.a.}\ \left\{\begin{aligned}2x+y&\leq16\\ x+2y&\leq14\\ x\geq0,\ y&\geq0\end{aligned}\right.}
+
+Vèrtexs i valors: \fmm{f(0,0)=0}, \fmm{\ f(8,0)=320}, \fmm{\ f(6,4)=240+80=320}, \fmm{\ f(0,7)=140}.
+
+El màxim, 320, s'assoleix en \textbf{dos vèrtexs}: \fmm{(8,0)} i \fmm{(6,4)}. Això passa perquè \fmm{40x+20y=20(2x+y)}: la funció objectiu és \textbf{para\lgem{}ela} a la restricció \fmm{2x+y\leq16}.
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.5091cm,y=0.4545cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (10,10);\foreach \i in {0,2,...,10} \draw[muted!25,very thin] (\i,-1)--(\i,10);\foreach \i in {0,2,...,10} \draw[muted!25,very thin] (-1,\i)--(10,\i);\fill[teal!22] (8.0000,0.0000)--(6.0000,4.0000)--(0.0000,7.0000)--(0.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(10.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,10.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[below,font=\tiny,text=muted] at (8,0) {$8$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\node[left,font=\tiny,text=muted] at (0,8) {$8$};\node[left,font=\tiny,text=muted] at (0,10) {$10$};\begin{scope}\clip (-1,-1) rectangle (10,10);\draw[accent,line width=1.1pt] (9.0000,-2.0000)--(2.5000,11.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,8.0000)--(11.0000,1.5000);\draw[navy,thick,densely dashed] (9.0000,-2.0000)--(2.5000,11.0000);\draw[accent,line width=3pt] (6.0000,4.0000)--(8.0000,0.0000);\end{scope}\fill[accent] (8.0000,0.0000) circle (2.3pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(8.0000,0.0000)+(-28.6:0.36cm)$) {$(8,\,0)$};\fill[accent] (6.0000,4.0000) circle (2.3pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(6.0000,4.0000)+(24.1:0.36cm)$) {$(6,\,4)$};\filldraw[fill=white,draw=navy] (0.0000,7.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,7.0000)+(132.7:0.36cm)$) {$(0,\,7)$};\filldraw[fill=white,draw=navy] (0.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,0.0000)+(-144.9:0.36cm)$) {$(0,\,0)$};\end{tikzpicture}\par}\smallskip
+
+Totes les solucions òptimes són els punts del segment d'extrems \fmm{(8,0)} i \fmm{(6,4)}:
+
+\fmdisp{\boxed{y=16-2x,\quad 6\leq x\leq8}\qquad\Longleftrightarrow\qquad(x,y)=(8-2t,\ 4t),\ \ t\in[0,1]}
+
+Com que \fmm{x}, \fmm{y} compten objectes, les solucions vàlides són les enteres: \textbf{\fmm{(8,0)}, \fmm{(7,2)} i \fmm{(6,4)}}, totes amb un benefici de 320 €.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple 2: regió no acotada sense òptim}
+Amb les restriccions del problema de la dieta, volem ara \textbf{maximitzar} \fmm{f(x,y)=5x+3y}:
+
+\fmdisp{\max\ f(x,y)=5x+3y\qquad\text{s.a.}\ \left\{\begin{aligned}3x+y&\geq12\\ x+2y&\geq9\\ x\geq0,\ y&\geq0\end{aligned}\right.}
+
+Als vèrtexs: \fmm{f(0,12)=36}, \fmm{f(3,3)=24}, \fmm{f(9,0)=45}. Però el valor més gran dels vèrtexs \textbf{no} és el màxim: per exemple, \fmm{(100,0)} és de la regió i \fmm{f(100,0)=500}.
+
+          \par\smallskip{\centering \begin{tikzpicture}[x=0.4000cm,y=0.3333cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (13,14);\foreach \i in {0,2,...,13} \draw[muted!25,very thin] (\i,-1)--(\i,14);\foreach \i in {0,2,...,14} \draw[muted!25,very thin] (-1,\i)--(13,\i);\fill[teal!22] (13.0000,0.0000)--(13.0000,14.0000)--(0.0000,14.0000)--(0.0000,12.0000)--(3.0000,3.0000)--(9.0000,0.0000)--cycle;\end{scope}\draw[-latex,thick] (-1,0)--(13.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,14.5) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[below,font=\tiny,text=muted] at (8,0) {$8$};\node[below,font=\tiny,text=muted] at (10,0) {$10$};\node[below,font=\tiny,text=muted] at (12,0) {$12$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,6) {$6$};\node[left,font=\tiny,text=muted] at (0,8) {$8$};\node[left,font=\tiny,text=muted] at (0,10) {$10$};\node[left,font=\tiny,text=muted] at (0,12) {$12$};\node[left,font=\tiny,text=muted] at (0,14) {$14$};\begin{scope}\clip (-1,-1) rectangle (13,14);\draw[accent,line width=1.1pt] (4.6667,-2.0000)--(-1.0000,15.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,5.5000)--(14.0000,-2.5000);\draw[navy,thick,densely dashed] (13.2000,-2.0000)--(3.0000,15.0000);\end{scope}\filldraw[fill=white,draw=navy] (0.0000,12.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(0.0000,12.0000)+(124.4:0.36cm)$) {$(0,\,12)$};\filldraw[fill=white,draw=navy] (3.0000,3.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(3.0000,3.0000)+(-121.0:0.36cm)$) {$(3,\,3)$};\filldraw[fill=white,draw=navy] (9.0000,0.0000) circle (1.5pt);\node[font=\tiny,inner sep=1.5pt,fill=white,fill opacity=.75,text opacity=1] at ($(9.0000,0.0000)+(-39.8:0.36cm)$) {$(9,\,0)$};\end{tikzpicture}\par}\smallskip
+
+Les rectes de nivell \fmm{5x+3y=k} es poden desplaçar cap amunt indefinidament i sempre tallen la regió: \fmm{f} \textbf{no té màxim}. El problema no té solució. (En canvi, el \emph{mínim} sí que existeix, com hem vist a 3.4.)
+
+\begin{fmnote}\fmuline{Compte}: en una regió no acotada, avaluar només els vèrtexs no és suficient. Cal comprovar, gràficament o amb un punt allunyat, si la funció pot millorar indefinidament.\end{fmnote}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple 3: regió factible buida}
+Maximitzem \fmm{f(x,y)=x+y} subjecta a \fmm{\left\{\begin{aligned}x+y&\leq3\\ 2x+3y&\geq12\\ x\geq0,\ y&\geq0\end{aligned}\right.}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\smallskip{\centering \begin{tikzpicture}[x=0.5750cm,y=0.5750cm,baseline=(current bounding box.center)]\begin{scope}\clip (-1,-1) rectangle (7,5);\foreach \i in {0,2,...,7} \draw[muted!25,very thin] (\i,-1)--(\i,5);\foreach \i in {-1,0,...,5} \draw[muted!25,very thin] (-1,\i)--(7,\i);\end{scope}\draw[-latex,thick] (-1,0)--(7.5,0) node[below left=-1pt,font=\scriptsize]{$x$};\draw[-latex,thick] (0,-1)--(0,5.25) node[below left=-1pt,font=\scriptsize]{$y$};\node[below,font=\tiny,text=muted] at (2,0) {$2$};\node[below,font=\tiny,text=muted] at (4,0) {$4$};\node[below,font=\tiny,text=muted] at (6,0) {$6$};\node[left,font=\tiny,text=muted] at (0,-1) {$-1$};\node[left,font=\tiny,text=muted] at (0,1) {$1$};\node[left,font=\tiny,text=muted] at (0,2) {$2$};\node[left,font=\tiny,text=muted] at (0,3) {$3$};\node[left,font=\tiny,text=muted] at (0,4) {$4$};\node[left,font=\tiny,text=muted] at (0,5) {$5$};\begin{scope}\clip (-1,-1) rectangle (7,5);\draw[accent,line width=1.1pt] (5.0000,-2.0000)--(-3.0000,6.0000);\draw[blue!70!black,line width=1.1pt] (-2.0000,5.3333)--(8.0000,-1.3333);\end{scope}\end{tikzpicture}\par}\smallskip\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{2x+3y=12} passa per \fmm{(6,0)} i \fmm{(0,4)}, i tot el triangle \fmm{x+y\leq3} del primer quadrant queda per davall d'ella. No hi ha cap punt que complisca totes les restriccions: \textbf{la regió factible és buida} i el problema \textbf{no té solució}.\end{minipage}\par\medskip
+
+\begin{fmnote}\fmuline{Un altre cas d'infinites solucions}: en una regió no acotada, l'òptim es pot assolir en tota una \textbf{semirecta}. Per exemple, si minimitzem \fmm{f=y} en la regió \fmm{x\geq2,\ y\geq1}, el mínim val 1 i s'assoleix en tots els punts \fmm{(x,1)} amb \fmm{x\geq2}.\end{fmnote}
+\end{fmex}
+
+  
+\end{document}
