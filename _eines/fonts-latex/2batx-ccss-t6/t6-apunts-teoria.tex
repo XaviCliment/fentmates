@@ -1,0 +1,874 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks,pdftitle={Apunts de teoria. Unitat 6: Aplicacions de la derivada. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={recta tangent, recta normal, monotonia, creixement, màxims i mínims, extrems absoluts, optimització}]{hyperref}
+
+% colors de la web (FentMates, bloc d'anàlisi)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{6.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «aplicacions»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (30,98) .. controls (50,50) and (64,26) .. (82,26) .. controls (100,26) and (116,86) .. (146,86) .. controls (170,86) and (196,50) .. (222,16);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (56,26)--(108,26) (120,86)--(172,86);
+  \fill (82,26) circle (5.5) (146,86) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=3] at (34,56) {$\nearrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (112,48) {$\searrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (196,62) {$\nearrow$};
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 6: Aplicacions de la derivada}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unitat 6} · Aplicacions\\[2pt] de la derivada\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: recta tangent i recta normal a una corba, estudi de la monotonia (creixement i decreixement), màxims i mínims relatius (per la monotonia o amb la segona derivada), extrems absoluts en un interval tancat i problemes d'optimització, tant si coneixem la funció com si l'hem de construir a partir de l'enunciat.\end{minipage}
+\vspace{1.1cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}6.1}\ \ Recta tangent a una corba}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}6.2}\ \ Recta normal a una corba}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}6.3}\ \ Monotonia d'una funció}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}6.4}\ \ Màxims i mínims relatius}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}6.5}\ \ Extrems absoluts en un interval}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}6.6}\ \ Optimització (I): coneixem la funció}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}6.7}\ \ Optimització (II): construïm la funció}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Recta tangent a una corba}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Recta tangent en un punt \fmm{x=a}}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Com vam veure a la unitat 5, la derivada ens dona el \textbf{pendent de la recta tangent} a la corba en el punt \fmm{(a,f(a))}:
+
+          
+\[m=f'(a)\]
+
+          
+
+L'equació de la recta tangent l'obtenim amb l'equació \textbf{punt-pendent}:
+
+          
+\[y-f(a)=f'(a)\cdot(x-a)\]
+
+\[\Longleftrightarrow\quad y=f(a)+f'(a)\cdot(x-a)\]
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-1,xmax=4,ymin=-0.5,ymax=7]\addplot[fmcurve,domain=-1:4,samples=160]{x^2/2+1};\addplot[fmteal,line width=1.2pt,domain=-1:4]{1*(x-(1))+(1.5)};\draw[fmguide] (axis cs:1,0)--(axis cs:1,1.5);\draw[fmguide] (axis cs:0,1.5)--(axis cs:1,1.5);\node[fmdot] at (axis cs:1,1.5) {};\node[anchor=east,font=\footnotesize,align=center] at (axis cs:0.85,2.2) {$P(a,f(a))$};\node[anchor=north east,font=\footnotesize,align=center] at (axis cs:4,2.6) {$m=f'(a)$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+     \newpage
+
+\fmuline{Mètode}:
+
+      
+\begin{enumerate}
+\item Calculem \fmm{f(a)}: és el \textbf{punt de tangència} \fmm{P(a,f(a))}.
+\item Derivem i calculem \fmm{f'(a)}: és el \textbf{pendent}.
+\item Substituïm en \fmm{y-f(a)=f'(a)(x-a)} i, si volem, aïllem \fmm{y}.
+\end{enumerate}
+\end{fmdef}
+
+  \vspace*{0.2cm}
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Recta tangent a \fmm{f(x)=x^2-4x+5} en \fmm{x=3}.
+          
+
+            
+
+Punt: \fmm{f(3)=9-12+5=2\Rightarrow P(3,2)}
+
+            
+
+Pendent: \fmm{f'(x)=2x-4\Rightarrow f'(3)=2}
+
+            
+
+Recta: \fmm{y-2=2(x-3)\Rightarrow y=2x-4}
+\item Recta tangent a \fmm{f(x)=x\cdot e^x} en \fmm{x=0}.
+          
+
+            
+
+\fmm{f(0)=0\cdot e^0=0\Rightarrow P(0,0)}
+
+            
+
+\fmm{f'(x)=1\cdot e^x+x\cdot e^x=(1+x)\,e^x\Rightarrow f'(0)=1}
+
+            
+
+\fmm{y-0=1\cdot(x-0)\Rightarrow y=x}
+\item Recta tangent a \fmm{f(x)=\ln(x^2-3)} en \fmm{x=2}.
+          
+
+            
+
+\fmm{f(2)=\ln(4-3)=\ln1=0\Rightarrow P(2,0)}
+
+            
+
+\fmm{f'(x)=\dfrac{2x}{x^2-3}\Rightarrow f'(2)=\dfrac{4}{1}=4}
+
+            
+
+\fmm{y-0=4(x-2)\Rightarrow y=4x-8}
+\end{enumerate}
+\end{fmex}
+
+    \vspace*{0.2cm}
+\Needspace{7\baselineskip}
+\begin{fmprop}{Altres tipus d'exercicis de tangents}
+\begin{itemize}
+\item \textbf{Tangent amb un pendent donat o para\lgem{}ela a una recta}: dues rectes para\lgem{}eles tenen el mateix pendent. Si la tangent ha de ser para\lgem{}ela a \fmm{y=mx+n}, resolem l'equació \fmm{f'(x)=m} per saber en quins punts passa.
+\item \textbf{Tangent horitzontal}: és el cas \fmm{m=0}, és a dir, \fmm{f'(x)=0}. La recta és \fmm{y=f(a)}.
+\item \textbf{Trobar paràmetres} a partir de la tangent: si la tangent en \fmm{x=a} és \fmm{y=mx+n}, aleshores \fmm{f(a)=m\,a+n} (el punt és de la recta) i \fmm{f'(a)=m} (mateix pendent). Són dues equacions.
+\end{itemize}
+
+      
+\begin{fmnote}Compte: si la recta ve donada en forma implícita, com \fmm{3x+y=0}, primer aïllem \fmm{y} per veure el pendent: \fmm{y=-3x\Rightarrow m=-3}.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba les rectes tangents a \fmm{f(x)=x^3-3x+1} que són para\lgem{}eles a la recta \fmm{y=9x+2}.
+          
+
+            
+
+Pendent que volem: \fmm{m=9}. Resolem \fmm{f'(x)=3x^2-3=9\Rightarrow x^2=4\Rightarrow x=\pm2}.
+
+            
+
+\fmm{x=2}: \fmm{\ f(2)=8-6+1=3\Rightarrow y-3=9(x-2)\Rightarrow y=9x-15}
+
+            
+
+\fmm{x=-2}: \fmm{\ f(-2)=-8+6+1=-1\Rightarrow y+1=9(x+2)\Rightarrow y=9x+17}
+\item La gràfica de \fmm{f(x)=ax^3+bx} passa pel punt \fmm{(1,1)} i, en aquest punt, la recta tangent és para\lgem{}ela a \fmm{3x+y=0}. Calcula \fmm{a} i \fmm{b}.
+          
+
+            
+
+Passa per \fmm{(1,1)}: \fmm{f(1)=a+b=1}.
+
+            
+
+\fmm{3x+y=0\Rightarrow y=-3x\Rightarrow m=-3}. Com que \fmm{f'(x)=3ax^2+b}: \fmm{\ f'(1)=3a+b=-3}.
+
+            
+
+\fmm{\begin{cases}a+b=1\\3a+b=-3\end{cases}\Rightarrow 2a=-4\Rightarrow a=-2,\ b=3}. La funció és \fmm{f(x)=-2x^3+3x}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Recta normal a una corba}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Recta normal en un punt \fmm{x=a}}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La \textbf{recta normal} a la corba en \fmm{P(a,f(a))} és la recta que passa per \fmm{P} i és \textbf{perpendicular} a la recta tangent. Dues rectes perpendiculars compleixen \fmm{m_t\cdot m_n=-1}, així que el pendent de la normal és:
+
+          
+\[m_n=-\frac{1}{f'(a)}\]
+
+          
+
+I l'equació de la recta normal, a partir de l'equació punt-pendent:
+
+          
+\[y-f(a)=-\frac{1}{f'(a)}\cdot(x-a)\]
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=6.4cm,xmin=-2,xmax=6,ymin=-1.4,ymax=6.2]\addplot[fmcurve,domain=-2:6,samples=160]{x^2/4+1};\addplot[fmteal,line width=1.2pt,domain=-2:6]{1*(x-(2))+(2)};\addplot[fmsi,line width=1.2pt,domain=-2:6]{-1*(x-(2))+(2)};\node[fmdot] at (axis cs:2,2) {};\node[anchor=west,font=\footnotesize,align=center] at (axis cs:4.4,3.6) {tangent};\node[anchor=west,font=\footnotesize,align=center] at (axis cs:-0.2,4.6) {normal};\node[anchor=west,font=\footnotesize,align=center] at (axis cs:2.25,1.55) {$P$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}\fmuline{Cas especial}: si \fmm{f'(a)=0}, la tangent és horitzontal, \fmm{y=f(a)}, i la normal és la recta \textbf{vertical} \fmm{x=a}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Recta normal a \fmm{f(x)=x^2-4x+5} en \fmm{x=3} (és la funció de l'exemple 1 de l'apartat anterior).
+          
+
+            
+
+\fmm{P(3,2)} i \fmm{f'(3)=2\Rightarrow m_n=-\dfrac12}
+
+            
+
+\fmm{y-2=-\dfrac12(x-3)\Rightarrow y=-\dfrac12x+\dfrac72}
+\item Rectes tangent i normal a \fmm{f(x)=\sqrt x} en \fmm{x=4}.
+          
+
+            
+
+\fmm{f(4)=2\Rightarrow P(4,2)}; \fmm{\ f'(x)=\dfrac{1}{2\sqrt x}\Rightarrow f'(4)=\dfrac14}
+
+            
+
+Tangent: \fmm{y-2=\dfrac14(x-4)\Rightarrow y=\dfrac14x+1}
+
+            
+
+Normal: \fmm{m_n=-\dfrac{1}{1/4}=-4\Rightarrow y-2=-4(x-4)\Rightarrow y=-4x+18}
+\item Rectes tangent i normal a \fmm{f(x)=x^3-3x} en \fmm{x=1}.
+          
+
+            
+
+\fmm{f(1)=-2}; \fmm{\ f'(x)=3x^2-3\Rightarrow f'(1)=0}: tangent horitzontal.
+
+            
+
+Tangent: \fmm{y=-2}. Normal (vertical): \fmm{x=1}.
+\item En quin punt de \fmm{f(x)=x^2} la recta normal té pendent \fmm{-\frac14}? Escriu-la.
+          
+
+            
+
+\fmm{-\dfrac{1}{f'(a)}=-\dfrac14\Rightarrow f'(a)=4\Rightarrow 2a=4\Rightarrow a=2}, punt \fmm{P(2,4)}.
+
+            
+
+\fmm{y-4=-\dfrac14(x-2)\Rightarrow y=-\dfrac14x+\dfrac92}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Estudi de la monotonia d'una funció}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Funció creixent i decreixent}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una funció \fmm{f} és \textbf{creixent} en un interval si, en augmentar \fmm{x}, augmenta \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\lt f(x_2)}. La gràfica «puja» quan la llegim d'esquerra a dreta.
+
+          
+
+És \textbf{decreixent} si, en augmentar \fmm{x}, disminueix \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\gt f(x_2)}. La gràfica «baixa».
+
+          
+
+Estudiar la \textbf{monotonia} d'una funció és trobar els intervals on és creixent i on és decreixent.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2.6,xmax=2.6,ymin=-4,ymax=4]\addplot[fmok,line width=1.6pt,smooth,domain=-2.6:-1,samples=120]{x^3-3*x};\addplot[fmas,line width=1.6pt,smooth,domain=-1:1,samples=120]{x^3-3*x};\addplot[fmok,line width=1.6pt,smooth,domain=1:2.6,samples=120]{x^3-3*x};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:-1.75,3.3) {\color{fmok}$f'>0\ \nearrow$};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:0.75,3.3) {\color{fmas}$f'<0\ \searrow$};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:1.75,-3.3) {\color{fmok}$f'>0\ \nearrow$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Monotonia i signe de la derivada}
+El signe de \fmm{f'} és el signe del pendent de les tangents, i per tant ens diu si la funció puja o baixa:
+
+      
+\[f'(x)\gt0\ \text{en }(a,b)\ \Rightarrow\ f\ \text{és creixent en }(a,b)\qquad\qquad f'(x)\lt0\ \text{en }(a,b)\ \Rightarrow\ f\ \text{és decreixent en }(a,b)\]
+
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètode per estudiar la monotonia}
+\begin{enumerate}
+\item Calculem el \textbf{domini} de \fmm{f}.
+\item Calculem \fmm{f'(x)} i la \textbf{simplifiquem} (si podem, la factoritzem).
+\item Resolem \fmm{f'(x)=0}. Aquests punts, juntament amb els punts que \textbf{no són del domini}, divideixen la recta real en intervals.
+\item En cada interval triem un \textbf{valor de prova} i mirem el signe de \fmm{f'} (ho resumim en una taula).
+\item \textbf{Conclusió}: on \fmm{f'\gt0}, creixent ($\nearrow$); on \fmm{f'\lt0}, decreixent ($\searrow$).
+\end{enumerate}
+
+      
+\begin{fmnote}\fmuline{Truc}: les exponencials \fmm{e^{g(x)}} i els quadrats del denominador \fmm{(x-a)^2} són sempre positius, així que no influeixen en el signe de \fmm{f'}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Estudia la monotonia de \fmm{f(x)=x^3-3x^2-9x+1}.
+          
+
+            
+
+Polinomi: domini \fmm{\mathbb R}. \fmm{\ f'(x)=3x^2-6x-9=3(x^2-2x-3)=3(x+1)(x-3)}
+
+            
+
+\fmm{f'(x)=0\Rightarrow x=-1,\ x=3}. Taula de signes:
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccc}\toprule
+\textbf{$x$} & $(-\infty,-1)$ & $-1$ & $(-1,3)$ & $3$ & $(3,+\infty)$\\\midrule
+\textbf{Valor de prova} & $f'(-2)=15$ &  & $f'(0)=-9$ &  & $f'(4)=15$\\\midrule
+\textbf{$f'(x)$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\\midrule
+\textbf{$f(x)$} & {\Large\color{fmok}$\nearrow$} &  & {\Large\color{fmas}$\searrow$} &  & {\Large\color{fmok}$\nearrow$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+\textbf{Creixent} en \fmm{(-\infty,-1)\cup(3,+\infty)} i \textbf{decreixent} en \fmm{(-1,3)}.
+\item Estudia la monotonia de \fmm{f(x)=\dfrac{x^2}{x-1}}.
+          
+
+            
+
+Domini: \fmm{\mathbb R-\{1\}}. \fmm{\ f'(x)=\dfrac{2x(x-1)-x^2}{(x-1)^2}=\dfrac{x^2-2x}{(x-1)^2}=\dfrac{x(x-2)}{(x-1)^2}}
+
+            
+
+\fmm{f'(x)=0\Rightarrow x=0,\ x=2}. A més, \fmm{x=1} no és del domini: també el posem a la taula.
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccccc}\toprule
+\textbf{$x$} & $(-\infty,0)$ & $0$ & $(0,1)$ & $1$ & $(1,2)$ & $2$ & $(2,+\infty)$\\\midrule
+\textbf{Valor de prova} & $f'(-1)=\frac34$ &  & $f'(\frac12)=-3$ &  & $f'(\frac32)=-3$ &  & $f'(3)=\frac34$\\\midrule
+\textbf{$f'(x)$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & $\nexists$ & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\\midrule
+\textbf{$f(x)$} & {\Large\color{fmok}$\nearrow$} &  & {\Large\color{fmas}$\searrow$} & $\nexists$ & {\Large\color{fmas}$\searrow$} &  & {\Large\color{fmok}$\nearrow$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+Creixent en \fmm{(-\infty,0)\cup(2,+\infty)} i decreixent en \fmm{(0,1)\cup(1,2)}. (No podem escriure \fmm{(0,2)}: el punt \fmm{x=1} no és del domini.)
+\item Estudia la monotonia de \fmm{f(x)=x\cdot e^{-x}}.
+          
+
+            
+
+Domini \fmm{\mathbb R}. \fmm{\ f'(x)=e^{-x}+x\cdot e^{-x}\cdot(-1)=e^{-x}(1-x)}
+
+            
+
+Com que \fmm{e^{-x}\gt0} sempre, el signe de \fmm{f'} és el de \fmm{1-x}: \fmm{f'(x)=0\Rightarrow x=1}; \fmm{\ f'(0)=1\gt0} i \fmm{f'(2)=-e^{-2}\lt0}.
+
+            
+
+Creixent en \fmm{(-\infty,1)} i decreixent en \fmm{(1,+\infty)}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Càlcul de màxims i mínims relatius}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Màxim i mínim relatiu}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{f} té un \textbf{màxim relatiu} en \fmm{x=a} si \fmm{f(a)} és més gran que els valors de \fmm{f} en els punts pròxims a \fmm{a}: la gràfica fa un «cim».
+
+          
+
+Té un \textbf{mínim relatiu} en \fmm{x=a} si \fmm{f(a)} és més menut que els valors pròxims: la gràfica fa una «vall».
+
+          
+
+Els màxims i els mínims relatius s'anomenen \textbf{extrems relatius}. El resultat sempre l'hem de donar com un \textbf{punt} \fmm{(a,f(a))}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2.6,xmax=2.6,ymin=-4,ymax=4]\addplot[fmcurve,domain=-2.6:2.6,samples=160]{x^3-3*x};\addplot[fmteal,line width=1.2pt,domain=-1.8:-0.2]{2};\addplot[fmteal,line width=1.2pt,domain=0.2:1.8]{-2};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,-2) {};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:-1.25,2.75) {màxim relatiu};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:1.25,-2.85) {mínim relatiu};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Condició necessària: \fmm{f'(a)=0}}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si \fmm{f} és derivable i té un extrem relatiu en \fmm{x=a}, la tangent hi és horitzontal: \fmm{f'(a)=0}. Els punts amb \fmm{f'(a)=0} s'anomenen \textbf{punts crítics} (o singulars): són els \textbf{candidats} a màxim o mínim.
+
+          
+\begin{fmnote}\fmuline{Compte}: el recíproc no és cert. \fmm{f(x)=x^3} té \fmm{f'(0)=0}, però en \fmm{x=0} no hi ha cap extrem: la funció creix abans i després (és un \textbf{punt d'inflexió} amb tangent horitzontal).\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2,xmax=2,ymin=-3,ymax=3]\addplot[fmcurve,domain=-2:2,samples=160]{x^3};\addplot[fmteal,line width=1.2pt,domain=-1:1]{0};\node[fmdot] at (axis cs:0,0) {};\node[anchor=north west,font=\footnotesize,align=center] at (axis cs:0.15,-0.9) {$f'(0)=0$, però\\no és extrem};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dos criteris per decidir si un punt crític és màxim o mínim}
+\textbf{Criteri 1: a partir de la monotonia.} Mirem el canvi de signe de \fmm{f'} en la taula de signes:
+
+      
+\begin{itemize}
+\item Si passa de creixent a decreixent ($\nearrow$ $\searrow$, de \fmm{+} a \fmm{-}): \textbf{màxim relatiu}.
+\item Si passa de decreixent a creixent ($\searrow$ $\nearrow$, de \fmm{-} a \fmm{+}): \textbf{mínim relatiu}.
+\item Si \fmm{f'} no canvia de signe: no és extrem.
+\end{itemize}
+
+      
+
+\textbf{Criteri 2: amb la segona derivada.} Si \fmm{f'(a)=0}, substituïm el punt en \fmm{f''}:
+
+      
+\begin{itemize}
+\item \fmm{f''(a)\lt0\ \Rightarrow} \textbf{màxim relatiu} (la corba és còncava cap avall $\cap$).
+\item \fmm{f''(a)\gt0\ \Rightarrow} \textbf{mínim relatiu} (la corba és còncava cap amunt $\cup$).
+\item \fmm{f''(a)=0\ \Rightarrow} el criteri no decideix: hem de fer l'estudi de la monotonia (criteri 1).
+\end{itemize}
+
+      
+
+En tots dos casos, acabem calculant la segona coordenada \fmm{f(a)} per donar el punt.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Màxims i mínims de \fmm{f(x)=x^3-3x^2-9x+1} (la funció de l'exemple 1 de l'apartat 6.3) pels dos criteris.
+          
+
+            
+
+Punts crítics: \fmm{f'(x)=3(x+1)(x-3)=0\Rightarrow x=-1,\ x=3}.
+
+            
+
+Criteri 1: en \fmm{x=-1}, \fmm{f'} passa de \fmm{+} a \fmm{-} ($\nearrow$ $\searrow$): màxim. En \fmm{x=3} passa de \fmm{-} a \fmm{+} ($\searrow$ $\nearrow$): mínim.
+
+            
+
+Criteri 2: \fmm{f''(x)=6x-6}. \fmm{\ f''(-1)=-12\lt0\Rightarrow} màxim; \fmm{\ f''(3)=12\gt0\Rightarrow} mínim.
+
+            
+
+\fmm{f(-1)=-1-3+9+1=6}, \fmm{\ f(3)=27-27-27+1=-26}. \textbf{Màxim relatiu} \fmm{(-1,6)} i \textbf{mínim relatiu} \fmm{(3,-26)}.
+\item Màxims i mínims de \fmm{f(x)=x^4-2x^2} amb la segona derivada.
+          
+
+            
+
+\fmm{f'(x)=4x^3-4x=4x(x^2-1)=0\Rightarrow x=0,\ x=\pm1}
+
+            
+
+\fmm{f''(x)=12x^2-4}: \fmm{\ f''(0)=-4\lt0} (màxim), \fmm{\ f''(\pm1)=8\gt0} (mínims).
+
+            
+
+Màxim relatiu \fmm{(0,0)}; mínims relatius \fmm{(-1,-1)} i \fmm{(1,-1)}.
+\item Màxims i mínims de \fmm{f(x)=\dfrac{x^2}{x-1}} (exemple 2 de l'apartat 6.3).
+          
+
+            
+
+De la taula de signes: en \fmm{x=0}, $\nearrow$ $\searrow$ (màxim); en \fmm{x=2}, $\searrow$ $\nearrow$ (mínim). En \fmm{x=1} no n'hi ha: no és del domini.
+
+            
+
+Màxim relatiu \fmm{(0,0)} i mínim relatiu \fmm{(2,4)}. Fixa't que el màxim relatiu és més baix que el mínim: «relatiu» vol dir només comparat amb els punts pròxims!
+\item Calcula \fmm{a} i \fmm{b} perquè \fmm{f(x)=x^3+ax^2+b} tinga un extrem relatiu en el punt \fmm{(2,-1)}. És màxim o mínim?
+          
+
+            
+
+Extrem en \fmm{x=2}: \fmm{f'(x)=3x^2+2ax\Rightarrow f'(2)=12+4a=0\Rightarrow a=-3}
+
+            
+
+Passa per \fmm{(2,-1)}: \fmm{f(2)=8-12+b=-1\Rightarrow b=3}
+
+            
+
+\fmm{f''(x)=6x-6\Rightarrow f''(2)=6\gt0}: és un \textbf{mínim} relatiu.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Extrems absoluts en un interval tancat}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Màxim i mínim absolut}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En molts problemes la variable només pot prendre valors en un interval \fmm{[a,b]} (per exemple, les hores d'un dia o les unitats que pot fabricar una empresa). Aleshores ens interessa el valor \textbf{més gran} (màxim absolut) i el \textbf{més menut} (mínim absolut) de \fmm{f} en tot l'interval.
+
+          
+
+Si \fmm{f} és contínua en \fmm{[a,b]}, sempre té màxim i mínim absoluts, i s'assoleixen en un \textbf{punt crític} de dins de l'interval o en un \textbf{extrem de l'interval}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-0.6,xmax=5.8,ymin=-5,ymax=25]\addplot[fmmuted!35,line width=1.6pt,smooth,domain=-0.6:5.8,samples=120]{x^3-6*x^2+9*x+2};\addplot[fmcurve,domain=0:5,samples=160]{x^3-6*x^2+9*x+2};\draw[fmguide] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:5,0}|-{rel axis cs:0,0}) -- ({axis cs:5,0}|-{rel axis cs:0,1});\node[fmdot] at (axis cs:1,6) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:5,22) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:3,2) {};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:1,8.4) {màx. relatiu};\node[anchor=east,font=\footnotesize,align=center] at (axis cs:4.7,22) {màx. absolut};\node[anchor=north,font=\footnotesize,align=center] at (axis cs:3,0.6) {mín. absolut};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+
+\fmuline{Mètode}:
+
+      
+\begin{enumerate}
+\item Resolem \fmm{f'(x)=0} i ens quedem amb les solucions que són \textbf{dins} de \fmm{(a,b)}.
+\item Calculem \fmm{f} en aquests punts i en els extrems \fmm{a} i \fmm{b}.
+\item El valor més gran és el \textbf{màxim absolut} i el més menut, el \textbf{mínim absolut}.
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Extrems absoluts de \fmm{f(x)=x^3-6x^2+9x+2} en \fmm{[0,5]}.
+          
+
+            
+
+\fmm{f'(x)=3x^2-12x+9=3(x-1)(x-3)=0\Rightarrow x=1,\ x=3} (tots dos dins de \fmm{[0,5]}).
+
+            
+
+\fmm{f(0)=2,\quad f(1)=6,\quad f(3)=2,\quad f(5)=22}
+
+            
+
+\textbf{Màxim absolut}: 22, en \fmm{x=5} (un extrem de l'interval!). \textbf{Mínim absolut}: 2, en \fmm{x=0} i en \fmm{x=3}. El màxim relatiu \fmm{(1,6)} no és el màxim absolut.
+\item Extrems absoluts de \fmm{f(x)=x^3-3x^2-9x+1} en \fmm{[-2,4]}.
+          
+
+            
+
+Punts crítics \fmm{x=-1} i \fmm{x=3} (dins de l'interval). \fmm{\ f(-2)=-1,\ f(-1)=6,\ f(3)=-26,\ f(4)=-19}
+
+            
+
+Màxim absolut 6 en \fmm{x=-1}; mínim absolut \fmm{-26} en \fmm{x=3}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Problemes d'optimització (I): coneixem la funció}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Problemes d'optimització}
+Són problemes en què hem de trobar el \textbf{màxim o el mínim} d'una funció que ve descrita en un enunciat (benefici màxim, cost mínim, àrea màxima\dots{}). Normalment la dificultat està a determinar correctament la funció. Distingim dos casos:
+
+      
+\begin{itemize}
+\item \textbf{L'enunciat ens dona la funció} (aquest apartat): només cal calcular-ne el màxim o el mínim.
+\item \textbf{Hem de construir la funció} a partir de l'enunciat (apartat 6.7).
+\end{itemize}
+
+      
+
+\fmuline{Mètode quan coneixem la funció}:
+
+      
+\begin{enumerate}
+\item Identifiquem la funció i \textbf{quins valors pot prendre la variable} (per exemple, \fmm{x\geq0}, o \fmm{t\in[0,24]}).
+\item Derivem i igualem a zero: \fmm{f'(x)=0}.
+\item \textbf{Justifiquem} que és màxim o mínim (segona derivada o monotonia). Si la variable està en un interval tancat, també comparem amb els extrems.
+\item Calculem el valor òptim i \textbf{responem a la pregunta} amb les unitats.
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item S'estima que el benefici mensual d'una fàbrica de llepolies ve donat per: \[f(x)=-0{,}1x^2+2{,}5x-10,\]on \fmm{x} són les tones fabricades i el benefici està en milions d'euros. \\ 
+\textbf{a)} Quantes tones s'han de vendre perquè el benefici siga màxim? Quin és aquest benefici? Justifica que és màxim.
+          
+
+            
+
+\fmm{f'(x)=-0{,}2x+2{,}5=0\Rightarrow x=12{,}5} tones.
+
+            
+
+\fmm{f''(x)=-0{,}2\Rightarrow f''(12{,}5)=-0{,}2\lt0}: és un \textbf{màxim}.
+
+            
+
+\fmm{f(12{,}5)=-15{,}625+31{,}25-10=5{,}625}. Venent 12,5 tones el benefici és màxim: 5,625 milions d'euros.
+
+          
+
+          
+
+\textbf{b)} Quina quantitat produeix el màxim benefici \textbf{per tona} venuda?
+
+          
+
+            
+
+Construïm la funció de benefici per tona: \fmm{g(x)=\dfrac{f(x)}{x}=-0{,}1x+2{,}5-\dfrac{10}{x}}, \fmm{x\gt0}.
+
+            
+
+\fmm{g'(x)=-0{,}1+\dfrac{10}{x^2}=0\Rightarrow x^2=100\Rightarrow x=10} (la solució negativa no té sentit).
+
+            
+
+\fmm{g''(x)=-\dfrac{20}{x^3}\Rightarrow g''(10)=-0{,}02\lt0}: màxim. \fmm{\ g(10)=-1+2{,}5-1=0{,}5}.
+
+            
+
+Amb 10 tones s'obté el màxim benefici per tona: 0,5 milions d'euros (500 000 €) per tona.
+\item El cost de fabricar \fmm{x} unitats d'un producte és \fmm{C(x)=x^2+10x+400} euros. Quantes unitats s'han de fabricar perquè el \textbf{cost mitjà} per unitat siga mínim?
+          
+
+            
+
+Cost mitjà: \fmm{CM(x)=\dfrac{C(x)}{x}=x+10+\dfrac{400}{x}}, \fmm{x\gt0}.
+
+            
+
+\fmm{CM'(x)=1-\dfrac{400}{x^2}=0\Rightarrow x^2=400\Rightarrow x=20}
+
+            
+
+\fmm{CM''(x)=\dfrac{800}{x^3}\Rightarrow CM''(20)\gt0}: mínim. \fmm{\ CM(20)=20+10+20=50}. Fabricant 20 unitats, el cost mitjà és mínim: 50 € per unitat.
+\item El nivell de contaminació d'una ciutat entre les 0 h i les 8 h ve donat per: \[C(t)=t^3-15t^2+63t+40,\,\, t\in[0,8] \text{(en hores)}.\] A quina hora la contaminació és màxima? I mínima?
+          
+
+            
+
+\fmm{C'(t)=3t^2-30t+63=3(t-3)(t-7)=0\Rightarrow t=3,\ t=7} (dins de \fmm{[0,8]}).
+
+            
+
+És un interval tancat, comparem amb els extrems:\[\ C(0)=40,\ C(3)=121,\ C(7)=89,\ C(8)=96\]
+
+            
+
+La contaminació és màxima a les 3 h (121) i mínima a les 0 h (40).
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{10\baselineskip}
+\section{Problemes d'optimització (II): hem de construir la funció}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètode amb dues variables}
+Quan l'enunciat no ens dona la funció, normalment apareixen \textbf{dues variables}. Dividim el procés en cinc passos:
+
+      
+\begin{enumerate}
+\item \textbf{Identifiquem les dues variables} i busquem una \textbf{equació que les relacione} (la condició o lligam). En aquesta equació aïllem una variable en funció de l'altra.
+\item Busquem la \textbf{funció a optimitzar} i hi substituïm la variable per l'expressió del pas anterior. Així obtenim una funció d'una sola variable.
+\item Derivem la funció i igualem a 0 per trobar els possibles màxims o mínims.
+\item Fem la segona derivada (o estudiem el creixement i el decreixement) per saber si els punts obtinguts són màxims o mínims.
+\item Prenem el punt buscat, calculem l'altra variable i \textbf{interpretem el resultat} final.
+\end{enumerate}
+
+      
+\begin{fmnote}\fmuline{Consells}: fes un dibuix i posa-hi les variables; escriu quins valors poden prendre (longituds positives, nombre de persones\dots{}); i recorda les fórmules bàsiques: àrea del rectangle \fmm{b\cdot h}, perímetre \fmm{2b+2h}, volum d'un prisma \fmm{A_{base}\cdot h}, ingressos = preu · quantitat.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Determina les condicions més econòmiques d'una piscina a l'aire lliure, de volum 32 m³, amb fons quadrat, de manera que la superfície de les parets i el terra necessite la mínima quantitat de material.
+          
+
+            
+
+\textbf{1.} Variables: \fmm{x} = costat de la base, \fmm{y} = altura (en m). Com que el volum és 32 m³: \fmm{\ V=A_b\cdot h\Rightarrow x^2y=32\Rightarrow y=\dfrac{32}{x^2}}
+
+            
+
+\textbf{2.} Funció a minimitzar: la superfície del fons i les quatre parets (no té sostre): \fmm{\ S=x^2+4xy\Rightarrow S(x)=x^2+4x\cdot\dfrac{32}{x^2}=x^2+\dfrac{128}{x}}, \fmm{x\gt0}.
+
+            
+
+\textbf{3.} \fmm{S'(x)=2x-\dfrac{128}{x^2}=0\Rightarrow 2x^3=128\Rightarrow x^3=64\Rightarrow x=4}
+
+            
+
+\textbf{4.} \fmm{S''(x)=2+\dfrac{256}{x^3}\Rightarrow S''(4)=6\gt0}: \textbf{mínim}.
+
+            
+
+\textbf{5.} \fmm{x=4} m i \fmm{y=\dfrac{32}{16}=2} m. La piscina més econòmica té una base de 4 m $\times$ 4 m i 2 m de profunditat, i necessita \fmm{S(4)=16+32=48} m² de material.
+\item Descompon el nombre 12 en dos sumands positius de manera que el producte del quadrat del primer pel segon siga màxim.
+          
+
+            
+
+\textbf{1.} Sumands \fmm{x} i \fmm{y}: \fmm{x+y=12\Rightarrow y=12-x}, \fmm{\ 0\lt x\lt12}.
+
+            
+
+\textbf{2.} \fmm{P=x^2y\Rightarrow P(x)=x^2(12-x)=12x^2-x^3}
+
+            
+
+\textbf{3--4.} \fmm{P'(x)=24x-3x^2=3x(8-x)=0\Rightarrow x=8} (\fmm{x=0} no és vàlid). \fmm{\ P''(x)=24-6x\Rightarrow P''(8)=-24\lt0}: màxim.
+
+            
+
+\textbf{5.} Els sumands són 8 i 4, i el producte màxim és \fmm{8^2\cdot4=256}.
+\item Volem tancar un camp rectangular al costat d'un riu amb 400 m de tanca. El costat del riu no cal tancar-lo. Quines dimensions fan màxima l'àrea?
+          
+
+            
+
+\textbf{1.} \fmm{x} = costats perpendiculars al riu, \fmm{y} = costat para\lgem{}el. Tanca: \fmm{2x+y=400\Rightarrow y=400-2x}, \fmm{\ 0\lt x\lt200}.
+
+            
+
+\textbf{2.} \fmm{A=x\cdot y\Rightarrow A(x)=x(400-2x)=400x-2x^2}
+
+            
+
+\textbf{3--4.} \fmm{A'(x)=400-4x=0\Rightarrow x=100}; \fmm{\ A''(x)=-4\lt0}: màxim.
+
+            
+
+\textbf{5.} \fmm{x=100} m i \fmm{y=200} m. L'àrea màxima és 20 000 m².
+\item D'una làmina quadrada de cartó de 12 cm de costat retallem un quadrat de costat \fmm{x} en cada cantó i dobleguem per fer una caixa sense tapa. Quin ha de ser \fmm{x} perquè el volum siga màxim?
+          
+
+            
+
+\textbf{1--2.} La base és un quadrat de costat \fmm{12-2x} i l'altura és \fmm{x}, amb \fmm{0\lt x\lt6}: \fmm{\ V(x)=(12-2x)^2\cdot x=4x^3-48x^2+144x}
+
+            
+
+\textbf{3.} \fmm{V'(x)=12x^2-96x+144=12(x-2)(x-6)=0\Rightarrow x=2} (\fmm{x=6} no és vàlid: no hi hauria caixa).
+
+            
+
+\textbf{4.} \fmm{V''(x)=24x-96\Rightarrow V''(2)=-48\lt0}: màxim.
+
+            
+
+\textbf{5.} Retallem quadrats de 2 cm: la caixa fa 8 $\times$ 8 $\times$ 2 cm i té un volum màxim de 128 cm³.
+\item Una agència organitza un viatge amb un mínim de 30 persones a 600 € per persona. Per cada persona addicional, el preu de \textbf{tots} els viatgers baixa 10 €. Quantes persones han d'anar al viatge perquè els ingressos siguen màxims?
+          
+
+            
+
+\textbf{1.} \fmm{x} = persones addicionals. Hi van \fmm{30+x} persones i cadascuna paga \fmm{600-10x} euros.
+
+            
+
+\textbf{2.} Ingressos = persones · preu: \fmm{\ I(x)=(30+x)(600-10x)=18\,000+300x-10x^2}
+
+            
+
+\textbf{3--4.} \fmm{I'(x)=300-20x=0\Rightarrow x=15}; \fmm{\ I''(x)=-20\lt0}: màxim.
+
+            
+
+\textbf{5.} Han d'anar 45 persones, a 450 € cadascuna. Els ingressos màxims són \fmm{45\cdot450=20\,250} €.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

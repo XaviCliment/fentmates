@@ -1,0 +1,879 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 6: Aplicaciones de la derivada. 2.º de Bachillerato CCSS},pdfsubject={Matemáticas Aplicadas a las Ciencias Sociales II},pdfkeywords={recta tangente, recta normal, monotonía, crecimiento, máximos y mínimos, extremos absolutos, optimización}}
+
+% colors de la web (FentMates, bloc d'anàlisi)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{6.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «aplicacions»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (30,98) .. controls (50,50) and (64,26) .. (82,26) .. controls (100,26) and (116,86) .. (146,86) .. controls (170,86) and (196,50) .. (222,16);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (56,26)--(108,26) (120,86)--(172,86);
+  \fill (82,26) circle (5.5) (146,86) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=3] at (34,56) {$\nearrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (112,48) {$\searrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (196,62) {$\nearrow$};
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato CCSS · Unidad 6: Aplicaciones de la derivada}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.6cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.6cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unidad 6} · Aplicaciones\\[2pt] de la derivada\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: recta tangente y recta normal a una curva, estudio de la monotonía (crecimiento y decrecimiento), máximos y mínimos relativos (por la monotonía o con la segunda derivada), extremos absolutos en un intervalo cerrado y problemas de optimización, tanto si conocemos la función como si la tenemos que construir a partir del enunciado.\end{minipage}
+\vspace{1.6cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}6.1}\ \ Recta tangente a una curva}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}6.2}\ \ Recta normal a una curva}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}6.3}\ \ Monotonía de una función}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}6.4}\ \ Máximos y mínimos relativos}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}6.5}\ \ Extremos absolutos en un intervalo}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}6.6}\ \ Optimización (I): conocemos la función}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}6.7}\ \ Optimización (II): construimos la función}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Recta tangente a una curva}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Recta tangente en un punto \fmm{x=a}}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Como vimos en la unidad 5, la derivada nos da la \textbf{pendiente de la recta tangente} a la curva en el punto \fmm{(a,f(a))}:
+
+          
+\[m=f'(a)\]
+
+          
+
+La ecuación de la recta tangente la obtenemos con la ecuación \textbf{punto-pendiente}:
+
+          
+\[y-f(a)=f'(a)\cdot(x-a)\]
+
+\[\Longleftrightarrow\quad y=f(a)+f'(a)\cdot(x-a)\]
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-1,xmax=4,ymin=-0.5,ymax=7]\addplot[fmcurve,domain=-1:4,samples=160]{x^2/2+1};\addplot[fmteal,line width=1.2pt,domain=-1:4]{1*(x-(1))+(1.5)};\draw[fmguide] (axis cs:1,0)--(axis cs:1,1.5);\draw[fmguide] (axis cs:0,1.5)--(axis cs:1,1.5);\node[fmdot] at (axis cs:1,1.5) {};\node[anchor=east,font=\footnotesize,align=center] at (axis cs:0.85,2.2) {$P(a,f(a))$};\node[anchor=north east,font=\footnotesize,align=center] at (axis cs:4,2.6) {$m=f'(a)$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+
+\newpage
+
+\fmuline{Método}:
+
+      
+\begin{enumerate}
+\item Calculamos \fmm{f(a)}: es el \textbf{punto de tangencia} \fmm{P(a,f(a))}.
+\item Derivamos y calculamos \fmm{f'(a)}: es la \textbf{pendiente}.
+\item Sustituimos en \fmm{y-f(a)=f'(a)(x-a)} y, si queremos, despejamos \fmm{y}.
+\end{enumerate}
+\end{fmdef}
+
+\vspace*{0.2cm}
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Recta tangente a \fmm{f(x)=x^2-4x+5} en \fmm{x=3}.
+          
+
+            
+
+Punto: \fmm{f(3)=9-12+5=2\Rightarrow P(3,2)}
+
+            
+
+Pendiente: \fmm{f'(x)=2x-4\Rightarrow f'(3)=2}
+
+            
+
+Recta: \fmm{y-2=2(x-3)\Rightarrow y=2x-4}
+\item Recta tangente a \fmm{f(x)=x\cdot e^x} en \fmm{x=0}.
+          
+
+            
+
+\fmm{f(0)=0\cdot e^0=0\Rightarrow P(0,0)}
+
+            
+
+\fmm{f'(x)=1\cdot e^x+x\cdot e^x=(1+x)\,e^x\Rightarrow f'(0)=1}
+
+            
+
+\fmm{y-0=1\cdot(x-0)\Rightarrow y=x}
+\item Recta tangente a \fmm{f(x)=\ln(x^2-3)} en \fmm{x=2}.
+          
+
+            
+
+\fmm{f(2)=\ln(4-3)=\ln1=0\Rightarrow P(2,0)}
+
+            
+
+\fmm{f'(x)=\dfrac{2x}{x^2-3}\Rightarrow f'(2)=\dfrac{4}{1}=4}
+
+            
+
+\fmm{y-0=4(x-2)\Rightarrow y=4x-8}
+\end{enumerate}
+\end{fmex}
+
+  
+\vspace*{0.2cm}
+\Needspace{7\baselineskip}
+\begin{fmprop}{Otros tipos de ejercicios de tangentes}
+\begin{itemize}
+\item \textbf{Tangente con una pendiente dada o paralela a una recta}: dos rectas paralelas tienen la misma pendiente. Si la tangente tiene que ser paralela a \fmm{y=mx+n}, resolvemos la ecuación \fmm{f'(x)=m} para saber en qué puntos ocurre.
+\item \textbf{Tangente horizontal}: es el caso \fmm{m=0}, es decir, \fmm{f'(x)=0}. La recta es \fmm{y=f(a)}.
+\item \textbf{Hallar parámetros} a partir de la tangente: si la tangente en \fmm{x=a} es \fmm{y=mx+n}, entonces \fmm{f(a)=m\,a+n} (el punto es de la recta) y \fmm{f'(a)=m} (misma pendiente). Son dos ecuaciones.
+\end{itemize}
+
+      
+\begin{fmnote}Cuidado: si la recta viene dada en forma implícita, como \fmm{3x+y=0}, primero despejamos \fmm{y} para ver la pendiente: \fmm{y=-3x\Rightarrow m=-3}.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla las rectas tangentes a \fmm{f(x)=x^3-3x+1} que son paralelas a la recta \fmm{y=9x+2}.
+          
+
+            
+
+Pendiente que queremos: \fmm{m=9}. Resolvemos \fmm{f'(x)=3x^2-3=9\Rightarrow x^2=4\Rightarrow x=\pm2}.
+
+            
+
+\fmm{x=2}: \fmm{\ f(2)=8-6+1=3\Rightarrow y-3=9(x-2)\Rightarrow y=9x-15}
+
+            
+
+\fmm{x=-2}: \fmm{\ f(-2)=-8+6+1=-1\Rightarrow y+1=9(x+2)\Rightarrow y=9x+17}
+\item La gráfica de \fmm{f(x)=ax^3+bx} pasa por el punto \fmm{(1,1)} y, en ese punto, la recta tangente es paralela a \fmm{3x+y=0}. Calcula \fmm{a} y \fmm{b}.
+          
+
+            
+
+Pasa por \fmm{(1,1)}: \fmm{f(1)=a+b=1}.
+
+            
+
+\fmm{3x+y=0\Rightarrow y=-3x\Rightarrow m=-3}. Como \fmm{f'(x)=3ax^2+b}: \fmm{\ f'(1)=3a+b=-3}.
+
+            
+
+\fmm{\begin{cases}a+b=1\\3a+b=-3\end{cases}\Rightarrow 2a=-4\Rightarrow a=-2,\ b=3}. La función es \fmm{f(x)=-2x^3+3x}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Recta normal a una curva}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Recta normal en un punto \fmm{x=a}}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La \textbf{recta normal} a la curva en \fmm{P(a,f(a))} es la recta que pasa por \fmm{P} y es \textbf{perpendicular} a la recta tangente. Dos rectas perpendiculares cumplen \fmm{m_t\cdot m_n=-1}, así que la pendiente de la normal es:
+
+          
+\[m_n=-\frac{1}{f'(a)}\]
+
+          
+
+Y la ecuación de la recta normal, a partir de la ecuación punto-pendiente:
+
+          
+\[y-f(a)=-\frac{1}{f'(a)}\cdot(x-a)\]
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=6.4cm,xmin=-2,xmax=6,ymin=-1.4,ymax=6.2]\addplot[fmcurve,domain=-2:6,samples=160]{x^2/4+1};\addplot[fmteal,line width=1.2pt,domain=-2:6]{1*(x-(2))+(2)};\addplot[fmsi,line width=1.2pt,domain=-2:6]{-1*(x-(2))+(2)};\node[fmdot] at (axis cs:2,2) {};\node[anchor=west,font=\footnotesize,align=center] at (axis cs:4.4,3.6) {tangente};\node[anchor=west,font=\footnotesize,align=center] at (axis cs:-0.2,4.6) {normal};\node[anchor=west,font=\footnotesize,align=center] at (axis cs:2.25,1.55) {$P$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}\fmuline{Caso especial}: si \fmm{f'(a)=0}, la tangente es horizontal, \fmm{y=f(a)}, y la normal es la recta \textbf{vertical} \fmm{x=a}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Recta normal a \fmm{f(x)=x^2-4x+5} en \fmm{x=3} (es la función del ejemplo 1 del apartado anterior).
+          
+
+            
+
+\fmm{P(3,2)} y \fmm{f'(3)=2\Rightarrow m_n=-\dfrac12}
+
+            
+
+\fmm{y-2=-\dfrac12(x-3)\Rightarrow y=-\dfrac12x+\dfrac72}
+\item Rectas tangente y normal a \fmm{f(x)=\sqrt x} en \fmm{x=4}.
+          
+
+            
+
+\fmm{f(4)=2\Rightarrow P(4,2)}; \fmm{\ f'(x)=\dfrac{1}{2\sqrt x}\Rightarrow f'(4)=\dfrac14}
+
+            
+
+Tangente: \fmm{y-2=\dfrac14(x-4)\Rightarrow y=\dfrac14x+1}
+
+            
+
+Normal: \fmm{m_n=-\dfrac{1}{1/4}=-4\Rightarrow y-2=-4(x-4)\Rightarrow y=-4x+18}
+\item Rectas tangente y normal a \fmm{f(x)=x^3-3x} en \fmm{x=1}.
+          
+
+            
+
+\fmm{f(1)=-2}; \fmm{\ f'(x)=3x^2-3\Rightarrow f'(1)=0}: tangente horizontal.
+
+            
+
+Tangente: \fmm{y=-2}. Normal (vertical): \fmm{x=1}.
+\item ¿En qué punto de \fmm{f(x)=x^2} la recta normal tiene pendiente \fmm{-\frac14}? Escríbela.
+          
+
+            
+
+\fmm{-\dfrac{1}{f'(a)}=-\dfrac14\Rightarrow f'(a)=4\Rightarrow 2a=4\Rightarrow a=2}, punto \fmm{P(2,4)}.
+
+            
+
+\fmm{y-4=-\dfrac14(x-2)\Rightarrow y=-\dfrac14x+\dfrac92}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Estudio de la monotonía de una función}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Función creciente y decreciente}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una función \fmm{f} es \textbf{creciente} en un intervalo si, al aumentar \fmm{x}, aumenta \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\lt f(x_2)}. La gráfica «sube» cuando la leemos de izquierda a derecha.
+
+          
+
+Es \textbf{decreciente} si, al aumentar \fmm{x}, disminuye \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\gt f(x_2)}. La gráfica «baja».
+
+          
+
+Estudiar la \textbf{monotonía} de una función es encontrar los intervalos donde es creciente y donde es decreciente.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2.6,xmax=2.6,ymin=-4,ymax=4]\addplot[fmok,line width=1.6pt,smooth,domain=-2.6:-1,samples=120]{x^3-3*x};\addplot[fmas,line width=1.6pt,smooth,domain=-1:1,samples=120]{x^3-3*x};\addplot[fmok,line width=1.6pt,smooth,domain=1:2.6,samples=120]{x^3-3*x};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:-1.75,3.3) {\color{fmok}$f'>0\ \nearrow$};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:0.75,3.3) {\color{fmas}$f'<0\ \searrow$};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:1.75,-3.3) {\color{fmok}$f'>0\ \nearrow$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Monotonía y signo de la derivada}
+El signo de \fmm{f'} es el signo de la pendiente de las tangentes y, por tanto, nos dice si la función sube o baja:
+
+      
+\[f'(x)\gt0\ \text{en }(a,b)\ \Rightarrow\ f\ \text{es creciente en }(a,b)\qquad\qquad f'(x)\lt0\ \text{en }(a,b)\ \Rightarrow\ f\ \text{es decreciente en }(a,b)\]
+
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método para estudiar la monotonía}
+\begin{enumerate}
+\item Calculamos el \textbf{dominio} de \fmm{f}.
+\item Calculamos \fmm{f'(x)} y la \textbf{simplificamos} (si podemos, la factorizamos).
+\item Resolvemos \fmm{f'(x)=0}. Estos puntos, junto con los puntos que \textbf{no son del dominio}, dividen la recta real en intervalos.
+\item En cada intervalo elegimos un \textbf{valor de prueba} y miramos el signo de \fmm{f'} (lo resumimos en una tabla).
+\item \textbf{Conclusión}: donde \fmm{f'\gt0}, creciente ($\nearrow$); donde \fmm{f'\lt0}, decreciente ($\searrow$).
+\end{enumerate}
+
+      
+\begin{fmnote}\fmuline{Truco}: las exponenciales \fmm{e^{g(x)}} y los cuadrados del denominador \fmm{(x-a)^2} son siempre positivos, así que no influyen en el signo de \fmm{f'}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Estudia la monotonía de \fmm{f(x)=x^3-3x^2-9x+1}.
+          
+
+            
+
+Polinomio: dominio \fmm{\mathbb R}. \fmm{\ f'(x)=3x^2-6x-9=3(x^2-2x-3)=3(x+1)(x-3)}
+
+            
+
+\fmm{f'(x)=0\Rightarrow x=-1,\ x=3}. Tabla de signos:
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccc}\toprule
+\textbf{$x$} & $(-\infty,-1)$ & $-1$ & $(-1,3)$ & $3$ & $(3,+\infty)$\\\midrule
+\textbf{Valor de prueba} & $f'(-2)=15$ &  & $f'(0)=-9$ &  & $f'(4)=15$\\\midrule
+\textbf{$f'(x)$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\\midrule
+\textbf{$f(x)$} & {\Large\color{fmok}$\nearrow$} &  & {\Large\color{fmas}$\searrow$} &  & {\Large\color{fmok}$\nearrow$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+\textbf{Creciente} en \fmm{(-\infty,-1)\cup(3,+\infty)} y \textbf{decreciente} en \fmm{(-1,3)}.
+\item Estudia la monotonía de \fmm{f(x)=\dfrac{x^2}{x-1}}.
+          
+
+            
+
+Dominio: \fmm{\mathbb R-\{1\}}. \fmm{\ f'(x)=\dfrac{2x(x-1)-x^2}{(x-1)^2}=\dfrac{x^2-2x}{(x-1)^2}=\dfrac{x(x-2)}{(x-1)^2}}
+
+            
+
+\fmm{f'(x)=0\Rightarrow x=0,\ x=2}. Además, \fmm{x=1} no es del dominio: también lo ponemos en la tabla.
+
+              
+\begin{center}\small\renewcommand{\arraystretch}{1.6}\begin{tabular}{l|ccccccc}\toprule
+\textbf{$x$} & $(-\infty,0)$ & $0$ & $(0,1)$ & $1$ & $(1,2)$ & $2$ & $(2,+\infty)$\\\midrule
+\textbf{Valor de prueba} & $f'(-1)=\frac34$ &  & $f'(\frac12)=-3$ &  & $f'(\frac32)=-3$ &  & $f'(3)=\frac34$\\\midrule
+\textbf{$f'(x)$} & \textbf{\color{fmok}$+$} & 0 & \textbf{\color{fmas}$-$} & $\nexists$ & \textbf{\color{fmas}$-$} & 0 & \textbf{\color{fmok}$+$}\\\midrule
+\textbf{$f(x)$} & {\Large\color{fmok}$\nearrow$} &  & {\Large\color{fmas}$\searrow$} & $\nexists$ & {\Large\color{fmas}$\searrow$} &  & {\Large\color{fmok}$\nearrow$}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+Creciente en \fmm{(-\infty,0)\cup(2,+\infty)} y decreciente en \fmm{(0,1)\cup(1,2)}. (No podemos escribir \fmm{(0,2)}: el punto \fmm{x=1} no es del dominio.)
+\item Estudia la monotonía de \fmm{f(x)=x\cdot e^{-x}}.
+          
+
+            
+
+Dominio \fmm{\mathbb R}. \fmm{\ f'(x)=e^{-x}+x\cdot e^{-x}\cdot(-1)=e^{-x}(1-x)}
+
+            
+
+Como \fmm{e^{-x}\gt0} siempre, el signo de \fmm{f'} es el de \fmm{1-x}: \fmm{f'(x)=0\Rightarrow x=1}; \fmm{\ f'(0)=1\gt0} y \fmm{f'(2)=-e^{-2}\lt0}.
+
+            
+
+Creciente en \fmm{(-\infty,1)} y decreciente en \fmm{(1,+\infty)}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Cálculo de máximos y mínimos relativos}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Máximo y mínimo relativo}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{f} tiene un \textbf{máximo relativo} en \fmm{x=a} si \fmm{f(a)} es mayor que los valores de \fmm{f} en los puntos próximos a \fmm{a}: la gráfica hace una «cima».
+
+          
+
+Tiene un \textbf{mínimo relativo} en \fmm{x=a} si \fmm{f(a)} es menor que los valores próximos: la gráfica hace un «valle».
+
+          
+
+Los máximos y mínimos relativos se llaman \textbf{extremos relativos}. El resultado siempre hay que darlo como un \textbf{punto} \fmm{(a,f(a))}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2.6,xmax=2.6,ymin=-4,ymax=4]\addplot[fmcurve,domain=-2.6:2.6,samples=160]{x^3-3*x};\addplot[fmteal,line width=1.2pt,domain=-1.8:-0.2]{2};\addplot[fmteal,line width=1.2pt,domain=0.2:1.8]{-2};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:-1,2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,-2) {};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:-1.25,2.75) {máximo relativo};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:1.25,-2.85) {mínimo relativo};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Condición necesaria: \fmm{f'(a)=0}}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si \fmm{f} es derivable y tiene un extremo relativo en \fmm{x=a}, la tangente es horizontal: \fmm{f'(a)=0}. Los puntos con \fmm{f'(a)=0} se llaman \textbf{puntos críticos} (o singulares): son los \textbf{candidatos} a máximo o mínimo.
+
+          
+\begin{fmnote}\fmuline{Cuidado}: el recíproco no es cierto. \fmm{f(x)=x^3} tiene \fmm{f'(0)=0}, pero en \fmm{x=0} no hay ningún extremo: la función crece antes y después (es un \textbf{punto de inflexión} con tangente horizontal).\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2,xmax=2,ymin=-3,ymax=3]\addplot[fmcurve,domain=-2:2,samples=160]{x^3};\addplot[fmteal,line width=1.2pt,domain=-1:1]{0};\node[fmdot] at (axis cs:0,0) {};\node[anchor=north west,font=\footnotesize,align=center] at (axis cs:0.15,-0.9) {$f'(0)=0$, pero\\no es extremo};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dos criterios para decidir si un punto crítico es máximo o mínimo}
+\textbf{Criterio 1: a partir de la monotonía.} Miramos el cambio de signo de \fmm{f'} en la tabla de signos:
+
+      
+\begin{itemize}
+\item Si pasa de creciente a decreciente ($\nearrow$ $\searrow$, de \fmm{+} a \fmm{-}): \textbf{máximo relativo}.
+\item Si pasa de decreciente a creciente ($\searrow$ $\nearrow$, de \fmm{-} a \fmm{+}): \textbf{mínimo relativo}.
+\item Si \fmm{f'} no cambia de signo: no es extremo.
+\end{itemize}
+
+      
+
+\textbf{Criterio 2: con la segunda derivada.} Si \fmm{f'(a)=0}, sustituimos el punto en \fmm{f''}:
+
+      
+\begin{itemize}
+\item \fmm{f''(a)\lt0\ \Rightarrow} \textbf{máximo relativo} (la curva es cóncava hacia abajo $\cap$).
+\item \fmm{f''(a)\gt0\ \Rightarrow} \textbf{mínimo relativo} (la curva es cóncava hacia arriba $\cup$).
+\item \fmm{f''(a)=0\ \Rightarrow} el criterio no decide: tenemos que hacer el estudio de la monotonía (criterio 1).
+\end{itemize}
+
+      
+
+En los dos casos, acabamos calculando la segunda coordenada \fmm{f(a)} para dar el punto.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Máximos y mínimos de \fmm{f(x)=x^3-3x^2-9x+1} (la función del ejemplo 1 del apartado 6.3) por los dos criterios.
+          
+
+            
+
+Puntos críticos: \fmm{f'(x)=3(x+1)(x-3)=0\Rightarrow x=-1,\ x=3}.
+
+            
+
+Criterio 1: en \fmm{x=-1}, \fmm{f'} pasa de \fmm{+} a \fmm{-} ($\nearrow$ $\searrow$): máximo. En \fmm{x=3} pasa de \fmm{-} a \fmm{+} ($\searrow$ $\nearrow$): mínimo.
+
+            
+
+Criterio 2: \fmm{f''(x)=6x-6}. \fmm{\ f''(-1)=-12\lt0\Rightarrow} máximo; \fmm{\ f''(3)=12\gt0\Rightarrow} mínimo.
+
+            
+
+\fmm{f(-1)=-1-3+9+1=6}, \fmm{\ f(3)=27-27-27+1=-26}. \textbf{Máximo relativo} \fmm{(-1,6)} y \textbf{mínimo relativo} \fmm{(3,-26)}.
+\item Máximos y mínimos de \fmm{f(x)=x^4-2x^2} con la segunda derivada.
+          
+
+            
+
+\fmm{f'(x)=4x^3-4x=4x(x^2-1)=0\Rightarrow x=0,\ x=\pm1}
+
+            
+
+\fmm{f''(x)=12x^2-4}: \fmm{\ f''(0)=-4\lt0} (máximo), \fmm{\ f''(\pm1)=8\gt0} (mínimos).
+
+            
+
+Máximo relativo \fmm{(0,0)}; mínimos relativos \fmm{(-1,-1)} y \fmm{(1,-1)}.
+\item Máximos y mínimos de \fmm{f(x)=\dfrac{x^2}{x-1}} (ejemplo 2 del apartado 6.3).
+          
+
+            
+
+De la tabla de signos: en \fmm{x=0}, $\nearrow$ $\searrow$ (máximo); en \fmm{x=2}, $\searrow$ $\nearrow$ (mínimo). En \fmm{x=1} no hay: no es del dominio.
+
+            
+
+Máximo relativo \fmm{(0,0)} y mínimo relativo \fmm{(2,4)}. Fíjate en que el máximo relativo es más bajo que el mínimo: ¡«relativo» quiere decir solo comparado con los puntos próximos!
+\item Calcula \fmm{a} y \fmm{b} para que \fmm{f(x)=x^3+ax^2+b} tenga un extremo relativo en el punto \fmm{(2,-1)}. ¿Es máximo o mínimo?
+          
+
+            
+
+Extremo en \fmm{x=2}: \fmm{f'(x)=3x^2+2ax\Rightarrow f'(2)=12+4a=0\Rightarrow a=-3}
+
+            
+
+Pasa por \fmm{(2,-1)}: \fmm{f(2)=8-12+b=-1\Rightarrow b=3}
+
+            
+
+\fmm{f''(x)=6x-6\Rightarrow f''(2)=6\gt0}: es un \textbf{mínimo} relativo.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Extremos absolutos en un intervalo cerrado}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Máximo y mínimo absoluto}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En muchos problemas la variable solo puede tomar valores en un intervalo \fmm{[a,b]} (por ejemplo, las horas de un día o las unidades que puede fabricar una empresa). Entonces nos interesa el valor \textbf{más grande} (máximo absoluto) y el \textbf{más pequeño} (mínimo absoluto) de \fmm{f} en todo el intervalo.
+
+          
+
+Si \fmm{f} es continua en \fmm{[a,b]}, siempre tiene máximo y mínimo absolutos, y se alcanzan en un \textbf{punto crítico} de dentro del intervalo o en un \textbf{extremo del intervalo}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-0.6,xmax=5.8,ymin=-5,ymax=25]\addplot[fmmuted!35,line width=1.6pt,smooth,domain=-0.6:5.8,samples=120]{x^3-6*x^2+9*x+2};\addplot[fmcurve,domain=0:5,samples=160]{x^3-6*x^2+9*x+2};\draw[fmguide] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:5,0}|-{rel axis cs:0,0}) -- ({axis cs:5,0}|-{rel axis cs:0,1});\node[fmdot] at (axis cs:1,6) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:5,22) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:0,2) {};\node[circle,fill=fmas,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:3,2) {};\node[anchor=center,font=\footnotesize,align=center] at (axis cs:1,8.4) {máx. relativo};\node[anchor=east,font=\footnotesize,align=center] at (axis cs:4.7,22) {máx. absoluto};\node[anchor=north,font=\footnotesize,align=center] at (axis cs:3,0.6) {mín. absoluto};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+
+\fmuline{Método}:
+
+      
+\begin{enumerate}
+\item Resolvemos \fmm{f'(x)=0} y nos quedamos con las soluciones que están \textbf{dentro} de \fmm{(a,b)}.
+\item Calculamos \fmm{f} en estos puntos y en los extremos \fmm{a} y \fmm{b}.
+\item El valor más grande es el \textbf{máximo absoluto} y el más pequeño, el \textbf{mínimo absoluto}.
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Extremos absolutos de \fmm{f(x)=x^3-6x^2+9x+2} en \fmm{[0,5]}.
+          
+
+            
+
+\fmm{f'(x)=3x^2-12x+9=3(x-1)(x-3)=0\Rightarrow x=1,\ x=3} (los dos dentro de \fmm{[0,5]}).
+
+            
+
+\fmm{f(0)=2,\quad f(1)=6,\quad f(3)=2,\quad f(5)=22}
+
+            
+
+\textbf{Máximo absoluto}: 22, en \fmm{x=5} (¡un extremo del intervalo!). \textbf{Mínimo absoluto}: 2, en \fmm{x=0} y en \fmm{x=3}. El máximo relativo \fmm{(1,6)} no es el máximo absoluto.
+\item Extremos absolutos de \fmm{f(x)=x^3-3x^2-9x+1} en \fmm{[-2,4]}.
+          
+
+            
+
+Puntos críticos \fmm{x=-1} y \fmm{x=3} (dentro del intervalo). \fmm{\ f(-2)=-1,\ f(-1)=6,\ f(3)=-26,\ f(4)=-19}
+
+            
+
+Máximo absoluto 6 en \fmm{x=-1}; mínimo absoluto \fmm{-26} en \fmm{x=3}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Problemas de optimización (I): conocemos la función}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Problemas de optimización}
+Son problemas en los que tenemos que encontrar el \textbf{máximo o el mínimo} de una función que viene descrita en un enunciado (beneficio máximo, coste mínimo, área máxima\dots{}). Normalmente la dificultad está en determinar correctamente la función. Distinguimos dos casos:
+
+      
+\begin{itemize}
+\item \textbf{El enunciado nos da la función} (este apartado): solo hay que calcular su máximo o mínimo.
+\item \textbf{Tenemos que construir la función} a partir del enunciado (apartado 6.7).
+\end{itemize}
+
+      
+
+\fmuline{Método cuando conocemos la función}:
+
+      
+\begin{enumerate}
+\item Identificamos la función y \textbf{qué valores puede tomar la variable} (por ejemplo, \fmm{x\geq0}, o \fmm{t\in[0,24]}).
+\item Derivamos e igualamos a cero: \fmm{f'(x)=0}.
+\item \textbf{Justificamos} que es máximo o mínimo (segunda derivada o monotonía). Si la variable está en un intervalo cerrado, también comparamos con los extremos.
+\item Calculamos el valor óptimo y \textbf{respondemos a la pregunta} con las unidades.
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Se estima que el beneficio mensual de una fábrica de golosinas viene dado por: \[f(x)=-0{,}1x^2+2{,}5x-10,\]donde \fmm{x} son las toneladas fabricadas y el beneficio está en millones de euros. \\ 
+\textbf{a)} ¿Cuántas toneladas hay que vender para que el beneficio sea máximo? ¿Cuál es ese beneficio? Justifica que es máximo.
+          
+
+            
+
+\fmm{f'(x)=-0{,}2x+2{,}5=0\Rightarrow x=12{,}5} toneladas.
+
+            
+
+\fmm{f''(x)=-0{,}2\Rightarrow f''(12{,}5)=-0{,}2\lt0}: es un \textbf{máximo}.
+
+            
+
+\fmm{f(12{,}5)=-15{,}625+31{,}25-10=5{,}625}. Vendiendo 12,5 toneladas el beneficio es máximo: 5,625 millones de euros.
+
+          
+
+          
+
+\textbf{b)} ¿Qué cantidad produce el máximo beneficio \textbf{por tonelada} vendida?
+
+          
+
+            
+
+Construimos la función de beneficio por tonelada: \fmm{g(x)=\dfrac{f(x)}{x}=-0{,}1x+2{,}5-\dfrac{10}{x}}, \fmm{x\gt0}.
+
+            
+
+\fmm{g'(x)=-0{,}1+\dfrac{10}{x^2}=0\Rightarrow x^2=100\Rightarrow x=10} (la solución negativa no tiene sentido).
+
+            
+
+\fmm{g''(x)=-\dfrac{20}{x^3}\Rightarrow g''(10)=-0{,}02\lt0}: máximo. \fmm{\ g(10)=-1+2{,}5-1=0{,}5}.
+
+            
+
+Con 10 toneladas se obtiene el máximo beneficio por tonelada: 0,5 millones de euros (500 000 €) por tonelada.
+\item El coste de fabricar \fmm{x} unidades de un producto es \fmm{C(x)=x^2+10x+400} euros. ¿Cuántas unidades hay que fabricar para que el \textbf{coste medio} por unidad sea mínimo?
+          
+
+            
+
+Coste medio: \fmm{CM(x)=\dfrac{C(x)}{x}=x+10+\dfrac{400}{x}}, \fmm{x\gt0}.
+
+            
+
+\fmm{CM'(x)=1-\dfrac{400}{x^2}=0\Rightarrow x^2=400\Rightarrow x=20}
+
+            
+
+\fmm{CM''(x)=\dfrac{800}{x^3}\Rightarrow CM''(20)\gt0}: mínimo. \fmm{\ CM(20)=20+10+20=50}. Fabricando 20 unidades, el coste medio es mínimo: 50 € por unidad.
+\item El nivel de contaminación de una ciudad entre las 0 h y las 8 h viene dado por: \[C(t)=t^3-15t^2+63t+40,\,\, t\in[0,8] \text{(en horas)}.\] ¿A qué hora la contaminación es máxima? ¿Y mínima?
+          
+
+            
+
+\fmm{C'(t)=3t^2-30t+63=3(t-3)(t-7)=0\Rightarrow t=3,\ t=7} (dentro de \fmm{[0,8]}).
+
+            
+
+Es un intervalo cerrado, comparamos con los extremos:\[\ C(0)=40,\ C(3)=121,\ C(7)=89,\ C(8)=96\]
+
+            
+
+La contaminación es máxima a las 3 h (121) y mínima a las 0 h (40).
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{10\baselineskip}
+\section{Problemas de optimización (II): tenemos que construir la función}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método con dos variables}
+Cuando el enunciado no nos da la función, normalmente aparecen \textbf{dos variables}. Dividimos el proceso en cinco pasos:
+
+      
+\begin{enumerate}
+\item \textbf{Identificamos las dos variables} y buscamos una \textbf{ecuación que las relacione} (la condición o ligadura). En esta ecuación despejamos una variable en función de la otra.
+\item Buscamos la \textbf{función a optimizar} y sustituimos en ella la variable por la expresión del paso anterior. Así obtenemos una función de una sola variable.
+\item Derivamos la función e igualamos a 0 para encontrar los posibles máximos o mínimos.
+\item Hacemos la segunda derivada (o estudiamos el crecimiento y el decrecimiento) para saber si los puntos obtenidos son máximos o mínimos.
+\item Tomamos el punto buscado, calculamos la otra variable e \textbf{interpretamos el resultado} final.
+\end{enumerate}
+
+      
+\begin{fmnote}\fmuline{Consejos}: haz un dibujo y pon las variables; escribe qué valores pueden tomar (longitudes positivas, número de personas\dots{}); y recuerda las fórmulas básicas: área del rectángulo \fmm{b\cdot h}, perímetro \fmm{2b+2h}, volumen de un prisma \fmm{A_{base}\cdot h}, ingresos = precio · cantidad.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Determina las condiciones más económicas de una piscina al aire libre, de volumen 32 m³, con fondo cuadrado, de forma que la superficie de las paredes y el suelo necesite la mínima cantidad de material.
+          
+
+            
+
+\textbf{1.} Variables: \fmm{x} = lado de la base, \fmm{y} = altura (en m). Como el volumen es 32 m³: \fmm{\ V=A_b\cdot h\Rightarrow x^2y=32\Rightarrow y=\dfrac{32}{x^2}}
+
+            
+
+\textbf{2.} Función a minimizar: la superficie del fondo y las cuatro paredes (no tiene techo): \fmm{\ S=x^2+4xy\Rightarrow S(x)=x^2+4x\cdot\dfrac{32}{x^2}=x^2+\dfrac{128}{x}}, \fmm{x\gt0}.
+
+            
+
+\textbf{3.} \fmm{S'(x)=2x-\dfrac{128}{x^2}=0\Rightarrow 2x^3=128\Rightarrow x^3=64\Rightarrow x=4}
+
+            
+
+\textbf{4.} \fmm{S''(x)=2+\dfrac{256}{x^3}\Rightarrow S''(4)=6\gt0}: \textbf{mínimo}.
+
+            
+
+\textbf{5.} \fmm{x=4} m e \fmm{y=\dfrac{32}{16}=2} m. La piscina más económica tiene una base de 4 m $\times$ 4 m y 2 m de profundidad, y necesita \fmm{S(4)=16+32=48} m² de material.
+\item Descompón el número 12 en dos sumandos positivos de forma que el producto del cuadrado del primero por el segundo sea máximo.
+          
+
+            
+
+\textbf{1.} Sumandos \fmm{x} e \fmm{y}: \fmm{x+y=12\Rightarrow y=12-x}, \fmm{\ 0\lt x\lt12}.
+
+            
+
+\textbf{2.} \fmm{P=x^2y\Rightarrow P(x)=x^2(12-x)=12x^2-x^3}
+
+            
+
+\textbf{3--4.} \fmm{P'(x)=24x-3x^2=3x(8-x)=0\Rightarrow x=8} (\fmm{x=0} no es válido). \fmm{\ P''(x)=24-6x\Rightarrow P''(8)=-24\lt0}: máximo.
+
+            
+
+\textbf{5.} Los sumandos son 8 y 4, y el producto máximo es \fmm{8^2\cdot4=256}.
+\item Queremos vallar un campo rectangular junto a un río con 400 m de valla. El lado del río no hay que vallarlo. ¿Qué dimensiones hacen máxima el área?
+          
+
+            
+
+\textbf{1.} \fmm{x} = lados perpendiculares al río, \fmm{y} = lado paralelo. Valla: \fmm{2x+y=400\Rightarrow y=400-2x}, \fmm{\ 0\lt x\lt200}.
+
+            
+
+\textbf{2.} \fmm{A=x\cdot y\Rightarrow A(x)=x(400-2x)=400x-2x^2}
+
+            
+
+\textbf{3--4.} \fmm{A'(x)=400-4x=0\Rightarrow x=100}; \fmm{\ A''(x)=-4\lt0}: máximo.
+
+            
+
+\textbf{5.} \fmm{x=100} m e \fmm{y=200} m. El área máxima es 20 000 m².
+\item De una lámina cuadrada de cartón de 12 cm de lado recortamos un cuadrado de lado \fmm{x} en cada esquina y doblamos para hacer una caja sin tapa. ¿Cuánto debe valer \fmm{x} para que el volumen sea máximo?
+          
+
+            
+
+\textbf{1--2.} La base es un cuadrado de lado \fmm{12-2x} y la altura es \fmm{x}, con \fmm{0\lt x\lt6}: \fmm{\ V(x)=(12-2x)^2\cdot x=4x^3-48x^2+144x}
+
+            
+
+\textbf{3.} \fmm{V'(x)=12x^2-96x+144=12(x-2)(x-6)=0\Rightarrow x=2} (\fmm{x=6} no es válido: no habría caja).
+
+            
+
+\textbf{4.} \fmm{V''(x)=24x-96\Rightarrow V''(2)=-48\lt0}: máximo.
+
+            
+
+\textbf{5.} Recortamos cuadrados de 2 cm: la caja mide 8 $\times$ 8 $\times$ 2 cm y tiene un volumen máximo de 128 cm³.
+\item Una agencia organiza un viaje con un mínimo de 30 personas a 600 € por persona. Por cada persona adicional, el precio de \textbf{todos} los viajeros baja 10 €. ¿Cuántas personas tienen que ir al viaje para que los ingresos sean máximos?
+          
+
+            
+
+\textbf{1.} \fmm{x} = personas adicionales. Van \fmm{30+x} personas y cada una paga \fmm{600-10x} euros.
+
+            
+
+\textbf{2.} Ingresos = personas · precio: \fmm{\ I(x)=(30+x)(600-10x)=18\,000+300x-10x^2}
+
+            
+
+\textbf{3--4.} \fmm{I'(x)=300-20x=0\Rightarrow x=15}; \fmm{\ I''(x)=-20\lt0}: máximo.
+
+            
+
+\textbf{5.} Tienen que ir 45 personas, a 450 € cada una. Los ingresos máximos son \fmm{45\cdot450=20\,250} €.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
