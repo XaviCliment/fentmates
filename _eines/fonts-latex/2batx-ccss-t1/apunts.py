@@ -481,6 +481,12 @@ if N == 1:
     if True:  # salts de pàgina (en castellà cauen al mateix lloc)
         retoc('\\rightarrow a=\\pm2}\n\n', '\\rightarrow a=\\pm2}\n\n\\newpage\n')
         retoc('\\fmdisp{XA-2X=A}\n\n', '\\fmdisp{XA-2X=A}\n\n\\newpage\n')
+if N == 2:  # retocs de l'autor sobre el .tex de l'escriptori (22/11/2026)
+    retoc('z=\\frac{-41+19\\lambda}{11},\\quad\\lambda\\in\\mathbb{R}}}\n\n', 'z=\\frac{-41+19\\lambda}{11},\\quad\\lambda\\in\\mathbb{R}}}\n\n\\vspace*{0.2cm}\n\n')
+    retoc(r'(\\fmdisp\{\\left\\\{\\begin\{array\}\{ccccccccc\} a_\{11\}x_1 &\+& a_\{12\}x_2[^\n]*\n\n)', r'\1\\vspace*{0.2cm}\n\n', True)
+    retoc(r'(\\fmm\{\\boxed\{x_1=x_2=\\cdots=x_n=0\}\}[^\n]*\n\n)', r'\1\\newpage\n', True)
+    retoc('\\lambda,\\mu\\in\\mathbb{R}}}\n\n', '\\lambda,\\mu\\in\\mathbb{R}}}\n\\newpage\n')
+
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)
 print(os.path.relpath(out, HERE), len(secs), 'apartats,', len(doc), 'caràcters')

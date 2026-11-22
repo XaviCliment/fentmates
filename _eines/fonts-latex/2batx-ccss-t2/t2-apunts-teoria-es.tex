@@ -1,0 +1,592 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 2: Sistemas de ecuaciones lineales. 2.º de Bachillerato CCSS},pdfsubject={Matemáticas Aplicadas a las Ciencias Sociales II},pdfkeywords={sistemas lineales, clasificación, método de Gauss, expresión matricial, regla de Cramer, teorema de Rouché-Frobenius, discusión de sistemas, parámetros}}
+
+% colors de la web (FentMates, bloque de Álgebra: azul; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+% noms que fan servir les gràfiques de programació lineal (../comu/pltikz.py)
+\colorlet{accent}{fmaccent}\colorlet{navy}{fmnavy}\colorlet{muted}{fmmuted}\colorlet{teal}{fmteal}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=4pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw (20,106)--(220,20);
+  \draw[opacity=0.75] (20,26)--(220,96);
+  \draw[opacity=0.55] (128,6)--(128,114);
+  \fill (128,59.5) circle (7);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (18,124) {$x+y+z=6$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (150,12) {$2x-y=1$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato CCSS · Unidad 2: Sistemas de ecuaciones lineales}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato CCSS II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 2} · Sistemas de ecuaciones lineales\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso para clasificar y resolver sistemas: método de Gauss, método matricial, regla de Cramer, teorema de Rouché-Frobenius y discusión de sistemas con parámetros.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}2.1}\ \ Sistemas de ecuaciones lineales}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}2.2}\ \ Tratamiento matricial}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}2.3}\ \ Regla de Cramer}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}2.4}\ \ Sistemas homogéneos}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}2.5}\ \ Teorema de Rouché-Frobenius}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}2.6}\ \ Sistemas con parámetros}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Sistemas de ecuaciones lineales}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición: sistema de ecuaciones lineales}
+Un \textbf{sistema de \fmm{m} ecuaciones lineales con \fmm{n} incógnitas} es un conjunto de igualdades escritas de la siguiente manera:
+
+\fmdisp{\left\{\begin{array}{ccccccccccc} a_{11}x_1 &+& a_{12}x_2 &+& a_{13}x_3 &+& \cdots &+& a_{1n}x_n &=& b_1\\ a_{21}x_1 &+& a_{22}x_2 &+& a_{23}x_3 &+& \cdots &+& a_{2n}x_n &=& b_2\\ a_{31}x_1 &+& a_{32}x_2 &+& a_{33}x_3 &+& \cdots &+& a_{3n}x_n &=& b_3\\ \cdots && \cdots && \cdots && \cdots && \cdots && \cdots\\ a_{m1}x_1 &+& a_{m2}x_2 &+& a_{m3}x_3 &+& \cdots &+& a_{mn}x_n &=& b_m\end{array}\right.}
+
+Donde:
+
+\begin{enumerate}
+\item \fmm{a_{ij}} son números reales conocidos llamados \textbf{coeficientes} del sistema.
+\item \fmm{b_i} son números reales conocidos llamados \textbf{términos independientes}.
+\item \fmm{x_j} son números reales desconocidos llamados \textbf{incógnitas} del sistema.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Una \textbf{solución del sistema} es un conjunto ordenado de números reales \fmm{(s_1,s_2,s_3,\dots,s_n)} tal que, al sustituir la incógnita \fmm{x_i} por el número \fmm{s_i\ \ \forall i\in\{1,2,3,\dots,n\}}, se cumplen las \fmm{m} igualdades a la vez.\newline \emph{Resolver} un sistema consiste en calcular todas sus soluciones o justificar que no tiene ninguna.
+\item Un \textbf{sistema lineal es homogéneo} si todos los términos independientes son iguales a cero. Observad que un sistema homogéneo siempre admite la solución \fmm{x_1=x_2=\cdots=x_n=0}.
+\item Diremos que dos \textbf{sistemas son equivalentes} si tienen las mismas soluciones.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Criterios de equivalencia}
+\begin{enumerate}
+\item Si se multiplican o dividen los dos miembros de una ecuación por un número distinto de cero, resulta un sistema equivalente.
+\item Si a una ecuación de un sistema se le suma o resta otra ecuación, resulta un sistema equivalente.
+\item Si en un sistema lineal una ecuación es combinación lineal de las demás, se puede suprimir y resulta un sistema equivalente.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de sistemas equivalentes}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item
+\fmdisp{\left\{\begin{aligned}\tfrac{x}{2}+\tfrac{y}{3}&=1\\ 100x-100y&=200\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}3x+2y&=6\\ x-y&=2\end{aligned}\right.}
+
+          Donde hemos multiplicado la primera ecuación por 6 y hemos dividido la segunda por 100.
+\item
+\fmdisp{\left\{\begin{aligned}x+y&=5\\ x-y&=10\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}x+y&=5\\ 2x&=15\end{aligned}\right.}
+
+          Donde hemos sumado la primera y la segunda ecuación.
+\item
+\fmdisp{\left\{\begin{aligned}x+y&=0\\ 2x-3y&=1\\ 2x+2y&=0\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}x+y&=0\\ 2x-3y&=1\end{aligned}\right.}
+
+          Donde hemos eliminado la tercera ecuación por ser combinación lineal de la primera (es el doble).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Clasificación de los sistemas}
+Atendiendo al número de soluciones, los sistemas de ecuaciones lineales se clasifican en:
+
+\begin{enumerate}
+\item \fmbadge{fmok}{SCD} \textbf{Sistema compatible determinado}: es aquel que tiene una única solución.
+\item \fmbadge{fmev}{SCI} \textbf{Sistema compatible indeterminado}: es aquel que tiene infinitas soluciones.
+\item \fmbadge{fmsi}{SI} \textbf{Sistema incompatible}: es aquel que no tiene ninguna solución.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método de Gauss}
+El \textbf{método de Gauss} o de triangulación consiste en obtener otro sistema equivalente al inicial que sea \textbf{escalonado}, es decir, que la primera incógnita solo aparezca en la primera ecuación, la segunda incógnita en las dos primeras ecuaciones, la tercera incógnita en las tres primeras ecuaciones, y así sucesivamente. Para conseguirlo se utilizan los criterios de equivalencia anteriores:
+
+\fmdisp{\underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\end{aligned}\right.}_{\text{Sistema inicial}}\ \Longrightarrow\ \underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star y+\star z&=\star\\ \star z&=\star\end{aligned}\right.}_{\text{Sistema final escalonado}}}
+
+Al finalizar el proceso, podemos llegar a los siguientes casos:
+
+\begin{itemize}
+\item Si alguna ecuación es de la forma \fmm{0=d} con \fmm{d\neq0}, entonces el sistema es \textbf{incompatible}.
+\item Si hay tantas ecuaciones válidas como incógnitas, paso a paso se va obteniendo un valor numérico para cada incógnita. Es, por tanto, un \textbf{sistema compatible determinado}.
+\item Si alguna ecuación es de la forma \fmm{0=0} (y ninguna de la forma \fmm{0=d\neq0}), quedan menos ecuaciones válidas que incógnitas y el sistema es \textbf{compatible indeterminado}. Su solución general vendrá dada con tantos parámetros como incógnitas sobren.
+\end{itemize}
+
+\begin{fmnote}Notación: \fmm{E_i} indica la ecuación \fmm{i} y \fmm{E_i'} la ecuación \fmm{i} una vez transformada.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos del método de Gauss}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item
+\fmdisp{\left\{\begin{aligned}x+2y-z&=2\\ 2x+y+5z&=8\\ -x-5y+6z&=0\end{aligned}\right.\ \xrightarrow[E_3'=E_3+E_1]{E_2'=E_2-2E_1}\ \left\{\begin{aligned}x+2y-z&=2\\ -3y+7z&=4\\ -3y+5z&=2\end{aligned}\right.}
+
+\fmdisp{\xrightarrow{E_3''=E_3'-E_2'}\ \left\{\begin{aligned}x+2y-z&=2\\ -3y+7z&=4\\ -2z&=-2\end{aligned}\right.\ \rightarrow\ \text{SCD}}
+
+\fmdisp{z=1\ \rightarrow\ -3y+7=4\ \rightarrow\ y=1\ \rightarrow\ x+2-1=2\ \rightarrow\ \boxed{x=1;\ y=1;\ z=1}}
+
+\item
+\fmdisp{\left\{\begin{aligned}x-3y-2z&=7\\ 2x-y+15z&=3\\ x-8y-21z&=11\end{aligned}\right.\ \xrightarrow[E_3'=E_3-E_1]{E_2'=E_2-2E_1}\ \left\{\begin{aligned}x-3y-2z&=7\\ 5y+19z&=-11\\ -5y-19z&=4\end{aligned}\right.}
+
+\fmdisp{\xrightarrow{E_3''=E_3'+E_2'}\ \left\{\begin{aligned}x-3y-2z&=7\\ 5y+19z&=-11\\ 0&=-7\end{aligned}\right.\ \rightarrow\ \boxed{\text{SI}}}
+
+\item
+\fmdisp{\left\{\begin{aligned}x+y+z&=0\\ x+2y+3z&=0\\ 2x+3y+4z&=0\end{aligned}\right.\ \xrightarrow[E_3'=E_3-2E_1]{E_2'=E_2-E_1}\ \left\{\begin{aligned}x+y+z&=0\\ y+2z&=0\\ y+2z&=0\end{aligned}\right.}
+
+\fmdisp{\xrightarrow{E_3''=E_3'-E_2'}\ \left\{\begin{aligned}x+y+z&=0\\ y+2z&=0\\ 0&=0\end{aligned}\right.\ \rightarrow\ \text{SCI}}
+
+Hacemos \fmm{z=\lambda}: \fmm{y=-2\lambda} y \fmm{x=-y-z=2\lambda-\lambda=\lambda}. Solución general:
+
+\fmdisp{\boxed{x=\lambda;\ y=-2\lambda;\ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Tratamiento matricial de los sistemas}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Sistemas lineales con matrices}
+El sistema lineal de la definición inicial lo podemos escribir utilizando matrices de esta forma:
+
+\fmdisp{\begin{pmatrix}a_{11} & a_{12} & a_{13} & \cdots & a_{1n}\\ a_{21} & a_{22} & a_{23} & \cdots & a_{2n}\\ \cdots & \cdots & \cdots & \cdots & \vdots\\ a_{m1} & a_{m2} & a_{m3} & \cdots & a_{mn}\end{pmatrix}\cdot\begin{pmatrix}x_1\\ x_2\\ x_3\\ \vdots\\ x_n\end{pmatrix}=\begin{pmatrix}b_1\\ b_2\\ \vdots\\ b_m\end{pmatrix}}
+
+Abreviadamente escribiremos \fmm{\boxed{A\cdot X=B}}. Fijaos en que, al multiplicar las matrices \fmm{A} y \fmm{X} e igualar el resultado a los términos independientes, obtenemos las ecuaciones del sistema.
+
+\begin{itemize}
+\item La matriz \fmm{A}, de orden \fmm{m\times n}, se llama \textbf{matriz de coeficientes}.
+\item La matriz columna \fmm{X} es la \textbf{matriz de las incógnitas}.
+\item La matriz columna \fmm{B} es la \textbf{matriz de términos independientes}.
+\item La matriz \fmm{A^*}, de orden \fmm{m\times(n+1)}, formada añadiendo a \fmm{A} la columna de los términos independientes, es la \textbf{matriz ampliada}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo}
+\fmm{\left\{\begin{aligned}2x-y+3z&=0\\ 3x-y-z&=-2\end{aligned}\right.} lo escribiremos en forma matricial: \fmm{\begin{pmatrix}2 & -1 & 3\\ 3 & -1 & -1\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}0\\ -2\end{pmatrix}}
+
+\fmm{A=\begin{pmatrix}2 & -1 & 3\\ 3 & -1 & -1\end{pmatrix}} es la matriz de coeficientes y \fmm{A^*=\left(\begin{array}{rrr|r}2 & -1 & 3 & 0\\ 3 & -1 & -1 & -2\end{array}\right)} la matriz ampliada.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Método de Gauss con matrices}
+Ahora utilizaremos las matrices para resolver los sistemas por el método de Gauss. Para ello solo tomaremos la matriz ampliada \fmm{A^*} del sistema y haremos ceros por debajo de la diagonal principal, del mismo modo que antes lo hemos hecho con las ecuaciones. Ahora \fmm{F_i} indica la fila \fmm{i}.
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de Gauss con matrices}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resolvemos por el método de Gauss: \fmm{\left\{\begin{aligned}2x-5y+3z&=4\\ x-2y+z&=3\\ 5x+y+7z&=11\end{aligned}\right.}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}2 & -5 & 3 & 4\\ 1 & -2 & 1 & 3\\ 5 & 1 & 7 & 11\end{array}\right)\xrightarrow{F_1\leftrightarrow F_2}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 2 & -5 & 3 & 4\\ 5 & 1 & 7 & 11\end{array}\right)}
+
+\fmdisp{\xrightarrow[F_3'=F_3-5F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 0 & -1 & 1 & -2\\ 0 & 11 & 2 & -4\end{array}\right)\xrightarrow{F_3''=11F_2'+F_3'}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 0 & -1 & 1 & -2\\ 0 & 0 & 13 & -26\end{array}\right)}
+
+Ya tenemos la matriz escalonada; ahora resolvemos de abajo arriba:
+
+\fmdisp{13z=-26\Rightarrow\boxed{z=-2}\qquad -y+z=-2\xrightarrow{z=-2}-y=0\Rightarrow\boxed{y=0}\qquad x-2y+z=3\Rightarrow x-0-2=3\Rightarrow\boxed{x=5}}
+
+\item Resolvemos por el método de Gauss: \fmm{\left\{\begin{aligned}x-3y+7z&=10\\ 5x-y+z&=8\\ x+4y-10z&=-11\end{aligned}\right.}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 5 & -1 & 1 & 8\\ 1 & 4 & -10 & -11\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-5F_1}\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 0 & 14 & -34 & -42\\ 0 & 7 & -17 & -21\end{array}\right)}
+
+\fmdisp{\xrightarrow{F_3''=-2F_3'+F_2'}\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 0 & 14 & -34 & -42\\ 0 & 0 & 0 & 0\end{array}\right)\Rightarrow\textbf{SCI}}
+
+Damos la solución general del sistema. Hacemos \fmm{z=\lambda} (y simplificamos la segunda fila entre 2):
+
+\fmdisp{7y-17\lambda=-21\rightarrow y=\frac{17\lambda-21}{7}=-3+\frac{17}{7}\lambda}
+
+\fmdisp{x-3y+7\lambda=10\rightarrow x=10+3\left(-3+\tfrac{17}{7}\lambda\right)-7\lambda=1+\frac{2}{7}\lambda}
+
+\fmdisp{\boxed{x=1+\tfrac{2}{7}\lambda;\ \ y=-3+\tfrac{17}{7}\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+También la podemos expresar así (cambiando \fmm{\lambda} por \fmm{7\lambda}): \fmm{x=1+2\lambda;\ y=-3+17\lambda;\ z=7\lambda,\ \lambda\in\mathbb{R}}
+\item Resolvemos por el método de Gauss: \fmm{\left\{\begin{aligned}x-3y-2z&=7\\ 2x-y+15z&=3\\ x-8y-21z&=11\end{aligned}\right.}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 2 & -1 & 15 & 3\\ 1 & -8 & -21 & 11\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 0 & 5 & 19 & -11\\ 0 & -5 & -19 & 4\end{array}\right)}
+
+\fmdisp{\xrightarrow{F_3''=F_3'+F_2'}\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 0 & 5 & 19 & -11\\ 0 & 0 & 0 & -7\end{array}\right)\Rightarrow\textbf{SI}}
+
+La última fila dice \fmm{0=-7}: el sistema no tiene solución.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método matricial}
+Como ya hemos visto, un sistema de \fmm{m} ecuaciones con \fmm{n} incógnitas se puede expresar en forma matricial como \fmm{A\cdot X=B}, donde:
+
+\begin{itemize}
+\item \fmm{A} es la matriz de coeficientes, \fmm{m\times n}.
+\item \fmm{X} es la matriz de las incógnitas, \fmm{n\times1}.
+\item \fmm{B} es la matriz de los términos independientes, \fmm{m\times1}.
+\end{itemize}
+
+Si \textbf{\fmm{A} es una matriz regular} (es decir, cuadrada y con \fmm{|A|\neq0}) podemos obtener la solución del sistema de la siguiente forma:
+
+\fmdisp{A\cdot X=B\ \rightarrow\ \underbrace{A^{-1}\cdot A}_{=I}\cdot X=A^{-1}\cdot B\ \rightarrow\ \boxed{X=A^{-1}\cdot B}}
+
+\begin{fmnote}Cuidado: multiplicamos por \fmm{A^{-1}} \textbf{por la izquierda} en los dos miembros. \fmm{B\cdot A^{-1}} no tiene sentido (ni siquiera se puede multiplicar si \fmm{B} es una columna).\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo del método matricial}
+Resolvamos el siguiente sistema con el método matricial:
+
+\fmdisp{\left\{\begin{aligned}x-y-z&=1\\ -x+3z&=18\\ -2x+5y-3z&=-52\end{aligned}\right.\ \Rightarrow\ \begin{pmatrix}1 & -1 & -1\\ -1 & 0 & 3\\ -2 & 5 & -3\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}1\\ 18\\ -52\end{pmatrix}\ \Rightarrow\ A\cdot X=B}
+
+Como \fmm{|A|=\begin{vmatrix}1 & -1 & -1\\ -1 & 0 & 3\\ -2 & 5 & -3\end{vmatrix}=11-12=-1\neq0}, podemos calcular la matriz inversa \fmm{A^{-1}}.
+
+Calculamos la matriz adjunta \fmm{\mathrm{Adj}(A)}:
+
+\fmdisp{A_{11}=\begin{vmatrix}0 & 3\\ 5 & -3\end{vmatrix}=-15;\ \ A_{12}=-\begin{vmatrix}-1 & 3\\ -2 & -3\end{vmatrix}=-9;\ \ A_{13}=\begin{vmatrix}-1 & 0\\ -2 & 5\end{vmatrix}=-5}
+
+\fmdisp{A_{21}=-\begin{vmatrix}-1 & -1\\ 5 & -3\end{vmatrix}=-8;\ \ A_{22}=\begin{vmatrix}1 & -1\\ -2 & -3\end{vmatrix}=-5;\ \ A_{23}=-\begin{vmatrix}1 & -1\\ -2 & 5\end{vmatrix}=-3}
+
+\fmdisp{A_{31}=\begin{vmatrix}-1 & -1\\ 0 & 3\end{vmatrix}=-3;\ \ A_{32}=-\begin{vmatrix}1 & -1\\ -1 & 3\end{vmatrix}=-2;\ \ A_{33}=\begin{vmatrix}1 & -1\\ -1 & 0\end{vmatrix}=-1}
+
+Trasponemos la matriz adjunta y aplicamos la fórmula de la inversa:
+
+\fmdisp{A^{-1}=\frac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t=\frac{1}{-1}\begin{pmatrix}-15 & -8 & -3\\ -9 & -5 & -2\\ -5 & -3 & -1\end{pmatrix}=\begin{pmatrix}15 & 8 & 3\\ 9 & 5 & 2\\ 5 & 3 & 1\end{pmatrix}}
+
+Ahora resolvemos el sistema:
+
+\fmdisp{X=A^{-1}\cdot B=\begin{pmatrix}15 & 8 & 3\\ 9 & 5 & 2\\ 5 & 3 & 1\end{pmatrix}\cdot\begin{pmatrix}1\\ 18\\ -52\end{pmatrix}=\begin{pmatrix}15+144-156\\ 9+90-104\\ 5+54-52\end{pmatrix}=\begin{pmatrix}3\\ -5\\ 7\end{pmatrix}\ \Rightarrow\ \boxed{x=3;\ y=-5;\ z=7}}
+
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Regla de Cramer}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Regla de Cramer para SCD}
+Es una fórmula para obtener la solución de un sistema de ecuaciones lineales. Para poder aplicarla, el sistema debe ser compatible determinado; es decir:
+
+\begin{itemize}
+\item \fmm{m=} número de ecuaciones \fmm{=} número de incógnitas \fmm{=n}
+\item \fmm{|A|\neq0}, donde \fmm{A} es la matriz de coeficientes.
+\end{itemize}
+
+Entonces calcularemos las incógnitas así: \textbf{en el numerador, sustituimos la columna de la incógnita por la columna de los términos independientes}:
+
+\fmdisp{x_1=\frac{\begin{vmatrix}\color[HTML]{ff7a50}b_1 & a_{12} & \cdots & a_{1n}\\ \color[HTML]{ff7a50}b_2 & a_{22} & \cdots & a_{2n}\\ \color[HTML]{ff7a50}\vdots & \vdots & & \vdots\\ \color[HTML]{ff7a50}b_n & a_{n2} & \cdots & a_{nn}\end{vmatrix}}{|A|};\quad x_2=\frac{\begin{vmatrix}a_{11} & \color[HTML]{ff7a50}b_1 & \cdots & a_{1n}\\ a_{21} & \color[HTML]{ff7a50}b_2 & \cdots & a_{2n}\\ \vdots & \color[HTML]{ff7a50}\vdots & & \vdots\\ a_{n1} & \color[HTML]{ff7a50}b_n & \cdots & a_{nn}\end{vmatrix}}{|A|};\ \cdots;\ x_n=\frac{\begin{vmatrix}a_{11} & a_{12} & \cdots & \color[HTML]{ff7a50}b_1\\ a_{21} & a_{22} & \cdots & \color[HTML]{ff7a50}b_2\\ \vdots & \vdots & & \color[HTML]{ff7a50}\vdots\\ a_{n1} & a_{n2} & \cdots & \color[HTML]{ff7a50}b_n\end{vmatrix}}{|A|}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo}
+Resolvamos el siguiente sistema utilizando la regla de Cramer: \fmm{\left\{\begin{aligned}x+2y-z&=2\\ 2x+y+5z&=8\\ -x-5y+6z&=0\end{aligned}\right.}
+
+Como \fmm{|A|=\begin{vmatrix}1 & 2 & -1\\ 2 & 1 & 5\\ -1 & -5 & 6\end{vmatrix}=6\neq0}, podemos aplicar la regla de Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}\color[HTML]{ff7a50}2 & 2 & -1\\ \color[HTML]{ff7a50}8 & 1 & 5\\ \color[HTML]{ff7a50}0 & -5 & 6\end{vmatrix}}{6}=\frac{6}{6}=1;\quad y=\frac{\begin{vmatrix}1 & \color[HTML]{ff7a50}2 & -1\\ 2 & \color[HTML]{ff7a50}8 & 5\\ -1 & \color[HTML]{ff7a50}0 & 6\end{vmatrix}}{6}=\frac{6}{6}=1;\quad z=\frac{\begin{vmatrix}1 & 2 & \color[HTML]{ff7a50}2\\ 2 & 1 & \color[HTML]{ff7a50}8\\ -1 & -5 & \color[HTML]{ff7a50}0\end{vmatrix}}{6}=\frac{6}{6}=1}
+
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Regla de Cramer para SCI}
+La regla de Cramer, en principio, solo es válida para sistemas cuadrados \fmm{n\times n} con \fmm{|A|\neq0} (estos sistemas se llaman «de Cramer»). No obstante, \textbf{también se puede aplicar a cualquier sistema compatible}, como veremos a continuación.
+
+Supongamos que tenemos un sistema compatible de \fmm{m} ecuaciones con \fmm{n} incógnitas con \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=r}, \fmm{r<m,\ r<n}.
+
+Esto quiere decir que la matriz de coeficientes tiene un menor de orden \fmm{r} distinto de cero. Para simplificar, supongamos que este menor está formado por las \fmm{r} primeras filas y las \fmm{r} primeras columnas (en verde):
+
+\fmdisp{\left\{\begin{array}{l}{\color[HTML]{2bb3a3}a_{11}x_1+\cdots+a_{1r}x_r}+\overbrace{a_{1,r+1}x_{r+1}+\cdots+a_{1n}x_n}^{\text{pasan al segundo miembro}}=c_1\\ \qquad\cdots\\ {\color[HTML]{2bb3a3}a_{r1}x_1+\cdots+a_{rr}x_r}+a_{r,r+1}x_{r+1}+\cdots+a_{rn}x_n=c_r\\ \color[HTML]{ff7a50}a_{r+1,1}x_1+\cdots+a_{r+1,n}x_n=c_{r+1}\\ \color[HTML]{ff7a50}\qquad\cdots\\ \color[HTML]{ff7a50}a_{m1}x_1+\cdots+a_{mn}x_n=c_m\end{array}\right.}
+
+Las filas en naranja las suprimimos, ya que son combinación lineal de las \fmm{r} ecuaciones anteriores. Entonces el sistema inicial es equivalente a este otro:
+
+\fmdisp{\left\{\begin{aligned}a_{11}x_1+\cdots+a_{1r}x_r&=c_1-a_{1,r+1}x_{r+1}-\cdots-a_{1n}x_n\\ &\ \ \vdots\\ a_{r1}x_1+\cdots+a_{rr}x_r&=c_r-a_{r,r+1}x_{r+1}-\cdots-a_{rn}x_n\end{aligned}\right.\qquad\begin{vmatrix}a_{11} & \cdots & a_{1r}\\ \vdots & & \vdots\\ a_{r1} & \cdots & a_{rr}\end{vmatrix}\neq0}
+
+Este es un sistema de Cramer en el que los términos independientes dependen de las incógnitas «sobrantes» \fmm{(x_{r+1},\dots,x_n)}. Por tanto, \textbf{la solución depende de \fmm{n-r} parámetros}.
+
+\begin{itemize}
+\item Si \fmm{r=m}, todas las ecuaciones son útiles (no «sobra» ninguna).
+\item Si \fmm{r=n<m}, «sobran» varias ecuaciones, pero al suprimirlas queda un sistema de Cramer de \fmm{n} ecuaciones y \fmm{n} incógnitas, determinado.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo de Cramer en un SCI}
+Resolveremos con Cramer el sistema: \fmm{\left\{\begin{aligned}3x-2y+z&=2\\ 2x+5y-3z&=15\\ 11x-y&=21\end{aligned}\right.}
+
+\fmdisp{A=\begin{pmatrix}3 & -2 & 1\\ 2 & 5 & -3\\ 11 & -1 & 0\end{pmatrix}\rightarrow|A|=-2+66-(55+9)=0\rightarrow\operatorname{rg}(A)<3}
+
+Como \fmm{\begin{vmatrix}3 & -2\\ 2 & 5\end{vmatrix}=19\neq0}, podemos afirmar que \fmm{\operatorname{rg}(A)=2}.
+
+Comprobamos que todos los menores de orden 3 de la matriz ampliada son cero: \fmm{A^*=\left(\begin{array}{rrr|r}3 & -2 & 1 & 2\\ 2 & 5 & -3 & 15\\ 11 & -1 & 0 & 21\end{array}\right)}
+
+\fmdisp{\begin{vmatrix}3 & -2 & 2\\ 2 & 5 & 15\\ 11 & -1 & 21\end{vmatrix}=315-330-4-(110-84-45)=-19-(-19)=0}
+
+\fmdisp{\begin{vmatrix}3 & 1 & 2\\ 2 & -3 & 15\\ 11 & 0 & 21\end{vmatrix}=-189+165-(-66+42)=-24-(-24)=0}
+
+\fmdisp{\begin{vmatrix}-2 & 1 & 2\\ 5 & -3 & 15\\ -1 & 0 & 21\end{vmatrix}=126-15-(6+105)=111-111=0}
+
+Entonces \fmm{\operatorname{rg}(A^*)=2} y el sistema es compatible de rango 2. Como tenemos 3 incógnitas, una de ellas debe pasar al segundo miembro.
+
+Como \fmm{\begin{vmatrix}3 & 1\\ 11 & 0\end{vmatrix}=-11\neq0} (columnas de \fmm{x} y \fmm{z}, ecuaciones 1ª y 3ª), podemos tomar como sistema equivalente:
+
+\fmdisp{\left\{\begin{aligned}3x+z&=2+2y\\ 11x&=21+y\end{aligned}\right.}
+
+Aplicamos ahora las fórmulas de Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}2+2y & 1\\ 21+y & 0\end{vmatrix}}{-11}=\frac{-(21+y)}{-11}=\frac{21+y}{11}\qquad z=\frac{\begin{vmatrix}3 & 2+2y\\ 11 & 21+y\end{vmatrix}}{-11}=\frac{63+3y-(22+22y)}{-11}=\frac{-41+19y}{11}}
+
+\fmdisp{\boxed{x=\frac{21+\lambda}{11};\ \ y=\lambda;\ \ z=\frac{-41+19\lambda}{11},\quad\lambda\in\mathbb{R}}}
+
+\vspace*{0.2cm}
+
+\begin{fmnote}\fmuline{NOTA}: también podríamos haber resuelto el sistema equivalente despejando \fmm{x} de la segunda ecuación, \fmm{x=\frac{21+y}{11}}, y sustituyéndola en la primera para obtener \fmm{z}. Pero el objetivo de este ejemplo era practicar Cramer en un SCI.\end{fmnote}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Sistemas de ecuaciones homogéneos}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Sistemas homogéneos}
+Como ya hemos visto al inicio del tema, un \textbf{sistema homogéneo} es aquel en el que todos los términos independientes son cero:
+
+\fmdisp{\left\{\begin{array}{ccccccccc} a_{11}x_1 &+& a_{12}x_2 &+& \cdots &+& a_{1n}x_n &=& 0\\ a_{21}x_1 &+& a_{22}x_2 &+& \cdots &+& a_{2n}x_n &=& 0\\ \cdots && \cdots && \cdots && \cdots && \cdots\\ a_{m1}x_1 &+& a_{m2}x_2 &+& \cdots &+& a_{mn}x_n &=& 0\end{array}\right.}
+
+\vspace*{0.2cm}
+
+Estos sistemas siempre admiten la \textbf{solución trivial}: \fmm{\boxed{x_1=x_2=\cdots=x_n=0}}. Por tanto, \fmuline{nunca son incompatibles} (de hecho, \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)} siempre, porque la columna añadida es de ceros).
+
+\newpage
+Pero un sistema homogéneo \textbf{puede tener otras soluciones}. Para que esto ocurra, \fmuline{es necesario y suficiente} que
+
+\fmdisp{\operatorname{rg}(A)<n}
+
+ya que así será un sistema compatible indeterminado. Si el sistema es cuadrado, esto equivale a \fmm{|A|=0}.
+\end{fmdef}
+
+\Needspace{18\baselineskip}
+\section{Teorema de Rouché-Frobenius}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Teorema de Rouché-Frobenius}
+Este teorema nos permite \textbf{clasificar} los sistemas lineales según el número de soluciones, \textbf{antes de resolverlos}. Sean \fmm{A} la matriz de coeficientes y \fmm{A^*} la matriz ampliada de un sistema con \fmm{n} incógnitas. Entonces:
+
+\begin{enumerate}
+\item \fmm{\operatorname{rg}(A)\neq\operatorname{rg}(A^*)\ \Rightarrow} \fmbadge{fmsi}{SI} Sistema incompatible.
+\item \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=n\ \Rightarrow} \fmbadge{fmok}{SCD} Sistema compatible determinado.
+\item \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)<n\ \Rightarrow} \fmbadge{fmev}{SCI} Sistema compatible indeterminado (con \fmm{n-\operatorname{rg}(A)} parámetros).
+\end{enumerate}
+
+\begin{fmnote}Recuerda que \fmm{A^*} tiene una columna más que \fmm{A}: por tanto, \fmm{\operatorname{rg}(A^*)} es igual a \fmm{\operatorname{rg}(A)} o una unidad mayor.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de Rouché-Frobenius}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Dado el sistema \fmm{\left\{\begin{aligned}x+y&=5\\ 2x+3y&=13\\ x-y&=0\end{aligned}\right.}, calculamos los rangos de las matrices de coeficientes y ampliada:
+
+\fmdisp{A=\begin{pmatrix}1 & 1\\ 2 & 3\\ 1 & -1\end{pmatrix},\quad\begin{vmatrix}1 & 1\\ 2 & 3\end{vmatrix}=1\neq0\Rightarrow\operatorname{rg}(A)=2}
+
+\fmdisp{A^*=\left(\begin{array}{rr|r}1 & 1 & 5\\ 2 & 3 & 13\\ 1 & -1 & 0\end{array}\right),\quad\begin{vmatrix}1 & 1 & 5\\ 2 & 3 & 13\\ 1 & -1 & 0\end{vmatrix}=1\neq0\Rightarrow\operatorname{rg}(A^*)=3}
+
+Como \fmm{\operatorname{rg}(A)\neq\operatorname{rg}(A^*)}, el sistema es \fmbadge{fmsi}{SI}
+\item Dado el sistema \fmm{\left\{\begin{aligned}2x-y&=1\\ x+y&=2\\ 5x-y&=4\end{aligned}\right.}, calculamos los rangos:
+
+\fmdisp{A=\begin{pmatrix}2 & -1\\ 1 & 1\\ 5 & -1\end{pmatrix},\quad\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}=3\neq0\Rightarrow\operatorname{rg}(A)=2}
+
+\fmdisp{A^*=\left(\begin{array}{rr|r}2 & -1 & 1\\ 1 & 1 & 2\\ 5 & -1 & 4\end{array}\right),\quad\begin{vmatrix}2 & -1 & 1\\ 1 & 1 & 2\\ 5 & -1 & 4\end{vmatrix}=0\Rightarrow\operatorname{rg}(A^*)=2}
+
+Como \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=2=} n.º de incógnitas, el sistema es \fmbadge{fmok}{SCD}. Para resolverlo, eliminamos la tercera ecuación (no forma parte del menor que da el rango) y aplicamos Cramer:
+
+\fmdisp{\left\{\begin{aligned}2x-y&=1\\ x+y&=2\end{aligned}\right.\Rightarrow x=\frac{\begin{vmatrix}1 & -1\\ 2 & 1\end{vmatrix}}{\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}}=\frac{3}{3}=1\qquad y=\frac{\begin{vmatrix}2 & 1\\ 1 & 2\end{vmatrix}}{\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}}=\frac{3}{3}=1\qquad\boxed{x=1;\ y=1}}
+
+\item Dado el sistema \fmm{\left\{\begin{aligned}x+y+z&=3\\ x-y+2z&=2\\ 2x+3z&=5\end{aligned}\right.}, calculamos los rangos:
+
+\fmdisp{A=\begin{pmatrix}1 & 1 & 1\\ 1 & -1 & 2\\ 2 & 0 & 3\end{pmatrix},\quad\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}=-2\neq0;\quad\begin{vmatrix}1 & 1 & 1\\ 1 & -1 & 2\\ 2 & 0 & 3\end{vmatrix}=0\Rightarrow\operatorname{rg}(A)=2}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 1 & -1 & 2 & 2\\ 2 & 0 & 3 & 5\end{array}\right),\quad\begin{vmatrix}1 & 1 & 3\\ 1 & -1 & 2\\ 2 & 0 & 5\end{vmatrix}=0\Rightarrow\operatorname{rg}(A^*)=2}
+
+Como \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=2<3} incógnitas, el sistema es \fmbadge{fmev}{SCI}. Eliminamos la 3.ª ecuación y pasamos \fmm{z} al segundo miembro (no forma parte del menor del rango):
+
+\fmdisp{\left\{\begin{aligned}x+y&=3-z\\ x-y&=2-2z\end{aligned}\right.\Rightarrow x=\frac{\begin{vmatrix}3-z & 1\\ 2-2z & -1\end{vmatrix}}{\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}}=\frac{5-3z}{2}\qquad y=\frac{\begin{vmatrix}1 & 3-z\\ 1 & 2-2z\end{vmatrix}}{\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}}=\frac{1+z}{2}}
+
+Asignamos a \fmm{z} el parámetro \fmm{\lambda} y obtenemos la solución general:
+
+\fmdisp{\boxed{x=\frac{5-3\lambda}{2};\ \ y=\frac{1+\lambda}{2};\ \ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+\textbf{Otra forma de resolverlo:} una vez sabemos que es un SCI, también podemos hallar la solución con el método de Gauss:
+
+\fmdisp{A^*\xrightarrow[F_3'=F_3-2F_1]{F_2'=F_2-F_1}\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 0 & -2 & 1 & -1\\ 0 & -2 & 1 & -1\end{array}\right)\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 0 & -2 & 1 & -1\\ 0 & 0 & 0 & 0\end{array}\right)}
+
+\fmdisp{z=\lambda\ \rightarrow\ -2y+\lambda=-1\ \rightarrow\ y=\frac{1+\lambda}{2}\ \rightarrow\ x=3-\lambda-\frac{1+\lambda}{2}=\frac{5-3\lambda}{2}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Sistemas de ecuaciones con parámetros}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición: sistemas con parámetros}
+\textbf{Discutir} un sistema de ecuaciones que depende de uno o más parámetros es identificar para qué valores de los parámetros el sistema es compatible o incompatible, distinguiendo también los casos en que es determinado o indeterminado.
+
+\begin{fmnote}\fmuline{NOTA}: en realidad, más que un sistema de ecuaciones es un conjunto de sistemas, ya que para cada valor del parámetro \fmm{k} hay un sistema de ecuaciones diferente.\end{fmnote}
+
+Los pasos que seguiremos para estudiar un sistema con parámetros son:
+
+\begin{enumerate}
+\item Calculamos \fmm{|A|} (si \fmm{A} es cuadrada) y buscamos los valores del parámetro que lo anulan: son los \textbf{valores críticos}.
+\item Utilizamos el teorema de Rouché-Frobenius para saber el número de soluciones en cada caso (valores críticos y resto de valores).
+\item En los casos en que sea compatible, lo resolvemos mediante Gauss o Cramer.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de sistemas con parámetro}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Discutimos y resolvemos, cuando se pueda, el sistema: \fmm{\left\{\begin{aligned}-x+my+z&=2\\ 2x-y+2z&=0\\ -x-3z&=-2\end{aligned}\right.}
+
+Para estudiar el rango de la matriz de coeficientes, primero calculamos el determinante:
+
+\fmdisp{|A|=\begin{vmatrix}-1 & m & 1\\ 2 & -1 & 2\\ -1 & 0 & -3\end{vmatrix}=-3-2m-(1-6m)=4m-4=0\ \rightarrow\ \boxed{m=1}}
+
+\textbf{Si \fmm{m=1}} \fmm{\rightarrow\operatorname{rg}(A)=2} (por ejemplo \fmm{\begin{vmatrix}-1 & 1\\ 2 & -1\end{vmatrix}=-1\neq0}). Estudiamos el rango de la matriz ampliada calculando los menores de orden 3:
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 2 & -1 & 2 & 0\\ -1 & 0 & -3 & -2\end{array}\right)}
+
+\fmdisp{\begin{vmatrix}-1 & 1 & 2\\ 2 & -1 & 0\\ -1 & 0 & -2\end{vmatrix}=0;\quad\begin{vmatrix}-1 & 1 & 2\\ 2 & 2 & 0\\ -1 & -3 & -2\end{vmatrix}=0;\quad\begin{vmatrix}1 & 1 & 2\\ -1 & 2 & 0\\ 0 & -3 & -2\end{vmatrix}=0\ \Rightarrow\ \operatorname{rg}(A^*)=2}
+
+Entonces \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=2<3} y, por el teorema de R-F, si \fmm{m=1} el sistema es \fmbadge{fmev}{SCI}. Calculamos la solución general por Gauss:
+
+\fmdisp{A^*\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2+2F_1}\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 0 & 1 & 4 & 4\\ 0 & -1 & -4 & -4\end{array}\right)\xrightarrow{F_3''=F_3'+F_2'}\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 0 & 1 & 4 & 4\\ 0 & 0 & 0 & 0\end{array}\right)}
+
+\fmdisp{z=\lambda\ \rightarrow\ y=4-4\lambda\ \rightarrow\ -x+(4-4\lambda)+\lambda=2\ \rightarrow\ x=2-3\lambda}
+
+\fmdisp{\boxed{x=2-3\lambda;\ \ y=4-4\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+\textbf{Si \fmm{m\neq1}} \fmm{\rightarrow\operatorname{rg}(A)=3=\operatorname{rg}(A^*)=} n.º de incógnitas \fmm{\rightarrow} \fmbadge{fmok}{SCD}. Lo resolvemos por Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}2 & m & 1\\ 0 & -1 & 2\\ -2 & 0 & -3\end{vmatrix}}{4m-4}=\frac{-4m+4}{4m-4}=-1;\quad y=\frac{\begin{vmatrix}-1 & 2 & 1\\ 2 & 0 & 2\\ -1 & -2 & -3\end{vmatrix}}{4m-4}=\frac{0}{4m-4}=0;\quad z=\frac{\begin{vmatrix}-1 & m & 2\\ 2 & -1 & 0\\ -1 & 0 & -2\end{vmatrix}}{4m-4}=\frac{4m-4}{4m-4}=1}
+
+\fmdisp{\boxed{x=-1;\ \ y=0;\ \ z=1}}
+
+\item Discutimos y resolvemos, según los valores del parámetro \fmm{a}, el sistema: \fmm{\left\{\begin{aligned}ax+y+z&=1\\ x+ay+z&=1\\ x+y+az&=1\end{aligned}\right.}
+
+\fmdisp{|A|=\begin{vmatrix}a & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}=a^3-3a+2=(a-1)^2(a+2)=0\ \rightarrow\ \left\{\begin{aligned}a&=1\\ a&=-2\end{aligned}\right.}
+
+\textbf{Si \fmm{a=1}}, las tres ecuaciones son la misma y el sistema queda reducido a una sola ecuación, \fmm{x+y+z=1}: \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=1<3}. \fmbadge{fmev}{SCI} con dos parámetros:
+
+\fmdisp{\boxed{x=\lambda;\ \ y=\mu;\ \ z=1-\lambda-\mu,\quad\lambda,\mu\in\mathbb{R}}}
+\newpage
+\textbf{Si \fmm{a=-2}}\fmm{\ \rightarrow\operatorname{rg}(A)=2}:
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}-2 & 1 & 1 & 1\\ 1 & -2 & 1 & 1\\ 1 & 1 & -2 & 1\end{array}\right)\rightarrow\begin{vmatrix}-2 & 1 & 1\\ 1 & -2 & 1\\ 1 & 1 & 1\end{vmatrix}=9\neq0}
+
+\fmm{\operatorname{rg}(A^*)=3\neq\operatorname{rg}(A)=2\ \rightarrow} \fmbadge{fmsi}{SI} y, por tanto, no tiene solución.
+
+\textbf{Si \fmm{a\neq1} y \fmm{a\neq-2}}\fmm{\ \rightarrow\operatorname{rg}(A)=3=\operatorname{rg}(A^*)} \fmm{\rightarrow} \fmbadge{fmok}{SCD}. Calculamos la solución por Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}1 & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}}{(a-1)^2(a+2)}=\frac{a^2-2a+1}{(a-1)^2(a+2)}=\frac{\cancel{(a-1)^2}}{\cancel{(a-1)^2}(a+2)}=\frac{1}{a+2}}
+
+Análogamente (el sistema es simétrico) \fmm{y=z=\frac{1}{a+2}}:
+
+\fmdisp{\boxed{x=\frac{1}{a+2};\ \ y=\frac{1}{a+2};\ \ z=\frac{1}{a+2}}}
+
+\begin{fmnote}\fmuline{Hay que recordar} que esto no significa que haya infinitas soluciones: para cada valor de \fmm{a} hay un sistema con una solución única. Por ejemplo, para \fmm{a=0} la solución es \fmm{x=y=z=\frac12}.\end{fmnote}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

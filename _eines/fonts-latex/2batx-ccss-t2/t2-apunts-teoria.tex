@@ -1,0 +1,592 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 2: Sistemes d'equacions lineals. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={sistemes lineals, classificació, mètode de Gauss, expressió matricial, regla de Cramer, teorema de Rouché-Frobenius, discussió de sistemes, paràmetres}}
+
+% colors de la web (FentMates, bloc d'Àlgebra: blau; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+% noms que fan servir les gràfiques de programació lineal (../comu/pltikz.py)
+\colorlet{accent}{fmaccent}\colorlet{navy}{fmnavy}\colorlet{muted}{fmmuted}\colorlet{teal}{fmteal}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=4pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw (20,106)--(220,20);
+  \draw[opacity=0.75] (20,26)--(220,96);
+  \draw[opacity=0.55] (128,6)--(128,114);
+  \fill (128,59.5) circle (7);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (18,124) {$x+y+z=6$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (150,12) {$2x-y=1$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 2: Sistemes d'equacions lineals}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 2} · Sistemes d'equacions lineals\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas per classificar i resoldre sistemes: mètode de Gauss, mètode matricial, regla de Cramer, teorema de Rouché-Frobenius i discussió de sistemes amb paràmetres.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}2.1}\ \ Sistemes d'equacions lineals}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}2.2}\ \ Tractament matricial}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}2.3}\ \ Regla de Cramer}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}2.4}\ \ Sistemes homogenis}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}2.5}\ \ Teorema de Rouché-Frobenius}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}2.6}\ \ Sistemes amb paràmetres}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Sistemes d'equacions lineals}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició: sistema d'equacions lineals}
+Un \textbf{sistema de \fmm{m} equacions lineals amb \fmm{n} incògnites} és un conjunt d'igualtats escrites de la manera següent:
+
+\fmdisp{\left\{\begin{array}{ccccccccccc} a_{11}x_1 &+& a_{12}x_2 &+& a_{13}x_3 &+& \cdots &+& a_{1n}x_n &=& b_1\\ a_{21}x_1 &+& a_{22}x_2 &+& a_{23}x_3 &+& \cdots &+& a_{2n}x_n &=& b_2\\ a_{31}x_1 &+& a_{32}x_2 &+& a_{33}x_3 &+& \cdots &+& a_{3n}x_n &=& b_3\\ \cdots && \cdots && \cdots && \cdots && \cdots && \cdots\\ a_{m1}x_1 &+& a_{m2}x_2 &+& a_{m3}x_3 &+& \cdots &+& a_{mn}x_n &=& b_m\end{array}\right.}
+
+On:
+
+\begin{enumerate}
+\item \fmm{a_{ij}} són nombres reals coneguts anomenats \textbf{coeficients} del sistema.
+\item \fmm{b_i} són nombres reals coneguts anomenats \textbf{termes independents}.
+\item \fmm{x_j} són nombres reals desconeguts anomenats \textbf{incògnites} del sistema.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definicions}
+\begin{itemize}
+\item Una \textbf{solució del sistema} és un conjunt ordenat de nombres reals \fmm{(s_1,s_2,s_3,\dots,s_n)} tal que, en substituir la incògnita \fmm{x_i} pel nombre \fmm{s_i\ \ \forall i\in\{1,2,3,\dots,n\}}, es compleixen les \fmm{m} igualtats a la vegada.\newline \emph{Resoldre} un sistema consisteix a calcular totes les seues solucions o justificar que no en té cap.
+\item Un \textbf{sistema lineal és homogeni} si tots els termes independents són iguals a zero. Observeu que un sistema homogeni sempre admet la solució \fmm{x_1=x_2=\cdots=x_n=0}.
+\item Direm que dos \textbf{sistemes són equivalents} si tenen les mateixes solucions.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Criteris d'equivalència}
+\begin{enumerate}
+\item Si es multipliquen o divideixen els dos membres d'una equació per un nombre distint de zero, resulta un sistema equivalent.
+\item Si a una equació d'un sistema se li suma o resta una altra equació, resulta un sistema equivalent.
+\item Si en un sistema lineal una equació és combinació lineal de les altres, es pot suprimir i resulta un sistema equivalent.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples de sistemes equivalents}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item
+\fmdisp{\left\{\begin{aligned}\tfrac{x}{2}+\tfrac{y}{3}&=1\\ 100x-100y&=200\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}3x+2y&=6\\ x-y&=2\end{aligned}\right.}
+
+          On hem multiplicat la primera equació per 6 i hem dividit la segona per 100.
+\item
+\fmdisp{\left\{\begin{aligned}x+y&=5\\ x-y&=10\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}x+y&=5\\ 2x&=15\end{aligned}\right.}
+
+          On hem sumat la primera i la segona equació.
+\item
+\fmdisp{\left\{\begin{aligned}x+y&=0\\ 2x-3y&=1\\ 2x+2y&=0\end{aligned}\right.\ \Longleftrightarrow\ \left\{\begin{aligned}x+y&=0\\ 2x-3y&=1\end{aligned}\right.}
+
+          On hem eliminat la tercera equació per ser combinació lineal de la primera (és el doble).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Classificació dels sistemes}
+Atenent al nombre de solucions, els sistemes d'equacions lineals es classifiquen en:
+
+\begin{enumerate}
+\item \fmbadge{fmok}{SCD} \textbf{Sistema compatible determinat}: és aquell que té una única solució.
+\item \fmbadge{fmev}{SCI} \textbf{Sistema compatible indeterminat}: és aquell que té infinites solucions.
+\item \fmbadge{fmsi}{SI} \textbf{Sistema incompatible}: és aquell que no té cap solució.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètode de Gauss}
+El \textbf{mètode de Gauss} o de triangulació consisteix a obtenir un altre sistema equivalent a l'inicial que siga \textbf{esglaonat}, és a dir, que la primera incògnita només aparega en la primera equació, la segona incògnita en les dues primeres equacions, la tercera incògnita en les tres primeres equacions, i així successivament. Per aconseguir-ho s'utilitzen els criteris d'equivalència anteriors:
+
+\fmdisp{\underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\\ \star x+\star y+\star z&=\star\end{aligned}\right.}_{\text{Sistema inicial}}\ \Longrightarrow\ \underbrace{\left\{\begin{aligned}\star x+\star y+\star z&=\star\\ \star y+\star z&=\star\\ \star z&=\star\end{aligned}\right.}_{\text{Sistema final esglaonat}}}
+
+En finalitzar el procés, podem arribar als casos següents:
+
+\begin{itemize}
+\item Si alguna equació és de la forma \fmm{0=d} amb \fmm{d\neq0}, llavors el sistema és \textbf{incompatible}.
+\item Si hi ha tantes equacions vàlides com incògnites, pas a pas es va obtenint un valor numèric per a cada incògnita. És, per tant, un \textbf{sistema compatible determinat}.
+\item Si alguna equació és de la forma \fmm{0=0} (i cap de la forma \fmm{0=d\neq0}), queden menys equacions vàlides que incògnites i el sistema és \textbf{compatible indeterminat}. La seua solució general vindrà donada amb tants paràmetres com incògnites sobren.
+\end{itemize}
+
+\begin{fmnote}Notació: \fmm{E_i} indica l'equació \fmm{i} i \fmm{E_i'} l'equació \fmm{i} un cop transformada.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples del mètode de Gauss}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item
+\fmdisp{\left\{\begin{aligned}x+2y-z&=2\\ 2x+y+5z&=8\\ -x-5y+6z&=0\end{aligned}\right.\ \xrightarrow[E_3'=E_3+E_1]{E_2'=E_2-2E_1}\ \left\{\begin{aligned}x+2y-z&=2\\ -3y+7z&=4\\ -3y+5z&=2\end{aligned}\right.}
+
+\fmdisp{\xrightarrow{E_3''=E_3'-E_2'}\ \left\{\begin{aligned}x+2y-z&=2\\ -3y+7z&=4\\ -2z&=-2\end{aligned}\right.\ \rightarrow\ \text{SCD}}
+
+\fmdisp{z=1\ \rightarrow\ -3y+7=4\ \rightarrow\ y=1\ \rightarrow\ x+2-1=2\ \rightarrow\ \boxed{x=1;\ y=1;\ z=1}}
+
+\item
+\fmdisp{\left\{\begin{aligned}x-3y-2z&=7\\ 2x-y+15z&=3\\ x-8y-21z&=11\end{aligned}\right.\ \xrightarrow[E_3'=E_3-E_1]{E_2'=E_2-2E_1}\ \left\{\begin{aligned}x-3y-2z&=7\\ 5y+19z&=-11\\ -5y-19z&=4\end{aligned}\right.}
+
+\fmdisp{\xrightarrow{E_3''=E_3'+E_2'}\ \left\{\begin{aligned}x-3y-2z&=7\\ 5y+19z&=-11\\ 0&=-7\end{aligned}\right.\ \rightarrow\ \boxed{\text{SI}}}
+
+\item
+\fmdisp{\left\{\begin{aligned}x+y+z&=0\\ x+2y+3z&=0\\ 2x+3y+4z&=0\end{aligned}\right.\ \xrightarrow[E_3'=E_3-2E_1]{E_2'=E_2-E_1}\ \left\{\begin{aligned}x+y+z&=0\\ y+2z&=0\\ y+2z&=0\end{aligned}\right.}
+
+\fmdisp{\xrightarrow{E_3''=E_3'-E_2'}\ \left\{\begin{aligned}x+y+z&=0\\ y+2z&=0\\ 0&=0\end{aligned}\right.\ \rightarrow\ \text{SCI}}
+
+Fem \fmm{z=\lambda}: \fmm{y=-2\lambda} i \fmm{x=-y-z=2\lambda-\lambda=\lambda}. Solució general:
+
+\fmdisp{\boxed{x=\lambda;\ y=-2\lambda;\ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Tractament matricial dels sistemes}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Sistemes lineals amb matrius}
+El sistema lineal de la definició inicial el podem escriure utilitzant matrius d'aquesta forma:
+
+\fmdisp{\begin{pmatrix}a_{11} & a_{12} & a_{13} & \cdots & a_{1n}\\ a_{21} & a_{22} & a_{23} & \cdots & a_{2n}\\ \cdots & \cdots & \cdots & \cdots & \vdots\\ a_{m1} & a_{m2} & a_{m3} & \cdots & a_{mn}\end{pmatrix}\cdot\begin{pmatrix}x_1\\ x_2\\ x_3\\ \vdots\\ x_n\end{pmatrix}=\begin{pmatrix}b_1\\ b_2\\ \vdots\\ b_m\end{pmatrix}}
+
+Abreujadament escriurem \fmm{\boxed{A\cdot X=B}}. Fixeu-vos que, en multiplicar les matrius \fmm{A} i \fmm{X} i igualar el resultat als termes independents, obtenim les equacions del sistema.
+
+\begin{itemize}
+\item La matriu \fmm{A}, d'ordre \fmm{m\times n}, s'anomena \textbf{matriu de coeficients}.
+\item La matriu columna \fmm{X} és la \textbf{matriu de les incògnites}.
+\item La matriu columna \fmm{B} és la \textbf{matriu de termes independents}.
+\item La matriu \fmm{A^*}, d'ordre \fmm{m\times(n+1)}, formada afegint a \fmm{A} la columna dels termes independents, és la \textbf{matriu ampliada}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple}
+\fmm{\left\{\begin{aligned}2x-y+3z&=0\\ 3x-y-z&=-2\end{aligned}\right.} l'escriurem en forma matricial: \fmm{\begin{pmatrix}2 & -1 & 3\\ 3 & -1 & -1\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}0\\ -2\end{pmatrix}}
+
+\fmm{A=\begin{pmatrix}2 & -1 & 3\\ 3 & -1 & -1\end{pmatrix}} és la matriu de coeficients i \fmm{A^*=\left(\begin{array}{rrr|r}2 & -1 & 3 & 0\\ 3 & -1 & -1 & -2\end{array}\right)} la matriu ampliada.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Mètode de Gauss amb matrius}
+Ara utilitzarem les matrius per resoldre els sistemes pel mètode de Gauss. Per a això només agafarem la matriu ampliada \fmm{A^*} del sistema i farem zeros per davall de la diagonal principal, de la mateixa manera que abans ho hem fet amb les equacions. Ara \fmm{F_i} indica la fila \fmm{i}.
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples de Gauss amb matrius}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resolem pel mètode de Gauss: \fmm{\left\{\begin{aligned}2x-5y+3z&=4\\ x-2y+z&=3\\ 5x+y+7z&=11\end{aligned}\right.}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}2 & -5 & 3 & 4\\ 1 & -2 & 1 & 3\\ 5 & 1 & 7 & 11\end{array}\right)\xrightarrow{F_1\leftrightarrow F_2}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 2 & -5 & 3 & 4\\ 5 & 1 & 7 & 11\end{array}\right)}
+
+\fmdisp{\xrightarrow[F_3'=F_3-5F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 0 & -1 & 1 & -2\\ 0 & 11 & 2 & -4\end{array}\right)\xrightarrow{F_3''=11F_2'+F_3'}\left(\begin{array}{rrr|r}1 & -2 & 1 & 3\\ 0 & -1 & 1 & -2\\ 0 & 0 & 13 & -26\end{array}\right)}
+
+Ja tenim la matriu esglaonada; ara resolem de baix cap amunt:
+
+\fmdisp{13z=-26\Rightarrow\boxed{z=-2}\qquad -y+z=-2\xrightarrow{z=-2}-y=0\Rightarrow\boxed{y=0}\qquad x-2y+z=3\Rightarrow x-0-2=3\Rightarrow\boxed{x=5}}
+
+\item Resolem pel mètode de Gauss: \fmm{\left\{\begin{aligned}x-3y+7z&=10\\ 5x-y+z&=8\\ x+4y-10z&=-11\end{aligned}\right.}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 5 & -1 & 1 & 8\\ 1 & 4 & -10 & -11\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-5F_1}\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 0 & 14 & -34 & -42\\ 0 & 7 & -17 & -21\end{array}\right)}
+
+\fmdisp{\xrightarrow{F_3''=-2F_3'+F_2'}\left(\begin{array}{rrr|r}1 & -3 & 7 & 10\\ 0 & 14 & -34 & -42\\ 0 & 0 & 0 & 0\end{array}\right)\Rightarrow\textbf{SCI}}
+
+Donem la solució general del sistema. Fem \fmm{z=\lambda} (i simplifiquem la segona fila entre 2):
+
+\fmdisp{7y-17\lambda=-21\rightarrow y=\frac{17\lambda-21}{7}=-3+\frac{17}{7}\lambda}
+
+\fmdisp{x-3y+7\lambda=10\rightarrow x=10+3\left(-3+\tfrac{17}{7}\lambda\right)-7\lambda=1+\frac{2}{7}\lambda}
+
+\fmdisp{\boxed{x=1+\tfrac{2}{7}\lambda;\ \ y=-3+\tfrac{17}{7}\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+També la podem expressar així (canviant \fmm{\lambda} per \fmm{7\lambda}): \fmm{x=1+2\lambda;\ y=-3+17\lambda;\ z=7\lambda,\ \lambda\in\mathbb{R}}
+\item Resolem pel mètode de Gauss: \fmm{\left\{\begin{aligned}x-3y-2z&=7\\ 2x-y+15z&=3\\ x-8y-21z&=11\end{aligned}\right.}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 2 & -1 & 15 & 3\\ 1 & -8 & -21 & 11\end{array}\right)\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2-2F_1}\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 0 & 5 & 19 & -11\\ 0 & -5 & -19 & 4\end{array}\right)}
+
+\fmdisp{\xrightarrow{F_3''=F_3'+F_2'}\left(\begin{array}{rrr|r}1 & -3 & -2 & 7\\ 0 & 5 & 19 & -11\\ 0 & 0 & 0 & -7\end{array}\right)\Rightarrow\textbf{SI}}
+
+L'última fila diu \fmm{0=-7}: el sistema no té solució.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètode matricial}
+Com ja hem vist, un sistema de \fmm{m} equacions amb \fmm{n} incògnites es pot expressar en forma matricial com \fmm{A\cdot X=B}, on:
+
+\begin{itemize}
+\item \fmm{A} és la matriu de coeficients, \fmm{m\times n}.
+\item \fmm{X} és la matriu de les incògnites, \fmm{n\times1}.
+\item \fmm{B} és la matriu dels termes independents, \fmm{m\times1}.
+\end{itemize}
+
+Si \textbf{\fmm{A} és una matriu regular} (és a dir, quadrada i amb \fmm{|A|\neq0}) podem obtenir la solució del sistema de la forma següent:
+
+\fmdisp{A\cdot X=B\ \rightarrow\ \underbrace{A^{-1}\cdot A}_{=I}\cdot X=A^{-1}\cdot B\ \rightarrow\ \boxed{X=A^{-1}\cdot B}}
+
+\begin{fmnote}Compte: multipliquem per \fmm{A^{-1}} \textbf{per l'esquerra} en els dos membres. \fmm{B\cdot A^{-1}} no té sentit (ni tan sols es pot multiplicar si \fmm{B} és una columna).\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple del mètode matricial}
+Resolem el sistema següent amb el mètode matricial:
+
+\fmdisp{\left\{\begin{aligned}x-y-z&=1\\ -x+3z&=18\\ -2x+5y-3z&=-52\end{aligned}\right.\ \Rightarrow\ \begin{pmatrix}1 & -1 & -1\\ -1 & 0 & 3\\ -2 & 5 & -3\end{pmatrix}\cdot\begin{pmatrix}x\\ y\\ z\end{pmatrix}=\begin{pmatrix}1\\ 18\\ -52\end{pmatrix}\ \Rightarrow\ A\cdot X=B}
+
+Com \fmm{|A|=\begin{vmatrix}1 & -1 & -1\\ -1 & 0 & 3\\ -2 & 5 & -3\end{vmatrix}=11-12=-1\neq0}, podem calcular la matriu inversa \fmm{A^{-1}}.
+
+Calculem la matriu adjunta \fmm{\mathrm{Adj}(A)}:
+
+\fmdisp{A_{11}=\begin{vmatrix}0 & 3\\ 5 & -3\end{vmatrix}=-15;\ \ A_{12}=-\begin{vmatrix}-1 & 3\\ -2 & -3\end{vmatrix}=-9;\ \ A_{13}=\begin{vmatrix}-1 & 0\\ -2 & 5\end{vmatrix}=-5}
+
+\fmdisp{A_{21}=-\begin{vmatrix}-1 & -1\\ 5 & -3\end{vmatrix}=-8;\ \ A_{22}=\begin{vmatrix}1 & -1\\ -2 & -3\end{vmatrix}=-5;\ \ A_{23}=-\begin{vmatrix}1 & -1\\ -2 & 5\end{vmatrix}=-3}
+
+\fmdisp{A_{31}=\begin{vmatrix}-1 & -1\\ 0 & 3\end{vmatrix}=-3;\ \ A_{32}=-\begin{vmatrix}1 & -1\\ -1 & 3\end{vmatrix}=-2;\ \ A_{33}=\begin{vmatrix}1 & -1\\ -1 & 0\end{vmatrix}=-1}
+
+Transposem la matriu adjunta i apliquem la fórmula de la inversa:
+
+\fmdisp{A^{-1}=\frac{1}{|A|}\big(\mathrm{Adj}(A)\big)^t=\frac{1}{-1}\begin{pmatrix}-15 & -8 & -3\\ -9 & -5 & -2\\ -5 & -3 & -1\end{pmatrix}=\begin{pmatrix}15 & 8 & 3\\ 9 & 5 & 2\\ 5 & 3 & 1\end{pmatrix}}
+
+Ara resolem el sistema:
+
+\fmdisp{X=A^{-1}\cdot B=\begin{pmatrix}15 & 8 & 3\\ 9 & 5 & 2\\ 5 & 3 & 1\end{pmatrix}\cdot\begin{pmatrix}1\\ 18\\ -52\end{pmatrix}=\begin{pmatrix}15+144-156\\ 9+90-104\\ 5+54-52\end{pmatrix}=\begin{pmatrix}3\\ -5\\ 7\end{pmatrix}\ \Rightarrow\ \boxed{x=3;\ y=-5;\ z=7}}
+
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Regla de Cramer}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Regla de Cramer per a SCD}
+És una fórmula per obtenir la solució d'un sistema d'equacions lineals. Per poder aplicar-la, el sistema ha de ser compatible determinat; és a dir:
+
+\begin{itemize}
+\item \fmm{m=} nombre d'equacions \fmm{=} nombre d'incògnites \fmm{=n}
+\item \fmm{|A|\neq0}, on \fmm{A} és la matriu de coeficients.
+\end{itemize}
+
+Llavors calcularem les incògnites així: \textbf{al numerador, substituïm la columna de la incògnita per la columna dels termes independents}:
+
+\fmdisp{x_1=\frac{\begin{vmatrix}\color[HTML]{ff7a50}b_1 & a_{12} & \cdots & a_{1n}\\ \color[HTML]{ff7a50}b_2 & a_{22} & \cdots & a_{2n}\\ \color[HTML]{ff7a50}\vdots & \vdots & & \vdots\\ \color[HTML]{ff7a50}b_n & a_{n2} & \cdots & a_{nn}\end{vmatrix}}{|A|};\quad x_2=\frac{\begin{vmatrix}a_{11} & \color[HTML]{ff7a50}b_1 & \cdots & a_{1n}\\ a_{21} & \color[HTML]{ff7a50}b_2 & \cdots & a_{2n}\\ \vdots & \color[HTML]{ff7a50}\vdots & & \vdots\\ a_{n1} & \color[HTML]{ff7a50}b_n & \cdots & a_{nn}\end{vmatrix}}{|A|};\ \cdots;\ x_n=\frac{\begin{vmatrix}a_{11} & a_{12} & \cdots & \color[HTML]{ff7a50}b_1\\ a_{21} & a_{22} & \cdots & \color[HTML]{ff7a50}b_2\\ \vdots & \vdots & & \color[HTML]{ff7a50}\vdots\\ a_{n1} & a_{n2} & \cdots & \color[HTML]{ff7a50}b_n\end{vmatrix}}{|A|}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple}
+Resolem el sistema següent utilitzant la regla de Cramer: \fmm{\left\{\begin{aligned}x+2y-z&=2\\ 2x+y+5z&=8\\ -x-5y+6z&=0\end{aligned}\right.}
+
+Com \fmm{|A|=\begin{vmatrix}1 & 2 & -1\\ 2 & 1 & 5\\ -1 & -5 & 6\end{vmatrix}=6\neq0}, podem aplicar la regla de Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}\color[HTML]{ff7a50}2 & 2 & -1\\ \color[HTML]{ff7a50}8 & 1 & 5\\ \color[HTML]{ff7a50}0 & -5 & 6\end{vmatrix}}{6}=\frac{6}{6}=1;\quad y=\frac{\begin{vmatrix}1 & \color[HTML]{ff7a50}2 & -1\\ 2 & \color[HTML]{ff7a50}8 & 5\\ -1 & \color[HTML]{ff7a50}0 & 6\end{vmatrix}}{6}=\frac{6}{6}=1;\quad z=\frac{\begin{vmatrix}1 & 2 & \color[HTML]{ff7a50}2\\ 2 & 1 & \color[HTML]{ff7a50}8\\ -1 & -5 & \color[HTML]{ff7a50}0\end{vmatrix}}{6}=\frac{6}{6}=1}
+
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Regla de Cramer per a SCI}
+La regla de Cramer, en principi, només és vàlida per a sistemes quadrats \fmm{n\times n} amb \fmm{|A|\neq0} (aquests sistemes s'anomenen «de Cramer»). No obstant això, \textbf{també es pot aplicar a qualsevol sistema compatible}, com veurem a continuació.
+
+Suposem que tenim un sistema compatible de \fmm{m} equacions amb \fmm{n} incògnites amb \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=r}, \fmm{r<m,\ r<n}.
+
+Això vol dir que la matriu de coeficients té un menor d'ordre \fmm{r} diferent de zero. Per simplificar, suposem que aquest menor està format per les \fmm{r} primeres files i les \fmm{r} primeres columnes (en verd):
+
+\fmdisp{\left\{\begin{array}{l}{\color[HTML]{2bb3a3}a_{11}x_1+\cdots+a_{1r}x_r}+\overbrace{a_{1,r+1}x_{r+1}+\cdots+a_{1n}x_n}^{\text{passen al segon membre}}=c_1\\ \qquad\cdots\\ {\color[HTML]{2bb3a3}a_{r1}x_1+\cdots+a_{rr}x_r}+a_{r,r+1}x_{r+1}+\cdots+a_{rn}x_n=c_r\\ \color[HTML]{ff7a50}a_{r+1,1}x_1+\cdots+a_{r+1,n}x_n=c_{r+1}\\ \color[HTML]{ff7a50}\qquad\cdots\\ \color[HTML]{ff7a50}a_{m1}x_1+\cdots+a_{mn}x_n=c_m\end{array}\right.}
+
+Les files en taronja les suprimim, ja que són combinació lineal de les \fmm{r} equacions anteriors. Aleshores el sistema inicial és equivalent a aquest altre:
+
+\fmdisp{\left\{\begin{aligned}a_{11}x_1+\cdots+a_{1r}x_r&=c_1-a_{1,r+1}x_{r+1}-\cdots-a_{1n}x_n\\ &\ \ \vdots\\ a_{r1}x_1+\cdots+a_{rr}x_r&=c_r-a_{r,r+1}x_{r+1}-\cdots-a_{rn}x_n\end{aligned}\right.\qquad\begin{vmatrix}a_{11} & \cdots & a_{1r}\\ \vdots & & \vdots\\ a_{r1} & \cdots & a_{rr}\end{vmatrix}\neq0}
+
+Aquest és un sistema de Cramer en què els termes independents depenen de les incògnites «sobrants» \fmm{(x_{r+1},\dots,x_n)}. Per tant, \textbf{la solució depèn de \fmm{n-r} paràmetres}.
+
+\begin{itemize}
+\item Si \fmm{r=m}, totes les equacions són útils (no en «sobra» cap).
+\item Si \fmm{r=n<m}, «sobren» diverses equacions, però en suprimir-les queda un sistema de Cramer de \fmm{n} equacions i \fmm{n} incògnites, determinat.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple de Cramer en un SCI}
+Resoldrem amb Cramer el sistema: \fmm{\left\{\begin{aligned}3x-2y+z&=2\\ 2x+5y-3z&=15\\ 11x-y&=21\end{aligned}\right.}
+
+\fmdisp{A=\begin{pmatrix}3 & -2 & 1\\ 2 & 5 & -3\\ 11 & -1 & 0\end{pmatrix}\rightarrow|A|=-2+66-(55+9)=0\rightarrow\operatorname{rg}(A)<3}
+
+Com \fmm{\begin{vmatrix}3 & -2\\ 2 & 5\end{vmatrix}=19\neq0}, podem afirmar que \fmm{\operatorname{rg}(A)=2}.
+
+Comprovem que tots els menors d'ordre 3 de la matriu ampliada són zero: \fmm{A^*=\left(\begin{array}{rrr|r}3 & -2 & 1 & 2\\ 2 & 5 & -3 & 15\\ 11 & -1 & 0 & 21\end{array}\right)}
+
+\fmdisp{\begin{vmatrix}3 & -2 & 2\\ 2 & 5 & 15\\ 11 & -1 & 21\end{vmatrix}=315-330-4-(110-84-45)=-19-(-19)=0}
+
+\fmdisp{\begin{vmatrix}3 & 1 & 2\\ 2 & -3 & 15\\ 11 & 0 & 21\end{vmatrix}=-189+165-(-66+42)=-24-(-24)=0}
+
+\fmdisp{\begin{vmatrix}-2 & 1 & 2\\ 5 & -3 & 15\\ -1 & 0 & 21\end{vmatrix}=126-15-(6+105)=111-111=0}
+
+Aleshores \fmm{\operatorname{rg}(A^*)=2} i el sistema és compatible de rang 2. Com tenim 3 incògnites, una d'elles ha de passar al segon membre.
+
+Com \fmm{\begin{vmatrix}3 & 1\\ 11 & 0\end{vmatrix}=-11\neq0} (columnes de \fmm{x} i \fmm{z}, equacions 1a i 3a), podem agafar com a sistema equivalent:
+
+\fmdisp{\left\{\begin{aligned}3x+z&=2+2y\\ 11x&=21+y\end{aligned}\right.}
+
+Apliquem ara les fórmules de Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}2+2y & 1\\ 21+y & 0\end{vmatrix}}{-11}=\frac{-(21+y)}{-11}=\frac{21+y}{11}\qquad z=\frac{\begin{vmatrix}3 & 2+2y\\ 11 & 21+y\end{vmatrix}}{-11}=\frac{63+3y-(22+22y)}{-11}=\frac{-41+19y}{11}}
+
+\fmdisp{\boxed{x=\frac{21+\lambda}{11};\ \ y=\lambda;\ \ z=\frac{-41+19\lambda}{11},\quad\lambda\in\mathbb{R}}}
+
+\vspace*{0.2cm}
+
+\begin{fmnote}\fmuline{NOTA}: també podríem haver resolt el sistema equivalent aïllant \fmm{x} de la segona equació, \fmm{x=\frac{21+y}{11}}, i substituint-la en la primera per obtenir \fmm{z}. Però l'objectiu d'aquest exemple era practicar Cramer en un SCI.\end{fmnote}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Sistemes d'equacions homogenis}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Sistemes homogenis}
+Com ja hem vist a l'inici del tema, un \textbf{sistema homogeni} és aquell en què tots els termes independents són zero:
+
+\fmdisp{\left\{\begin{array}{ccccccccc} a_{11}x_1 &+& a_{12}x_2 &+& \cdots &+& a_{1n}x_n &=& 0\\ a_{21}x_1 &+& a_{22}x_2 &+& \cdots &+& a_{2n}x_n &=& 0\\ \cdots && \cdots && \cdots && \cdots && \cdots\\ a_{m1}x_1 &+& a_{m2}x_2 &+& \cdots &+& a_{mn}x_n &=& 0\end{array}\right.}
+
+\vspace*{0.2cm}
+
+Aquests sistemes sempre admeten la \textbf{solució trivial}: \fmm{\boxed{x_1=x_2=\cdots=x_n=0}}. Per tant, \fmuline{mai no són incompatibles} (de fet, \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)} sempre, perquè la columna afegida és de zeros).
+
+\newpage
+Però un sistema homogeni \textbf{pot tenir altres solucions}. Perquè això passe, \fmuline{és necessari i suficient} que
+
+\fmdisp{\operatorname{rg}(A)<n}
+
+ja que així serà un sistema compatible indeterminat. Si el sistema és quadrat, això equival a \fmm{|A|=0}.
+\end{fmdef}
+
+\Needspace{18\baselineskip}
+\section{Teorema de Rouché-Frobenius}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Teorema de Rouché-Frobenius}
+Aquest teorema ens permet \textbf{classificar} els sistemes lineals segons el nombre de solucions, \textbf{abans de resoldre'ls}. Siguen \fmm{A} la matriu de coeficients i \fmm{A^*} la matriu ampliada d'un sistema amb \fmm{n} incògnites. Aleshores:
+
+\begin{enumerate}
+\item \fmm{\operatorname{rg}(A)\neq\operatorname{rg}(A^*)\ \Rightarrow} \fmbadge{fmsi}{SI} Sistema incompatible.
+\item \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=n\ \Rightarrow} \fmbadge{fmok}{SCD} Sistema compatible determinat.
+\item \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)<n\ \Rightarrow} \fmbadge{fmev}{SCI} Sistema compatible indeterminat (amb \fmm{n-\operatorname{rg}(A)} paràmetres).
+\end{enumerate}
+
+\begin{fmnote}Recorda que \fmm{A^*} té una columna més que \fmm{A}: per tant, \fmm{\operatorname{rg}(A^*)} és igual a \fmm{\operatorname{rg}(A)} o una unitat més gran.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples de Rouché-Frobenius}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Donat el sistema \fmm{\left\{\begin{aligned}x+y&=5\\ 2x+3y&=13\\ x-y&=0\end{aligned}\right.}, calculem els rangs de les matrius de coeficients i ampliada:
+
+\fmdisp{A=\begin{pmatrix}1 & 1\\ 2 & 3\\ 1 & -1\end{pmatrix},\quad\begin{vmatrix}1 & 1\\ 2 & 3\end{vmatrix}=1\neq0\Rightarrow\operatorname{rg}(A)=2}
+
+\fmdisp{A^*=\left(\begin{array}{rr|r}1 & 1 & 5\\ 2 & 3 & 13\\ 1 & -1 & 0\end{array}\right),\quad\begin{vmatrix}1 & 1 & 5\\ 2 & 3 & 13\\ 1 & -1 & 0\end{vmatrix}=1\neq0\Rightarrow\operatorname{rg}(A^*)=3}
+
+Com \fmm{\operatorname{rg}(A)\neq\operatorname{rg}(A^*)}, el sistema és \fmbadge{fmsi}{SI}
+\item Donat el sistema \fmm{\left\{\begin{aligned}2x-y&=1\\ x+y&=2\\ 5x-y&=4\end{aligned}\right.}, calculem els rangs:
+
+\fmdisp{A=\begin{pmatrix}2 & -1\\ 1 & 1\\ 5 & -1\end{pmatrix},\quad\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}=3\neq0\Rightarrow\operatorname{rg}(A)=2}
+
+\fmdisp{A^*=\left(\begin{array}{rr|r}2 & -1 & 1\\ 1 & 1 & 2\\ 5 & -1 & 4\end{array}\right),\quad\begin{vmatrix}2 & -1 & 1\\ 1 & 1 & 2\\ 5 & -1 & 4\end{vmatrix}=0\Rightarrow\operatorname{rg}(A^*)=2}
+
+Com \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=2=} nre. d'incògnites, el sistema és \fmbadge{fmok}{SCD}. Per resoldre'l, eliminem la tercera equació (no forma part del menor que dona el rang) i apliquem Cramer:
+
+\fmdisp{\left\{\begin{aligned}2x-y&=1\\ x+y&=2\end{aligned}\right.\Rightarrow x=\frac{\begin{vmatrix}1 & -1\\ 2 & 1\end{vmatrix}}{\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}}=\frac{3}{3}=1\qquad y=\frac{\begin{vmatrix}2 & 1\\ 1 & 2\end{vmatrix}}{\begin{vmatrix}2 & -1\\ 1 & 1\end{vmatrix}}=\frac{3}{3}=1\qquad\boxed{x=1;\ y=1}}
+
+\item Donat el sistema \fmm{\left\{\begin{aligned}x+y+z&=3\\ x-y+2z&=2\\ 2x+3z&=5\end{aligned}\right.}, calculem els rangs:
+
+\fmdisp{A=\begin{pmatrix}1 & 1 & 1\\ 1 & -1 & 2\\ 2 & 0 & 3\end{pmatrix},\quad\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}=-2\neq0;\quad\begin{vmatrix}1 & 1 & 1\\ 1 & -1 & 2\\ 2 & 0 & 3\end{vmatrix}=0\Rightarrow\operatorname{rg}(A)=2}
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 1 & -1 & 2 & 2\\ 2 & 0 & 3 & 5\end{array}\right),\quad\begin{vmatrix}1 & 1 & 3\\ 1 & -1 & 2\\ 2 & 0 & 5\end{vmatrix}=0\Rightarrow\operatorname{rg}(A^*)=2}
+
+Com \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=2<3} incògnites, el sistema és \fmbadge{fmev}{SCI}. Eliminem la 3a equació i passem \fmm{z} al segon membre (no forma part del menor del rang):
+
+\fmdisp{\left\{\begin{aligned}x+y&=3-z\\ x-y&=2-2z\end{aligned}\right.\Rightarrow x=\frac{\begin{vmatrix}3-z & 1\\ 2-2z & -1\end{vmatrix}}{\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}}=\frac{5-3z}{2}\qquad y=\frac{\begin{vmatrix}1 & 3-z\\ 1 & 2-2z\end{vmatrix}}{\begin{vmatrix}1 & 1\\ 1 & -1\end{vmatrix}}=\frac{1+z}{2}}
+
+Assignem a \fmm{z} el paràmetre \fmm{\lambda} i obtenim la solució general:
+
+\fmdisp{\boxed{x=\frac{5-3\lambda}{2};\ \ y=\frac{1+\lambda}{2};\ \ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+\textbf{Una altra forma de resoldre'l:} un cop sabem que és un SCI, també podem trobar la solució amb el mètode de Gauss:
+
+\fmdisp{A^*\xrightarrow[F_3'=F_3-2F_1]{F_2'=F_2-F_1}\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 0 & -2 & 1 & -1\\ 0 & -2 & 1 & -1\end{array}\right)\xrightarrow{F_3''=F_3'-F_2'}\left(\begin{array}{rrr|r}1 & 1 & 1 & 3\\ 0 & -2 & 1 & -1\\ 0 & 0 & 0 & 0\end{array}\right)}
+
+\fmdisp{z=\lambda\ \rightarrow\ -2y+\lambda=-1\ \rightarrow\ y=\frac{1+\lambda}{2}\ \rightarrow\ x=3-\lambda-\frac{1+\lambda}{2}=\frac{5-3\lambda}{2}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Sistemes d'equacions amb paràmetres}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició: sistemes amb paràmetres}
+\textbf{Discutir} un sistema d'equacions que depén d'un o més paràmetres és identificar per a quins valors dels paràmetres el sistema és compatible o incompatible, distingint també els casos en què és determinat o indeterminat.
+
+\begin{fmnote}\fmuline{NOTA}: en realitat, més que un sistema d'equacions és un conjunt de sistemes, ja que per a cada valor del paràmetre \fmm{k} hi ha un sistema d'equacions diferent.\end{fmnote}
+
+Els passos que seguirem per estudiar un sistema amb paràmetres són:
+
+\begin{enumerate}
+\item Calculem \fmm{|A|} (si \fmm{A} és quadrada) i busquem els valors del paràmetre que l'anu\lgem{}en: són els \textbf{valors crítics}.
+\item Utilitzem el teorema de Rouché-Frobenius per saber el nombre de solucions en cada cas (valors crítics i resta de valors).
+\item En els casos en què siga compatible, el resolem mitjançant Gauss o Cramer.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples de sistemes amb paràmetre}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Discutim i resolem, quan es puga, el sistema: \fmm{\left\{\begin{aligned}-x+my+z&=2\\ 2x-y+2z&=0\\ -x-3z&=-2\end{aligned}\right.}
+
+Per estudiar el rang de la matriu de coeficients, primer calculem el determinant:
+
+\fmdisp{|A|=\begin{vmatrix}-1 & m & 1\\ 2 & -1 & 2\\ -1 & 0 & -3\end{vmatrix}=-3-2m-(1-6m)=4m-4=0\ \rightarrow\ \boxed{m=1}}
+
+\textbf{Si \fmm{m=1}} \fmm{\rightarrow\operatorname{rg}(A)=2} (per exemple \fmm{\begin{vmatrix}-1 & 1\\ 2 & -1\end{vmatrix}=-1\neq0}). Estudiem el rang de la matriu ampliada calculant els menors d'ordre 3 que la contenen:
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 2 & -1 & 2 & 0\\ -1 & 0 & -3 & -2\end{array}\right)}
+
+\fmdisp{\begin{vmatrix}-1 & 1 & 2\\ 2 & -1 & 0\\ -1 & 0 & -2\end{vmatrix}=0;\quad\begin{vmatrix}-1 & 1 & 2\\ 2 & 2 & 0\\ -1 & -3 & -2\end{vmatrix}=0;\quad\begin{vmatrix}1 & 1 & 2\\ -1 & 2 & 0\\ 0 & -3 & -2\end{vmatrix}=0\ \Rightarrow\ \operatorname{rg}(A^*)=2}
+
+Aleshores \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=2<3} i, pel teorema de R-F, si \fmm{m=1} el sistema és \fmbadge{fmev}{SCI}. Calculem la solució general per Gauss:
+
+\fmdisp{A^*\xrightarrow[F_3'=F_3-F_1]{F_2'=F_2+2F_1}\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 0 & 1 & 4 & 4\\ 0 & -1 & -4 & -4\end{array}\right)\xrightarrow{F_3''=F_3'+F_2'}\left(\begin{array}{rrr|r}-1 & 1 & 1 & 2\\ 0 & 1 & 4 & 4\\ 0 & 0 & 0 & 0\end{array}\right)}
+
+\fmdisp{z=\lambda\ \rightarrow\ y=4-4\lambda\ \rightarrow\ -x+(4-4\lambda)+\lambda=2\ \rightarrow\ x=2-3\lambda}
+
+\fmdisp{\boxed{x=2-3\lambda;\ \ y=4-4\lambda;\ \ z=\lambda,\quad\lambda\in\mathbb{R}}}
+
+\textbf{Si \fmm{m\neq1}} \fmm{\rightarrow\operatorname{rg}(A)=3=\operatorname{rg}(A^*)=} nre. d'incògnites \fmm{\rightarrow} \fmbadge{fmok}{SCD}. Ho resolem per Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}2 & m & 1\\ 0 & -1 & 2\\ -2 & 0 & -3\end{vmatrix}}{4m-4}=\frac{-4m+4}{4m-4}=-1;\quad y=\frac{\begin{vmatrix}-1 & 2 & 1\\ 2 & 0 & 2\\ -1 & -2 & -3\end{vmatrix}}{4m-4}=\frac{0}{4m-4}=0;\quad z=\frac{\begin{vmatrix}-1 & m & 2\\ 2 & -1 & 0\\ -1 & 0 & -2\end{vmatrix}}{4m-4}=\frac{4m-4}{4m-4}=1}
+
+\fmdisp{\boxed{x=-1;\ \ y=0;\ \ z=1}}
+
+\item Discutim i resolem, segons els valors del paràmetre \fmm{a}, el sistema: \fmm{\left\{\begin{aligned}ax+y+z&=1\\ x+ay+z&=1\\ x+y+az&=1\end{aligned}\right.}
+
+\fmdisp{|A|=\begin{vmatrix}a & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}=a^3-3a+2=(a-1)^2(a+2)=0\ \rightarrow\ \left\{\begin{aligned}a&=1\\ a&=-2\end{aligned}\right.}
+
+\textbf{Si \fmm{a=1}}, les tres equacions són la mateixa i el sistema queda reduït a una sola equació, \fmm{x+y+z=1}: \fmm{\operatorname{rg}(A)=\operatorname{rg}(A^*)=1<3}. \fmbadge{fmev}{SCI} amb dos paràmetres:
+
+\fmdisp{\boxed{x=\lambda;\ \ y=\mu;\ \ z=1-\lambda-\mu,\quad\lambda,\mu\in\mathbb{R}}}
+\newpage
+\textbf{Si \fmm{a=-2}}\fmm{\ \rightarrow\operatorname{rg}(A)=2}:
+
+\fmdisp{A^*=\left(\begin{array}{rrr|r}-2 & 1 & 1 & 1\\ 1 & -2 & 1 & 1\\ 1 & 1 & -2 & 1\end{array}\right)\rightarrow\begin{vmatrix}-2 & 1 & 1\\ 1 & -2 & 1\\ 1 & 1 & 1\end{vmatrix}=9\neq0}
+
+\fmm{\operatorname{rg}(A^*)=3\neq\operatorname{rg}(A)=2\ \rightarrow} \fmbadge{fmsi}{SI} i, per tant, no té solució.
+
+\textbf{Si \fmm{a\neq1} i \fmm{a\neq-2}}\fmm{\ \rightarrow\operatorname{rg}(A)=3=\operatorname{rg}(A^*)} \fmm{\rightarrow} \fmbadge{fmok}{SCD}. Calculem la solució per Cramer:
+
+\fmdisp{x=\frac{\begin{vmatrix}1 & 1 & 1\\ 1 & a & 1\\ 1 & 1 & a\end{vmatrix}}{(a-1)^2(a+2)}=\frac{a^2-2a+1}{(a-1)^2(a+2)}=\frac{\cancel{(a-1)^2}}{\cancel{(a-1)^2}(a+2)}=\frac{1}{a+2}}
+
+Anàlogament (el sistema és simètric) \fmm{y=z=\frac{1}{a+2}}:
+
+\fmdisp{\boxed{x=\frac{1}{a+2};\ \ y=\frac{1}{a+2};\ \ z=\frac{1}{a+2}}}
+
+\begin{fmnote}\fmuline{Cal recordar} que això no significa que hi haja infinites solucions: per a cada valor de \fmm{a} hi ha un sistema amb una solució única. Per exemple, per a \fmm{a=0} la solució és \fmm{x=y=z=\frac12}.\end{fmnote}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
