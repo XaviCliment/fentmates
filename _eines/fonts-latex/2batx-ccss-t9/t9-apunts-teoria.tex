@@ -1,0 +1,815 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks,pdftitle={Apunts de teoria. Unitat 9: Probabilitat. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={probabilitat, espai mostral, successos, regla de Laplace, taula de contingència, probabilitat condicionada, successos independents, diagrama d’arbre, probabilitat total, teorema de Bayes}]{hyperref}
+
+% colors de la web (FentMates, bloc de probabilitat: morat; es manté el nom fmgreen dels apunts anteriors)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{684E88}
+\definecolor{fmgreenl}{HTML}{8064A1}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{9.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «probabilitat»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=4pt,line cap=round,line join=round]
+  \fill (20,60) circle[radius=5];
+  \draw (20,60)--(80,26) (20,60)--(80,94) (80,26)--(130,12) (80,26)--(130,40) (80,94)--(130,80) (80,94)--(130,108);
+  \fill (80,26) circle[radius=4] (80,94) circle[radius=4] (130,12) circle[radius=3.5] (130,40) circle[radius=3.5] (130,80) circle[radius=3.5] (130,108) circle[radius=3.5];
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont\itshape] at (38,36) {0,6};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont\itshape] at (38,92) {0,4};
+  \begin{scope}[rotate around={-12:(190,58)}]
+    \draw[rounded corners=0.74cm] (162,30) rectangle (218,86);
+    \fill (176,44) circle[radius=4.5] (190,58) circle[radius=4.5] (204,72) circle[radius=4.5];
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 9: Probabilitat}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unitat 9} · Probabilitat\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria, exemples resolts pas a pas: experiments aleatoris, espai mostral i successos, operacions amb successos i lleis de De Morgan, la probabilitat i la regla de Laplace, les fórmules de la probabilitat (contrari, unió, intersecció, diferència), el càlcul de probabilitats quan coneixem l'espai mostral i quan no (diagrames de Venn i taules de contingència), la probabilitat condicionada, la independència de successos, els experiments compostos amb extraccions amb i sense reemplaçament, i els teoremes de la probabilitat total i de Bayes.\end{minipage}
+\vspace{1.1cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.42\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}9.1}\ \ Espai mostral i successos}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}9.2}\ \ Operacions amb successos}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}9.3}\ \ La probabilitat}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}9.4}\ \ Regla de Laplace}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}9.5}\ \ Fórmules de la probabilitat}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.56\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}9.6}\ \ Càlcul de probabilitats: amb l'espai mostral i sense}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}9.7}\ \ Probabilitat condicionada}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}9.8}\ \ Successos independents}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}9.9}\ \ Experiments compostos. Extraccions}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}9.10}\ \ Probabilitat total i teorema de Bayes}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Experiments aleatoris. Espai mostral i successos}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Experiment aleatori}
+Un experiment és \textbf{aleatori} quan, encara que el repetim en les mateixes condicions, \textbf{no podem predir} el resultat que obtindrem, tot i que sí que coneixem tots els resultats possibles. Per exemple: llançar un dau, traure una carta d'una baralla, triar a l'atzar una persona d'una població i preguntar-li si té cotxe\dots{}
+
+      
+
+En canvi, un experiment és \textbf{determinista} si el resultat es pot predir: deixar caure una pilota des de 2 m i mesurar el temps que tarda a arribar a terra.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Espai mostral i successos}
+\begin{itemize}
+\item L'\textbf{espai mostral}, \fmm{E} (o \fmm{\Omega}), és el conjunt de \textbf{tots els resultats possibles} de l'experiment.
+\item Un \textbf{succés} és qualsevol subconjunt de l'espai mostral. Es designa amb lletres majúscules: \fmm{A}, \fmm{B}, \fmm{C}\dots{} Diem que el succés \fmm{A} \textbf{ocorre} si el resultat de l'experiment és un dels elements de \fmm{A}.
+\item \textbf{Succés elemental}: format per un sol resultat. 
+\item \textbf{Succés compost}: format per dos o més resultats.
+\item \textbf{Succés segur}: l'espai mostral \fmm{E}, que ocorre sempre. \textbf{Succés impossible}: el conjunt buit \fmm{\varnothing}, que no ocorre mai.
+\end{itemize}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Llancem un dau i observem el resultat. Escriu l'espai mostral i els successos \fmm{A=}«eixir parell», \fmm{B=}«eixir més de 4» i \fmm{C=}«eixir 7».
+          
+
+            
+
+\fmm{E=\{1,2,3,4,5,6\}}
+
+            
+
+\fmm{A=\{2,4,6\}}, \fmm{\ B=\{5,6\}}, \fmm{\ C=\varnothing} (succés impossible).
+\item Llancem tres monedes. Escriu l'espai mostral i el succés \fmm{A=}«obtindre almenys dues cares».
+          
+
+            
+
+Amb un diagrama d'arbre (C = cara, + = creu) obtenim 8 resultats:
+
+              
+
+\fmm{E=\{CCC,\ CC{+},\ C{+}C,\ C{+}{+},\ {+}CC,\ {+}C{+},\ {+}{+}C,\ {+}{+}{+}\}}
+
+            
+
+\fmm{A=\{CCC,\ CC{+},\ C{+}C,\ {+}CC\}}: 4 resultats.
+\item Triem a l'atzar un alumne d'un institut i mirem si aprova Matemàtiques i si aprova Història. Quin és l'espai mostral?
+          
+
+            
+
+Si \fmm{M=}«aprova Matemàtiques» i \fmm{H=}«aprova Història», hi ha 4 possibilitats: aprova les dues, només Matemàtiques, només Història o cap. Aquest és el tipus d'espai mostral que trobarem en molts problemes de la PAU, on \textbf{no} sabem quants alumnes hi ha de cada tipus sinó només els percentatges.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Operacions amb successos}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Unió, intersecció, contrari i diferència}
+\begin{center}\renewcommand{\arraystretch}{1.7}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Operació} & \textbf{Notació} & \textbf{Ocorre quan\dots{}} & \textbf{Es llegeix}\\\midrule
+Unió & $A\cup B$ & ocorre $A$ \textbf{o} $B$ (almenys un dels dos) & «A o B»\\[3pt]
+Intersecció & $A\cap B$ & ocorren $A$ \textbf{i} $B$ alhora & «A i B»\\[3pt]
+Contrari & $\overline{A}$ o $A^c$ & \textbf{no} ocorre $A$ & «no A»\\[3pt]
+Diferència & $A-B=A\cap\overline{B}$ & ocorre $A$ però no $B$ & «només A»\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+\begin{center}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{A\cup B}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{A\cap B}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A}}\par}\end{minipage}\\[8pt]\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{A-B=A\cap\overline{B}}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize Només un dels dos\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A}\cap\overline{B}}: cap\par}\end{minipage}\end{center}
+
+      
+\begin{fmnote}\fmuline{Traducció del llenguatge}: «almenys un» \fmm{\to A\cup B}; «tots dos», «alhora» \fmm{\to A\cap B}; «cap dels dos», «ni A ni B» \fmm{\to\overline{A}\cap\overline{B}}; «només A» \fmm{\to A\cap\overline{B}}; «només un» \fmm{\to(A\cap\overline{B})\cup(\overline{A}\cap B)}; «com a molt un», «no tots dos» \fmm{\to\overline{A\cap B}}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Successos incompatibles}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Dos successos són \textbf{incompatibles} (o disjunts) si \textbf{no poden ocórrer alhora}: \fmm{A\cap B=\varnothing}. Si no, són \textbf{compatibles}.
+
+          
+
+Un succés i el seu contrari sempre són incompatibles i, a més, entre tots dos omplin l'espai mostral: \fmm{A\cup\overline{A}=E}, \fmm{A\cap\overline{A}=\varnothing}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright {\centering \begin{tikzpicture}[x=0.01437cm,y=-0.01437cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (100,108) circle[radius=60];\fill[fmaccent!55!white] (220,108) circle[radius=60];\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (100,108) circle[radius=60] (220,108) circle[radius=60];\node[font=\small\bfseries] at (48.4,57.6) {$A$};\node[font=\small\bfseries] at (271.6,57.6) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize\color{fmmuted}Incompatibles: \fmm{A\cap B=\varnothing}\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Lleis de De Morgan}
+
+\[\overline{A\cup B}=\overline{A}\cap\overline{B}\qquad\qquad\overline{A\cap B}=\overline{A}\cup\overline{B}\]
+
+      
+
+«No ocórrer cap dels dos» és el mateix que «no ocórrer A \textbf{i} no ocórrer B»; «no ocórrer tots dos alhora» és el mateix que «no ocórrer A \textbf{o} no ocórrer B». En fer el contrari, la unió es converteix en intersecció i al revés. Són molt útils perquè a la PAU sovint donen \fmm{P(\overline{A}\cap\overline{B})} o \fmm{P(\overline{A}\cup\overline{B})}.
+
+      
+\begin{center}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A\cup B}=\overline{A}\cap\overline{B}}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A\cap B}=\overline{A}\cup\overline{B}}\par}\end{minipage}\end{center}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En el llançament d'un dau, siguen \fmm{A=\{2,4,6\}} i \fmm{B=\{4,5,6\}}. Calcula \fmm{A\cup B}, \fmm{A\cap B}, \fmm{\overline{A}}, \fmm{A-B} i comprova la primera llei de De Morgan.
+          
+
+            
+
+\fmm{A\cup B=\{2,4,5,6\}}, \fmm{\ A\cap B=\{4,6\}}, \fmm{\ \overline{A}=\{1,3,5\}}, \fmm{\ A-B=\{2\}}
+
+            
+
+\fmm{\overline{A\cup B}=\{1,3\}} i \fmm{\overline{A}\cap\overline{B}=\{1,3,5\}\cap\{1,2,3\}=\{1,3\}}
+\item Siguen \fmm{M=}«aprovar Matemàtiques» i \fmm{H=}«aprovar Història». Expressa amb operacions: (a) aprovar només Història; (b) aprovar com a molt una; (c) no aprovar cap.
+          
+
+            
+
+(a) \fmm{H\cap\overline{M}\qquad} (b) \fmm{\overline{M\cap H}=\overline{M}\cup\overline{H}\qquad} (c) \fmm{\overline{M}\cap\overline{H}=\overline{M\cup H}}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{La probabilitat. Freqüència relativa i axiomes}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Freqüència relativa i llei dels grans nombres}
+Si repetim un experiment \fmm{n} vegades i el succés \fmm{A} ocorre \fmm{n_A} vegades, la \textbf{freqüència relativa} de \fmm{A} és \fmm{f_r(A)=\dfrac{n_A}{n}}.
+
+      
+
+\textbf{Llei dels grans nombres}: quan el nombre de repeticions creix, la freqüència relativa s'estabilitza al voltant d'un valor. Aquest valor és la \textbf{probabilitat} del succés, \fmm{P(A)}. Així s'estimen moltes probabilitats a la vida real (assegurances, enquestes, control de qualitat).
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició axiomàtica (Kolmogórov)}
+Una \textbf{probabilitat} és una funció que assigna a cada succés \fmm{A} un nombre \fmm{P(A)} i que compleix:
+
+      
+\begin{enumerate}
+\item \fmm{P(A)\geq0} per a qualsevol succés \fmm{A}.
+\item \fmm{P(E)=1}.
+\item Si \fmm{A} i \fmm{B} són incompatibles, \fmm{P(A\cup B)=P(A)+P(B)}.
+\end{enumerate}
+
+      
+\begin{fmnote}En conseqüència, \textbf{tota probabilitat està entre 0 i 1}: \fmm{0\leq P(A)\leq1}, amb \fmm{P(\varnothing)=0}. Si en un exercici et dona una probabilitat negativa o més gran que 1, hi ha un error! A més, la suma de les probabilitats de tots els successos elementals és 1.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Un dau està trucat de manera que la probabilitat d'obtindre un 6 és \fmm{\frac12} i les altres cinc cares tenen la mateixa probabilitat \fmm{p}. Calcula \fmm{p} i la probabilitat d'obtindre un nombre parell. \fmpau{PAU}
+          
+
+            
+
+Les probabilitats dels successos elementals sumen 1: \fmm{5p+\frac12=1\Rightarrow p=\frac{1}{10}}.
+
+            
+
+\fmm{P(\text{parell})=P(2)+P(4)+P(6)=\frac1{10}+\frac1{10}+\frac12=\frac{7}{10}}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Regla de Laplace}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Regla de Laplace}
+Si l'espai mostral és finit i \textbf{tots els resultats són igual de probables} (equiprobables), la probabilitat d'un succés \fmm{A} és:
+
+      
+\[P(A)=\frac{\text{nombre de casos favorables a }A}{\text{nombre de casos possibles}}\]
+
+      
+
+Les paraules «a l'atzar», «moneda equilibrada», «dau no trucat» o «bola triada a l'atzar» ens indiquen que podem aplicar-la. Compte: \textbf{no} es pot aplicar si els resultats no són equiprobables (un dau trucat, o la suma de dos daus si prenem \fmm{E=\{2,\dots,12\}}).
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Traiem una carta d'una baralla espanyola de 40 cartes (4 pals de 10 cartes: 1--7, sota, cavall i rei). Probabilitat de (a) traure un or; (b) traure una figura; (c) traure un as o una copa.
+          
+
+            
+
+(a) \fmm{P=\frac{10}{40}=\frac14\qquad} (b) hi ha 12 figures: \fmm{P=\frac{12}{40}=\frac{3}{10}}
+
+            
+
+(c) 4 asos + 10 copes, però l'as de copes l'hem comptat dues vegades: \fmm{4+10-1=13} casos favorables, \fmm{P=\frac{13}{40}}.
+\item Llancem dos daus. Probabilitat que la suma siga 7, i que almenys un dels dos siga un 6.
+          
+
+            
+
+Hi ha \fmm{6\cdot6=36} parelles equiprobables. Suma 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) \fmm{\Rightarrow P=\frac{6}{36}=\frac16}.
+
+            
+
+Almenys un 6: 6 parelles amb el primer dau igual a 6, 6 amb el segon i (6,6) comptada dues vegades: \fmm{\frac{11}{36}}. (Més ràpid amb el contrari: \fmm{1-\frac{25}{36}=\frac{11}{36}}.)
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Fórmules de la probabilitat}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propietats de la probabilitat}
+\begin{center}\renewcommand{\arraystretch}{1.7}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{5.2cm}>{\centering\arraybackslash}X}\toprule
+\textbf{Propietat} & \textbf{Fórmula}\\\midrule
+Succés contrari & $P(\overline{A})=1-P(A)$\\[3pt]
+Unió (cas general) & $P(A\cup B)=P(A)+P(B)-P(A\cap B)$\\[3pt]
+Unió de successos incompatibles & $P(A\cup B)=P(A)+P(B)$\\[3pt]
+Diferència («només A») & $P(A\cap\overline{B})=P(A-B)=P(A)-P(A\cap B)$\\[3pt]
+Cap dels dos (De Morgan) & $P(\overline{A}\cap\overline{B})=P(\overline{A\cup B})=1-P(A\cup B)$\\[3pt]
+No tots dos (De Morgan) & $P(\overline{A}\cup\overline{B})=P(\overline{A\cap B})=1-P(A\cap B)$\\[3pt]
+Només un dels dos & $P(A\cup B)-P(A\cap B)=P(A)+P(B)-2P(A\cap B)$\\[3pt]
+Si $A\subset B$ & $P(A)\leq P(B)$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+
+Per què es resta \fmm{P(A\cap B)} en la unió? Perquè, en sumar \fmm{P(A)+P(B)}, la part comuna (la intersecció) l'hem comptada \textbf{dues vegades}.
+
+      
+
+Per a tres successos: 
+\[\begin{aligned}P(A\cup B\cup C)&=P(A)+P(B)+P(C)-P(A\cap B)\\&\quad-P(A\cap C)-P(B\cap C)+P(A\cap B\cap C)\,.\end{aligned}\]
+
+
+      
+\begin{fmnote}\fmuline{La idea clau}: el diagrama de Venn de dos successos té \textbf{quatre regions} (només A, A i B, només B, cap). Les seues probabilitats sumen 1, i \textbf{qualsevol} probabilitat que ens pregunten és la suma d'algunes d'aquestes regions. Si en coneixem prou dades, les podem calcular totes.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Siguen \fmm{A} i \fmm{B} dos successos amb \fmm{P(A)=0{,}6}, \fmm{P(B)=0{,}5} i \fmm{P(A\cap B)=0{,}4}. Calcula \fmm{P(A\cup B)}, \fmm{P(\overline{A}\cap\overline{B})}, \fmm{P(\overline{A}\cap B)} i \fmm{P(\overline{A}\cup\overline{B})}. \fmpau{PAU País Basc 2020}
+          
+
+            
+
+\fmm{P(A\cup B)=0{,}6+0{,}5-0{,}4=0{,}7}
+
+            
+
+De Morgan: \fmm{P(\overline{A}\cap\overline{B})=1-P(A\cup B)=0{,}3}
+
+            
+
+Només B: \fmm{P(\overline{A}\cap B)=P(B)-P(A\cap B)=0{,}5-0{,}4=0{,}1}
+
+            
+
+De Morgan: \fmm{P(\overline{A}\cup\overline{B})=1-P(A\cap B)=0{,}6}
+\item Siguen \fmm{A} i \fmm{B} amb \fmm{P(A\cup B)=0{,}8}, \fmm{P(\overline{A})=0{,}5} i \fmm{P(A\cap B)=0{,}3}. Calcula \fmm{P(B)} i \fmm{P(\overline{A}\cup\overline{B})}. \fmpau{PAU Balears 2020}
+          
+
+            
+
+\fmm{P(A)=1-0{,}5=0{,}5}. De la fórmula de la unió: \fmm{0{,}8=0{,}5+P(B)-0{,}3\Rightarrow P(B)=0{,}6}
+
+            
+
+\fmm{P(\overline{A}\cup\overline{B})=1-P(A\cap B)=0{,}7}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Càlcul de probabilitats: amb l'espai mostral i sense}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dues situacions diferents}
+\par\noindent \begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries Coneixem l'espai mostral}\par
+
+          
+
+Daus, monedes, cartes, urnes\dots{} Podem \textbf{comptar} els casos. Calculem les probabilitats amb la \textbf{regla de Laplace} (casos favorables / casos possibles), sovint ajudant-nos d'una taula o d'un arbre, i podem comprovar-ho amb les fórmules.\end{tcolorbox}\end{minipage}\hfill\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries No coneixem l'espai mostral}\par
+
+          
+
+Ens donen \textbf{percentatges} o probabilitats («el 60 \% dels clients\dots{}»). No podem comptar: hem de treballar amb les \textbf{fórmules}, un \textbf{diagrama de Venn} amb les quatre regions o una \textbf{taula de contingència}.\end{tcolorbox}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Taula de contingència}
+És una taula de doble entrada amb dos successos i els seus contraris. A les ce\lgem{}es interiors hi ha les \textbf{interseccions}, i als marges, les probabilitats de cada succés. Cada fila i cada columna \textbf{sumen} el total del marge, i el total general és 1 (o 100 \%). Amb tres dades ben triades podem omplir tota la taula.
+
+      
+\begin{center}\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{9pt}\begin{tabular}{l|cc|c}\toprule
+\textbf{} & \textbf{$B$} & \textbf{$\overline{B}$} & \textbf{Total}\\\midrule
+\textbf{$A$} & $P(A\cap B)$ & $P(A\cap\overline{B})$ & \textbf{$P(A)$}\\
+\textbf{$\overline{A}$} & $P(\overline{A}\cap B)$ & $P(\overline{A}\cap\overline{B})$ & \textbf{$P(\overline{A})$}\\
+\midrule\textbf{Total} & \textbf{$P(B)$} & \textbf{$P(\overline{B})$} & \textbf{1}\\
+\bottomrule\end{tabular}\end{center}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Coneixem l'espai mostral.} Llancem dos daus. Siguen \fmm{A=}«la suma és 8» i \fmm{B=}«els dos daus són iguals». Calcula \fmm{P(A\cup B)}.
+          
+
+            
+
+\fmm{A=\{(2,6),(3,5),(4,4),(5,3),(6,2)\}\Rightarrow P(A)=\frac{5}{36}}; \fmm{\ B=\{(1,1),\dots,(6,6)\}\Rightarrow P(B)=\frac{6}{36}}
+
+            
+
+\fmm{A\cap B=\{(4,4)\}\Rightarrow P(A\cap B)=\frac1{36}\Rightarrow P(A\cup B)=\frac{5+6-1}{36}=\frac{10}{36}=\frac{5}{18}}
+
+            
+
+Comprovació per recompte: \fmm{A\cup B} té \fmm{5+6-1=10} parelles.
+\item \textbf{No coneixem l'espai mostral.} En un centre, el 50 \% de l'alumnat aprova Història, el 70 \% aprova Matemàtiques i el 30 \% aprova totes dues. Triem un alumne a l'atzar. Calcula la probabilitat que (a) aprove només una de les dues; (b) no aprove més d'una. \fmpau{PAU Andalusia 2025}
+          
+
+            
+
+Omplim la taula de contingència (\fmm{H} = aprova Història, \fmm{M} = aprova Matemàtiques) a partir de les dades (en negreta) restant:
+
+              
+\begin{center}\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{9pt}\begin{tabular}{l|cc|c}\toprule
+\textbf{} & \textbf{$M$} & \textbf{$\overline{M}$} & \textbf{Total}\\\midrule
+\textbf{$H$} & \cellcolor{fmyellow!45}0,30 & 0,20 & \cellcolor{fmyellow!45}\textbf{0,50}\\
+\textbf{$\overline{H}$} & 0,40 & 0,10 & \textbf{0,50}\\
+\midrule\textbf{Total} & \cellcolor{fmyellow!45}\textbf{0,70} & \textbf{0,30} & \textbf{1}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+(a) \fmm{P(H\cap\overline{M})+P(\overline{H}\cap M)=0{,}2+0{,}4=0{,}6}
+
+            
+
+(b) «No més d'una» és el contrari de «totes dues»: \fmm{1-0{,}3=0{,}7}
+\item El 69 \% dels habitants d'una ciutat veu sèries, el 35 \% pe\lgem{}ícules i el 18 \% no veu ni sèries ni pe\lgem{}ícules. Probabilitat que un habitant veja sèries o pe\lgem{}ícules, i que veja sèries però no pe\lgem{}ícules. \fmpau{PAU Andalusia 2019}
+          
+
+            
+
+De Morgan: \fmm{P(S\cup F)=1-P(\overline{S}\cap\overline{F})=1-0{,}18=0{,}82}
+
+            
+
+\fmm{P(S\cap F)=0{,}69+0{,}35-0{,}82=0{,}22\Rightarrow P(S\cap\overline{F})=0{,}69-0{,}22=0{,}47}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Probabilitat condicionada}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Probabilitat condicionada}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La probabilitat de \fmm{A} \textbf{sabent que} ha ocorregut \fmm{B} (amb \fmm{P(B)\gt0}) és:
+
+          
+\[P(A\,|\,B)=\frac{P(A\cap B)}{P(B)}\]
+
+          
+
+Es llig «probabilitat de \fmm{A} condicionada a \fmm{B}» (també s'escriu \fmm{P(A/B)}). La informació «ha ocorregut \fmm{B}» \textbf{redueix l'espai mostral} a \fmm{B}: ara només mirem quina part de \fmm{B} és també \fmm{A}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright {\centering \begin{tikzpicture}[x=0.01437cm,y=-0.01437cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[fmteal!35!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[fmaccent!60!white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize\color{fmmuted}L'espai mostral es redueix a \fmm{B}\par}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}\fmuline{Com reconéixer-la}: «sabent que», «si», «dels que\dots{}», «entre els que\dots{}», «de les dones, quin percentatge\dots{}». Compte: \fmm{P(A\,|\,B)\neq P(B\,|\,A)} en general. «El 40 \% dels que juguen a bàsquet juguen a tenis» és \fmm{P(T\,|\,B)=0{,}4}, no \fmm{P(T\cap B)}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Regla del producte i propietats}
+
+\[P(A\cap B)=P(B)\cdot P(A\,|\,B)=P(A)\cdot P(B\,|\,A)\]
+
+      
+\[P(\overline{A}\,|\,B)=1-P(A\,|\,B)\qquad\qquad P(A\cap B\cap C)=P(A)\cdot P(B\,|\,A)\cdot P(C\,|\,A\cap B)\]
+
+      
+
+La condicionada es comporta com una probabilitat dins de \fmm{B}: en particular, el contrari es calcula restant d'1 \textbf{amb la mateixa condició}. Però \textbf{no} és cert que \fmm{P(A\,|\,\overline{B})=1-P(A\,|\,B)}!
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Siguen \fmm{A} i \fmm{B} amb \fmm{P(A)=0{,}6}, \fmm{P(B)=0{,}8} i \fmm{P(A\cap\overline{B})=0{,}1}. Calcula \fmm{P(A\,|\,\overline{B})} i \fmm{P(A\cup B)}. \fmpau{PAU Madrid 2019}
+          
+
+            
+
+\fmm{P(A\,|\,\overline{B})=\dfrac{P(A\cap\overline{B})}{P(\overline{B})}=\dfrac{0{,}1}{0{,}2}=0{,}5}
+
+            
+
+\fmm{P(A\cup B)=P(B)+P(A\cap\overline{B})=0{,}8+0{,}1=0{,}9} (B més «només A»)
+\item En una població, el 45 \% són homes. El 27 \% és home i lector de premsa esportiva, i un 38,5 \% és dona i no en llig. (a) De les dones, quin percentatge llig premsa esportiva? (b) Dels lectors, quin percentatge són homes? \fmpau{PAU Galícia 2021}
+          
+
+            
+
+\begin{center}\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{9pt}\begin{tabular}{l|cc|c}\toprule
+\textbf{} & \textbf{Llig (L)} & \textbf{$\overline{L}$} & \textbf{Total}\\\midrule
+\textbf{Home (H)} & \cellcolor{fmyellow!45}0,27 & 0,18 & \cellcolor{fmyellow!45}\textbf{0,45}\\
+\textbf{Dona} & 0,165 & \cellcolor{fmyellow!45}0,385 & \textbf{0,55}\\
+\midrule\textbf{Total} & \textbf{0,435} & \textbf{0,565} & \textbf{1}\\
+\bottomrule\end{tabular}\end{center}
+
+            
+
+(a) \fmm{P(L\,|\,\text{dona})=\dfrac{0{,}165}{0{,}55}=0{,}3\to} 30 \%
+
+            
+
+(b) \fmm{P(\text{home}\,|\,L)=\dfrac{0{,}27}{0{,}435}\approx0{,}6207\to} 62 \% aproximadament
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Successos independents}\hypertarget{sec8}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Independència de successos}
+Dos successos són \textbf{independents} si el fet que ocórrega un \textbf{no canvia} la probabilitat de l'altre: \fmm{P(A\,|\,B)=P(A)}. Això és equivalent a:
+
+      
+\[A \text{ i } B \text{ independents}\iff P(A\cap B)=P(A)\cdot P(B)\]
+
+      
+
+Per a comprovar-ho a la PAU, calculem \fmm{P(A)\cdot P(B)} i el comparem amb \fmm{P(A\cap B)}. Si coincideixen, són independents; si no, són \textbf{dependents}.
+
+      
+\begin{itemize}
+\item Si \fmm{A} i \fmm{B} són independents, també ho són \fmm{A} i \fmm{\overline{B}}, \fmm{\overline{A}} i \fmm{B}, i \fmm{\overline{A}} i \fmm{\overline{B}}. Per exemple, \fmm{P(\overline{A}\cap\overline{B})=P(\overline{A})\cdot P(\overline{B})}.
+\item En experiments que es repeteixen sense influir-se (llançar dos daus, dues persones que tiren a cistella, extraccions \textbf{amb} reemplaçament) els successos de cada prova són independents i les probabilitats es multipliquen.
+\end{itemize}
+
+      
+\begin{fmnote}\fmuline{No confongues incompatibles amb independents!} Incompatibles: \fmm{P(A\cap B)=0}, no poden passar alhora (si passa un, l'altre \textbf{segur} que no: depenen molt l'un de l'altre). Independents: \fmm{P(A\cap B)=P(A)P(B)}. Dos successos amb probabilitat positiva \textbf{no} poden ser alhora incompatibles i independents.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En un institut, el 64 \% aprova Matemàtiques, el 72 \% aprova Anglés i el 78 \% aprova alguna de les dues. Són independents els successos? \fmpau{PAU Castella-la Manxa 2024}
+          
+
+            
+
+\fmm{P(M\cap A)=0{,}64+0{,}72-0{,}78=0{,}58}
+
+            
+
+\fmm{P(M)\cdot P(A)=0{,}64\cdot0{,}72=0{,}4608\neq0{,}58\Rightarrow} \textbf{no} són independents.
+\item Alex encistella un tir lliure amb probabilitat 0,65 i Fran amb probabilitat 0,48, de manera independent. Si tots dos tiren, probabilitat que només encistelle Alex, i que encistelle almenys un. \fmpau{PAU Múrcia 2021}
+          
+
+            
+
+\fmm{P(A\cap\overline{F})=0{,}65\cdot0{,}52=0{,}338}
+
+            
+
+Almenys un = contrari de «cap»: \fmm{1-0{,}35\cdot0{,}52=1-0{,}182=0{,}818}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Experiments compostos. Extraccions amb i sense reemplaçament}\hypertarget{sec9}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Diagrames d'arbre}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un experiment \textbf{compost} està format per diverses proves seguides (traure dues boles, llançar una moneda i després un dau\dots{}). El representem amb un \textbf{diagrama d'arbre}:
+
+          
+\begin{itemize}
+\item A cada branca escrivim la probabilitat \textbf{condicionada} al que ha passat abans.
+\item Les branques que ixen d'un mateix nus sumen 1.
+\item La probabilitat d'un camí és el \textbf{producte} de les probabilitats de les seues branques (regla del producte).
+\item Si un succés correspon a diversos camins, \textbf{sumem} les seues probabilitats.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright {\centering \begin{tikzpicture}[x=1.15cm,y=0.68cm,br/.style={fmmuted,line width=0.9pt},lb/.style={font=\footnotesize,inner sep=1.5pt}]\node[circle,draw=fmmuted,fill=fmsurface,inner sep=0pt,minimum size=6pt] (o) at (0,0) {};\node[circle,fill=fmball0,inner sep=0pt,minimum size=9pt] (R) at (1.9,2) {};\draw[br] (o)--(R) node[lb,pos=0.5,above left] {$\frac{3}{5}$};\node[circle,fill=fmball0,inner sep=0pt,minimum size=9pt] (RR) at (3.8,3) {};\draw[br] (R)--(RR) node[lb,pos=0.5,above] {$\frac{2}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,3) {$\frac{3}{5}\cdot\frac{2}{4}=\frac{3}{10}$};\node[circle,fill=fmball1,inner sep=0pt,minimum size=9pt] (RB) at (3.8,1) {};\draw[br] (R)--(RB) node[lb,pos=0.5,below] {$\frac{2}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,1) {$\frac{3}{5}\cdot\frac{2}{4}=\frac{3}{10}$};\node[circle,fill=fmball1,inner sep=0pt,minimum size=9pt] (B) at (1.9,-2) {};\draw[br] (o)--(B) node[lb,pos=0.5,below left] {$\frac{2}{5}$};\node[circle,fill=fmball0,inner sep=0pt,minimum size=9pt] (BR) at (3.8,-1) {};\draw[br] (B)--(BR) node[lb,pos=0.5,above] {$\frac{3}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,-1) {$\frac{2}{5}\cdot\frac{3}{4}=\frac{3}{10}$};\node[circle,fill=fmball1,inner sep=0pt,minimum size=9pt] (BB) at (3.8,-3) {};\draw[br] (B)--(BB) node[lb,pos=0.5,below] {$\frac{1}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,-3) {$\frac{2}{5}\cdot\frac{1}{4}=\frac{1}{10}$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize\color{fmmuted}Urna amb 3 R i 2 B, dues extraccions sense reemplaçament\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Amb reemplaçament i sense reemplaçament}
+\par\noindent \begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp2]{\color{fmnavy}\bfseries Amb reemplaçament (amb devolució)}\par
+
+          
+
+Tornem la bola a l'urna abans de la següent extracció. La composició \textbf{no canvia}: les extraccions són \textbf{independents} i les probabilitats de cada branca es repeteixen.
+
+          
+
+\fmm{P(R_1\cap R_2)=\frac35\cdot\frac35=\frac{9}{25}}\end{tcolorbox}\end{minipage}\hfill\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp2]{\color{fmnavy}\bfseries Sense reemplaçament (sense devolució)}\par
+
+          
+
+No tornem la bola. La composició \textbf{canvia} a cada extracció: les extraccions són \textbf{dependents}. Traure-les «a la vegada» (dues boles alhora) és equivalent a traure-les una darrere l'altra sense reemplaçament.
+
+          
+
+\fmm{P(R_1\cap R_2)=\frac35\cdot\frac24=\frac{3}{10}}\end{tcolorbox}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}A la PAU apareixen també variants: «es trau una bola i es reemplaça per dues de l'altre color», «es torna la bola i se n'afigen dues del mateix color»\dots{} El mètode és el mateix: a cada branca, la composició de l'urna en aquell moment.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Una urna conté 5 boles blanques, 3 negres i 2 roges. Se'n trauen dues, consecutivament i sense reemplaçament. Calcula la probabilitat que (a) totes dues siguen roges; (b) siguen del mateix color; (c) almenys una siga negra; (d) si la segona és roja, que la primera haja sigut blanca. \fmpau{PAU Cantàbria 2023}
+          
+
+            
+
+(a) \fmm{P(R_1\cap R_2)=\frac{2}{10}\cdot\frac19=\frac{1}{45}}
+
+            
+
+(b) \fmm{\frac{5}{10}\cdot\frac49+\frac{3}{10}\cdot\frac29+\frac{2}{10}\cdot\frac19=\frac{20+6+2}{90}=\frac{28}{90}=\frac{14}{45}}
+
+            
+
+(c) Contrari: cap negra. \fmm{1-\frac{7}{10}\cdot\frac69=1-\frac{42}{90}=\frac{8}{15}}
+
+            
+
+(d) \fmm{P(R_2)=\frac{5}{10}\cdot\frac29+\frac{3}{10}\cdot\frac29+\frac{2}{10}\cdot\frac19=\frac{18}{90}=\frac15}; \fmm{\ P(B_1\,|\,R_2)=\dfrac{P(B_1\cap R_2)}{P(R_2)}=\dfrac{10/90}{18/90}=\dfrac59}
+\item Una urna té 5 boles roges i 3 verdes. Es trau una bola i es reemplaça per dues boles de l'altre color. Després es trau una segona bola. Probabilitat que la segona siga verda. \fmpau{PAU Andalusia 2017}
+          
+
+            
+
+Si la primera és roja (\fmm{\frac58}), queden 4 R i 5 V (9 boles); si és verda (\fmm{\frac38}), queden 7 R i 2 V (9 boles).
+
+            
+
+\fmm{P(V_2)=\frac58\cdot\frac59+\frac38\cdot\frac29=\frac{25+6}{72}=\frac{31}{72}\approx0{,}4306}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Teorema de la probabilitat total i teorema de Bayes}\hypertarget{sec10}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Sistema complet de successos}
+Els successos \fmm{A_1, A_2,\dots,A_n} formen un \textbf{sistema complet} si són incompatibles dos a dos i la seua unió és tot l'espai mostral: sempre ocorre \textbf{un i només un} d'ells. Per exemple: les fàbriques que fan un producte, les urnes d'on podem traure una bola, «estar malalt / estar sa» (\fmm{A} i \fmm{\overline{A}}).
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Teorema de la probabilitat total}
+
+\[P(B)=P(A_1)\,P(B\,|\,A_1)+P(A_2)\,P(B\,|\,A_2)+\dots+P(A_n)\,P(B\,|\,A_n)\]
+
+      
+
+En l'arbre: la probabilitat de \fmm{B} és la \textbf{suma de tots els camins} que acaben en \fmm{B}. Respon preguntes com «quina és la probabilitat que una peça siga defectuosa?» quan cada fàbrica té un percentatge de defectes diferent.
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Teorema de Bayes}
+
+\[P(A_i\,|\,B)=\frac{P(A_i)\,P(B\,|\,A_i)}{P(B)}=\frac{P(A_i)\,P(B\,|\,A_i)}{P(A_1)\,P(B\,|\,A_1)+\dots+P(A_n)\,P(B\,|\,A_n)}\]
+
+      
+
+Bayes fa el camí \textbf{al revés}: sabem el resultat \fmm{B} (la segona prova) i volem la probabilitat de la causa \fmm{A_i} (la primera prova). En l'arbre: \textbf{el camí que ens interessa dividit per la suma de tots els camins que acaben en \fmm{B}}. Les probabilitats \fmm{P(A_i)} s'anomenen \emph{a priori} i les \fmm{P(A_i\,|\,B)}, \emph{a posteriori}.
+
+      
+\begin{fmnote}\fmuline{Pista}: si la pregunta és «sabent que la peça és defectuosa, quina probabilitat hi ha que vinga de la fàbrica 2?», és a dir, si ens donen la informació de la \textbf{segona} etapa i ens pregunten per la \textbf{primera}, és Bayes.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Tres professors, A, B i C, han corregit el 25 \%, el 30 \% i el 45 \% dels exàmens d'una oposició. Els percentatges d'errors de correcció són de l'1 \%, el 2 \% i el 3 \%. (a) Probabilitat que un examen estiga mal corregit. (b) Si un examen està mal corregit, probabilitat que l'haja corregit B. (c) Quin corrector és el més probable? \fmpau{PAU Aragó 2021}
+          
+
+            
+
+(a) Probabilitat total (\fmm{E} = error): \fmm{P(E)=0{,}25\cdot0{,}01+0{,}30\cdot0{,}02+0{,}45\cdot0{,}03=0{,}0025+0{,}006+0{,}0135=0{,}022}
+
+            
+
+(b) Bayes: \fmm{P(B\,|\,E)=\dfrac{0{,}006}{0{,}022}=\dfrac{3}{11}\approx0{,}2727}
+
+            
+
+(c) \fmm{P(A\,|\,E)=\frac{0{,}0025}{0{,}022}\approx0{,}1136}, \fmm{\ P(C\,|\,E)=\frac{0{,}0135}{0{,}022}\approx0{,}6136}. El més probable és C.
+\item El 15 \% d'una població té una malaltia. Un test dona positiu en el 92 \% dels malalts i en el 4 \% dels sans. Si el test d'una persona dona positiu, quina probabilitat hi ha que estiga malalta? \fmpau{PAU Andalusia 2021}
+          
+
+            
+
+\fmm{P(+)=0{,}15\cdot0{,}92+0{,}85\cdot0{,}04=0{,}138+0{,}034=0{,}172}
+
+            
+
+\fmm{P(M\,|\,+)=\dfrac{0{,}138}{0{,}172}=\dfrac{69}{86}\approx0{,}8023}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
