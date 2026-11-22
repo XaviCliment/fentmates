@@ -1,0 +1,850 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks,pdftitle={Apunts de teoria. Unitat 8: Integrals. 2n de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials II},pdfkeywords={primitiva, integral indefinida, integrals immediates, integral definida, regla de Barrow, àrea, àrea entre dues corbes}]{hyperref}
+
+% colors de la web (FentMates, bloc d'anàlisi)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\[#1\]\else\mbox{\box0}\fi}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{8.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% logo de la web: adhesiu verd amb la gràfica + «Fent» «Mates»
+\newcommand{\fmlogo}[1]{\begin{tikzpicture}[x=#1/124,y=#1/124,baseline=-0.35*#1]
+  \fill[fmgreenl,rounded corners=#1*0.24] (-62,-62) rectangle (62,62);
+  \begin{scope}[yscale=-1,scale=1.15,line width=#1*0.045,line cap=round,line join=round,draw=white]
+  \draw (-36,24)--(36,24) (-28,32)--(-28,-32);
+  \draw (-34,18) .. controls (-14,18) and (-10,-24) .. (6,-24) .. controls (22,-24) and (24,10) .. (36,-6);
+  \end{scope}\end{tikzpicture}}
+% dibuix de la targeta de la unitat a la web (illustrations.js, «integrals»), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \draw[line width=3pt] (14,104)--(226,104) (30,114)--(30,8);
+  \begin{scope}
+    \clip (30,90) .. controls (60,80) and (90,34) .. (130,34) .. controls (170,34) and (190,60) .. (226,56)--(226,104)--(30,104)--cycle;
+    \fill[fill opacity=0.08] (70,0) rectangle (170,104);
+    \draw[line width=4.5pt,dash pattern=on 7pt off 9pt] (70,104)--(70,0) (170,104)--(170,0);
+  \end{scope}
+  \draw[line width=4.5pt] (30,90) .. controls (60,80) and (90,34) .. (130,34) .. controls (170,34) and (190,60) .. (226,56);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{34}{34}\selectfont] at (90,88) {$\int$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont\itshape] at (108,88) {f(x)dx};
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat CCSS · Unitat 8: Integrals}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt,opacity=0.15] at ([xshift=6.13cm,yshift=-0.41cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat CCSS II}
+
+\vspace{4pt}
+{\color{white}\fontsize{28}{32}\selectfont\bfseries{\color{fmyellow}Unitat 8} · Integrals\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria, exemples resolts pas a pas: primitives i integral indefinida, integrals immediates i quasi immediates, la integral definida i el seu significat geomètric, la regla de Barrow i el càlcul d'àrees entre una corba i l'eix OX i entre dues corbes, també quan el recinte està limitat per rectes verticals \fmm{x=a} i \fmm{x=b}.\end{minipage}
+\vspace{1.4cm}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}8.1}\ \ Primitiva i integral indefinida}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}8.2}\ \ Integrals immediates}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}8.3}\ \ Integrals quasi immediates}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}8.4}\ \ La integral definida}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}8.5}\ \ Regla de Barrow}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}8.6}\ \ Àrea entre una corba i l'eix OX}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}8.7}\ \ Àrea entre dues corbes}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Primitiva i integral indefinida}\hypertarget{sec1}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Primitiva d'una funció}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Fins ara, donada una funció, en calculàvem la derivada. Ara fem el camí \textbf{invers}: donada \fmm{f}, busquem una funció \fmm{F} que, en derivar-la, done \fmm{f}.
+
+          
+
+Diem que \fmm{F} és una \textbf{primitiva} de \fmm{f} si
+
+          
+\[F'(x)=f(x)\]
+
+          
+
+Per exemple, \fmm{F(x)=x^2} és una primitiva de \fmm{f(x)=2x}, perquè \fmm{(x^2)'=2x}. Però també ho són \fmm{x^2+5}, \fmm{x^2-3} o \fmm{x^2+\frac12}: la derivada d'una constant és 0.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2.5,xmax=3.3,ymin=-3.6,ymax=6.5]\addplot[fmev,line width=1.6pt,smooth,domain=-2.5:3.3,samples=160]{x^2-2};\addplot[fmaccent,line width=1.6pt,smooth,domain=-2.5:3.3,samples=160]{x^2};\addplot[fmok,line width=1.6pt,smooth,domain=-2.5:3.3,samples=160]{x^2+2};\draw[fmguide] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\addplot[fmteal,line width=1.2pt,domain=0.5:1.5]{2*(x-(1))+(-1)};\addplot[fmteal,line width=1.2pt,domain=0.5:1.5]{2*(x-(1))+(1)};\addplot[fmteal,line width=1.2pt,domain=0.5:1.5]{2*(x-(1))+(3)};\node[circle,fill=fmev,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,-1) {};\node[circle,fill=fmaccent,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,1) {};\node[circle,fill=fmok,draw=white,line width=0.8pt,inner sep=0pt,minimum size=7pt] at (axis cs:1,3) {};\node[anchor=west,font=\scriptsize,inner sep=1pt,align=left,text=fmok] at (axis cs:0.12,6.0) {$x^2+2$};\node[anchor=west,font=\scriptsize,inner sep=1pt,align=left,text=fmaccent] at (axis cs:0.12,5.1) {$x^2$};\node[anchor=west,font=\scriptsize,inner sep=1pt,align=left,text=fmev] at (axis cs:0.12,4.2) {$x^2-2$};\node[anchor=north west,font=\scriptsize,inner sep=1pt,align=left,text=black] at (axis cs:1.15,-1.6) {mateix\\pendent};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}Si \fmm{F} és una primitiva de \fmm{f}, \textbf{totes} les primitives de \fmm{f} són de la forma \fmm{F(x)+C}, amb \fmm{C} un nombre real. Les seues gràfiques són traslladades verticals les unes de les altres i, en cada \fmm{x}, totes tenen el mateix pendent \fmm{f(x)}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Integral indefinida}
+El conjunt de totes les primitives de \fmm{f} s'anomena \textbf{integral indefinida} de \fmm{f} i s'escriu:
+
+      
+\[\int f(x)\,dx=F(x)+C\qquad\text{on }F'(x)=f(x)\]
+
+      
+\begin{itemize}
+\item \fmm{\int} és el signe d'integral (una «S» allargada, de «suma»).
+\item \fmm{f(x)} és l'\textbf{integrand}, la funció que integrem.
+\item \fmm{dx} indica quina és la variable d'integració.
+\item \fmm{C} és la \textbf{constant d'integració}: no l'oblides mai en una integral indefinida.
+\end{itemize}
+
+      
+\begin{fmnote}\fmuline{Comprovació}: integrar i derivar són operacions inverses. Per saber si una integral està ben feta, \textbf{derivem el resultat}: ha de donar l'integrand.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propietats de la integral indefinida}
+
+\[\int\big(f(x)\pm g(x)\big)\,dx=\int f(x)\,dx\pm\int g(x)\,dx\qquad\qquad\int k\cdot f(x)\,dx=k\int f(x)\,dx\quad(k\in\mathbb R)\]
+
+      
+
+És a dir: la integral d'una suma (o resta) és la suma (o resta) de les integrals, i les constants que multipliquen poden eixir fora de la integral. Compte: \textbf{no} hi ha cap regla per a la integral d'un producte o d'un quocient (per a un polinomi, primer el desenvolupem).
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Comprova que \fmm{F(x)=x^3-2x+1} és una primitiva de \fmm{f(x)=3x^2-2}.
+          
+
+            
+
+Derivem \fmm{F}: \fmm{F'(x)=3x^2-2=f(x)}. Sí que ho és.
+
+            
+
+Per tant \fmm{\displaystyle\int(3x^2-2)\,dx=x^3-2x+C} (el «\fmm{+1}» queda dins de la constant \fmm{C}).
+\item És \fmm{F(x)=(x^2+1)^2} una primitiva de \fmm{f(x)=4x^3+4x}?
+          
+
+            
+
+Regla de la cadena: \fmm{F'(x)=2(x^2+1)\cdot2x=4x(x^2+1)=4x^3+4x}.
+
+            
+
+Coincideix amb \fmm{f(x)}: sí que és una primitiva.
+\item És \fmm{F(x)=\dfrac{x^3}{3}+x} una primitiva de \fmm{f(x)=x^2+x}?
+          
+
+            
+
+\fmm{F'(x)=x^2+1\neq x^2+x}. \textbf{No} ho és. (Una primitiva correcta seria \fmm{\frac{x^3}{3}+\frac{x^2}{2}}.)
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Integrals immediates}\hypertarget{sec2}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Taula d'integrals immediates}
+Les obtenim llegint al revés la taula de derivades. Les més importants per a nosaltres són les dues primeres:
+
+      
+\begin{center}\renewcommand{\arraystretch}{2.3}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\centering\arraybackslash}X>{\centering\arraybackslash}X}\toprule
+\textbf{Funció} & \textbf{Integral} & \textbf{Exemple}\\\midrule
+Constant & $\displaystyle\int k\,dx=kx+C$ & $\displaystyle\int 5\,dx=5x+C$\\[3pt]
+Potència ($n\neq-1$) & $\displaystyle\int x^n\,dx=\frac{x^{n+1}}{n+1}+C$ & $\displaystyle\int x^3\,dx=\frac{x^4}{4}+C$\\[3pt]
+$\dfrac1x$ & $\displaystyle\int \frac1x\,dx=\ln|x|+C$ & $\displaystyle\int \frac3x\,dx=3\ln|x|+C$\\[3pt]
+Exponencial & $\displaystyle\int e^x\,dx=e^x+C$ & $\displaystyle\int 2e^x\,dx=2e^x+C$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+
+\fmuline{Regla de la potència}: \textbf{sumem 1 a l'exponent i dividim pel nou exponent}. També funciona amb exponents negatius o fraccionaris, si escrivim les arrels i les fraccions com a potències:
+
+      
+\[\int\frac{1}{x^2}\,dx=\int x^{-2}\,dx=\frac{x^{-1}}{-1}+C=-\frac1x+C\qquad\qquad\int\sqrt x\,dx=\int x^{1/2}\,dx=\frac{x^{3/2}}{3/2}+C=\frac{2}{3}\sqrt{x^3}+C\]
+
+      
+\begin{fmnote}\fmuline{A la PAU de CCSS}, les integrals que apareixen són de \textbf{polinomis}. Un polinomi s'integra \textbf{terme a terme} amb les dues primeres regles: \fmm{\displaystyle\int a\,x^n\,dx=a\,\frac{x^{n+1}}{n+1}+C}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\int(3x^2-4x+5)\,dx =\displaystyle 3\cdot\frac{x^3}{3}-4\cdot\frac{x^2}{2}+5x+C = x^3-2x^2+5x+C}
+\item \fmm{\displaystyle\int(2x^3-x^2+4)\,dx \displaystyle =2\cdot\frac{x^4}{4}-\frac{x^3}{3}+4x+C=\frac{x^4}{2}-\frac{x^3}{3}+4x+C}
+\item \fmm{\displaystyle\int(x-1)(x+3)\,dx}
+          
+
+            
+
+No podem integrar cada factor per separat.  Desenvolupem el producte: $(x-1)(x+3)=x^2+2x-3$
+
+\vspace*{0.2cm}
+
+            
+
+Així: \fmm{\displaystyle\int(x-1)(x+3)\,dx=\displaystyle\int(x^2+2x-3)\,dx=\frac{x^3}{3}+x^2-3x+C}
+\item \fmm{\displaystyle\int\left(\frac{1}{x^2}+\frac{2}{x}+e^x\right)dx\displaystyle =\int x^{-2}\,dx+2\int\frac1x\,dx+\int e^x\,dx=-\frac1x+2\ln|x|+e^x+C}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Primitiva que compleix una condició}
+De totes les primitives \fmm{F(x)+C}, de vegades en volem \textbf{una de concreta}: per exemple, la que passa per un punt \fmm{(x_0,y_0)}. Aleshores:
+
+      
+\begin{enumerate}
+\item Calculem la integral indefinida \fmm{F(x)+C}.
+\item Imposem la condició \fmm{F(x_0)+C=y_0} i aïllem \fmm{C}.
+\end{enumerate}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba la primitiva de \fmm{f(x)=3x^2-2x+1} que passa pel punt \fmm{(1,4)}.
+          
+
+            
+
+\fmm{F(x)=\displaystyle\int(3x^2-2x+1)\,dx=x^3-x^2+x+C}
+
+            
+
+\fmm{F(1)=4\Rightarrow 1-1+1+C=4\Rightarrow C=3}
+
+            
+
+\fmm{F(x)=x^3-x^2+x+3}
+\item La derivada d'una funció és \fmm{f'(x)=6x-4} i la seua gràfica passa per \fmm{(2,5)}. Quina és la funció \fmm{f}?
+          
+
+            
+
+\fmm{f} és una primitiva de \fmm{f'}: \fmm{f(x)=\displaystyle\int(6x-4)\,dx=3x^2-4x+C}
+
+            
+
+\fmm{f(2)=5\Rightarrow 12-8+C=5\Rightarrow C=1}. \fmm{\ f(x)=3x^2-4x+1}
+\item D'una funció sabem que \fmm{f''(x)=6x}, que té tangent horitzontal en \fmm{x=1} i que passa per \fmm{(0,2)}. Troba \fmm{f}.
+          
+
+            
+
+\fmm{f'(x)=\displaystyle\int6x\,dx=3x^2+C_1}. Tangent horitzontal en \fmm{x=1}: \fmm{f'(1)=0\Rightarrow3+C_1=0\Rightarrow C_1=-3}.
+
+            
+
+\fmm{f(x)=\displaystyle\int(3x^2-3)\,dx=x^3-3x+C_2}. \fmm{\ f(0)=2\Rightarrow C_2=2}.
+
+            
+
+\fmm{f(x)=x^3-3x+2}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Integrals quasi immediates}\hypertarget{sec3}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Forma composta de les integrals immediates}
+Són les integrals immediates «amb regla de la cadena»: en lloc de \fmm{x} apareix una funció \fmm{u(x)}, i al costat hi ha (o quasi) la seua derivada \fmm{u'(x)}.
+
+      
+\begin{center}\renewcommand{\arraystretch}{2.3}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\centering\arraybackslash}X}\toprule
+\textbf{Tipus} & \textbf{Integral}\\\midrule
+Potència & $\displaystyle\int u'(x)\cdot u(x)^n\,dx=\frac{u(x)^{n+1}}{n+1}+C\quad(n\neq-1)$\\[3pt]
+Cas lineal & $\displaystyle\int(ax+b)^n\,dx=\frac{(ax+b)^{n+1}}{a\,(n+1)}+C$\\[3pt]
+Logaritme & $\displaystyle\int\frac{u'(x)}{u(x)}\,dx=\ln|u(x)|+C$\\[3pt]
+Exponencial & $\displaystyle\int u'(x)\cdot e^{u(x)}\,dx=e^{u(x)}+C$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+      
+
+\fmuline{Ajust de constants}: si a l'integrand li falta un \textbf{factor constant} per tindre exactament \fmm{u'(x)}, multipliquem i dividim per aquest nombre. Per exemple, si \fmm{u=x^2+1}, aleshores \fmm{u'=2x}:
+
+      
+\[\int x\,(x^2+1)^4\,dx=\frac12\int 2x\,(x^2+1)^4\,dx=\frac12\cdot\frac{(x^2+1)^5}{5}+C=\frac{(x^2+1)^5}{10}+C\]
+
+      
+\begin{fmnote}Només podem ajustar \textbf{constants}, mai la \fmm{x}: \fmm{\int(x^2+1)^4\,dx} no és quasi immediata (cal desenvolupar el binomi).\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\int(2x+1)^3\,dx}
+          
+
+            
+
+\fmm{u=2x+1}, \fmm{u'=2}. Ens falta el 2: \fmm{\displaystyle\frac12\int2(2x+1)^3\,dx=\frac12\cdot\frac{(2x+1)^4}{4}+C=\frac{(2x+1)^4}{8}+C}
+\item \fmm{\displaystyle\int(x-2)^2\,dx} de dues maneres
+          
+
+            
+
+Quasi immediata (\fmm{u'=1}): \fmm{\displaystyle\int(x-2)^2\,dx=\frac{(x-2)^3}{3}+C}
+
+            
+
+Desenvolupant: \fmm{\displaystyle\int(x^2-4x+4)\,dx=\frac{x^3}{3}-2x^2+4x+C}
+
+            
+
+Les dues són correctes! Com que \fmm{\frac{(x-2)^3}{3}=\frac{x^3}{3}-2x^2+4x-\frac83}, només es diferencien en una constant.
+\item \fmm{\displaystyle\int\frac{3x^2}{x^3+5}\,dx}
+          
+
+            
+
+El numerador és exactament la derivada del denominador: \fmm{\ln|x^3+5|+C}
+\item \fmm{\displaystyle\int\frac{x}{x^2+4}\,dx}
+          
+
+            
+
+\fmm{u=x^2+4}, \fmm{u'=2x}: \fmm{\displaystyle\frac12\int\frac{2x}{x^2+4}\,dx=\frac12\ln(x^2+4)+C} (\fmm{x^2+4\gt0}: no cal el valor absolut).
+\item \fmm{\displaystyle\int e^{3x}\,dx} i \fmm{\displaystyle\int x\,e^{x^2}\,dx}
+          
+
+            
+
+\fmm{\displaystyle\int e^{3x}\,dx=\frac13\int3e^{3x}\,dx=\frac{e^{3x}}{3}+C}
+
+            
+
+\fmm{\displaystyle\int x\,e^{x^2}\,dx=\frac12\int2x\,e^{x^2}\,dx=\frac{e^{x^2}}{2}+C}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{La integral definida. Significat geomètric}\hypertarget{sec4}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{El problema de l'àrea}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Volem calcular l'àrea de la regió limitada per la gràfica d'una funció \fmm{f\geq0}, l'eix OX i les rectes verticals \fmm{x=a} i \fmm{x=b}.
+
+          
+
+La idea és dividir \fmm{[a,b]} en \fmm{n} trossos d'amplària \fmm{\Delta x=\frac{b-a}{n}} i aproximar l'àrea amb rectangles. La suma de les seues àrees és una \textbf{suma de Riemann}:
+
+          
+\[S_n=f(x_1)\,\Delta x+f(x_2)\,\Delta x+\dots+f(x_n)\,\Delta x\]
+
+          
+
+Com més rectangles, millor és l'aproximació. El límit quan \fmm{n\to\infty} és la \textbf{integral definida} de \fmm{f} entre \fmm{a} i \fmm{b}:
+
+          
+\[\int_a^b f(x)\,dx=\lim_{n\to\infty}S_n\]
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-0.6,xmax=4.6,ymin=-0.8,ymax=10,xtick={2}]\draw[fmteal,fill=fmteal,fill opacity=0.22,line width=0.7pt] (axis cs:0.0,0) rectangle (axis cs:0.6666666666666666,1.0556);\draw[fmteal,fill=fmteal,fill opacity=0.22,line width=0.7pt] (axis cs:0.6666666666666666,0) rectangle (axis cs:1.3333333333333333,1.5000);\draw[fmteal,fill=fmteal,fill opacity=0.22,line width=0.7pt] (axis cs:1.3333333333333333,0) rectangle (axis cs:2.0,2.3889);\draw[fmteal,fill=fmteal,fill opacity=0.22,line width=0.7pt] (axis cs:2.0,0) rectangle (axis cs:2.6666666666666665,3.7222);\draw[fmteal,fill=fmteal,fill opacity=0.22,line width=0.7pt] (axis cs:2.6666666666666665,0) rectangle (axis cs:3.3333333333333335,5.5000);\draw[fmteal,fill=fmteal,fill opacity=0.22,line width=0.7pt] (axis cs:3.3333333333333335,0) rectangle (axis cs:4.0,7.7222);\addplot[fmcurve,domain=-0.6:4.6,samples=160]{x^2/2+1};\draw[fmguide] ({axis cs:0,0}|-{rel axis cs:0,0}) -- ({axis cs:0,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:4,0}|-{rel axis cs:0,0}) -- ({axis cs:4,0}|-{rel axis cs:0,1});\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:0,-0.5) {$a$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:4,-0.5) {$b$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1.2,6.5) {$y=f(x)$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+
+      
+\begin{fmnote}\fmm{a} i \fmm{b} són els \textbf{límits d'integració} (inferior i superior). La integral definida és un \textbf{nombre}, no una funció: no porta \fmm{+C}.\end{fmnote}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Significat geomètric de la integral definida}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{itemize}
+\item Si \fmm{f(x)\geq0} en \fmm{[a,b]}, la integral és l'\textbf{àrea} entre la corba i l'eix OX: \fmm{\displaystyle\int_a^b f(x)\,dx=A}.
+\item Si \fmm{f(x)\leq0} en \fmm{[a,b]}, els rectangles tenen «altura negativa» i la integral és l'àrea \textbf{canviada de signe}: \fmm{\displaystyle\int_a^b f(x)\,dx=-A}.
+\item Si \fmm{f} canvia de signe, la integral és la suma de les àrees de dalt \textbf{menys} les de baix: \fmm{\displaystyle\int_a^b f(x)\,dx=A_{+}-A_{-}}. Per això \textbf{la integral pot valer 0} encara que hi haja àrea.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-2.6,xmax=2.8,ymin=-2.2,ymax=2.2]\addplot[fill=fmok,fill opacity=0.3,draw=none] coordinates {(-2.0000,0.0000) (-1.9667,0.1300) (-1.9333,0.2535) (-1.9000,0.3705) (-1.8667,0.4812) (-1.8333,0.5856) (-1.8000,0.6840) (-1.7667,0.7764) (-1.7333,0.8628) (-1.7000,0.9435) (-1.6667,1.0185) (-1.6333,1.0880) (-1.6000,1.1520) (-1.5667,1.2107) (-1.5333,1.2641) (-1.5000,1.3125) (-1.4667,1.3559) (-1.4333,1.3943) (-1.4000,1.4280) (-1.3667,1.4570) (-1.3333,1.4815) (-1.3000,1.5015) (-1.2667,1.5172) (-1.2333,1.5286) (-1.2000,1.5360) (-1.1667,1.5394) (-1.1333,1.5388) (-1.1000,1.5345) (-1.0667,1.5265) (-1.0333,1.5150) (-1.0000,1.5000) (-0.9667,1.4817) (-0.9333,1.4601) (-0.9000,1.4355) (-0.8667,1.4079) (-0.8333,1.3773) (-0.8000,1.3440) (-0.7667,1.3080) (-0.7333,1.2695) (-0.7000,1.2285) (-0.6667,1.1852) (-0.6333,1.1396) (-0.6000,1.0920) (-0.5667,1.0424) (-0.5333,0.9908) (-0.5000,0.9375) (-0.4667,0.8825) (-0.4333,0.8260) (-0.4000,0.7680) (-0.3667,0.7087) (-0.3333,0.6481) (-0.3000,0.5865) (-0.2667,0.5239) (-0.2333,0.4603) (-0.2000,0.3960) (-0.1667,0.3310) (-0.1333,0.2655) (-0.1000,0.1995) (-0.0667,0.1332) (-0.0333,0.0666) (0.0000,0.0000) (0.0000,0.0000) (-0.0333,0.0000) (-0.0667,0.0000) (-0.1000,0.0000) (-0.1333,0.0000) (-0.1667,0.0000) (-0.2000,0.0000) (-0.2333,0.0000) (-0.2667,0.0000) (-0.3000,0.0000) (-0.3333,0.0000) (-0.3667,0.0000) (-0.4000,0.0000) (-0.4333,0.0000) (-0.4667,0.0000) (-0.5000,0.0000) (-0.5333,0.0000) (-0.5667,0.0000) (-0.6000,0.0000) (-0.6333,0.0000) (-0.6667,0.0000) (-0.7000,0.0000) (-0.7333,0.0000) (-0.7667,0.0000) (-0.8000,0.0000) (-0.8333,0.0000) (-0.8667,0.0000) (-0.9000,0.0000) (-0.9333,0.0000) (-0.9667,0.0000) (-1.0000,0.0000) (-1.0333,0.0000) (-1.0667,0.0000) (-1.1000,0.0000) (-1.1333,0.0000) (-1.1667,0.0000) (-1.2000,0.0000) (-1.2333,0.0000) (-1.2667,0.0000) (-1.3000,0.0000) (-1.3333,0.0000) (-1.3667,0.0000) (-1.4000,0.0000) (-1.4333,0.0000) (-1.4667,0.0000) (-1.5000,0.0000) (-1.5333,0.0000) (-1.5667,0.0000) (-1.6000,0.0000) (-1.6333,0.0000) (-1.6667,0.0000) (-1.7000,0.0000) (-1.7333,0.0000) (-1.7667,0.0000) (-1.8000,0.0000) (-1.8333,0.0000) (-1.8667,0.0000) (-1.9000,0.0000) (-1.9333,0.0000) (-1.9667,0.0000) (-2.0000,0.0000)} --cycle;\addplot[fill=fmas,fill opacity=0.3,draw=none] coordinates {(0.0000,0.0000) (0.0333,-0.0666) (0.0667,-0.1332) (0.1000,-0.1995) (0.1333,-0.2655) (0.1667,-0.3310) (0.2000,-0.3960) (0.2333,-0.4603) (0.2667,-0.5239) (0.3000,-0.5865) (0.3333,-0.6481) (0.3667,-0.7087) (0.4000,-0.7680) (0.4333,-0.8260) (0.4667,-0.8825) (0.5000,-0.9375) (0.5333,-0.9908) (0.5667,-1.0424) (0.6000,-1.0920) (0.6333,-1.1396) (0.6667,-1.1852) (0.7000,-1.2285) (0.7333,-1.2695) (0.7667,-1.3080) (0.8000,-1.3440) (0.8333,-1.3773) (0.8667,-1.4079) (0.9000,-1.4355) (0.9333,-1.4601) (0.9667,-1.4817) (1.0000,-1.5000) (1.0333,-1.5150) (1.0667,-1.5265) (1.1000,-1.5345) (1.1333,-1.5388) (1.1667,-1.5394) (1.2000,-1.5360) (1.2333,-1.5286) (1.2667,-1.5172) (1.3000,-1.5015) (1.3333,-1.4815) (1.3667,-1.4570) (1.4000,-1.4280) (1.4333,-1.3943) (1.4667,-1.3559) (1.5000,-1.3125) (1.5333,-1.2641) (1.5667,-1.2107) (1.6000,-1.1520) (1.6333,-1.0880) (1.6667,-1.0185) (1.7000,-0.9435) (1.7333,-0.8628) (1.7667,-0.7764) (1.8000,-0.6840) (1.8333,-0.5856) (1.8667,-0.4812) (1.9000,-0.3705) (1.9333,-0.2535) (1.9667,-0.1300) (2.0000,0.0000) (2.0000,0.0000) (1.9667,0.0000) (1.9333,0.0000) (1.9000,0.0000) (1.8667,0.0000) (1.8333,0.0000) (1.8000,0.0000) (1.7667,0.0000) (1.7333,0.0000) (1.7000,0.0000) (1.6667,0.0000) (1.6333,0.0000) (1.6000,0.0000) (1.5667,0.0000) (1.5333,0.0000) (1.5000,0.0000) (1.4667,0.0000) (1.4333,0.0000) (1.4000,0.0000) (1.3667,0.0000) (1.3333,0.0000) (1.3000,0.0000) (1.2667,0.0000) (1.2333,0.0000) (1.2000,0.0000) (1.1667,0.0000) (1.1333,0.0000) (1.1000,0.0000) (1.0667,0.0000) (1.0333,0.0000) (1.0000,0.0000) (0.9667,0.0000) (0.9333,0.0000) (0.9000,0.0000) (0.8667,0.0000) (0.8333,0.0000) (0.8000,0.0000) (0.7667,0.0000) (0.7333,0.0000) (0.7000,0.0000) (0.6667,0.0000) (0.6333,0.0000) (0.6000,0.0000) (0.5667,0.0000) (0.5333,0.0000) (0.5000,0.0000) (0.4667,0.0000) (0.4333,0.0000) (0.4000,0.0000) (0.3667,0.0000) (0.3333,0.0000) (0.3000,0.0000) (0.2667,0.0000) (0.2333,0.0000) (0.2000,0.0000) (0.1667,0.0000) (0.1333,0.0000) (0.1000,0.0000) (0.0667,0.0000) (0.0333,0.0000) (0.0000,0.0000)} --cycle;\addplot[fill=fmok,fill opacity=0.3,draw=none] coordinates {(2.0000,0.0000) (2.0067,0.0268) (2.0133,0.0539) (2.0200,0.0812) (2.0267,0.1088) (2.0333,0.1367) (2.0400,0.1648) (2.0467,0.1933) (2.0533,0.2219) (2.0600,0.2509) (2.0667,0.2801) (2.0733,0.3097) (2.0800,0.3395) (2.0867,0.3695) (2.0933,0.3999) (2.1000,0.4305) (2.1067,0.4614) (2.1133,0.4926) (2.1200,0.5241) (2.1267,0.5558) (2.1333,0.5879) (2.1400,0.6202) (2.1467,0.6528) (2.1533,0.6857) (2.1600,0.7188) (2.1667,0.7523) (2.1733,0.7861) (2.1800,0.8201) (2.1867,0.8545) (2.1933,0.8891) (2.2000,0.9240) (2.2067,0.9592) (2.2133,0.9947) (2.2200,1.0305) (2.2267,1.0666) (2.2333,1.1030) (2.2400,1.1397) (2.2467,1.1767) (2.2533,1.2140) (2.2600,1.2516) (2.2667,1.2895) (2.2733,1.3277) (2.2800,1.3662) (2.2867,1.4050) (2.2933,1.4441) (2.3000,1.4835) (2.3067,1.5232) (2.3133,1.5632) (2.3200,1.6036) (2.3267,1.6442) (2.3333,1.6852) (2.3400,1.7265) (2.3467,1.7680) (2.3533,1.8099) (2.3600,1.8521) (2.3667,1.8946) (2.3733,1.9375) (2.3800,1.9806) (2.3867,2.0241) (2.3933,2.0679) (2.4000,2.1120) (2.4000,0.0000) (2.3933,0.0000) (2.3867,0.0000) (2.3800,0.0000) (2.3733,0.0000) (2.3667,0.0000) (2.3600,0.0000) (2.3533,0.0000) (2.3467,0.0000) (2.3400,0.0000) (2.3333,0.0000) (2.3267,0.0000) (2.3200,0.0000) (2.3133,0.0000) (2.3067,0.0000) (2.3000,0.0000) (2.2933,0.0000) (2.2867,0.0000) (2.2800,0.0000) (2.2733,0.0000) (2.2667,0.0000) (2.2600,0.0000) (2.2533,0.0000) (2.2467,0.0000) (2.2400,0.0000) (2.2333,0.0000) (2.2267,0.0000) (2.2200,0.0000) (2.2133,0.0000) (2.2067,0.0000) (2.2000,0.0000) (2.1933,0.0000) (2.1867,0.0000) (2.1800,0.0000) (2.1733,0.0000) (2.1667,0.0000) (2.1600,0.0000) (2.1533,0.0000) (2.1467,0.0000) (2.1400,0.0000) (2.1333,0.0000) (2.1267,0.0000) (2.1200,0.0000) (2.1133,0.0000) (2.1067,0.0000) (2.1000,0.0000) (2.0933,0.0000) (2.0867,0.0000) (2.0800,0.0000) (2.0733,0.0000) (2.0667,0.0000) (2.0600,0.0000) (2.0533,0.0000) (2.0467,0.0000) (2.0400,0.0000) (2.0333,0.0000) (2.0267,0.0000) (2.0200,0.0000) (2.0133,0.0000) (2.0067,0.0000) (2.0000,0.0000)} --cycle;\addplot[fmcurve,domain=-2.6:2.8,samples=160]{(x^3-4*x)/2};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-1.15,0.6) {$A_{+}$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1.15,-0.75) {$A_{-}$};\node[anchor=west,font=\scriptsize,inner sep=1pt] at (axis cs:0.3,1.6) {$\int=A_{+}-A_{-}$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts (amb geometria)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\int_1^5 3\,dx}
+          
+
+            
+
+És un rectangle de base \fmm{5-1=4} i altura 3: \fmm{\displaystyle\int_1^5 3\,dx=4\cdot3=12}
+\item \fmm{\displaystyle\int_0^4 \left(\frac x2+1\right)dx}
+          
+
+            
+
+És un trapezi d'altura 4 amb bases \fmm{f(0)=1} i \fmm{f(4)=3}: \fmm{\dfrac{1+3}{2}\cdot4=8}
+\item \fmm{\displaystyle\int_0^2(-x)\,dx}
+          
+
+            
+
+Triangle per \textbf{davall} de l'eix, de base 2 i altura 2: àrea \fmm{\frac{2\cdot2}{2}=2}. La integral és \fmm{-2}.
+\item \fmm{\displaystyle\int_{-2}^{2}x\,dx}
+          
+
+            
+
+Dos triangles iguals d'àrea 2, un per damunt (de 0 a 2) i un per davall (de \fmm{-2} a 0): \fmm{2-2=0}. La integral val 0, però l'àrea tancada és \fmm{2+2=4}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propietats de la integral definida}
+\begin{enumerate}
+\item \fmm{\displaystyle\int_a^a f(x)\,dx=0}
+\item Si canviem l'ordre dels límits, canvia el signe: \fmm{\displaystyle\int_b^a f(x)\,dx=-\int_a^b f(x)\,dx}
+\item Additivitat respecte de l'interval: si \fmm{a\lt c\lt b}, \fmm{\displaystyle\int_a^b f(x)\,dx=\int_a^c f(x)\,dx+\int_c^b f(x)\,dx}
+\item Linealitat: \fmm{\displaystyle\int_a^b\big(f(x)\pm g(x)\big)dx=\int_a^b f(x)\,dx\pm\int_a^b g(x)\,dx}, \fmm{\ \displaystyle\int_a^b k\,f(x)\,dx=k\int_a^b f(x)\,dx}
+\end{enumerate}
+\end{fmprop}
+
+  
+\Needspace{18\baselineskip}
+\section{Càlcul d'integrals definides. Regla de Barrow}\hypertarget{sec5}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Regla de Barrow}
+Calcular límits de sumes de Riemann és molt pesat. Per sort, el \textbf{teorema fonamental del càlcul} relaciona la integral definida amb les primitives i ens dona una manera molt ràpida de calcular-la:
+
+      
+
+Si \fmm{f} és contínua en \fmm{[a,b]} i \fmm{F} és una primitiva qualsevol de \fmm{f}, aleshores
+
+      
+\[\int_a^b f(x)\,dx=\Big[F(x)\Big]_a^b=F(b)-F(a)\]
+
+      
+
+\fmuline{Mètode}:
+
+      
+\begin{enumerate}
+\item Calculem una primitiva \fmm{F} de \fmm{f} (sense la \fmm{C}: en restar \fmm{F(b)-F(a)} s'anu\lgem{}aria).
+\item Substituïm el límit de dalt i el de baix: \fmm{F(b)} i \fmm{F(a)}.
+\item Restem: \textbf{el de dalt menys el de baix}. Compte amb els parèntesis si \fmm{F(a)} és negatiu!
+\end{enumerate}
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\int_1^3(2x+1)\,dx\displaystyle=\Big[x^2+x\Big]_1^3=(9+3)-(1+1)=12-2=10}
+\item \fmm{\displaystyle\int_0^2(3x^2-4x+1)\,dx}
+          
+
+            
+
+\fmm{F(x)=x^3-2x^2+x}
+
+            
+
+\fmm{F(2)=8-8+2=2}, \fmm{\ F(0)=0\Rightarrow\displaystyle\int_0^2(3x^2-4x+1)\,dx=2-0=2}
+\item \fmm{\displaystyle\int_{-1}^{2}(x^2-1)\,dx}
+          
+
+            
+
+\fmm{F(x)=\dfrac{x^3}{3}-x}
+
+            
+
+\fmm{F(2)=\dfrac83-2=\dfrac23}, \fmm{\ F(-1)=-\dfrac13+1=\dfrac23}
+
+            
+
+\fmm{\displaystyle\int_{-1}^{2}(x^2-1)\,dx=\frac23-\frac23=0}. \\[2ex]
+
+Compte: \fmm{f} és negativa en \fmm{(-1,1)} i positiva en \fmm{(1,2)}; les dues àrees es compensen. La integral val 0, però l'àrea \textbf{no} (ho veurem a l'apartat següent).
+\item \fmm{\displaystyle\int_1^e\frac1x\,dx} i \fmm{\displaystyle\int_0^1e^x\,dx}
+          
+
+            
+
+\fmm{\displaystyle\Big[\ln x\Big]_1^e=\ln e-\ln1=1-0=1}
+
+            
+
+\fmm{\displaystyle\Big[e^x\Big]_0^1=e-1\approx1{,}718}
+\newpage
+\item Calcula \fmm{a\gt0} perquè \fmm{\displaystyle\int_0^a(3x^2+2x)\,dx=12}.
+          
+
+            
+
+\fmm{\displaystyle\Big[x^3+x^2\Big]_0^a=a^3+a^2=12}
+
+            
+
+Provant divisors de 12 (Ruffini): \fmm{a=2} és solució, i \fmm{a^3+a^2-12=(a-2)(a^2+3a+6)}, on el segon factor no té arrels reals. Per tant, \fmm{a=2}.
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Àrea tancada entre una corba i l'eix OX}\hypertarget{sec6}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Els casos possibles}
+\par\noindent \begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmm{f\geq0} en \fmm{[a,b]}\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.4cm,height=3.7cm,xmin=-0.5,xmax=4.5,ymin=-0.6,ymax=6,xtick={2}]\addplot[fill=fmok,fill opacity=0.3,draw=none] coordinates {(1.0000,1.2500) (1.0500,1.2756) (1.1000,1.3025) (1.1500,1.3306) (1.2000,1.3600) (1.2500,1.3906) (1.3000,1.4225) (1.3500,1.4556) (1.4000,1.4900) (1.4500,1.5256) (1.5000,1.5625) (1.5500,1.6006) (1.6000,1.6400) (1.6500,1.6806) (1.7000,1.7225) (1.7500,1.7656) (1.8000,1.8100) (1.8500,1.8556) (1.9000,1.9025) (1.9500,1.9506) (2.0000,2.0000) (2.0500,2.0506) (2.1000,2.1025) (2.1500,2.1556) (2.2000,2.2100) (2.2500,2.2656) (2.3000,2.3225) (2.3500,2.3806) (2.4000,2.4400) (2.4500,2.5006) (2.5000,2.5625) (2.5500,2.6256) (2.6000,2.6900) (2.6500,2.7556) (2.7000,2.8225) (2.7500,2.8906) (2.8000,2.9600) (2.8500,3.0306) (2.9000,3.1025) (2.9500,3.1756) (3.0000,3.2500) (3.0500,3.3256) (3.1000,3.4025) (3.1500,3.4806) (3.2000,3.5600) (3.2500,3.6406) (3.3000,3.7225) (3.3500,3.8056) (3.4000,3.8900) (3.4500,3.9756) (3.5000,4.0625) (3.5500,4.1506) (3.6000,4.2400) (3.6500,4.3306) (3.7000,4.4225) (3.7500,4.5156) (3.8000,4.6100) (3.8500,4.7056) (3.9000,4.8025) (3.9500,4.9006) (4.0000,5.0000) (4.0000,0.0000) (3.9500,0.0000) (3.9000,0.0000) (3.8500,0.0000) (3.8000,0.0000) (3.7500,0.0000) (3.7000,0.0000) (3.6500,0.0000) (3.6000,0.0000) (3.5500,0.0000) (3.5000,0.0000) (3.4500,0.0000) (3.4000,0.0000) (3.3500,0.0000) (3.3000,0.0000) (3.2500,0.0000) (3.2000,0.0000) (3.1500,0.0000) (3.1000,0.0000) (3.0500,0.0000) (3.0000,0.0000) (2.9500,0.0000) (2.9000,0.0000) (2.8500,0.0000) (2.8000,0.0000) (2.7500,0.0000) (2.7000,0.0000) (2.6500,0.0000) (2.6000,0.0000) (2.5500,0.0000) (2.5000,0.0000) (2.4500,0.0000) (2.4000,0.0000) (2.3500,0.0000) (2.3000,0.0000) (2.2500,0.0000) (2.2000,0.0000) (2.1500,0.0000) (2.1000,0.0000) (2.0500,0.0000) (2.0000,0.0000) (1.9500,0.0000) (1.9000,0.0000) (1.8500,0.0000) (1.8000,0.0000) (1.7500,0.0000) (1.7000,0.0000) (1.6500,0.0000) (1.6000,0.0000) (1.5500,0.0000) (1.5000,0.0000) (1.4500,0.0000) (1.4000,0.0000) (1.3500,0.0000) (1.3000,0.0000) (1.2500,0.0000) (1.2000,0.0000) (1.1500,0.0000) (1.1000,0.0000) (1.0500,0.0000) (1.0000,0.0000)} --cycle;\addplot[fmcurve,domain=-0.5:4.5,samples=160]{x^2/4+1};\draw[fmguide] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:4,0}|-{rel axis cs:0,0}) -- ({axis cs:4,0}|-{rel axis cs:0,1});\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,-0.35) {$a$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:4,-0.35) {$b$};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize \fmm{A=\displaystyle\int_a^b f(x)\,dx}\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmm{f\leq0} en \fmm{[a,b]}\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.4cm,height=3.7cm,xmin=-0.5,xmax=4.5,ymin=-6,ymax=0.6,xtick={2}]\addplot[fill=fmas,fill opacity=0.3,draw=none] coordinates {(1.0000,-1.2500) (1.0500,-1.2756) (1.1000,-1.3025) (1.1500,-1.3306) (1.2000,-1.3600) (1.2500,-1.3906) (1.3000,-1.4225) (1.3500,-1.4556) (1.4000,-1.4900) (1.4500,-1.5256) (1.5000,-1.5625) (1.5500,-1.6006) (1.6000,-1.6400) (1.6500,-1.6806) (1.7000,-1.7225) (1.7500,-1.7656) (1.8000,-1.8100) (1.8500,-1.8556) (1.9000,-1.9025) (1.9500,-1.9506) (2.0000,-2.0000) (2.0500,-2.0506) (2.1000,-2.1025) (2.1500,-2.1556) (2.2000,-2.2100) (2.2500,-2.2656) (2.3000,-2.3225) (2.3500,-2.3806) (2.4000,-2.4400) (2.4500,-2.5006) (2.5000,-2.5625) (2.5500,-2.6256) (2.6000,-2.6900) (2.6500,-2.7556) (2.7000,-2.8225) (2.7500,-2.8906) (2.8000,-2.9600) (2.8500,-3.0306) (2.9000,-3.1025) (2.9500,-3.1756) (3.0000,-3.2500) (3.0500,-3.3256) (3.1000,-3.4025) (3.1500,-3.4806) (3.2000,-3.5600) (3.2500,-3.6406) (3.3000,-3.7225) (3.3500,-3.8056) (3.4000,-3.8900) (3.4500,-3.9756) (3.5000,-4.0625) (3.5500,-4.1506) (3.6000,-4.2400) (3.6500,-4.3306) (3.7000,-4.4225) (3.7500,-4.5156) (3.8000,-4.6100) (3.8500,-4.7056) (3.9000,-4.8025) (3.9500,-4.9006) (4.0000,-5.0000) (4.0000,0.0000) (3.9500,0.0000) (3.9000,0.0000) (3.8500,0.0000) (3.8000,0.0000) (3.7500,0.0000) (3.7000,0.0000) (3.6500,0.0000) (3.6000,0.0000) (3.5500,0.0000) (3.5000,0.0000) (3.4500,0.0000) (3.4000,0.0000) (3.3500,0.0000) (3.3000,0.0000) (3.2500,0.0000) (3.2000,0.0000) (3.1500,0.0000) (3.1000,0.0000) (3.0500,0.0000) (3.0000,0.0000) (2.9500,0.0000) (2.9000,0.0000) (2.8500,0.0000) (2.8000,0.0000) (2.7500,0.0000) (2.7000,0.0000) (2.6500,0.0000) (2.6000,0.0000) (2.5500,0.0000) (2.5000,0.0000) (2.4500,0.0000) (2.4000,0.0000) (2.3500,0.0000) (2.3000,0.0000) (2.2500,0.0000) (2.2000,0.0000) (2.1500,0.0000) (2.1000,0.0000) (2.0500,0.0000) (2.0000,0.0000) (1.9500,0.0000) (1.9000,0.0000) (1.8500,0.0000) (1.8000,0.0000) (1.7500,0.0000) (1.7000,0.0000) (1.6500,0.0000) (1.6000,0.0000) (1.5500,0.0000) (1.5000,0.0000) (1.4500,0.0000) (1.4000,0.0000) (1.3500,0.0000) (1.3000,0.0000) (1.2500,0.0000) (1.2000,0.0000) (1.1500,0.0000) (1.1000,0.0000) (1.0500,0.0000) (1.0000,0.0000)} --cycle;\addplot[fmcurve,domain=-0.5:4.5,samples=160]{-x^2/4-1};\draw[fmguide] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:4,0}|-{rel axis cs:0,0}) -- ({axis cs:4,0}|-{rel axis cs:0,1});\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,0.3) {$a$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:4,0.3) {$b$};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize \fmm{A=\left|\displaystyle\int_a^b f(x)\,dx\right|}\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmm{f} canvia de signe en \fmm{c}\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.4cm,height=3.7cm,xmin=-0.5,xmax=2.5,ymin=-1.6,ymax=3.4]\addplot[fill=fmas,fill opacity=0.3,draw=none] coordinates {(0.0000,-1.0000) (0.0167,-0.9997) (0.0333,-0.9989) (0.0500,-0.9975) (0.0667,-0.9956) (0.0833,-0.9931) (0.1000,-0.9900) (0.1167,-0.9864) (0.1333,-0.9822) (0.1500,-0.9775) (0.1667,-0.9722) (0.1833,-0.9664) (0.2000,-0.9600) (0.2167,-0.9531) (0.2333,-0.9456) (0.2500,-0.9375) (0.2667,-0.9289) (0.2833,-0.9197) (0.3000,-0.9100) (0.3167,-0.8997) (0.3333,-0.8889) (0.3500,-0.8775) (0.3667,-0.8656) (0.3833,-0.8531) (0.4000,-0.8400) (0.4167,-0.8264) (0.4333,-0.8122) (0.4500,-0.7975) (0.4667,-0.7822) (0.4833,-0.7664) (0.5000,-0.7500) (0.5167,-0.7331) (0.5333,-0.7156) (0.5500,-0.6975) (0.5667,-0.6789) (0.5833,-0.6597) (0.6000,-0.6400) (0.6167,-0.6197) (0.6333,-0.5989) (0.6500,-0.5775) (0.6667,-0.5556) (0.6833,-0.5331) (0.7000,-0.5100) (0.7167,-0.4864) (0.7333,-0.4622) (0.7500,-0.4375) (0.7667,-0.4122) (0.7833,-0.3864) (0.8000,-0.3600) (0.8167,-0.3331) (0.8333,-0.3056) (0.8500,-0.2775) (0.8667,-0.2489) (0.8833,-0.2197) (0.9000,-0.1900) (0.9167,-0.1597) (0.9333,-0.1289) (0.9500,-0.0975) (0.9667,-0.0656) (0.9833,-0.0331) (1.0000,0.0000) (1.0000,0.0000) (0.9833,0.0000) (0.9667,0.0000) (0.9500,0.0000) (0.9333,0.0000) (0.9167,0.0000) (0.9000,0.0000) (0.8833,0.0000) (0.8667,0.0000) (0.8500,0.0000) (0.8333,0.0000) (0.8167,0.0000) (0.8000,0.0000) (0.7833,0.0000) (0.7667,0.0000) (0.7500,0.0000) (0.7333,0.0000) (0.7167,0.0000) (0.7000,0.0000) (0.6833,0.0000) (0.6667,0.0000) (0.6500,0.0000) (0.6333,0.0000) (0.6167,0.0000) (0.6000,0.0000) (0.5833,0.0000) (0.5667,0.0000) (0.5500,0.0000) (0.5333,0.0000) (0.5167,0.0000) (0.5000,0.0000) (0.4833,0.0000) (0.4667,0.0000) (0.4500,0.0000) (0.4333,0.0000) (0.4167,0.0000) (0.4000,0.0000) (0.3833,0.0000) (0.3667,0.0000) (0.3500,0.0000) (0.3333,0.0000) (0.3167,0.0000) (0.3000,0.0000) (0.2833,0.0000) (0.2667,0.0000) (0.2500,0.0000) (0.2333,0.0000) (0.2167,0.0000) (0.2000,0.0000) (0.1833,0.0000) (0.1667,0.0000) (0.1500,0.0000) (0.1333,0.0000) (0.1167,0.0000) (0.1000,0.0000) (0.0833,0.0000) (0.0667,0.0000) (0.0500,0.0000) (0.0333,0.0000) (0.0167,0.0000) (0.0000,0.0000)} --cycle;\addplot[fill=fmok,fill opacity=0.3,draw=none] coordinates {(1.0000,0.0000) (1.0167,0.0336) (1.0333,0.0678) (1.0500,0.1025) (1.0667,0.1378) (1.0833,0.1736) (1.1000,0.2100) (1.1167,0.2469) (1.1333,0.2844) (1.1500,0.3225) (1.1667,0.3611) (1.1833,0.4003) (1.2000,0.4400) (1.2167,0.4803) (1.2333,0.5211) (1.2500,0.5625) (1.2667,0.6044) (1.2833,0.6469) (1.3000,0.6900) (1.3167,0.7336) (1.3333,0.7778) (1.3500,0.8225) (1.3667,0.8678) (1.3833,0.9136) (1.4000,0.9600) (1.4167,1.0069) (1.4333,1.0544) (1.4500,1.1025) (1.4667,1.1511) (1.4833,1.2003) (1.5000,1.2500) (1.5167,1.3003) (1.5333,1.3511) (1.5500,1.4025) (1.5667,1.4544) (1.5833,1.5069) (1.6000,1.5600) (1.6167,1.6136) (1.6333,1.6678) (1.6500,1.7225) (1.6667,1.7778) (1.6833,1.8336) (1.7000,1.8900) (1.7167,1.9469) (1.7333,2.0044) (1.7500,2.0625) (1.7667,2.1211) (1.7833,2.1803) (1.8000,2.2400) (1.8167,2.3003) (1.8333,2.3611) (1.8500,2.4225) (1.8667,2.4844) (1.8833,2.5469) (1.9000,2.6100) (1.9167,2.6736) (1.9333,2.7378) (1.9500,2.8025) (1.9667,2.8678) (1.9833,2.9336) (2.0000,3.0000) (2.0000,0.0000) (1.9833,0.0000) (1.9667,0.0000) (1.9500,0.0000) (1.9333,0.0000) (1.9167,0.0000) (1.9000,0.0000) (1.8833,0.0000) (1.8667,0.0000) (1.8500,0.0000) (1.8333,0.0000) (1.8167,0.0000) (1.8000,0.0000) (1.7833,0.0000) (1.7667,0.0000) (1.7500,0.0000) (1.7333,0.0000) (1.7167,0.0000) (1.7000,0.0000) (1.6833,0.0000) (1.6667,0.0000) (1.6500,0.0000) (1.6333,0.0000) (1.6167,0.0000) (1.6000,0.0000) (1.5833,0.0000) (1.5667,0.0000) (1.5500,0.0000) (1.5333,0.0000) (1.5167,0.0000) (1.5000,0.0000) (1.4833,0.0000) (1.4667,0.0000) (1.4500,0.0000) (1.4333,0.0000) (1.4167,0.0000) (1.4000,0.0000) (1.3833,0.0000) (1.3667,0.0000) (1.3500,0.0000) (1.3333,0.0000) (1.3167,0.0000) (1.3000,0.0000) (1.2833,0.0000) (1.2667,0.0000) (1.2500,0.0000) (1.2333,0.0000) (1.2167,0.0000) (1.2000,0.0000) (1.1833,0.0000) (1.1667,0.0000) (1.1500,0.0000) (1.1333,0.0000) (1.1167,0.0000) (1.1000,0.0000) (1.0833,0.0000) (1.0667,0.0000) (1.0500,0.0000) (1.0333,0.0000) (1.0167,0.0000) (1.0000,0.0000)} --cycle;\addplot[fmcurve,domain=-0.5:2.5,samples=160]{x^2-1};\draw[fmguide] ({axis cs:2,0}|-{rel axis cs:0,0}) -- ({axis cs:2,0}|-{rel axis cs:0,1});\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:-0.15,-0.3) {$a$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:2.12,-0.3) {$b$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,-0.3) {$c$};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize \fmm{A=\left|\displaystyle\int_a^c f\right|+\left|\displaystyle\int_c^b f\right|}\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering Sense rectes: entre els talls\par}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=4.4cm,height=3.7cm,xmin=-3,xmax=3,ymin=-1.5,ymax=5]\addplot[fill=fmok,fill opacity=0.3,draw=none] coordinates {(-2.0000,0.0000) (-1.9333,0.2622) (-1.8667,0.5156) (-1.8000,0.7600) (-1.7333,0.9956) (-1.6667,1.2222) (-1.6000,1.4400) (-1.5333,1.6489) (-1.4667,1.8489) (-1.4000,2.0400) (-1.3333,2.2222) (-1.2667,2.3956) (-1.2000,2.5600) (-1.1333,2.7156) (-1.0667,2.8622) (-1.0000,3.0000) (-0.9333,3.1289) (-0.8667,3.2489) (-0.8000,3.3600) (-0.7333,3.4622) (-0.6667,3.5556) (-0.6000,3.6400) (-0.5333,3.7156) (-0.4667,3.7822) (-0.4000,3.8400) (-0.3333,3.8889) (-0.2667,3.9289) (-0.2000,3.9600) (-0.1333,3.9822) (-0.0667,3.9956) (0.0000,4.0000) (0.0667,3.9956) (0.1333,3.9822) (0.2000,3.9600) (0.2667,3.9289) (0.3333,3.8889) (0.4000,3.8400) (0.4667,3.7822) (0.5333,3.7156) (0.6000,3.6400) (0.6667,3.5556) (0.7333,3.4622) (0.8000,3.3600) (0.8667,3.2489) (0.9333,3.1289) (1.0000,3.0000) (1.0667,2.8622) (1.1333,2.7156) (1.2000,2.5600) (1.2667,2.3956) (1.3333,2.2222) (1.4000,2.0400) (1.4667,1.8489) (1.5333,1.6489) (1.6000,1.4400) (1.6667,1.2222) (1.7333,0.9956) (1.8000,0.7600) (1.8667,0.5156) (1.9333,0.2622) (2.0000,0.0000) (2.0000,0.0000) (1.9333,0.0000) (1.8667,0.0000) (1.8000,0.0000) (1.7333,0.0000) (1.6667,0.0000) (1.6000,0.0000) (1.5333,0.0000) (1.4667,0.0000) (1.4000,0.0000) (1.3333,0.0000) (1.2667,0.0000) (1.2000,0.0000) (1.1333,0.0000) (1.0667,0.0000) (1.0000,0.0000) (0.9333,0.0000) (0.8667,0.0000) (0.8000,0.0000) (0.7333,0.0000) (0.6667,0.0000) (0.6000,0.0000) (0.5333,0.0000) (0.4667,0.0000) (0.4000,0.0000) (0.3333,0.0000) (0.2667,0.0000) (0.2000,0.0000) (0.1333,0.0000) (0.0667,0.0000) (0.0000,0.0000) (-0.0667,0.0000) (-0.1333,0.0000) (-0.2000,0.0000) (-0.2667,0.0000) (-0.3333,0.0000) (-0.4000,0.0000) (-0.4667,0.0000) (-0.5333,0.0000) (-0.6000,0.0000) (-0.6667,0.0000) (-0.7333,0.0000) (-0.8000,0.0000) (-0.8667,0.0000) (-0.9333,0.0000) (-1.0000,0.0000) (-1.0667,0.0000) (-1.1333,0.0000) (-1.2000,0.0000) (-1.2667,0.0000) (-1.3333,0.0000) (-1.4000,0.0000) (-1.4667,0.0000) (-1.5333,0.0000) (-1.6000,0.0000) (-1.6667,0.0000) (-1.7333,0.0000) (-1.8000,0.0000) (-1.8667,0.0000) (-1.9333,0.0000) (-2.0000,0.0000)} --cycle;\addplot[fmcurve,domain=-3:3,samples=160]{-x^2+4};\node[fmdot] at (axis cs:-2,0) {};\node[fmdot] at (axis cs:2,0) {};\end{axis}\end{tikzpicture}\end{center}
+{\centering\footnotesize límits = arrels de \fmm{f}\par}\end{minipage}\par\medskip
+
+      
+
+L'àrea sempre és \textbf{positiva}. Com que la integral «resta» les parts que queden per davall de l'eix, hem de separar els trossos on \fmm{f} canvia de signe i sumar els \textbf{valors absoluts}.
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Mètode per calcular l'àrea entre \fmm{f} i l'eix OX}
+\begin{enumerate}
+\item Calculem els \textbf{punts de tall amb l'eix OX}: resolem \fmm{f(x)=0}.
+\item Fixem els límits:
+          
+\begin{itemize}
+\item Si l'enunciat dona les rectes \fmm{x=a} i \fmm{x=b}: integrem entre \fmm{a} i \fmm{b}, i les arrels que queden \textbf{dins} de \fmm{(a,b)} divideixen l'interval en trossos. (Les de fora no compten.)
+\item Si només parla de la corba i de l'eix OX («el recinte tancat per\dots{}»): els límits són les arrels de \fmm{f}, de la més menuda a la més gran.
+\end{itemize}
+\item Calculem una primitiva \fmm{F} i la integral definida de cada tros amb Barrow.
+\item L'àrea és la \textbf{suma dels valors absoluts}. No oblides les unitats: \fmm{\text{u}^2}.
+\end{enumerate}
+
+      
+\begin{fmnote}Fes sempre un \textbf{esbós} de la gràfica (per a una paràbola, el vèrtex i els talls amb els eixos són suficients): veuràs d'un colp d'ull quins trossos queden per damunt i per davall de l'eix.\end{fmnote}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts: recinte tancat per la corba i l'eix OX}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Àrea del recinte limitat per \fmm{f(x)=-x^2+4} i l'eix OX.
+          
+
+            
+
+Talls: \fmm{-x^2+4=0\Rightarrow x=-2,\ x=2}. Entre elles, \fmm{f\geq0} (paràbola cap avall).
+
+            
+
+\fmm{\displaystyle\int_{-2}^{2}(-x^2+4)\,dx=\Big[-\frac{x^3}{3}+4x\Big]_{-2}^{2}=\left(-\frac83+8\right)-\left(\frac83-8\right)=\frac{16}{3}+\frac{16}{3}=\frac{32}{3}}
+
+            
+
+\fmm{A=\dfrac{32}{3}\approx10{,}67\ \text{u}^2}
+\item Àrea del recinte limitat per \fmm{f(x)=x^2-2x} i l'eix OX.
+          
+
+            
+
+\fmm{x^2-2x=x(x-2)=0\Rightarrow x=0,\ x=2}
+
+            
+
+\fmm{\displaystyle\int_0^2(x^2-2x)\,dx=\Big[\frac{x^3}{3}-x^2\Big]_0^2=\frac83-4=-\frac43} (negativa: el recinte és per davall de l'eix)
+
+            
+
+\fmm{A=\left|-\dfrac43\right|=\dfrac43\ \text{u}^2}
+\item Àrea del recinte limitat per \fmm{f(x)=x^3-4x} i l'eix OX.
+          
+
+            
+
+\fmm{x^3-4x=x(x-2)(x+2)=0\Rightarrow x=-2,\ 0,\ 2}. Hi ha dos trossos. \fmm{F(x)=\dfrac{x^4}{4}-2x^2}
+
+            
+
+\fmm{\displaystyle\int_{-2}^{0}f=F(0)-F(-2)=0-(4-8)=4}; \fmm{\quad\displaystyle\int_{0}^{2}f=F(2)-F(0)=(4-8)-0=-4}
+
+            
+
+\fmm{A=|4|+|-4|=8\ \text{u}^2}. Si haguérem fet \fmm{\int_{-2}^{2}f} d'un colp, ens hauria eixit 0!
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts: recinte limitat també per rectes \fmm{x=a} i \fmm{x=b}}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Àrea limitada per \fmm{f(x)=x^2+1}, l'eix OX i les rectes \fmm{x=-1} i \fmm{x=2}.
+          
+
+            
+
+\fmm{x^2+1=0} no té solució: \fmm{f\gt0} sempre i no cal dividir.
+
+            
+
+\fmm{\displaystyle\int_{-1}^{2}(x^2+1)\,dx=\Big[\frac{x^3}{3}+x\Big]_{-1}^{2}=\left(\frac83+2\right)-\left(-\frac13-1\right)=\frac{14}{3}+\frac43=6}
+
+            
+
+\fmm{A=6\ \text{u}^2}
+\item Àrea limitada per \fmm{f(x)=x^2-1}, l'eix OX i les rectes \fmm{x=0} i \fmm{x=2}.
+          
+
+            
+
+\fmm{x^2-1=0\Rightarrow x=\pm1}. Dins de \fmm{(0,2)} només hi ha \fmm{x=1} (el \fmm{-1} queda fora i no compta). \fmm{F(x)=\dfrac{x^3}{3}-x}
+
+            
+
+\fmm{\displaystyle\int_0^1 f=F(1)-F(0)=-\frac23}; \fmm{\quad\displaystyle\int_1^2 f=F(2)-F(1)=\frac23-\left(-\frac23\right)=\frac43}
+
+            
+
+\fmm{A=\dfrac23+\dfrac43=2\ \text{u}^2}
+\item Àrea limitada per \fmm{f(x)=x^2-4x+3}, l'eix OX i les rectes \fmm{x=0} i \fmm{x=4}.
+          
+
+            
+
+\fmm{x^2-4x+3=0\Rightarrow x=1,\ x=3}: tres trossos \fmm{[0,1]}, \fmm{[1,3]}, \fmm{[3,4]}. \fmm{F(x)=\dfrac{x^3}{3}-2x^2+3x}
+
+            
+
+\fmm{F(0)=0}, \fmm{\ F(1)=\dfrac43}, \fmm{\ F(3)=0}, \fmm{\ F(4)=\dfrac43}
+
+            
+
+\fmm{\displaystyle\int_0^1 f=\frac43}, \fmm{\ \displaystyle\int_1^3 f=-\frac43}, \fmm{\ \displaystyle\int_3^4 f=\frac43\Rightarrow A=\frac43+\frac43+\frac43=4\ \text{u}^2}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{18\baselineskip}
+\section{Àrea tancada entre dues corbes}\hypertarget{sec7}{}
+
+  
+
+  
+\Needspace{7\baselineskip}
+\begin{fmdef}{Àrea entre dues corbes}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si en \fmm{[a,b]} la gràfica de \fmm{f} queda \textbf{per damunt} de la de \fmm{g}, l'àrea entre les dues corbes és:
+
+          
+\[\begin{gathered}A=\int_a^b\big(f(x)-g(x)\big)\,dx\\\text{(la de dalt menys la de baix)}\end{gathered}\]
+
+          
+
+Això val siga on siga la regió: per damunt, per davall o travessant l'eix OX. L'àrea entre \fmm{f} i l'eix OX és el cas \fmm{g(x)=0}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=5cm,xmin=-1.6,xmax=2.6,ymin=-0.6,ymax=5.5]\addplot[fill=fmteal,fill opacity=0.3,draw=none] coordinates {(-1.0000,1.0000) (-0.9500,1.0500) (-0.9000,1.1000) (-0.8500,1.1500) (-0.8000,1.2000) (-0.7500,1.2500) (-0.7000,1.3000) (-0.6500,1.3500) (-0.6000,1.4000) (-0.5500,1.4500) (-0.5000,1.5000) (-0.4500,1.5500) (-0.4000,1.6000) (-0.3500,1.6500) (-0.3000,1.7000) (-0.2500,1.7500) (-0.2000,1.8000) (-0.1500,1.8500) (-0.1000,1.9000) (-0.0500,1.9500) (0.0000,2.0000) (0.0500,2.0500) (0.1000,2.1000) (0.1500,2.1500) (0.2000,2.2000) (0.2500,2.2500) (0.3000,2.3000) (0.3500,2.3500) (0.4000,2.4000) (0.4500,2.4500) (0.5000,2.5000) (0.5500,2.5500) (0.6000,2.6000) (0.6500,2.6500) (0.7000,2.7000) (0.7500,2.7500) (0.8000,2.8000) (0.8500,2.8500) (0.9000,2.9000) (0.9500,2.9500) (1.0000,3.0000) (1.0500,3.0500) (1.1000,3.1000) (1.1500,3.1500) (1.2000,3.2000) (1.2500,3.2500) (1.3000,3.3000) (1.3500,3.3500) (1.4000,3.4000) (1.4500,3.4500) (1.5000,3.5000) (1.5500,3.5500) (1.6000,3.6000) (1.6500,3.6500) (1.7000,3.7000) (1.7500,3.7500) (1.8000,3.8000) (1.8500,3.8500) (1.9000,3.9000) (1.9500,3.9500) (2.0000,4.0000) (2.0000,4.0000) (1.9500,3.8025) (1.9000,3.6100) (1.8500,3.4225) (1.8000,3.2400) (1.7500,3.0625) (1.7000,2.8900) (1.6500,2.7225) (1.6000,2.5600) (1.5500,2.4025) (1.5000,2.2500) (1.4500,2.1025) (1.4000,1.9600) (1.3500,1.8225) (1.3000,1.6900) (1.2500,1.5625) (1.2000,1.4400) (1.1500,1.3225) (1.1000,1.2100) (1.0500,1.1025) (1.0000,1.0000) (0.9500,0.9025) (0.9000,0.8100) (0.8500,0.7225) (0.8000,0.6400) (0.7500,0.5625) (0.7000,0.4900) (0.6500,0.4225) (0.6000,0.3600) (0.5500,0.3025) (0.5000,0.2500) (0.4500,0.2025) (0.4000,0.1600) (0.3500,0.1225) (0.3000,0.0900) (0.2500,0.0625) (0.2000,0.0400) (0.1500,0.0225) (0.1000,0.0100) (0.0500,0.0025) (0.0000,0.0000) (-0.0500,0.0025) (-0.1000,0.0100) (-0.1500,0.0225) (-0.2000,0.0400) (-0.2500,0.0625) (-0.3000,0.0900) (-0.3500,0.1225) (-0.4000,0.1600) (-0.4500,0.2025) (-0.5000,0.2500) (-0.5500,0.3025) (-0.6000,0.3600) (-0.6500,0.4225) (-0.7000,0.4900) (-0.7500,0.5625) (-0.8000,0.6400) (-0.8500,0.7225) (-0.9000,0.8100) (-0.9500,0.9025) (-1.0000,1.0000)} --cycle;\addplot[fmaccent,line width=1.6pt,smooth,domain=-1.6:2.6,samples=160]{x+2};\addplot[fmev,line width=1.6pt,smooth,domain=-1.6:2.6,samples=160]{x^2};\node[fmdot] at (axis cs:-1,1) {};\node[fmdot] at (axis cs:2,4) {};\node[anchor=north west,font=\scriptsize,inner sep=1pt] at (axis cs:2.3,4.85) {$f$};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:-1.5,3.0) {$g$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:0.45,1.3) {$A=\int(f-g)$};\end{axis}\end{tikzpicture}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmprop}{Mètode}
+\begin{enumerate}
+\item Calculem els \textbf{punts de tall} de les dues corbes: resolem \fmm{f(x)=g(x)}, és a dir, \fmm{f(x)-g(x)=0}.
+\item Fixem els límits com abans: les rectes \fmm{x=a}, \fmm{x=b} si n'hi ha (amb els talls de dins), o bé els talls de les corbes si el recinte el tanquen elles soles.
+\item Integrem \fmm{f-g} en cada tros (una primitiva de \fmm{f-g} serveix per a tots).
+\item Sumem els valors absoluts. Si no saps quina corba va per damunt, no passa res: el valor absolut ho arregla.
+\end{enumerate}
+\end{fmprop}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts: recinte tancat per les dues corbes}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Àrea del recinte limitat per \fmm{f(x)=x^2} i la recta \fmm{g(x)=x+2}.
+          
+
+            
+
+\fmm{x^2=x+2\Rightarrow x^2-x-2=0\Rightarrow x=-1,\ x=2}
+
+            
+
+En \fmm{(-1,2)} la recta va per damunt (per exemple, en \fmm{x=0}: \fmm{g(0)=2\gt f(0)=0}): \fmm{\displaystyle\int_{-1}^{2}(x+2-x^2)\,dx=\Big[\frac{x^2}{2}+2x-\frac{x^3}{3}\Big]_{-1}^{2}}
+
+            
+
+\fmm{=\left(2+4-\dfrac83\right)-\left(\dfrac12-2+\dfrac13\right)=\dfrac{10}{3}+\dfrac76=\dfrac92}. \fmm{\ A=\dfrac92\ \text{u}^2}
+\item Àrea del recinte limitat per \fmm{f(x)=x^2-4x} i \fmm{g(x)=-x^2+2x}.
+          
+
+            
+
+\fmm{x^2-4x=-x^2+2x\Rightarrow2x^2-6x=0\Rightarrow x=0,\ x=3}
+
+            
+
+\fmm{\displaystyle\int_0^3\big(g-f\big)\,dx=\int_0^3(-2x^2+6x)\,dx=\Big[-\frac{2x^3}{3}+3x^2\Big]_0^3=-18+27=9}
+
+            
+
+\fmm{A=9\ \text{u}^2}. Fixa't que part del recinte és per davall de l'eix OX i no hem hagut de fer res especial.
+\item Àrea del recinte limitat per \fmm{f(x)=x^3} i \fmm{g(x)=x}.
+          
+
+            
+
+\fmm{x^3-x=x(x-1)(x+1)=0\Rightarrow x=-1,\ 0,\ 1}: dos trossos, i en cadascun va per damunt una corba diferent.
+
+            
+
+\fmm{\displaystyle\int_{-1}^{0}(x^3-x)\,dx=\Big[\frac{x^4}{4}-\frac{x^2}{2}\Big]_{-1}^{0}=0-\left(\frac14-\frac12\right)=\frac14}; \fmm{\quad\displaystyle\int_0^1(x^3-x)\,dx=-\frac14}
+
+            
+
+\fmm{A=\dfrac14+\dfrac14=\dfrac12\ \text{u}^2}
+\end{enumerate}
+\end{fmex}
+
+  
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemples resolts: recinte limitat també per rectes \fmm{x=a} i \fmm{x=b}}
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,width=6.4cm,height=4.6cm,xmin=-0.5,xmax=3.5,ymin=-0.8,ymax=9.5,xtick={2}]\addplot[fill=fmteal,fill opacity=0.3,draw=none] coordinates {(1.0000,2.0000) (1.0167,2.0333) (1.0333,2.0667) (1.0500,2.1000) (1.0667,2.1333) (1.0833,2.1667) (1.1000,2.2000) (1.1167,2.2333) (1.1333,2.2667) (1.1500,2.3000) (1.1667,2.3333) (1.1833,2.3667) (1.2000,2.4000) (1.2167,2.4333) (1.2333,2.4667) (1.2500,2.5000) (1.2667,2.5333) (1.2833,2.5667) (1.3000,2.6000) (1.3167,2.6333) (1.3333,2.6667) (1.3500,2.7000) (1.3667,2.7333) (1.3833,2.7667) (1.4000,2.8000) (1.4167,2.8333) (1.4333,2.8667) (1.4500,2.9000) (1.4667,2.9333) (1.4833,2.9667) (1.5000,3.0000) (1.5167,3.0333) (1.5333,3.0667) (1.5500,3.1000) (1.5667,3.1333) (1.5833,3.1667) (1.6000,3.2000) (1.6167,3.2333) (1.6333,3.2667) (1.6500,3.3000) (1.6667,3.3333) (1.6833,3.3667) (1.7000,3.4000) (1.7167,3.4333) (1.7333,3.4667) (1.7500,3.5000) (1.7667,3.5333) (1.7833,3.5667) (1.8000,3.6000) (1.8167,3.6333) (1.8333,3.6667) (1.8500,3.7000) (1.8667,3.7333) (1.8833,3.7667) (1.9000,3.8000) (1.9167,3.8333) (1.9333,3.8667) (1.9500,3.9000) (1.9667,3.9333) (1.9833,3.9667) (2.0000,4.0000) (2.0000,4.0000) (1.9833,3.9336) (1.9667,3.8678) (1.9500,3.8025) (1.9333,3.7378) (1.9167,3.6736) (1.9000,3.6100) (1.8833,3.5469) (1.8667,3.4844) (1.8500,3.4225) (1.8333,3.3611) (1.8167,3.3003) (1.8000,3.2400) (1.7833,3.1803) (1.7667,3.1211) (1.7500,3.0625) (1.7333,3.0044) (1.7167,2.9469) (1.7000,2.8900) (1.6833,2.8336) (1.6667,2.7778) (1.6500,2.7225) (1.6333,2.6678) (1.6167,2.6136) (1.6000,2.5600) (1.5833,2.5069) (1.5667,2.4544) (1.5500,2.4025) (1.5333,2.3511) (1.5167,2.3003) (1.5000,2.2500) (1.4833,2.2003) (1.4667,2.1511) (1.4500,2.1025) (1.4333,2.0544) (1.4167,2.0069) (1.4000,1.9600) (1.3833,1.9136) (1.3667,1.8678) (1.3500,1.8225) (1.3333,1.7778) (1.3167,1.7336) (1.3000,1.6900) (1.2833,1.6469) (1.2667,1.6044) (1.2500,1.5625) (1.2333,1.5211) (1.2167,1.4803) (1.2000,1.4400) (1.1833,1.4003) (1.1667,1.3611) (1.1500,1.3225) (1.1333,1.2844) (1.1167,1.2469) (1.1000,1.2100) (1.0833,1.1736) (1.0667,1.1378) (1.0500,1.1025) (1.0333,1.0678) (1.0167,1.0336) (1.0000,1.0000)} --cycle;\addplot[fill=fmteal,fill opacity=0.3,draw=none] coordinates {(2.0000,4.0000) (2.0167,4.0669) (2.0333,4.1344) (2.0500,4.2025) (2.0667,4.2711) (2.0833,4.3403) (2.1000,4.4100) (2.1167,4.4803) (2.1333,4.5511) (2.1500,4.6225) (2.1667,4.6944) (2.1833,4.7669) (2.2000,4.8400) (2.2167,4.9136) (2.2333,4.9878) (2.2500,5.0625) (2.2667,5.1378) (2.2833,5.2136) (2.3000,5.2900) (2.3167,5.3669) (2.3333,5.4444) (2.3500,5.5225) (2.3667,5.6011) (2.3833,5.6803) (2.4000,5.7600) (2.4167,5.8403) (2.4333,5.9211) (2.4500,6.0025) (2.4667,6.0844) (2.4833,6.1669) (2.5000,6.2500) (2.5167,6.3336) (2.5333,6.4178) (2.5500,6.5025) (2.5667,6.5878) (2.5833,6.6736) (2.6000,6.7600) (2.6167,6.8469) (2.6333,6.9344) (2.6500,7.0225) (2.6667,7.1111) (2.6833,7.2003) (2.7000,7.2900) (2.7167,7.3803) (2.7333,7.4711) (2.7500,7.5625) (2.7667,7.6544) (2.7833,7.7469) (2.8000,7.8400) (2.8167,7.9336) (2.8333,8.0278) (2.8500,8.1225) (2.8667,8.2178) (2.8833,8.3136) (2.9000,8.4100) (2.9167,8.5069) (2.9333,8.6044) (2.9500,8.7025) (2.9667,8.8011) (2.9833,8.9003) (3.0000,9.0000) (3.0000,6.0000) (2.9833,5.9667) (2.9667,5.9333) (2.9500,5.9000) (2.9333,5.8667) (2.9167,5.8333) (2.9000,5.8000) (2.8833,5.7667) (2.8667,5.7333) (2.8500,5.7000) (2.8333,5.6667) (2.8167,5.6333) (2.8000,5.6000) (2.7833,5.5667) (2.7667,5.5333) (2.7500,5.5000) (2.7333,5.4667) (2.7167,5.4333) (2.7000,5.4000) (2.6833,5.3667) (2.6667,5.3333) (2.6500,5.3000) (2.6333,5.2667) (2.6167,5.2333) (2.6000,5.2000) (2.5833,5.1667) (2.5667,5.1333) (2.5500,5.1000) (2.5333,5.0667) (2.5167,5.0333) (2.5000,5.0000) (2.4833,4.9667) (2.4667,4.9333) (2.4500,4.9000) (2.4333,4.8667) (2.4167,4.8333) (2.4000,4.8000) (2.3833,4.7667) (2.3667,4.7333) (2.3500,4.7000) (2.3333,4.6667) (2.3167,4.6333) (2.3000,4.6000) (2.2833,4.5667) (2.2667,4.5333) (2.2500,4.5000) (2.2333,4.4667) (2.2167,4.4333) (2.2000,4.4000) (2.1833,4.3667) (2.1667,4.3333) (2.1500,4.3000) (2.1333,4.2667) (2.1167,4.2333) (2.1000,4.2000) (2.0833,4.1667) (2.0667,4.1333) (2.0500,4.1000) (2.0333,4.0667) (2.0167,4.0333) (2.0000,4.0000)} --cycle;\addplot[fmaccent,line width=1.6pt,smooth,domain=-0.5:3.5,samples=160]{x^2};\addplot[fmev,line width=1.6pt,smooth,domain=-0.5:3.5,samples=160]{2*x};\draw[fmguide] ({axis cs:1,0}|-{rel axis cs:0,0}) -- ({axis cs:1,0}|-{rel axis cs:0,1});\draw[fmguide] ({axis cs:3,0}|-{rel axis cs:0,0}) -- ({axis cs:3,0}|-{rel axis cs:0,1});\node[fmdot] at (axis cs:2,4) {};\node[anchor=east,font=\scriptsize,inner sep=1pt] at (axis cs:3.1,8.6) {$y=x^2$};\node[anchor=north east,font=\scriptsize,inner sep=1pt] at (axis cs:3.45,5.3) {$y=2x$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:1,-0.5) {$x=1$};\node[anchor=center,font=\scriptsize,inner sep=1pt] at (axis cs:3,-0.5) {$x=3$};\end{axis}\end{tikzpicture}\end{center}
+
+      
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Àrea limitada per \fmm{f(x)=x^2+2}, \fmm{g(x)=x} i les rectes \fmm{x=0} i \fmm{x=2}.
+          
+
+            
+
+\fmm{x^2+2=x\Rightarrow x^2-x+2=0}: discriminant \fmm{1-8\lt0}, no es tallen. La paràbola va sempre per damunt.
+
+            
+
+\fmm{\displaystyle\int_0^2(x^2-x+2)\,dx=\Big[\frac{x^3}{3}-\frac{x^2}{2}+2x\Big]_0^2=\frac83-2+4=\frac{14}{3}}. \fmm{\ A=\dfrac{14}{3}\ \text{u}^2}
+\item Àrea limitada per \fmm{f(x)=x^2}, \fmm{g(x)=2x} i les rectes \fmm{x=1} i \fmm{x=3}.
+          
+
+            
+
+\fmm{x^2=2x\Rightarrow x=0,\ x=2}. Dins de \fmm{(1,3)} només hi ha \fmm{x=2}: dos trossos, \fmm{[1,2]} i \fmm{[2,3]}.
+
+            
+
+\fmm{G(x)=\displaystyle\int(x^2-2x)\,dx=\frac{x^3}{3}-x^2}: \fmm{\ G(1)=-\dfrac23}, \fmm{\ G(2)=-\dfrac43}, \fmm{\ G(3)=0}
+
+            
+
+\fmm{\displaystyle\int_1^2=-\frac43+\frac23=-\frac23}; \fmm{\ \displaystyle\int_2^3=0+\frac43=\frac43\Rightarrow A=\frac23+\frac43=2\ \text{u}^2}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
