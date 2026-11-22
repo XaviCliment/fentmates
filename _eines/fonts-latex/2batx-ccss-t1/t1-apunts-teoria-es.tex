@@ -1,0 +1,869 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 1: Matrices y determinantes. 2.º de Bachillerato CCSS},pdfsubject={Matemáticas Aplicadas a las Ciencias Sociales II},pdfkeywords={matrices, operaciones con matrices, determinantes, regla de Sarrus, adjuntos, rango, matriz inversa, ecuaciones matriciales}}
+
+% colors de la web (FentMates, bloque de Álgebra: azul; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+% noms que fan servir les gràfiques de programació lineal (../comu/pltikz.py)
+\colorlet{accent}{fmaccent}\colorlet{navy}{fmnavy}\colorlet{muted}{fmmuted}\colorlet{teal}{fmteal}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{1.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw (70,16)--(58,16)--(58,104)--(70,104) (170,16)--(182,16)--(182,104)--(170,104);
+  \draw[line width=2pt,opacity=0.35] (78,26)--(162,92);
+  \foreach \x/\y/\t in {88/40/2,120/40/$-1$,152/40/0,88/70/3,120/70/4,152/70/1,88/100/0,120/100/5,152/100/2}
+    \node[anchor=base,inner sep=0pt,font=\fontsize{30}{30}\sffamily\bfseries] at (\x,\y) {\t};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (192,40) {$A^{-1}$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (10,34) {$|A|$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato CCSS · Unidad 1: Matrices y determinantes}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-0.85cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato CCSS II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 1} · Matrices y determinantes\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso para entender (y no solo memorizar) las matrices, los determinantes, el rango y la matriz inversa.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}1.1}\ \ Matrices. Definiciones}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}1.2}\ \ Operaciones con matrices}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}1.3}\ \ Determinantes}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}1.4}\ \ Propiedades de los determinantes}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}1.5}\ \ Rango de una matriz}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}1.6}\ \ Matriz inversa}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}1.7}\ \ Ecuaciones y sistemas matriciales}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Matrices. Definiciones}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición: matriz de orden $n\times m$}
+Una \textbf{matriz de orden o dimensión} \fmm{n\times m} es un conjunto de \fmm{n\cdot m} elementos distribuidos en \fmm{n} filas y \fmm{m} columnas, y la representamos por \fmm{A=(a_{ij})}. En general la escribiremos así:
+
+\fmdisp{A=\begin{pmatrix} a_{11} & a_{12} & a_{13} & \cdots & a_{1m}\\ a_{21} & a_{22} & a_{23} & \cdots & a_{2m}\\ a_{31} & a_{32} & a_{33} & \cdots & a_{3m}\\ \cdots & \cdots & \cdots & \cdots & \vdots\\ a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nm}\end{pmatrix}}
+
+Cada elemento de la matriz lo escribiremos con dos subíndices, \fmm{a_{ij}}, donde el primer subíndice (\fmm{i}) nos indica la \textbf{fila}, y el segundo subíndice (\fmm{j}), la \textbf{columna}. En la práctica, cada elemento de la matriz será un número real, \fmm{a_{23}=-1} (por ejemplo).\newline Como podemos ver, una matriz \fmuline{es una tabla numérica rectangular}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Diremos que una matriz es \textbf{cuadrada} si \fmm{m=n}.
+\item Diremos que dos \textbf{matrices son iguales} cuando son de la misma dimensión y, además, coinciden término a término:
+
+\fmdisp{\left.\begin{array}{l} A=(a_{ij})_{m,n}\\ B=(b_{ij})_{m,n}\end{array}\right\}\; A=B \iff a_{ij}=b_{ij}}
+
+\item Llamamos \textbf{traspuesta} de una matriz \fmm{A=(a_{ij})_{m,n}} a otra matriz \fmm{A^t=(a_{ij})_{n,m}}, que se obtiene al cambiar en la matriz \fmm{A} las filas por las columnas y las columnas por las filas.
+
+\fmdisp{A=\begin{pmatrix}1 & 2\\ 3 & 4\end{pmatrix}\qquad A^t=\begin{pmatrix}1 & 3\\ 2 & 4\end{pmatrix}}
+
+\item Diremos que una matriz \fmm{A} es \textbf{simétrica} si, además de ser cuadrada, se cumple que \fmm{A=A^t}.
+\item Una matriz cuadrada diremos que es \textbf{triangular} si todos los elementos por debajo o por encima de la diagonal principal son iguales a cero, como la del ejemplo:
+
+\fmdisp{\underbrace{A=\begin{pmatrix}4 & \color[HTML]{2bb3a3}0 & \color[HTML]{2bb3a3}0\\ -1 & 5 & \color[HTML]{2bb3a3}0\\ 6 & -1 & 1\end{pmatrix}}_{\text{Triangular inferior}}\quad,\quad \underbrace{B=\begin{pmatrix}3 & 3 & -6\\ \color[HTML]{2bb3a3}0 & 2 & -1\\ \color[HTML]{2bb3a3}0 & \color[HTML]{2bb3a3}0 & 9\end{pmatrix}}_{\text{Triangular superior}}}
+
+\item Llamamos \textbf{matriz nula} a la matriz en la que todos los elementos son ceros. Es decir, \fmm{a_{ij}=0\ \ \forall i,j}.
+\item \textbf{Matriz diagonal} es una matriz cuadrada en la que todos los elementos que no pertenecen a la diagonal principal son cero. Es decir, \fmm{a_{ij}=0\ \ \forall i\neq j}.
+\item \textbf{Matriz identidad o matriz unidad} es la matriz diagonal en la que todos los elementos de la diagonal principal son 1, es decir, \fmm{a_{ij}=1\ \ \forall i=j} y \fmm{a_{ij}=0\ \ \forall i\neq j}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de matrices}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sea la matriz \fmm{A=\begin{pmatrix}7 & 1 & 4 & 2\\ 0 & 5 & -1 & 3\\ 6 & 2 & 0 & 5\end{pmatrix}} su traspuesta será \fmm{A^t=\begin{pmatrix}7 & 0 & 6\\ 1 & 5 & 2\\ 4 & -1 & 0\\ 2 & 3 & 5\end{pmatrix}}.
+\item La matriz \fmm{B=\begin{pmatrix}1 & 6 & -5\\ 6 & 0 & 4\\ -5 & 4 & 6\end{pmatrix}} es simétrica ya que \fmm{B=B^t}.
+\item \fmm{A=\begin{pmatrix}1 & 3\\ 0 & 1\end{pmatrix}} matriz triangular superior. \fmm{B=\begin{pmatrix}1 & 0 & 0\\ 2 & 4 & 0\\ 3 & -3 & -2\end{pmatrix}} matriz triangular inferior.
+\item \fmm{C=\begin{pmatrix}1 & 0 & 0\\ 0 & 2 & 0\\ 0 & 0 & -3\end{pmatrix}} es una matriz diagonal.
+\item \fmm{I_2=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}} matriz identidad de orden 2. \fmm{I_3=\begin{pmatrix}1 & 0 & 0\\ 0 & 1 & 0\\ 0 & 0 & 1\end{pmatrix}} matriz identidad de orden 3.
+\item En el seguimiento de la pandemia de la COVID-19 se han contabilizado los contagios, las nuevas hospitalizaciones y las altas hospitalarias de cuatro localidades durante una semana.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{Contagios} & \textbf{Nuevas hospitalizaciones} & \textbf{Altas hospitalarias}\\\midrule
+\textbf{L$_1$} & 42 & 23 & 30\\[3pt]
+\textbf{L$_2$} & 35 & 15 & 16\\[3pt]
+\textbf{L$_3$} & 56 & 18 & 22\\[3pt]
+\textbf{L$_4$} & 12 & 3 & 5\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+          Está claro que los datos configuran una matriz 4x3:
+
+\fmdisp{\begin{pmatrix}42 & 23 & 30\\ 35 & 15 & 16\\ 56 & 18 & 22\\ 12 & 3 & 5\end{pmatrix}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Operaciones con matrices}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Suma/resta de matrices}
+Para poder \textbf{sumar/restar} dos matrices es necesario que sean del mismo orden, y solo tendremos que sumar/restar los elementos que ocupan la misma posición.
+
+\fmdisp{A\pm B=(a_{ij})\pm(b_{ij})=(a_{ij}\pm b_{ij});\ \forall i,j}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades de la suma}
+\begin{enumerate}[label=\alph*)]
+\item Asociativa: \fmm{A+(B+C)=(A+B)+C}
+\item Conmutativa: \fmm{A+B=B+A}
+\item Elemento neutro: \fmm{A+0=A=0+A}
+\item Elemento simétrico: \fmm{A+(-A)=0=(-A)+A}. La matriz \fmm{(-A)} se llama \textbf{matriz opuesta} de \fmm{A} y está formada por todos los elementos opuestos de la matriz \fmm{A}, es decir, los elementos de \fmm{A} con signo contrario.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de suma/resta de matrices}
+Sean las matrices \fmm{A=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}} y \fmm{B=\begin{pmatrix}1 & 2 & 1\\ 5 & 3 & 0\end{pmatrix}}, calculamos:
+
+\fmdisp{A+B=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}+\begin{pmatrix}1 & 2 & 1\\ 5 & 3 & 0\end{pmatrix}=\begin{pmatrix}5+1 & 3+2 & 1+1\\ 6+5 & 4+3 & 1+0\end{pmatrix}=\begin{pmatrix}6 & 5 & 2\\ 11 & 7 & 1\end{pmatrix}}
+
+\fmdisp{A-B=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}-\begin{pmatrix}1 & 2 & 1\\ 5 & 3 & 0\end{pmatrix}=\begin{pmatrix}5-1 & 3-2 & 1-1\\ 6-5 & 4-3 & 1-0\end{pmatrix}=\begin{pmatrix}4 & 1 & 0\\ 1 & 1 & 1\end{pmatrix}}
+
+Las matrices \fmm{\begin{pmatrix}2 & 1 & 7 & 4\\ -3 & 2 & -5 & 6\end{pmatrix}} y \fmm{\begin{pmatrix}4 & 7 & 0\\ -4 & 1 & -2\end{pmatrix}} no pueden sumarse porque no tienen el mismo orden.
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Producto de una matriz por un número real}
+Dada una matriz \fmm{A} y un número real \fmm{k}, el \textbf{producto} \fmm{k\cdot A} es otra matriz del mismo orden, cuyos elementos son el producto del número \fmm{k} por los elementos de la matriz \fmm{A}:
+
+\fmdisp{k\cdot A=k\cdot(a_{ij})=(k\cdot a_{ij})\ \ \forall i,j}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades}
+Sean \fmm{k} y \fmm{n} dos números reales y \fmm{A} y \fmm{B} dos matrices del mismo orden:
+
+\begin{enumerate}[label=\alph*)]
+\item Asociativa: \fmm{k\cdot(n\cdot A)=(k\cdot n)\cdot A}
+\item Distributiva respecto de la suma de matrices: \fmm{k\cdot(A+B)=k\cdot A+k\cdot B}
+\item Distributiva respecto de la suma de números: \fmm{(n+k)\cdot A=n\cdot A+k\cdot A}
+\item Elemento neutro: \fmm{1\cdot A=A}
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo}
+Dada la matriz \fmm{A=\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}}, calculamos:
+
+\fmdisp{2\cdot A=2\cdot\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}=\begin{pmatrix}2 & 4\\ 6 & 0\\ 2 & -2\end{pmatrix}}
+
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Producto de matrices}
+Para que dos matrices \fmm{A} (de orden \fmm{m\times n}) y \fmm{B} (de orden \fmm{n\times p}) puedan multiplicarse, \fmm{A\cdot B}, es necesario que \fmkey{el número de columnas de la primera coincida con el número de filas de la segunda}.\newline En tal caso, el producto \fmm{A\cdot B=C} es otra matriz cuyos elementos se obtienen multiplicando cada vector fila de la primera matriz por cada vector columna de la segunda, de la manera siguiente:
+
+\fmdisp{C=A\cdot B=(a_{ij})\cdot(b_{ij})=c_{ij}=\sum_{k=1}^{n}a_{ik}\cdot b_{kj}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades del producto}
+\begin{enumerate}[label=\alph*)]
+\item Asociativa: \fmm{A\cdot(B\cdot C)=(A\cdot B)\cdot C}
+\item Elemento neutro: \fmm{A\cdot I=I\cdot A=A}
+\item Distributiva respecto de la suma: \fmm{A\cdot(B+C)=A\cdot B+A\cdot C}
+\item Traspuesta del producto: \fmm{(A\cdot B)^t=B^t\cdot A^t}
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo}
+Dadas las matrices \fmm{A=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}} y \fmm{B=\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}}, calculamos \fmm{A\cdot B} y \fmm{B\cdot A}:
+
+\fmdisp{A\cdot B=\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}\cdot\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}=\begin{pmatrix}5\cdot1+3\cdot3+1\cdot1 & 5\cdot2+3\cdot0+1\cdot(-1)\\ 6\cdot1+4\cdot3+1\cdot1 & 6\cdot2+4\cdot0+1\cdot(-1)\end{pmatrix}=\begin{pmatrix}15 & 9\\ 19 & 11\end{pmatrix}}
+
+\fmdisp{B\cdot A=\begin{pmatrix}1 & 2\\ 3 & 0\\ 1 & -1\end{pmatrix}\cdot\begin{pmatrix}5 & 3 & 1\\ 6 & 4 & 1\end{pmatrix}=\begin{pmatrix}1\cdot5+2\cdot6 & 1\cdot3+2\cdot4 & 1\cdot1+2\cdot1\\ 3\cdot5+0\cdot6 & 3\cdot3+0\cdot4 & 3\cdot1+0\cdot1\\ 1\cdot5+(-1)\cdot6 & 1\cdot3+(-1)\cdot4 & 1\cdot1+(-1)\cdot1\end{pmatrix}=\begin{pmatrix}17 & 11 & 3\\ 15 & 9 & 3\\ -1 & -1 & 0\end{pmatrix}}
+
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Cuidado con las no propiedades}
+Como podemos observar, no hemos hablado de la propiedad conmutativa en el producto de matrices y el motivo es que no se cumple siempre. En el ejemplo anterior podemos comprobar que no nos ha dado el mismo resultado \fmm{A\cdot B} que \fmm{B\cdot A}, es decir:
+
+\fmdisp{A\cdot B\neq B\cdot A}
+
+Esto hace que otras propiedades que utilizamos con números tampoco se cumplan para matrices:
+
+\begin{itemize}
+\item \fmm{(A+B)\cdot(A-B)\neq A^2-B^2}
+\item \fmm{(A\pm B)^2\neq A^2\pm 2AB+B^2}
+\item \fmm{A\cdot B=0 \not\Rightarrow A=0\ \text{o}\ B=0}
+\item \fmm{A\cdot B=A\cdot C \not\Rightarrow B=C}
+\end{itemize}
+
+\textbf{En el caso de que \fmm{A\cdot B=B\cdot A} decimos que \fmm{A} y \fmm{B} son permutables.}
+
+\vspace*{0.2cm}
+
+\begin{fmnote}\textbf{NOTA:} Hay que destacar el caso en que una de las dos matrices sea la matriz identidad, ya que esta es permutable con cualquier matriz (por la definición de matriz identidad):
+
+\fmdisp{A\cdot I=I\cdot A}
+
+Por tanto, en este caso se cumplirán las identidades notables:
+
+\begin{itemize}
+\item \fmm{(A+I)\cdot(A-I)=A^2-I^2=A^2-I}, ya que:
+\vspace*{-0.2cm}
+\fmdisp{(A+I)\cdot(A-I)=A\cdot A-A\cdot I+I\cdot A-I\cdot I\overset{A\cdot I=I\cdot A}{=}A^2-A\cdot I+A\cdot I-I^2=A^2-I^2=A^2-I}
+
+\item \fmm{(A\pm I)^2=A^2\pm2AI+I^2=A^2\pm2A+I} ya que:
+\vspace*{-0.2cm}
+\fmdisp{(A\pm I)^2=(A\pm I)\cdot(A\pm I)=A\cdot A\pm A\cdot I\pm I\cdot A+I\cdot I\overset{A\cdot I=I\cdot A}{=}A^2\pm A\cdot I\pm A\cdot I+I^2=}
+\fmdisp{=A^2\pm2AI+I=A^2\pm2A+I}
+
+\end{itemize}\end{fmnote}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Potencia de matrices}
+Para calcular la \textbf{potencia de una matriz} cuadrada de orden \fmm{n}, se multiplica la matriz por sí misma tantas veces como indique el exponente, es decir:
+
+\fmdisp{A^n=A\cdot A\cdot A\cdots A\ \ (n\ \text{veces})}
+
+La \textbf{potencia enésima} de una matriz \fmm{A} es la matriz que representa todas las potencias de \fmm{A} en función del valor que tome el exponente. La escribiremos \fmm{A^n}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo de potencias de matrices}
+Dada la matriz \fmm{B=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}}, calcularemos \fmm{B^n} y \fmm{B^{12}}:
+
+\fmdisp{B^2=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\cdot\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}=\begin{pmatrix}2 & 2\\ 2 & 2\end{pmatrix}\qquad B^3=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\cdot\begin{pmatrix}2 & 2\\ 2 & 2\end{pmatrix}=\begin{pmatrix}4 & 4\\ 4 & 4\end{pmatrix}=\begin{pmatrix}2^2 & 2^2\\ 2^2 & 2^2\end{pmatrix}}
+
+\fmdisp{B^4=B\cdot B^3=\begin{pmatrix}1 & 1\\ 1 & 1\end{pmatrix}\cdot\begin{pmatrix}4 & 4\\ 4 & 4\end{pmatrix}=\begin{pmatrix}8 & 8\\ 8 & 8\end{pmatrix}=\begin{pmatrix}2^3 & 2^3\\ 2^3 & 2^3\end{pmatrix}}
+
+Entonces podemos deducir que:
+
+\fmdisp{\boxed{B^n=\begin{pmatrix}2^{n-1} & 2^{n-1}\\ 2^{n-1} & 2^{n-1}\end{pmatrix}}\ \ \text{y después calcular}\ \ \boxed{B^{12}=\begin{pmatrix}2^{11} & 2^{11}\\ 2^{11} & 2^{11}\end{pmatrix}=\begin{pmatrix}2048 & 2048\\ 2048 & 2048\end{pmatrix}}}
+
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Potencias de matrices relacionadas con la unidad}
+Si al calcular las potencias de una matriz \fmm{A} nos aparece la matriz identidad, \fmm{I}, entonces las potencias sucesivas serán repetición de las anteriores y se podrá determinar, sin problema, la matriz \fmm{A^n} para cualquier valor de \fmm{n}. Veamos un ejemplo.
+
+Dada la matriz \fmm{A=\begin{pmatrix}2 & 3\\ -1 & -2\end{pmatrix}}, determinar \fmm{A^n} y \fmm{A^{51}}:
+
+Calculamos \fmm{A^2=\begin{pmatrix}2 & 3\\ -1 & -2\end{pmatrix}\cdot\begin{pmatrix}2 & 3\\ -1 & -2\end{pmatrix}=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}}; veamos ahora \fmm{A^3=A^2\cdot A=I\cdot A=A}
+
+Calculamos también \fmm{A^4=A^2\cdot A^2=I\cdot I=I}. Entonces podemos deducir que:
+
+\fmdisp{\boxed{A^n=\begin{cases} I, & \text{si $n$ par}\\[4pt] A, & \text{si $n$ impar}\end{cases}}\quad\text{y por tanto}\quad\boxed{A^{51}=A}}
+
+\end{fmprop}
+
+\Needspace{18\baselineskip}
+\section{Determinantes}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Determinantes}
+Los \textbf{determinantes} \fmuline{son números} asociados a las matrices cuadradas de orden \fmm{n} que se calculan de diferentes formas según sea el orden de la matriz.\newline Dada una matriz cuadrada \fmm{A} de orden \fmm{n}, su determinante lo escribiremos:
+
+\fmdisp{\boxed{\det(A)=|A|}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Cálculo del determinante de una matriz según su orden}
+\begin{enumerate}
+\item Si \fmm{n=1}; \fmm{A=(a_{11})} y el determinante será: \fmm{|A|=a_{11}}.
+\item Si \fmm{n=2}; \fmm{A=\begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\end{pmatrix}} y el determinante será: \fmm{|A|=a_{11}\cdot a_{22}-a_{12}\cdot a_{21}}
+\item Si \fmm{n=3}; \fmm{A=\begin{pmatrix}a_{11} & a_{12} & a_{13}\\ a_{21} & a_{22} & a_{23}\\ a_{31} & a_{32} & a_{33}\end{pmatrix}} en este caso utilizaremos la llamada \textbf{regla de Sarrus}:
+
+\fmdisp{\begin{vmatrix}a_{11} & a_{12} & a_{13}\\ a_{21} & a_{22} & a_{23}\\ a_{31} & a_{32} & a_{33}\end{vmatrix}=a_{11}a_{22}a_{33}+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}-a_{13}a_{22}a_{31}-a_{12}a_{21}a_{33}-a_{11}a_{23}a_{32}}
+
+La mitad de los sumandos tienen \textbf{signo +}, y la otra mitad, \textbf{signo -}. Estos seis sumandos se recuerdan fácilmente con la regla mnemotécnica siguiente, llamada regla de Sarrus:
+
+\begin{center}\begin{tikzpicture}[x=0.0205cm,y=-0.0205cm,line join=round]\draw[line width=0.9pt] (8,12)--(8,160) (202,12)--(202,160);\draw[fmok,line width=1.6pt,opacity=0.85] (35,30)--(105,85)--(175,140);\draw[fmok,line width=1.6pt,opacity=0.85] (105,30)--(175,85)--(35,140)--(105,30);\draw[fmok,line width=1.6pt,opacity=0.85] (175,30)--(35,85)--(105,140)--(175,30);\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (35,30) {$a_{11}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (105,30) {$a_{12}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (175,30) {$a_{13}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (35,85) {$a_{21}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (105,85) {$a_{22}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (175,85) {$a_{23}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (35,140) {$a_{31}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (105,140) {$a_{32}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (175,140) {$a_{33}$};\node[text=fmok,font=\Large\bfseries] at (105,188) {$+$};\end{tikzpicture}\qquad\qquad\begin{tikzpicture}[x=0.0205cm,y=-0.0205cm,line join=round]\draw[line width=0.9pt] (8,12)--(8,160) (202,12)--(202,160);\draw[fmas,line width=1.6pt,opacity=0.85] (175,30)--(105,85)--(35,140);\draw[fmas,line width=1.6pt,opacity=0.85] (105,30)--(35,85)--(175,140)--(105,30);\draw[fmas,line width=1.6pt,opacity=0.85] (35,30)--(175,85)--(105,140)--(35,30);\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (35,30) {$a_{11}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (105,30) {$a_{12}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (175,30) {$a_{13}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (35,85) {$a_{21}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (105,85) {$a_{22}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (175,85) {$a_{23}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (35,140) {$a_{31}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (105,140) {$a_{32}$};\node[fill=white,fill opacity=0.8,text opacity=1,inner sep=1pt] at (175,140) {$a_{33}$};\node[text=fmas,font=\Large\bfseries] at (105,188) {$-$};\end{tikzpicture}\end{center}
+\item Si \fmm{n>3}, para calcular los determinantes lo haremos utilizando los \textbf{adjuntos de una matriz}. Este método también lo podemos utilizar para matrices de orden menor, pero los métodos anteriores son más rápidos en la práctica.\newline Primero veremos la explicación teórica y después con un ejemplo comprobaremos que no es tan complicado como parece.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Menor complementario y adjunto}
+Dada \fmm{A} una matriz cuadrada de orden \fmm{n}, el \textbf{menor complementario} \fmm{\alpha_{ij}} del elemento \fmm{a_{ij}} es el determinante de orden \fmm{n-1} que resulta de eliminar la fila \fmm{i} y la columna \fmm{j} de la matriz \fmm{A}.\newline Llamamos \textbf{adjunto} del elemento \fmm{a_{ij}} a \fmm{A_{ij}=\alpha_{ij}\cdot(-1)^{i+j}}.\newline Con estas definiciones ya podemos decir cómo calcular el determinante de la matriz \fmm{A}:
+
+\begin{fmnote}El valor de un determinante es igual a la suma de los productos de los elementos de una fila o columna por sus adjuntos correspondientes:\end{fmnote}
+
+\fmdisp{\boxed{|A_n|=\sum_{k=1}^{n}a_{ik}\cdot A_{ik}=\sum_{k=1}^{n}a_{kj}\cdot A_{kj}}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de cálculo de determinantes}
+Veamos con ejemplos concretos cómo aplicamos los diferentes métodos para calcular los determinantes:
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sea la matriz \fmm{A=\begin{pmatrix}-1 & 2\\ 3 & 1\end{pmatrix}}, su determinante será: \fmm{|A|=(-1)\cdot1-2\cdot3=-7}.
+\item Sea la matriz \fmm{A=\begin{pmatrix}2 & 1 & 3\\ 4 & -1 & 2\\ -3 & 4 & 2\end{pmatrix}}; utilizamos la regla de Sarrus:
+
+\fmdisp{|A|=\begin{vmatrix}2 & 1 & 3\\ 4 & -1 & 2\\ -3 & 4 & 2\end{vmatrix}=2\cdot(-1)\cdot2+4\cdot4\cdot3+1\cdot2\cdot(-3)-[3\cdot(-1)\cdot(-3)+2\cdot4\cdot2+1\cdot4\cdot2]=}
+
+\fmdisp{=-4+48-6-[9+16+8]=38-33=\boxed{5}}
+
+\item Ahora utilizaremos los adjuntos de una matriz para calcular el determinante, pero lo haremos en una matriz de 3x3 para no hacerlo muy largo.\newline
+          Sea la matriz \fmm{A=\begin{pmatrix}1 & 2 & 3\\ 5 & 4 & 1\\ 0 & 4 & 2\end{pmatrix}}, calculamos su determinante (desarrollamos por la primera columna):
+
+\fmdisp{|A|=\begin{vmatrix}1 & 2 & 3\\ 5 & 4 & 1\\ 0 & 4 & 2\end{vmatrix}=1\cdot A_{11}+5\cdot A_{21}+\cancel{0\cdot A_{31}}^{\,0}}
+
+\fmdisp{\alpha_{11}=\begin{vmatrix}4 & 1\\ 4 & 2\end{vmatrix}=8-4=4\ \rightarrow\ A_{11}=\alpha_{11}\cdot(-1)^{1+1}=4\cdot1=4}
+
+\fmdisp{\alpha_{21}=\begin{vmatrix}2 & 3\\ 4 & 2\end{vmatrix}=4-12=-8\ \rightarrow\ A_{21}=\alpha_{21}\cdot(-1)^{2+1}=(-8)\cdot(-1)=8}
+
+\fmdisp{|A|=1\cdot4+5\cdot8=4+40=\boxed{44}}
+
+Como podemos ver, siempre nos resultará más sencillo si desarrollamos por adjuntos cogiendo una fila o columna que tenga ceros, ya que esos términos se anulan.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Propiedades de los determinantes}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades de los determinantes}
+\begin{enumerate}
+\item Si a una línea de un determinante se le suma o resta una combinación lineal de líneas paralelas, el valor del determinante no cambia.
+\item Si en un determinante se intercambian las filas por las columnas, su valor no varía: \fmm{|A|=|A^t|}
+\item Si intercambiamos entre sí dos filas paralelas, el valor del determinante cambia de signo.
+\item Si el determinante contiene una fila formada por ceros, entonces su valor es cero.
+\item Si el determinante contiene dos filas (paralelas) iguales o proporcionales, entonces el valor del determinante es cero.
+\item Si se multiplica un determinante por un número, este multiplica a cualquiera de sus líneas, pero solo a una de ellas. Y viceversa, si todos los elementos de una misma línea son múltiplos de un mismo número, el valor del determinante es múltiplo de dicho número.
+\item El determinante del producto de dos matrices es igual al producto de los determinantes de cada matriz: \fmm{|A\cdot B|=|A|\cdot|B|}.
+\item El determinante de la potencia de una matriz es igual a la potencia del determinante de la matriz: \fmm{|A^n|=|A|^n}.
+\item Si los elementos de una línea se descomponen en dos sumandos, el determinante puede descomponerse en la suma de dos determinantes en los que los elementos permanecen iguales en ambos, con la única excepción de la línea que se descompone en dos sumandos, los cuales estarán uno en cada determinante de la suma.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de las propiedades}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Propiedad 1:}
+
+\fmdisp{\begin{vmatrix}2 & 1 & 1 & 1\\ 1 & -3 & 2 & -3\\ 1 & 2 & 0 & 1\\ 1 & 2 & -1 & 3\end{vmatrix}\underset{\substack{F_2'=F_2+2F_4\\ F_4'=F_4+F_1}}{=}\begin{vmatrix}2 & 1 & \color[HTML]{ff7a50}1 & 1\\ 3 & 1 & 0 & 3\\ 1 & 2 & 0 & 1\\ 3 & 3 & 0 & 4\end{vmatrix}=(-1)^{1+3}\cdot1\cdot\begin{vmatrix}3 & 1 & 3\\ 1 & 2 & 1\\ 3 & 3 & 4\end{vmatrix}=(-1)^{1+3}\cdot1\cdot5=\boxed{5}}
+
+\fmdisp{\begin{vmatrix}3 & 1 & 3\\ 1 & 2 & 1\\ 3 & 3 & 4\end{vmatrix}=24+9+3-(18+9+4)=36-31=5}
+
+\item \textbf{Propiedad 6:}
+
+\fmdisp{\begin{vmatrix}15 & 3 & 15\\ 1 & 2 & 1\\ 2 & 6 & 4\end{vmatrix}=3\cdot\begin{vmatrix}5 & 1 & 5\\ 1 & 2 & 1\\ 2 & 6 & 4\end{vmatrix}=3\cdot2\begin{vmatrix}5 & 1 & 5\\ 1 & 2 & 1\\ 1 & 3 & 2\end{vmatrix}=6\cdot[20+15+1-(10+15+2)]=\boxed{54}}
+
+\item \textbf{Propiedad 9:}
+
+\fmdisp{\begin{vmatrix}a+1 & a+2 & a+3\\ 1 & 2 & 2\\ 4 & 3 & 4\end{vmatrix}=\begin{vmatrix}a & a & a\\ 1 & 2 & 2\\ 4 & 3 & 4\end{vmatrix}+\begin{vmatrix}1 & 2 & 3\\ 1 & 2 & 2\\ 4 & 3 & 4\end{vmatrix}=}
+
+\fmdisp{=[8a+3a+8a-(8a+6a+4a)]+[8+9+16-(24+6+8)]=\boxed{a-5}}
+
+\item \textbf{Propiedad 8:} Sea la matriz \fmm{A=\begin{pmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{pmatrix}}, comprobamos si \fmm{|A^4|=|A|^4}:
+
+\fmdisp{|A|=\begin{vmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{vmatrix}=1\cdot(6-4)=2\ \Rightarrow\ |A|^4=2^4=\boxed{16}}
+
+\fmdisp{A^2=\begin{pmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{pmatrix}\cdot\begin{pmatrix}1 & 2 & 1\\ 0 & 3 & 2\\ 0 & 2 & 2\end{pmatrix}=\begin{pmatrix}1 & 10 & 7\\ 0 & 13 & 10\\ 0 & 10 & 8\end{pmatrix}}
+
+\fmdisp{A^4=A^2\cdot A^2=\begin{pmatrix}1 & 10 & 7\\ 0 & 13 & 10\\ 0 & 10 & 8\end{pmatrix}\cdot\begin{pmatrix}1 & 10 & 7\\ 0 & 13 & 10\\ 0 & 10 & 8\end{pmatrix}=\begin{pmatrix}1 & 210 & 163\\ 0 & 269 & 210\\ 0 & 210 & 164\end{pmatrix}}
+
+Entonces:
+
+\fmdisp{|A^4|=\begin{vmatrix}1 & 210 & 163\\ 0 & 269 & 210\\ 0 & 210 & 164\end{vmatrix}=1\cdot(269\cdot164-210\cdot210)=\boxed{16}}
+
+\item Sea \fmm{A=\begin{pmatrix}a & b & c\\ d & e & f\\ g & h & i\end{pmatrix}}, tal que \fmm{|A|=5}, calcular \fmm{|B|=\begin{vmatrix}-2d-2g & f+i & e+h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}}.
+
+Por la propiedad 9 descomponemos la primera fila:
+
+\fmdisp{|B|=\begin{vmatrix}-2d-2g & f+i & e+h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}=\begin{vmatrix}-2d & f & e\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}+\underbrace{\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}}_{0}=30+0=\boxed{30}\ \ \text{ya que:}}
+
+\fmdisp{\begin{vmatrix}-2d & f & e\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}\underset{(-1)\cdot C_1}{=}(-1)\cdot\begin{vmatrix}2d & f & e\\ 6a & 3c & 3b\\ -2g & -i & -h\end{vmatrix}\underset{(-1)\cdot F_3}{=}\begin{vmatrix}2d & f & e\\ 6a & 3c & 3b\\ 2g & i & h\end{vmatrix}\underset{2\cdot C_1}{=}2\cdot\begin{vmatrix}d & f & e\\ 3a & 3c & 3b\\ g & i & h\end{vmatrix}=}
+
+\fmdisp{\underset{3\cdot F_2}{=}2\cdot3\cdot\begin{vmatrix}d & f & e\\ a & c & b\\ g & i & h\end{vmatrix}\underset{C_2\Leftrightarrow C_3}{=}-6\cdot\begin{vmatrix}d & e & f\\ a & b & c\\ g & h & i\end{vmatrix}\underset{F_1\Leftrightarrow F_2}{=}6\cdot\begin{vmatrix}a & b & c\\ d & e & f\\ g & h & i\end{vmatrix}=6\cdot5=\boxed{30}}
+
+y como:
+
+\fmdisp{\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ 2g & -i & -h\end{vmatrix}\underset{(-1)F_3}{=}(-1)\cdot\begin{vmatrix}-2g & i & h\\ -6a & 3c & 3b\\ -2g & i & h\end{vmatrix}\underset{F_1=F_3}{=}(-1)\cdot0=0}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Rango de una matriz}\hypertarget{sec5}{}
+
+Antes de definir el rango de una matriz necesitamos introducir algunos conceptos nuevos.
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Matriz singular}
+Dada una matriz cuadrada \fmm{A} con determinante igual a cero, diremos que es una \textbf{matriz singular}:
+
+\fmdisp{A\ \text{singular}\iff|A|=0}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Matriz regular}
+Dada una matriz cuadrada \fmm{A} con determinante distinto de cero, diremos que es una \textbf{matriz regular}:
+
+\fmdisp{A\ \text{regular}\iff|A|\neq0}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Vector fila y columna}
+Un \textbf{vector fila} de una matriz \fmm{A} es cualquiera de sus filas.\newline Un \textbf{vector columna} de una matriz \fmm{A} es cualquiera de sus columnas.
+
+\fmuline{Por ejemplo}: dada una matriz \fmm{A=\begin{pmatrix}1 & 3\\ 2 & 6\end{pmatrix}}, diremos que \fmm{(1,3)} y \fmm{(2,6)} son vectores fila de la matriz \fmm{A}. Y \fmm{(1,2)} y \fmm{(3,6)} son vectores columna de la misma matriz.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dependencia e independencia lineal}
+\begin{itemize}
+\item Se dice que un vector \fmm{\vec w} es \textbf{linealmente dependiente} de los vectores \fmm{\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n} si \fmm{\vec w} es combinación lineal de ellos, es decir:
+
+\fmdisp{\vec w=\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n,\quad /\ \lambda_i\in\mathbb{R}\ \ \forall i\in\mathbb{N}}
+
+\item Se dice que un vector \fmm{\vec w} es \textbf{linealmente independiente} de los vectores \fmm{\vec v_1,\vec v_2,\vec v_3,\cdots,\vec v_n} si \fmm{\vec w} no es combinación lineal de ellos, es decir:
+
+\fmdisp{\vec w\neq\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n,\quad /\ \lambda_i\in\mathbb{R}\ \ \forall i\in\mathbb{N}}
+
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{¿Es (2,0,10) linealmente independiente de (1,1,4) y (1,2,3)?}\newline
+          Nos preguntamos si existen números \fmm{\lambda} y \fmm{\mu} de manera que: \fmm{(2,0,10)=\lambda(1,1,4)+\mu(1,2,3)}
+
+Resolvemos este sistema: \fmm{0=\lambda+2\mu\rightarrow\lambda=-2\mu}
+
+\fmdisp{2=\lambda+\mu\ \xrightarrow[\lambda=-2\mu]{}\ 2=-2\mu+\mu=-\mu\ \rightarrow\ \boxed{\mu=-2}\ \rightarrow\ \boxed{\lambda=4}}
+
+\fmm{10=4\lambda+3\mu\longrightarrow10=4\cdot4+3\cdot(-2)=10\ \rightarrow} el vector (2,0,10) es \textbf{l.d.} de (1,1,4) y (1,2,3).
+\item \textbf{¿Es (0,3,7) linealmente independiente de (1,1,4) y (1,2,3)?}\newline
+          Nos preguntamos si existen números \fmm{\lambda} y \fmm{\mu} de manera que: \fmm{(0,3,7)=\lambda(1,1,4)+\mu(1,2,3)}
+
+Resolvemos este sistema: \fmm{0=\lambda+\mu\rightarrow\mu=-\lambda}
+
+\fmdisp{3=\lambda+2\mu\ \xrightarrow[\mu=-\lambda]{}\ 3=\lambda-2\lambda=-\lambda\ \rightarrow\ \boxed{\lambda=-3}\ \rightarrow\ \boxed{\mu=3}}
+
+\fmm{7=4\lambda+3\mu\longrightarrow4\cdot(-3)+3\cdot3=-12+9=-3\neq7\ \rightarrow} el vector (0,3,7) es \textbf{l.i.} de (1,1,4) y (1,2,3), ya que no podemos encontrar dos números \fmm{(\lambda,\mu)} que formen esa descomposición del vector.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Conjunto de vectores linealmente dependientes e independientes}
+\begin{enumerate}
+\item Un conjunto de vectores es \textbf{linealmente dependiente} si alguno de ellos es dependiente de los demás.
+\item Un conjunto de vectores es \textbf{linealmente independiente} si ninguno de ellos es dependiente de los demás.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{NOTA}: para que los vectores \fmm{\vec v_1,\vec v_2,\cdots,\vec v_n} sean linealmente independientes, la expresión \fmm{\lambda_1\cdot\vec v_1+\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n=0} debe tener una única solución \fmm{\lambda_1=\lambda_2=\cdots=\lambda_n=0}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{¿Los vectores \fmm{(1,1,4),(1,2,3)} y \fmm{(0,3,7)} son linealmente independientes (l.i.)?}
+
+\fmdisp{\lambda_1(1,1,4)+\lambda_2(1,2,3)+\lambda_3(0,3,7)=(0,0,0)}
+
+\fmdisp{\left.\begin{aligned}\lambda_1+\lambda_2&=0\\ \lambda_1+2\lambda_2+3\lambda_3&=0\\ 4\lambda_1+3\lambda_2+7\lambda_3&=0\end{aligned}\right\}\longrightarrow\left\{\begin{aligned}\lambda_1&=-\lambda_2\\ -\lambda_2+2\lambda_2+3\lambda_3&=0\\ -4\lambda_2+3\lambda_2+7\lambda_3&=0\end{aligned}\right.\longrightarrow\left\{\begin{aligned}\lambda_2+3\lambda_3&=0\\ -\lambda_2+7\lambda_3&=0\end{aligned}\right.}
+
+\fmdisp{\xrightarrow[\text{sumamos ecuaciones}]{}\ 10\lambda_3=0\rightarrow\boxed{\lambda_3=0}\rightarrow\lambda_2+3\cdot0=0\rightarrow\boxed{\lambda_2=0}\rightarrow\boxed{\lambda_1=0}}
+
+Entonces podemos afirmar que los tres vectores son l.i.
+\item \textbf{¿Los vectores \fmm{(1,1,4),(1,2,3)} y \fmm{(2,0,10)} son linealmente independientes (l.i.)?}
+
+\fmdisp{\lambda_1(1,1,4)+\lambda_2(1,2,3)+\lambda_3(2,0,10)=(0,0,0)}
+
+\fmdisp{\left.\begin{aligned}\lambda_1+\lambda_2+2\lambda_3&=0\\ \lambda_1+2\lambda_2&=0\\ 4\lambda_1+3\lambda_2+10\lambda_3&=0\end{aligned}\right\}\rightarrow\left\{\begin{aligned}-2\lambda_2+\lambda_2+2\lambda_3&=0\\ \lambda_1&=-2\lambda_2\\ -8\lambda_2+3\lambda_2+10\lambda_3&=0\end{aligned}\right.\rightarrow\left\{\begin{aligned}-\lambda_2+2\lambda_3&=0\\ -5\lambda_2+10\lambda_3&=0\end{aligned}\right.}
+
+Si resolvemos este sistema de ecuaciones vemos que es un SCI (la segunda ecuación es la primera multiplicada por 5); como tiene más de una solución, podemos afirmar que los vectores son l.d.
+\end{enumerate}
+\end{fmex}
+
+A continuación aplicaremos estos conceptos de vectores a los determinantes y las matrices, para introducir el rango de una matriz. Veremos que este concepto está muy relacionado con la dependencia lineal entre los vectores que forman una matriz.
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Dependencia o independencia con determinantes}
+Con todo lo que hemos visto antes podemos afirmar que si un conjunto de vectores son l.d., podemos expresar uno de ellos como combinación lineal de los demás: \fmm{\vec v_1=\lambda_2\cdot\vec v_2+\lambda_3\cdot\vec v_3+\cdots+\lambda_n\cdot\vec v_n}.\newline Si pensamos en un determinante formado por vectores fila tenemos:
+
+\fmdisp{\begin{vmatrix}\vec v_1\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}=\begin{vmatrix}\lambda_2\cdot\vec v_2+\cdots+\lambda_n\cdot\vec v_n\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}=\lambda_2\underbrace{\begin{vmatrix}\vec v_2\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}}_{0}+\cdots+\lambda_n\underbrace{\begin{vmatrix}\vec v_n\\ \vec v_2\\ \vdots\\ \vec v_n\end{vmatrix}}_{0}=0}
+
+ya que si dos filas son iguales el determinante vale cero.\newline Entonces podemos afirmar que:
+
+\begin{itemize}
+\item \textbf{Si la matriz \fmm{A} es regular, \fmm{|A|\neq0}, todos sus vectores fila o columna serán independientes.}
+\item \textbf{Si la matriz \fmm{A} es singular, \fmm{|A|=0}, todos sus vectores fila o columna serán dependientes.}
+\end{itemize}
+
+De esta forma, para saber si un conjunto de vectores son l.i. o l.d. calcularemos el determinante de la matriz formada por los vectores, que es más sencillo que resolver un sistema.
+
+Pero el problema aparece si la matriz formada por los vectores no es una matriz cuadrada; por ejemplo, si queremos saber si los vectores siguientes son l.i. o l.d.:\newline -- (2,1), (4,5) y (1,3).\newline -- (2,1,3,1), (4,1,2,3) y (2,1,0,1).
+
+Para resolver este problema utilizamos los rangos de las matrices.
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Rango de una matriz}
+El \textbf{rango de una matriz} \fmm{A} de cualquier orden es el número máximo de vectores fila, o de vectores columna, de \fmm{A} que son linealmente independientes. Lo escribiremos como \textbf{rg(A)}.
+
+\begin{fmnote}El rango de una matriz \fmm{A} coincide con el orden de la mayor submatriz cuadrada cuyo determinante es distinto de cero.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Calculamos el rango de una matriz}
+\begin{enumerate}
+\item Suprimir las líneas dependientes, es decir, nulas, repetidas, múltiplos o combinaciones lineales evidentes.
+\item Hallar el determinante de la matriz con mayor dimensión posible en la matriz \fmm{A}. Si es distinto de cero diremos que: \textbf{rg(A) = dimensión del determinante}.
+\item Si el determinante es cero, se debe calcular, si es posible, otro con la misma dimensión. Si se agotan todas las posibilidades de una determinada dimensión, se calculan los determinantes de las submatrices de una dimensión inferior.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de cálculo del rango de matrices}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calculamos el rango de la matriz siguiente: \fmm{A=\begin{pmatrix}-1 & 3 & 0 & 1 & 2\\ 0 & 5 & 1 & 2 & 3\\ -3 & -1 & -2 & -1 & 0\\ 3 & 11 & 4 & 5 & 6\end{pmatrix}}
+
+Empezamos por destacar un menor de orden dos no nulo (esto se puede hacer a ojo). Procuramos que sea tan sencillo como sea posible, ya que formará parte de muchos determinantes de orden superior que tendremos que calcular más adelante.
+
+\fmdisp{A=\begin{pmatrix}\boxed{-1} & 3 & \boxed{0} & 1 & 2\\ \boxed{0} & 5 & \boxed{1} & 2 & 3\\ -3 & -1 & -2 & -1 & 0\\ 3 & 11 & 4 & 5 & 6\end{pmatrix}\qquad\begin{vmatrix}-1 & 0\\ 0 & 1\end{vmatrix}\neq0}
+
+El hecho de que este menor sea no nulo nos asegura que las dos primeras filas de \fmm{A} son l.i.
+
+Veamos si la tercera fila depende linealmente de estas. Para ello, añadimos los dos elementos nuevos, \fmm{-3} y \fmm{-2}, y calculamos todos los menores de orden 3 en los que intervengan estas dos columnas, por si alguno es distinto de cero:
+
+\fmdisp{\begin{vmatrix}\color[HTML]{e5484d}-1 & 3 & \color[HTML]{e5484d}0\\ \color[HTML]{e5484d}0 & 5 & \color[HTML]{e5484d}1\\ -3 & -1 & -2\end{vmatrix}=0\qquad\begin{vmatrix}\color[HTML]{e5484d}-1 & \color[HTML]{e5484d}0 & 1\\ \color[HTML]{e5484d}0 & \color[HTML]{e5484d}1 & 2\\ -3 & -2 & -1\end{vmatrix}=0\qquad\begin{vmatrix}\color[HTML]{e5484d}-1 & \color[HTML]{e5484d}0 & 2\\ \color[HTML]{e5484d}0 & \color[HTML]{e5484d}1 & 3\\ -3 & -2 & 0\end{vmatrix}=0}
+
+Al ser cero todos ellos, se deduce que \textbf{la tercera fila es combinación lineal de las dos primeras.}
+
+(Si alguno de estos tres menores fuera no nulo, la tercera fila sería l.i. de las dos primeras. Tomaríamos como base ese menor de orden 3 y ampliaríamos las tres columnas con los elementos correspondientes de la cuarta fila. Obtendríamos así tres columnas de cuatro elementos. Añadiendo otra columna, probaríamos si alguno de los menores de orden 4 era no nulo.)
+
+Ahora haremos con la cuarta fila lo mismo que hemos hecho con la tercera. Los tres menores de orden 3 que así se obtienen son cero. Por tanto, \textbf{la cuarta fila es, también, combinación lineal de las dos primeras.}
+
+El rango de la matriz es dos (máximo orden de un menor no nulo o, lo que es lo mismo, máximo número de filas l.i.). Entonces \fmm{\boxed{rg(A)=2}}.
+\item Sea la matriz \fmm{A=\begin{pmatrix}1 & 1 & 2\\ 1 & 2 & 0\\ 4 & 3 & 10\end{pmatrix}}, calculamos el rango:
+
+Calculamos el determinante: \fmm{|A|=\begin{vmatrix}1 & 1 & 2\\ 1 & 2 & 0\\ 4 & 3 & 10\end{vmatrix}=20+6+0-(16+0+10)=0}, entonces el rango no puede ser 3. Buscamos un menor de orden 2x2 distinto de cero:
+
+\fmdisp{\begin{vmatrix}1 & 1\\ 1 & 2\end{vmatrix}=2-1=1\neq0\rightarrow\boxed{rg(A)=2}}
+
+Entonces (1,1,2) y (1,2,0) son l.i., pero (1,1,2), (1,2,0) y (4,3,10) son l.d.
+\item Estudiamos el rango de la matriz: \fmm{B=\begin{pmatrix}1 & 1 & 0\\ 1 & 2 & 3\\ 4 & 3 & 7\end{pmatrix}}
+
+\fmdisp{|B|=\begin{vmatrix}1 & 1 & 0\\ 1 & 2 & 3\\ 4 & 3 & 7\end{vmatrix}=14+0+12-(0+9+7)=10\neq0\rightarrow\boxed{rg(B)=3}}
+
+\fmm{\rightarrow} los tres vectores son l.i.
+\item Calculamos el rango de la matriz: \fmm{A=\begin{pmatrix}1 & 3 & 1 & 2 & 4 & 0\\ 2 & 1 & -3 & 4 & 3 & 0\\ 3 & 0 & -6 & 6 & 3 & 0\\ 1 & 2 & 0 & 2 & 3 & 0\end{pmatrix}}
+
+Si nos fijamos, vemos que \fmm{C_4=2\cdot C_1}, \fmm{C_5=C_1+C_2} y \fmm{C_6} es un vector nulo; entonces podemos eliminar estas columnas para estudiar el rango de la matriz \fmm{A}, ya que sabemos que son l.d. de las demás.
+
+\fmdisp{rg(A)=rg\begin{pmatrix}1 & 3 & 1\\ 2 & 1 & -3\\ 3 & 0 & -6\\ 1 & 2 & 0\end{pmatrix}}
+
+Entonces cogemos menores de orden 3x3 para ver si hay alguno distinto de cero:
+
+\fmdisp{\begin{vmatrix}F_1\\ F_2\\ F_3\end{vmatrix}=\begin{vmatrix}1 & 3 & 1\\ 2 & 1 & -3\\ 3 & 0 & -6\end{vmatrix}=(-6+0-27)-(3-36)=-33+33=0}
+
+\fmdisp{\begin{vmatrix}F_1\\ F_2\\ F_4\end{vmatrix}=\begin{vmatrix}1 & 3 & 1\\ 2 & 1 & -3\\ 1 & 2 & 0\end{vmatrix}=(0+4-9)-(1-6+0)=-5+5=0}
+
+\fmdisp{\begin{vmatrix}F_2\\ F_3\\ F_4\end{vmatrix}=\begin{vmatrix}2 & 1 & -3\\ 3 & 0 & -6\\ 1 & 2 & 0\end{vmatrix}=(0-18-6)-(-24)=-24+24=0}
+
+\fmdisp{\begin{vmatrix}F_1\\ F_3\\ F_4\end{vmatrix}=\begin{vmatrix}1 & 3 & 1\\ 3 & 0 & -6\\ 1 & 2 & 0\end{vmatrix}=(0+6-18)-(-12)=-12+12=0}
+
+Como todos los menores de orden 3 son cero, el rango de la matriz \fmm{A} será 2 como máximo. Comprobémoslo:
+
+\fmdisp{\begin{vmatrix}1 & 3\\ 2 & 1\end{vmatrix}=1-6=-5\neq0\longrightarrow\boxed{rg(A)=2}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Discusión de rangos en función de un parámetro}
+Consiste en averiguar los diferentes rangos que puede tener una matriz según los valores que toman algunos de sus elementos, que vienen expresados en forma de parámetros:
+
+\begin{itemize}
+\item Si la matriz es cuadrada, se resuelve la ecuación \fmm{|A|=0}. Las soluciones son los diferentes casos que hay que estudiar.
+\item Si la matriz es rectangular, se resuelve la ecuación \fmm{|A'|=0}, donde \fmm{A'} es una submatriz cuadrada de \fmm{A} del mayor tamaño posible. Las soluciones son los casos que hay que estudiar.\newline Da igual la submatriz que elijamos: aunque no salgan los mismos casos, llegaremos a las mismas conclusiones.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de estudio del rango de matrices con parámetros}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sea la matriz \fmm{A=\begin{pmatrix}a & 2\\ 2 & a\end{pmatrix}\rightarrow|A|=a^2-4=0\rightarrow a=\pm2}\newline
+          Así, si \fmm{\boxed{a=2\rightarrow rg(A)=1}}, si \fmm{\boxed{a=-2\rightarrow rg(A)=1}} y si \fmm{\boxed{a\neq\pm2\rightarrow rg(A)=2}}
+\item Sea la matriz \fmm{B=\begin{pmatrix}a & 2 & 2\\ 2 & a & 2\\ 2 & 2 & a\end{pmatrix}}; como antes, calculamos el determinante:
+
+\fmm{|B|=a^3+8+8-(4a+4a+4a)=a^3-12a+16=0}; si resolvemos la ecuación por Ruffini obtenemos las soluciones: \fmm{a=2} (raíz doble) y \fmm{a=-4}. Estudiamos los diferentes casos:
+
+\begin{itemize}
+\item Si \fmm{a=2\rightarrow\begin{pmatrix}2 & 2 & 2\\ 2 & 2 & 2\\ 2 & 2 & 2\end{pmatrix}\rightarrow\boxed{rg(B)=1}}
+\item Si \fmm{a=-4\rightarrow|B|=0} estudiamos un menor de orden 2: \fmm{\begin{vmatrix}-4 & 2\\ 2 & -4\end{vmatrix}=16-4=12\neq0\rightarrow\boxed{rg(B)=2}}
+\item Si \fmm{a\neq2} y \fmm{a\neq-4\rightarrow\boxed{rg(B)=3}}
+\end{itemize}
+\item Sea la matriz \fmm{C=\begin{pmatrix}a & 2 & 4\\ 1 & 1 & a\end{pmatrix}}. Para estudiar el rango, cogemos los diferentes menores de orden 2:
+
+\fmdisp{C_1'=\begin{pmatrix}a & 2\\ 1 & 1\end{pmatrix}\rightarrow|C_1'|=a-2=0\rightarrow a=2}
+
+\fmdisp{C_2'=\begin{pmatrix}2 & 4\\ 1 & a\end{pmatrix}\rightarrow|C_2'|=2a-4=0\rightarrow a=2}
+
+\fmdisp{C_3'=\begin{pmatrix}a & 4\\ 1 & a\end{pmatrix}\rightarrow|C_3'|=a^2-4=0\rightarrow a=\pm2}
+
+\newpage
+Entonces:
+
+\begin{itemize}
+\item Si \fmm{\boxed{a=2\rightarrow rg(C)=1}}
+\item Si \fmm{\boxed{a\neq2\rightarrow rg(C)=2}}
+\end{itemize}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Matriz inversa}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Matriz inversa}
+Sea \fmm{A} una matriz cuadrada regular de orden \fmm{n} (\fmm{|A_n|\neq0}); se denomina \textbf{matriz inversa de \fmm{A}} a otra matriz, \fmm{A^{-1}}, del mismo orden, que verifica:
+
+\fmdisp{\boxed{A\cdot A^{-1}=A^{-1}\cdot A=I_n}}
+
+Por tanto, una matriz \fmuline{tiene inversa o es invertible si su determinante es distinto de cero}, es decir, si es regular.
+
+Además, tenemos una fórmula para poder calcular la inversa de una matriz \fmm{A}:
+
+\fmdisp{\boxed{A^{-1}=\frac{1}{|A|}\cdot\left(Adj(A)\right)^t}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Formas de calcular la matriz inversa de A}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Utilizando la definición:} \fmm{A\cdot A^{-1}=A^{-1}\cdot A=I_n}\newline
+          Veamos un ejemplo: dada la matriz \fmm{A=\begin{pmatrix}1 & 2\\ 3 & 5\end{pmatrix}}, calculamos su inversa \fmm{A^{-1}=\begin{pmatrix}a & b\\ c & d\end{pmatrix}}.
+
+\fmdisp{A\cdot A^{-1}=\begin{pmatrix}1 & 2\\ 3 & 5\end{pmatrix}\cdot\begin{pmatrix}a & b\\ c & d\end{pmatrix}=\begin{pmatrix}a+2c & b+2d\\ 3a+5c & 3b+5d\end{pmatrix}=\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}}
+
+Ahora resolvemos el sistema de 4 ecuaciones con 4 incógnitas:
+
+\fmdisp{\left.\begin{aligned}a+2c&=1\\ 3a+5c&=0\end{aligned}\right\}\rightarrow\left.\begin{aligned}-3a-6c&=-3\\ 3a+5c&=0\end{aligned}\right\}\rightarrow-c=-3\rightarrow\boxed{c=3}\rightarrow\boxed{a=-5}}
+
+\fmdisp{\left.\begin{aligned}b+2d&=0\\ 3b+5d&=1\end{aligned}\right\}\rightarrow\left.\begin{aligned}-3b-6d&=0\\ 3b+5d&=1\end{aligned}\right\}\rightarrow-d=1\rightarrow\boxed{d=-1}\rightarrow\boxed{b=2}}
+
+Entonces:
+
+\fmdisp{\boxed{A^{-1}=\begin{pmatrix}-5 & 2\\ 3 & -1\end{pmatrix}}}
+
+\item \textbf{A partir de la fórmula:} \fmm{A^{-1}=\dfrac{1}{|A|}\cdot(Adj(A))^t}\newline
+          Calculamos la matriz inversa de \fmm{A=\begin{pmatrix}3 & 1 & 2\\ 1 & 3 & 1\\ 2 & 4 & 2\end{pmatrix}}
+
+\fmdisp{|A|=\begin{vmatrix}3 & 1 & 2\\ 1 & 3 & 1\\ 2 & 4 & 2\end{vmatrix}=(18+8+2)-(12+12+2)=28-26=2}
+
+Ahora calculamos la matriz adjunta (Adj(A)):
+
+\fmdisp{A_{11}=\begin{vmatrix}3 & 1\\ 4 & 2\end{vmatrix}\cdot(-1)^{1+1}=2\quad A_{12}=\begin{vmatrix}1 & 1\\ 2 & 2\end{vmatrix}\cdot(-1)^{1+2}=0\quad A_{13}=\begin{vmatrix}1 & 3\\ 2 & 4\end{vmatrix}\cdot(-1)^{1+3}=-2}
+
+\fmdisp{A_{21}=\begin{vmatrix}1 & 2\\ 4 & 2\end{vmatrix}\cdot(-1)^{2+1}=6\quad A_{22}=\begin{vmatrix}3 & 2\\ 2 & 2\end{vmatrix}\cdot(-1)^{2+2}=2\quad A_{23}=\begin{vmatrix}3 & 1\\ 2 & 4\end{vmatrix}\cdot(-1)^{2+3}=-10}
+
+\fmdisp{A_{31}=\begin{vmatrix}1 & 2\\ 3 & 1\end{vmatrix}\cdot(-1)^{3+1}=-5\quad A_{32}=\begin{vmatrix}3 & 2\\ 1 & 1\end{vmatrix}\cdot(-1)^{3+2}=-1\quad A_{33}=\begin{vmatrix}3 & 1\\ 1 & 3\end{vmatrix}\cdot(-1)^{3+3}=8}
+
+Entonces tenemos que:
+
+\fmdisp{(Adj(A))^t=\begin{pmatrix}2 & 0 & -2\\ 6 & 2 & -10\\ -5 & -1 & 8\end{pmatrix}^t=\begin{pmatrix}2 & 6 & -5\\ 0 & 2 & -1\\ -2 & -10 & 8\end{pmatrix}}
+
+Aplicando la fórmula:
+
+\fmdisp{\boxed{A^{-1}=\frac12\begin{pmatrix}2 & 6 & -5\\ 0 & 2 & -1\\ -2 & -10 & 8\end{pmatrix}=\begin{pmatrix}1 & 3 & -5/2\\ 0 & 1 & -1/2\\ -1 & -5 & 4\end{pmatrix}}}
+
+\item \textbf{Mediante el método de Gauss.}\newline
+          Colocamos la matriz \fmm{A} y a su derecha la matriz \fmm{I}, formando una matriz \fmm{n\times2n}. Realizamos las transformaciones necesarias para obtener la matriz \fmm{I} en el lugar donde estaba \fmm{A}, y la matriz que nos queda en el lugar de \fmm{I} es la matriz \fmm{A^{-1}}.\newline
+          Veamos un ejemplo. Calculamos la matriz inversa de \fmm{A=\begin{pmatrix}3 & 1 & 2\\ 1 & 3 & 1\\ 2 & 4 & 2\end{pmatrix}}
+
+\fmdisp{\left(\begin{array}{ccc|ccc}3 & 1 & 2 & 1 & 0 & 0\\ 1 & 3 & 1 & 0 & 1 & 0\\ 2 & 4 & 2 & 0 & 0 & 1\end{array}\right)\xrightarrow[F_1\leftrightarrow F_2]{}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 3 & 1 & 2 & 1 & 0 & 0\\ 2 & 4 & 2 & 0 & 0 & 1\end{array}\right)}
+
+\fmdisp{\xrightarrow[F_2-3F_1]{F_3-2F_1}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & -8 & -1 & 1 & -3 & 0\\ 0 & -2 & 0 & 0 & -2 & 1\end{array}\right)\xrightarrow[F_2\leftrightarrow F_3]{}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & -2 & 0 & 0 & -2 & 1\\ 0 & -8 & -1 & 1 & -3 & 0\end{array}\right)}
+
+\fmdisp{\xrightarrow[F_3-4F_2]{}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & -2 & 0 & 0 & -2 & 1\\ 0 & 0 & -1 & 1 & 5 & -4\end{array}\right)\xrightarrow[F_2=(-1/2)F_2]{F_3=-F_3}\left(\begin{array}{ccc|ccc}1 & 3 & 1 & 0 & 1 & 0\\ 0 & 1 & 0 & 0 & 1 & -1/2\\ 0 & 0 & 1 & -1 & -5 & 4\end{array}\right)}
+
+\fmdisp{\xrightarrow[F_1=F_1-3F_2-F_3]{}\left(\begin{array}{ccc|ccc}1 & 0 & 0 & 1 & 3 & -5/2\\ 0 & 1 & 0 & 0 & 1 & -1/2\\ 0 & 0 & 1 & -1 & -5 & 4\end{array}\right)}
+
+Entonces:
+
+\fmdisp{\boxed{A^{-1}=\begin{pmatrix}1 & 3 & -5/2\\ 0 & 1 & -1/2\\ -1 & -5 & 4\end{pmatrix}}}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades de la matriz inversa}
+\begin{multicols}{2}
+\begin{itemize}
+\item \fmm{(A\cdot B)^{-1}=B^{-1}\cdot A^{-1}}
+\item \fmm{(A^{-1})^{-1}=A}
+\item \fmm{(A^{-1})^t=(A^t)^{-1}}
+\item \fmm{(A^2)^{-1}=(A^{-1})^2}
+\item \fmm{(kA)^{-1} = k^{-1}A^{-1}=\frac{1}{k}A^{-1}}
+\item \fmm{|A^{-1}|=\dfrac{1}{|A|}}
+\end{itemize}
+\end{multicols}
+\end{fmprop}
+
+\Needspace{18\baselineskip}
+\section{Ecuaciones y sistemas matriciales}\hypertarget{sec7}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Resolvemos ecuaciones y sistemas matriciales}
+Son ecuaciones o sistemas en los que aparecen términos que son matrices. La idea es que los resolveremos igual que las ecuaciones y sistemas con números reales. Pero \fmuline{hay que recordar} que con las matrices tenemos ciertas restricciones:
+
+\begin{enumerate}
+\item No existe la división de matrices. Por tanto, utilizaremos la matriz inversa (siempre que exista).
+\item No se cumple la propiedad conmutativa para el producto de matrices.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos de ecuaciones y sistemas}
+\begin{enumerate}[label=\textbf{\alph*)},leftmargin=*]
+\item Dadas las matrices \fmm{A=\begin{pmatrix}1 & 2\\ 3 & 5\end{pmatrix}}, \fmm{B=\begin{pmatrix}3 & 4\\ 5 & 1\end{pmatrix}} y \fmm{C=\begin{pmatrix}0 & 2\\ 4 & 6\end{pmatrix}}, resolvemos \fmm{\boxed{AX-2B=3C}}:
+
+\fmdisp{AX=3C+2B\rightarrow A^{-1}\cdot A\cdot X=A^{-1}\cdot(3C+2B)\rightarrow X=A^{-1}(3C+2B)}
+
+\fmdisp{3C+2B=3\cdot\begin{pmatrix}0 & 2\\ 4 & 6\end{pmatrix}+2\cdot\begin{pmatrix}3 & 4\\ 5 & 1\end{pmatrix}=\begin{pmatrix}6 & 14\\ 22 & 20\end{pmatrix}}
+
+Ahora calcularemos \fmm{A^{-1}}: primero \fmm{|A|=5-6=-1\rightarrow A} es invertible.
+
+\fmdisp{A^{-1}=\frac{1}{-1}\cdot\begin{pmatrix}5 & -3\\ -2 & 1\end{pmatrix}^t=\begin{pmatrix}-5 & 2\\ 3 & -1\end{pmatrix}}
+
+\fmdisp{X=A^{-1}(3C+2B)=\begin{pmatrix}-5 & 2\\ 3 & -1\end{pmatrix}\cdot\begin{pmatrix}6 & 14\\ 22 & 20\end{pmatrix}=\begin{pmatrix}-30+44 & -70+40\\ 18-22 & 42-20\end{pmatrix}}
+
+\fmdisp{\boxed{X=\begin{pmatrix}14 & -30\\ -4 & 22\end{pmatrix}}}
+
+\item Dadas las matrices \fmm{A=\begin{pmatrix}4 & 2\\ 3 & 5\end{pmatrix}} y \fmm{B=\begin{pmatrix}3 & 4\\ 5 & 1\end{pmatrix}}, resolvemos el sistema: \fmm{\left\{\begin{aligned}2X+Y&=A\\ 4X-3Y&=B\end{aligned}\right.}
+
+\fmdisp{\left.\begin{aligned}2X+Y&=A\\ 4X-3Y&=B\end{aligned}\right\}\xrightarrow[Y=A-2X]{}4X-3(A-2X)=B\rightarrow4X-3A+6X=B}
+
+\fmdisp{10X=B+3A\rightarrow X=\frac{B+3A}{10}}
+
+\fmdisp{Y=A-2\left(\frac{B+3A}{10}\right)=\frac{5A}{5}-\frac{B}{5}-\frac{3A}{5}=\frac{2A-B}{5}}
+
+Hacemos las operaciones de matrices para calcular \fmm{X} e \fmm{Y} y obtenemos que:
+
+\fmdisp{\boxed{X=\begin{pmatrix}3/2 & 1\\ 7/5 & 8/5\end{pmatrix};\ Y=\begin{pmatrix}1 & 0\\ 1/5 & 9/5\end{pmatrix}}}
+
+\item Dada la matriz \fmm{A=\begin{pmatrix}3 & 0\\ 1 & 3\end{pmatrix}}, calculamos la matriz \fmm{X} que verifica esta ecuación:
+
+\fmdisp{XA-2X=A}
+
+\newpage
+Primer paso: despejamos \fmm{X} sacando factor común en el primer miembro, teniendo en cuenta que:
+
+\fmdisp{2X=2XI=2IX\rightarrow X(A-2I)=A}
+
+Multiplicamos los dos miembros por \fmm{(A-2I)^{-1}} por la derecha.\newline Para ello, calculamos \fmm{(A-2I)=\begin{pmatrix}1 & 0\\ 1 & 1\end{pmatrix}} y su inversa, \fmm{(A-2I)^{-1}=\begin{pmatrix}1 & 0\\ 1 & 1\end{pmatrix}^{-1}=\begin{pmatrix}1 & 0\\ -1 & 1\end{pmatrix}}
+
+\fmdisp{X=A\cdot(A-2I)^{-1}\rightarrow X=\begin{pmatrix}3 & 0\\ 1 & 3\end{pmatrix}\cdot\begin{pmatrix}1 & 0\\ -1 & 1\end{pmatrix}=\boxed{\begin{pmatrix}3 & 0\\ -2 & 3\end{pmatrix}}}
+
+\end{enumerate}
+\end{fmex}
+
+\end{document}
