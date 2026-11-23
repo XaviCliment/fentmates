@@ -1,0 +1,563 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 9: Integrales. 2.º de Bachillerato MII},pdfsubject={Matemáticas II},pdfkeywords={primitiva, integral indefinida, integrales inmediatas, cambio de variable, integración por partes, integrales racionales, integral definida, regla de Barrow, áreas, volúmenes}}
+
+% colors de la web (FentMates, bloque de Análisis: verde; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{9.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (30,114)--(30,8);
+  \begin{scope}
+    \clip (30,90) .. controls (60,80) and (90,34) .. (130,34) .. controls (170,34) and (190,60) .. (226,56)--(226,104)--(30,104)--cycle;
+    \fill[fill opacity=0.5] (70,0) rectangle (170,104);
+    \draw[line width=4.5pt,dash pattern=on 7pt off 9pt] (70,104)--(70,0) (170,104)--(170,0);
+  \end{scope}
+  \draw[line width=4.5pt] (30,90) .. controls (60,80) and (90,34) .. (130,34) .. controls (170,34) and (190,60) .. (226,56);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{34}{34}\selectfont] at (90,88) {$\int$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont\itshape] at (108,88) {f(x)dx};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato MII · Unidad 9: Integrales}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato · Matemáticas II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 9} · Integrales\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: primitivas e integral indefinida, integrales inmediatas y casi inmediatas (también las trigonométricas), cambio de variable, integración por partes, integración de funciones racionales, integral definida y regla de Barrow, teorema fundamental del cálculo y cálculo de áreas, con muchos ejercicios de la PAU de Valencia y de otras comunidades.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}9.1}\ \ Primitiva e integral indefinida}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}9.2}\ \ Integrales inmediatas}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}9.3}\ \ Integrales casi inmediatas}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}9.4}\ \ Cambio de variable}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}9.5}\ \ Integración por partes}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}9.6}\ \ Funciones racionales}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}9.7}\ \ Integral definida y regla de Barrow}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}9.8}\ \ Teorema fundamental del cálculo}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}9.9}\ \ Área entre una curva y el eje OX}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}9.10}\ \ Área entre dos curvas}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{18\baselineskip}
+\section{Primitiva e integral indefinida}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Primitiva de una función}
+\fmm{F} es una \textbf{primitiva} de \fmm{f} en un intervalo si \fmm{F'(x)=f(x)} en todo el intervalo. Integrar es el proceso inverso de derivar.
+
+Si \fmm{F} es una primitiva de \fmm{f}, todas las primitivas son \fmm{F(x)+C} (\fmm{C\in\mathbb R}): sus gráficas son traslaciones verticales unas de otras. Este conjunto es la \textbf{integral indefinida}:
+
+\fmdisp{\int f(x)\,dx=F(x)+C\quad\Longleftrightarrow\quad F'(x)=f(x).}
+
+\textbf{Propiedades} (linealidad): \fmm{\int\left(f\pm g\right)dx=\int f\,dx\pm\int g\,dx} y \fmm{\int k\,f\,dx=k\int f\,dx}. Cuidado: no hay ninguna regla para el producto ni para el cociente (por eso hacen falta los métodos de los apartados 9.4--9.6).
+
+\textbf{Primitiva con una condición}: si nos piden la primitiva que pasa por \fmm{(x_0,y_0)}, calculamos \fmm{F(x)+C} e imponemos \fmm{F(x_0)+C=y_0}. Siempre podemos \textbf{comprobar} una primitiva derivándola.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Comprueba que \fmm{F(x)=x\ln x-x} es una primitiva de \fmm{f(x)=\ln x}.
+
+\fmm{F'(x)=1\cdot\ln x+x\cdot\frac1x-1=\ln x}. Por tanto, \fmm{\int\ln x\,dx=x\ln x-x+C}.
+\item \fmpau{PAU Astúries 2025}\fmm{G(x)=\frac13x^3+ax^2+bx+5} es una primitiva de \fmm{g}. Halla \fmm{g} y todas las primitivas de \fmm{g}.
+
+\fmm{g(x)=G'(x)=x^2+2ax+b}. Todas las primitivas: \fmm{\frac13x^3+ax^2+bx+C}.
+\item \fmpau{PAU Andalusia 2025}Halla la primitiva de \fmm{f(x)=\dfrac{1}{x^2+2x+2}} que pasa por el punto \fmm{\left(0,\frac\pi4\right)}.
+
+\fmm{x^2+2x+2=(x+1)^2+1\Rightarrow\int\dfrac{dx}{1+(x+1)^2}=\arctan(x+1)+C} (apartado 9.3).
+
+\fmm{F(0)=\arctan1+C=\frac\pi4+C=\frac\pi4\Rightarrow C=0}: \fmm{\ F(x)=\arctan(x+1)}.
+\item Halla \fmm{f} si \fmm{f''(x)=6x}, \fmm{f'(0)=-3} y \fmm{f(0)=2}.
+
+\fmm{f'(x)=3x^2+C_1}, \fmm{f'(0)=C_1=-3}; \fmm{\ f(x)=x^3-3x+C_2}, \fmm{f(0)=C_2=2}: \fmm{\ f(x)=x^3-3x+2}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Integrales inmediatas}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Tabla de integrales inmediatas (se lee derivando la columna de la derecha)}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{7.2cm}>{\raggedright\arraybackslash}X}\toprule
+$\displaystyle\int k\,dx=kx+C$ & $\displaystyle\int x^n\,dx=\frac{x^{n+1}}{n+1}+C\quad(n\neq-1)$\\[3pt]
+$\displaystyle\int\frac{dx}{x}=\ln|x|+C$ & $\displaystyle\int\frac{dx}{2\sqrt x}=\sqrt x+C$\\[3pt]
+$\displaystyle\int e^x\,dx=e^x+C$ & $\displaystyle\int a^x\,dx=\frac{a^x}{\ln a}+C$\\[3pt]
+$\displaystyle\int\sin x\,dx=-\cos x+C$ & $\displaystyle\int\cos x\,dx=\sin x+C$\\[5pt]
+$\displaystyle\int\frac{dx}{\cos^2x}=\int\left(1+\tan^2x\right)dx=\tan x+C$ & $\displaystyle\int\frac{dx}{\sin^2x}=-\frac{1}{\tan x}+C$\\[5pt]
+$\displaystyle\int\frac{dx}{1+x^2}=\arctan x+C$ & $\displaystyle\int\frac{dx}{\sqrt{1-x^2}}=\arcsin x+C$\\[5pt]
+\bottomrule\end{tabularx}\end{center}
+
+Muchas integrales se reducen a ellas \textbf{operando antes}: repartiendo un cociente (\fmm{\frac{x^2+1}{x}=x+\frac1x}), escribiendo las raíces como potencias (\fmm{\frac{1}{\sqrt[3]x}=x^{-1/3}}) o usando identidades trigonométricas: \fmm{\tan^2x=\frac{1}{\cos^2x}-1}, \fmm{\sin^2x=\frac{1-\cos2x}{2}}, \fmm{\cos^2x=\frac{1+\cos2x}{2}}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\int\left(3x^2-\frac4x+2e^x-\frac{1}{\cos^2x}\right)dx=x^3-4\ln|x|+2e^x-\tan x+C}
+\item \fmm{\displaystyle\int\frac{\left(x^2+1\right)^2}{x}\,dx}
+
+Desarrollamos y repartimos: \fmm{\dfrac{x^4+2x^2+1}{x}=x^3+2x+\dfrac1x}.
+
+\fmm{\displaystyle\int\left(x^3+2x+\frac1x\right)dx=\frac{x^4}{4}+x^2+\ln|x|+C}.
+\item \fmm{\displaystyle\int\left(\sqrt x+\frac{1}{\sqrt[3]{x}}\right)dx=\int\left(x^{1/2}+x^{-1/3}\right)dx=\frac{2}{3}x^{3/2}+\frac32x^{2/3}+C=\frac23\sqrt{x^3}+\frac32\sqrt[3]{x^2}+C}
+\item \fmm{\displaystyle\int\tan^2x\,dx=\int\left(\frac{1}{\cos^2x}-1\right)dx=\tan x-x+C} y \fmm{\displaystyle\int\sin^2x\,dx=\int\frac{1-\cos2x}{2}\,dx=\frac x2-\frac{\sin2x}{4}+C}.
+\item \fmpau{PAU Castella-la Manxa 2024}\fmm{\displaystyle\int\frac{2x^2}{x^2+1}\,dx}
+
+\fmm{\dfrac{2x^2}{x^2+1}=\dfrac{2\left(x^2+1\right)-2}{x^2+1}=2-\dfrac{2}{x^2+1}}.
+
+\fmm{\displaystyle\int\left(2-\frac{2}{1+x^2}\right)dx=2x-2\arctan x+C=2(x-\arctan x)+C}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Integrales casi inmediatas (forma compuesta)}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Forma compuesta: si aparece una función $u$ y su derivada $u'$}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{7.2cm}>{\raggedright\arraybackslash}X}\toprule
+$\displaystyle\int u'\,u^n\,dx=\frac{u^{n+1}}{n+1}+C$ & $\displaystyle\int\frac{u'}{u}\,dx=\ln|u|+C$\\[3pt]
+$\displaystyle\int u'\,e^u\,dx=e^u+C$ & $\displaystyle\int u'\,a^u\,dx=\frac{a^u}{\ln a}+C$\\[3pt]
+$\displaystyle\int u'\sin u\,dx=-\cos u+C$ & $\displaystyle\int u'\cos u\,dx=\sin u+C$\\[3pt]
+$\displaystyle\int\frac{u'}{\cos^2u}\,dx=\tan u+C$ & $\displaystyle\int\frac{u'}{2\sqrt u}\,dx=\sqrt u+C$\\[3pt]
+$\displaystyle\int\frac{u'}{1+u^2}\,dx=\arctan u+C$ & $\displaystyle\int\frac{u'}{\sqrt{1-u^2}}\,dx=\arcsin u+C$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+Si a la integral solo le \textbf{falta una constante} para tener exactamente \fmm{u'}, la multiplicamos y la dividimos: \fmm{\int\sin3x\,dx=\frac13\int3\sin3x\,dx=-\frac13\cos3x+C}. Si falta una \fmm{x} o una función, no podemos hacerlo así (hace falta otro método). Casos que conviene conocer: \fmm{\int\tan x\,dx=-\ln|\cos x|+C} y \fmm{\int\frac{dx}{a^2+x^2}=\frac1a\arctan\frac xa+C}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\int(2x+1)^3dx=\frac12\int2(2x+1)^3dx=\frac{(2x+1)^4}{8}+C}; \fmm{\quad\displaystyle\int\frac{x}{x^2+1}\,dx=\frac12\int\frac{2x}{x^2+1}\,dx=\frac12\ln\left(x^2+1\right)+C}
+\item \fmpau{PAU Galícia 2023}\fmm{\displaystyle\int\sin^5x\cos x\,dx=\frac{\sin^6x}{6}+C} y \fmm{\displaystyle\int\frac{\ln x}{x}\,dx=\frac{\ln^2x}{2}+C} (tipo \fmm{u^n\,u'}).
+\item \fmpau{PAU Navarra 2018}\fmm{\displaystyle\int e^{\cos3x}\sin3x\,dx} y \fmm{\displaystyle\int\frac{\sin2x}{1+\cos^2(2x)}\,dx}
+
+\fmm{u=\cos3x}, \fmm{u'=-3\sin3x}: \fmm{\ \displaystyle-\frac13\int-3\sin3x\,e^{\cos3x}\,dx=-\frac{e^{\cos3x}}{3}+C}.
+
+\fmm{u=\cos2x}, \fmm{u'=-2\sin2x}: \fmm{\ \displaystyle-\frac12\int\frac{-2\sin2x}{1+\cos^2 2x}\,dx=-\frac12\arctan(\cos2x)+C}.
+\item \fmpau{PAU Aragó 2025}Si \fmm{f(x)=2+\sin x\cos x}, calcula \fmm{f'} y \fmm{\displaystyle\int\frac{\cos^2x-\sin^2x}{2+\sin x\cos x}\,dx}.
+
+\fmm{f'(x)=\cos x\cos x+\sin x(-\sin x)=\cos^2x-\sin^2x}.
+
+Es del tipo \fmm{\frac{u'}{u}}: \fmm{\ln(2+\sin x\cos x)+C} (el logaritmo no necesita valor absoluto: \fmm{2+\sin x\cos x\gt0}).
+\item \fmpau{PAU Canàries 2022}\fmm{\displaystyle\int\frac{x+4}{x^2+4}\,dx}
+
+Separamos: \fmm{\displaystyle\int\frac{x}{x^2+4}\,dx+\int\frac{4}{x^2+4}\,dx=\frac12\ln\left(x^2+4\right)+\int\frac{1}{1+\left(\frac x2\right)^2}\,dx}.
+
+\fmm{=\dfrac12\ln\left(x^2+4\right)+2\arctan\dfrac x2+C}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Integración por cambio de variable}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método}
+\begin{enumerate}
+\item Elegimos el cambio \fmm{t=g(x)} (o \fmm{x=h(t)}) y calculamos el diferencial: \fmm{dt=g'(x)\,dx}.
+\item Sustituimos: toda la integral debe quedar en función de \fmm{t} (sin ninguna \fmm{x}).
+\item Integramos en \fmm{t} y \textbf{deshacemos el cambio}. En una integral definida, también podemos cambiar los límites y no hace falta deshacerlo.
+\end{enumerate}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Si aparece\dots{}} & \textbf{Cambio habitual}\\\midrule
+$\sqrt{ax+b}$, $\sqrt[n]{x}$ & $t=\sqrt{ax+b}$, $\ x=t^n$ (para varias raíces, $n$ = m.c.m. de los índices)\\[3pt]
+$e^x$ en un cociente & $t=e^x$, $\ dx=\frac{dt}{t}$\\[3pt]
+$\ln x$ y $\frac1x$ & $t=\ln x$\\[3pt]
+$\sqrt{1-x^2}$ & $x=\sin t$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Andalusia 2022}\fmm{\displaystyle\int_3^8\frac{dx}{\sqrt{1+x}-1}} (cambio \fmm{t=\sqrt{1+x}-1})
+
+\fmm{x=(t+1)^2-1\Rightarrow dx=2(t+1)\,dt}. Límites: \fmm{x=3\Rightarrow t=1}; \fmm{x=8\Rightarrow t=2}.
+
+\fmm{\displaystyle\int_1^2\frac{2(t+1)}{t}\,dt=2\int_1^2\left(1+\frac1t\right)dt=2\big[t+\ln t\big]_1^2=2+2\ln2}.
+\item \fmpau{PAU Astúries 2019}\fmm{\displaystyle\int\frac{2}{2+e^x}\,dx} con \fmm{t=e^x}
+
+\fmm{dx=\frac{dt}{t}}: \fmm{\displaystyle\int\frac{2\,dt}{t(2+t)}=\int\left(\frac1t-\frac{1}{t+2}\right)dt} (fracciones simples, 9.6).
+
+\fmm{=\ln t-\ln(t+2)+C=x-\ln\left(2+e^x\right)+C}.
+\item \fmpau{PAU Andalusia 2026}Halla la primitiva de \fmm{f(x)=\dfrac{8e^x-4e^{2x}}{1+e^x}} cuya gráfica tiene por tangente \fmm{y=2x+12\ln2} en \fmm{x=0} (cambio \fmm{e^x=t}).
+
+\fmm{\displaystyle\int\frac{8t-4t^2}{1+t}\cdot\frac{dt}{t}=\int\frac{8-4t}{1+t}\,dt=\int\left(-4+\frac{12}{1+t}\right)dt=-4t+12\ln(1+t)}.
+
+\fmm{F(x)=12\ln\left(1+e^x\right)-4e^x+C}. La pendiente ya cuadra (\fmm{f(0)=2}); el punto: \fmm{F(0)=12\ln2-4+C=12\ln2\Rightarrow C=4}.
+\item \fmpau{PAU Navarra 2022}\fmm{\displaystyle\int\frac{dx}{2x\sqrt{x-1}}}
+
+\fmm{t=\sqrt{x-1}\Rightarrow x=t^2+1,\ dx=2t\,dt}: \fmm{\ \displaystyle\int\frac{2t\,dt}{2\left(t^2+1\right)t}=\int\frac{dt}{1+t^2}=\arctan t+C=\arctan\sqrt{x-1}+C}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Integración por partes}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmula}
+Viene de la derivada de un producto, \fmm{(uv)'=u'v+uv'}:
+
+\fmdisp{\int u\,dv=u\,v-\int v\,du}
+
+Se usa para productos de funciones de distinto tipo. Elegimos como \fmm{u} la función que se simplifica al derivarla, y como \fmm{dv} la parte que sabemos integrar. Una regla para recordar el orden de preferencia para \fmm{u} es \textbf{LIATE}:
+
+\begin{center} \fmchip{Logaritmos}\ {\color{fmaccent}$\rightarrow$}\ \fmchip{Irracionales}\ {\color{fmaccent}$\rightarrow$}\ \fmchip{Algebraicas}\ {\color{fmaccent}$\rightarrow$}\ \fmchip{Trigonométricas}\ {\color{fmaccent}$\rightarrow$}\ \fmchip{Exponenciales}\end{center}
+
+\begin{itemize}
+\item \fmm{\int\ln x\,dx}, \fmm{\int\arctan x\,dx}: tomamos \fmm{u=\ln x} (o \fmm{\arctan x}) y \fmm{dv=dx}.
+\item Polinomio de grado \fmm{n} por \fmm{e^{ax}}, \fmm{\sin ax} o \fmm{\cos ax}: \fmm{u=} polinomio; hay que aplicar partes \fmm{n} veces.
+\item \textbf{Integrales cíclicas} (\fmm{e^{ax}\sin bx}, \fmm{e^{ax}\cos bx}): después de dos veces vuelve a salir la integral inicial \fmm{I} y la despejamos como si fuera una ecuación.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Aragó 2022}\fmm{\displaystyle\int e^{-x}\left(x^2-1\right)dx}
+
+\fmm{u=x^2-1,\ dv=e^{-x}dx\Rightarrow du=2x\,dx,\ v=-e^{-x}}: \fmm{\ \displaystyle I=-\left(x^2-1\right)e^{-x}+\int2xe^{-x}\,dx}.
+
+Otra vez: \fmm{u=2x,\ dv=e^{-x}dx}: \fmm{\displaystyle\int2xe^{-x}dx=-2xe^{-x}+\int2e^{-x}dx=-2xe^{-x}-2e^{-x}}.
+
+\fmm{I=-e^{-x}\left(x^2-1+2x+2\right)+C=-(x+1)^2e^{-x}+C}.
+\item \fmpau{PAU Extremadura 2021}\fmm{\displaystyle\int\ln^2x\,dx}
+
+\fmm{u=\ln^2x,\ dv=dx\Rightarrow du=\frac{2\ln x}{x}dx,\ v=x}: \fmm{\ \displaystyle\int\ln^2x\,dx=x\ln^2x-2\int\ln x\,dx}.
+
+\fmm{=x\ln^2x-2(x\ln x-x)+C=x\ln^2x-2x\ln x+2x+C}.
+\item \fmpau{PAU Andalusia 2024}\fmm{\displaystyle\int_0^{\pi/2}e^x\cos x\,dx} (cíclica)
+
+\fmm{I=\int e^x\cos x\,dx}. \fmm{u=e^x}, \fmm{dv=\cos x\,dx}: \fmm{I=e^x\sin x-\int e^x\sin x\,dx}.
+
+\fmm{u=e^x}, \fmm{dv=\sin x\,dx}: \fmm{\int e^x\sin x\,dx=-e^x\cos x+I}. Por tanto \fmm{I=e^x\sin x+e^x\cos x-I\Rightarrow I=\frac{e^x(\sin x+\cos x)}{2}}.
+
+\fmm{\displaystyle\Big[\frac{e^x(\sin x+\cos x)}{2}\Big]_0^{\pi/2}=\frac{e^{\pi/2}}{2}-\frac12=\frac{e^{\pi/2}-1}{2}}.
+\item \fmpau{PAU País Basc 2025}\fmm{\displaystyle\int2x\cos(2x+5)\,dx=x\sin(2x+5)-\int\sin(2x+5)\,dx=x\sin(2x+5)+\frac12\cos(2x+5)+C} (\fmm{u=x}, \fmm{dv=2\cos(2x+5)\,dx}).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Integración de funciones racionales}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método para $\displaystyle\int\frac{P(x)}{Q(x)}\,dx$}
+\begin{enumerate}
+\item Miramos si es casi inmediata: si el numerador es (un múltiplo de) la derivada del denominador, \fmm{\int\frac{u'}{u}=\ln|u|}.
+\item Si grado \fmm{P\geq} grado \fmm{Q}, \textbf{dividimos}: \fmm{\frac PQ=C(x)+\frac{R(x)}{Q(x)}}, con grado \fmm{R\lt} grado \fmm{Q}.
+\item \textbf{Factorizamos} \fmm{Q} (Ruffini) y descomponemos \fmm{\frac RQ} en \textbf{fracciones simples}:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Factor de $Q$} & \textbf{Fracciones} & \textbf{Integral}\\\midrule
+$x-a$ (raíz simple) & $\dfrac{A}{x-a}$ & $A\ln|x-a|$\\[5pt]
+$(x-a)^2$ (raíz doble) & $\dfrac{A}{x-a}+\dfrac{B}{(x-a)^2}$ & $A\ln|x-a|-\dfrac{B}{x-a}$\\[5pt]
+
+$x^2+px+q$ sin raíces & $\dfrac{Mx+N}{x^2+px+q}$ & $\ln$ + $\arctan$\\[5pt]
+\bottomrule\end{tabularx}\end{center}
+\item Calculamos los coeficientes: igualamos numeradores y damos a \fmm{x} los valores de las raíces (y otros valores si hace falta), o identificamos coeficientes.
+\end{enumerate}
+
+Para el factor de segundo grado, completamos el cuadrado: \fmm{\displaystyle\int\frac{dx}{(x+m)^2+k^2}=\frac1k\arctan\frac{x+m}{k}+C}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Extremadura 2023}\fmm{\displaystyle\int\frac{17-x}{x^2+x-6}\,dx} (raíces simples)
+
+\fmm{x^2+x-6=(x-2)(x+3)}: \fmm{\ \dfrac{17-x}{(x-2)(x+3)}=\dfrac{A}{x-2}+\dfrac{B}{x+3}\Rightarrow17-x=A(x+3)+B(x-2)}.
+
+\fmm{x=2}: \fmm{15=5A\Rightarrow A=3}. \fmm{\ x=-3}: \fmm{20=-5B\Rightarrow B=-4}.
+
+\fmm{\displaystyle\int\left(\frac{3}{x-2}-\frac{4}{x+3}\right)dx=3\ln|x-2|-4\ln|x+3|+C}.
+\item \fmpau{PAU País Basc 2022}\fmm{\displaystyle\int\frac{7x+13}{(x+1)\left(x^2-x-2\right)}\,dx} (raíz doble)
+
+\fmm{(x+1)\left(x^2-x-2\right)=(x+1)^2(x-2)}: \fmm{\ \dfrac{7x+13}{(x+1)^2(x-2)}=\dfrac{A}{x-2}+\dfrac{B}{x+1}+\dfrac{C}{(x+1)^2}}.
+
+\fmm{7x+13=A(x+1)^2+B(x+1)(x-2)+C(x-2)}. \fmm{x=2}: \fmm{27=9A\Rightarrow A=3}; \fmm{x=-1}: \fmm{6=-3C\Rightarrow C=-2}; \fmm{x=0}: \fmm{13=3-2B+4\Rightarrow B=-3}.
+
+\fmm{\displaystyle\int=3\ln|x-2|-3\ln|x+1|+\frac{2}{x+1}+C}.
+\newpage
+\item \fmm{\displaystyle\int\frac{3x+1}{x^2+2x+5}\,dx} (denominador sin raíces reales)
+
+Hacemos aparecer la derivada del denominador, \fmm{2x+2}: \fmm{3x+1=\frac32(2x+2)-2}.
+
+\fmm{\displaystyle\frac32\int\frac{2x+2}{x^2+2x+5}\,dx-2\int\frac{dx}{(x+1)^2+4}=\frac32\ln\left(x^2+2x+5\right)-\arctan\frac{x+1}{2}+C}.
+\item \fmpau{PAU Andalusia 2022}La primitiva de \fmm{f(x)=\dfrac{x^3}{x^2-2x+1}} que pasa por \fmm{(2,6)} (grado del numerador mayor).
+
+División: \fmm{\dfrac{x^3}{(x-1)^2}=x+2+\dfrac{3x-2}{(x-1)^2}=x+2+\dfrac{3}{x-1}+\dfrac{1}{(x-1)^2}}.
+
+\fmm{F(x)=\dfrac{x^2}{2}+2x+3\ln|x-1|-\dfrac{1}{x-1}+C}; \fmm{F(2)=2+4-1+C=6\Rightarrow C=1}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{La integral definida y la regla de Barrow}\hypertarget{sec7}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Integral definida}
+Si \fmm{f} es continua en \fmm{[a,b]}, dividimos el intervalo en \fmm{n} trozos de anchura \fmm{\Delta x=\frac{b-a}{n}} y sumamos las áreas con signo de los rectángulos \fmm{f(x_i)\,\Delta x}. Cuando \fmm{n\to\infty}, estas \textbf{sumas de Riemann} tienden a un mismo número, la \textbf{integral definida} \fmm{\int_a^bf(x)\,dx}.
+
+\textbf{Significado geométrico}: si \fmm{f\geq0}, es el área entre la gráfica, el eje OX y las rectas \fmm{x=a}, \fmm{x=b}. Las partes de debajo del eje cuentan \textbf{en negativo}.
+
+\textbf{Propiedades}: \fmm{\int_a^af=0}; \fmm{\int_b^af=-\int_a^bf}; \fmm{\int_a^bf=\int_a^cf+\int_c^bf}; linealidad; si \fmm{f\leq g} en \fmm{[a,b]}, \fmm{\int_a^bf\leq\int_a^bg}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Regla de Barrow}
+Si \fmm{f} es continua en \fmm{[a,b]} y \fmm{F} es una primitiva suya:
+
+\fmdisp{\int_a^bf(x)\,dx=\Big[F(x)\Big]_a^b=F(b)-F(a).}
+
+La constante \fmm{C} se cancela. Cuidado: \fmm{f} debe ser continua en todo \fmm{[a,b]} (\fmm{\int_{-1}^1\frac{dx}{x^2}} no se puede hacer con Barrow).
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Castella i Lleó 2024}\fmm{\displaystyle\int_0^2e^{-x}(x-1)\,dx}
+
+Por partes (\fmm{u=x-1}, \fmm{dv=e^{-x}dx}): \fmm{\int e^{-x}(x-1)\,dx=-(x-1)e^{-x}-e^{-x}=-xe^{-x}}.
+
+\fmm{\Big[-xe^{-x}\Big]_0^2=-2e^{-2}-0=-\dfrac{2}{e^2}}.
+\newpage
+\item \fmpau{PAU Andalusia 2025}Calcula \fmm{k} para que \fmm{\displaystyle\int_1^3e^{x-k}(x-2)\,dx=2}.
+
+\fmm{e^{-k}\int(x-2)e^x\,dx=e^{-k}(x-3)e^x} (por partes). \fmm{\ e^{-k}\Big[(x-3)e^x\Big]_1^3=e^{-k}\left(0+2e\right)=2e^{1-k}}.
+
+\fmm{2e^{1-k}=2\Rightarrow k=1}.
+\item \fmpau{PAU Madrid 2026}Halla \fmm{a} si \fmm{\displaystyle\int_0^{\pi/3}(x-a)\sin(3x)\,dx=\frac{2\pi}{9}}.
+
+\fmm{\int(x-a)\sin3x\,dx=-\frac{(x-a)\cos3x}{3}+\frac{\sin3x}{9}}. Entre 0 y \fmm{\frac\pi3}: \fmm{\frac{\frac\pi3-a}{3}-\frac{a}{3}=\frac\pi9-\frac{2a}{3}}.
+
+\fmm{\frac\pi9-\frac{2a}3=\frac{2\pi}9\Rightarrow a=-\frac\pi6}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Teorema fundamental del cálculo y teorema del valor medio}\hypertarget{sec8}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Función integral y teorema fundamental}
+Si \fmm{f} es continua, la \textbf{función integral} \fmm{F(x)=\displaystyle\int_a^xf(t)\,dt} (el área con signo acumulada desde \fmm{a} hasta \fmm{x}) es derivable y
+
+\fmdisp{F'(x)=f(x)\qquad\text{y, con la regla de la cadena,}\qquad\frac{d}{dx}\int_a^{g(x)}f(t)\,dt=f\big(g(x)\big)\,g'(x).}
+
+Por tanto, toda función continua tiene primitivas (aunque no las podamos escribir con funciones elementales, como \fmm{\int e^{-t^2}dt} o \fmm{\int\sin t^2\,dt}), y de aquí sale la regla de Barrow. Con \fmm{F'=f} podemos estudiar la monotonía y los extremos de \fmm{F}, y calcular límites con L'Hôpital.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Teorema del valor medio del cálculo integral}
+Si \fmm{f} es continua en \fmm{[a,b]}, existe \fmm{c\in[a,b]} tal que \fmm{\displaystyle\int_a^bf(x)\,dx=f(c)\,(b-a)}: el área es la de un rectángulo de base \fmm{b-a} y altura \fmm{f(c)}, el \textbf{valor medio} de \fmm{f}.
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Aragó 2026}\fmm{F(x)} es la primitiva de \fmm{f(x)=\sin\left(x^2\right)} con \fmm{F(0)=0}. ¿Cuál es la derivada de \fmm{F}? Calcula \fmm{\displaystyle\lim_{x\to0}\frac{F(x)}{x^3}}.
+
+\fmm{F(x)=\int_0^x\sin t^2\,dt\Rightarrow F'(x)=\sin\left(x^2\right)}.
+
+\fmm{\left[\frac00\right]\overset{\text{L'H}}{=}\displaystyle\lim_{x\to0}\frac{\sin x^2}{3x^2}=\frac13}.
+\item Extremos de \fmm{F(x)=\displaystyle\int_0^x\left(t^2-1\right)e^{-t}\,dt}
+
+\fmm{F'(x)=\left(x^2-1\right)e^{-x}=0\Leftrightarrow x=\pm1}. \fmm{F'\gt0} si \fmm{|x|\gt1} y \fmm{F'\lt0} en \fmm{(-1,1)}: máximo en \fmm{x=-1} y mínimo en \fmm{x=1}.
+\item Deriva \fmm{G(x)=\displaystyle\int_1^{x^2}\ln t\,dt} \fmm{(x\gt0)}.
+
+\fmm{G'(x)=\ln\left(x^2\right)\cdot2x=4x\ln x}.
+\item \fmpau{PAU Castella-la Manxa 2022}Halla el punto que asegura el teorema del valor medio del cálculo integral para \fmm{f(x)=\frac{3}{x^2}} en \fmm{[1,3]}.
+
+\fmm{\displaystyle\int_1^3\frac3{x^2}\,dx=\Big[-\frac3x\Big]_1^3=-1+3=2=f(c)\cdot2\Rightarrow\frac{3}{c^2}=1\Rightarrow c=\sqrt3\in[1,3]}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Área entre una curva y el eje OX}\hypertarget{sec9}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método}
+\begin{enumerate}
+\item Buscamos los \textbf{cortes con OX}: \fmm{f(x)=0}. Si el recinto es cerrado por la curva y el eje, los extremos son el primer y el último corte; si nos dan las rectas \fmm{x=a}, \fmm{x=b}, añadimos los cortes que hay en medio.
+\item Integramos en cada trozo (en cada uno \fmm{f} no cambia de signo) y \textbf{sumamos los valores absolutos}: \fmm{A=\left|\int_{x_0}^{x_1}f\right|+\left|\int_{x_1}^{x_2}f\right|+\dots}
+\item Hacemos siempre un esbozo del recinto: evita errores y es parte de la puntuación de la PAU. Aprovechamos las simetrías (si \fmm{f} es impar, \fmm{\int_{-a}^af=0}, pero el área no).
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU Cantàbria 2023}Área del recinto limitado por \fmm{f(x)=\sin x} y el eje OX para \fmm{x\in[0,2\pi]}.
+
+Cortes: 0, \fmm{\pi}, \fmm{2\pi}. \fmm{\int_0^\pi\sin x\,dx=\big[-\cos x\big]_0^\pi=2}, \fmm{\ \int_\pi^{2\pi}\sin x\,dx=-2}.
+
+\fmm{A=2+|-2|=4\ \text{u}^2} (¡y no \fmm{\int_0^{2\pi}\sin x\,dx=0}!).
+\item \fmpau{PAU Castella-la Manxa 2020}Área del recinto limitado por \fmm{g(x)=-x^3+2x^2+3x} y el eje de abscisas.
+
+\fmm{-x\left(x^2-2x-3\right)=-x(x+1)(x-3)}: cortes \fmm{-1}, \fmm{0}, \fmm{3}. \fmm{\ G(x)=-\frac{x^4}{4}+\frac{2x^3}{3}+\frac{3x^2}{2}}.
+
+\fmm{\int_{-1}^0g=G(0)-G(-1)=-\frac{7}{12}}; \fmm{\ \int_0^3g=G(3)=\frac{45}{4}}.
+
+\fmm{A=\frac{7}{12}+\frac{45}{4}=\frac{142}{12}=\frac{71}{6}\ \text{u}^2}.
+\item \fmpau{PAU Castella-la Manxa 2022}¿Para qué valores de \fmm{a} la curva \fmm{f(x)=a-x^2} corta el eje en dos puntos? Halla \fmm{a} para que el área del recinto sea 36.
+
+Hace falta \fmm{a\gt0}; cortes \fmm{\pm\sqrt a}. Por simetría: \fmm{A=2\int_0^{\sqrt a}\left(a-x^2\right)dx=2\left(a\sqrt a-\frac{a\sqrt a}{3}\right)=\frac43a^{3/2}}.
+
+\fmm{\frac43a^{3/2}=36\Rightarrow a^{3/2}=27\Rightarrow a=9}.
+\item \fmpau{PAU Catalunya 2021}Área entre \fmm{f(x)=\frac{\ln x}{x}}, el eje OX y las rectas \fmm{x=1}, \fmm{x=e}.
+
+En \fmm{[1,e]}, \fmm{f\geq0}: \fmm{A=\displaystyle\int_1^e\frac{\ln x}{x}\,dx=\Big[\frac{\ln^2x}{2}\Big]_1^e=\frac12\ \text{u}^2}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Área entre dos curvas}\hypertarget{sec10}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método}
+El área entre \fmm{f} y \fmm{g} en \fmm{[a,b]} es \fmm{\displaystyle\int_a^b\left|f(x)-g(x)\right|dx}: trabajamos con la función diferencia \fmm{h=f-g} como si fuera una curva y el eje OX.
+
+\begin{enumerate}
+\item Puntos de corte: \fmm{f(x)=g(x)\Leftrightarrow h(x)=0}.
+\item En cada trozo, integramos \fmm{h} y tomamos su valor absoluto (o restamos «la de arriba menos la de abajo»). La posición de las curvas no importa si sumamos valores absolutos, y no hace falta que estén por encima del eje OX.
+\item Si el recinto lo limitan tres o más curvas (o rectas), lo dividimos con rectas verticales por los puntos donde cambia la curva de arriba o la de abajo.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos (PAU)}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU País Basc 2020}Representa la región finita limitada por \fmm{y=3-x^2} e \fmm{y=2x} y calcula su área.
+
+\fmm{3-x^2=2x\Leftrightarrow x^2+2x-3=0\Leftrightarrow x=-3,\ x=1}. Entre medias, la parábola va por encima (\fmm{x=0}: \fmm{3\gt0}).
+
+\fmm{A=\displaystyle\int_{-3}^1\left(3-x^2-2x\right)dx=\Big[3x-\frac{x^3}{3}-x^2\Big]_{-3}^1=\frac53+9=\frac{32}{3}\ \text{u}^2}.
+\item \fmpau{PAU València 2024}Si \fmm{h(x)=ax+x^2} tiene un mínimo relativo en \fmm{x=-\frac34}, halla \fmm{a} y el área comprendida entre \fmm{y=h(x)} e \fmm{y=h'(x)}.
+
+\fmm{h'(x)=a+2x=0} en \fmm{x=-\frac34\Rightarrow a=\frac32}. \fmm{\ h(x)=x^2+\frac32x}, \fmm{h'(x)=2x+\frac32}.
+
+\fmm{h-h'=x^2-\frac x2-\frac32=0\Leftrightarrow x=-1,\ x=\frac32}.
+
+\fmm{A=\displaystyle\int_{-1}^{3/2}\left(\frac32+\frac x2-x^2\right)dx=\frac{125}{48}\approx2{,}6\ \text{u}^2}.
+\item \fmpau{PAU Catalunya 2021}Dibuja \fmm{y=\frac4x} y la recta \fmm{4x+y=8}, y calcula el área limitada por estas dos gráficas, el eje de abscisas y la recta \fmm{x=3}.
+
+\fmm{\frac4x=8-4x\Leftrightarrow(x-1)^2=0}: la recta es tangente a la hipérbola en \fmm{(1,4)} y corta el eje en \fmm{x=2}.
+
+Dividimos en \fmm{x=2}:\\[2ex]
+ \fmm{A=\displaystyle\int_1^2\left(\frac4x-8+4x\right)dx+\int_2^3\frac4x\,dx=(4\ln2-2)+4\ln\frac32=4\ln3-2\approx2{,}39\ \text{u}^2}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

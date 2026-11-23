@@ -963,6 +963,21 @@ if N == 8:  # títol de dues línies i text llarg: tot el text de la franja puja
     for k, w in ((5, '5.8cm' if ES else '5.2cm'), (2, '7.2cm'), (0, '6.2cm')):  # en castellà, la 1a fila de la taula de 8.12 no es parteix
         doc = doc[:pos[k]] + TB.replace('3.2cm', w) + doc[pos[k] + len(TB):]
 
+if N == 9:  # retocs de l'autor (Desktop, revisió 2026-11-23)
+    retoc('\\begin{center}\\fmchip{Logaritm', '\\begin{center} \\fmchip{Logaritm')
+    for a in (r'\$\\displaystyle\\int\\sin x\\,dx=-\\cos x\+C\$', r'\$\\displaystyle\\int\\frac\{dx\}\{\\cos\^2x\}', r'\$\\displaystyle\\int\\frac\{dx\}\{1\+x\^2\}=\\arctan',
+              r'\$x-a\$ \(', r'\$\(x-a\)\^2\$ \('):
+        retoc(r'(\n' + a + r'[^\n]*?)\\\\\[3pt\]\n', r'\1\\\\[5pt]\n', True)
+    retoc(r'(\n)(\$x\^2\+px\+q\$ [^\n]*?)\\\\\[3pt\]\n', r'\1\n\2\\\\[5pt]\n', True)
+    retoc(r'\n(\\item \\fmm\{\\displaystyle\\int\\frac\{3x\+1\}\{x\^2\+2x\+5\})', r'\n\\newpage\n\1', True)
+    retoc(r'\n(\\item \\fmpau\{PAU Andal[^}]*2025\}[^\n]*?\\int_1\^3e\^\{x-k\})', r'\n\\newpage\n\1', True)
+    retoc(r'(\\fmm\{x=2\}:) (\\fmm\{A=\\displaystyle\\int_1\^2\\left\(\\frac4x)', r'\1\\\\[2ex]\n \2', True)
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 4, len(pos)
+    for k, w in ((3, '4.2cm'), (1, '7.2cm'), (0, '7.2cm')):
+        doc = doc[:pos[k]] + TB.replace('3.2cm', w) + doc[pos[k] + len(TB):]
+
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)
 print(os.path.relpath(out, HERE), len(secs), 'apartats,', len(doc), 'caràcters')
