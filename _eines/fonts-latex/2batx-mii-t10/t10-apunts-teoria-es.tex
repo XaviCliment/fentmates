@@ -1,0 +1,745 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 10: Probabilidad. 2.º de Bachillerato MII},pdfsubject={Matemáticas II},pdfkeywords={probabilidad, espacio muestral, sucesos, regla de Laplace, tabla de contingencia, probabilidad condicionada, sucesos independientes, diagrama de árbol, probabilidad total, teorema de Bayes, distribución binomial, distribución normal}}
+
+% colors de la web (FentMates, bloque de Probabilidad: morado; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{684E88}
+\definecolor{fmgreenl}{HTML}{8064A1}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{10.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=4pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \fill (20,60) circle[radius=5];
+  \draw (20,60)--(80,26) (20,60)--(80,94) (80,26)--(130,12) (80,26)--(130,40) (80,94)--(130,80) (80,94)--(130,108);
+  \fill (80,26) circle[radius=4] (80,94) circle[radius=4] (130,12) circle[radius=3.5] (130,40) circle[radius=3.5] (130,80) circle[radius=3.5] (130,108) circle[radius=3.5];
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont\itshape] at (38,36) {0,6};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont\itshape] at (38,92) {0,4};
+  \begin{scope}[rotate around={-12:(190,58)}]
+    \draw[rounded corners=0.74cm] (162,30) rectangle (218,86);
+    \fill (176,44) circle[radius=4.5] (190,58) circle[radius=4.5] (204,72) circle[radius=4.5];
+  \end{scope}
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato MII · Unidad 10: Probabilidad}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato · Matemáticas II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 10} · Probabilidad\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: experimentos aleatorios, espacio muestral y sucesos, operaciones con sucesos y leyes de De Morgan, la probabilidad y la regla de Laplace con técnicas de recuento (variaciones, permutaciones y combinaciones), las fórmulas de la probabilidad (contrario, unión, intersección, diferencia), el cálculo de probabilidades cuando conocemos el espacio muestral y cuando no (diagramas de Venn y tablas de contingencia), la probabilidad condicionada, la independencia de sucesos, los experimentos compuestos con extracciones con y sin reemplazamiento, los teoremas de la probabilidad total y de Bayes, las variables aleatorias discretas y la distribución binomial.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}10.1}\ \ Espacio muestral y sucesos}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}10.2}\ \ Operaciones con sucesos}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}10.3}\ \ La probabilidad}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}10.4}\ \ Regla de Laplace. Recuento}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}10.5}\ \ Fórmulas de la probabilidad}}\\[3pt]
+\hyperlink{sec6}{\textbf{\color{fmgreen}10.6}\ \ Cálculo de prob. con el espacio muestral y sin él}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}10.7}\ \ Probabilidad condicionada}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}10.8}\ \ Sucesos independientes}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}10.9}\ \ Experimentos compuestos. Extracciones}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}10.10}\ \ Probabilidad total y teorema de Bayes}}\\[3pt]
+\mbox{\hyperlink{sec11}{\textbf{\color{fmgreen}10.11}\ \ Variables aleatorias discretas}}\\[3pt]
+\mbox{\hyperlink{sec12}{\textbf{\color{fmgreen}10.12}\ \ La distribución binomial}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{Experimentos aleatorios. Espacio muestral y sucesos}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Experimento aleatorio}
+Un experimento es \textbf{aleatorio} cuando, aunque lo repitamos en las mismas condiciones, \textbf{no podemos predecir} el resultado que obtendremos, aunque sí conocemos todos los resultados posibles. Por ejemplo: lanzar un dado, sacar una carta de una baraja, elegir al azar una persona de una población y preguntarle si tiene coche\dots{}
+
+En cambio, un experimento es \textbf{determinista} si el resultado se puede predecir: dejar caer una pelota desde 2 m y medir el tiempo que tarda en llegar al suelo.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Espacio muestral y sucesos}
+\begin{itemize}
+\item El \textbf{espacio muestral}, \fmm{E} (o \fmm{\Omega}), es el conjunto de \textbf{todos los resultados posibles} del experimento.
+\item Un \textbf{suceso} es cualquier subconjunto del espacio muestral. Se designa con letras mayúsculas: \fmm{A}, \fmm{B}, \fmm{C}\dots{} Decimos que el suceso \fmm{A} \textbf{ocurre} si el resultado del experimento es uno de los elementos de \fmm{A}.
+\item \textbf{Suceso elemental}: formado por un solo resultado. \textbf{Suceso compuesto}: formado por dos o más resultados.
+\item \textbf{Suceso seguro}: el espacio muestral \fmm{E}, que ocurre siempre. \textbf{Suceso imposible}: el conjunto vacío \fmm{\varnothing}, que no ocurre nunca.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Lanzamos un dado y observamos el resultado. Escribe el espacio muestral y los sucesos \fmm{A=}«salir par», \fmm{B=}«salir más de 4» y \fmm{C=}«salir 7».
+
+\fmm{E=\{1,2,3,4,5,6\}}
+
+\fmm{A=\{2,4,6\}}, \fmm{\ B=\{5,6\}}, \fmm{\ C=\varnothing} (suceso imposible).
+\item Lanzamos tres monedas. Escribe el espacio muestral y el suceso \fmm{A=}«obtener al menos dos caras».
+
+Con un diagrama de árbol (C = cara, + = cruz) obtenemos 8 resultados:
+
+\fmm{E=\{CCC,\ CC{+},\ C{+}C,\ C{+}{+},\ {+}CC,\ {+}C{+},\ {+}{+}C,\ {+}{+}{+}\}}
+
+\fmm{A=\{CCC,\ CC{+},\ C{+}C,\ {+}CC\}}: 4 resultados.
+\item Elegimos al azar un alumno de un instituto y miramos si aprueba Matemáticas y si aprueba Historia. ¿Cuál es el espacio muestral?
+
+Si \fmm{M=}«aprueba Matemáticas» y \fmm{H=}«aprueba Historia», hay 4 posibilidades: aprueba las dos, solo Matemáticas, solo Historia o ninguna. Este es el tipo de espacio muestral que encontraremos en muchos problemas de la PAU, donde \textbf{no} sabemos cuántos alumnos hay de cada tipo sino solo los porcentajes.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Operaciones con sucesos}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Unión, intersección, contrario y diferencia}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Operación} & \textbf{Notación} & \textbf{Ocurre cuando\dots{}} & \textbf{Se lee}\\\midrule
+Unión & $A\cup B$ & ocurre $A$ \textbf{o} $B$ (al menos uno de los dos) & «A o B»\\[3pt]
+Intersección & $A\cap B$ & ocurren $A$ \textbf{y} $B$ a la vez & «A y B»\\[3pt]
+Contrario & $\overline{A}$ o $A^c$ & \textbf{no} ocurre $A$ & «no A»\\[3pt]
+Diferencia & $A-B=A\cap\overline{B}$ & ocurre $A$ pero no $B$ & «solo A»\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{center}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{A\cup B}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{A\cap B}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A}}\par}\end{minipage}\\[8pt]\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{A-B=A\cap\overline{B}}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize Solo uno de los dos\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A}\cap\overline{B}}: ninguno\par}\end{minipage}\end{center}
+
+\begin{fmnote}\fmuline{Traducción del lenguaje}: «al menos uno» \fmm{\to A\cup B}; «ambos», «a la vez» \fmm{\to A\cap B}; «ninguno de los dos», «ni A ni B» \fmm{\to\overline{A}\cap\overline{B}}; «solo A» \fmm{\to A\cap\overline{B}}; «solo uno» \fmm{\to(A\cap\overline{B})\cup(\overline{A}\cap B)}; «como mucho uno», «no ambos» \fmm{\to\overline{A\cap B}}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Sucesos incompatibles}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Dos sucesos son \textbf{incompatibles} (o disjuntos) si \textbf{no pueden ocurrir a la vez}: \fmm{A\cap B=\varnothing}. Si no, son \textbf{compatibles}.
+
+Un suceso y su contrario siempre son incompatibles y, además, entre los dos llenan el espacio muestral: \fmm{A\cup\overline{A}=E}, \fmm{A\cap\overline{A}=\varnothing}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}{\centering \begin{tikzpicture}[x=0.01437cm,y=-0.01437cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (100,108) circle[radius=60];\fill[fmaccent!55!white] (220,108) circle[radius=60];\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (100,108) circle[radius=60] (220,108) circle[radius=60];\node[font=\small\bfseries] at (48.4,57.6) {$A$};\node[font=\small\bfseries] at (271.6,57.6) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize\color{fmmuted}Incompatibles: \fmm{A\cap B=\varnothing}\par}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Leyes de De Morgan}
+
+\fmdisp{\overline{A\cup B}=\overline{A}\cap\overline{B}\qquad\qquad\overline{A\cap B}=\overline{A}\cup\overline{B}}
+
+«No ocurrir ninguno de los dos» es lo mismo que «no ocurrir A \textbf{y} no ocurrir B»; «no ocurrir los dos a la vez» es lo mismo que «no ocurrir A \textbf{o} no ocurrir B». Al hacer el contrario, la unión se convierte en intersección y al revés. Son muy útiles porque en la PAU a menudo dan \fmm{P(\overline{A}\cap\overline{B})} o \fmm{P(\overline{A}\cup\overline{B})}.
+
+\begin{center}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A\cup B}=\overline{A}\cap\overline{B}}\par}\end{minipage}\hspace{0.03\linewidth}\begin{minipage}[t]{0.3\linewidth}\centering {\centering \begin{tikzpicture}[x=0.01375cm,y=-0.01375cm]\fill[fmaccent!55!white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[fmaccent!55!white] (128,108) circle[radius=72];\fill[fmaccent!55!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize \fmm{\overline{A\cap B}=\overline{A}\cup\overline{B}}\par}\end{minipage}\end{center}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En el lanzamiento de un dado, sean \fmm{A=\{2,4,6\}} y \fmm{B=\{4,5,6\}}. Calcula \fmm{A\cup B}, \fmm{A\cap B}, \fmm{\overline{A}}, \fmm{A-B} y comprueba la primera ley de De Morgan.
+
+\fmm{A\cup B=\{2,4,5,6\}}, \fmm{\ A\cap B=\{4,6\}}, \fmm{\ \overline{A}=\{1,3,5\}}, \fmm{\ A-B=\{2\}}
+
+\fmm{\overline{A\cup B}=\{1,3\}} y \fmm{\overline{A}\cap\overline{B}=\{1,3,5\}\cap\{1,2,3\}=\{1,3\}}
+\item Sean \fmm{M=}«aprobar Matemáticas» y \fmm{H=}«aprobar Historia». Expresa con operaciones: (a) aprobar solo Historia; (b) aprobar como mucho una; (c) no aprobar ninguna.
+
+(a) \fmm{H\cap\overline{M}\qquad} (b) \fmm{\overline{M\cap H}=\overline{M}\cup\overline{H}\qquad} (c) \fmm{\overline{M}\cap\overline{H}=\overline{M\cup H}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{La probabilidad. Frecuencia relativa y axiomas}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Frecuencia relativa y ley de los grandes números}
+Si repetimos un experimento \fmm{n} veces y el suceso \fmm{A} ocurre \fmm{n_A} veces, la \textbf{frecuencia relativa} de \fmm{A} es \fmm{f_r(A)=\dfrac{n_A}{n}}.
+
+\textbf{Ley de los grandes números}: cuando el número de repeticiones crece, la frecuencia relativa se estabiliza alrededor de un valor. Ese valor es la \textbf{probabilidad} del suceso, \fmm{P(A)}. Así se estiman muchas probabilidades en la vida real (seguros, encuestas, control de calidad).
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición axiomática (Kolmogórov)}
+Una \textbf{probabilidad} es una función que asigna a cada suceso \fmm{A} un número \fmm{P(A)} y que cumple:
+
+\begin{enumerate}
+\item \fmm{P(A)\geq0} para cualquier suceso \fmm{A}.
+\item \fmm{P(E)=1}.
+\item Si \fmm{A} y \fmm{B} son incompatibles, \fmm{P(A\cup B)=P(A)+P(B)}.
+\end{enumerate}
+
+\begin{fmnote}En consecuencia, \textbf{toda probabilidad está entre 0 y 1}: \fmm{0\leq P(A)\leq1}, con \fmm{P(\varnothing)=0}. Si en un ejercicio te da una probabilidad negativa o mayor que 1, ¡hay un error! Además, la suma de las probabilidades de todos los sucesos elementales es 1.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Un dado está trucado de manera que la probabilidad de obtener un 6 es \fmm{\frac12} y las otras cinco caras tienen la misma probabilidad \fmm{p}. Calcula \fmm{p} y la probabilidad de obtener un número par. \fmpau{PAU}
+
+Las probabilidades de los sucesos elementales suman 1: \fmm{5p+\frac12=1\Rightarrow p=\frac{1}{10}}.
+
+\fmm{P(\text{par})=P(2)+P(4)+P(6)=\frac1{10}+\frac1{10}+\frac12=\frac{7}{10}}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Regla de Laplace. Técnicas de recuento}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Regla de Laplace}
+Si el espacio muestral es finito y \textbf{todos los resultados son igual de probables} (equiprobables), la probabilidad de un suceso \fmm{A} es:
+
+\fmdisp{P(A)=\frac{\text{número de casos favorables a }A}{\text{número de casos posibles}}}
+
+Las palabras «al azar», «moneda equilibrada», «dado no trucado» o «bola elegida al azar» nos indican que podemos aplicarla. Cuidado: \textbf{no} se puede aplicar si los resultados no son equiprobables (un dado trucado, o la suma de dos dados si tomamos \fmm{E=\{2,\dots,12\}}).
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sacamos una carta de una baraja española de 40 cartas (4 palos de 10 cartas: 1--7, sota, caballo y rey). Probabilidad de (a) sacar un oro; (b) sacar una figura; (c) sacar un as o una copa.
+
+(a) \fmm{P=\frac{10}{40}=\frac14\qquad} (b) hay 12 figuras: \fmm{P=\frac{12}{40}=\frac{3}{10}}
+
+(c) 4 ases + 10 copas, pero el as de copas lo hemos contado dos veces: \fmm{4+10-1=13} casos favorables, \fmm{P=\frac{13}{40}}.
+\item Lanzamos dos dados. Probabilidad de que la suma sea 7, y de que al menos uno de los dos sea un 6.
+
+Hay \fmm{6\cdot6=36} parejas equiprobables. Suma 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) \fmm{\Rightarrow P=\frac{6}{36}=\frac16}.
+
+Al menos un 6: 6 parejas con el primer dado igual a 6, 6 con el segundo y (6,6) contada dos veces: \fmm{\frac{11}{36}}. (Más rápido con el contrario: \fmm{1-\frac{25}{36}=\frac{11}{36}}.)
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Técnicas de recuento (combinatoria)}
+Cuando hay muchos casos, no los escribimos todos: los \textbf{contamos}. Si elegimos \fmm{k} elementos de un conjunto de \fmm{n}, nos tenemos que preguntar dos cosas: \textbf{¿importa el orden?} y \textbf{¿se pueden repetir?}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{Fórmula} & \textbf{Ejemplo}\\\midrule
+\textbf{Variaciones} (importa el orden, sin repetición) & $V_{n,k}=n(n-1)\cdots(n-k+1)=\dfrac{n!}{(n-k)!}$ & Podios de 3 corredores entre 8: $V_{8,3}=8\cdot7\cdot6=336$\\[3pt]
+\textbf{Variaciones con repetición} & $VR_{n,k}=n^k$ & Códigos PIN de 4 cifras: $10^4$\\[3pt]
+\textbf{Permutaciones} (ordenarlos todos) & $P_n=n!$ & Formas de sentar a 5 personas en 5 sillas: $5!=120$\\[3pt]
+\textbf{Combinaciones} (no importa el orden) & $C_{n,k}=\dbinom nk=\dfrac{n!}{k!\,(n-k)!}$ & Grupos de 3 alumnos de una clase de 25: $\binom{25}{3}=2300$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}Sacar \fmm{k} bolas \textbf{a la vez} es lo mismo que sacarlas una tras otra sin reemplazamiento: podemos contar con combinaciones o multiplicar a lo largo de un árbol (10.9). Las dos maneras dan el mismo resultado. En la calculadora: \fmm{n!} (tecla \textbf{x!}), \fmm{V_{n,k}} (\textbf{nPr}) y \fmm{C_{n,k}} (\textbf{nCr}).\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos con recuento}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En una clase hay 15 chicas y 10 chicos. Se eligen 3 personas al azar para una comisión. Probabilidad de que sean tres chicas, y de que haya al menos un chico.
+
+Casos posibles: grupos de 3 de 25 (no importa el orden), \fmm{\binom{25}{3}=2300}. Casos favorables: \fmm{\binom{15}{3}=455}.
+
+\fmm{P(3\ \text{chicas})=\frac{455}{2300}=\frac{91}{460}\approx0{,}1978} (con un árbol: \fmm{\frac{15}{25}\cdot\frac{14}{24}\cdot\frac{13}{23}}, lo mismo).
+
+Al menos un chico es el contrario: \fmm{1-\frac{91}{460}=\frac{369}{460}\approx0{,}8022}.
+\item Se elige al azar un código de 4 cifras (de 0000 a 9999). Probabilidad de que todas las cifras sean distintas.
+
+\fmm{P=\dfrac{V_{10,4}}{VR_{10,4}}=\dfrac{10\cdot9\cdot8\cdot7}{10^4}=\dfrac{5040}{10000}=0{,}504}
+\item Cinco amigos, entre ellos Ana y Biel, se sientan al azar en una fila de 5 sillas. Probabilidad de que Ana y Biel queden juntos.
+
+Casos posibles: \fmm{5!=120}. Favorables: «pegamos» a Ana y Biel como si fueran una persona (\fmm{4!} órdenes) y ellos dos se pueden intercambiar (\fmm{2}): \fmm{2\cdot4!=48}.
+
+\fmm{P=\frac{48}{120}=\frac25=0{,}4}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Fórmulas de la probabilidad}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Propiedades de la probabilidad}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Propiedad} & \textbf{Fórmula}\\\midrule
+Suceso contrario & $P(\overline{A})=1-P(A)$\\[3pt]
+Unión (caso general) & $P(A\cup B)=P(A)+P(B)-P(A\cap B)$\\[3pt]
+Unión de sucesos incompatibles & $P(A\cup B)=P(A)+P(B)$\\[3pt]
+Diferencia («solo A») & $P(A\cap\overline{B})=P(A-B)=P(A)-P(A\cap B)$\\[3pt]
+Ninguno de los dos (De Morgan) & $P(\overline{A}\cap\overline{B})=P(\overline{A\cup B})=1-P(A\cup B)$\\[3pt]
+No ambos (De Morgan) & $P(\overline{A}\cup\overline{B})=P(\overline{A\cap B})=1-P(A\cap B)$\\[3pt]
+Solo uno de los dos & $P(A\cup B)-P(A\cap B)=P(A)+P(B)-2P(A\cap B)$\\[3pt]
+Si $A\subset B$ & $P(A)\leq P(B)$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+¿Por qué se resta \fmm{P(A\cap B)} en la unión? Porque, al sumar \fmm{P(A)+P(B)}, la parte común (la intersección) la hemos contado \textbf{dos veces}.
+
+Para tres sucesos: 
+\[\begin{aligned}P(A\cup B\cup C)&=P(A)+P(B)+P(C)-P(A\cap B)\\&\quad-P(A\cap C)-P(B\cap C)+P(A\cap B\cap C)\,.\end{aligned}\]
+
+
+\begin{fmnote}\fmuline{La idea clave}: el diagrama de Venn de dos sucesos tiene \textbf{cuatro regiones} (solo A, A y B, solo B, ninguno). Sus probabilidades suman 1, y \textbf{cualquier} probabilidad que nos pregunten es la suma de algunas de estas regiones. Si conocemos suficientes datos, las podemos calcular todas.\end{fmnote}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sean \fmm{A} y \fmm{B} dos sucesos con \fmm{P(A)=0{,}6}, \fmm{P(B)=0{,}5} y \fmm{P(A\cap B)=0{,}4}. Calcula \fmm{P(A\cup B)}, \fmm{P(\overline{A}\cap\overline{B})}, \fmm{P(\overline{A}\cap B)} y \fmm{P(\overline{A}\cup\overline{B})}. \fmpau{PAU País Vasco 2020}
+
+\fmm{P(A\cup B)=0{,}6+0{,}5-0{,}4=0{,}7}
+
+De Morgan: \fmm{P(\overline{A}\cap\overline{B})=1-P(A\cup B)=0{,}3}
+
+Solo B: \fmm{P(\overline{A}\cap B)=P(B)-P(A\cap B)=0{,}5-0{,}4=0{,}1}
+
+De Morgan: \fmm{P(\overline{A}\cup\overline{B})=1-P(A\cap B)=0{,}6}
+\newpage
+\item Sean \fmm{A} y \fmm{B} con \fmm{P(A\cup B)=0{,}8}, \fmm{P(\overline{A})=0{,}5} y \fmm{P(A\cap B)=0{,}3}. Calcula \fmm{P(B)} y \fmm{P(\overline{A}\cup\overline{B})}. \fmpau{PAU Baleares 2020}
+
+\fmm{P(A)=1-0{,}5=0{,}5}. De la fórmula de la unión: \fmm{0{,}8=0{,}5+P(B)-0{,}3\Rightarrow P(B)=0{,}6}
+
+\fmm{P(\overline{A}\cup\overline{B})=1-P(A\cap B)=0{,}7}
+\item \textbf{Tres sucesos.} En una ciudad, el 30 \% lee el diario A, el 25 \% el B y el 20 \% el C; el 10 \% lee A y B, el 8 \% A y C, el 5 \% B y C, y el 3 \% lee los tres. Probabilidad de que una persona lea algún diario, de que no lea ninguno y de que solo lea A.
+
+\fmm{P(A\cup B\cup C)=0{,}3+0{,}25+0{,}2-0{,}1-0{,}08-0{,}05+0{,}03=0{,}55}
+
+Ninguno: \fmm{P(\overline{A}\cap\overline{B}\cap\overline{C})=1-0{,}55=0{,}45} (De Morgan también vale para tres sucesos).
+
+Solo A: a \fmm{P(A)} le quitamos lo que comparte con B y con C, pero \fmm{A\cap B\cap C} lo hemos quitado dos veces: \fmm{0{,}3-0{,}1-0{,}08+0{,}03=0{,}15}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Cálculo de probabilidades: con el espacio muestral y sin él}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dos situaciones diferentes}
+\par\noindent \begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries Conocemos el espacio muestral}\par
+
+Dados, monedas, cartas, urnas\dots{} Podemos \textbf{contar} los casos. Calculamos las probabilidades con la \textbf{regla de Laplace} (casos favorables / casos posibles), a menudo ayudándonos de una tabla o de un árbol, y podemos comprobarlo con las fórmulas.\end{tcolorbox}\end{minipage}\hfill\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries No conocemos el espacio muestral}\par
+
+Nos dan \textbf{porcentajes} o probabilidades («el 60 \% de los clientes\dots{}»). No podemos contar: tenemos que trabajar con las \textbf{fórmulas}, un \textbf{diagrama de Venn} con las cuatro regiones o una \textbf{tabla de contingencia}.\end{tcolorbox}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Tabla de contingencia}
+Es una tabla de doble entrada con dos sucesos y sus contrarios. En las celdas interiores están las \textbf{intersecciones}, y en los márgenes, las probabilidades de cada suceso. Cada fila y cada columna \textbf{suman} el total del margen, y el total general es 1 (o 100 \%). Con tres datos bien elegidos podemos rellenar toda la tabla.
+
+\begin{center}\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{9pt}\begin{tabular}{l|cc|c}\toprule
+\textbf{} & \textbf{$B$} & \textbf{$\overline{B}$} & \textbf{Total}\\\midrule
+\textbf{$A$} & $P(A\cap B)$ & $P(A\cap\overline{B})$ & \textbf{$P(A)$}\\
+\textbf{$\overline{A}$} & $P(\overline{A}\cap B)$ & $P(\overline{A}\cap\overline{B})$ & \textbf{$P(\overline{A})$}\\
+\midrule\textbf{Total} & \textbf{$P(B)$} & \textbf{$P(\overline{B})$} & \textbf{1}\\
+\bottomrule\end{tabular}\end{center}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Conocemos el espacio muestral.} Lanzamos dos dados. Sean \fmm{A=}«la suma es 8» y \fmm{B=}«los dos dados son iguales». Calcula \fmm{P(A\cup B)}.
+
+\fmm{A=\{(2,6),(3,5),(4,4),(5,3),(6,2)\}\Rightarrow P(A)=\frac{5}{36}}; \fmm{\ B=\{(1,1),\dots,(6,6)\}\Rightarrow P(B)=\frac{6}{36}}
+
+\fmm{A\cap B=\{(4,4)\}\Rightarrow P(A\cap B)=\frac1{36}\Rightarrow P(A\cup B)=\frac{5+6-1}{36}=\frac{10}{36}=\frac{5}{18}}
+
+Comprobación por recuento: \fmm{A\cup B} tiene \fmm{5+6-1=10} parejas.
+\item \textbf{No conocemos el espacio muestral.} En un centro, el 50 \% del alumnado aprueba Historia, el 70 \% aprueba Matemáticas y el 30 \% aprueba ambas. Elegimos un alumno al azar. Calcula la probabilidad de que (a) apruebe solo una de las dos; (b) no apruebe más de una. \fmpau{PAU Andalucía 2025}
+
+Rellenamos la tabla de contingencia (\fmm{H} = aprueba Historia, \fmm{M} = aprueba Matemáticas) a partir de los datos (en negrita) restando:
+
+\begin{center}\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{9pt}\begin{tabular}{l|cc|c}\toprule
+\textbf{} & \textbf{$M$} & \textbf{$\overline{M}$} & \textbf{Total}\\\midrule
+\textbf{$H$} & \cellcolor{fmyellow!45}0,30 & 0,20 & \cellcolor{fmyellow!45}\textbf{0,50}\\
+\textbf{$\overline{H}$} & 0,40 & 0,10 & \textbf{0,50}\\
+\midrule\textbf{Total} & \cellcolor{fmyellow!45}\textbf{0,70} & \textbf{0,30} & \textbf{1}\\
+\bottomrule\end{tabular}\end{center}
+
+(a) \fmm{P(H\cap\overline{M})+P(\overline{H}\cap M)=0{,}2+0{,}4=0{,}6}
+
+(b) «No más de una» es el contrario de «ambas»: \fmm{1-0{,}3=0{,}7}
+\item El 69 \% de los habitantes de una ciudad ve series, el 35 \% películas y el 18 \% no ve ni series ni películas. Probabilidad de que un habitante vea series o películas, y de que vea series pero no películas. \fmpau{PAU Andalucía 2019}
+
+De Morgan: \fmm{P(S\cup F)=1-P(\overline{S}\cap\overline{F})=1-0{,}18=0{,}82}
+
+\fmm{P(S\cap F)=0{,}69+0{,}35-0{,}82=0{,}22\Rightarrow P(S\cap\overline{F})=0{,}69-0{,}22=0{,}47}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Probabilidad condicionada}\hypertarget{sec7}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Probabilidad condicionada}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La probabilidad de \fmm{A} \textbf{sabiendo que} ha ocurrido \fmm{B} (con \fmm{P(B)\gt0}) es:
+
+\fmdisp{P(A\,|\,B)=\frac{P(A\cap B)}{P(B)}}
+
+Se lee «probabilidad de \fmm{A} condicionada a \fmm{B}» (también se escribe \fmm{P(A/B)}). La información «ha ocurrido \fmm{B}» \textbf{reduce el espacio muestral} a \fmm{B}: ahora solo miramos qué parte de \fmm{B} es también \fmm{A}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}{\centering \begin{tikzpicture}[x=0.01437cm,y=-0.01437cm]\fill[white,rounded corners=0.17cm] (10,10) rectangle (310,200);\fill[white] (128,108) circle[radius=72];\fill[fmteal!35!white] (192,108) circle[radius=72];\begin{scope}\clip (128,108) circle[radius=72];\fill[fmaccent!60!white] (192,108) circle[radius=72];\end{scope}\draw[fmmuted,line width=0.8pt,rounded corners=0.17cm] (10,10) rectangle (310,200);\draw[black!85,line width=0.9pt] (128,108) circle[radius=72] (192,108) circle[radius=72];\node[font=\small\bfseries] at (66.1,47.5) {$A$};\node[font=\small\bfseries] at (253.9,47.5) {$B$};\node[font=\scriptsize,text=fmmuted] at (26,26) {$E$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize\color{fmmuted}El espacio muestral se reduce a \fmm{B}\par}\end{center}\end{minipage}\par\medskip
+
+\begin{fmnote}\fmuline{Cómo reconocerla}: «sabiendo que», «si», «de los que\dots{}», «entre los que\dots{}», «de las mujeres, qué porcentaje\dots{}». Cuidado: \fmm{P(A\,|\,B)\neq P(B\,|\,A)} en general. «El 40 \% de los que juegan a baloncesto juegan a tenis» es \fmm{P(T\,|\,B)=0{,}4}, no \fmm{P(T\cap B)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Regla del producto y propiedades}
+
+\fmdisp{P(A\cap B)=P(B)\cdot P(A\,|\,B)=P(A)\cdot P(B\,|\,A)}
+
+\fmdisp{P(\overline{A}\,|\,B)=1-P(A\,|\,B)\qquad\qquad P(A\cap B\cap C)=P(A)\cdot P(B\,|\,A)\cdot P(C\,|\,A\cap B)}
+
+La condicionada se comporta como una probabilidad dentro de \fmm{B}: en particular, el contrario se calcula restando de 1 \textbf{con la misma condición}. Pero ¡\textbf{no} es cierto que \fmm{P(A\,|\,\overline{B})=1-P(A\,|\,B)}!
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sean \fmm{A} y \fmm{B} con \fmm{P(A)=0{,}6}, \fmm{P(B)=0{,}8} y \fmm{P(A\cap\overline{B})=0{,}1}. Calcula \fmm{P(A\,|\,\overline{B})} y \fmm{P(A\cup B)}. \fmpau{PAU Madrid 2019}
+
+\fmm{P(A\,|\,\overline{B})=\dfrac{P(A\cap\overline{B})}{P(\overline{B})}=\dfrac{0{,}1}{0{,}2}=0{,}5}
+
+\fmm{P(A\cup B)=P(B)+P(A\cap\overline{B})=0{,}8+0{,}1=0{,}9} (B más «solo A»)
+\item En una población, el 45 \% son hombres. El 27 \% es hombre y lector de prensa deportiva, y un 38,5 \% es mujer y no lee. (a) De las mujeres, ¿qué porcentaje lee prensa deportiva? (b) De los lectores, ¿qué porcentaje son hombres? \fmpau{PAU Galicia 2021}
+
+\begin{center}\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{9pt}\begin{tabular}{l|cc|c}\toprule
+\textbf{} & \textbf{Lee (L)} & \textbf{$\overline{L}$} & \textbf{Total}\\\midrule
+\textbf{Hombre (H)} & \cellcolor{fmyellow!45}0,27 & 0,18 & \cellcolor{fmyellow!45}\textbf{0,45}\\
+\textbf{Mujer} & 0,165 & \cellcolor{fmyellow!45}0,385 & \textbf{0,55}\\
+\midrule\textbf{Total} & \textbf{0,435} & \textbf{0,565} & \textbf{1}\\
+\bottomrule\end{tabular}\end{center}
+
+(a) \fmm{P(L\,|\,\text{mujer})=\dfrac{0{,}165}{0{,}55}=0{,}3\to} 30 \%
+
+(b) \fmm{P(\text{hombre}\,|\,L)=\dfrac{0{,}27}{0{,}435}\approx0{,}6207\to} 62 \% aproximadamente
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Sucesos independientes}\hypertarget{sec8}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Independencia de sucesos}
+Dos sucesos son \textbf{independientes} si el hecho de que ocurra uno \textbf{no cambia} la probabilidad del otro: \fmm{P(A\,|\,B)=P(A)}. Esto es equivalente a:
+
+\fmdisp{A \text{ y } B \text{ independientes}\iff P(A\cap B)=P(A)\cdot P(B)}
+
+Para comprobarlo en la PAU, calculamos \fmm{P(A)\cdot P(B)} y lo comparamos con \fmm{P(A\cap B)}. Si coinciden, son independientes; si no, son \textbf{dependientes}.
+
+\begin{itemize}
+\item Si \fmm{A} y \fmm{B} son independientes, también lo son \fmm{A} y \fmm{\overline{B}}, \fmm{\overline{A}} y \fmm{B}, y \fmm{\overline{A}} y \fmm{\overline{B}}. Por ejemplo, \fmm{P(\overline{A}\cap\overline{B})=P(\overline{A})\cdot P(\overline{B})}.
+\item En experimentos que se repiten sin influirse (lanzar dos dados, dos personas que tiran a canasta, extracciones \textbf{con} reemplazamiento) los sucesos de cada prueba son independientes y las probabilidades se multiplican.
+\end{itemize}
+
+\begin{fmnote}\fmuline{¡No confundas incompatibles con independientes!} Incompatibles: \fmm{P(A\cap B)=0}, no pueden pasar a la vez (si pasa uno, el otro \textbf{seguro} que no: dependen mucho el uno del otro). Independientes: \fmm{P(A\cap B)=P(A)P(B)}. Dos sucesos con probabilidad positiva \textbf{no} pueden ser a la vez incompatibles e independientes.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Tres o más sucesos independientes. «Al menos uno» en $n$ pruebas}
+Tres sucesos \fmm{A}, \fmm{B} y \fmm{C} son \textbf{independientes} si lo son dos a dos y, además, \fmm{P(A\cap B\cap C)=P(A)\,P(B)\,P(C)}. En la práctica (pruebas que no se influyen) multiplicamos directamente.
+
+\fmdisp{P(\text{al menos uno})=1-P(\text{ninguno})=1-P(\overline{A_1})\,P(\overline{A_2})\cdots P(\overline{A_n})}
+
+Si las \fmm{n} pruebas tienen la misma probabilidad de éxito \fmm{p}, queda \fmm{1-(1-p)^n}. Para saber \textbf{cuántas pruebas} hacen falta para que esta probabilidad supere un valor, resolvemos la inecuación con logaritmos (lo veremos en 10.12).
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En un instituto, el 64 \% aprueba Matemáticas, el 72 \% aprueba Inglés y el 78 \% aprueba alguna de las dos. ¿Son independientes los sucesos? \fmpau{PAU Castilla-La Mancha 2024}
+
+\fmm{P(M\cap A)=0{,}64+0{,}72-0{,}78=0{,}58}
+
+\fmm{P(M)\cdot P(A)=0{,}64\cdot0{,}72=0{,}4608\neq0{,}58\Rightarrow} \textbf{no} son independientes.
+\item Alex encesta un tiro libre con probabilidad 0,65 y Fran con probabilidad 0,48, de manera independiente. Si los dos tiran, probabilidad de que solo enceste Alex, y de que enceste al menos uno. \fmpau{PAU Murcia 2021}
+
+\fmm{P(A\cap\overline{F})=0{,}65\cdot0{,}52=0{,}338}
+
+Al menos uno = contrario de «ninguno»: \fmm{1-0{,}35\cdot0{,}52=1-0{,}182=0{,}818}
+\item Tres estudiantes intentan resolver un problema de forma independiente; las probabilidades de que lo resuelvan son \fmm{\frac12}, \fmm{\frac13} y \fmm{\frac14}. Probabilidad de que el problema quede resuelto, y de que lo resuelva exactamente uno de los tres.
+
+Resuelto = al menos uno lo resuelve: \fmm{1-\frac12\cdot\frac23\cdot\frac34=1-\frac14=\frac34}.
+
+Exactamente uno: tres casos incompatibles, \fmm{\frac12\cdot\frac23\cdot\frac34+\frac12\cdot\frac13\cdot\frac34+\frac12\cdot\frac23\cdot\frac14=\frac{6+3+2}{24}=\frac{11}{24}}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Experimentos compuestos. Extracciones con y sin reemplazamiento}\hypertarget{sec9}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Diagramas de árbol}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un experimento \textbf{compuesto} está formado por varias pruebas seguidas (sacar dos bolas, lanzar una moneda y después un dado\dots{}). Lo representamos con un \textbf{diagrama de árbol}:
+
+\begin{itemize}
+\item En cada rama escribimos la probabilidad \textbf{condicionada} a lo que ha pasado antes.
+\item Las ramas que salen de un mismo nudo suman 1.
+\item La probabilidad de un camino es el \textbf{producto} de las probabilidades de sus ramas (regla del producto).
+\item Si un suceso corresponde a varios caminos, \textbf{sumamos} sus probabilidades.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{center}{\centering \begin{tikzpicture}[x=1.15cm,y=0.68cm,br/.style={fmmuted,line width=0.9pt},lb/.style={font=\footnotesize,inner sep=1.5pt}]\node[circle,draw=fmmuted,fill=fmsurface,inner sep=0pt,minimum size=6pt] (o) at (0,0) {};\node[circle,fill=fmball0,inner sep=0pt,minimum size=9pt] (R) at (1.9,2) {};\draw[br] (o)--(R) node[lb,pos=0.5,above left] {$\frac{3}{5}$};\node[circle,fill=fmball0,inner sep=0pt,minimum size=9pt] (RR) at (3.8,3) {};\draw[br] (R)--(RR) node[lb,pos=0.5,above] {$\frac{2}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,3) {$\frac{3}{5}\cdot\frac{2}{4}=\frac{3}{10}$};\node[circle,fill=fmball1,inner sep=0pt,minimum size=9pt] (RB) at (3.8,1) {};\draw[br] (R)--(RB) node[lb,pos=0.5,below] {$\frac{2}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,1) {$\frac{3}{5}\cdot\frac{2}{4}=\frac{3}{10}$};\node[circle,fill=fmball1,inner sep=0pt,minimum size=9pt] (B) at (1.9,-2) {};\draw[br] (o)--(B) node[lb,pos=0.5,below left] {$\frac{2}{5}$};\node[circle,fill=fmball0,inner sep=0pt,minimum size=9pt] (BR) at (3.8,-1) {};\draw[br] (B)--(BR) node[lb,pos=0.5,above] {$\frac{3}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,-1) {$\frac{2}{5}\cdot\frac{3}{4}=\frac{3}{10}$};\node[circle,fill=fmball1,inner sep=0pt,minimum size=9pt] (BB) at (3.8,-3) {};\draw[br] (B)--(BB) node[lb,pos=0.5,below] {$\frac{1}{4}$};\node[anchor=west,font=\scriptsize] at (4.15,-3) {$\frac{2}{5}\cdot\frac{1}{4}=\frac{1}{10}$};\end{tikzpicture}\par}\par\smallskip{\centering\footnotesize\color{fmmuted}Urna con 3 R y 2 B, dos extracciones sin reemplazamiento\par}\end{center}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Con reemplazamiento y sin reemplazamiento}
+\par\noindent \begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp2]{\color{fmnavy}\bfseries Con reemplazamiento (con devolución)}\par
+
+Devolvemos la bola a la urna antes de la siguiente extracción. La composición \textbf{no cambia}: las extracciones son \textbf{independientes} y las probabilidades de cada rama se repiten.
+
+\fmm{P(R_1\cap R_2)=\frac35\cdot\frac35=\frac{9}{25}}\end{tcolorbox}\end{minipage}\hfill\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp2]{\color{fmnavy}\bfseries Sin reemplazamiento (sin devolución)}\par
+
+No devolvemos la bola. La composición \textbf{cambia} en cada extracción: las extracciones son \textbf{dependientes}. Sacarlas «a la vez» (dos bolas a la vez) es equivalente a sacarlas una tras otra sin reemplazamiento.
+
+\fmm{P(R_1\cap R_2)=\frac35\cdot\frac24=\frac{3}{10}}\end{tcolorbox}\end{minipage}\par\medskip
+
+\begin{fmnote}En la PAU aparecen también variantes: «se saca una bola y se reemplaza por dos del otro color», «se devuelve la bola y se añaden dos del mismo color»\dots{} El método es el mismo: en cada rama, la composición de la urna en ese momento.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Una urna contiene 5 bolas blancas, 3 negras y 2 rojas. Se sacan dos, consecutivamente y sin reemplazamiento. Calcula la probabilidad de que (a) las dos sean rojas; (b) sean del mismo color; (c) al menos una sea negra; (d) si la segunda es roja, que la primera haya sido blanca. \fmpau{PAU Cantabria 2023}
+
+(a) \fmm{P(R_1\cap R_2)=\frac{2}{10}\cdot\frac19=\frac{1}{45}}
+
+(b) \fmm{\frac{5}{10}\cdot\frac49+\frac{3}{10}\cdot\frac29+\frac{2}{10}\cdot\frac19=\frac{20+6+2}{90}=\frac{28}{90}=\frac{14}{45}}
+
+(c) Contrario: ninguna negra. \fmm{1-\frac{7}{10}\cdot\frac69=1-\frac{42}{90}=\frac{8}{15}}
+
+(d) \fmm{P(R_2)=\frac{5}{10}\cdot\frac29+\frac{3}{10}\cdot\frac29+\frac{2}{10}\cdot\frac19=\frac{18}{90}=\frac15}; \fmm{\ P(B_1\,|\,R_2)=\dfrac{P(B_1\cap R_2)}{P(R_2)}=\dfrac{10/90}{18/90}=\dfrac59}
+\item Una urna tiene 5 bolas rojas y 3 verdes. Se saca una bola y se reemplaza por dos bolas del otro color. Después se saca una segunda bola. Probabilidad de que la segunda sea verde. \fmpau{PAU Andalucía 2017}
+
+Si la primera es roja (\fmm{\frac58}), quedan 4 R y 5 V (9 bolas); si es verde (\fmm{\frac38}), quedan 7 R y 2 V (9 bolas).
+
+\fmm{P(V_2)=\frac58\cdot\frac59+\frac38\cdot\frac29=\frac{25+6}{72}=\frac{31}{72}\approx0{,}4306}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Teorema de la probabilidad total y teorema de Bayes}\hypertarget{sec10}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Sistema completo de sucesos}
+Los sucesos \fmm{A_1, A_2,\dots,A_n} forman un \textbf{sistema completo} si son incompatibles dos a dos y su unión es todo el espacio muestral: siempre ocurre \textbf{uno y solo uno} de ellos. Por ejemplo: las fábricas que hacen un producto, las urnas de donde podemos sacar una bola, «estar enfermo / estar sano» (\fmm{A} y \fmm{\overline{A}}).
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Teorema de la probabilidad total}
+
+\fmdisp{P(B)=P(A_1)\,P(B\,|\,A_1)+P(A_2)\,P(B\,|\,A_2)+\dots+P(A_n)\,P(B\,|\,A_n)}
+
+En el árbol: la probabilidad de \fmm{B} es la \textbf{suma de todos los caminos} que acaban en \fmm{B}. Responde preguntas como «¿cuál es la probabilidad de que una pieza sea defectuosa?» cuando cada fábrica tiene un porcentaje de defectos distinto.
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Teorema de Bayes}
+
+\fmdisp{P(A_i\,|\,B)=\frac{P(A_i)\,P(B\,|\,A_i)}{P(B)}=\frac{P(A_i)\,P(B\,|\,A_i)}{P(A_1)\,P(B\,|\,A_1)+\dots+P(A_n)\,P(B\,|\,A_n)}}
+
+Bayes hace el camino \textbf{al revés}: sabemos el resultado \fmm{B} (la segunda prueba) y queremos la probabilidad de la causa \fmm{A_i} (la primera prueba). En el árbol: \textbf{el camino que nos interesa dividido entre la suma de todos los caminos que acaban en \fmm{B}}. Las probabilidades \fmm{P(A_i)} se llaman \emph{a priori} y las \fmm{P(A_i\,|\,B)}, \emph{a posteriori}.
+
+\begin{fmnote}\fmuline{Pista}: si la pregunta es «sabiendo que la pieza es defectuosa, ¿qué probabilidad hay de que venga de la fábrica 2?», es decir, si nos dan la información de la \textbf{segunda} etapa y nos preguntan por la \textbf{primera}, es Bayes.\end{fmnote}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Tres profesores, A, B y C, han corregido el 25 \%, el 30 \% y el 45 \% de los exámenes de una oposición. Los porcentajes de errores de corrección son del 1 \%, el 2 \% y el 3 \%. (a) Probabilidad de que un examen esté mal corregido. (b) Si un examen está mal corregido, probabilidad de que lo haya corregido B. (c) ¿Qué corrector es el más probable? \fmpau{PAU Aragón 2021}
+
+(a) Probabilidad total (\fmm{E} = error): \fmm{P(E)=0{,}25\cdot0{,}01+0{,}30\cdot0{,}02+0{,}45\cdot0{,}03=0{,}0025+0{,}006+0{,}0135=0{,}022}
+
+(b) Bayes: \fmm{P(B\,|\,E)=\dfrac{0{,}006}{0{,}022}=\dfrac{3}{11}\approx0{,}2727}
+
+(c) \fmm{P(A\,|\,E)=\frac{0{,}0025}{0{,}022}\approx0{,}1136}, \fmm{\ P(C\,|\,E)=\frac{0{,}0135}{0{,}022}\approx0{,}6136}. El más probable es C.
+\item El 15 \% de una población tiene una enfermedad. Un test da positivo en el 92 \% de los enfermos y en el 4 \% de los sanos. Si el test de una persona da positivo, ¿qué probabilidad hay de que esté enferma? \fmpau{PAU Andalucía 2021}
+
+\fmm{P(+)=0{,}15\cdot0{,}92+0{,}85\cdot0{,}04=0{,}138+0{,}034=0{,}172}
+
+\fmm{P(M\,|\,+)=\dfrac{0{,}138}{0{,}172}=\dfrac{69}{86}\approx0{,}8023}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Variables aleatorias discretas}\hypertarget{sec11}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Variable aleatoria}
+Una \textbf{variable aleatoria} \fmm{X} asigna un número a cada resultado de un experimento aleatorio. Por ejemplo, al lanzar tres monedas, \fmm{X=}«número de caras» toma los valores 0, 1, 2 y 3.
+
+\begin{itemize}
+\item Es \textbf{discreta} si toma valores aislados (que se pueden contar): número de caras, de clientes, de piezas defectuosas\dots{}
+\item Es \textbf{continua} si puede tomar cualquier valor de un intervalo: altura, peso, tiempo\dots{}
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Función de probabilidad, media y desviación típica}
+La \textbf{función de probabilidad} de una variable discreta da \fmm{p_i=P(X=x_i)} para cada valor. Se cumple \fmm{p_i\geq0} y \fmm{\sum p_i=1}. La \textbf{media} (o esperanza) y la \textbf{varianza} son:
+
+\fmdisp{\mu=E(X)=\sum x_i\,p_i\qquad\qquad\sigma^2=\sum x_i^2\,p_i-\mu^2\qquad\qquad\sigma=\sqrt{\sigma^2}}
+
+La media es el valor que esperamos obtener «de media» si repetimos el experimento muchas veces; la desviación típica mide cómo de dispersos están los valores. En un juego, si \fmm{X} es la ganancia, el juego es \textbf{equitativo} cuando \fmm{E(X)=0}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Lanzamos tres monedas y \fmm{X=}«número de caras». Halla la función de probabilidad, la media y la desviación típica.
+
+De los 8 resultados equiprobables, hay 1, 3, 3 y 1 con 0, 1, 2 y 3 caras:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{$x_i$} & 0 & 1 & 2 & 3\\
+\textbf{$p_i$} & $\frac18$ & $\frac38$ & $\frac38$ & $\frac18$\\
+\bottomrule\end{tabular}\end{center}
+
+\fmm{\mu=0\cdot\frac18+1\cdot\frac38+2\cdot\frac38+3\cdot\frac18=\frac{12}{8}=1{,}5} caras
+
+\fmm{\sigma^2=0+\frac38+4\cdot\frac38+9\cdot\frac18-1{,}5^2=3-2{,}25=0{,}75\Rightarrow\sigma=\sqrt{0{,}75}\approx0{,}866}
+\item Un juego cuesta 2 € por partida. Se lanzan dos dados: si la suma es 12 se ganan 30 €, si es 7 se ganan 6 €, y en otro caso no se gana nada. ¿Es equitativo el juego?
+
+La ganancia neta \fmm{X} vale \fmm{28} (suma 12, \fmm{\frac1{36}}), \fmm{4} (suma 7, \fmm{\frac6{36}}) o \fmm{-2} (el resto, \fmm{\frac{29}{36}}).
+
+\fmm{E(X)=28\cdot\frac1{36}+4\cdot\frac6{36}-2\cdot\frac{29}{36}=\frac{28+24-58}{36}=-\frac{6}{36}\approx-0{,}17} €. No es equitativo: de media, el jugador pierde unos 17 céntimos por partida.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{La distribución binomial}\hypertarget{sec12}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{¿Cuándo es binomial?}
+Una variable \fmm{X} sigue una \textbf{distribución binomial} \fmm{B(n,p)} cuando cuenta el \textbf{número de éxitos} en un experimento que cumple:
+
+\begin{enumerate}
+\item Se repite una misma prueba \fmm{n} veces.
+\item Cada prueba solo tiene dos resultados: \textbf{éxito} (\fmm{A}) o \textbf{fracaso} (\fmm{\overline A}).
+\item La probabilidad de éxito, \fmm{p=P(A)}, es la misma en todas las pruebas (la de fracaso es \fmm{q=1-p}).
+\item Las pruebas son \textbf{independientes} (por ejemplo, extracciones \textbf{con} reemplazamiento, o de una población muy grande).
+\end{enumerate}
+
+\begin{fmnote}Ejemplos: número de caras en 10 lanzamientos, número de piezas defectuosas en una muestra de 20 (si el 3 \% lo son), número de aciertos en un test contestado al azar\dots{} Cuidado: las extracciones \textbf{sin} reemplazamiento de una urna pequeña \textbf{no} son binomiales (la \fmm{p} cambia).\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Fórmula de la binomial}
+
+\fmdisp{P(X=k)=\binom{n}{k}\,p^k\,q^{\,n-k},\qquad k=0,1,\dots,n\qquad\qquad\binom nk=\frac{n!}{k!\,(n-k)!}}
+
+El número combinatorio \fmm{\binom nk=C_{n,k}} (10.4) cuenta de cuántas maneras se pueden colocar los \fmm{k} éxitos entre las \fmm{n} pruebas; \fmm{p^kq^{n-k}} es la probabilidad de cada una de esas maneras (las pruebas son independientes y multiplicamos). En la calculadora: tecla \textbf{nCr}.
+
+\fmdisp{\mu=n\,p\qquad\qquad\sigma=\sqrt{n\,p\,q}}
+
+Para probabilidades acumuladas sumamos: \fmm{P(X\leq k)=P(X=0)+\dots+P(X=k)}. Cuando el suceso tenga muchos términos, usamos el contrario: \fmm{P(X\geq1)=1-P(X=0)}, \fmm{P(X\geq2)=1-P(X=0)-P(X=1)}. Cuidado con las desigualdades: «más de 7» es \fmm{X\geq8}; «como máximo 3» es \fmm{X\leq3}; «al menos 5» es \fmm{X\geq5}.
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Un test tiene 10 preguntas con 4 opciones cada una. Un alumno contesta todas al azar. Probabilidad de que acierte exactamente 3, y de que acierte al menos 1.
+
+\fmm{X=}«número de aciertos» es \fmm{B(10;\,0{,}25)}: 10 pruebas independientes con \fmm{p=\frac14} de acierto.
+
+\fmm{P(X=3)=\binom{10}{3}\,0{,}25^3\,0{,}75^7=120\cdot0{,}015625\cdot0{,}1335\approx0{,}2503}
+
+\fmm{P(X\geq1)=1-P(X=0)=1-0{,}75^{10}\approx1-0{,}0563=0{,}9437}
+
+Media: \fmm{\mu=10\cdot0{,}25=2{,}5} aciertos; \fmm{\sigma=\sqrt{10\cdot0{,}25\cdot0{,}75}\approx1{,}37}.
+\item \textbf{Número mínimo de pruebas.} Un detector capta una señal débil con probabilidad 0,3 en cada intento, de forma independiente. ¿Cuántos intentos hay que hacer, como mínimo, para que la probabilidad de captarla al menos una vez sea como mínimo 0,95? \fmpau{PAU}
+
+Con \fmm{n} intentos, \fmm{X\sim B(n;\,0{,}3)} y \fmm{P(X\geq1)=1-0{,}7^n}. Queremos \fmm{1-0{,}7^n\geq0{,}95\iff0{,}7^n\leq0{,}05}.
+
+Tomamos logaritmos. Como \fmm{\ln0{,}7\lt0}, la desigualdad cambia de sentido: \fmm{n\ln0{,}7\leq\ln0{,}05\Rightarrow n\geq\dfrac{\ln0{,}05}{\ln0{,}7}\approx8{,}40}.
+
+Hay que hacer \textbf{9 intentos}. (Comprobación: \fmm{0{,}7^8\approx0{,}058\gt0{,}05} y \fmm{0{,}7^9\approx0{,}040\leq0{,}05}.)
+\item \textbf{Probabilidad total y binomial.} Una fábrica tiene dos máquinas: A hace el 60 \% de las piezas, con un 3 \% de defectuosas, y B el resto, con un 8 \% de defectuosas. (a) Probabilidad de que una pieza sea defectuosa. (b) En una caja de 10 piezas elegidas al azar, probabilidad de que haya como mucho una defectuosa. \fmpau{PAU}
+
+(a) Probabilidad total: \fmm{P(D)=0{,}6\cdot0{,}03+0{,}4\cdot0{,}08=0{,}018+0{,}032=0{,}05}.
+
+(b) Ahora cada pieza es un «éxito» (defectuosa) con \fmm{p=0{,}05}: \fmm{X\sim B(10;\,0{,}05)}.
+
+\fmm{P(X\leq1)=0{,}95^{10}+\binom{10}{1}0{,}05\cdot0{,}95^9\approx0{,}5987+0{,}3151=0{,}9139}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

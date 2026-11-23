@@ -889,6 +889,17 @@ if N == 4:  # l'apartat 4.1 i el primer requadre comencen a la portada
     assert len(pos) == 2, len(pos)
     doc = doc[:pos[1]] + TB.replace('3.2cm', '7.2cm') + doc[pos[1] + len(TB):]  # taula d'àrees i volums (4.11)
 if N == 10:  # unió de tres successos: no cap en una línia
+    # retocs de l'autor (Desktop, revisió 2026-11-23)
+    if ES:
+        retoc('10.6}\\ \\ Cálculo de probabilidades: con el espacio muestral y sin él}', '10.6}\\ \\ Cálculo de prob. con el espacio muestral y sin él}')
+    else:
+        retoc('10.6}\\ \\ Càlcul de probabilitats: amb l\'espai mostral i sense}', '10.6}\\ \\ Càlcul de prob. amb l\'espai mostral i sense}')
+    retoc(r'\\Needspace\{18\\baselineskip\}\n(\\section\{[^\n]*\\hypertarget\{sec1\})', r'\\Needspace{8\\baselineskip}\n\1', True)
+    retoc(r'(\\fmm\{P\(\\overline\{A\}\\cup\\overline\{B\}\)=1-P\(A\\cap B\)=0\{,\}6\}\n)', r'\1\\newpage\n', True)
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 3, len(pos)
+    doc = doc[:pos[2]] + TB.replace('3.2cm', '5.2cm') + doc[pos[2] + len(TB):]
     retoc('\\fmm{P(A\\cup B\\cup C)=P(A)+P(B)+P(C)-P(A\\cap B)-P(A\\cap C)-P(B\\cap C)+P(A\\cap B\\cap C)}.',
           '\n\\[\\begin{aligned}P(A\\cup B\\cup C)&=P(A)+P(B)+P(C)-P(A\\cap B)\\\\&\\quad-P(A\\cap C)-P(B\\cap C)+P(A\\cap B\\cap C)\\,.\\end{aligned}\\]\n')
 if N == 5:  # retocs de l'autor (Desktop, revisió 2026-11-23)
