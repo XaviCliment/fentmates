@@ -948,6 +948,21 @@ if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-23)
     for k, w in reversed(list(zip(pos, ('5.5cm', '2.2cm', '9.2cm')))):
         doc = doc[:k] + TB.replace('3.2cm', w) + doc[k + len(TB):]
 
+if N == 8:  # títol de dues línies i text llarg: tot el text de la franja puja perquè no se n'isca de la franja verda
+    retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
+    retoc('\\vspace{6pt}\n\\begin{minipage}{\\linewidth}\\color{white!88!fmgreen}', '\\vspace{2pt}\n\\begin{minipage}{\\linewidth}\\color{white!88!fmgreen}')
+    # retocs de l'autor (Desktop, revisió 2026-11-23)
+    retoc(r'\\end\{tcolorbox\}\n\n\\Needspace\{7\\baselineskip\}\n(\\begin\{fmdef\}\{Gui)', r'\\end{tcolorbox}\n\\vspace*{0.3cm}\n\\Needspace{10\\baselineskip}\n\1', True)
+    retoc(r'(\n\$\\dfrac\{1\}\{\\sqrt\{g\(x\)\}\}\$ & [^\n]*?)\\\\\[3pt\]\n', r'\1\\\\[5pt]\n', True)
+    if ES:  # l'última línia del document no passa a una pàgina 17 tota sola
+        retoc(r'(\\hypertarget\{sec12\}\{\})', r'\1\\enlargethispage{\\baselineskip}', True)
+    retoc(r'\n(\\item [^\n]*\\fmm\{f\(x\)=\\sin 2x\+\\cos 3x\})', r'\n\\newpage\n\1', True)
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 6, len(pos)
+    for k, w in ((5, '5.8cm' if ES else '5.2cm'), (2, '7.2cm'), (0, '6.2cm')):  # en castellà, la 1a fila de la taula de 8.12 no es parteix
+        doc = doc[:pos[k]] + TB.replace('3.2cm', w) + doc[pos[k] + len(TB):]
+
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)
 print(os.path.relpath(out, HERE), len(secs), 'apartats,', len(doc), 'caràcters')
