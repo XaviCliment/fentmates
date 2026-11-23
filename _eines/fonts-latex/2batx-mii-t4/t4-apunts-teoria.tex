@@ -1,0 +1,686 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 4: Problemes mètrics. 2n de Batxillerat MII},pdfsubject={Matemàtiques II},pdfkeywords={angles entre rectes i plans, distàncies, perpendicular comuna, projeccions, simètrics, àrees, volums, llocs geomètrics, pla mediador, plans bisectors, esfera}}
+
+% colors de la web (FentMates, bloc de Geometria: taronja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{4.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3.2pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.6pt,opacity=0.7] (110,70)--(110,8) (110,70)--(210,92) (110,70)--(40,108);
+  \fill[opacity=0.14] (50,40)--(150,22)--(210,62)--(110,82)--cycle;
+  \draw (50,40)--(150,22)--(210,62)--(110,82)--cycle;
+  \draw (60,110)--(190,14);
+  \fill (128,47) circle (5.5);
+  \draw[line width=3.4pt] (128,47)--(128,18) (122,26)--(128,16)--(134,26);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (136,22) {$\vec n$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (196,112) {$\pi$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2n Batxillerat MII · Unitat 4: Problemes mètrics}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 2n Batxillerat · Matemàtiques II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 4} · Problemes mètrics\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas per a mesurar a l'espai: angles entre rectes i plans, totes les distàncies (entre punts, rectes i plans), la recta que passa per un punt i talla dues rectes, la perpendicular comuna de dues rectes que s'encreuen, projeccions i simètrics d'un punt respecte d'un punt, d'una recta i d'un pla, la recta simètrica respecte d'un pla, àrees i volums, i els llocs geomètrics (pla mediador, plans bisectors i esfera).\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.2cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}4.1}\ \ Angle entre dues rectes}}\\[1pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}4.2}\ \ Angles amb plans}}\\[1pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}4.3}\ \ Distància a un pla}}\\[1pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}4.4}\ \ Distància d'un punt a una recta}}\\[1pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}4.5}\ \ Distància entre dues rectes}}\\[1pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}4.6}\ \ Recta i pla, dos plans}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \hyperlink{sec7}{\textbf{\color{fmgreen}4.7}\ \ Recta per un punt que talla dues rectes}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}4.8}\ \ Perpendicular comuna}}\\[1pt]
+\hyperlink{sec9}{\textbf{\color{fmgreen}4.9}\ \ Simètrics respecte d'un punt i d'una recta}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}4.10}\ \ Simètrics respecte d'un pla}}\\[1pt]
+\mbox{\hyperlink{sec11}{\textbf{\color{fmgreen}4.11}\ \ Àrees i volums}}\\[1pt]
+\mbox{\hyperlink{sec12}{\textbf{\color{fmgreen}4.12}\ \ Llocs geomètrics}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+%\begin{fmnote}\fmuline{Abans de començar}: en aquesta unitat farem servir tot el que vam veure a la unitat 3 (productes escalar, vectorial i mixt, equacions de rectes i plans i posicions relatives).\end{fmnote}
+
+\Needspace{4\baselineskip}
+\section{Angle entre dues rectes}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició i fórmula}
+L'\textbf{angle entre dues rectes} \fmm{r} i \fmm{s} és el menor dels angles que formen els seus vectors directors \fmm{\vec d_r} i \fmm{\vec d_s}. Per això sempre està entre \fmm{0^\circ} i \fmm{90^\circ}, i en la fórmula del producte escalar hi posem el \textbf{valor absolut}:
+
+\fmdisp{\cos\alpha=\dfrac{|\vec d_r\cdot\vec d_s|}{|\vec d_r|\,|\vec d_s|}\qquad 0^\circ\le\alpha\le90^\circ}
+
+\begin{itemize}
+\item La fórmula serveix igual si les rectes \textbf{es tallen} o si \textbf{s'encreuen}: en aquest cas, l'angle és el que formen dues para\lgem{}eles a \fmm{r} i \fmm{s} traçades per un mateix punt.
+\item \fmm{r\perp s\iff\vec d_r\cdot\vec d_s=0}. Dues rectes perpendiculars poden tallar-se o encreuar-se.
+\item Si \fmm{\vec d_r} i \fmm{\vec d_s} són proporcionals, l'angle és \fmm{0^\circ} (rectes para\lgem{}eles o coincidents).
+\item Si la recta ve donada en implícites, el seu vector director és \fmm{\vec d=\vec n_1\times\vec n_2}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula l'angle que formen les rectes \fmm{r:\dfrac{x-1}{2}=\dfrac{y}{-1}=\dfrac{z+3}{2}} i \fmm{s:(x,y,z)=(0,4,1)+\lambda\,(1,1,0)}.
+
+Vectors directors: \fmm{\ \vec d_r=(2,-1,2)}, \fmm{\ \vec d_s=(1,1,0)}.
+
+\fmm{\cos\alpha=\dfrac{|2\cdot1+(-1)\cdot1+2\cdot0|}{\sqrt{9}\cdot\sqrt{2}}=\dfrac{1}{3\sqrt2}=\dfrac{\sqrt2}{6}}
+
+\fmm{\alpha=\arccos\dfrac{\sqrt2}{6}\approx76{,}37^\circ} (76$^\circ$ 22$'$ 1$''$).
+\item Calcula l'angle entre \fmm{r:\begin{cases}x-y=0\\z=1\end{cases}} i \fmm{s:\dfrac{x}{1}=\dfrac{y-2}{0}=\dfrac{z}{1}}.
+
+\fmm{\vec d_r=(1,-1,0)\times(0,0,1)=(-1,-1,0)}; n'agafem un de proporcional: \fmm{\vec d_r=(1,1,0)}. \fmm{\ \vec d_s=(1,0,1)}.
+
+\fmm{\cos\alpha=\dfrac{|1+0+0|}{\sqrt2\cdot\sqrt2}=\dfrac12\ \Rightarrow\ \boxed{\alpha=60^\circ}}
+\item Troba \fmm{a} perquè les rectes de directors \fmm{\vec d_r=(1,a,2)} i \fmm{\vec d_s=(3,-1,1)} siguen perpendiculars.
+
+\fmm{\vec d_r\cdot\vec d_s=3-a+2=0\ \Rightarrow\ \boxed{a=5}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Angle entre recta i pla. Angle entre dos plans}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmules}
+\begin{itemize}
+\item L'\textbf{angle entre una recta \fmm{r} i un pla \fmm{\pi}} és l'angle que forma la recta amb la seua projecció ortogonal sobre el pla. Com que el vector normal \fmm{\vec n} és perpendicular al pla, l'angle entre \fmm{\vec d} i \fmm{\vec n} és el \textbf{complementari} \fmm{90^\circ-\alpha}; per això hi apareix el \textbf{sinus}:
+
+\fmdisp{\sin\alpha=\cos(90^\circ-\alpha)=\dfrac{|\vec d\cdot\vec n|}{|\vec d|\,|\vec n|}}
+
+\item L'\textbf{angle entre dos plans} \fmm{\pi_1} i \fmm{\pi_2} és el (menor) angle que formen els seus vectors normals:
+
+\fmdisp{\cos\alpha=\dfrac{|\vec n_1\cdot\vec n_2|}{|\vec n_1|\,|\vec n_2|}}
+
+\end{itemize}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Condició} & \textbf{Recta i pla} & \textbf{Dos plans}\\\midrule
+Para\lgem{}els & $\vec d\cdot\vec n=0$ ($\vec d\perp\vec n$) & $\vec n_1\parallel\vec n_2$ (proporcionals)\\[3pt]
+Perpendiculars & $\vec d\parallel\vec n$ (proporcionals) & $\vec n_1\cdot\vec n_2=0$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{Compte}: és molt fàcil confondre's. Per a recta i pla, \emph{para\lgem{}els} vol dir \fmm{\vec d\perp\vec n} i \emph{perpendiculars} vol dir \fmm{\vec d\parallel\vec n}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula l'angle entre la recta \fmm{r:\begin{cases}x=1+\lambda\\y=2\\z=\lambda\end{cases}} i el pla \fmm{\pi:x+y-3=0}.
+
+\fmm{\vec d=(1,0,1)}, \fmm{\ \vec n=(1,1,0)}.
+
+\fmm{\sin\alpha=\dfrac{|1+0+0|}{\sqrt2\cdot\sqrt2}=\dfrac12\ \Rightarrow\ \boxed{\alpha=30^\circ}}
+\item Calcula l'angle que formen els plans \fmm{\pi_1:x+y+z=1} i \fmm{\pi_2:2x-y+z=3}.
+
+\fmm{\vec n_1=(1,1,1)}, \fmm{\ \vec n_2=(2,-1,1)}, \fmm{\ \vec n_1\cdot\vec n_2=2-1+1=2}.
+
+\fmm{\cos\alpha=\dfrac{2}{\sqrt3\cdot\sqrt6}=\dfrac{2}{\sqrt{18}}=\dfrac{\sqrt2}{3}\ \Rightarrow\ \alpha\approx61{,}87^\circ}
+\item Troba \fmm{k} perquè el pla \fmm{kx+2y-z=0} siga perpendicular al pla \fmm{x-y+z=4}.
+
+\fmm{\vec n_1\cdot\vec n_2=k-2-1=0\ \Rightarrow\ \boxed{k=3}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distància entre dos punts. Distància d'un punt a un pla}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmules}
+\begin{itemize}
+\item \textbf{Distància entre dos punts}: és el mòdul del vector que els uneix:
+
+\fmdisp{d(A,B)=|\overrightarrow{AB}|=\sqrt{(b_1-a_1)^2+(b_2-a_2)^2+(b_3-a_3)^2}}
+
+\item La \textbf{distància d'un punt \fmm{P} a una figura} (recta, pla\dots{}) és la menor de les distàncies de \fmm{P} als punts de la figura. S'assoleix en el \textbf{peu de la perpendicular} traçada des de \fmm{P}, que s'anomena \textbf{projecció ortogonal} de \fmm{P}.
+\item \textbf{Distància d'un punt \fmm{P(x_0,y_0,z_0)} al pla} \fmm{\pi:Ax+By+Cz+D=0}: substituïm el punt en l'equació del pla i dividim pel mòdul del vector normal:
+
+\fmdisp{d(P,\pi)=\dfrac{|Ax_0+By_0+Cz_0+D|}{\sqrt{A^2+B^2+C^2}}}
+
+\end{itemize}
+
+\fmuline{D'on ix?} Si \fmm{Q} és qualsevol punt del pla, la distància és la longitud de la projecció de \fmm{\overrightarrow{QP}} sobre la direcció de \fmm{\vec n}: \fmm{\ d=\dfrac{|\overrightarrow{QP}\cdot\vec n|}{|\vec n|}}. Com que \fmm{\vec n\cdot Q=-D}, el numerador és \fmm{|\vec n\cdot P+D|}.\\
+
+
+\textbf{Projecció d'un punt sobre un pla}: tracem la recta que passa per \fmm{P} amb director \fmm{\vec n}, \fmm{\ X=P+t\,\vec n}, i la tallem amb el pla. El punt de tall \fmm{Q} és el punt del pla \textbf{més pròxim} a \fmm{P}, i \fmm{d(P,\pi)=d(P,Q)}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula la distància del punt \fmm{P(5,1,6)} al pla \fmm{\pi:2x-y+2z-3=0} i el punt del pla més pròxim a \fmm{P}.
+
+\fmm{d(P,\pi)=\dfrac{|2\cdot5-1+2\cdot6-3|}{\sqrt{4+1+4}}=\dfrac{18}{3}=\boxed{6\ \text{u}}}
+
+Recta perpendicular per \fmm{P}: \fmm{\ (5+2t,\ 1-t,\ 6+2t)}. En el pla: \fmm{\ 2(5+2t)-(1-t)+2(6+2t)-3=18+9t=0\Rightarrow t=-2}.
+
+\fmm{Q=(5-4,\ 1+2,\ 6-4)=\boxed{(1,3,2)}}. Comprovació: \fmm{\ |\overrightarrow{PQ}|=|(-4,2,-4)|=6\ \checkmark}
+\item Troba els punts de la recta \fmm{x=y=z} que estan a distància 2 del pla \fmm{\pi:2x+y-2z=1}.
+
+Punt genèric de la recta: \fmm{\ X(t,t,t)}. \fmm{\ d(X,\pi)=\dfrac{|2t+t-2t-1|}{3}=\dfrac{|t-1|}{3}}.
+
+\fmm{\dfrac{|t-1|}{3}=2\iff t-1=\pm6\iff t=7\ \text{o}\ t=-5}.
+
+\fmm{\boxed{(7,7,7)}} i \fmm{\boxed{(-5,-5,-5)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distància d'un punt a una recta}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dos mètodes}
+Siga \fmm{r} la recta que passa per \fmm{A} amb vector director \fmm{\vec d}, i \fmm{P} un punt.
+
+\begin{itemize}
+\item \textbf{Amb el producte vectorial}: el para\lgem{}elogram de costats \fmm{\vec d} i \fmm{\overrightarrow{AP}} té àrea \fmm{|\overrightarrow{AP}\times\vec d|}, base \fmm{|\vec d|} i altura \fmm{d(P,r)}. Per tant,
+
+\fmdisp{d(P,r)=\dfrac{|\overrightarrow{AP}\times\vec d|}{|\vec d|}}
+
+\item \textbf{Amb la projecció} \fmm{Q} de \fmm{P} sobre \fmm{r} (el peu de la perpendicular): o bé tallem \fmm{r} amb el pla que passa per \fmm{P} i és perpendicular a \fmm{r} (vector normal \fmm{\vec d}), o bé imposem que el punt genèric \fmm{Q=A+\lambda\vec d} complisca \fmm{\overrightarrow{QP}\cdot\vec d=0}. Aleshores \fmm{d(P,r)=d(P,Q)}.
+\end{itemize}
+
+\begin{fmnote}El segon mètode és més llarg però dona, a més, el punt \fmm{Q} de la recta més pròxim a \fmm{P} i la recta que talla perpendicularment \fmm{r} passant per \fmm{P} (la recta \fmm{PQ}), que sovint també es demanen.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula la distància del punt \fmm{P(6,4,4)} a la recta \fmm{r:\dfrac{x-2}{1}=\dfrac{y-1}{2}=\dfrac z2} pels dos mètodes.
+
+\fmm{A(2,1,0)}, \fmm{\ \vec d=(1,2,2)}, \fmm{\ \overrightarrow{AP}=(4,3,4)}, \fmm{\ \overrightarrow{AP}\times\vec d=\begin{vmatrix}\vec i&\vec j&\vec k\\4&3&4\\1&2&2\end{vmatrix}=(-2,-4,5)}
+
+\fmm{d(P,r)=\dfrac{\sqrt{4+16+25}}{\sqrt{1+4+4}}=\dfrac{\sqrt{45}}{3}=\boxed{\sqrt5\ \text{u}}}
+
+Segon mètode: pla per \fmm{P} perpendicular a \fmm{r}: \fmm{\ x+2y+2z=6+8+8=22}.
+
+Substituïm \fmm{(2+\lambda,\,1+2\lambda,\,2\lambda)}: \fmm{\ 4+9\lambda=22\Rightarrow\lambda=2\Rightarrow Q(4,5,4)}. \fmm{\ d(P,Q)=|(-2,1,0)|=\sqrt5\ \checkmark}
+\item Calcula la distància de \fmm{P(1,0,2)} a la recta \fmm{r:\begin{cases}x+y=1\\z=0\end{cases}}.
+
+\fmm{\vec d=(1,1,0)\times(0,0,1)=(1,-1,0)}; un punt: \fmm{A(1,0,0)}. \fmm{\ \overrightarrow{AP}=(0,0,2)}.
+
+\fmm{\overrightarrow{AP}\times\vec d=(2,2,0)\Rightarrow d(P,r)=\dfrac{\sqrt8}{\sqrt2}=\boxed{2\ \text{u}}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distància entre dues rectes}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Segons la posició relativa}
+Siguen \fmm{r} (punt \fmm{P}, director \fmm{\vec d_r}) i \fmm{s} (punt \fmm{Q}, director \fmm{\vec d_s}). Primer n'estudiem la posició relativa (unitat 3):
+
+\begin{itemize}
+\item \textbf{Coincidents o secants}: tenen punts comuns, i \fmm{d(r,s)=0}.
+\item \textbf{Para\lgem{}eles}: la distància és la d'un punt qualsevol d'una a l'altra: \fmm{\ d(r,s)=d(Q,r)=\dfrac{|\overrightarrow{PQ}\times\vec d_r|}{|\vec d_r|}}.
+\item \textbf{S'encreuen}: els vectors \fmm{\overrightarrow{PQ}}, \fmm{\vec d_r}, \fmm{\vec d_s} determinen un para\lgem{}elepípede; la seua altura sobre la base de costats \fmm{\vec d_r}, \fmm{\vec d_s} és la distància entre les rectes (volum entre àrea de la base):
+
+\fmdisp{d(r,s)=\dfrac{\big|[\overrightarrow{PQ},\vec d_r,\vec d_s]\big|}{|\vec d_r\times\vec d_s|}}
+
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Siguen \fmm{r:(x,y,z)=(1,0,0)+\lambda(1,1,0)} i \fmm{s:(x,y,z)=(0,0,2)+\mu(0,1,1)}. Comprova que s'encreuen i calcula'n la distància.
+
+\fmm{\overrightarrow{PQ}=(-1,0,2)}, \fmm{\ \vec d_r\times\vec d_s=(1,-1,1)}, \fmm{\ [\overrightarrow{PQ},\vec d_r,\vec d_s]=(-1,0,2)\cdot(1,-1,1)=1\neq0}: s'encreuen.
+
+\fmm{d(r,s)=\dfrac{|1|}{\sqrt{1+1+1}}=\dfrac{1}{\sqrt3}=\boxed{\dfrac{\sqrt3}{3}\ \text{u}}}
+\item Calcula la distància entre les rectes \fmm{r:\dfrac{x-1}{1}=\dfrac y2=\dfrac{z+1}{2}} i \fmm{s:(x,y,z)=(3,1,0)+\mu(2,4,4)}.
+
+\fmm{(2,4,4)=2\,(1,2,2)}, i \fmm{Q(3,1,0)\notin r} (\fmm{\tfrac21\neq\tfrac12}): són para\lgem{}eles.
+
+\fmm{\overrightarrow{PQ}=(2,1,1)}, \fmm{\ \overrightarrow{PQ}\times(1,2,2)=(0,-3,3)\Rightarrow d(r,s)=\dfrac{\sqrt{18}}{3}=\boxed{\sqrt2\ \text{u}}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distància entre recta i pla i entre dos plans}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Només té sentit si són para\lgem{}els}
+\begin{itemize}
+\item \textbf{Recta i pla}: si es tallen (\fmm{\vec d\cdot\vec n\neq0}) o la recta està continguda en el pla, la distància és 0. Si són \textbf{para\lgem{}els}, \fmm{\ d(r,\pi)=d(P,\pi)} per a qualsevol punt \fmm{P} de \fmm{r}.
+\item \textbf{Dos plans}: si són secants o coincidents, la distància és 0. Si són \textbf{para\lgem{}els}, \fmm{\ d(\pi_1,\pi_2)=d(P,\pi_2)} per a qualsevol \fmm{P\in\pi_1}. Si els escrivim amb el \textbf{mateix} vector normal, \fmm{\pi_1:Ax+By+Cz+D_1=0} i \fmm{\pi_2:Ax+By+Cz+D_2=0},
+
+\fmdisp{d(\pi_1,\pi_2)=\dfrac{|D_1-D_2|}{\sqrt{A^2+B^2+C^2}}}
+
+\item Els \textbf{plans para\lgem{}els a \fmm{\pi} a distància \fmm{k}} són dos: \fmm{Ax+By+Cz+D'=0} amb \fmm{\dfrac{|D-D'|}{|\vec n|}=k}.
+\item Els \textbf{plans para\lgem{}els a \fmm{\pi} que estan a distància \fmm{k} d'un punt \fmm{P(x_0,y_0,z_0)}} també són dos (un a cada costat de \fmm{P}). Escrivim el feix de plans para\lgem{}els \fmm{Ax+By+Cz+D'=0} i imposem la distància al punt:
+
+\fmdisp{\dfrac{|Ax_0+By_0+Cz_0+D'|}{\sqrt{A^2+B^2+C^2}}=k\iff Ax_0+By_0+Cz_0+D'=\pm k\,|\vec n|}
+
+\end{itemize}
+
+\begin{fmnote}\fmuline{Compte}: per a aplicar la fórmula \fmm{|D_1-D_2|} els dos plans han de tindre exactament els mateixos \fmm{A}, \fmm{B}, \fmm{C}. Per exemple, \fmm{4x-2y+4z+7=0} s'ha d'escriure abans com a \fmm{2x-y+2z+\tfrac72=0}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Resum de totes les distàncies}
+\begin{center}\renewcommand{\arraystretch}{1.6}\begin{tabularx}{\linewidth}{XX}
+\textbf{Punt--punt}:\ \ $\displaystyle d(A,B)=|\overrightarrow{AB}|$ & \textbf{Punt--pla}:\ \ $\displaystyle d(P,\pi)=\dfrac{|Ax_0+By_0+Cz_0+D|}{\sqrt{A^2+B^2+C^2}}$\\[6pt]
+\textbf{Punt--recta}:\ \ $\displaystyle d(P,r)=\dfrac{|\overrightarrow{AP}\times\vec d|}{|\vec d|}$ & \textbf{Rectes para\lgem{}eles}:\ \ $\displaystyle d(r,s)=d(Q,r)$\\[6pt]
+\textbf{Rectes que s'encreuen}:\ \ $\displaystyle d(r,s)=\dfrac{|[\overrightarrow{PQ},\vec d_r,\vec d_s]|}{|\vec d_r\times\vec d_s|}$ & \textbf{Recta ∥ pla}:\ \ $\displaystyle d(r,\pi)=d(P,\pi)$\\[6pt]
+\textbf{Plans para\lgem{}els}:\ \ $\displaystyle d(\pi_1,\pi_2)=\dfrac{|D_1-D_2|}{|\vec n|}$ & \textbf{Si es tallen}:\ \ $\displaystyle d=0$\\[6pt]
+\end{tabularx}\end{center}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Comprova que la recta \fmm{r:(x,y,z)=(1,2,0)+\lambda(1,1,2)} és para\lgem{}ela al pla \fmm{\pi:x+y-z+4=0} i calcula'n la distància.
+
+\fmm{\vec d\cdot\vec n=1+1-2=0} i \fmm{P(1,2,0)\notin\pi} (\fmm{1+2-0+4=7\neq0}): para\lgem{}els.
+
+\fmm{d(r,\pi)=d(P,\pi)=\dfrac{7}{\sqrt3}=\boxed{\dfrac{7\sqrt3}{3}\ \text{u}}}
+\item Calcula la distància entre els plans \fmm{\pi_1:2x-y+2z-1=0} i \fmm{\pi_2:4x-2y+4z+7=0}.
+
+Normals proporcionals: para\lgem{}els. Dividim \fmm{\pi_2} entre 2: \fmm{\ 2x-y+2z+\tfrac72=0}.
+
+\fmm{d(\pi_1,\pi_2)=\dfrac{\left|-1-\tfrac72\right|}{\sqrt{4+1+4}}=\dfrac{9/2}{3}=\boxed{\dfrac32\ \text{u}}}
+\item Troba els plans para\lgem{}els a \fmm{\pi:x-2y+2z-1=0} que estan a distància 2 d'ell.
+
+Sabem que \fmm{\pi':x-2y+2z+k=0} amb \fmm{\ \dfrac{|k-(-1)|}{3}=2\iff k+1=\pm6\iff k=5\ \text{o}\ k=-7}.
+
+Aleshores, \fmm{\boxed{\pi'_1:x-2y+2z+5=0}} i \fmm{\boxed{\pi'_2:x-2y+2z-7=0}}
+\item Troba els plans para\lgem{}els a \fmm{\pi:2x-y+2z+5=0} que estan a distància 3 del punt \fmm{P(1,0,2)}.
+
+Feix de plans para\lgem{}els a \fmm{\pi} (mateix vector normal): \fmm{\ 2x-y+2z+D=0}, \fmm{\ |\vec n|=\sqrt{4+1+4}=3}.
+
+\fmm{d(P,\pi')=\dfrac{|2\cdot1-0+2\cdot2+D|}{3}=\dfrac{|6+D|}{3}=3\iff6+D=\pm9\iff D=3\ \text{o}\ D=-15}.
+Per tant, \fmm{\boxed{\pi'_1:2x-y+2z+3=0}} i \fmm{\boxed{\pi'_2:2x-y+2z-15=0}}. \\[2ex]
+Comprovació: \fmm{P} dona \fmm{9} i \fmm{-9}, i \fmm{\tfrac{9}{3}=3\ \checkmark}. Fixa't que la distància es mesura des del punt \fmm{P}, no des del pla \fmm{\pi} (el pla \fmm{\pi} només dona la direcció).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Recta que passa per un punt i talla dues rectes}\hypertarget{sec7}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètode dels plans}
+Volem la recta \fmm{t} que passa per un punt \fmm{P} i talla dues rectes \fmm{r} (punt \fmm{A}, director \fmm{\vec d_r}) i \fmm{s} (punt \fmm{B}, director \fmm{\vec d_s}), que normalment s'encreuen. La idea és que \fmm{t} i \fmm{r} són coplanàries (es tallen), i \fmm{t} i \fmm{s} també:
+
+\begin{enumerate}
+\item \fmm{\pi_1} = pla que conté \fmm{P} i \fmm{r}: passa per \fmm{A} amb vectors \fmm{\vec d_r} i \fmm{\overrightarrow{AP}} (normal \fmm{\vec d_r\times\overrightarrow{AP}}).
+\item \fmm{\pi_2} = pla que conté \fmm{P} i \fmm{s}: passa per \fmm{B} amb vectors \fmm{\vec d_s} i \fmm{\overrightarrow{BP}}.
+\item La recta buscada és la intersecció: \fmm{\ t:\begin{cases}\pi_1\\\pi_2\end{cases}} (director \fmm{\vec n_1\times\vec n_2}).
+\item \textbf{Comprovació}: \fmm{t} ha de tallar de veritat \fmm{r} i \fmm{s}. Com que està en el mateix pla que cadascuna, les talla si \textbf{no és para\lgem{}ela} a cap d'elles. Si \fmm{t\parallel r} o \fmm{t\parallel s}, el problema \textbf{no té solució}.
+\end{enumerate}
+
+\fmuline{Una altra manera} (punts genèrics): prenem \fmm{X=A+\lambda\vec d_r\in r} i \fmm{Y=B+\mu\vec d_s\in s} i imposem que \fmm{P}, \fmm{X}, \fmm{Y} estiguen alineats: \fmm{\overrightarrow{PX}\parallel\overrightarrow{PY}}. Dona directament els punts de tall, però el sistema no és lineal.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Variants amb la mateixa idea}
+\begin{itemize}
+\item \textbf{Recta amb una direcció donada \fmm{\vec v} que talla \fmm{r} i \fmm{s}}: \fmm{\pi_1} conté \fmm{r} i el vector \fmm{\vec v}; \fmm{\pi_2} conté \fmm{s} i \fmm{\vec v}; \fmm{\ t=\pi_1\cap\pi_2}.
+\item \textbf{Recta continguda en un pla \fmm{\pi} que passa per \fmm{P\in\pi} i talla \fmm{r}}: busquem \fmm{X=r\cap\pi}; la recta és \fmm{PX}.
+\item \textbf{Recta que passa per \fmm{P} i talla perpendicularment \fmm{r}}: és la recta \fmm{PM}, on \fmm{M} és la projecció de \fmm{P} sobre \fmm{r} (apartat 4.4).
+\item \textbf{Perpendicular comuna} de dues rectes que s'encreuen: és la primera variant amb \fmm{\vec v=\vec d_r\times\vec d_s} (apartat 4.8).
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba la recta que passa per \fmm{P(1,1,2)} i talla les rectes \fmm{r:\begin{cases}y=1\\z=0\end{cases}} i \fmm{s:\begin{cases}x=0\\z=1\end{cases}}.
+
+\fmm{r}: \fmm{A(0,1,0)}, \fmm{\vec d_r=(1,0,0)}; \fmm{\ s}: \fmm{B(0,0,1)}, \fmm{\vec d_s=(0,1,0)}.
+
+\fmm{\pi_1\ni P,r}: \fmm{\ \vec d_r\times\overrightarrow{AP}=(1,0,0)\times(1,0,2)=(0,-2,0)\Rightarrow\pi_1:y=1}.
+
+\fmm{\pi_2\ni P,s}: \fmm{\ \vec d_s\times\overrightarrow{BP}=(0,1,0)\times(1,1,1)=(1,0,-1)\Rightarrow\pi_2:x-z+1=0} (passa per \fmm{B}).
+
+\fmm{t:\begin{cases}y=1\\x-z+1=0\end{cases}}, director \fmm{(0,1,0)\times(1,0,-1)=(-1,0,-1)\parallel(1,0,1)}: \fmm{\ \boxed{t:(x,y,z)=(1,1,2)+k\,(1,0,1)}}
+
+No és para\lgem{}ela a \fmm{r} ni a \fmm{s}. Punts de tall: amb \fmm{r} (\fmm{z=0}), \fmm{k=-2}: \fmm{X(-1,1,0)}; amb \fmm{s} (\fmm{x=0}), \fmm{k=-1}: \fmm{Y(0,1,1)}
+\item Troba la recta de director \fmm{\vec v=(1,1,1)} que talla les mateixes rectes \fmm{r} i \fmm{s}.
+
+\fmm{\pi_1} conté \fmm{r} i \fmm{\vec v}: \fmm{\ (1,0,0)\times(1,1,1)=(0,-1,1)}, per \fmm{A(0,1,0)}: \fmm{\ y-z-1=0}.
+
+\fmm{\pi_2} conté \fmm{s} i \fmm{\vec v}: \fmm{\ (0,1,0)\times(1,1,1)=(1,0,-1)}, per \fmm{B(0,0,1)}: \fmm{\ x-z+1=0}.
+
+\fmm{\boxed{t:\begin{cases}y-z-1=0\\x-z+1=0\end{cases}}}, és a dir, \fmm{(x,y,z)=(-1,1,0)+k\,(1,1,1)}. Talla \fmm{r} en \fmm{(-1,1,0)} i \fmm{s} en \fmm{(0,2,1)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Perpendicular comuna a dues rectes}\hypertarget{sec8}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició i dos mètodes}
+Si \fmm{r} i \fmm{s} s'encreuen, hi ha una única recta que les talla totes dues perpendicularment: la \textbf{perpendicular comuna}. El seu director és \fmm{\vec w=\vec d_r\times\vec d_s}, i els seus punts de tall \fmm{X\in r}, \fmm{Y\in s} són els punts més pròxims de les dues rectes: \fmm{d(r,s)=d(X,Y)}.
+
+\begin{itemize}
+\item \textbf{Mètode dels plans} (com a l'apartat 4.7, amb la direcció \fmm{\vec w}):
+
+\begin{enumerate}
+\item \fmm{\vec w=\vec d_r\times\vec d_s}.
+\item \fmm{\pi_r}: pla que conté \fmm{r} i \fmm{\vec w} (per \fmm{P}, normal \fmm{\vec d_r\times\vec w}).
+\item \fmm{\pi_s}: pla que conté \fmm{s} i \fmm{\vec w} (per \fmm{Q}, normal \fmm{\vec d_s\times\vec w}).
+\item Perpendicular comuna: \fmm{\ t:\begin{cases}\pi_r\\\pi_s\end{cases}}.
+\end{enumerate}
+\item \textbf{Mètode dels punts genèrics}: escrivim \fmm{X=P+\lambda\,\vec d_r} i \fmm{Y=Q+\mu\,\vec d_s}, imposem \fmm{\overrightarrow{XY}\cdot\vec d_r=0} i \fmm{\overrightarrow{XY}\cdot\vec d_s=0} (sistema lineal en \fmm{\lambda}, \fmm{\mu}), i la perpendicular comuna és la recta \fmm{XY}. Dona també els peus \fmm{X}, \fmm{Y} i la distància \fmm{|\overrightarrow{XY}|}.
+\end{itemize}
+
+\begin{fmnote}Si les rectes són para\lgem{}eles hi ha infinites perpendiculars comunes; si es tallen, la perpendicular comuna passa pel punt de tall i \fmm{X=Y}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba la perpendicular comuna a les rectes \fmm{r:(x,y,z)=(1,0,0)+\lambda(1,1,0)} i \fmm{s:(x,y,z)=(0,0,2)+\mu(0,1,1)} de l'apartat 4.5 amb el mètode dels plans.
+
+\fmm{\vec w=\vec d_r\times\vec d_s=(1,-1,1)}.
+
+\fmm{\pi_r}: \fmm{\ \vec d_r\times\vec w=(1,1,0)\times(1,-1,1)=(1,-1,-2)}, per \fmm{P(1,0,0)}: \fmm{\ x-y-2z-1=0}.
+
+\fmm{\pi_s}: \fmm{\ \vec d_s\times\vec w=(0,1,1)\times(1,-1,1)=(2,1,-1)}, per \fmm{Q(0,0,2)}: \fmm{\ 2x+y-z+2=0}.
+
+\fmm{\boxed{t:\begin{cases}x-y-2z-1=0\\2x+y-z+2=0\end{cases}}} (director \fmm{(1,-1,-2)\times(2,1,-1)=(3,-3,3)\parallel\vec w} )
+\item Resol el mateix problema amb els punts genèrics i troba els punts més pròxims de les dues rectes.
+
+\fmm{X(1+\lambda,\lambda,0)}, \fmm{\ Y(0,\mu,2+\mu)}, \fmm{\ \overrightarrow{XY}=(-1-\lambda,\ \mu-\lambda,\ 2+\mu)}.
+
+\fmm{\overrightarrow{XY}\cdot(1,1,0)=-1-2\lambda+\mu=0}, \fmm{\ \overrightarrow{XY}\cdot(0,1,1)=2+2\mu-\lambda=0\ \Rightarrow\ \lambda=-\tfrac43,\ \mu=-\tfrac53}.
+
+\fmm{X\left(-\tfrac13,-\tfrac43,0\right)}, \fmm{\ Y\left(0,-\tfrac53,\tfrac13\right)}, \fmm{\ \overrightarrow{XY}=\left(\tfrac13,-\tfrac13,\tfrac13\right)}: \fmm{\ \boxed{t:(x,y,z)=\left(-\tfrac13,-\tfrac43,0\right)+k\,(1,-1,1)}}
+
+Comprovació: \fmm{X} compleix les equacions de \fmm{\pi_r} i \fmm{\pi_s}, i \fmm{|\overrightarrow{XY}|=\tfrac{\sqrt3}{3}=d(r,s)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Simètric d'un punt respecte d'un punt i d'una recta}\hypertarget{sec9}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{La idea: el punt mig}
+Tots els simètrics es calculen igual: busquem el punt \fmm{M} que ha de ser el \textbf{punt mig} entre \fmm{P} i el seu simètric \fmm{P'}, i aleshores
+
+\fmdisp{M=\dfrac{P+P'}{2}\iff P'=2M-P}
+
+\begin{itemize}
+\item \textbf{Respecte d'un punt} \fmm{M}: ja el tenim, \fmm{P'=2M-P}.
+\item \textbf{Respecte d'una recta} \fmm{r}: \fmm{M} és la \textbf{projecció} de \fmm{P} sobre \fmm{r}.
+
+\begin{enumerate}
+\item Pla \fmm{\pi} que passa per \fmm{P} i és perpendicular a \fmm{r} (vector normal \fmm{\vec d_r}).
+\item \fmm{M=r\cap\pi}.
+\item \fmm{P'=2M-P}.
+\end{enumerate}
+\end{itemize}
+
+\begin{fmnote}Els dos primers passos donen la \textbf{projecció ortogonal} d'un punt sobre una recta (apartat 4.4). La recta \fmm{PM} és la que passa per \fmm{P} i \textbf{talla perpendicularment} \fmm{r}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el simètric de \fmm{A(2,-1,3)} respecte del punt \fmm{M(1,1,1)}.
+
+\fmm{A'=2M-A=(2-2,\ 2+1,\ 2-3)=\boxed{(0,3,-1)}}
+\item Calcula el simètric de \fmm{P(1,2,3)} respecte de la recta \fmm{r:(x,y,z)=\lambda(1,1,0)}.
+
+Pla per \fmm{P} perpendicular a \fmm{r}: \fmm{\ x+y=1+2=3}.
+
+Tall amb \fmm{r}: \fmm{\ \lambda+\lambda=3\Rightarrow\lambda=\tfrac32\Rightarrow M\left(\tfrac32,\tfrac32,0\right)}.
+
+\fmm{P'=2M-P=(3-1,\ 3-2,\ 0-3)=\boxed{(2,1,-3)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Simètric d'un punt i d'una recta respecte d'un pla}\hypertarget{sec10}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Mètodes}
+\begin{itemize}
+\item \textbf{Simètric d'un punt \fmm{P} respecte d'un pla \fmm{\pi}}: \fmm{M} és la projecció de \fmm{P} sobre \fmm{\pi}.
+
+\begin{enumerate}
+\item Recta \fmm{s} que passa per \fmm{P} i és perpendicular a \fmm{\pi} (director \fmm{\vec n}): \fmm{\ X=P+t\,\vec n}.
+\item \fmm{M=s\cap\pi}.
+\item \fmm{P'=2M-P} (o directament \fmm{P'=P+2t\,\vec n}).
+\end{enumerate}
+\item \textbf{Simètrica d'una recta \fmm{r} respecte d'un pla \fmm{\pi}}: busquem dos punts de \fmm{r'}.
+
+\begin{itemize}
+\item Si \fmm{r} i \fmm{\pi} \textbf{es tallen} en \fmm{X}: \fmm{X} és el seu propi simètric. Prenem un altre punt \fmm{A\in r}, en calculem el simètric \fmm{A'} i \fmm{r'} és la recta \fmm{XA'}.
+\item Si \fmm{r} és \textbf{para\lgem{}ela} a \fmm{\pi}: \fmm{r'} passa per \fmm{A'} (simètric d'un punt \fmm{A\in r}) i té el mateix director \fmm{\vec d}.
+\item Si \fmm{r} està continguda en \fmm{\pi}, \fmm{r'=r}.
+\end{itemize}
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el simètric de \fmm{P(3,4,2)} respecte del pla \fmm{\pi:x+y+z-6=0}.
+
+Recta perpendicular: \fmm{\ (3+t,\ 4+t,\ 2+t)}. En el pla: \fmm{\ 9+3t-6=0\Rightarrow t=-1\Rightarrow M(2,3,1)}.
+
+\fmm{P'=2M-P=(4-3,\ 6-4,\ 2-2)=\boxed{(1,2,0)}}
+\item Calcula la recta simètrica de \fmm{r:(x,y,z)=(2,1,0)+\lambda(1,0,0)} respecte del mateix pla.
+
+\fmm{\vec d\cdot\vec n=1\neq0}: es tallen. \fmm{\ (2+\lambda)+1+0-6=0\Rightarrow\lambda=3\Rightarrow X(5,1,0)}.
+
+Simètric de \fmm{A(2,1,0)}: \fmm{\ (2+t)+(1+t)+t-6=0\Rightarrow t=1\Rightarrow M(3,2,1)\Rightarrow A'(4,3,2)}.
+
+\fmm{\overrightarrow{XA'}=(-1,2,2)\Rightarrow\boxed{r':(x,y,z)=(5,1,0)+\mu(-1,2,2)}}
+\item Calcula la simètrica de \fmm{r:(x,y,z)=(1,0,0)+\lambda(1,-1,0)} respecte del pla \fmm{z=2}.
+
+\fmm{\vec d\cdot\vec n=(1,-1,0)\cdot(0,0,1)=0} i \fmm{A(1,0,0)\notin\pi}: para\lgem{}els.
+
+\fmm{M(1,0,2)\Rightarrow A'(1,0,4)\Rightarrow\boxed{r':(x,y,z)=(1,0,4)+\mu(1,-1,0)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Àrees i volums}\hypertarget{sec11}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmules}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{7.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Figura} & \textbf{Fórmula}\\\midrule
+Para\lgem{}elogram de costats $\overrightarrow{AB}$, $\overrightarrow{AD}$ & $S=|\overrightarrow{AB}\times\overrightarrow{AD}|$\\[3pt]
+Triangle $ABC$ & $S=\tfrac12\,|\overrightarrow{AB}\times\overrightarrow{AC}|$\\[3pt]
+Para\lgem{}elepípede de arestes $\overrightarrow{AB}$, $\overrightarrow{AC}$, $\overrightarrow{AD}$ & $V=\big|[\overrightarrow{AB},\overrightarrow{AC},\overrightarrow{AD}]\big|$\\[3pt]
+Tetraedre $ABCD$ & $V=\tfrac16\,\big|[\overrightarrow{AB},\overrightarrow{AC},\overrightarrow{AD}]\big|$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{itemize}
+\item Com que \fmm{V_{\text{tetraedre}}=\tfrac13\,S_{\text{base}}\cdot h}, l'\textbf{altura} del tetraedre des de \fmm{D} és \fmm{\ h=\dfrac{3V}{S_{ABC}}=d(D,\pi_{ABC})}.
+\item De la mateixa manera, l'\textbf{altura d'un triangle} sobre el costat \fmm{AB} és \fmm{\ h=\dfrac{2S}{|\overrightarrow{AB}|}=d(C,r_{AB})}.
+\item Els \textbf{angles d'un triangle} es calculen amb el producte escalar dels vectors que surten de cada vèrtex (ara \emph{sense} valor absolut: un angle pot ser obtús), i sumen \fmm{180^\circ}.
+\item Un pla \fmm{\dfrac xa+\dfrac yb+\dfrac zc=1} talla els eixos en \fmm{(a,0,0)}, \fmm{(0,b,0)}, \fmm{(0,0,c)} i forma amb els plans coordenats un tetraedre de volum \fmm{\tfrac16|abc|}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula l'àrea del triangle de vèrtexs \fmm{A(1,0,1)}, \fmm{B(2,1,0)} i \fmm{C(0,2,3)}.
+
+\fmm{\overrightarrow{AB}=(1,1,-1)}, \fmm{\ \overrightarrow{AC}=(-1,2,2)}, \fmm{\ \overrightarrow{AB}\times\overrightarrow{AC}=(4,-1,3)}.
+
+\fmm{S=\tfrac12\sqrt{16+1+9}=\boxed{\dfrac{\sqrt{26}}{2}\approx2{,}55\ \text{u}^2}}
+\item Calcula el volum del tetraedre de vèrtexs \fmm{A(1,0,0)}, \fmm{B(0,2,0)}, \fmm{C(0,0,3)}, \fmm{D(1,1,1)} i la seua altura des de \fmm{D}.
+
+\fmm{[\overrightarrow{AB},\overrightarrow{AC},\overrightarrow{AD}]=\begin{vmatrix}-1&2&0\\-1&0&3\\0&1&1\end{vmatrix}=5\Rightarrow V=\boxed{\dfrac56\ \text{u}^3}}
+
+\fmm{\overrightarrow{AB}\times\overrightarrow{AC}=(6,3,2)\Rightarrow S_{ABC}=\tfrac12\cdot7=\tfrac72}.
+
+\fmm{h=\dfrac{3V}{S}=\dfrac{5/2}{7/2}=\boxed{\dfrac57\ \text{u}}}. \\[2ex]
+Comprovació: el pla \fmm{ABC} és \fmm{6x+3y+2z-6=0} i \fmm{d(D,\pi)=\tfrac{|6+3+2-6|}{7}=\tfrac57\ \checkmark}
+\item Calcula el volum del tetraedre que forma el pla \fmm{3x+2y+z=6} amb els plans coordenats.
+
+Talls amb els eixos: \fmm{(2,0,0)}, \fmm{(0,3,0)}, \fmm{(0,0,6)}. \fmm{\ V=\tfrac16\cdot2\cdot3\cdot6=\boxed{6\ \text{u}^3}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Llocs geomètrics}\hypertarget{sec12}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definició i mètode}
+Un \textbf{lloc geomètric} és el conjunt de tots els punts de l'espai que compleixen una propietat. Per a trobar-ne l'equació prenem un punt genèric \fmm{X(x,y,z)}, escrivim la propietat amb distàncies i simplifiquem.
+
+\begin{itemize}
+\item \textbf{Pla mediador} d'un segment \fmm{AB}: punts que equidisten de \fmm{A} i \fmm{B}, \fmm{\ d(X,A)=d(X,B)}. Desenvolupant els quadrats queda un pla: el que és \textbf{perpendicular a \fmm{AB} pel punt mig} \fmm{M}, \fmm{\ \overrightarrow{AB}\cdot\overrightarrow{MX}=0}.
+\item \textbf{Plans bisectors} de dos plans secants: punts que equidisten de \fmm{\pi_1} i \fmm{\pi_2},
+
+\fmdisp{\dfrac{|A_1x+B_1y+C_1z+D_1|}{\sqrt{A_1^2+B_1^2+C_1^2}}=\dfrac{|A_2x+B_2y+C_2z+D_2|}{\sqrt{A_2^2+B_2^2+C_2^2}}}
+
+          Els dos signes del valor absolut donen \textbf{dos plans perpendiculars} entre si, que divideixen en dues parts iguals els angles diedres. Si \fmm{\pi_1\parallel\pi_2}, el lloc és un sol pla para\lgem{}el, a mitja distància.
+\item \textbf{Superfície esfèrica} de centre \fmm{C(a,b,c)} i radi \fmm{R}: punts que disten \fmm{R} de \fmm{C},
+
+\fmdisp{(x-a)^2+(y-b)^2+(z-c)^2=R^2\iff x^2+y^2+z^2+Ax+By+Cz+D=0}
+
+          amb \fmm{C\left(-\tfrac A2,-\tfrac B2,-\tfrac C2\right)} i \fmm{R^2=a^2+b^2+c^2-D}. Un pla \fmm{\pi} és \textbf{secant}, \textbf{tangent} o \textbf{exterior} a l'esfera segons que \fmm{d(C,\pi)} siga menor, igual o major que \fmm{R}. Si és secant, la talla en una circumferència de centre la projecció de \fmm{C} sobre \fmm{\pi} i radi \fmm{\sqrt{R^2-d^2}}.
+\item Altres llocs habituals: els punts que disten \fmm{k} d'un pla són \textbf{dos plans para\lgem{}els} (apartat 4.6); els punts que disten \fmm{k} d'una recta formen una \textbf{superfície cilíndrica}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba el pla mediador del segment d'extrems \fmm{A(1,0,2)} i \fmm{B(3,2,0)}.
+
+\fmm{(x-1)^2+y^2+(z-2)^2=(x-3)^2+(y-2)^2+z^2\ \Rightarrow\ -2x-4z+5=-6x-4y+13}
+
+\fmm{4x+4y-4z-8=0\Rightarrow\boxed{x+y-z-2=0}}. Comprovació: \fmm{\overrightarrow{AB}=(2,2,-2)\parallel\vec n} i \fmm{M(2,1,1)} és del pla
+\item Troba els plans bisectors de \fmm{\pi_1:x+2y-2z+1=0} i \fmm{\pi_2:2x-y+2z-3=0}.
+
+Els dos normals tenen mòdul 3: \fmm{\ \dfrac{|x+2y-2z+1|}{3}=\dfrac{|2x-y+2z-3|}{3}\iff x+2y-2z+1=\pm(2x-y+2z-3)}.
+
+(+): \fmm{\ \boxed{x-3y+4z-4=0}}; \fmm{\quad}(-): \fmm{\ \boxed{3x+y-2=0}}. Són perpendiculars: \fmm{(1,-3,4)\cdot(3,1,0)=0\ \checkmark}
+\item Troba el centre i el radi de l'esfera \fmm{x^2+y^2+z^2-2x+4y-6z-2=0} i estudia'n la posició respecte del pla \fmm{2x+2y-z+2=0}.
+
+\fmm{(x-1)^2+(y+2)^2+(z-3)^2=2+1+4+9=16\Rightarrow C(1,-2,3)}, \fmm{\ R=4}.
+
+\fmm{d(C,\pi)=\dfrac{|2-4-3+2|}{3}=1\lt4}: el pla és secant.
+
+Circumferència de radi \fmm{\sqrt{16-1}=\sqrt{15}} i centre la projecció de \fmm{C}: \fmm{\left(\tfrac53,-\tfrac43,\tfrac83\right)}.
+\item Troba els punts de l'eix \fmm{OX} que equidisten de \fmm{A(1,2,3)} i \fmm{B(3,0,1)}.
+
+Pla mediador: \fmm{\overrightarrow{AB}=(2,-2,-2)}, \fmm{M(2,1,2)}: \fmm{\ x-y-z+1=0}.
+
+Amb \fmm{y=z=0}: \fmm{\ x=-1\Rightarrow\boxed{(-1,0,0)}}. Comprovació: les dues distàncies valen \fmm{\sqrt{17}}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

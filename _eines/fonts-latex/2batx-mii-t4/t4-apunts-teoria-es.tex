@@ -1,0 +1,685 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 4: Problemas métricos. 2.º de Bachillerato MII},pdfsubject={Matemáticas II},pdfkeywords={ángulos entre rectas y planos, distancias, perpendicular común, proyecciones, simétricos, áreas, volúmenes, lugares geométricos, plano mediador, planos bisectores, esfera}}
+
+% colors de la web (FentMates, bloque de Geometría: naranja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{4.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3.2pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.6pt,opacity=0.7] (110,70)--(110,8) (110,70)--(210,92) (110,70)--(40,108);
+  \fill[opacity=0.14] (50,40)--(150,22)--(210,62)--(110,82)--cycle;
+  \draw (50,40)--(150,22)--(210,62)--(110,82)--cycle;
+  \draw (60,110)--(190,14);
+  \fill (128,47) circle (5.5);
+  \draw[line width=3.4pt] (128,47)--(128,18) (122,26)--(128,16)--(134,26);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (136,22) {$\vec n$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (196,112) {$\pi$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}2.º Bachillerato MII · Unidad 4: Problemas métricos}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 2.º Bachillerato · Matemáticas II}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 4} · Problemas métricos\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso para medir en el espacio: ángulos entre rectas y planos, todas las distancias (entre puntos, rectas y planos), la recta que pasa por un punto y corta a dos rectas, la perpendicular común de dos rectas que se cruzan, proyecciones y simétricos de un punto respecto de un punto, de una recta y de un plano, la recta simétrica respecto de un plano, áreas y volúmenes, y los lugares geométricos (plano mediador, planos bisectores y esfera).\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.2cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}4.1}\ \ Ángulo entre dos rectas}}\\[1pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}4.2}\ \ Ángulos con planos}}\\[1pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}4.3}\ \ Distancia a un plano}}\\[1pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}4.4}\ \ Distancia de un punto a una recta}}\\[1pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}4.5}\ \ Distancia entre dos rectas}}\\[1pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}4.6}\ \ Recta y plano, dos planos}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \hyperlink{sec7}{\textbf{\color{fmgreen}4.7}\ \ Recta por un punto que corta a dos rectas}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}4.8}\ \ Perpendicular común}}\\[1pt]
+\hyperlink{sec9}{\textbf{\color{fmgreen}4.9}\ \ Simétricos respecto de un punto y de una recta}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}4.10}\ \ Simétricos respecto de un plano}}\\[1pt]
+\mbox{\hyperlink{sec11}{\textbf{\color{fmgreen}4.11}\ \ Áreas y volúmenes}}\\[1pt]
+\mbox{\hyperlink{sec12}{\textbf{\color{fmgreen}4.12}\ \ Lugares geométricos}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{4\baselineskip}
+\section{Ángulo entre dos rectas}\hypertarget{sec1}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición y fórmula}
+El \textbf{ángulo entre dos rectas} \fmm{r} y \fmm{s} es el menor de los ángulos que forman sus vectores directores \fmm{\vec d_r} y \fmm{\vec d_s}. Por eso siempre está entre \fmm{0^\circ} y \fmm{90^\circ}, y en la fórmula del producto escalar ponemos el \textbf{valor absoluto}:
+
+\fmdisp{\cos\alpha=\dfrac{|\vec d_r\cdot\vec d_s|}{|\vec d_r|\,|\vec d_s|}\qquad 0^\circ\le\alpha\le90^\circ}
+
+\begin{itemize}
+\item La fórmula sirve igual si las rectas \textbf{se cortan} o si \textbf{se cruzan}: en este caso, el ángulo es el que forman dos paralelas a \fmm{r} y \fmm{s} trazadas por un mismo punto.
+\item \fmm{r\perp s\iff\vec d_r\cdot\vec d_s=0}. Dos rectas perpendiculares pueden cortarse o cruzarse.
+\item Si \fmm{\vec d_r} y \fmm{\vec d_s} son proporcionales, el ángulo es \fmm{0^\circ} (rectas paralelas o coincidentes).
+\item Si la recta viene dada en implícitas, su vector director es \fmm{\vec d=\vec n_1\times\vec n_2}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el ángulo que forman las rectas \fmm{r:\dfrac{x-1}{2}=\dfrac{y}{-1}=\dfrac{z+3}{2}} y \fmm{s:(x,y,z)=(0,4,1)+\lambda\,(1,1,0)}.
+
+Vectores directores: \fmm{\ \vec d_r=(2,-1,2)}, \fmm{\ \vec d_s=(1,1,0)}.
+
+\fmm{\cos\alpha=\dfrac{|2\cdot1+(-1)\cdot1+2\cdot0|}{\sqrt{9}\cdot\sqrt{2}}=\dfrac{1}{3\sqrt2}=\dfrac{\sqrt2}{6}}
+
+\fmm{\alpha=\arccos\dfrac{\sqrt2}{6}\approx76{,}37^\circ} (76$^\circ$ 22$'$ 1$''$).
+\item Calcula el ángulo entre \fmm{r:\begin{cases}x-y=0\\z=1\end{cases}} y \fmm{s:\dfrac{x}{1}=\dfrac{y-2}{0}=\dfrac{z}{1}}.
+
+\fmm{\vec d_r=(1,-1,0)\times(0,0,1)=(-1,-1,0)}; tomamos uno proporcional: \fmm{\vec d_r=(1,1,0)}. \fmm{\ \vec d_s=(1,0,1)}.
+
+\fmm{\cos\alpha=\dfrac{|1+0+0|}{\sqrt2\cdot\sqrt2}=\dfrac12\ \Rightarrow\ \boxed{\alpha=60^\circ}}
+\item Halla \fmm{a} para que las rectas de directores \fmm{\vec d_r=(1,a,2)} y \fmm{\vec d_s=(3,-1,1)} sean perpendiculares.
+
+\fmm{\vec d_r\cdot\vec d_s=3-a+2=0\ \Rightarrow\ \boxed{a=5}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Ángulo entre recta y plano. Ángulo entre dos planos}\hypertarget{sec2}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmulas}
+\begin{itemize}
+\item El \textbf{ángulo entre una recta \fmm{r} y un plano \fmm{\pi}} es el ángulo que forma la recta con su proyección ortogonal sobre el plano. Como el vector normal \fmm{\vec n} es perpendicular al plano, el ángulo entre \fmm{\vec d} y \fmm{\vec n} es el \textbf{complementario} \fmm{90^\circ-\alpha}; por eso aparece el \textbf{seno}:
+
+\fmdisp{\sin\alpha=\cos(90^\circ-\alpha)=\dfrac{|\vec d\cdot\vec n|}{|\vec d|\,|\vec n|}}
+
+\item El \textbf{ángulo entre dos planos} \fmm{\pi_1} y \fmm{\pi_2} es el (menor) ángulo que forman sus vectores normales:
+
+\fmdisp{\cos\alpha=\dfrac{|\vec n_1\cdot\vec n_2|}{|\vec n_1|\,|\vec n_2|}}
+
+\end{itemize}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Condición} & \textbf{Recta y plano} & \textbf{Dos planos}\\\midrule
+Paralelos & $\vec d\cdot\vec n=0$ ($\vec d\perp\vec n$) & $\vec n_1\parallel\vec n_2$ (proporcionales)\\[3pt]
+Perpendiculares & $\vec d\parallel\vec n$ (proporcionales) & $\vec n_1\cdot\vec n_2=0$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{Cuidado}: es muy fácil confundirse. Para recta y plano, \emph{paralelos} significa \fmm{\vec d\perp\vec n} y \emph{perpendiculares} significa \fmm{\vec d\parallel\vec n}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el ángulo entre la recta \fmm{r:\begin{cases}x=1+\lambda\\y=2\\z=\lambda\end{cases}} y el plano \fmm{\pi:x+y-3=0}.
+
+\fmm{\vec d=(1,0,1)}, \fmm{\ \vec n=(1,1,0)}.
+
+\fmm{\sin\alpha=\dfrac{|1+0+0|}{\sqrt2\cdot\sqrt2}=\dfrac12\ \Rightarrow\ \boxed{\alpha=30^\circ}}
+\item Calcula el ángulo que forman los planos \fmm{\pi_1:x+y+z=1} y \fmm{\pi_2:2x-y+z=3}.
+
+\fmm{\vec n_1=(1,1,1)}, \fmm{\ \vec n_2=(2,-1,1)}, \fmm{\ \vec n_1\cdot\vec n_2=2-1+1=2}.
+
+\fmm{\cos\alpha=\dfrac{2}{\sqrt3\cdot\sqrt6}=\dfrac{2}{\sqrt{18}}=\dfrac{\sqrt2}{3}\ \Rightarrow\ \alpha\approx61{,}87^\circ}
+\item Halla \fmm{k} para que el plano \fmm{kx+2y-z=0} sea perpendicular al plano \fmm{x-y+z=4}.
+
+\fmm{\vec n_1\cdot\vec n_2=k-2-1=0\ \Rightarrow\ \boxed{k=3}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distancia entre dos puntos. Distancia de un punto a un plano}\hypertarget{sec3}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmulas}
+\begin{itemize}
+\item \textbf{Distancia entre dos puntos}: es el módulo del vector que los une:
+
+\fmdisp{d(A,B)=|\overrightarrow{AB}|=\sqrt{(b_1-a_1)^2+(b_2-a_2)^2+(b_3-a_3)^2}}
+
+\item La \textbf{distancia de un punto \fmm{P} a una figura} (recta, plano\dots{}) es la menor de las distancias de \fmm{P} a los puntos de la figura. Se alcanza en el \textbf{pie de la perpendicular} trazada desde \fmm{P}, que se llama \textbf{proyección ortogonal} de \fmm{P}.
+\item \textbf{Distancia de un punto \fmm{P(x_0,y_0,z_0)} al plano} \fmm{\pi:Ax+By+Cz+D=0}: sustituimos el punto en la ecuación del plano y dividimos por el módulo del vector normal:
+
+\fmdisp{d(P,\pi)=\dfrac{|Ax_0+By_0+Cz_0+D|}{\sqrt{A^2+B^2+C^2}}}
+
+\end{itemize}
+
+\fmuline{¿De dónde sale?} Si \fmm{Q} es cualquier punto del plano, la distancia es la longitud de la proyección de \fmm{\overrightarrow{QP}} sobre la dirección de \fmm{\vec n}: \fmm{\ d=\dfrac{|\overrightarrow{QP}\cdot\vec n|}{|\vec n|}}. Como \fmm{\vec n\cdot Q=-D}, el numerador es \fmm{|\vec n\cdot P+D|}.\\
+
+
+\textbf{Proyección de un punto sobre un plano}: trazamos la recta que pasa por \fmm{P} con director \fmm{\vec n}, \fmm{\ X=P+t\,\vec n}, y la cortamos con el plano. El punto de corte \fmm{Q} es el punto del plano \textbf{más próximo} a \fmm{P}, y \fmm{d(P,\pi)=d(P,Q)}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula la distancia del punto \fmm{P(5,1,6)} al plano \fmm{\pi:2x-y+2z-3=0} y el punto del plano más próximo a \fmm{P}.
+
+\fmm{d(P,\pi)=\dfrac{|2\cdot5-1+2\cdot6-3|}{\sqrt{4+1+4}}=\dfrac{18}{3}=\boxed{6\ \text{u}}}
+
+Recta perpendicular por \fmm{P}: \fmm{\ (5+2t,\ 1-t,\ 6+2t)}. En el plano: \fmm{\ 2(5+2t)-(1-t)+2(6+2t)-3=18+9t=0\Rightarrow t=-2}.
+
+\fmm{Q=(5-4,\ 1+2,\ 6-4)=\boxed{(1,3,2)}}. Comprobación: \fmm{\ |\overrightarrow{PQ}|=|(-4,2,-4)|=6\ \checkmark}
+\item Halla los puntos de la recta \fmm{x=y=z} que están a distancia 2 del plano \fmm{\pi:2x+y-2z=1}.
+
+Punto genérico de la recta: \fmm{\ X(t,t,t)}. \fmm{\ d(X,\pi)=\dfrac{|2t+t-2t-1|}{3}=\dfrac{|t-1|}{3}}.
+
+\fmm{\dfrac{|t-1|}{3}=2\iff t-1=\pm6\iff t=7\ \text{o}\ t=-5}.
+
+\fmm{\boxed{(7,7,7)}} y \fmm{\boxed{(-5,-5,-5)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distancia de un punto a una recta}\hypertarget{sec4}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Dos métodos}
+Sea \fmm{r} la recta que pasa por \fmm{A} con vector director \fmm{\vec d}, y \fmm{P} un punto.
+
+\begin{itemize}
+\item \textbf{Con el producto vectorial}: el paralelogramo de lados \fmm{\vec d} y \fmm{\overrightarrow{AP}} tiene área \fmm{|\overrightarrow{AP}\times\vec d|}, base \fmm{|\vec d|} y altura \fmm{d(P,r)}. Por tanto,
+
+\fmdisp{d(P,r)=\dfrac{|\overrightarrow{AP}\times\vec d|}{|\vec d|}}
+
+\item \textbf{Con la proyección} \fmm{Q} de \fmm{P} sobre \fmm{r} (el pie de la perpendicular): o bien cortamos \fmm{r} con el plano que pasa por \fmm{P} y es perpendicular a \fmm{r} (vector normal \fmm{\vec d}), o bien imponemos que el punto genérico \fmm{Q=A+\lambda\vec d} cumpla \fmm{\overrightarrow{QP}\cdot\vec d=0}. Entonces \fmm{d(P,r)=d(P,Q)}.
+\end{itemize}
+
+\begin{fmnote}El segundo método es más largo pero da, además, el punto \fmm{Q} de la recta más próximo a \fmm{P} y la recta que corta perpendicularmente a \fmm{r} pasando por \fmm{P} (la recta \fmm{PQ}), que a menudo también se piden.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula la distancia del punto \fmm{P(6,4,4)} a la recta \fmm{r:\dfrac{x-2}{1}=\dfrac{y-1}{2}=\dfrac z2} por los dos métodos.
+
+\fmm{A(2,1,0)}, \fmm{\ \vec d=(1,2,2)}, \fmm{\ \overrightarrow{AP}=(4,3,4)}, \fmm{\ \overrightarrow{AP}\times\vec d=\begin{vmatrix}\vec i&\vec j&\vec k\\4&3&4\\1&2&2\end{vmatrix}=(-2,-4,5)}
+
+\fmm{d(P,r)=\dfrac{\sqrt{4+16+25}}{\sqrt{1+4+4}}=\dfrac{\sqrt{45}}{3}=\boxed{\sqrt5\ \text{u}}}
+
+Segundo método: plano por \fmm{P} perpendicular a \fmm{r}: \fmm{\ x+2y+2z=6+8+8=22}.
+
+Sustituimos \fmm{(2+\lambda,\,1+2\lambda,\,2\lambda)}: \fmm{\ 4+9\lambda=22\Rightarrow\lambda=2\Rightarrow Q(4,5,4)}. \fmm{\ d(P,Q)=|(-2,1,0)|=\sqrt5\ \checkmark}
+\item Calcula la distancia de \fmm{P(1,0,2)} a la recta \fmm{r:\begin{cases}x+y=1\\z=0\end{cases}}.
+
+\fmm{\vec d=(1,1,0)\times(0,0,1)=(1,-1,0)}; un punto: \fmm{A(1,0,0)}. \fmm{\ \overrightarrow{AP}=(0,0,2)}.
+
+\fmm{\overrightarrow{AP}\times\vec d=(2,2,0)\Rightarrow d(P,r)=\dfrac{\sqrt8}{\sqrt2}=\boxed{2\ \text{u}}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distancia entre dos rectas}\hypertarget{sec5}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Según la posición relativa}
+Sean \fmm{r} (punto \fmm{P}, director \fmm{\vec d_r}) y \fmm{s} (punto \fmm{Q}, director \fmm{\vec d_s}). Primero estudiamos su posición relativa (unidad 3):
+
+\begin{itemize}
+\item \textbf{Coincidentes o secantes}: tienen puntos comunes, y \fmm{d(r,s)=0}.
+\item \textbf{Paralelas}: la distancia es la de un punto cualquiera de una a la otra: \fmm{\ d(r,s)=d(Q,r)=\dfrac{|\overrightarrow{PQ}\times\vec d_r|}{|\vec d_r|}}.
+\item \textbf{Se cruzan}: los vectores \fmm{\overrightarrow{PQ}}, \fmm{\vec d_r}, \fmm{\vec d_s} determinan un paralelepípedo; su altura sobre la base de lados \fmm{\vec d_r}, \fmm{\vec d_s} es la distancia entre las rectas (volumen entre área de la base):
+
+\fmdisp{d(r,s)=\dfrac{\big|[\overrightarrow{PQ},\vec d_r,\vec d_s]\big|}{|\vec d_r\times\vec d_s|}}
+
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sean \fmm{r:(x,y,z)=(1,0,0)+\lambda(1,1,0)} y \fmm{s:(x,y,z)=(0,0,2)+\mu(0,1,1)}. Comprueba que se cruzan y calcula su distancia.
+
+\fmm{\overrightarrow{PQ}=(-1,0,2)}, \fmm{\ \vec d_r\times\vec d_s=(1,-1,1)}, \fmm{\ [\overrightarrow{PQ},\vec d_r,\vec d_s]=(-1,0,2)\cdot(1,-1,1)=1\neq0}: se cruzan.
+
+\fmm{d(r,s)=\dfrac{|1|}{\sqrt{1+1+1}}=\dfrac{1}{\sqrt3}=\boxed{\dfrac{\sqrt3}{3}\ \text{u}}}
+\item Calcula la distancia entre las rectas \fmm{r:\dfrac{x-1}{1}=\dfrac y2=\dfrac{z+1}{2}} y \fmm{s:(x,y,z)=(3,1,0)+\mu(2,4,4)}.
+
+\fmm{(2,4,4)=2\,(1,2,2)}, y \fmm{Q(3,1,0)\notin r} (\fmm{\tfrac21\neq\tfrac12}): son paralelas.
+
+\fmm{\overrightarrow{PQ}=(2,1,1)}, \fmm{\ \overrightarrow{PQ}\times(1,2,2)=(0,-3,3)\Rightarrow d(r,s)=\dfrac{\sqrt{18}}{3}=\boxed{\sqrt2\ \text{u}}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Distancia entre recta y plano y entre dos planos}\hypertarget{sec6}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Solo tiene sentido si son paralelos}
+\begin{itemize}
+\item \textbf{Recta y plano}: si se cortan (\fmm{\vec d\cdot\vec n\neq0}) o la recta está contenida en el plano, la distancia es 0. Si son \textbf{paralelos}, \fmm{\ d(r,\pi)=d(P,\pi)} para cualquier punto \fmm{P} de \fmm{r}.
+\item \textbf{Dos planos}: si son secantes o coincidentes, la distancia es 0. Si son \textbf{paralelos}, \fmm{\ d(\pi_1,\pi_2)=d(P,\pi_2)} para cualquier \fmm{P\in\pi_1}. Si los escribimos con el \textbf{mismo} vector normal, \fmm{\pi_1:Ax+By+Cz+D_1=0} y \fmm{\pi_2:Ax+By+Cz+D_2=0},
+
+\fmdisp{d(\pi_1,\pi_2)=\dfrac{|D_1-D_2|}{\sqrt{A^2+B^2+C^2}}}
+
+\item Los \textbf{planos paralelos a \fmm{\pi} a distancia \fmm{k}} son dos: \fmm{Ax+By+Cz+D'=0} con \fmm{\dfrac{|D-D'|}{|\vec n|}=k}.
+\item Los \textbf{planos paralelos a \fmm{\pi} que están a distancia \fmm{k} de un punto \fmm{P(x_0,y_0,z_0)}} también son dos (uno a cada lado de \fmm{P}). Escribimos el haz de planos paralelos \fmm{Ax+By+Cz+D'=0} e imponemos la distancia al punto:
+
+\fmdisp{\dfrac{|Ax_0+By_0+Cz_0+D'|}{\sqrt{A^2+B^2+C^2}}=k\iff Ax_0+By_0+Cz_0+D'=\pm k\,|\vec n|}
+
+\end{itemize}
+
+\begin{fmnote}\fmuline{Cuidado}: para aplicar la fórmula \fmm{|D_1-D_2|} los dos planos tienen que tener exactamente los mismos \fmm{A}, \fmm{B}, \fmm{C}. Por ejemplo, \fmm{4x-2y+4z+7=0} se tiene que escribir antes como \fmm{2x-y+2z+\tfrac72=0}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Resumen de todas las distancias}
+\begin{center}\renewcommand{\arraystretch}{1.6}\begin{tabularx}{\linewidth}{XX}
+\textbf{Punto--punto}:\ \ $\displaystyle d(A,B)=|\overrightarrow{AB}|$ & \textbf{Punto--plano}:\ \ $\displaystyle d(P,\pi)=\dfrac{|Ax_0+By_0+Cz_0+D|}{\sqrt{A^2+B^2+C^2}}$\\[6pt]
+\textbf{Punto--recta}:\ \ $\displaystyle d(P,r)=\dfrac{|\overrightarrow{AP}\times\vec d|}{|\vec d|}$ & \textbf{Rectas paralelas}:\ \ $\displaystyle d(r,s)=d(Q,r)$\\[6pt]
+\textbf{Rectas que se cruzan}:\ \ $\displaystyle d(r,s)=\dfrac{|[\overrightarrow{PQ},\vec d_r,\vec d_s]|}{|\vec d_r\times\vec d_s|}$ & \textbf{Recta ∥ plano}:\ \ $\displaystyle d(r,\pi)=d(P,\pi)$\\[6pt]
+\textbf{Planos paralelos}:\ \ $\displaystyle d(\pi_1,\pi_2)=\dfrac{|D_1-D_2|}{|\vec n|}$ & \textbf{Si se cortan}:\ \ $\displaystyle d=0$\\[6pt]
+\end{tabularx}\end{center}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Comprueba que la recta \fmm{r:(x,y,z)=(1,2,0)+\lambda(1,1,2)} es paralela al plano \fmm{\pi:x+y-z+4=0} y calcula su distancia.
+
+\fmm{\vec d\cdot\vec n=1+1-2=0} y \fmm{P(1,2,0)\notin\pi} (\fmm{1+2-0+4=7\neq0}): paralelos.
+
+\fmm{d(r,\pi)=d(P,\pi)=\dfrac{7}{\sqrt3}=\boxed{\dfrac{7\sqrt3}{3}\ \text{u}}}
+\item Calcula la distancia entre los planos \fmm{\pi_1:2x-y+2z-1=0} y \fmm{\pi_2:4x-2y+4z+7=0}.
+
+Normales proporcionales: paralelos. Dividimos \fmm{\pi_2} entre 2: \fmm{\ 2x-y+2z+\tfrac72=0}.
+
+\fmm{d(\pi_1,\pi_2)=\dfrac{\left|-1-\tfrac72\right|}{\sqrt{4+1+4}}=\dfrac{9/2}{3}=\boxed{\dfrac32\ \text{u}}}
+\item Halla los planos paralelos a \fmm{\pi:x-2y+2z-1=0} que están a distancia 2 de él.
+
+Sabemos que \fmm{\pi':x-2y+2z+k=0} con \fmm{\ \dfrac{|k-(-1)|}{3}=2\iff k+1=\pm6\iff k=5\ \text{o}\ k=-7}.
+
+Entonces, \fmm{\boxed{\pi'_1:x-2y+2z+5=0}} y \fmm{\boxed{\pi'_2:x-2y+2z-7=0}}
+\item Halla los planos paralelos a \fmm{\pi:2x-y+2z+5=0} que están a distancia 3 del punto \fmm{P(1,0,2)}.
+
+Haz de planos paralelos a \fmm{\pi} (mismo vector normal): \fmm{\ 2x-y+2z+D=0}, \fmm{\ |\vec n|=\sqrt{4+1+4}=3}.
+
+\fmm{d(P,\pi')=\dfrac{|2\cdot1-0+2\cdot2+D|}{3}=\dfrac{|6+D|}{3}=3\iff6+D=\pm9\iff D=3\ \text{o}\ D=-15}.
+
+Por tanto, \fmm{\boxed{\pi'_1:2x-y+2z+3=0}} y \fmm{\boxed{\pi'_2:2x-y+2z-15=0}}. \\[2ex]
+Comprobación: \fmm{P} da \fmm{9} y \fmm{-9}, y \fmm{\tfrac{9}{3}=3\ \checkmark}. Fíjate en que la distancia se mide desde el punto \fmm{P}, no desde el plano \fmm{\pi} (el plano \fmm{\pi} solo da la dirección).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Recta que pasa por un punto y corta a dos rectas}\hypertarget{sec7}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Método de los planos}
+Queremos la recta \fmm{t} que pasa por un punto \fmm{P} y corta a dos rectas \fmm{r} (punto \fmm{A}, director \fmm{\vec d_r}) y \fmm{s} (punto \fmm{B}, director \fmm{\vec d_s}), que normalmente se cruzan. La idea es que \fmm{t} y \fmm{r} son coplanarias (se cortan), y \fmm{t} y \fmm{s} también:
+
+\begin{enumerate}
+\item \fmm{\pi_1} = plano que contiene \fmm{P} y \fmm{r}: pasa por \fmm{A} con vectores \fmm{\vec d_r} y \fmm{\overrightarrow{AP}} (normal \fmm{\vec d_r\times\overrightarrow{AP}}).
+\item \fmm{\pi_2} = plano que contiene \fmm{P} y \fmm{s}: pasa por \fmm{B} con vectores \fmm{\vec d_s} y \fmm{\overrightarrow{BP}}.
+\item La recta buscada es la intersección: \fmm{\ t:\begin{cases}\pi_1\\\pi_2\end{cases}} (director \fmm{\vec n_1\times\vec n_2}).
+\item \textbf{Comprobación}: \fmm{t} tiene que cortar de verdad a \fmm{r} y \fmm{s}. Como está en el mismo plano que cada una, las corta si \textbf{no es paralela} a ninguna de ellas. Si \fmm{t\parallel r} o \fmm{t\parallel s}, el problema \textbf{no tiene solución}.
+\end{enumerate}
+
+\fmuline{Otra manera} (puntos genéricos): tomamos \fmm{X=A+\lambda\vec d_r\in r} e \fmm{Y=B+\mu\vec d_s\in s} e imponemos que \fmm{P}, \fmm{X}, \fmm{Y} estén alineados: \fmm{\overrightarrow{PX}\parallel\overrightarrow{PY}}. Da directamente los puntos de corte, pero el sistema no es lineal.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmprop}{Variantes con la misma idea}
+\begin{itemize}
+\item \textbf{Recta con una dirección dada \fmm{\vec v} que corta a \fmm{r} y \fmm{s}}: \fmm{\pi_1} contiene a \fmm{r} y al vector \fmm{\vec v}; \fmm{\pi_2} contiene a \fmm{s} y a \fmm{\vec v}; \fmm{\ t=\pi_1\cap\pi_2}.
+\item \textbf{Recta contenida en un plano \fmm{\pi} que pasa por \fmm{P\in\pi} y corta a \fmm{r}}: buscamos \fmm{X=r\cap\pi}; la recta es \fmm{PX}.
+\item \textbf{Recta que pasa por \fmm{P} y corta perpendicularmente a \fmm{r}}: es la recta \fmm{PM}, donde \fmm{M} es la proyección de \fmm{P} sobre \fmm{r} (apartado 4.4).
+\item \textbf{Perpendicular común} de dos rectas que se cruzan: es la primera variante con \fmm{\vec v=\vec d_r\times\vec d_s} (apartado 4.8).
+\end{itemize}
+\end{fmprop}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla la recta que pasa por \fmm{P(1,1,2)} y corta a las rectas \fmm{r:\begin{cases}y=1\\z=0\end{cases}} y \fmm{s:\begin{cases}x=0\\z=1\end{cases}}.
+
+\fmm{r}: \fmm{A(0,1,0)}, \fmm{\vec d_r=(1,0,0)}; \fmm{\ s}: \fmm{B(0,0,1)}, \fmm{\vec d_s=(0,1,0)}.
+
+\fmm{\pi_1\ni P,r}: \fmm{\ \vec d_r\times\overrightarrow{AP}=(1,0,0)\times(1,0,2)=(0,-2,0)\Rightarrow\pi_1:y=1}.
+
+\fmm{\pi_2\ni P,s}: \fmm{\ \vec d_s\times\overrightarrow{BP}=(0,1,0)\times(1,1,1)=(1,0,-1)\Rightarrow\pi_2:x-z+1=0} (pasa por \fmm{B}).
+
+\fmm{t:\begin{cases}y=1\\x-z+1=0\end{cases}}, director \fmm{(0,1,0)\times(1,0,-1)=(-1,0,-1)\parallel(1,0,1)}: \fmm{\ \boxed{t:(x,y,z)=(1,1,2)+k\,(1,0,1)}}
+
+No es paralela a \fmm{r} ni a \fmm{s}. Puntos de corte: con \fmm{r} (\fmm{z=0}), \fmm{k=-2}: \fmm{X(-1,1,0)}; con \fmm{s} (\fmm{x=0}), \fmm{k=-1}: \fmm{Y(0,1,1)}
+\item Halla la recta de director \fmm{\vec v=(1,1,1)} que corta a las mismas rectas \fmm{r} y \fmm{s}.
+
+\fmm{\pi_1} contiene \fmm{r} y \fmm{\vec v}: \fmm{\ (1,0,0)\times(1,1,1)=(0,-1,1)}, por \fmm{A(0,1,0)}: \fmm{\ y-z-1=0}.
+
+\fmm{\pi_2} contiene \fmm{s} y \fmm{\vec v}: \fmm{\ (0,1,0)\times(1,1,1)=(1,0,-1)}, por \fmm{B(0,0,1)}: \fmm{\ x-z+1=0}.
+
+\fmm{\boxed{t:\begin{cases}y-z-1=0\\x-z+1=0\end{cases}}}, es decir, \fmm{(x,y,z)=(-1,1,0)+k\,(1,1,1)}. Corta a \fmm{r} en \fmm{(-1,1,0)} y a \fmm{s} en \fmm{(0,2,1)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Perpendicular común a dos rectas}\hypertarget{sec8}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición y dos métodos}
+Si \fmm{r} y \fmm{s} se cruzan, hay una única recta que las corta a ambas perpendicularmente: la \textbf{perpendicular común}. Su director es \fmm{\vec w=\vec d_r\times\vec d_s}, y sus puntos de corte \fmm{X\in r}, \fmm{Y\in s} son los puntos más próximos de las dos rectas: \fmm{d(r,s)=d(X,Y)}.
+
+\begin{itemize}
+\item \textbf{Método de los planos} (como en el apartado 4.7, con la dirección \fmm{\vec w}):
+
+\begin{enumerate}
+\item \fmm{\vec w=\vec d_r\times\vec d_s}.
+\item \fmm{\pi_r}: plano que contiene \fmm{r} y \fmm{\vec w} (por \fmm{P}, normal \fmm{\vec d_r\times\vec w}).
+\item \fmm{\pi_s}: plano que contiene \fmm{s} y \fmm{\vec w} (por \fmm{Q}, normal \fmm{\vec d_s\times\vec w}).
+\item Perpendicular común: \fmm{\ t:\begin{cases}\pi_r\\\pi_s\end{cases}}.
+\end{enumerate}
+\item \textbf{Método de los puntos genéricos}: escribimos \fmm{X=P+\lambda\,\vec d_r} e \fmm{Y=Q+\mu\,\vec d_s}, imponemos \fmm{\overrightarrow{XY}\cdot\vec d_r=0} y \fmm{\overrightarrow{XY}\cdot\vec d_s=0} (sistema lineal en \fmm{\lambda}, \fmm{\mu}), y la perpendicular común es la recta \fmm{XY}. Da también los pies \fmm{X}, \fmm{Y} y la distancia \fmm{|\overrightarrow{XY}|}.
+\end{itemize}
+
+\begin{fmnote}Si las rectas son paralelas hay infinitas perpendiculares comunes; si se cortan, la perpendicular común pasa por el punto de corte y \fmm{X=Y}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla la perpendicular común a las rectas \fmm{r:(x,y,z)=(1,0,0)+\lambda(1,1,0)} y \fmm{s:(x,y,z)=(0,0,2)+\mu(0,1,1)} del apartado 4.5 con el método de los planos.
+
+\fmm{\vec w=\vec d_r\times\vec d_s=(1,-1,1)}.
+
+\fmm{\pi_r}: \fmm{\ \vec d_r\times\vec w=(1,1,0)\times(1,-1,1)=(1,-1,-2)}, por \fmm{P(1,0,0)}: \fmm{\ x-y-2z-1=0}.
+
+\fmm{\pi_s}: \fmm{\ \vec d_s\times\vec w=(0,1,1)\times(1,-1,1)=(2,1,-1)}, por \fmm{Q(0,0,2)}: \fmm{\ 2x+y-z+2=0}.
+
+\fmm{\boxed{t:\begin{cases}x-y-2z-1=0\\2x+y-z+2=0\end{cases}}} (director \fmm{(1,-1,-2)\times(2,1,-1)=(3,-3,3)\parallel\vec w} )
+\item Resuelve el mismo problema con los puntos genéricos y halla los puntos más próximos de las dos rectas.
+
+\fmm{X(1+\lambda,\lambda,0)}, \fmm{\ Y(0,\mu,2+\mu)}, \fmm{\ \overrightarrow{XY}=(-1-\lambda,\ \mu-\lambda,\ 2+\mu)}.
+
+\fmm{\overrightarrow{XY}\cdot(1,1,0)=-1-2\lambda+\mu=0}, \fmm{\ \overrightarrow{XY}\cdot(0,1,1)=2+2\mu-\lambda=0\ \Rightarrow\ \lambda=-\tfrac43,\ \mu=-\tfrac53}.
+
+\fmm{X\left(-\tfrac13,-\tfrac43,0\right)}, \fmm{\ Y\left(0,-\tfrac53,\tfrac13\right)}, \fmm{\ \overrightarrow{XY}=\left(\tfrac13,-\tfrac13,\tfrac13\right)}: \fmm{\ \boxed{t:(x,y,z)=\left(-\tfrac13,-\tfrac43,0\right)+k\,(1,-1,1)}}
+
+Comprobación: \fmm{X} cumple las ecuaciones de \fmm{\pi_r} y \fmm{\pi_s}, y \fmm{|\overrightarrow{XY}|=\tfrac{\sqrt3}{3}=d(r,s)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Simétrico de un punto respecto de un punto y de una recta}\hypertarget{sec9}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{La idea: el punto medio}
+Todos los simétricos se calculan igual: buscamos el punto \fmm{M} que tiene que ser el \textbf{punto medio} entre \fmm{P} y su simétrico \fmm{P'}, y entonces
+
+\fmdisp{M=\dfrac{P+P'}{2}\iff P'=2M-P}
+
+\begin{itemize}
+\item \textbf{Respecto de un punto} \fmm{M}: ya lo tenemos, \fmm{P'=2M-P}.
+\item \textbf{Respecto de una recta} \fmm{r}: \fmm{M} es la \textbf{proyección} de \fmm{P} sobre \fmm{r}.
+
+\begin{enumerate}
+\item Plano \fmm{\pi} que pasa por \fmm{P} y es perpendicular a \fmm{r} (vector normal \fmm{\vec d_r}).
+\item \fmm{M=r\cap\pi}.
+\item \fmm{P'=2M-P}.
+\end{enumerate}
+\end{itemize}
+
+\begin{fmnote}Los dos primeros pasos dan la \textbf{proyección ortogonal} de un punto sobre una recta (apartado 4.4). La recta \fmm{PM} es la que pasa por \fmm{P} y \textbf{corta perpendicularmente} a \fmm{r}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el simétrico de \fmm{A(2,-1,3)} respecto del punto \fmm{M(1,1,1)}.
+
+\fmm{A'=2M-A=(2-2,\ 2+1,\ 2-3)=\boxed{(0,3,-1)}}
+\item Calcula el simétrico de \fmm{P(1,2,3)} respecto de la recta \fmm{r:(x,y,z)=\lambda(1,1,0)}.
+
+Plano por \fmm{P} perpendicular a \fmm{r}: \fmm{\ x+y=1+2=3}.
+
+Corte con \fmm{r}: \fmm{\ \lambda+\lambda=3\Rightarrow\lambda=\tfrac32\Rightarrow M\left(\tfrac32,\tfrac32,0\right)}.
+
+\fmm{P'=2M-P=(3-1,\ 3-2,\ 0-3)=\boxed{(2,1,-3)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Simétrico de un punto y de una recta respecto de un plano}\hypertarget{sec10}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Métodos}
+\begin{itemize}
+\item \textbf{Simétrico de un punto \fmm{P} respecto de un plano \fmm{\pi}}: \fmm{M} es la proyección de \fmm{P} sobre \fmm{\pi}.
+
+\begin{enumerate}
+\item Recta \fmm{s} que pasa por \fmm{P} y es perpendicular a \fmm{\pi} (director \fmm{\vec n}): \fmm{\ X=P+t\,\vec n}.
+\item \fmm{M=s\cap\pi}.
+\item \fmm{P'=2M-P} (o directamente \fmm{P'=P+2t\,\vec n}).
+\end{enumerate}
+\item \textbf{Simétrica de una recta \fmm{r} respecto de un plano \fmm{\pi}}: buscamos dos puntos de \fmm{r'}.
+
+\begin{itemize}
+\item Si \fmm{r} y \fmm{\pi} \textbf{se cortan} en \fmm{X}: \fmm{X} es su propio simétrico. Tomamos otro punto \fmm{A\in r}, calculamos su simétrico \fmm{A'} y \fmm{r'} es la recta \fmm{XA'}.
+\item Si \fmm{r} es \textbf{paralela} a \fmm{\pi}: \fmm{r'} pasa por \fmm{A'} (simétrico de un punto \fmm{A\in r}) y tiene el mismo director \fmm{\vec d}.
+\item Si \fmm{r} está contenida en \fmm{\pi}, \fmm{r'=r}.
+\end{itemize}
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el simétrico de \fmm{P(3,4,2)} respecto del plano \fmm{\pi:x+y+z-6=0}.
+
+Recta perpendicular: \fmm{\ (3+t,\ 4+t,\ 2+t)}. En el plano: \fmm{\ 9+3t-6=0\Rightarrow t=-1\Rightarrow M(2,3,1)}.
+
+\fmm{P'=2M-P=(4-3,\ 6-4,\ 2-2)=\boxed{(1,2,0)}}
+\item Calcula la recta simétrica de \fmm{r:(x,y,z)=(2,1,0)+\lambda(1,0,0)} respecto del mismo plano.
+
+\fmm{\vec d\cdot\vec n=1\neq0}: se cortan. \fmm{\ (2+\lambda)+1+0-6=0\Rightarrow\lambda=3\Rightarrow X(5,1,0)}.
+
+Simétrico de \fmm{A(2,1,0)}: \fmm{\ (2+t)+(1+t)+t-6=0\Rightarrow t=1\Rightarrow M(3,2,1)\Rightarrow A'(4,3,2)}.
+
+\fmm{\overrightarrow{XA'}=(-1,2,2)\Rightarrow\boxed{r':(x,y,z)=(5,1,0)+\mu(-1,2,2)}}
+\item Calcula la simétrica de \fmm{r:(x,y,z)=(1,0,0)+\lambda(1,-1,0)} respecto del plano \fmm{z=2}.
+
+\fmm{\vec d\cdot\vec n=(1,-1,0)\cdot(0,0,1)=0} y \fmm{A(1,0,0)\notin\pi}: paralelos.
+
+\fmm{M(1,0,2)\Rightarrow A'(1,0,4)\Rightarrow\boxed{r':(x,y,z)=(1,0,4)+\mu(1,-1,0)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Áreas y volúmenes}\hypertarget{sec11}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Fórmulas}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{7.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Figura} & \textbf{Fórmula}\\\midrule
+Paralelogramo de lados $\overrightarrow{AB}$, $\overrightarrow{AD}$ & $S=|\overrightarrow{AB}\times\overrightarrow{AD}|$\\[3pt]
+Triángulo $ABC$ & $S=\tfrac12\,|\overrightarrow{AB}\times\overrightarrow{AC}|$\\[3pt]
+Paralelepípedo de aristas $\overrightarrow{AB}$, $\overrightarrow{AC}$, $\overrightarrow{AD}$ & $V=\big|[\overrightarrow{AB},\overrightarrow{AC},\overrightarrow{AD}]\big|$\\[3pt]
+Tetraedro $ABCD$ & $V=\tfrac16\,\big|[\overrightarrow{AB},\overrightarrow{AC},\overrightarrow{AD}]\big|$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{itemize}
+\item Como \fmm{V_{\text{tetraedro}}=\tfrac13\,S_{\text{base}}\cdot h}, la \textbf{altura} del tetraedro desde \fmm{D} es \fmm{\ h=\dfrac{3V}{S_{ABC}}=d(D,\pi_{ABC})}.
+\item Del mismo modo, la \textbf{altura de un triángulo} sobre el lado \fmm{AB} es \fmm{\ h=\dfrac{2S}{|\overrightarrow{AB}|}=d(C,r_{AB})}.
+\item Los \textbf{ángulos de un triángulo} se calculan con el producto escalar de los vectores que salen de cada vértice (ahora \emph{sin} valor absoluto: un ángulo puede ser obtuso), y suman \fmm{180^\circ}.
+\item Un plano \fmm{\dfrac xa+\dfrac yb+\dfrac zc=1} corta a los ejes en \fmm{(a,0,0)}, \fmm{(0,b,0)}, \fmm{(0,0,c)} y forma con los planos coordenados un tetraedro de volumen \fmm{\tfrac16|abc|}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el área del triángulo de vértices \fmm{A(1,0,1)}, \fmm{B(2,1,0)} y \fmm{C(0,2,3)}.
+
+\fmm{\overrightarrow{AB}=(1,1,-1)}, \fmm{\ \overrightarrow{AC}=(-1,2,2)}, \fmm{\ \overrightarrow{AB}\times\overrightarrow{AC}=(4,-1,3)}.
+
+\fmm{S=\tfrac12\sqrt{16+1+9}=\boxed{\dfrac{\sqrt{26}}{2}\approx2{,}55\ \text{u}^2}}
+\item Calcula el volumen del tetraedro de vértices \fmm{A(1,0,0)}, \fmm{B(0,2,0)}, \fmm{C(0,0,3)}, \fmm{D(1,1,1)} y su altura desde \fmm{D}.
+
+\fmm{[\overrightarrow{AB},\overrightarrow{AC},\overrightarrow{AD}]=\begin{vmatrix}-1&2&0\\-1&0&3\\0&1&1\end{vmatrix}=5\Rightarrow V=\boxed{\dfrac56\ \text{u}^3}}
+
+\fmm{\overrightarrow{AB}\times\overrightarrow{AC}=(6,3,2)\Rightarrow S_{ABC}=\tfrac12\cdot7=\tfrac72}.
+
+\fmm{h=\dfrac{3V}{S}=\dfrac{5/2}{7/2}=\boxed{\dfrac57\ \text{u}}}. \\[2ex]
+Comprobación: el plano \fmm{ABC} es \fmm{6x+3y+2z-6=0} y \fmm{d(D,\pi)=\tfrac{|6+3+2-6|}{7}=\tfrac57\ \checkmark}
+\item Calcula el volumen del tetraedro que forma el plano \fmm{3x+2y+z=6} con los planos coordenados.
+
+Cortes con los ejes: \fmm{(2,0,0)}, \fmm{(0,3,0)}, \fmm{(0,0,6)}. \fmm{\ V=\tfrac16\cdot2\cdot3\cdot6=\boxed{6\ \text{u}^3}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{18\baselineskip}
+\section{Lugares geométricos}\hypertarget{sec12}{}
+
+\Needspace{7\baselineskip}
+\begin{fmdef}{Definición y método}
+Un \textbf{lugar geométrico} es el conjunto de todos los puntos del espacio que cumplen una propiedad. Para hallar su ecuación tomamos un punto genérico \fmm{X(x,y,z)}, escribimos la propiedad con distancias y simplificamos.
+
+\begin{itemize}
+\item \textbf{Plano mediador} de un segmento \fmm{AB}: puntos que equidistan de \fmm{A} y \fmm{B}, \fmm{\ d(X,A)=d(X,B)}. Desarrollando los cuadrados queda un plano: el que es \textbf{perpendicular a \fmm{AB} por el punto medio} \fmm{M}, \fmm{\ \overrightarrow{AB}\cdot\overrightarrow{MX}=0}.
+\item \textbf{Planos bisectores} de dos planos secantes: puntos que equidistan de \fmm{\pi_1} y \fmm{\pi_2},
+
+\fmdisp{\dfrac{|A_1x+B_1y+C_1z+D_1|}{\sqrt{A_1^2+B_1^2+C_1^2}}=\dfrac{|A_2x+B_2y+C_2z+D_2|}{\sqrt{A_2^2+B_2^2+C_2^2}}}
+
+          Los dos signos del valor absoluto dan \textbf{dos planos perpendiculares} entre sí, que dividen en dos partes iguales los ángulos diedros. Si \fmm{\pi_1\parallel\pi_2}, el lugar es un solo plano paralelo, a media distancia.
+\item \textbf{Superficie esférica} de centro \fmm{C(a,b,c)} y radio \fmm{R}: puntos que distan \fmm{R} de \fmm{C},
+
+\fmdisp{(x-a)^2+(y-b)^2+(z-c)^2=R^2\iff x^2+y^2+z^2+Ax+By+Cz+D=0}
+
+          con \fmm{C\left(-\tfrac A2,-\tfrac B2,-\tfrac C2\right)} y \fmm{R^2=a^2+b^2+c^2-D}. Un plano \fmm{\pi} es \textbf{secante}, \textbf{tangente} o \textbf{exterior} a la esfera según que \fmm{d(C,\pi)} sea menor, igual o mayor que \fmm{R}. Si es secante, la corta en una circunferencia de centro la proyección de \fmm{C} sobre \fmm{\pi} y radio \fmm{\sqrt{R^2-d^2}}.
+\item Otros lugares habituales: los puntos que distan \fmm{k} de un plano son \textbf{dos planos paralelos} (apartado 4.6); los puntos que distan \fmm{k} de una recta forman una \textbf{superficie cilíndrica}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla el plano mediador del segmento de extremos \fmm{A(1,0,2)} y \fmm{B(3,2,0)}.
+
+\fmm{(x-1)^2+y^2+(z-2)^2=(x-3)^2+(y-2)^2+z^2\ \Rightarrow\ -2x-4z+5=-6x-4y+13}
+
+\fmm{4x+4y-4z-8=0\Rightarrow\boxed{x+y-z-2=0}}. Comprobación: \fmm{\overrightarrow{AB}=(2,2,-2)\parallel\vec n} y \fmm{M(2,1,1)} está en el plano
+\item Halla los planos bisectores de \fmm{\pi_1:x+2y-2z+1=0} y \fmm{\pi_2:2x-y+2z-3=0}.
+
+Las dos normales tienen módulo 3: \fmm{\ \dfrac{|x+2y-2z+1|}{3}=\dfrac{|2x-y+2z-3|}{3}\iff x+2y-2z+1=\pm(2x-y+2z-3)}.
+
+(+): \fmm{\ \boxed{x-3y+4z-4=0}}; \fmm{\quad}(-): \fmm{\ \boxed{3x+y-2=0}}. Son perpendiculares: \fmm{(1,-3,4)\cdot(3,1,0)=0\ \checkmark}
+\item Halla el centro y el radio de la esfera \fmm{x^2+y^2+z^2-2x+4y-6z-2=0} y estudia su posición respecto del plano \fmm{2x+2y-z+2=0}.
+
+\fmm{(x-1)^2+(y+2)^2+(z-3)^2=2+1+4+9=16\Rightarrow C(1,-2,3)}, \fmm{\ R=4}.
+
+\fmm{d(C,\pi)=\dfrac{|2-4-3+2|}{3}=1\lt4}: el plano es secante.
+
+Circunferencia de radio \fmm{\sqrt{16-1}=\sqrt{15}} y centro la proyección de \fmm{C}: \fmm{\left(\tfrac53,-\tfrac43,\tfrac83\right)}.
+\item Halla los puntos del eje \fmm{OX} que equidistan de \fmm{A(1,2,3)} y \fmm{B(3,0,1)}.
+
+Plano mediador: \fmm{\overrightarrow{AB}=(2,-2,-2)}, \fmm{M(2,1,2)}: \fmm{\ x-y-z+1=0}.
+
+Con \fmm{y=z=0}: \fmm{\ x=-1\Rightarrow\boxed{(-1,0,0)}}. Comprobación: las dos distancias valen \fmm{\sqrt{17}}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

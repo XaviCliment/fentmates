@@ -72,9 +72,9 @@ body = re.sub(r'\\color\{#([0-9a-fA-F]{6})\}', r'\\color[HTML]{\1}', body)
 if N == 3:  # la nota inicial només explica com funcionen els dibuixos 3D de la web
     body, k = re.subn(r'<p class="note"><span data-l="va"><span class="u-line">Com funcionen els dibuixos</span>.*?</p>', '', body, count=1, flags=re.S)
     assert k == 1
-if N == 4:  # «Abans de començar»: fora la frase sobre els dibuixos 3D i els ginys
-    body, k = re.subn(r' (Tots els dibuixos 3D|Todos los dibujos 3D|All the 3D figures).*?(?=</span>)', '', body, flags=re.S)
-    assert k >= 2, k
+if N == 4:  # la nota «Abans de començar» fora (l'autor la va llevar en revisar, 23/11/2026)
+    body, k = re.subn(r'<p class="note"><span data-l="va"><span class="u-line">Abans de començar</span>.*?</p>', '', body, count=1, flags=re.S)
+    assert k == 1
 
 def fix(a, b):
     global body
@@ -879,6 +879,14 @@ if N == 4:  # l'apartat 4.1 i el primer requadre comencen a la portada
     retoc('\\vspace*{\\dimexpr 8.6cm-\\pagetotal\\relax}', '\\vspace*{\\dimexpr 8.2cm-\\pagetotal\\relax}')
     doc = doc.replace('}}\\\\[3pt]\n', '}}\\\\[1pt]\n')
     retoc('\\Needspace{18\\baselineskip}\n\\section{Angle entre dues', '\\Needspace{4\\baselineskip}\n\\section{Angle entre dues') if not ES else retoc('\\Needspace{18\\baselineskip}\n\\section{Ángulo entre dos', '\\Needspace{4\\baselineskip}\n\\section{Ángulo entre dos')
+    # retocs de l'autor sobre el .tex de l'escriptori (23/11/2026): valen per als dos idiomes
+    retoc('\\fmm{|\\vec n\\cdot P+D|}.\n', '\\fmm{|\\vec n\\cdot P+D|}.\\\\\n\n')
+    retoc(r"(\\pi'_2:2x-y\+2z-15=0\}\}\.) ", r'\1 \\\\[2ex]\n', True)
+    retoc('\\text{u}}}. ', '\\text{u}}}. \\\\[2ex]\n')
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 2, len(pos)
+    doc = doc[:pos[1]] + TB.replace('3.2cm', '7.2cm') + doc[pos[1] + len(TB):]  # taula d'àrees i volums (4.11)
 if N == 10:  # unió de tres successos: no cap en una línia
     retoc('\\fmm{P(A\\cup B\\cup C)=P(A)+P(B)+P(C)-P(A\\cap B)-P(A\\cap C)-P(B\\cap C)+P(A\\cap B\\cap C)}.',
           '\n\\[\\begin{aligned}P(A\\cup B\\cup C)&=P(A)+P(B)+P(C)-P(A\\cap B)\\\\&\\quad-P(A\\cap C)-P(B\\cap C)+P(A\\cap B\\cap C)\\,.\\end{aligned}\\]\n')
