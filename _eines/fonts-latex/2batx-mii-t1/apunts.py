@@ -821,6 +821,7 @@ for a, b in [('BABEL', T('catalan', 'spanish,es-minimal,es-noshorthands')),
              ('BLOCKCOL', U['block']), ('COLC', U['c']), ('COLL', U['cl']), ('UNITN', str(N)), ('CARD', CARD.replace('AY', '34')),
              ('HEADTXT', T('2n Batxillerat MII · Unitat %d: %s', '2.º Bachillerato MII · Unidad %d: %s') % (N, U.get('short', U['title'])))]:
     pre = pre.replace(a, b)
+hero_tex = re.sub(r'</?strong>', '', hero_tex)  # la descripció del web porta etiquetes HTML
 title = TITLE.replace('HERO', hero_tex).replace('TOC1', '\n'.join(toc[:half])).replace('TOC2', '\n'.join(toc[half:]))
 for a, b in [('KICKER', T('Apunts de teoria · 2n Batxillerat · Matemàtiques II', 'Apuntes de teoría · 2.º Bachillerato · Matemáticas II')),
              ('UNITNUM', unit), ('CARDY', {1: '-0.85'}.get(N, '-1.3')), ('UNITTITLE', U['title']), ('TOCWORD', T('Índex', 'Índice'))]:
@@ -913,6 +914,21 @@ if N == 5:  # retocs de l'autor (Desktop, revisió 2026-11-23)
     assert len(pos) == 4, len(pos)
     for i in (3, 2, 1):
         doc = doc[:pos[i]] + TB.replace('3.2cm', '5.2cm') + doc[pos[i] + len(TB):]
+if N == 6:  # retocs de l'autor (Desktop, revisió 2026-11-23)
+    retoc('\\DeclareUnicodeCharacter{207A}{\\ensuremath{^{+}}}\\DeclareUnicodeCharacter{207B}{\\ensuremath{^{-}}}\n', '')
+    retoc('\\vspace{6pt}\n\\begin{minipage}{\\linewidth}\\color{white!88!fmgreen}', '\\vspace{4pt}\n\\begin{minipage}{\\linewidth}\\color{white!88!fmgreen}')
+    # pilota: més aire entre els passos
+    retoc(r'(\\fmm\{\[0,4\]\} [^\n]*?\.)\n\n(\\fmm\{s\(0\)=0,[^\n]*?\}\.)\n\n(\\fmm\{\\text\{TVM\}\[0,1\][^\n]*?\.)\n',
+          r'\1\\\\[2ex]\n\n\n\2\\\\[2ex]\n\n\3\\\\[2ex]\n', True)
+    retoc(r"(\\textbf\{funci[óo]n? derivada\}) \\fmm\{(f'\(x\)=\\displaystyle\\lim_\{h\\to0\}\\frac\{f\(x\+h\)-f\(x\)\}\{h\})\}\.", r'\1 \\[\2\\]', True)
+    retoc('\\fmm{\\ln y=2\\ln(x+1)+\\tfrac12\\ln(x-1)-4\\ln(x+3)}\n', '\\fmm{\\ln y=2\\ln(x+1)+\\tfrac12\\ln(x-1)-4\\ln(x+3)}\\\\[2ex]\n')
+    retoc('-\\dfrac{4}{x+3}\\right)} (', '-\\dfrac{4}{x+3}\\right)}\\\\[2ex] (')
+    retoc(r'(\\fmm\{f\(x\)=x\^2-4\} [^\n]*?\\fmm\{x\\geq2\}:) (\\fmm\{\\ f\'\(2\^-\)=-4\\neq4=f\'\(2\^\+\)\})', r'\1\\\\[2ex] \2', True)
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 4, len(pos)
+    doc = doc[:pos[0]] + TB.replace('3.2cm', '3.8cm') + doc[pos[0] + len(TB):]
+
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)
 print(os.path.relpath(out, HERE), len(secs), 'apartats,', len(doc), 'caràcters')
