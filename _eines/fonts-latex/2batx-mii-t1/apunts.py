@@ -389,7 +389,7 @@ def conv(n):
             if 'lv' in k.cls():
                 sm = next(x for x in elems(k) if x.tag == 'small')
                 rest = ''.join(conv(x) for x in k.kids if x is not sm)
-                parts.append(r'\fmlevel{%s}{%s}' % (plain(sm), rest.strip()))
+                parts.append(r'\fmlevel{%s}{%s}' % (text(sm).strip(), rest.strip()))  # text() només agafa l'idioma triat
             else: parts.append(r'{\Large\color{fmaccent}$\ll$}')
         return '\n\\begin{center}' + r'\quad'.join(parts) + '\\end{center}\n'
     if 'liate' in c:  # ordre per a triar u en la integració per parts
@@ -890,9 +890,29 @@ if N == 4:  # l'apartat 4.1 i el primer requadre comencen a la portada
 if N == 10:  # unió de tres successos: no cap en una línia
     retoc('\\fmm{P(A\\cup B\\cup C)=P(A)+P(B)+P(C)-P(A\\cap B)-P(A\\cap C)-P(B\\cap C)+P(A\\cap B\\cap C)}.',
           '\n\\[\\begin{aligned}P(A\\cup B\\cup C)&=P(A)+P(B)+P(C)-P(A\\cap B)\\\\&\\quad-P(A\\cap C)-P(B\\cap C)+P(A\\cap B\\cap C)\\,.\\end{aligned}\\]\n')
-if N == 5:  # el primer apartat comença a la portada (amb 7 línies d'índex, el \Needspace{18...} el passava a la pàgina 2)
-    retoc('\\Needspace{18\\baselineskip}\n\\section{Límits a l', '\\Needspace{10\\baselineskip}\n\\section{Límits a l') if not ES else retoc('\\Needspace{18\\baselineskip}\n\\section{Límites en el', '\\Needspace{10\\baselineskip}\n\\section{Límites en el')
-
+if N == 5:  # retocs de l'autor (Desktop, revisió 2026-11-23)
+    retoc('\\newtcolorbox{fmnote}', '\\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\\faPencil*\\ #1},\n  titlerule=0.4pt,titlerule style={fmex!40,dashed}}\n\\newtcolorbox{fmnote}')
+    retoc('\\vspace*{\\dimexpr 8.6cm-\\pagetotal\\relax}', '\\vspace*{\\dimexpr 8.2cm-\\pagetotal\\relax}')
+    retoc(r'\\Needspace\{18\\baselineskip\}\n(\\section\{[^\n]*\\hypertarget\{sec1\}\{\})\n\n\\Needspace\{7\\baselineskip\}', r'\\Needspace{4\\baselineskip}\n\1\n\\Needspace{3\\baselineskip}', True)
+    # quadre «llegim els límits a la gràfica»: el de CCSS U4 (fórmula dalt, límits baix l'un al costat de l'altre, omple la pàgina)
+    box = open(os.path.join(HERE, 't5-grafica%s.tex' % ('-es' if ES else '')), encoding='utf-8').read().rstrip('\n')
+    doc, k = re.subn(r'\\begin\{fmex\}\{(Exemples: llegim|Ejemplos: leemos)[^\n]*\n.*?\\end\{fmex\}', lambda m: box, doc, count=1, flags=re.S)
+    assert k == 1
+    # taula d'operacions amb infinit: les aclaracions en una fila nova
+    retoc(r'(\\fmm\{\(\\pm\\infty\)\\cdot\(\\pm\\infty\)=\\pm\\infty\}) (\([^()]*\)) & (\\fmm\{\\dfrac\{k\}\{0\}=\\pm\\infty\\ \\ \(k\\neq0\)\}) (\([^()]*\))\\\\\[6pt\]',
+          r'\1 & \3 \\\\[6pt]\n&\2&\4\\\\[6pt]', True)
+    retoc(r'(\n\\item Exponencia[^\n]*?\.) (\\fmm\{\\displaystyle\\lim_\{x\\to\+\\infty\}\\frac\{3e\^\{2x\}-e\^x\})', r'\1\\\\[2ex]\n \2', True)
+    retoc(r'(\\frac\{A-B\}\{\\sqrt\{A\}\+\\sqrt\{B\}\}\})\n\n(\\begin\{fmnote\})', r'\1\n\2', True)
+    retoc(r'(\\left\(\\sqrt\{x\^2\+4x\}-x\\right\))\}\n\n\\fmm\{(\\sqrt\{\+\\infty\}-\\infty=\+\\infty-\\infty\\ \\ \\text\{IND\.\})\}( \([^\n]*?\)\.)\n',
+          r'\1=\2}\3\\\\[2ex]\n', True)
+    retoc(r'(\\item \\fmm\{\\displaystyle\\lim_\{x\\to\+\\infty\}\\left\(\\sqrt\{x\^2\+x\}-\\sqrt\{x\^2-x\}\\right\))\}\n\n\\fmm\{(\+\\infty-\\infty\\ \\ \\text\{IND\.\})\}', r'\1=\2}', True)
+    retoc(r'(\\fmm\{0\\cdot\\infty\} \$\\to\$ [^;\n]*;) (\\fmm\{1\^\\infty\} \$\\to\$)', r'\1\\\\[2ex]\n \2', True)
+    retoc(r'\\Needspace\{16\\baselineskip\}\n(\\subsection\*\{Indetermina[^\n]*\\fmm\{1\^\\infty\} en un )', r'\\Needspace{2\\baselineskip}\n\1', True)
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 4, len(pos)
+    for i in (3, 2, 1):
+        doc = doc[:pos[i]] + TB.replace('3.2cm', '5.2cm') + doc[pos[i] + len(TB):]
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)
 print(os.path.relpath(out, HERE), len(secs), 'apartats,', len(doc), 'caràcters')
