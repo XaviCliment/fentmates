@@ -929,6 +929,25 @@ if N == 6:  # retocs de l'autor (Desktop, revisió 2026-11-23)
     assert len(pos) == 4, len(pos)
     doc = doc[:pos[0]] + TB.replace('3.2cm', '3.8cm') + doc[pos[0] + len(TB):]
 
+if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-23)
+    retoc(r'(\\hyperlink\{sec11\}\{[^\n]*?Representaci[óo]n? \(II\): radical(?:s|es), )exponencial(?:s|es) (i|y) logarítmi(?:ques|cas)\}', r'\1exp. \2 logarítm.}', True)
+    retoc(r'(\(\\fmm\{x=a\}\)\.) (Recorda|Recuerda):', r'\1 \\\\[2ex]\n\2:', True)
+    retoc('\\Rightarrow f\'(1)=\\dfrac{24}{36}=\\dfrac23}.\n', '\\Rightarrow f\'(1)=\\dfrac{24}{36}=\\dfrac23}.\\\\[2ex]\n')
+    retoc('\\fmm{y-f(a)=f\'(a)(x-a)}, \\fmm{\\ f\'(x)=\\frac x2+4}', '\\fmm{y-f(a)=f\'(a)(x-a)}, \\\\[2ex]\n\\fmm{\\ f\'(x)=\\frac x2+4}')
+    retoc(r'\n\\item \\fmpau\{PAU M[úu]rcia 2026\}[^\n]*?\\ln\\frac\{25\}\{2\}\}\.', '', True)
+    retoc(r'\\Needspace\{7\\baselineskip\}\n(\\begin\{fmdef\}\{M[àá]xim)', r'\\Needspace{1\\baselineskip}\n\1', True)
+    i = doc.index('\\hypertarget{sec8}'); j = doc.index('\\end{fmdef}', i)
+    b = doc[i:j]
+    assert b.count('\\begin{minipage}[t]{0.48\\linewidth}') == 2 and b.count('width=6.4cm,height=5cm') == 1
+    b = b.replace('\\begin{minipage}[t]{0.48\\linewidth}', '\\begin{minipage}[t]{0.6\\linewidth}', 1).replace('\\begin{minipage}[t]{0.48\\linewidth}', '\\begin{minipage}[t]{0.37\\linewidth}', 1)
+    doc = doc[:i] + b.replace('width=6.4cm,height=5cm', 'width=5.6cm,height=4.6cm') + doc[j:]  # el quadre cap davall del títol 7.8
+    retoc(r"(\\fmm\{f''\(x\)=4x\\,e\^\{-2x\^2\}\(4x\^2-3\)\}[^\n]*)\n", r'\1\n\\newpage\n', True)
+    TB = '\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\small\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}p{3.2cm}'
+    pos = [m.start() for m in re.finditer(re.escape(TB), doc)]
+    assert len(pos) == 3, len(pos)
+    for k, w in reversed(list(zip(pos, ('5.5cm', '2.2cm', '9.2cm')))):
+        doc = doc[:k] + TB.replace('3.2cm', w) + doc[k + len(TB):]
+
 out = os.path.join(OUTDIR, 't%d-apunts-teoria%s.tex' % (N, '-es' if ES else ''))
 open(out, 'w', encoding='utf-8').write(doc)
 print(os.path.relpath(out, HERE), len(secs), 'apartats,', len(doc), 'caràcters')
