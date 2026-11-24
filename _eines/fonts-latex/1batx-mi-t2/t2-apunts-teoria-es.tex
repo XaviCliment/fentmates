@@ -1,0 +1,618 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 2: Álgebra. Ecuaciones e inecuaciones. 1.º de Bachillerato MI},pdfsubject={Matemáticas I},pdfkeywords={polinomios, identidades notables, regla de Ruffini, teorema del resto, factorización, fracciones algebraicas, ecuaciones, inecuaciones}}
+
+% colors de la web (FentMates, bloque de Álgebra: azul; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (14,44) {$P(x)=x^2+3x-4$};
+  \draw[line width=2.4pt] (40,62) rectangle (84,106) (88,62) rectangle (106,106);
+  \fill[opacity=0.3] (40,62) rectangle (84,106);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{17}{17}\selectfont] at (52,90) {$x^2$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{17}{17}\selectfont] at (91,90) {$x$};
+  \draw[line width=3.2pt] (140,106) .. controls (160,106) and (166,66) .. (186,66) .. controls (206,66) and (214,100) .. (226,74);
+  \draw[line width=2pt,opacity=0.6] (134,106)--(230,106);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato MI · Unidad 2: Álgebra. Ecuaciones e inecuaciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.0cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 2} · Álgebra. Ecuaciones e inecuaciones\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: polinomios y sus operaciones, la regla de Ruffini y el teorema del resto, la factorización, las fracciones algebraicas, las ecuaciones (polinómicas, racionales, con radicales, exponenciales y logarítmicas), las inecuaciones con una incógnita y la resolución de problemas.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}2.1}\ \ Polinomios. Operaciones}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}2.2}\ \ Ruffini y teorema del resto}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}2.3}\ \ Factorización de polinomios}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}2.4}\ \ Fracciones algebraicas}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}2.5}\ \ Ecuaciones polinómicas}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}2.6}\ \ Ecuaciones racionales}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}2.7}\ \ Ecuaciones con radicales}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}2.8}\ \ Ecuaciones exponenciales}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}2.9}\ \ Ecuaciones logarítmicas}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}2.10}\ \ Inecuaciones con una incógnita}}\\[3pt]
+\mbox{\hyperlink{sec11}{\textbf{\color{fmgreen}2.11}\ \ Resolución de problemas}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{Polinomios. Operaciones}\hypertarget{sec1}{}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Un \textbf{monomio} es el producto de un número (\textbf{coeficiente}) y una o más letras elevadas a exponentes naturales (\textbf{parte literal}). El \textbf{grado} de un monomio es la suma de los exponentes de las letras. Por ejemplo, \fmm{-5x^3} tiene coeficiente \fmm{-5} y grado 3. Dos monomios son \textbf{semejantes} si tienen la misma parte literal; solo se pueden sumar o restar monomios semejantes.
+\item Un \textbf{polinomio} en \fmm{x} es una suma de monomios: \fmm{\ P(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0,\ \ a_n\neq0.} Su \textbf{grado} es \fmm{n}; \fmm{a_n} es el \textbf{coeficiente principal} y \fmm{a_0}, el \textbf{término independiente}. Es \textbf{completo} si tiene todos los términos desde el grado \fmm{n} hasta el término independiente y está \textbf{ordenado} si los términos van de mayor a menor grado.
+\item El \textbf{valor numérico} de \fmm{P(x)} para \fmm{x=a} es el número \fmm{P(a)} que se obtiene al sustituir \fmm{x} por \fmm{a}.
+\item Dos polinomios son \textbf{iguales} si tienen el mismo grado y los coeficientes de los términos del mismo grado son iguales. Esto permite calcular coeficientes desconocidos \emph{igualando coeficientes}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Operaciones con polinomios}
+\begin{itemize}
+\item \textbf{Suma y resta}: se suman (o restan) los monomios semejantes.\newline \fmm{\ \text{grado}(P\pm Q)\le\max(\text{grado}\,P,\ \text{grado}\,Q)}.
+\item \textbf{Producto}: se multiplica cada monomio del primero por cada monomio del segundo (propiedad distributiva) y se reducen los términos semejantes. \fmm{\ \text{grado}(P\cdot Q)=\text{grado}\,P+\text{grado}\,Q}.
+\end{itemize}
+
+\textbf{Identidades notables}
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle (a+b)^2=a^2+2ab+b^2$ & $\displaystyle (a-b)^2=a^2-2ab+b^2$\\[4pt]
+$\displaystyle (a+b)(a-b)=a^2-b^2$ & $\displaystyle (a+b+c)^2=a^2+b^2+c^2+2ab+2ac+2bc$\\[4pt]
+$\displaystyle (a+b)^3=a^3+3a^2b+3ab^2+b^3$ & $\displaystyle (a-b)^3=a^3-3a^2b+3ab^2-b^3$\\[4pt]
+\end{tabularx}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: operaciones con polinomios}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Simplifica \fmm{3(x-1)^2-(2x+3)(2x-3)+x(x^2-4)}.
+
+Desarrollamos con las identidades notables y la propiedad distributiva: \fmm{\ 3(x^2-2x+1)-(4x^2-9)+x^3-4x}
+
+\fmm{=3x^2-6x+3-4x^2+9+x^3-4x=x^3-x^2-10x+12}
+\item Calcula \fmm{a} y \fmm{b} para que \fmm{(x+a)(2x-3)=2x^2+bx-6}.
+
+\fmm{(x+a)(2x-3)=2x^2+(2a-3)x-3a}
+
+Igualamos coeficientes: \fmm{\ -3a=-6\Rightarrow a=2;\quad b=2a-3=1}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{7\baselineskip}
+\subsection*{División de polinomios}
+\begin{fmdef}{División entera de polinomios}
+Dados dos polinomios \fmm{D(x)} (\textbf{dividendo}) y \fmm{d(x)\neq0} (\textbf{divisor}), existen dos únicos polinomios \fmm{c(x)} (\textbf{cociente}) y \fmm{r(x)} (\textbf{resto}) tales que
+
+\fmdisp{D(x)=d(x)\cdot c(x)+r(x)\qquad \text{con}\ \ \text{gr}\,r(x)\lt\text{gr}\,d(x)}
+
+Si \fmm{r(x)=0}, la división es \textbf{exacta}: \fmm{d(x)} es un \textbf{divisor} de \fmm{D(x)}.
+
+\begin{fmnote}\fmuline{Procedimiento}: se ordenan los polinomios (dejando hueco para los términos que faltan), se divide el primer término del dividendo entre el primero del divisor, se multiplica el resultado por el divisor y se resta. Se repite hasta que el grado de lo que queda es menor que el del divisor.\end{fmnote}
+\end{fmdef}
+
+\Needspace{8\baselineskip}
+\section{Regla de Ruffini. Teorema del resto}\hypertarget{sec2}{}
+\begin{fmdef}{Regla de Ruffini}
+Cuando el divisor es de la forma \fmm{x-a}, la división se hace rápidamente con la \textbf{regla de Ruffini}:
+
+\begin{enumerate}
+\item Se escriben los coeficientes del dividendo, ordenados y \textbf{poniendo 0} en los términos que faltan. A la izquierda se escribe el número \fmm{a}.
+\item Se baja el primer coeficiente. Se multiplica por \fmm{a}, se escribe debajo del coeficiente siguiente y se suman. Se repite hasta el final.
+\item El último número es el \textbf{resto}; los anteriores son los coeficientes del \textbf{cociente}, que tiene un grado menos que el dividendo.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Atención}: si el divisor es \fmm{x+3}, entonces \fmm{a=-3}, porque \fmm{x+3=x-(-3)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Divisor de la forma $ax+b$}
+Como \fmm{ax+b=a\left(x+\frac ba\right)}, hacemos Ruffini con el número \fmm{-\frac ba}. El \textbf{resto es el mismo}, pero el cociente obtenido se tiene que \textbf{dividir entre \fmm{a}}.
+
+Por ejemplo, \fmm{(6x^3-x^2+4x-3):(2x-1)}: Ruffini con \fmm{\frac12} da \fmm{6x^2+2x+5} y resto \fmm{-\frac12}. Dividiendo entre 2: \fmm{\ c(x)=3x^2+x+\frac52,\ \ r=-\frac12}.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Teorema del resto y teorema del factor}
+\textbf{Teorema del resto}: el resto de la división \fmm{P(x):(x-a)} es igual al valor numérico \fmm{P(a)}.
+
+\fmdisp{r=P(a)}
+
+\emph{Demostración}: \fmm{P(x)=(x-a)\,c(x)+r}. Si sustituimos \fmm{x=a}: \fmm{P(a)=0\cdot c(a)+r=r}.
+
+Un número \fmm{a} es una \textbf{raíz} (o cero) de \fmm{P(x)} si \fmm{P(a)=0}. \textbf{Teorema del factor}:
+
+\fmdisp{P(a)=0\iff P(x)\ \text{es divisible por}\ (x-a)\iff P(x)=(x-a)\cdot c(x)}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: teorema del resto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula, sin hacer la división, el resto de \fmm{(x^5-3x^2+7):(x+1)}.
+
+\fmm{r=P(-1)=(-1)^5-3(-1)^2+7=-1-3+7=3}
+\item Halla \fmm{k} para que \fmm{P(x)=x^3+kx^2-5x+6} sea divisible por \fmm{x-3}.
+
+Tiene que ser \fmm{P(3)=0}: \fmm{\ 27+9k-15+6=0}
+
+\fmm{9k=-18\Rightarrow k=-2}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Factorización de polinomios}\hypertarget{sec3}{}
+\begin{fmdef}{Raíces y factorización}
+\textbf{Factorizar} un polinomio es escribirlo como producto de polinomios del menor grado posible (\textbf{irreducibles}). Si \fmm{a_1,a_2,\ldots,a_n} son las raíces de \fmm{P(x)=a_nx^n+\cdots+a_0}, entonces
+
+\fmdisp{P(x)=a_n\,(x-a_1)(x-a_2)\cdots(x-a_n)}
+
+\begin{itemize}
+\item Un polinomio de grado \fmm{n} tiene, como máximo, \fmm{n} raíces reales.
+\item Si un factor \fmm{(x-a)} aparece \fmm{k} veces, \fmm{a} es una \textbf{raíz de multiplicidad \fmm{k}} (doble, triple\dots{}).
+\item Las \textbf{raíces enteras} de un polinomio con coeficientes enteros son \textbf{divisores del término independiente} \fmm{a_0}. Las raíces racionales \fmm{\frac pq} (fracción irreducible) cumplen que \fmm{p} divide a \fmm{a_0} y \fmm{q} divide a \fmm{a_n}.
+\item Hay polinomios sin raíces reales, como \fmm{x^2+1} o \fmm{x^2+x+1} \fmm{(\Delta\lt0)}: son irreducibles.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Procedimiento para factorizar}
+\begin{enumerate}
+\item \textbf{Sacar factor común} si es posible: \fmm{\ 2x^4-6x^3=2x^3(x-3)}.
+\item Reconocer \textbf{identidades notables}: \fmm{\ x^2-9=(x+3)(x-3),\ \ 4x^2+4x+1=(2x+1)^2}.
+\item Si es de \textbf{grado 2}, resolver la ecuación: \fmm{\ ax^2+bx+c=a(x-x_1)(x-x_2)}.
+\item Si es \textbf{bicuadrado} \fmm{(ax^4+bx^2+c)}, hacer el cambio \fmm{t=x^2}.
+\item Si es de grado mayor, aplicar \textbf{Ruffini} probando los divisores del término independiente (y, si hace falta, las fracciones \fmm{\frac pq}) hasta llegar a grado 2.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: factorización con Ruffini}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Factoriza \fmm{P(x)=x^4-x^3-7x^2+x+6}.
+
+Posibles raíces enteras: divisores de 6: \fmm{\ \pm1,\pm2,\pm3,\pm6}.
+
+Ruffini con \fmm{x=1} (resto 0) y, con el cociente, \fmm{x=-1} (resto 0): \fmm{\ P(x)=(x-1)(x+1)(x^2-x-6)}
+
+\fmm{x^2-x-6=0\Rightarrow x=\dfrac{1\pm5}{2}\Rightarrow x=3,\ x=-2}
+
+\fmm{P(x)=(x-1)(x+1)(x-3)(x+2)}
+\item Factoriza \fmm{Q(x)=2x^4+x^3-5x^2+2x}.
+
+Factor común: \fmm{\ Q(x)=x(2x^3+x^2-5x+2)}
+
+Ruffini con \fmm{x=1}: \fmm{\ 2x^3+x^2-5x+2=(x-1)(2x^2+3x-2)}
+
+\fmm{2x^2+3x-2=0\Rightarrow x=\dfrac{-3\pm5}{4}\Rightarrow x=\frac12,\ x=-2}. Entonces \fmm{2x^2+3x-2=2\left(x-\frac12\right)(x+2)=(2x-1)(x+2) \Rightarrow Q(x)=x\,(x-1)(2x-1)(x+2)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Fracciones algebraicas}\hypertarget{sec4}{}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Una \textbf{fracción algebraica} es un cociente de dos polinomios, \fmm{\frac{P(x)}{Q(x)}}, con \fmm{Q(x)\neq0}. Solo tiene sentido para los valores de \fmm{x} que \textbf{no anulan el denominador}.
+\item Dos fracciones \fmm{\frac PQ} y \fmm{\frac RS} son \textbf{equivalentes} si \fmm{P\cdot S=Q\cdot R}.
+\item \textbf{Simplificar} es dividir numerador y denominador por un mismo factor: hay que \textbf{factorizar} y eliminar los factores comunes.
+\item El \textbf{m.c.m.} de varios polinomios es el producto de los factores comunes y no comunes elevados al mayor exponente; el \textbf{m.c.d.}, el producto de los factores comunes elevados al menor exponente.
+\end{itemize}
+
+\begin{fmnote}\fmuline{Atención}: solo se pueden simplificar \emph{factores}, nunca \emph{sumandos}: \fmm{\ \dfrac{x+3}{x}\neq3}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Operaciones con fracciones algebraicas}
+\begin{itemize}
+\item \textbf{Suma y resta}: se reducen a \textbf{común denominador} (m.c.m. de los denominadores) y se suman o restan los numeradores. \fmm{\ \dfrac PQ\pm\dfrac RS=\dfrac{P\cdot S\pm Q\cdot R}{Q\cdot S}}
+\item \textbf{Producto}: \fmm{\ \dfrac PQ\cdot\dfrac RS=\dfrac{P\cdot R}{Q\cdot S}\qquad} \textbf{Cociente}: \fmm{\ \dfrac PQ:\dfrac RS=\dfrac{P\cdot S}{Q\cdot R}}
+\item Es conveniente \textbf{factorizar antes de operar} y simplificar al final.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: operaciones con fracciones}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Simplifica \fmm{\dfrac{x^3-4x}{x^3-4x^2+4x}}.
+
+\fmm{\dfrac{x(x^2-4)}{x(x^2-4x+4)}=\dfrac{x(x+2)(x-2)}{x(x-2)^2}=\dfrac{x+2}{x-2}}
+\item Calcula \fmm{\dfrac{x}{x-1}-\dfrac{2}{x+1}+\dfrac{2}{x^2-1}}.
+
+Factorizamos los denominadores: \fmm{\ x^2-1=(x+1)(x-1)\Rightarrow} m.c.m. \fmm{=(x+1)(x-1)}
+
+\fmm{\dfrac{x(x+1)-2(x-1)+2}{(x+1)(x-1)}=\dfrac{x^2+x-2x+2+2}{(x+1)(x-1)}=\dfrac{x^2-x+4}{x^2-1}}
+\item Calcula y simplifica \fmm{\dfrac{x^2-9}{x^2+2x}\cdot\dfrac{x+2}{x-3}} y \fmm{\dfrac{2x-4}{x^2}:\dfrac{x^2-4}{x}}.
+
+\fmm{\dfrac{(x+3)(x-3)}{x(x+2)}\cdot\dfrac{x+2}{x-3}=\dfrac{(x+3)(x-3)(x+2)}{x(x+2)(x-3)}=\dfrac{x+3}{x}}
+
+\fmm{\dfrac{2(x-2)}{x^2}\cdot\dfrac{x}{(x+2)(x-2)}=\dfrac{2}{x(x+2)}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ecuaciones polinómicas}\hypertarget{sec5}{}
+\begin{fmdef}{Ecuaciones de primer y segundo grado}
+\begin{itemize}
+\item \textbf{Primer grado}: \fmm{ax+b=0\Rightarrow x=-\frac ba}. Si hay denominadores, se multiplica todo por el m.c.m.
+\item \textbf{Segundo grado}: \fmm{\ ax^2+bx+c=0\ \Rightarrow\ x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}}
+\item El \textbf{discriminante} \fmm{\Delta=b^2-4ac} indica el número de soluciones: \fmm{\Delta\gt0}: dos soluciones; \fmm{\Delta=0}: una solución doble; \fmm{\Delta\lt0}: ninguna solución real.
+\item \textbf{Incompletas}: \fmm{ax^2+bx=0\Rightarrow x(ax+b)=0\Rightarrow x=0,\ x=-\frac ba}; \fmm{\ ax^2+c=0\Rightarrow x=\pm\sqrt{-\frac ca}}.
+\item Si \fmm{x_1} y \fmm{x_2} son las soluciones: \fmm{x_1+x_2=-\frac ba,\ \ x_1\cdot x_2=\frac ca}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ecuaciones bicuadradas y de grado superior}
+\begin{itemize}
+\item \textbf{Bicuadradas}: \fmm{ax^4+bx^2+c=0}. Se hace el cambio \fmm{t=x^2} y se obtiene \fmm{at^2+bt+c=0}. Por cada solución \fmm{t\ge0} se obtienen \fmm{x=\pm\sqrt t} (las \fmm{t\lt0} no dan soluciones reales).
+\item El mismo método sirve para \fmm{ax^{2n}+bx^n+c=0} con \fmm{t=x^n} (por ejemplo, \fmm{x^6-9x^3+8=0} con \fmm{t=x^3}).
+\item \textbf{Grado superior}: se pasa todo a un miembro, se \textbf{factoriza} (factor común, Ruffini\dots{}) y se aplica que un producto es cero si algún factor es cero:
+\end{itemize}
+
+\fmdisp{A(x)\cdot B(x)=0\iff A(x)=0\ \ \text{o}\ \ B(x)=0}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: ecuaciones polinómicas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{x^4-5x^2+4=0}.
+
+\fmm{t=x^2:\ \ t^2-5t+4=0\Rightarrow t=\dfrac{5\pm3}{2}\Rightarrow t=4,\ t=1}
+
+\fmm{x^2=4\Rightarrow x=\pm2;\quad x^2=1\Rightarrow x=\pm1.\quad x\in\{-2,-1,1,2\}}
+\item Resuelve \fmm{x^3-2x^2-5x+6=0}.
+
+Por Ruffini, \fmm{x=1} es raíz: \fmm{\ (x-1)(x^2-x-6)=0}
+
+\fmm{(x-1)(x-3)(x+2)=0\Rightarrow x=1,\ x=3,\ x=-2}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ecuaciones racionales}\hypertarget{sec6}{}
+\begin{fmdef}{Ecuaciones racionales}
+Son ecuaciones en las que la incógnita aparece en algún \textbf{denominador}. Para resolverlas:
+
+\begin{enumerate}
+\item Se factorizan los denominadores y se calcula el m.c.m.
+\item Se multiplican los dos miembros por el m.c.m. para eliminar los denominadores.
+\item Se resuelve la ecuación polinómica resultante.
+\item \textbf{Se comprueban las soluciones}: hay que descartar las que anulan algún denominador.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: ecuaciones racionales}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{\dfrac{x}{x-1}+\dfrac{2}{x+1}=\dfrac{2}{x^2-1}}.
+
+m.c.m. \fmm{=(x+1)(x-1)}. Multiplicamos los dos miembros: \fmm{\ x(x+1)+2(x-1)=2}
+
+\fmm{x^2+3x-4=0\Rightarrow x=\dfrac{-3\pm5}{2}\Rightarrow x=1,\ x=-4}
+
+Comprobación: \fmm{x=1} anula los denominadores \fmm{x-1} y \fmm{x^2-1}: se descarta. Solución: \fmm{x=-4}.
+\item Resuelve \fmm{\dfrac{x}{x-2}-\dfrac{2}{x-2}=3}.
+
+\fmm{x-2=3(x-2)\Rightarrow x-2=3x-6\Rightarrow x=2}
+
+Pero \fmm{x=2} anula el denominador: la ecuación \textbf{no tiene solución}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ecuaciones con radicales}\hypertarget{sec7}{}
+\begin{fmdef}{Ecuaciones irracionales}
+Son ecuaciones en las que la incógnita aparece dentro de una raíz. Para resolverlas:
+
+\begin{enumerate}
+\item Se \textbf{aísla un radical} en uno de los miembros.
+\item Se \textbf{elevan los dos miembros} al índice de la raíz (al cuadrado si es raíz cuadrada).
+\item Si todavía queda algún radical, se repite el proceso.
+\item Se resuelve la ecuación obtenida y \textbf{se comprueban todas las soluciones} en la ecuación inicial.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{¿Por qué hay que comprobar?} Al elevar al cuadrado pueden aparecer \textbf{soluciones extrañas}, porque \fmm{A^2=B^2} también se cumple cuando \fmm{A=-B}. Con raíces de índice impar no aparecen, pero siempre es bueno comprobar.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: ecuaciones con radicales}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{x-\sqrt{x+1}=5}.
+
+Aislamos el radical: \fmm{\ x-5=\sqrt{x+1}}. Elevamos al cuadrado: \fmm{\ x^2-10x+25=x+1}
+
+\fmm{x^2-11x+24=0\Rightarrow x=8,\ x=3}
+
+Comprobación: \fmm{x=8:\ 8-\sqrt9=5\ \checkmark;\quad x=3:\ 3-\sqrt4=1\neq5\ \times}. Solución: \fmm{x=8}
+\item Resuelve \fmm{\sqrt{2x+3}-\sqrt{x+1}=1}.
+
+\fmm{\sqrt{2x+3}=1+\sqrt{x+1}\Rightarrow 2x+3=1+2\sqrt{x+1}+x+1}
+
+\fmm{x+1=2\sqrt{x+1}\Rightarrow x^2+2x+1=4x+4\Rightarrow x^2-2x-3=0\Rightarrow x=3,\ x=-1}
+
+Comprobación: \fmm{x=3:\ 3-2=1\ \checkmark;\quad x=-1:\ 1-0=1\ \checkmark}. Las dos son solución.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ecuaciones exponenciales}\hypertarget{sec8}{}
+\begin{fmdef}{Ecuaciones exponenciales}
+Son ecuaciones en las que la incógnita aparece en un \textbf{exponente}. Se basan en la propiedad:
+
+\fmdisp{a^M=a^N\iff M=N\qquad(a\gt0,\ a\neq1)}
+
+\textbf{Recuerda} las propiedades de las potencias:
+\fmdisp{a^m\cdot a^n=a^{m+n},\ \ \dfrac{a^m}{a^n}=a^{m-n},\ \ (a^m)^n=a^{m\cdot n},\ \ a^{-n}=\dfrac1{a^n},\ \ \sqrt[n]{a^m}=a^{m/n},\ \ a^0=1.}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Tipos de ecuaciones exponenciales y cómo resolverlas}
+\begin{enumerate}
+\item \textbf{Los dos miembros se pueden escribir como potencias de la misma base}: se igualan los exponentes.
+\item \textbf{No se pueden reducir a la misma base}: se toman logaritmos en los dos miembros: \fmm{\ a^x=b\Rightarrow x=\dfrac{\log b}{\log a}}.
+\item \textbf{Sumas de potencias de la misma base} con exponentes que difieren en un número: se descomponen (\fmm{2^{x+1}=2\cdot2^x,\ 2^{x-1}=\frac{2^x}{2}}) y se saca factor común \fmm{a^x}.
+\item \textbf{Aparecen \fmm{a^{2x}} y \fmm{a^x}} (por ejemplo \fmm{4^x} y \fmm{2^x}): se hace el \textbf{cambio de variable} \fmm{t=a^x} (entonces \fmm{a^{2x}=t^2}) y se obtiene una ecuación de segundo grado. Como \fmm{t=a^x\gt0}, las soluciones \fmm{t\le0} no son válidas.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: uno de cada tipo}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{8^{x+1}=4^{x^2}}
+
+\fmm{2^{3x+3}=2^{2x^2}\Rightarrow 2x^2-3x-3=0\Rightarrow x=\dfrac{3\pm\sqrt{33}}{4}}
+\item \fmm{5^x=12}
+
+\fmm{x\log5=\log12\Rightarrow x=\dfrac{\log12}{\log5}\approx 1{,}544}
+\item \fmm{3^{x+1}+3^x+3^{x-1}=39}
+
+\fmm{3^x\left(3+1+\tfrac13\right)=39\Rightarrow 3^x\cdot\dfrac{13}{3}=39}
+
+\fmm{3^x=9\Rightarrow x=2}
+\item \fmm{4^x-6\cdot2^x+8=0}
+
+Como \fmm{4^x=(2^2)^x=(2^x)^2}, hacemos \fmm{t=2^x}: \fmm{\ t^2-6t+8=0\Rightarrow t=4,\ t=2}
+
+\fmm{2^x=4\Rightarrow x=2;\quad 2^x=2\Rightarrow x=1}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ecuaciones logarítmicas}\hypertarget{sec9}{}
+\begin{fmdef}{Logaritmos}
+El \textbf{logaritmo} en base \fmm{a} \fmm{(a\gt0,\ a\neq1)} de un número \fmm{N\gt0} es el exponente al que hay que elevar \fmm{a} para obtener \fmm{N}:
+
+\fmdisp{\log_aN=x\iff a^x=N}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\begin{array}{l}\log_a(M\cdot N)=\log_aM+\log_aN\\[2pt] \log_a\dfrac MN=\log_aM-\log_aN\\[4pt] \log_aM^k=k\log_aM\end{array}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\begin{array}{l}\log_aa=1\qquad\log_a1=0\\[4pt] \log_aN=\dfrac{\log N}{\log a}=\dfrac{\ln N}{\ln a}\end{array}}
+\end{minipage}\par\medskip
+
+\begin{fmnote}\fmuline{Atención}: solo existe el logaritmo de los números \textbf{positivos}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Cómo resolver ecuaciones logarítmicas}
+\begin{enumerate}
+\item Usando las propiedades, se agrupan los logaritmos hasta llegar a \fmm{\log_aA=\log_aB}, y entonces \fmm{A=B}. Los números también se pueden escribir como logaritmos: \fmm{1=\log10,\ 2=\log100}\dots{}
+\item O bien se llega a \fmm{\log_aA=k} y se aplica la definición: \fmm{A=a^k}.
+\item \textbf{Se comprueban las soluciones}: todos los logaritmos de la ecuación original tienen que tener argumentos positivos.
+\end{enumerate}
+\end{fmprop}
+
+\enlargethispage{1cm}
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: ecuaciones logarítmicas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{\log x+\log(x-3)=1}.
+
+\fmm{\log\big(x(x-3)\big)=\log10\Rightarrow x^2-3x-10=0\Rightarrow x=5,\ x=-2}
+
+Comprobación: \fmm{x=-2} no es válida (\fmm{\log(-2)} no existe). Solución: \fmm{x=5}.
+\item Resuelve \fmm{2\log x-\log(x+6)=0}.
+
+\fmm{\log x^2=\log(x+6)\Rightarrow x^2-x-6=0\Rightarrow x=3,\ x=-2}
+
+Solo es válida \fmm{x=3}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Inecuaciones con una incógnita}\hypertarget{sec10}{}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Una \textbf{inecuación} es una desigualdad entre dos expresiones algebraicas \fmm{(\lt,\gt,\le,\ge)}. Sus soluciones suelen ser \textbf{intervalos}: \fmm{\ (a,b)=\{a\lt x\lt b\},\ \ [a,+\infty)=\{x\ge a\}}\dots{}
+\item Si sumamos o restamos el mismo número a los dos miembros, la desigualdad se mantiene. Si \textbf{multiplicamos o dividimos por un número negativo, la desigualdad cambia de sentido}: \fmm{-2x\lt6\Rightarrow x\gt-3}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Cómo resolver inecuaciones}
+\begin{itemize}
+\item \textbf{Lineales}: se opera como en una ecuación de primer grado, teniendo en cuenta la regla del signo.
+\item \textbf{Polinómicas}: se pasa todo a un miembro, \fmm{P(x)\gt0} (o \fmm{\lt,\le,\ge}); se calculan las raíces y se factoriza; las raíces dividen la recta en intervalos y se estudia el signo de \fmm{P(x)} en cada uno (tabla de signos o probando un valor); se eligen los intervalos que cumplen la inecuación. Los extremos se incluyen si la desigualdad es \fmm{\le} o \fmm{\ge}.
+\item \textbf{Racionales} \fmm{\frac{P(x)}{Q(x)}\ge0}: igual, con las raíces del numerador y del denominador. \textbf{Las raíces del denominador no se incluyen nunca.} No se puede multiplicar por \fmm{Q(x)} porque no conocemos su signo.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: inecuaciones}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{x^3-x^2-6x\ge0}.
+
+Factorizamos: \fmm{\ x(x^2-x-6)=x(x-3)(x+2)}. Raíces: \fmm{-2,\ 0,\ 3}.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccccc}\toprule
+\textbf{} & \textbf{$(-\infty,-2)$} & \textbf{$-2$} & \textbf{$(-2,0)$} & \textbf{$0$} & \textbf{$(0,3)$} & \textbf{$3$} & \textbf{$(3,+\infty)$}\\\midrule
+$x+2$ & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}} &  & \textcolor{fmok}{\textbf{+}} &  & \textcolor{fmok}{\textbf{+}}\\
+$x$ & \textcolor{fmas}{$\boldsymbol{-}$} &  & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}} &  & \textcolor{fmok}{\textbf{+}}\\
+$x-3$ & \textcolor{fmas}{$\boldsymbol{-}$} &  & \textcolor{fmas}{$\boldsymbol{-}$} &  & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}}\\
+$P(x)$ & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}} & 0 & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}}\\
+\bottomrule\end{tabular}\end{center}
+
+\fmm{x\in[-2,\,0]\cup[3,+\infty)}
+\item Resuelve \fmm{\dfrac{x-1}{x+3}\le0}.
+
+Raíz del numerador: \fmm{x=1} (se incluye). Raíz del denominador: \fmm{x=-3} (se excluye).
+
+Signos: \fmm{(-\infty,-3):+;\ \ (-3,1):-;\ \ (1,+\infty):+\Rightarrow x\in(-3,\,1]}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Resolución de problemas}\hypertarget{sec11}{}\enlargethispage{\baselineskip}
+\begin{fmprop}{Pautas para resolver problemas con ecuaciones e inecuaciones}
+\begin{enumerate}
+\item \textbf{Leer} el enunciado con atención e identificar los datos y lo que se pide.
+\item \textbf{Nombrar las incógnitas} (\fmm{x,y,z}\dots{}) e indicar qué representa cada una (y en qué unidades).
+\item \textbf{Plantear} la ecuación o la inecuación traduciendo el enunciado al lenguaje algebraico.
+\item \textbf{Resolverlo.}
+\item \textbf{Comprobar e interpretar} las soluciones: descartar las que no tienen sentido en el contexto (valores negativos, no enteros\dots{}) y responder con una frase.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Algunos planteamientos habituales}
+\begin{itemize}
+\item \textbf{Porcentajes}: el \fmm{p\,\%} de \fmm{x} es \fmm{\frac p{100}x}. Aumentar un \fmm{p\,\%}: multiplicar por \fmm{1+\frac p{100}}.
+\item \textbf{Mezclas}: (cantidad total)\fmm{\times}(precio de la mezcla) \fmm{=} suma de (cantidad \fmm{\times} precio) de cada componente.
+\item \textbf{Trabajos simultáneos} (grifos, fuentes, personas): si un elemento tarda \fmm{t} horas en hacer un trabajo, en una hora hace \fmm{\frac1t}. Si trabajan juntos, se suman las partes: \fmm{\ \dfrac1{t_1}+\dfrac1{t_2}=\dfrac1T}.
+\item \textbf{Geometría}: teorema de Pitágoras, perímetros, áreas y volúmenes.
+\item \textbf{Crecimiento exponencial}: \fmm{N(t)=N_0\cdot a^t} o \fmm{N_0\cdot e^{kt}}; se resuelven con logaritmos.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: problemas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Un grifo llena un depósito en 3 horas y otro en 6 horas. ¿Cuánto tardarán juntos?
+
+En una hora llenan \fmm{\frac13+\frac16=\frac12} del depósito.
+
+\fmm{\dfrac1T=\dfrac12\Rightarrow T=2} horas
+\item La base de un rectángulo mide 3 cm más que la altura y el área es de 40 cm$^2$. ¿Cuáles son sus dimensiones?
+
+\fmm{x=} altura: \fmm{\ x(x+3)=40\Rightarrow x^2+3x-40=0\Rightarrow x=5,\ x=-8}
+
+La solución negativa no tiene sentido: la altura mide 5 cm y la base, 8 cm.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
