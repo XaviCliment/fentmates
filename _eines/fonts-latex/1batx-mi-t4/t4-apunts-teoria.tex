@@ -1,0 +1,689 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 4: Geometria analítica en el pla. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={vectors, producte escalar, angle entre vectors, equacions de la recta, posicions relatives, angles, distàncies, punt simètric, triangles}}
+
+% colors de la web (FentMates, bloc de Geometria: taronja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{4.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.4pt,opacity=0.7] (14,100)--(226,100) (40,114)--(40,6);
+  \draw[line width=3.6pt] (24,112)--(224,18);
+  \fill (76,87.6) circle (6) (172,42.5) circle (6);
+  \draw[line width=3.6pt] (76,87.6)--(150,52.8) (140,50)--(150,52.8)--(144,61);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (112,92) {$\vec v$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (196,64) {$r$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{19}{19}\selectfont] at (50,34) {$ax+by+c=0$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat MI · Unitat 4: Geometria analítica en el pla}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 4} · Geometria analítica en el pla\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: vectors (components, mòdul, argument i vector unitari), operacions amb vectors, aplicacions (punt mig, divisió d'un segment, punts alineats i punt simètric), el producte escalar i l'angle de dos vectors, totes les equacions de la recta (vectorial, paramètriques, contínua, explícita, punt-pendent i general), les posicions relatives de dues rectes, el para\lgem{}elisme i la perpendicularitat, l'angle de dues rectes, les distàncies i els problemes mètrics (projecció, simètric respecte d'una recta, mediatriu, bisectrius i àrea d'un triangle).\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}4.1}\ \ Vectors}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}4.2}\ \ Operacions amb vectors}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}4.3}\ \ Aplicacions geomètriques dels vectors}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}4.4}\ \ Producte escalar}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}4.5}\ \ Equacions de la recta}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}4.6}\ \ Posicions relatives de dues rectes}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}4.7}\ \ Para\lgem{}elisme i perpendicularitat}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}4.8}\ \ Angle de dues rectes}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}4.9}\ \ Càlcul de distàncies}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}4.10}\ \ Problemes mètrics}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{Vectors}\hypertarget{sec1}{}
+\begin{fmdef}{Definicions}
+\begin{itemize}
+\item Un \textbf{vector fix} \fmm{\overrightarrow{AB}} és un segment orientat que té com a \textbf{origen} el punt \fmm{A(a_1,a_2)} i com a \textbf{extrem} el punt \fmm{B(b_1,b_2)}.
+\item Les \textbf{components} d'un vector són les coordenades de l'extrem menys les coordenades de l'origen:
+
+\fmdisp{\overrightarrow{AB}=(b_1-a_1,\ b_2-a_2)}
+
+\item El \textbf{mòdul} d'un vector és la longitud del segment \fmm{AB}:
+
+\fmdisp{|\overrightarrow{AB}|=\sqrt{(b_1-a_1)^2+(b_2-a_2)^2}\qquad\qquad |\vec v|=\sqrt{v_1^2+v_2^2}}
+
+\item La \textbf{direcció} d'un vector és la de la recta que el conté (i la de totes les seues para\lgem{}eles). El \textbf{sentit}, indicat per la punta de fletxa, és l'orientació amb què es recorre: cada direcció admet dos sentits oposats.
+\item Dos vectors són \textbf{equipo\lgem{}ents} (iguals) quan tenen el mateix mòdul, la mateixa direcció i el mateix sentit; és a dir, quan tenen les \textbf{mateixes components}. Un \textbf{vector lliure} \fmm{\vec v} és el conjunt de tots els vectors equipo\lgem{}ents: només en coneixem les components, no l'origen ni l'extrem.
+\item L'\textbf{argument} \fmm{\alpha} d'un vector \fmm{\vec v} és l'angle que forma amb el semieix positiu \fmm{OX}, mesurat en sentit antihorari. Es compleix \fmm{\tan\alpha=\dfrac{v_2}{v_1}}, però \fmuline{cal mirar el quadrant} on és el vector: la calculadora sempre dona un angle entre \fmm{-90^\circ} i \fmm{90^\circ}.
+
+Coneixent el mòdul i l'argument, en tenim les components: \fmm{\ \vec v=\big(|\vec v|\cos\alpha,\ |\vec v|\sin\alpha\big)}.
+\item Un vector és \textbf{unitari} si \fmm{|\vec v|=1}. Si \fmm{\vec v} no és unitari, \fmm{\vec w=\dfrac{\vec v}{|\vec v|}} és un vector unitari amb la mateixa direcció i el mateix sentit que \fmm{\vec v} (diem que hem \textbf{normalitzat} \fmm{\vec v}).
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Siguen \fmm{A(1,-2)} i \fmm{B(-3,1)}. Calcula el vector \fmm{\overrightarrow{AB}}, el seu mòdul, el seu argument, el vector oposat i un vector unitari amb la mateixa direcció i sentit.
+
+Components: \fmm{\ \overrightarrow{AB}=\big(-3-1,\ 1-(-2)\big)=(-4,\ 3)}
+
+Mòdul: \fmm{\ |\overrightarrow{AB}|=\sqrt{(-4)^2+3^2}=\sqrt{16+9}=\sqrt{25}=5}
+
+Argument: \fmm{\tan\alpha=\dfrac{3}{-4}}. La calculadora dona \fmm{\arctan(-0{,}75)=-36{,}87^\circ}, però el vector \fmm{(-4,3)} és al \textbf{2n quadrant} (\fmm{v_1\lt0,\ v_2\gt0}), així que sumem \fmm{180^\circ}: \fmm{\ \alpha=143{,}13^\circ}
+
+Vector oposat: \fmm{\ -\overrightarrow{AB}=\overrightarrow{BA}=(4,\ -3)}
+
+Vector unitari: \fmm{\ \vec w=\dfrac{\overrightarrow{AB}}{|\overrightarrow{AB}|}=\dfrac{(-4,3)}{5}=\left(-\dfrac45,\ \dfrac35\right)}. Comprovació: \fmm{\sqrt{\tfrac{16}{25}+\tfrac{9}{25}}=1\ \checkmark}
+\item Un vector té mòdul 6 i argument \fmm{120^\circ}. Quines components té?
+
+\fmm{\vec v=(6\cos120^\circ,\ 6\sin120^\circ)=\left(6\cdot\left(-\tfrac12\right),\ 6\cdot\tfrac{\sqrt3}{2}\right)=\left(-3,\ 3\sqrt3\right)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Operacions amb vectors}\hypertarget{sec2}{}
+\begin{fmdef}{Suma, resta i producte per un nombre}
+Donats \fmm{\vec u=(u_1,u_2)}, \fmm{\vec v=(v_1,v_2)} i un nombre real \fmm{k}:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Operació} & \textbf{Components} & \textbf{Interpretació geomètrica}\\\midrule
+Suma & $\vec u+\vec v=(u_1+v_1,\ u_2+v_2)$ & Posem l'origen de $\vec v$ a l'extrem de $\vec u$ (regla del triangle) o fem la diagonal del para\lgem{}elogram (regla del para\lgem{}elogram).\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Resta & $\vec u-\vec v=\vec u+(-\vec v)=(u_1-v_1,\ u_2-v_2)$ & Si $\vec u$ i $\vec v$ tenen el mateix origen, $\vec u-\vec v$ va de l'extrem de $\vec v$ a l'extrem de $\vec u$.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Producte per un nombre & $k\vec u=(ku_1,\ ku_2)$ & Mateixa direcció que $\vec u$; mateix sentit si $k\gt0$ i sentit contrari si $k\lt0$; mòdul $|k\vec u|=|k|\cdot|\vec u|$.\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propietats}
+\begin{itemize}
+\item \textbf{Commutativa}: \fmm{\vec u+\vec v=\vec v+\vec u}. \textbf{Associativa}: \fmm{(\vec u+\vec v)+\vec w=\vec u+(\vec v+\vec w)}.
+\item \textbf{Element neutre}: \fmm{\vec u+\vec 0=\vec u}, on \fmm{\vec 0=(0,0)}. \textbf{Oposat}: \fmm{\vec u+(-\vec u)=\vec 0}, amb \fmm{-\vec u=(-u_1,-u_2)}.
+\item \textbf{Distributives}: \fmm{k(\vec u+\vec v)=k\vec u+k\vec v} i \fmm{(k+l)\vec u=k\vec u+l\vec u}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Combinació lineal. Vectors para\lgem{}els. Bases}
+\begin{itemize}
+\item Un vector \fmm{\vec w} és \textbf{combinació lineal} de \fmm{\vec u} i \fmm{\vec v} si es pot escriure \fmm{\vec w=a\vec u+b\vec v} amb \fmm{a,b\in\mathbb R}.
+\item Dos vectors no nuls són \textbf{para\lgem{}els} (tenen la mateixa direcció) si un és múltiple de l'altre, és a dir, si les components són \textbf{proporcionals}: \fmm{\ \vec u\parallel\vec v\iff\dfrac{u_1}{v_1}=\dfrac{u_2}{v_2}\iff u_1v_2-u_2v_1=0}.
+\item Dos vectors \textbf{no para\lgem{}els} formen una \textbf{base} del pla: qualsevol vector s'escriu, d'una única manera, com a combinació lineal d'ells. La base habitual és la \textbf{canònica} \fmm{\vec\imath=(1,0)}, \fmm{\vec\jmath=(0,1)}, que és \textbf{ortonormal} (vectors unitaris i perpendiculars): \fmm{(v_1,v_2)=v_1\vec\imath+v_2\vec\jmath}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Si \fmm{\vec u=(-2,5)} i \fmm{\vec v=(1,-4)}, calcula: a) \fmm{2\vec u+\vec v}; b) \fmm{\vec u-\vec v}; c) \fmm{3\vec u+\tfrac13\vec v}; d) \fmm{-\tfrac12\vec u-2\vec v}.
+
+a) \fmm{2(-2,5)+(1,-4)=(-4+1,\ 10-4)=(-3,\ 6)}
+
+b) \fmm{(-2,5)-(1,-4)=(-2-1,\ 5+4)=(-3,\ 9)}
+
+c) \fmm{3(-2,5)+\tfrac13(1,-4)=\left(-6+\tfrac13,\ 15-\tfrac43\right)=\left(-\tfrac{17}{3},\ \tfrac{41}{3}\right)}
+
+d) \fmm{-\tfrac12(-2,5)-2(1,-4)=\left(1-2,\ -\tfrac52+8\right)=\left(-1,\ \tfrac{11}{2}\right)}
+\item Escriu \fmm{\vec w=(7,0)} com a combinació lineal de \fmm{\vec u=(1,2)} i \fmm{\vec v=(3,-1)}.
+
+Busquem \fmm{a} i \fmm{b} tals que \fmm{a(1,2)+b(3,-1)=(7,0)}: \fmm{\ \left\{\begin{array}{l}a+3b=7\\ 2a-b=0\end{array}\right.}
+
+De la segona, \fmm{b=2a}; substituint, \fmm{a+6a=7\Rightarrow a=1,\ b=2}. Per tant, \fmm{\ \vec w=\vec u+2\vec v}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{10\baselineskip}
+\section{Aplicacions geomètriques dels vectors}\hypertarget{sec3}{}
+\subsection*{A. Punt mig d'un segment}
+\begin{fmdef}{Punt mig}
+El punt mig \fmm{M} del segment \fmm{AB} compleix \fmm{\overrightarrow{AB}=2\overrightarrow{AM}}. Igualant components, \fmm{b_1-a_1=2(m_1-a_1)}, i aïllant \fmm{m_1} (igual per a \fmm{m_2}):
+
+\fmdisp{M=\left(\frac{a_1+b_1}{2},\ \frac{a_2+b_2}{2}\right)}
+
+\begin{fmnote}\fmuline{Exemple}: el punt mig de \fmm{A(2,-2)} i \fmm{B(4,8)} és \fmm{M=\left(\tfrac{2+4}{2},\tfrac{-2+8}{2}\right)=(3,3)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\subsection*{B. Divisió d'un segment en parts iguals}
+\begin{fmdef}{Dividir un segment en $n$ parts iguals}
+Per a dividir \fmm{AB} en tres parts iguals, els punts \fmm{M} i \fmm{N} compleixen \fmm{\overrightarrow{AM}=\tfrac13\overrightarrow{AB}} i \fmm{\overrightarrow{AN}=\tfrac23\overrightarrow{AB}}:
+
+\fmdisp{M=\left(\frac{2a_1+b_1}{3},\ \frac{2a_2+b_2}{3}\right)\qquad N=\left(\frac{a_1+2b_1}{3},\ \frac{a_2+2b_2}{3}\right)}
+
+En general, el punt que es troba a la fracció \fmm{t} del camí de \fmm{A} a \fmm{B} és \fmm{P=A+t\,\overrightarrow{AB}}. Per a dividir en \fmm{n} parts, prenem \fmm{t=\tfrac1n,\ \tfrac2n,\dots,\tfrac{n-1}{n}}. Una vegada trobat \fmm{M}, també podem obtindre \fmm{N} sumant-li el mateix vector: \fmm{N=M+\overrightarrow{AM}}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\subsection*{C. Punts alineats}
+\begin{fmdef}{Condició d'alineació}
+Tres punts \fmm{A}, \fmm{B} i \fmm{C} estan \textbf{alineats} si els vectors \fmm{\overrightarrow{AB}} i \fmm{\overrightarrow{AC}} són para\lgem{}els, és a dir, si tenen les components proporcionals:
+
+\fmdisp{A,B,C\ \text{alineats}\iff \overrightarrow{AC}=k\,\overrightarrow{AB}\iff \frac{c_1-a_1}{b_1-a_1}=\frac{c_2-a_2}{b_2-a_2}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\subsection*{D. Punt simètric respecte d'un altre}
+\begin{fmdef}{Simètric d'un punt respecte d'un punt}
+Si \fmm{P'} és el simètric de \fmm{P} respecte de \fmm{Q}, aleshores \fmm{Q} és el \textbf{punt mig} de \fmm{PP'}. Equivalentment, \fmm{\overrightarrow{PQ}=\overrightarrow{QP'}}, d'on:
+
+\fmdisp{P'=2Q-P=(2q_1-p_1,\ 2q_2-p_2)}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula els punts que divideixen el segment d'extrems \fmm{A(2,-2)} i \fmm{B(4,8)} en tres parts iguals.
+
+\fmm{M=\left(\dfrac{2\cdot2+4}{3},\ \dfrac{2\cdot(-2)+8}{3}\right)=\left(\dfrac83,\ \dfrac43\right)}
+
+\fmm{N=\left(\dfrac{2+2\cdot4}{3},\ \dfrac{-2+2\cdot8}{3}\right)=\left(\dfrac{10}{3},\ \dfrac{14}{3}\right)}
+
+Comprovació amb vectors: \fmm{\overrightarrow{AB}=(2,10)}, \fmm{\tfrac13\overrightarrow{AB}=\left(\tfrac23,\tfrac{10}{3}\right)} i \fmm{A+\tfrac13\overrightarrow{AB}=\left(\tfrac83,\tfrac43\right)=M\ \checkmark}
+\item Estan alineats \fmm{A(2,-2)}, \fmm{B(4,8)} i \fmm{C(-1,6)}? I \fmm{A}, \fmm{B} i \fmm{D(3,3)}?
+
+\fmm{\overrightarrow{AB}=(2,10)}, \fmm{\ \overrightarrow{AC}=(-3,8)}: \fmm{\ \dfrac{-3}{2}\neq\dfrac{8}{10}\ \Rightarrow} \textbf{no} estan alineats.
+
+\fmm{\overrightarrow{AD}=(1,5)}: \fmm{\ \dfrac{1}{2}=\dfrac{5}{10}\ \Rightarrow} \textbf{sí} que estan alineats (\fmm{D} és el punt mig de \fmm{AB}).
+\item Troba el simètric de \fmm{P(7,4)} respecte de \fmm{Q(3,11)}.
+
+Siga \fmm{P'(x,y)}. Com \fmm{Q} és el punt mig de \fmm{PP'}: \fmm{\ \dfrac{7+x}{2}=3,\ \ \dfrac{4+y}{2}=11}
+
+\fmm{x=6-7=-1,\ \ y=22-4=18\ \Rightarrow\ P'(-1,\ 18)}
+\item Tres vèrtexs consecutius d'un para\lgem{}elogram són \fmm{A(1,1)}, \fmm{B(5,2)} i \fmm{C(6,5)}. Troba el quart vèrtex \fmm{D}.
+
+En un para\lgem{}elogram \fmm{ABCD}, \fmm{\overrightarrow{AD}=\overrightarrow{BC}=(1,3)}.
+
+\fmm{D=A+\overrightarrow{BC}=(1+1,\ 1+3)=(2,4)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Producte escalar de vectors}\hypertarget{sec4}{}
+\begin{fmdef}{Definició i expressió analítica}
+El \textbf{producte escalar} de dos vectors \fmm{\vec u} i \fmm{\vec v} és el \textbf{nombre}
+
+\fmdisp{\vec u\cdot\vec v=|\vec u|\cdot|\vec v|\cdot\cos\alpha}
+
+on \fmm{\alpha} és l'angle que formen els dos vectors. En una base ortonormal (la canònica), si \fmm{\vec u=(u_1,u_2)} i \fmm{\vec v=(v_1,v_2)}:
+
+\fmdisp{\vec u\cdot\vec v=u_1v_1+u_2v_2}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propietats}
+\begin{itemize}
+\item \textbf{Commutativa}: \fmm{\vec u\cdot\vec v=\vec v\cdot\vec u}.
+\item \textbf{Associativa amb un nombre}: \fmm{k(\vec u\cdot\vec v)=(k\vec u)\cdot\vec v}.
+\item \textbf{Distributiva}: \fmm{\vec u\cdot(\vec v+\vec w)=\vec u\cdot\vec v+\vec u\cdot\vec w}.
+\item \fmm{\vec u\cdot\vec u=|\vec u|^2}, és a dir, \fmm{|\vec u|=\sqrt{\vec u\cdot\vec u}}.
+\item \textbf{Perpendicularitat}: si \fmm{\vec u} i \fmm{\vec v} no són nuls, \fmm{\ \vec u\cdot\vec v=0\iff\vec u\perp\vec v}. Un vector perpendicular a \fmm{(a,b)} és \fmm{(-b,a)} (o \fmm{(b,-a)}): girem les components i canviem un signe.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Angle de dos vectors i signe del producte escalar}
+Aïllant de les dues expressions del producte escalar:
+
+\fmdisp{\cos\alpha=\frac{\vec u\cdot\vec v}{|\vec u|\cdot|\vec v|}=\frac{u_1v_1+u_2v_2}{\sqrt{u_1^2+u_2^2}\,\sqrt{v_1^2+v_2^2}}\qquad 0^\circ\le\alpha\le180^\circ}
+
+\begin{itemize}
+\item Si l'angle és \textbf{agut}, \fmm{\cos\alpha\gt0} i, per tant, \fmm{\vec u\cdot\vec v\gt0}.
+\item Si l'angle és \textbf{recte}, \fmm{\vec u\cdot\vec v=0}. Si és \textbf{obtús}, \fmm{\vec u\cdot\vec v\lt0}.
+\end{itemize}
+
+\textbf{Projecció}: la longitud de la projecció de \fmm{\vec u} sobre \fmm{\vec v} és \fmm{\ \text{proy}_{\vec v}\vec u=|\vec u|\cos\alpha=\dfrac{\vec u\cdot\vec v}{|\vec v|}}. Per això diem que el producte escalar és «el mòdul d'un vector per la projecció de l'altre sobre ell».
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Donats \fmm{\vec a=(3,0)} i \fmm{\vec b=(4,3)}, calcula el seu producte escalar i l'angle que formen.
+
+\fmm{\vec a\cdot\vec b=3\cdot4+0\cdot3=12}
+
+\fmm{|\vec a|=\sqrt{3^2+0^2}=3,\quad |\vec b|=\sqrt{4^2+3^2}=5}
+
+\fmm{\cos\alpha=\dfrac{12}{3\cdot5}=\dfrac45\ \Rightarrow\ \alpha=\arccos\dfrac45=36{,}87^\circ=36^\circ52'12''}
+\item Troba \fmm{m} perquè \fmm{\vec u=(m,3)} i \fmm{\vec v=(2,-4)} siguen perpendiculars. Dona, a més, dos vectors perpendiculars a \fmm{\vec v} de mòdul 1.
+
+\fmm{\vec u\cdot\vec v=2m-12=0\Rightarrow m=6}
+
+Un perpendicular a \fmm{(2,-4)} és \fmm{(4,2)}, de mòdul \fmm{\sqrt{20}=2\sqrt5}. Els unitaris són \fmm{\ \pm\left(\dfrac{2}{\sqrt5},\dfrac{1}{\sqrt5}\right)=\pm\left(\dfrac{2\sqrt5}{5},\dfrac{\sqrt5}{5}\right)}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Equacions de la recta}\hypertarget{sec5}{}
+
+Una recta queda determinada per un \textbf{punt} \fmm{P(a,b)} i un \textbf{vector director} \fmm{\vec u=(u_1,u_2)}, para\lgem{}el a la recta. Si en coneixem dos punts \fmm{A} i \fmm{B}, prenem un d'ells com a punt i \fmm{\overrightarrow{AB}} com a vector director. Totes les equacions següents descriuen la mateixa recta: només canvia la manera d'escriure-la.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Equació vectorial i equacions paramètriques}
+
+\fmdisp{(x,y)=(a,b)+\lambda\,(u_1,u_2)\qquad\qquad \left\{\begin{array}{l}x=a+\lambda u_1\\ y=b+\lambda u_2\end{array}\right.\qquad \lambda\in\mathbb R}
+
+Per a cada valor del \textbf{paràmetre} \fmm{\lambda} obtenim un punt \fmm{(x,y)} de la recta. Per a saber si un punt hi pertany, el substituïm i mirem si les dues equacions donen el \textbf{mateix} \fmm{\lambda}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Equació contínua}
+Aïllem \fmm{\lambda} de les dues equacions paramètriques i igualem:
+
+\fmdisp{\frac{x-a}{u_1}=\frac{y-b}{u_2}}
+
+\begin{fmnote}\fmuline{Nota important}: una expressió com \fmm{\dfrac{x-4}{5}=\dfrac{y+2}{0}} és incorrecta matemàticament (no es pot dividir per 0), però en aquest context s'admet com a \textbf{notació simbòlica}: indica que un vector director és \fmm{(5,0)}. Aquesta recta és, en realitat, \fmm{y=-2}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Pendent. Equació explícita i equació punt-pendent}
+El \textbf{pendent} d'una recta és l'increment de l'ordenada quan l'abscissa augmenta una unitat. Es calcula a partir d'un vector director o de dos punts, i és la tangent de l'angle \fmm{\alpha} que forma la recta amb l'eix \fmm{OX}:
+
+\fmdisp{m=\frac{u_2}{u_1}=\frac{y_2-y_1}{x_2-x_1}=\tan\alpha}
+
+Si \fmm{m} és el pendent, \fmm{(1,m)} és un vector director. Les rectes verticals (\fmm{u_1=0}) no tenen pendent.
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Equació explícita}
+
+\fmdisp{y=mx+n}
+
+\fmm{m} és el pendent i \fmm{n} l'\textbf{ordenada en l'origen} (la recta talla l'eix \fmm{OY} en \fmm{(0,n)}).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Equació punt-pendent}
+
+\fmdisp{y-b=m(x-a)}
+
+on \fmm{P(a,b)} és un punt de la recta i \fmm{m} el pendent. També s'escriu \fmm{y=m(x-a)+b}.\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Equació general o implícita}
+
+\fmdisp{Ax+By+C=0}
+
+\begin{itemize}
+\item El vector \fmm{\vec n=(A,B)} és \textbf{perpendicular} a la recta: s'anomena \textbf{vector normal}.
+\item Un vector director és \fmm{\vec u=(-B,A)} (o \fmm{(B,-A)}), i el pendent és \fmm{m=-\dfrac AB} (si \fmm{B\neq0}).
+\item Coneixent un vector normal \fmm{(A,B)} i un punt \fmm{P(a,b)}, l'equació general és \fmm{A(x-a)+B(y-b)=0}.
+\item Per a trobar un punt de la recta, donem un valor a \fmm{x} (o a \fmm{y}) i calculem l'altra coordenada.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Obtín les equacions vectorial i paramètriques de la recta que passa per \fmm{A(3,6)} i té vector director \fmm{\vec u=(3,2)}. Troba dos punts més de la recta i comprova si \fmm{P(-1,-3)} hi pertany.
+
+Vectorial: \fmm{\ (x,y)=(3,6)+\lambda(3,2)}. Paramètriques: \fmm{\ \left\{\begin{array}{l}x=3+3\lambda\\ y=6+2\lambda\end{array}\right.}
+
+\fmm{\lambda=1\Rightarrow(6,8)}; \fmm{\quad\lambda=-1\Rightarrow(0,4)}.
+
+\fmm{P(-1,-3)}: \fmm{\ -1=3+3\lambda\Rightarrow\lambda=-\tfrac43}; \fmm{\ -3=6+2\lambda\Rightarrow\lambda=-\tfrac92}. Com que \fmm{-\tfrac43\neq-\tfrac92}, \fmm{P\notin r}.
+\item Obtín les equacions de la recta \fmm{s} que passa per \fmm{A(2,6)} i \fmm{B(-1,6)} i comprova si \fmm{P(-4,6)} hi pertany.
+
+\fmm{\vec u=\overrightarrow{AB}=(-3,0)}. \fmm{\ s:(x,y)=(2,6)+\lambda(-3,0)}, \fmm{\ \left\{\begin{array}{l}x=2-3\lambda\\ y=6\end{array}\right.}
+
+\fmm{P(-4,6)}: \fmm{\ -4=2-3\lambda\Rightarrow\lambda=2}, i la segona equació (\fmm{6=6}) es compleix per a tot \fmm{\lambda}. Per tant, \fmm{P\in s}. (És la recta horitzontal \fmm{y=6}.)
+\item Troba l'equació explícita de \fmm{r:\left\{\begin{array}{l}x=2-3\lambda\\ y=1+\lambda\end{array}\right.} i les paramètriques de \fmm{s:\ y=2x-7}.
+
+\fmm{\dfrac{x-2}{-3}=\dfrac{y-1}{1}\ \Rightarrow\ x-2=-3y+3\ \Rightarrow\ y=-\dfrac13x+\dfrac53}
+
+El pendent de \fmm{s} és 2, així que \fmm{(1,2)} és un vector director; amb \fmm{x=0}, \fmm{y=-7}: punt \fmm{(0,-7)}. \fmm{\ s:\left\{\begin{array}{l}x=\lambda\\ y=-7+2\lambda\end{array}\right.}
+\item Troba l'equació punt-pendent de la recta que passa per \fmm{A(5,-1)} i \fmm{B(7,4)}, i la seua equació general.
+
+\fmm{m=\dfrac{4-(-1)}{7-5}=\dfrac52\ \Rightarrow\ y+1=\dfrac52(x-5)}
+
+\fmm{2y+2=5x-25\ \Rightarrow\ 5x-2y-27=0}
+\item Obtín l'equació general de \fmm{r:\dfrac x2=\dfrac{y-2}{4}} i l'equació general de la recta que passa per \fmm{P(2,1)} amb vector normal \fmm{\vec n=(5,3)}.
+
+\fmm{4x=2(y-2)\Rightarrow 4x-2y+4=0\Rightarrow 2x-y+2=0} (podem simplificar dividint entre 2).
+
+\fmm{5(x-2)+3(y-1)=0\Rightarrow 5x+3y-13=0}
+\item Obtín l'equació vectorial de la recta \fmm{x+2y-3=0}.
+
+Un punt: amb \fmm{x=1}, \fmm{2y=2\Rightarrow y=1}: \fmm{P(1,1)}. Vector normal \fmm{(1,2)\Rightarrow} vector director \fmm{(-2,1)}.
+
+\fmm{(x,y)=(1,1)+\lambda(-2,1)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Posicions relatives de dues rectes}\hypertarget{sec6}{}
+\begin{fmdef}{Secants, para\lgem{}eles o coincidents}
+Dues rectes del pla poden ser \textbf{secants} (es tallen en un punt), \textbf{para\lgem{}eles} (no tenen cap punt en comú) o \textbf{coincidents} (són la mateixa recta). Ens fixem en els \textbf{vectors directors}:
+
+\begin{itemize}
+\item Si \textbf{no} són para\lgem{}els, les rectes són \textbf{secants}: el punt de tall és la solució del sistema que formen les dues equacions.
+\item Si són para\lgem{}els, les rectes són \textbf{para\lgem{}eles o coincidents}: prenem un punt d'una i mirem si és de l'altra.
+\end{itemize}
+
+Quan les dues rectes estan en forma general, \fmm{r:Ax+By+C=0} i \fmm{s:A'x+B'y+C'=0}, comparem els coeficients:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Condició} & \textbf{Posició} & \textbf{Sistema}\\\midrule
+$\dfrac{A}{A'}\neq\dfrac{B}{B'}$ & \textbf{Secants}: es tallen en un punt & compatible determinat\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\dfrac{A}{A'}=\dfrac{B}{B'}\neq\dfrac{C}{C'}$ & \textbf{Para\lgem{}eles} $(r\parallel s)$ & incompatible\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\dfrac{A}{A'}=\dfrac{B}{B'}=\dfrac{C}{C'}$ & \textbf{Coincidents} $(r\equiv s)$ & compatible indeterminat\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Determina la posició relativa i el punt de tall, si existeix, de \fmm{r_1:\left\{\begin{array}{l}x=5-\lambda\\ y=3\lambda\end{array}\right.} i \fmm{r_2:\left\{\begin{array}{l}x=-1+2\mu\\ y=6-3\mu\end{array}\right.}
+
+\fmm{\vec v_1=(-1,3)}, \fmm{\ \vec v_2=(2,-3)}: \fmm{\ \dfrac{-1}{2}\neq\dfrac{3}{-3}\Rightarrow} no són para\lgem{}els: les rectes són \textbf{secants}.
+
+Igualem les \fmm{x} i les \fmm{y} (amb paràmetres \textbf{diferents}): \fmm{\ \left\{\begin{array}{l}5-\lambda=-1+2\mu\\ 3\lambda=6-3\mu\end{array}\right.\Rightarrow\left\{\begin{array}{l}\lambda+2\mu=6\\ \lambda+\mu=2\end{array}\right.\Rightarrow\mu=4,\ \lambda=-2}
+
+Substituint \fmm{\lambda=-2} en \fmm{r_1}: \fmm{\ x=7,\ y=-6}. Punt de tall: \fmm{(7,-6)}. (Amb \fmm{\mu=4} en \fmm{r_2} obtenim el mateix punt.)
+\item Determina la posició relativa de \fmm{r_1:\left\{\begin{array}{l}x=2+\lambda\\ y=5-3\lambda\end{array}\right.} i \fmm{r_2:\left\{\begin{array}{l}x=2\mu\\ y=3-6\mu\end{array}\right.}
+
+\fmm{\vec v_1=(1,-3)}, \fmm{\ \vec v_2=(2,-6)}: \fmm{\ \dfrac12=\dfrac{-3}{-6}\Rightarrow} para\lgem{}eles o coincidents.
+
+\fmm{(2,5)\in r_1}. És de \fmm{r_2}? \fmm{\ 2=2\mu\Rightarrow\mu=1}; \fmm{\ 5=3-6\mu\Rightarrow\mu=-\tfrac13}. No hi ha solució, així que les rectes són \textbf{para\lgem{}eles}.
+\newpage
+\item Estudia la posició relativa dels parells de rectes: a) \fmm{3x+4y-5=0}, \fmm{x-3y-6=0}; b) \fmm{x-2y+4=0}, \fmm{-2x+4y+4=0}; c) \fmm{x-2y+4=0}, \fmm{-2x+4y-8=0}.
+
+a) \fmm{\dfrac31\neq\dfrac{4}{-3}\Rightarrow} secants. Resolent el sistema (per exemple, \fmm{x=6+3y} en la primera: \fmm{18+13y=5\Rightarrow y=-1}), el punt de tall és \fmm{(3,-1)}.
+
+b) \fmm{\dfrac{1}{-2}=\dfrac{-2}{4}\neq\dfrac{4}{4}\Rightarrow} para\lgem{}eles.
+
+c) \fmm{\dfrac{1}{-2}=\dfrac{-2}{4}=\dfrac{4}{-8}\Rightarrow} coincidents: les dues equacions són la mateixa recta.
+\item Esbrina la posició relativa de \fmm{r:2x-5y-12=0} amb \fmm{s_1:\left\{\begin{array}{l}x=-11+3\lambda\\ y=2-\lambda\end{array}\right.} i amb \fmm{s_2:\left\{\begin{array}{l}x=6+5\lambda\\ y=2\lambda\end{array}\right.}
+
+El normal de \fmm{r} és \fmm{(2,-5)} i el director de \fmm{s_1} és \fmm{(3,-1)}: \fmm{(2,-5)\cdot(3,-1)=6+5=11\neq0}, no són perpendiculars, així que \fmm{r} i \fmm{s_1} \textbf{no} són para\lgem{}eles: es tallen.
+
+Substituïm \fmm{s_1} en \fmm{r}: \fmm{\ 2(-11+3\lambda)-5(2-\lambda)-12=0\Rightarrow11\lambda-44=0\Rightarrow\lambda=4\Rightarrow} punt de tall \fmm{(1,-2)}.
+
+Amb \fmm{s_2}: \fmm{(2,-5)\cdot(5,2)=10-10=0}, així que són para\lgem{}eles o coincidents. El punt \fmm{(6,0)\in s_2} compleix \fmm{2\cdot6-5\cdot0-12=0}: \fmm{r} i \fmm{s_2} són \textbf{coincidents}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Para\lgem{}elisme i perpendicularitat}\hypertarget{sec7}{}
+\begin{fmdef}{Rectes para\lgem{}eles i perpendiculars}
+Dues rectes són \textbf{para\lgem{}eles} o \textbf{perpendiculars} si ho són els seus vectors directors. També ho podem detectar amb els \textbf{vectors normals} o amb els \textbf{pendents}, segons l'equació que tinguem:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Equació} & \textbf{Expressió} & \textbf{Vector director} & \textbf{Vector normal} & \textbf{Pendent}\\\midrule
+Paramètriques & $\left\{\begin{array}{l}x=a+\lambda u_1\\ y=b+\lambda u_2\end{array}\right.$ & $(u_1,u_2)$ & $(u_2,-u_1)$ & $\dfrac{u_2}{u_1}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Contínua & $\dfrac{x-a}{u_1}=\dfrac{y-b}{u_2}$ & $(u_1,u_2)$ & $(u_2,-u_1)$ & $\dfrac{u_2}{u_1}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}General & $Ax+By+C=0$ & $(-B,A)$ & $(A,B)$ & $-\dfrac{A}{B}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Explícita & $y=mx+n$ & $(1,m)$ & $(m,-1)$ & $m$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries Para\lgem{}eles \fmm{r\parallel s}}\par
+
+Mateix vector director (o proporcional), mateix vector normal, o \textbf{mateix pendent}: \fmm{m_r=m_s}.
+
+Una para\lgem{}ela a \fmm{Ax+By+C=0} és \fmm{Ax+By+K=0}.\end{tcolorbox}\end{minipage}\hfill\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries Perpendiculars \fmm{r\perp s}}\par
+
+El vector director d'una és el normal de l'altra (\fmm{\vec u_r\cdot\vec u_s=0}), o el \textbf{producte dels pendents} és \fmm{-1}: \fmm{m_s=-\dfrac{1}{m_r}}.
+
+Una perpendicular a \fmm{Ax+By+C=0} és \fmm{Bx-Ay+K=0}.\end{tcolorbox}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Siga \fmm{r:\left\{\begin{array}{l}x=5-3\lambda\\ y=1+2\lambda\end{array}\right.} (o bé \fmm{\dfrac{x-5}{-3}=\dfrac{y-1}{2}}). Calcula la para\lgem{}ela i la perpendicular a \fmm{r} que passen per \fmm{A(2,1)}.
+
+Para\lgem{}ela: mateix director \fmm{(-3,2)}: \fmm{\ \dfrac{x-2}{-3}=\dfrac{y-1}{2}\ \Rightarrow\ 2x+3y-7=0}
+
+Perpendicular: director \fmm{(2,3)}, que és perpendicular a \fmm{(-3,2)}: \fmm{\ \dfrac{x-2}{2}=\dfrac{y-1}{3}\ \Rightarrow\ 3x-2y-4=0}
+\item Donada \fmm{r:2x+3y-13=0}, calcula la para\lgem{}ela i la perpendicular que passen per \fmm{A(2,1)}.
+
+Para\lgem{}ela: \fmm{2x+3y+K=0}; com passa per \fmm{A}, \fmm{4+3+K=0\Rightarrow K=-7}: \fmm{\ 2x+3y-7=0}
+
+Perpendicular: \fmm{3x-2y+K=0}; \fmm{6-2+K=0\Rightarrow K=-4}: \fmm{\ 3x-2y-4=0}
+\item Donada \fmm{r:y=3x+5}, troba la para\lgem{}ela i la perpendicular per \fmm{P(1,-2)}.
+
+Para\lgem{}ela (\fmm{m=3}): \fmm{\ y+2=3(x-1)\Rightarrow y=3x-5}
+
+Perpendicular (\fmm{m'=-\tfrac13}): \fmm{\ y+2=-\tfrac13(x-1)\Rightarrow y=-\tfrac13x-\tfrac53}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Angle de dues rectes}\hypertarget{sec8}{}
+\begin{fmdef}{Angle entre dues rectes}
+L'\textbf{angle entre dues rectes} és el \textbf{menor} dels angles que formen (entre \fmm{0^\circ} i \fmm{90^\circ}). Per això posem el producte escalar en \textbf{valor absolut}:
+
+\fmdisp{\cos\alpha=\frac{|\vec u\cdot\vec v|}{|\vec u|\,|\vec v|}}
+
+on \fmm{\vec u} i \fmm{\vec v} són els \textbf{vectors directors} de les rectes o bé els seus \textbf{vectors normals} (dos normals formen el mateix angle que dos directors). Si tenim els pendents, també podem fer servir \fmm{\ \tan\alpha=\left|\dfrac{m_2-m_1}{1+m_1m_2}\right|}.
+
+\begin{fmnote}\fmuline{Compte}: no barreges un vector director d'una recta amb un vector normal de l'altra: obtindries el complementari de l'angle.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula l'angle de \fmm{r:\left\{\begin{array}{l}x=3-2\lambda\\ y=1+\lambda\end{array}\right.} i \fmm{s:\left\{\begin{array}{l}x=1+2\lambda\\ y=-3\lambda\end{array}\right.}
+
+Vectors directors: \fmm{(-2,1)} i \fmm{(2,-3)}.
+
+\fmm{\cos\alpha=\dfrac{|(-2)\cdot2+1\cdot(-3)|}{\sqrt5\,\sqrt{13}}=\dfrac{7}{\sqrt{65}}\approx0{,}8682\ \Rightarrow\ \alpha\approx29^\circ44'42''}
+\item Calcula l'angle de \fmm{r:5x-y+4=0} i \fmm{s:y=7}.
+
+Vectors normals: \fmm{\vec n_r=(5,-1)}, \fmm{\ \vec n_s=(0,1)}.
+
+\fmm{\cos\alpha=\dfrac{|0-1|}{\sqrt{26}\cdot1}=\dfrac{1}{\sqrt{26}}\approx0{,}1961\ \Rightarrow\ \alpha\approx78^\circ41'24''}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Càlcul de distàncies}\hypertarget{sec9}{}
+\begin{fmdef}{Distància entre dos punts}
+És el mòdul del vector que els uneix:
+
+\fmdisp{d(P,Q)=|\overrightarrow{PQ}|=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Distància d'un punt a una recta}
+La distància del punt \fmm{P(p_1,p_2)} a la recta \fmm{r:Ax+By+C=0} és la longitud del segment \textbf{perpendicular} que va de \fmm{P} a \fmm{r}:
+
+\fmdisp{d(P,r)=\frac{|Ap_1+Bp_2+C|}{\sqrt{A^2+B^2}}}
+
+\fmuline{D'on ix?} Si \fmm{Q} és un punt qualsevol de \fmm{r}, la distància és la projecció de \fmm{\overrightarrow{QP}} sobre el vector normal \fmm{\vec n=(A,B)}: \fmm{d=\dfrac{|\overrightarrow{QP}\cdot\vec n|}{|\vec n|}}. Com que \fmm{Aq_1+Bq_2=-C}, el numerador queda \fmm{|Ap_1+Bp_2+C|}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Distància entre dues rectes}
+Si les rectes es tallen (o són coincidents), la distància és 0. Si són \textbf{para\lgem{}eles}, prenem un punt d'una d'elles i calculem la distància a l'altra. Si les escrivim amb els \textbf{mateixos} \fmm{A} i \fmm{B}, \fmm{r:Ax+By+C=0} i \fmm{s:Ax+By+C'=0}, també:
+
+\fmdisp{d(r,s)=\frac{|C-C'|}{\sqrt{A^2+B^2}}}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Distància entre \fmm{P(7,-3)} i \fmm{Q(4,11)}.
+
+\fmm{d(P,Q)=\sqrt{(4-7)^2+\big(11-(-3)\big)^2}=\sqrt{9+196}=\sqrt{205}\approx14{,}32\ \text{u}}
+\item Distància de \fmm{P(7,-3)} a la recta \fmm{r:5x-8y+4=0}.
+
+\fmm{d(P,r)=\dfrac{|5\cdot7-8\cdot(-3)+4|}{\sqrt{5^2+8^2}}=\dfrac{63}{\sqrt{89}}\approx6{,}68\ \text{u}}
+\item Distància entre les rectes para\lgem{}eles \fmm{r:x+y+1=0} i \fmm{s:2x+2y+1=0}.
+
+Un punt de \fmm{r}: \fmm{P(-1,0)}. Aleshores \fmm{\ d(P,s)=\dfrac{|2\cdot(-1)+2\cdot0+1|}{\sqrt{2^2+2^2}}=\dfrac{1}{\sqrt8}=\dfrac{\sqrt2}{4}\ \text{u}}
+
+Amb la fórmula: escrivim \fmm{s:x+y+\tfrac12=0} (mateixos \fmm{A} i \fmm{B} que \fmm{r}) i \fmm{\ d=\dfrac{|1-\frac12|}{\sqrt2}=\dfrac{1}{2\sqrt2}=\dfrac{\sqrt2}{4}\ \checkmark}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Problemes mètrics}\hypertarget{sec10}{}
+
+Amb tot el que hem vist podem resoldre molts problemes de geometria. Aquests són els més habituals:
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Projecció d'un punt sobre una recta i simètric respecte d'una recta}
+\begin{enumerate}
+\item Traçem la recta \fmm{s} \textbf{perpendicular} a \fmm{r} que passa per \fmm{P} (el seu director és el normal de \fmm{r}).
+\item La \textbf{projecció} \fmm{M} de \fmm{P} sobre \fmm{r} és el punt de tall de \fmm{r} i \fmm{s}.
+\item El \textbf{simètric} \fmm{P'} de \fmm{P} respecte de \fmm{r} compleix que \fmm{M} és el punt mig de \fmm{PP'}: \fmm{P'=2M-P}.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Llocs geomètrics: mediatriu i bisectrius}
+\begin{itemize}
+\item La \textbf{mediatriu} del segment \fmm{AB} és el conjunt de punts que estan a la mateixa distància de \fmm{A} i de \fmm{B}: \fmm{d(X,A)=d(X,B)}. És la recta \textbf{perpendicular} a \fmm{AB} que passa pel seu \textbf{punt mig} (\fmm{\overrightarrow{AB}} n'és un vector normal).
+\item Les \textbf{bisectrius} de dues rectes secants \fmm{r} i \fmm{s} són el conjunt de punts que equidisten de les dues: \fmm{d(X,r)=d(X,s)}. En traure el valor absolut obtenim \textbf{dues} rectes perpendiculars entre si:
+
+\fmdisp{\frac{Ax+By+C}{\sqrt{A^2+B^2}}=\pm\frac{A'x+B'y+C'}{\sqrt{A'^2+B'^2}}}
+
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Àrea d'un triangle}
+Prenem un costat com a \textbf{base} i la distància del vèrtex oposat a la recta d'aquest costat com a \textbf{altura}: \fmm{S=\dfrac{d(A,B)\cdot d(C,r_{AB})}{2}}. De manera equivalent, si \fmm{\overrightarrow{AB}=(u_1,u_2)} i \fmm{\overrightarrow{AC}=(v_1,v_2)}:
+
+\fmdisp{S=\frac12\,\big|u_1v_2-u_2v_1\big|}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba la projecció de \fmm{P(5,4)} sobre \fmm{r:x+2y-3=0} i el simètric de \fmm{P} respecte de \fmm{r}.
+
+Perpendicular per \fmm{P} amb director \fmm{\vec n_r=(1,2)}: \fmm{\ s:\left\{\begin{array}{l}x=5+\lambda\\ y=4+2\lambda\end{array}\right.}
+
+Tall amb \fmm{r}: \fmm{\ (5+\lambda)+2(4+2\lambda)-3=0\Rightarrow5\lambda+10=0\Rightarrow\lambda=-2\Rightarrow M(3,0)}
+
+\fmm{P'=2M-P=(6-5,\ 0-4)=(1,-4)}
+\item Troba la mediatriu del segment d'extrems \fmm{A(1,2)} i \fmm{B(5,-4)}.
+
+Punt mig \fmm{M(3,-1)}; vector normal \fmm{\overrightarrow{AB}=(4,-6)\parallel(2,-3)}: \fmm{\ 2(x-3)-3(y+1)=0\Rightarrow 2x-3y-9=0}
+
+Comprovació amb la definició: \fmm{(x-1)^2+(y-2)^2=(x-5)^2+(y+4)^2\Rightarrow-2x-4y+5=-10x+8y+41\Rightarrow8x-12y-36=0\ \checkmark}
+\item Troba les bisectrius de \fmm{r:3x-4y+2=0} i \fmm{s:4x+3y-1=0}.
+
+Els dos normals tenen mòdul 5: \fmm{\ \dfrac{3x-4y+2}{5}=\pm\dfrac{4x+3y-1}{5}}
+
+Amb el signe +: \fmm{\ x+7y-3=0}; amb el signe -: \fmm{\ 7x-y+1=0}. Són perpendiculars: \fmm{(1,7)\cdot(7,-1)=0}.
+\item Calcula l'àrea del triangle de vèrtexs \fmm{A(1,1)}, \fmm{B(5,2)} i \fmm{C(2,5)}.
+
+Base: \fmm{d(A,B)=\sqrt{17}}. Recta \fmm{AB}: director \fmm{(4,1)}, normal \fmm{(1,-4)}: \fmm{x-4y+3=0}.
+
+Altura: \fmm{\ d(C,AB)=\dfrac{|2-20+3|}{\sqrt{17}}=\dfrac{15}{\sqrt{17}}}. \fmm{\ S=\dfrac12\cdot\sqrt{17}\cdot\dfrac{15}{\sqrt{17}}=\dfrac{15}{2}\ \text{u}^2}
+
+Amb la fórmula: \fmm{\ \overrightarrow{AB}=(4,1)}, \fmm{\overrightarrow{AC}=(1,4)}: \fmm{\ S=\tfrac12|16-1|=\tfrac{15}{2}\ \checkmark}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

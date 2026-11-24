@@ -1,0 +1,689 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 4: Geometría analítica en el plano. 1.º de Bachillerato MI},pdfsubject={Matemáticas I},pdfkeywords={vectores, producto escalar, ángulo entre vectores, ecuaciones de la recta, posiciones relativas, ángulos, distancias, punto simétrico, triángulos}}
+
+% colors de la web (FentMates, bloque de Geometría: naranja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{4.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.4pt,opacity=0.7] (14,100)--(226,100) (40,114)--(40,6);
+  \draw[line width=3.6pt] (24,112)--(224,18);
+  \fill (76,87.6) circle (6) (172,42.5) circle (6);
+  \draw[line width=3.6pt] (76,87.6)--(150,52.8) (140,50)--(150,52.8)--(144,61);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (112,92) {$\vec v$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (196,64) {$r$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{19}{19}\selectfont] at (50,34) {$ax+by+c=0$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato MI · Unidad 4: Geometría analítica en el plano}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 4} · Geometría analítica en el plano\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: vectores (componentes, módulo, argumento y vector unitario), operaciones con vectores, aplicaciones (punto medio, división de un segmento, puntos alineados y punto simétrico), el producto escalar y el ángulo de dos vectores, todas las ecuaciones de la recta (vectorial, paramétricas, continua, explícita, punto-pendiente y general), las posiciones relativas de dos rectas, el paralelismo y la perpendicularidad, el ángulo de dos rectas, las distancias y los problemas métricos (proyección, simétrico respecto de una recta, mediatriz, bisectrices y área de un triángulo).\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}4.1}\ \ Vectores}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}4.2}\ \ Operaciones con vectores}}\\[3pt]
+\hyperlink{sec3}{\textbf{\color{fmgreen}4.3}\ \ Aplicaciones geométricas de los vectores}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}4.4}\ \ Producto escalar}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}4.5}\ \ Ecuaciones de la recta}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}4.6}\ \ Posiciones relativas de dos rectas}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}4.7}\ \ Paralelismo y perpendicularidad}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}4.8}\ \ Ángulo de dos rectas}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}4.9}\ \ Cálculo de distancias}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}4.10}\ \ Problemas métricos}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{Vectores}\hypertarget{sec1}{}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Un \textbf{vector fijo} \fmm{\overrightarrow{AB}} es un segmento orientado que tiene como \textbf{origen} el punto \fmm{A(a_1,a_2)} y como \textbf{extremo} el punto \fmm{B(b_1,b_2)}.
+\item Las \textbf{componentes} de un vector son las coordenadas del extremo menos las coordenadas del origen:
+
+\fmdisp{\overrightarrow{AB}=(b_1-a_1,\ b_2-a_2)}
+
+\item El \textbf{módulo} de un vector es la longitud del segmento \fmm{AB}:
+
+\fmdisp{|\overrightarrow{AB}|=\sqrt{(b_1-a_1)^2+(b_2-a_2)^2}\qquad\qquad |\vec v|=\sqrt{v_1^2+v_2^2}}
+
+\item La \textbf{dirección} de un vector es la de la recta que lo contiene (y la de todas sus paralelas). El \textbf{sentido}, indicado por la punta de flecha, es la orientación con que se recorre: cada dirección admite dos sentidos opuestos.
+\item Dos vectores son \textbf{equipolentes} (iguales) cuando tienen el mismo módulo, la misma dirección y el mismo sentido; es decir, cuando tienen las \textbf{mismas componentes}. Un \textbf{vector libre} \fmm{\vec v} es el conjunto de todos los vectores equipolentes: solo conocemos sus componentes, no el origen ni el extremo.
+\item El \textbf{argumento} \fmm{\alpha} de un vector \fmm{\vec v} es el ángulo que forma con el semieje positivo \fmm{OX}, medido en sentido antihorario. Se cumple \fmm{\tan\alpha=\dfrac{v_2}{v_1}}, pero \fmuline{hay que mirar el cuadrante} en el que está el vector: la calculadora siempre da un ángulo entre \fmm{-90^\circ} y \fmm{90^\circ}.
+
+Conociendo el módulo y el argumento, tenemos las componentes: \fmm{\ \vec v=\big(|\vec v|\cos\alpha,\ |\vec v|\sin\alpha\big)}.
+\item Un vector es \textbf{unitario} si \fmm{|\vec v|=1}. Si \fmm{\vec v} no es unitario, \fmm{\vec w=\dfrac{\vec v}{|\vec v|}} es un vector unitario con la misma dirección y el mismo sentido que \fmm{\vec v} (decimos que hemos \textbf{normalizado} \fmm{\vec v}).
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sean \fmm{A(1,-2)} y \fmm{B(-3,1)}. Calcula el vector \fmm{\overrightarrow{AB}}, su módulo, su argumento, el vector opuesto y un vector unitario con la misma dirección y sentido.
+
+Componentes: \fmm{\ \overrightarrow{AB}=\big(-3-1,\ 1-(-2)\big)=(-4,\ 3)}
+
+Módulo: \fmm{\ |\overrightarrow{AB}|=\sqrt{(-4)^2+3^2}=\sqrt{16+9}=\sqrt{25}=5}
+
+Argumento: \fmm{\tan\alpha=\dfrac{3}{-4}}. La calculadora da \fmm{\arctan(-0{,}75)=-36{,}87^\circ}, pero el vector \fmm{(-4,3)} está en el \textbf{2.º cuadrante} (\fmm{v_1\lt0,\ v_2\gt0}), así que sumamos \fmm{180^\circ}: \fmm{\ \alpha=143{,}13^\circ}
+
+Vector opuesto: \fmm{\ -\overrightarrow{AB}=\overrightarrow{BA}=(4,\ -3)}
+
+Vector unitario: \fmm{\ \vec w=\dfrac{\overrightarrow{AB}}{|\overrightarrow{AB}|}=\dfrac{(-4,3)}{5}=\left(-\dfrac45,\ \dfrac35\right)}. Comprobación: \fmm{\sqrt{\tfrac{16}{25}+\tfrac{9}{25}}=1\ \checkmark}
+\item Un vector tiene módulo 6 y argumento \fmm{120^\circ}. ¿Qué componentes tiene?
+
+\fmm{\vec v=(6\cos120^\circ,\ 6\sin120^\circ)=\left(6\cdot\left(-\tfrac12\right),\ 6\cdot\tfrac{\sqrt3}{2}\right)=\left(-3,\ 3\sqrt3\right)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Operaciones con vectores}\hypertarget{sec2}{}
+\begin{fmdef}{Suma, resta y producto por un número}
+Dados \fmm{\vec u=(u_1,u_2)}, \fmm{\vec v=(v_1,v_2)} y un número real \fmm{k}:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Operación} & \textbf{Componentes} & \textbf{Interpretación geométrica}\\\midrule
+Suma & $\vec u+\vec v=(u_1+v_1,\ u_2+v_2)$ & Ponemos el origen de $\vec v$ en el extremo de $\vec u$ (regla del triángulo) o trazamos la diagonal del paralelogramo (regla del paralelogramo).\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Resta & $\vec u-\vec v=\vec u+(-\vec v)=(u_1-v_1,\ u_2-v_2)$ & Si $\vec u$ y $\vec v$ tienen el mismo origen, $\vec u-\vec v$ va del extremo de $\vec v$ al extremo de $\vec u$.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Producto por un número & $k\vec u=(ku_1,\ ku_2)$ & Misma dirección que $\vec u$; mismo sentido si $k\gt0$ y sentido contrario si $k\lt0$; módulo $|k\vec u|=|k|\cdot|\vec u|$.\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propiedades}
+\begin{itemize}
+\item \textbf{Conmutativa}: \fmm{\vec u+\vec v=\vec v+\vec u}. \textbf{Asociativa}: \fmm{(\vec u+\vec v)+\vec w=\vec u+(\vec v+\vec w)}.
+\item \textbf{Elemento neutro}: \fmm{\vec u+\vec 0=\vec u}, donde \fmm{\vec 0=(0,0)}. \textbf{Opuesto}: \fmm{\vec u+(-\vec u)=\vec 0}, con \fmm{-\vec u=(-u_1,-u_2)}.
+\item \textbf{Distributivas}: \fmm{k(\vec u+\vec v)=k\vec u+k\vec v} y \fmm{(k+l)\vec u=k\vec u+l\vec u}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Combinación lineal. Vectores paralelos. Bases}
+\begin{itemize}
+\item Un vector \fmm{\vec w} es \textbf{combinación lineal} de \fmm{\vec u} y \fmm{\vec v} si se puede escribir \fmm{\vec w=a\vec u+b\vec v} con \fmm{a,b\in\mathbb R}.
+\item Dos vectores no nulos son \textbf{paralelos} (tienen la misma dirección) si uno es múltiplo del otro, es decir, si sus componentes son \textbf{proporcionales}: \fmm{\ \vec u\parallel\vec v\iff\dfrac{u_1}{v_1}=\dfrac{u_2}{v_2}\iff u_1v_2-u_2v_1=0}.
+\item Dos vectores \textbf{no paralelos} forman una \textbf{base} del plano: cualquier vector se escribe, de una única manera, como combinación lineal de ellos. La base habitual es la \textbf{canónica} \fmm{\vec\imath=(1,0)}, \fmm{\vec\jmath=(0,1)}, que es \textbf{ortonormal} (vectores unitarios y perpendiculares): \fmm{(v_1,v_2)=v_1\vec\imath+v_2\vec\jmath}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Si \fmm{\vec u=(-2,5)} y \fmm{\vec v=(1,-4)}, calcula: a) \fmm{2\vec u+\vec v}; b) \fmm{\vec u-\vec v}; c) \fmm{3\vec u+\tfrac13\vec v}; d) \fmm{-\tfrac12\vec u-2\vec v}.
+
+a) \fmm{2(-2,5)+(1,-4)=(-4+1,\ 10-4)=(-3,\ 6)}
+
+b) \fmm{(-2,5)-(1,-4)=(-2-1,\ 5+4)=(-3,\ 9)}
+
+c) \fmm{3(-2,5)+\tfrac13(1,-4)=\left(-6+\tfrac13,\ 15-\tfrac43\right)=\left(-\tfrac{17}{3},\ \tfrac{41}{3}\right)}
+
+d) \fmm{-\tfrac12(-2,5)-2(1,-4)=\left(1-2,\ -\tfrac52+8\right)=\left(-1,\ \tfrac{11}{2}\right)}
+\item Escribe \fmm{\vec w=(7,0)} como combinación lineal de \fmm{\vec u=(1,2)} y \fmm{\vec v=(3,-1)}.
+
+Buscamos \fmm{a} y \fmm{b} tales que \fmm{a(1,2)+b(3,-1)=(7,0)}: \fmm{\ \left\{\begin{array}{l}a+3b=7\\ 2a-b=0\end{array}\right.}
+
+De la segunda, \fmm{b=2a}; sustituyendo, \fmm{a+6a=7\Rightarrow a=1,\ b=2}. Por tanto, \fmm{\ \vec w=\vec u+2\vec v}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{10\baselineskip}
+\section{Aplicaciones geométricas de los vectores}\hypertarget{sec3}{}
+\subsection*{A. Punto medio de un segmento}
+\begin{fmdef}{Punto medio}
+El punto medio \fmm{M} del segmento \fmm{AB} cumple \fmm{\overrightarrow{AB}=2\overrightarrow{AM}}. Igualando componentes, \fmm{b_1-a_1=2(m_1-a_1)}, y despejando \fmm{m_1} (igual para \fmm{m_2}):
+
+\fmdisp{M=\left(\frac{a_1+b_1}{2},\ \frac{a_2+b_2}{2}\right)}
+
+\begin{fmnote}\fmuline{Ejemplo}: el punto medio de \fmm{A(2,-2)} y \fmm{B(4,8)} es \fmm{M=\left(\tfrac{2+4}{2},\tfrac{-2+8}{2}\right)=(3,3)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\subsection*{B. División de un segmento en partes iguales}
+\begin{fmdef}{Dividir un segmento en $n$ partes iguales}
+Para dividir \fmm{AB} en tres partes iguales, los puntos \fmm{M} y \fmm{N} cumplen \fmm{\overrightarrow{AM}=\tfrac13\overrightarrow{AB}} y \fmm{\overrightarrow{AN}=\tfrac23\overrightarrow{AB}}:
+
+\fmdisp{M=\left(\frac{2a_1+b_1}{3},\ \frac{2a_2+b_2}{3}\right)\qquad N=\left(\frac{a_1+2b_1}{3},\ \frac{a_2+2b_2}{3}\right)}
+
+En general, el punto que está en la fracción \fmm{t} del camino de \fmm{A} a \fmm{B} es \fmm{P=A+t\,\overrightarrow{AB}}. Para dividir en \fmm{n} partes, tomamos \fmm{t=\tfrac1n,\ \tfrac2n,\dots,\tfrac{n-1}{n}}. Una vez hallado \fmm{M}, también podemos obtener \fmm{N} sumándole el mismo vector: \fmm{N=M+\overrightarrow{AM}}.
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\subsection*{C. Puntos alineados}
+\begin{fmdef}{Condición de alineación}
+Tres puntos \fmm{A}, \fmm{B} y \fmm{C} están \textbf{alineados} si los vectores \fmm{\overrightarrow{AB}} y \fmm{\overrightarrow{AC}} son paralelos, es decir, si tienen las componentes proporcionales:
+
+\fmdisp{A,B,C\ \text{alineados}\iff \overrightarrow{AC}=k\,\overrightarrow{AB}\iff \frac{c_1-a_1}{b_1-a_1}=\frac{c_2-a_2}{b_2-a_2}}
+
+\end{fmdef}
+
+\Needspace{7\baselineskip}
+\subsection*{D. Punto simétrico respecto de otro}
+\begin{fmdef}{Simétrico de un punto respecto de un punto}
+Si \fmm{P'} es el simétrico de \fmm{P} respecto de \fmm{Q}, entonces \fmm{Q} es el \textbf{punto medio} de \fmm{PP'}. Equivalentemente, \fmm{\overrightarrow{PQ}=\overrightarrow{QP'}}, de donde:
+
+\fmdisp{P'=2Q-P=(2q_1-p_1,\ 2q_2-p_2)}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula los puntos que dividen el segmento de extremos \fmm{A(2,-2)} y \fmm{B(4,8)} en tres partes iguales.
+
+\fmm{M=\left(\dfrac{2\cdot2+4}{3},\ \dfrac{2\cdot(-2)+8}{3}\right)=\left(\dfrac83,\ \dfrac43\right)}
+
+\fmm{N=\left(\dfrac{2+2\cdot4}{3},\ \dfrac{-2+2\cdot8}{3}\right)=\left(\dfrac{10}{3},\ \dfrac{14}{3}\right)}
+
+Comprobación con vectores: \fmm{\overrightarrow{AB}=(2,10)}, \fmm{\tfrac13\overrightarrow{AB}=\left(\tfrac23,\tfrac{10}{3}\right)} y \fmm{A+\tfrac13\overrightarrow{AB}=\left(\tfrac83,\tfrac43\right)=M\ \checkmark}
+\item ¿Están alineados \fmm{A(2,-2)}, \fmm{B(4,8)} y \fmm{C(-1,6)}? ¿Y \fmm{A}, \fmm{B} y \fmm{D(3,3)}?
+
+\fmm{\overrightarrow{AB}=(2,10)}, \fmm{\ \overrightarrow{AC}=(-3,8)}: \fmm{\ \dfrac{-3}{2}\neq\dfrac{8}{10}\ \Rightarrow} \textbf{no} están alineados.
+
+\fmm{\overrightarrow{AD}=(1,5)}: \fmm{\ \dfrac{1}{2}=\dfrac{5}{10}\ \Rightarrow} \textbf{sí} están alineados (\fmm{D} es el punto medio de \fmm{AB}).
+\item Halla el simétrico de \fmm{P(7,4)} respecto de \fmm{Q(3,11)}.
+
+Sea \fmm{P'(x,y)}. Como \fmm{Q} es el punto medio de \fmm{PP'}: \fmm{\ \dfrac{7+x}{2}=3,\ \ \dfrac{4+y}{2}=11}
+
+\fmm{x=6-7=-1,\ \ y=22-4=18\ \Rightarrow\ P'(-1,\ 18)}
+\item Tres vértices consecutivos de un paralelogramo son \fmm{A(1,1)}, \fmm{B(5,2)} y \fmm{C(6,5)}. Halla el cuarto vértice \fmm{D}.
+
+En un paralelogramo \fmm{ABCD}, \fmm{\overrightarrow{AD}=\overrightarrow{BC}=(1,3)}.
+
+\fmm{D=A+\overrightarrow{BC}=(1+1,\ 1+3)=(2,4)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Producto escalar de vectores}\hypertarget{sec4}{}
+\begin{fmdef}{Definición y expresión analítica}
+El \textbf{producto escalar} de dos vectores \fmm{\vec u} y \fmm{\vec v} es el \textbf{número}
+
+\fmdisp{\vec u\cdot\vec v=|\vec u|\cdot|\vec v|\cdot\cos\alpha}
+
+donde \fmm{\alpha} es el ángulo que forman los dos vectores. En una base ortonormal (la canónica), si \fmm{\vec u=(u_1,u_2)} y \fmm{\vec v=(v_1,v_2)}:
+
+\fmdisp{\vec u\cdot\vec v=u_1v_1+u_2v_2}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propiedades}
+\begin{itemize}
+\item \textbf{Conmutativa}: \fmm{\vec u\cdot\vec v=\vec v\cdot\vec u}.
+\item \textbf{Asociativa con un número}: \fmm{k(\vec u\cdot\vec v)=(k\vec u)\cdot\vec v}.
+\item \textbf{Distributiva}: \fmm{\vec u\cdot(\vec v+\vec w)=\vec u\cdot\vec v+\vec u\cdot\vec w}.
+\item \fmm{\vec u\cdot\vec u=|\vec u|^2}, es decir, \fmm{|\vec u|=\sqrt{\vec u\cdot\vec u}}.
+\item \textbf{Perpendicularidad}: si \fmm{\vec u} y \fmm{\vec v} no son nulos, \fmm{\ \vec u\cdot\vec v=0\iff\vec u\perp\vec v}. Un vector perpendicular a \fmm{(a,b)} es \fmm{(-b,a)} (o \fmm{(b,-a)}): intercambiamos las componentes y cambiamos un signo.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ángulo de dos vectores y signo del producto escalar}
+Despejando de las dos expresiones del producto escalar:
+
+\fmdisp{\cos\alpha=\frac{\vec u\cdot\vec v}{|\vec u|\cdot|\vec v|}=\frac{u_1v_1+u_2v_2}{\sqrt{u_1^2+u_2^2}\,\sqrt{v_1^2+v_2^2}}\qquad 0^\circ\le\alpha\le180^\circ}
+
+\begin{itemize}
+\item Si el ángulo es \textbf{agudo}, \fmm{\cos\alpha\gt0} y, por tanto, \fmm{\vec u\cdot\vec v\gt0}.
+\item Si el ángulo es \textbf{recto}, \fmm{\vec u\cdot\vec v=0}. Si es \textbf{obtuso}, \fmm{\vec u\cdot\vec v\lt0}.
+\end{itemize}
+
+\textbf{Proyección}: la longitud de la proyección de \fmm{\vec u} sobre \fmm{\vec v} es \fmm{\ \text{proy}_{\vec v}\vec u=|\vec u|\cos\alpha=\dfrac{\vec u\cdot\vec v}{|\vec v|}}. Por eso decimos que el producto escalar es «el módulo de un vector por la proyección del otro sobre él».
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Dados \fmm{\vec a=(3,0)} y \fmm{\vec b=(4,3)}, calcula su producto escalar y el ángulo que forman.
+
+\fmm{\vec a\cdot\vec b=3\cdot4+0\cdot3=12}
+
+\fmm{|\vec a|=\sqrt{3^2+0^2}=3,\quad |\vec b|=\sqrt{4^2+3^2}=5}
+
+\fmm{\cos\alpha=\dfrac{12}{3\cdot5}=\dfrac45\ \Rightarrow\ \alpha=\arccos\dfrac45=36{,}87^\circ=36^\circ52'12''}
+\item Halla \fmm{m} para que \fmm{\vec u=(m,3)} y \fmm{\vec v=(2,-4)} sean perpendiculares. Da, además, dos vectores perpendiculares a \fmm{\vec v} de módulo 1.
+
+\fmm{\vec u\cdot\vec v=2m-12=0\Rightarrow m=6}
+
+Un perpendicular a \fmm{(2,-4)} es \fmm{(4,2)}, de módulo \fmm{\sqrt{20}=2\sqrt5}. Los unitarios son \fmm{\ \pm\left(\dfrac{2}{\sqrt5},\dfrac{1}{\sqrt5}\right)=\pm\left(\dfrac{2\sqrt5}{5},\dfrac{\sqrt5}{5}\right)}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ecuaciones de la recta}\hypertarget{sec5}{}
+
+Una recta queda determinada por un \textbf{punto} \fmm{P(a,b)} y un \textbf{vector director} \fmm{\vec u=(u_1,u_2)}, paralelo a la recta. Si conocemos dos puntos \fmm{A} y \fmm{B}, tomamos uno de ellos como punto y \fmm{\overrightarrow{AB}} como vector director. Todas las ecuaciones siguientes describen la misma recta: solo cambia la forma de escribirla.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ecuación vectorial y ecuaciones paramétricas}
+
+\fmdisp{(x,y)=(a,b)+\lambda\,(u_1,u_2)\qquad\qquad \left\{\begin{array}{l}x=a+\lambda u_1\\ y=b+\lambda u_2\end{array}\right.\qquad \lambda\in\mathbb R}
+
+Para cada valor del \textbf{parámetro} \fmm{\lambda} obtenemos un punto \fmm{(x,y)} de la recta. Para saber si un punto pertenece a ella, lo sustituimos y miramos si las dos ecuaciones dan el \textbf{mismo} \fmm{\lambda}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ecuación continua}
+Despejamos \fmm{\lambda} de las dos ecuaciones paramétricas e igualamos:
+
+\fmdisp{\frac{x-a}{u_1}=\frac{y-b}{u_2}}
+
+\begin{fmnote}\fmuline{Nota importante}: una expresión como \fmm{\dfrac{x-4}{5}=\dfrac{y+2}{0}} es incorrecta matemáticamente (no se puede dividir entre 0), pero en este contexto se admite como \textbf{notación simbólica}: indica que un vector director es \fmm{(5,0)}. Esta recta es, en realidad, \fmm{y=-2}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Pendiente. Ecuación explícita y ecuación punto-pendiente}
+La \textbf{pendiente} de una recta es el incremento de la ordenada cuando la abscisa aumenta una unidad. Se calcula a partir de un vector director o de dos puntos, y es la tangente del ángulo \fmm{\alpha} que forma la recta con el eje \fmm{OX}:
+
+\fmdisp{m=\frac{u_2}{u_1}=\frac{y_2-y_1}{x_2-x_1}=\tan\alpha}
+
+Si \fmm{m} es la pendiente, \fmm{(1,m)} es un vector director. Las rectas verticales (\fmm{u_1=0}) no tienen pendiente.
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Ecuación explícita}
+
+\fmdisp{y=mx+n}
+
+\fmm{m} es la pendiente y \fmm{n} la \textbf{ordenada en el origen} (la recta corta el eje \fmm{OY} en \fmm{(0,n)}).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Ecuación punto-pendiente}
+
+\fmdisp{y-b=m(x-a)}
+
+donde \fmm{P(a,b)} es un punto de la recta y \fmm{m} la pendiente. También se escribe \fmm{y=m(x-a)+b}.\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ecuación general o implícita}
+
+\fmdisp{Ax+By+C=0}
+
+\begin{itemize}
+\item El vector \fmm{\vec n=(A,B)} es \textbf{perpendicular} a la recta: se llama \textbf{vector normal}.
+\item Un vector director es \fmm{\vec u=(-B,A)} (o \fmm{(B,-A)}), y la pendiente es \fmm{m=-\dfrac AB} (si \fmm{B\neq0}).
+\item Conociendo un vector normal \fmm{(A,B)} y un punto \fmm{P(a,b)}, la ecuación general es \fmm{A(x-a)+B(y-b)=0}.
+\item Para hallar un punto de la recta, damos un valor a \fmm{x} (o a \fmm{y}) y calculamos la otra coordenada.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Obtén las ecuaciones vectorial y paramétricas de la recta que pasa por \fmm{A(3,6)} y tiene vector director \fmm{\vec u=(3,2)}. Halla dos puntos más de la recta y comprueba si \fmm{P(-1,-3)} pertenece a ella.
+
+Vectorial: \fmm{\ (x,y)=(3,6)+\lambda(3,2)}. Paramétricas: \fmm{\ \left\{\begin{array}{l}x=3+3\lambda\\ y=6+2\lambda\end{array}\right.}
+
+\fmm{\lambda=1\Rightarrow(6,8)}; \fmm{\quad\lambda=-1\Rightarrow(0,4)}.
+
+\fmm{P(-1,-3)}: \fmm{\ -1=3+3\lambda\Rightarrow\lambda=-\tfrac43}; \fmm{\ -3=6+2\lambda\Rightarrow\lambda=-\tfrac92}. Como \fmm{-\tfrac43\neq-\tfrac92}, \fmm{P\notin r}.
+\item Obtén las ecuaciones de la recta \fmm{s} que pasa por \fmm{A(2,6)} y \fmm{B(-1,6)} y comprueba si \fmm{P(-4,6)} pertenece a ella.
+
+\fmm{\vec u=\overrightarrow{AB}=(-3,0)}. \fmm{\ s:(x,y)=(2,6)+\lambda(-3,0)}, \fmm{\ \left\{\begin{array}{l}x=2-3\lambda\\ y=6\end{array}\right.}
+
+\fmm{P(-4,6)}: \fmm{\ -4=2-3\lambda\Rightarrow\lambda=2}, y la segunda ecuación (\fmm{6=6}) se cumple para todo \fmm{\lambda}. Por tanto, \fmm{P\in s}. (Es la recta horizontal \fmm{y=6}.)
+\item Halla la ecuación explícita de \fmm{r:\left\{\begin{array}{l}x=2-3\lambda\\ y=1+\lambda\end{array}\right.} y las paramétricas de \fmm{s:\ y=2x-7}.
+
+\fmm{\dfrac{x-2}{-3}=\dfrac{y-1}{1}\ \Rightarrow\ x-2=-3y+3\ \Rightarrow\ y=-\dfrac13x+\dfrac53}
+
+La pendiente de \fmm{s} es 2, así que \fmm{(1,2)} es un vector director; con \fmm{x=0}, \fmm{y=-7}: punto \fmm{(0,-7)}. \fmm{\ s:\left\{\begin{array}{l}x=\lambda\\ y=-7+2\lambda\end{array}\right.}
+\item Halla la ecuación punto-pendiente de la recta que pasa por \fmm{A(5,-1)} y \fmm{B(7,4)}, y su ecuación general.
+
+\fmm{m=\dfrac{4-(-1)}{7-5}=\dfrac52\ \Rightarrow\ y+1=\dfrac52(x-5)}
+
+\fmm{2y+2=5x-25\ \Rightarrow\ 5x-2y-27=0}
+\item Obtén la ecuación general de \fmm{r:\dfrac x2=\dfrac{y-2}{4}} y la ecuación general de la recta que pasa por \fmm{P(2,1)} con vector normal \fmm{\vec n=(5,3)}.
+
+\fmm{4x=2(y-2)\Rightarrow 4x-2y+4=0\Rightarrow 2x-y+2=0} (podemos simplificar dividiendo entre 2).
+
+\fmm{5(x-2)+3(y-1)=0\Rightarrow 5x+3y-13=0}
+\item Obtén la ecuación vectorial de la recta \fmm{x+2y-3=0}.
+
+Un punto: con \fmm{x=1}, \fmm{2y=2\Rightarrow y=1}: \fmm{P(1,1)}. Vector normal \fmm{(1,2)\Rightarrow} vector director \fmm{(-2,1)}.
+
+\fmm{(x,y)=(1,1)+\lambda(-2,1)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Posiciones relativas de dos rectas}\hypertarget{sec6}{}
+\begin{fmdef}{Secantes, paralelas o coincidentes}
+Dos rectas del plano pueden ser \textbf{secantes} (se cortan en un punto), \textbf{paralelas} (no tienen ningún punto en común) o \textbf{coincidentes} (son la misma recta). Nos fijamos en los \textbf{vectores directores}:
+
+\begin{itemize}
+\item Si \textbf{no} son paralelos, las rectas son \textbf{secantes}: el punto de corte es la solución del sistema que forman las dos ecuaciones.
+\item Si son paralelos, las rectas son \textbf{paralelas o coincidentes}: tomamos un punto de una y miramos si está en la otra.
+\end{itemize}
+
+Cuando las dos rectas están en forma general, \fmm{r:Ax+By+C=0} y \fmm{s:A'x+B'y+C'=0}, comparamos los coeficientes:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Condición} & \textbf{Posición} & \textbf{Sistema}\\\midrule
+$\dfrac{A}{A'}\neq\dfrac{B}{B'}$ & \textbf{Secantes}: se cortan en un punto & compatible determinado\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\dfrac{A}{A'}=\dfrac{B}{B'}\neq\dfrac{C}{C'}$ & \textbf{Paralelas} $(r\parallel s)$ & incompatible\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\dfrac{A}{A'}=\dfrac{B}{B'}=\dfrac{C}{C'}$ & \textbf{Coincidentes} $(r\equiv s)$ & compatible indeterminado\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Determina la posición relativa y el punto de corte, si existe, de \fmm{r_1:\left\{\begin{array}{l}x=5-\lambda\\ y=3\lambda\end{array}\right.} y \fmm{r_2:\left\{\begin{array}{l}x=-1+2\mu\\ y=6-3\mu\end{array}\right.}
+
+\fmm{\vec v_1=(-1,3)}, \fmm{\ \vec v_2=(2,-3)}: \fmm{\ \dfrac{-1}{2}\neq\dfrac{3}{-3}\Rightarrow} no son paralelos: las rectas son \textbf{secantes}.
+
+Igualamos las \fmm{x} y las \fmm{y} (con parámetros \textbf{distintos}): \fmm{\ \left\{\begin{array}{l}5-\lambda=-1+2\mu\\ 3\lambda=6-3\mu\end{array}\right.\Rightarrow\left\{\begin{array}{l}\lambda+2\mu=6\\ \lambda+\mu=2\end{array}\right.\Rightarrow\mu=4,\ \lambda=-2}
+
+Sustituyendo \fmm{\lambda=-2} en \fmm{r_1}: \fmm{\ x=7,\ y=-6}. Punto de corte: \fmm{(7,-6)}. (Con \fmm{\mu=4} en \fmm{r_2} obtenemos el mismo punto.)
+\item Determina la posición relativa de \fmm{r_1:\left\{\begin{array}{l}x=2+\lambda\\ y=5-3\lambda\end{array}\right.} y \fmm{r_2:\left\{\begin{array}{l}x=2\mu\\ y=3-6\mu\end{array}\right.}
+
+\fmm{\vec v_1=(1,-3)}, \fmm{\ \vec v_2=(2,-6)}: \fmm{\ \dfrac12=\dfrac{-3}{-6}\Rightarrow} paralelas o coincidentes.
+
+\fmm{(2,5)\in r_1}. ¿Está en \fmm{r_2}? \fmm{\ 2=2\mu\Rightarrow\mu=1}; \fmm{\ 5=3-6\mu\Rightarrow\mu=-\tfrac13}. No hay solución, así que las rectas son \textbf{paralelas}.
+\newpage
+\item Estudia la posición relativa de los pares de rectas: a) \fmm{3x+4y-5=0}, \fmm{x-3y-6=0}; b) \fmm{x-2y+4=0}, \fmm{-2x+4y+4=0}; c) \fmm{x-2y+4=0}, \fmm{-2x+4y-8=0}.
+
+a) \fmm{\dfrac31\neq\dfrac{4}{-3}\Rightarrow} secantes. Resolviendo el sistema (por ejemplo, \fmm{x=6+3y} en la primera: \fmm{18+13y=5\Rightarrow y=-1}), el punto de corte es \fmm{(3,-1)}.
+
+b) \fmm{\dfrac{1}{-2}=\dfrac{-2}{4}\neq\dfrac{4}{4}\Rightarrow} paralelas.
+
+c) \fmm{\dfrac{1}{-2}=\dfrac{-2}{4}=\dfrac{4}{-8}\Rightarrow} coincidentes: las dos ecuaciones son la misma recta.
+\item Averigua la posición relativa de \fmm{r:2x-5y-12=0} con \fmm{s_1:\left\{\begin{array}{l}x=-11+3\lambda\\ y=2-\lambda\end{array}\right.} y con \fmm{s_2:\left\{\begin{array}{l}x=6+5\lambda\\ y=2\lambda\end{array}\right.}
+
+El normal de \fmm{r} es \fmm{(2,-5)} y el director de \fmm{s_1} es \fmm{(3,-1)}: \fmm{(2,-5)\cdot(3,-1)=6+5=11\neq0}, no son perpendiculares, así que \fmm{r} y \fmm{s_1} \textbf{no} son paralelas: se cortan.
+
+Sustituimos \fmm{s_1} en \fmm{r}: \fmm{\ 2(-11+3\lambda)-5(2-\lambda)-12=0\Rightarrow11\lambda-44=0\Rightarrow\lambda=4\Rightarrow} punto de corte \fmm{(1,-2)}.
+
+Con \fmm{s_2}: \fmm{(2,-5)\cdot(5,2)=10-10=0}, así que son paralelas o coincidentes. El punto \fmm{(6,0)\in s_2} cumple \fmm{2\cdot6-5\cdot0-12=0}: \fmm{r} y \fmm{s_2} son \textbf{coincidentes}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Paralelismo y perpendicularidad}\hypertarget{sec7}{}
+\begin{fmdef}{Rectas paralelas y perpendiculares}
+Dos rectas son \textbf{paralelas} o \textbf{perpendiculares} si lo son sus vectores directores. También lo podemos detectar con los \textbf{vectores normales} o con las \textbf{pendientes}, según la ecuación que tengamos:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Ecuación} & \textbf{Expresión} & \textbf{Vector director} & \textbf{Vector normal} & \textbf{Pendiente}\\\midrule
+Paramétricas & $\left\{\begin{array}{l}x=a+\lambda u_1\\ y=b+\lambda u_2\end{array}\right.$ & $(u_1,u_2)$ & $(u_2,-u_1)$ & $\dfrac{u_2}{u_1}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Continua & $\dfrac{x-a}{u_1}=\dfrac{y-b}{u_2}$ & $(u_1,u_2)$ & $(u_2,-u_1)$ & $\dfrac{u_2}{u_1}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}General & $Ax+By+C=0$ & $(-B,A)$ & $(A,B)$ & $-\dfrac{A}{B}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Explícita & $y=mx+n$ & $(1,m)$ & $(m,-1)$ & $m$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries Paralelas \fmm{r\parallel s}}\par
+
+Mismo vector director (o proporcional), mismo vector normal, o \textbf{misma pendiente}: \fmm{m_r=m_s}.
+
+Una paralela a \fmm{Ax+By+C=0} es \fmm{Ax+By+K=0}.\end{tcolorbox}\end{minipage}\hfill\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp1]{\color{fmnavy}\bfseries Perpendiculares \fmm{r\perp s}}\par
+
+El vector director de una es el normal de la otra (\fmm{\vec u_r\cdot\vec u_s=0}), o el \textbf{producto de las pendientes} es \fmm{-1}: \fmm{m_s=-\dfrac{1}{m_r}}.
+
+Una perpendicular a \fmm{Ax+By+C=0} es \fmm{Bx-Ay+K=0}.\end{tcolorbox}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sea \fmm{r:\left\{\begin{array}{l}x=5-3\lambda\\ y=1+2\lambda\end{array}\right.} (o bien \fmm{\dfrac{x-5}{-3}=\dfrac{y-1}{2}}). Calcula la paralela y la perpendicular a \fmm{r} que pasan por \fmm{A(2,1)}.
+
+Paralela: mismo director \fmm{(-3,2)}: \fmm{\ \dfrac{x-2}{-3}=\dfrac{y-1}{2}\ \Rightarrow\ 2x+3y-7=0}
+
+Perpendicular: director \fmm{(2,3)}, que es perpendicular a \fmm{(-3,2)}: \fmm{\ \dfrac{x-2}{2}=\dfrac{y-1}{3}\ \Rightarrow\ 3x-2y-4=0}
+\item Dada \fmm{r:2x+3y-13=0}, calcula la paralela y la perpendicular que pasan por \fmm{A(2,1)}.
+
+Paralela: \fmm{2x+3y+K=0}; como pasa por \fmm{A}, \fmm{4+3+K=0\Rightarrow K=-7}: \fmm{\ 2x+3y-7=0}
+
+Perpendicular: \fmm{3x-2y+K=0}; \fmm{6-2+K=0\Rightarrow K=-4}: \fmm{\ 3x-2y-4=0}
+\item Dada \fmm{r:y=3x+5}, halla la paralela y la perpendicular por \fmm{P(1,-2)}.
+
+Paralela (\fmm{m=3}): \fmm{\ y+2=3(x-1)\Rightarrow y=3x-5}
+
+Perpendicular (\fmm{m'=-\tfrac13}): \fmm{\ y+2=-\tfrac13(x-1)\Rightarrow y=-\tfrac13x-\tfrac53}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Ángulo de dos rectas}\hypertarget{sec8}{}
+\begin{fmdef}{Ángulo entre dos rectas}
+El \textbf{ángulo entre dos rectas} es el \textbf{menor} de los ángulos que forman (entre \fmm{0^\circ} y \fmm{90^\circ}). Por eso ponemos el producto escalar en \textbf{valor absoluto}:
+
+\fmdisp{\cos\alpha=\frac{|\vec u\cdot\vec v|}{|\vec u|\,|\vec v|}}
+
+donde \fmm{\vec u} y \fmm{\vec v} son los \textbf{vectores directores} de las rectas o bien sus \textbf{vectores normales} (dos normales forman el mismo ángulo que dos directores). Si tenemos las pendientes, también podemos usar \fmm{\ \tan\alpha=\left|\dfrac{m_2-m_1}{1+m_1m_2}\right|}.
+
+\begin{fmnote}\fmuline{Cuidado}: no mezcles un vector director de una recta con un vector normal de la otra: obtendrías el complementario del ángulo.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula el ángulo de \fmm{r:\left\{\begin{array}{l}x=3-2\lambda\\ y=1+\lambda\end{array}\right.} y \fmm{s:\left\{\begin{array}{l}x=1+2\lambda\\ y=-3\lambda\end{array}\right.}
+
+Vectores directores: \fmm{(-2,1)} y \fmm{(2,-3)}.
+
+\fmm{\cos\alpha=\dfrac{|(-2)\cdot2+1\cdot(-3)|}{\sqrt5\,\sqrt{13}}=\dfrac{7}{\sqrt{65}}\approx0{,}8682\ \Rightarrow\ \alpha\approx29^\circ44'42''}
+\item Calcula el ángulo de \fmm{r:5x-y+4=0} y \fmm{s:y=7}.
+
+Vectores normales: \fmm{\vec n_r=(5,-1)}, \fmm{\ \vec n_s=(0,1)}.
+
+\fmm{\cos\alpha=\dfrac{|0-1|}{\sqrt{26}\cdot1}=\dfrac{1}{\sqrt{26}}\approx0{,}1961\ \Rightarrow\ \alpha\approx78^\circ41'24''}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Cálculo de distancias}\hypertarget{sec9}{}
+\begin{fmdef}{Distancia entre dos puntos}
+Es el módulo del vector que los une:
+
+\fmdisp{d(P,Q)=|\overrightarrow{PQ}|=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Distancia de un punto a una recta}
+La distancia del punto \fmm{P(p_1,p_2)} a la recta \fmm{r:Ax+By+C=0} es la longitud del segmento \textbf{perpendicular} que va de \fmm{P} a \fmm{r}:
+
+\fmdisp{d(P,r)=\frac{|Ap_1+Bp_2+C|}{\sqrt{A^2+B^2}}}
+
+\fmuline{¿De dónde sale?} Si \fmm{Q} es un punto cualquiera de \fmm{r}, la distancia es la proyección de \fmm{\overrightarrow{QP}} sobre el vector normal \fmm{\vec n=(A,B)}: \fmm{d=\dfrac{|\overrightarrow{QP}\cdot\vec n|}{|\vec n|}}. Como \fmm{Aq_1+Bq_2=-C}, el numerador queda \fmm{|Ap_1+Bp_2+C|}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Distancia entre dos rectas}
+Si las rectas se cortan (o son coincidentes), la distancia es 0. Si son \textbf{paralelas}, tomamos un punto de una de ellas y calculamos la distancia a la otra. Si las escribimos con los \textbf{mismos} \fmm{A} y \fmm{B}, \fmm{r:Ax+By+C=0} y \fmm{s:Ax+By+C'=0}, también:
+
+\fmdisp{d(r,s)=\frac{|C-C'|}{\sqrt{A^2+B^2}}}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Distancia entre \fmm{P(7,-3)} y \fmm{Q(4,11)}.
+
+\fmm{d(P,Q)=\sqrt{(4-7)^2+\big(11-(-3)\big)^2}=\sqrt{9+196}=\sqrt{205}\approx14{,}32\ \text{u}}
+\item Distancia de \fmm{P(7,-3)} a la recta \fmm{r:5x-8y+4=0}.
+
+\fmm{d(P,r)=\dfrac{|5\cdot7-8\cdot(-3)+4|}{\sqrt{5^2+8^2}}=\dfrac{63}{\sqrt{89}}\approx6{,}68\ \text{u}}
+\item Distancia entre las rectas paralelas \fmm{r:x+y+1=0} y \fmm{s:2x+2y+1=0}.
+
+Un punto de \fmm{r}: \fmm{P(-1,0)}. Entonces \fmm{\ d(P,s)=\dfrac{|2\cdot(-1)+2\cdot0+1|}{\sqrt{2^2+2^2}}=\dfrac{1}{\sqrt8}=\dfrac{\sqrt2}{4}\ \text{u}}
+
+Con la fórmula: escribimos \fmm{s:x+y+\tfrac12=0} (mismos \fmm{A} y \fmm{B} que \fmm{r}) y \fmm{\ d=\dfrac{|1-\frac12|}{\sqrt2}=\dfrac{1}{2\sqrt2}=\dfrac{\sqrt2}{4}\ \checkmark}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Problemas métricos}\hypertarget{sec10}{}
+
+Con todo lo que hemos visto podemos resolver muchos problemas de geometría. Estos son los más habituales:
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Proyección de un punto sobre una recta y simétrico respecto de una recta}
+\begin{enumerate}
+\item Trazamos la recta \fmm{s} \textbf{perpendicular} a \fmm{r} que pasa por \fmm{P} (su director es el normal de \fmm{r}).
+\item La \textbf{proyección} \fmm{M} de \fmm{P} sobre \fmm{r} es el punto de corte de \fmm{r} y \fmm{s}.
+\item El \textbf{simétrico} \fmm{P'} de \fmm{P} respecto de \fmm{r} cumple que \fmm{M} es el punto medio de \fmm{PP'}: \fmm{P'=2M-P}.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Lugares geométricos: mediatriz y bisectrices}
+\begin{itemize}
+\item La \textbf{mediatriz} del segmento \fmm{AB} es el conjunto de puntos que están a la misma distancia de \fmm{A} y de \fmm{B}: \fmm{d(X,A)=d(X,B)}. Es la recta \textbf{perpendicular} a \fmm{AB} que pasa por su \textbf{punto medio} (\fmm{\overrightarrow{AB}} es un vector normal).
+\item Las \textbf{bisectrices} de dos rectas secantes \fmm{r} y \fmm{s} son el conjunto de puntos que equidistan de ambas: \fmm{d(X,r)=d(X,s)}. Al quitar el valor absoluto obtenemos \textbf{dos} rectas perpendiculares entre sí:
+
+\fmdisp{\frac{Ax+By+C}{\sqrt{A^2+B^2}}=\pm\frac{A'x+B'y+C'}{\sqrt{A'^2+B'^2}}}
+
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Área de un triángulo}
+Tomamos un lado como \textbf{base} y la distancia del vértice opuesto a la recta de ese lado como \textbf{altura}: \fmm{S=\dfrac{d(A,B)\cdot d(C,r_{AB})}{2}}. De forma equivalente, si \fmm{\overrightarrow{AB}=(u_1,u_2)} y \fmm{\overrightarrow{AC}=(v_1,v_2)}:
+
+\fmdisp{S=\frac12\,\big|u_1v_2-u_2v_1\big|}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla la proyección de \fmm{P(5,4)} sobre \fmm{r:x+2y-3=0} y el simétrico de \fmm{P} respecto de \fmm{r}.
+
+Perpendicular por \fmm{P} con director \fmm{\vec n_r=(1,2)}: \fmm{\ s:\left\{\begin{array}{l}x=5+\lambda\\ y=4+2\lambda\end{array}\right.}
+
+Corte con \fmm{r}: \fmm{\ (5+\lambda)+2(4+2\lambda)-3=0\Rightarrow5\lambda+10=0\Rightarrow\lambda=-2\Rightarrow M(3,0)}
+
+\fmm{P'=2M-P=(6-5,\ 0-4)=(1,-4)}
+\item Halla la mediatriz del segmento de extremos \fmm{A(1,2)} y \fmm{B(5,-4)}.
+
+Punto medio \fmm{M(3,-1)}; vector normal \fmm{\overrightarrow{AB}=(4,-6)\parallel(2,-3)}: \fmm{\ 2(x-3)-3(y+1)=0\Rightarrow 2x-3y-9=0}
+
+Comprobación con la definición: \fmm{(x-1)^2+(y-2)^2=(x-5)^2+(y+4)^2\Rightarrow-2x-4y+5=-10x+8y+41\Rightarrow8x-12y-36=0\ \checkmark}
+\item Halla las bisectrices de \fmm{r:3x-4y+2=0} y \fmm{s:4x+3y-1=0}.
+
+Las dos normales tienen módulo 5: \fmm{\ \dfrac{3x-4y+2}{5}=\pm\dfrac{4x+3y-1}{5}}
+
+Con el signo +: \fmm{\ x+7y-3=0}; con el signo -: \fmm{\ 7x-y+1=0}. Son perpendiculares: \fmm{(1,7)\cdot(7,-1)=0}.
+\item Calcula el área del triángulo de vértices \fmm{A(1,1)}, \fmm{B(5,2)} y \fmm{C(2,5)}.
+
+Base: \fmm{d(A,B)=\sqrt{17}}. Recta \fmm{AB}: director \fmm{(4,1)}, normal \fmm{(1,-4)}: \fmm{x-4y+3=0}.
+
+Altura: \fmm{\ d(C,AB)=\dfrac{|2-20+3|}{\sqrt{17}}=\dfrac{15}{\sqrt{17}}}. \fmm{\ S=\dfrac12\cdot\sqrt{17}\cdot\dfrac{15}{\sqrt{17}}=\dfrac{15}{2}\ \text{u}^2}
+
+Con la fórmula: \fmm{\ \overrightarrow{AB}=(4,1)}, \fmm{\overrightarrow{AC}=(1,4)}: \fmm{\ S=\tfrac12|16-1|=\tfrac{15}{2}\ \checkmark}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

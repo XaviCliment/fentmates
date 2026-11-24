@@ -689,6 +689,8 @@ if N == 1:  # retocs de l'autor (Desktop, revisió 2026-11-24): valen per als do
                      + '\\par\\noindent \\begin{minipage}[t]{0.48\\linewidth}\\vspace{0pt}\\centering\\textbf{%s}\n%s\\end{minipage}\\hfill' % (m.group(1), compact(m.group(2)))
                      + '\\begin{minipage}[t]{0.48\\linewidth}\\vspace{0pt}\\centering\\textbf{%s}\n%s\\end{minipage}\\par\n' % (m.group(3), compact(m.group(4)))
                      + '\\begin{fmnote}[before skip=4pt,after skip=0pt,top=0.5mm,bottom=0.5mm]\\fmuline{%s} %s\\end{fmnote}\n\\end{fmdef}\n' % (m.group(5), m.group(6))), True)
+if N == 4:  # retocs de l'autor (Desktop, revisió 2026-11-24): salt de pàgina després de l'exemple de rectes paral·leles
+    retoc(r'(\\fmm\{\\ 5=3-6\\mu\\Rightarrow\\mu=-\\tfrac13\}\. [^\n]*\n)', r'\1\\newpage\n', True)
 if N in (2, 3):  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 2:  # la fórmula del grau de la suma, en una línia a part (evita els buits del text justificat)
