@@ -1,0 +1,384 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 3: Sistemas de ecuaciones e inecuaciones. 1.º de Bachillerato MI},pdfsubject={Matemáticas I},pdfkeywords={sistemas de ecuaciones, método de Gauss, sistemas no lineales, sistemas de inecuaciones, inecuaciones con dos incógnitas, semiplanos}}
+
+% colors de la web (FentMates, bloque de Álgebra: azul; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>\linewidth\fmdisp{#1}\else\mbox{\box0}\fi}
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{3.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=4pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw (20,106)--(220,20);
+  \draw[opacity=0.75] (20,26)--(220,96);
+  \draw[opacity=0.55] (128,6)--(128,114);
+  \fill (128,59.5) circle (7);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (18,124) {$x+y+z=6$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (150,12) {$2x-y=1$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato MI · Unidad 3: Sistemas de ecuaciones e inecuaciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.0cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 3} · Sistemas de ecuaciones e inecuaciones\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: los sistemas lineales por el método de Gauss y los no lineales, los sistemas de inecuaciones con una incógnita, las inecuaciones y los sistemas con dos incógnitas y la resolución de problemas.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}3.1}\ \ Sistemas lineales. Gauss}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}3.2}\ \ Sistemas no lineales}}\\[3pt]
+\hyperlink{sec3}{\textbf{\color{fmgreen}3.3}\ \ Sistemas de inecuaciones con una incógnita}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}3.4}\ \ Inecuaciones con dos incógnitas}}\\[3pt]
+\hyperlink{sec5}{\textbf{\color{fmgreen}3.5}\ \ Sistemas de inecuaciones con dos incógnitas}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}3.6}\ \ Resolución de problemas}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{Sistemas de ecuaciones lineales. Método de Gauss}\hypertarget{sec1}{}
+\begin{fmdef}{Definiciones}
+\begin{itemize}
+\item Un \textbf{sistema de ecuaciones lineales} es un conjunto de ecuaciones de primer grado con varias incógnitas. Una \textbf{solución} es un conjunto de valores de las incógnitas que verifica todas las ecuaciones a la vez.
+\item Dos sistemas son \textbf{equivalentes} si tienen las mismas soluciones. Obtenemos uno equivalente si intercambiamos dos ecuaciones, multiplicamos una ecuación por un número \fmm{\neq0} o sumamos a una ecuación un múltiplo de otra.
+\end{itemize}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipo} & \textbf{Soluciones} & \textbf{Significado}\\\midrule
+\fmbadge{fmok}{SCD} Compatible determinado & una única solución & las rectas o planos se cortan en un punto\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\fmbadge{fmev}{SCI} Compatible indeterminado & infinitas soluciones & dependen de uno o más parámetros\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\fmbadge{fmas}{SI} Incompatible & ninguna solución & ecuaciones contradictorias\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Método de Gauss}
+Consiste en transformar el sistema en otro equivalente \textbf{escalonado} (triangular), en el que cada ecuación tiene una incógnita menos que la anterior. Trabajamos con la \textbf{matriz ampliada} (coeficientes y términos independientes):
+
+\fmdisp{\left(\begin{array}{ccc|c}a&b&c&d\\ a'&b'&c'&d'\\ a''&b''&c''&d''\end{array}\right)\longrightarrow\left(\begin{array}{ccc|c}*&*&*&*\\ 0&*&*&*\\ 0&0&m&n\end{array}\right)}
+
+\begin{enumerate}
+\item Hacemos ceros en la primera columna, debajo del primer elemento, combinando cada fila con la primera: \fmm{F_2\to aF_2-a'F_1}\dots{}
+\item Hacemos ceros en la segunda columna debajo del segundo elemento, combinando con la segunda fila.
+\item Miramos la última fila \fmm{\left(0\ \ 0\ \ m\,|\,n\right)}:
+
+\begin{itemize}
+\item \fmm{m\neq0}: \textbf{SCD}. Se despeja \fmm{z=\frac nm} y se sustituye hacia arriba.
+\item \fmm{m=0,\ n=0}: \textbf{SCI}. La última ecuación desaparece (\fmm{0=0}) y una incógnita pasa a ser un parámetro (\fmm{z=\lambda}).
+\item \fmm{m=0,\ n\neq0}: \textbf{SI}. La última ecuación es \fmm{0=n}, imposible.
+\end{itemize}
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Consejo}: conviene poner en primer lugar una ecuación con coeficiente 1 (o \fmm{-1}) en la primera incógnita.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: método de Gauss}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{\begin{cases}x+y+z=6\\ 2x-y+z=3\\ x+2y-z=2\end{cases}}
+
+\fmm{\left(\begin{array}{rrr|r}1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-2F_1}\left(\begin{array}{rrr|r}1&1&1&6\\ 0&-3&-1&-9\\ 0&1&-2&-4\end{array}\right)}
+
+\fmm{\xrightarrow{F_3\to 3F_3+F_2}\left(\begin{array}{rrr|r}1&1&1&6\\ 0&-3&-1&-9\\ 0&0&-7&-21\end{array}\right)}
+
+\fmm{-7z=-21\Rightarrow z=3;\quad -3y-3=-9\Rightarrow y=2;\quad x+2+3=6\Rightarrow x=1}. \textbf{SCD}: \fmm{(x,y,z)=(1,2,3)}
+\item Resuelve \fmm{\begin{cases}x-y+z=1\\ 2x+y-z=5\\ x+2y-2z=4\end{cases}}
+
+\fmm{\left(\begin{array}{rrr|r}1&-1&1&1\\ 2&1&-1&5\\ 1&2&-2&4\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-2F_1}\left(\begin{array}{rrr|r}1&-1&1&1\\ 0&3&-3&3\\ 0&3&-3&3\end{array}\right)\xrightarrow{F_3\to F_3-F_2}\left(\begin{array}{rrr|r}1&-1&1&1\\ 0&3&-3&3\\ 0&0&0&0\end{array}\right)}
+
+La última fila es \fmm{0=0}: \textbf{SCI}. Hacemos \fmm{z=\lambda}: \fmm{\ 3y-3\lambda=3\Rightarrow y=1+\lambda;\ \ x=1+y-z=2}
+
+\fmm{(x,y,z)=(2,\ 1+\lambda,\ \lambda),\ \lambda\in\mathbb R}. Si el término independiente de la tercera ecuación fuera 5, la última fila quedaría \fmm{\left(0\ \ 0\ \ 0\,|\,1\right)}: \fmm{0=1}, el sistema sería \textbf{incompatible}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Sistemas de ecuaciones no lineales}\hypertarget{sec2}{}
+\begin{fmdef}{Sistemas no lineales}
+Son sistemas en los que alguna ecuación no es de primer grado (aparecen productos de incógnitas, cuadrados, raíces, logaritmos, exponenciales\dots{}). Los métodos más habituales son:
+
+\begin{itemize}
+\item \textbf{Sustitución}: se despeja una incógnita (preferiblemente de una ecuación lineal) y se sustituye en la otra.
+\item \textbf{Reducción}: si las incógnitas aparecen con la misma forma (\fmm{x^2} e \fmm{y^2}, por ejemplo), se combinan las ecuaciones para eliminar una.
+\item \textbf{Cambio de variable}: en sistemas exponenciales (\fmm{u=2^x,\ v=3^y}) o logarítmicos (\fmm{u=\log x,\ v=\log y}) se obtiene un sistema lineal en \fmm{u} y \fmm{v}.
+\end{itemize}
+
+\begin{fmnote}Siempre hay que \textbf{comprobar} las soluciones (denominadores, raíces, logaritmos\dots{}).\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: sistemas no lineales}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\begin{cases}x-y=1\\ x^2+y^2=13\end{cases}}
+
+\fmm{x=1+y\Rightarrow(1+y)^2+y^2=13\Rightarrow 2y^2+2y-12=0\Rightarrow y^2+y-6=0}
+
+\fmm{y=2\Rightarrow x=3;\quad y=-3\Rightarrow x=-2}. Soluciones: \fmm{(3,2)} y \fmm{(-2,-3)}
+\item \fmm{\begin{cases}2^x+3^y=7\\ 2^{x+1}-3^y=5\end{cases}}
+
+\fmm{u=2^x,\ v=3^y:\ \ u+v=7,\ \ 2u-v=5}. Sumando: \fmm{3u=12\Rightarrow u=4,\ v=3}
+
+\fmm{2^x=4\Rightarrow x=2;\quad 3^y=3\Rightarrow y=1}
+\item \fmm{\begin{cases}\log x+\log y=3\\ x-y=90\end{cases}}
+
+\fmm{\log(xy)=\log1000\Rightarrow xy=1000}. Con \fmm{x=90+y:\ \ y^2+90y-1000=0}
+
+\fmm{y=10} o \fmm{y=-100} (no válida). Solución: \fmm{x=100,\ y=10}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Sistemas de inecuaciones con una incógnita}\hypertarget{sec3}{}
+\begin{fmprop}{Cómo resolverlos}
+\begin{itemize}
+\item Se resuelve cada inecuación por separado, como en la unidad 2, y la solución del sistema es la \textbf{intersección} de todas.
+\item Conviene representar la solución de cada inecuación en una recta real, una sobre la otra y con la misma escala, para ver qué tienen en común. Si no tienen ningún punto en común, el sistema \textbf{no tiene solución}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: sistemas de inecuaciones}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve el sistema \fmm{\begin{cases}2x-1\lt5\\ x^2-4\ge0\end{cases}}
+
+\fmm{2x\lt6\Rightarrow x\lt3:\ (-\infty,3).\qquad x^2-4\ge0\Rightarrow(-\infty,-2]\cup[2,+\infty)}
+
+Representamos la solución de cada inecuación en una recta real, una sobre la otra:
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (4.678,0.1)--(4.678,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (9.433,0.1)--(9.433,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (10.622,0.1)--(10.622,-1.700);\node[anchor=west,font=\small] at (0,-0.400) {$2x-1<5$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (2.300,-0.400)--(10.622,-0.400);\fill[fmA] (2.050,-0.400)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=white] (10.622,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x^2-4\geq0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (2.300,-1.150)--(4.678,-1.150);\fill[fmB] (2.050,-1.150)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=fmB] (4.678,-1.150) circle[radius=0.13];\draw[fmB,line width=2.6pt] (9.433,-1.150)--(13.000,-1.150);\fill[fmB] (13.250,-1.150)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=fmB] (9.433,-1.150) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-1.700)--(13.400,-1.700);\draw[fmmuted,line width=0.6pt] (2.300,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-4$};\draw[fmmuted,line width=0.6pt] (3.489,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (4.678,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.867,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (7.056,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.244,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.433,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (10.622,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (11.811,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\draw[fmmuted,line width=0.6pt] (13.000,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$5$};\end{tikzpicture}\end{center}
+
+La solución del sistema es la parte donde coinciden las dos rectas, la \textbf{intersección}: \fmm{x\in(-\infty,-2]\cup[2,3)}
+
+\begin{center}\begin{tikzpicture}[line cap=round]\fill[fmR,opacity=0.12] (2.300,0.1) rectangle (4.678,-2.450);\fill[fmR,opacity=0.12] (9.433,0.1) rectangle (10.622,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (4.678,0.1)--(4.678,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (9.433,0.1)--(9.433,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (10.622,0.1)--(10.622,-2.450);\node[anchor=west,font=\small] at (0,-0.400) {$2x-1<5$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (2.300,-0.400)--(10.622,-0.400);\fill[fmA] (2.050,-0.400)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=white] (10.622,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x^2-4\geq0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (2.300,-1.150)--(4.678,-1.150);\fill[fmB] (2.050,-1.150)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=fmB] (4.678,-1.150) circle[radius=0.13];\draw[fmB,line width=2.6pt] (9.433,-1.150)--(13.000,-1.150);\fill[fmB] (13.250,-1.150)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=fmB] (9.433,-1.150) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.900) {$\text{Solución}$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.900)--(13.000,-1.900);\draw[fmR,line width=2.6pt] (2.300,-1.900)--(4.678,-1.900);\fill[fmR] (2.050,-1.900)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmR,line width=1.2pt,fill=fmR] (4.678,-1.900) circle[radius=0.13];\draw[fmR,line width=2.6pt] (9.433,-1.900)--(10.622,-1.900);\draw[fmR,line width=1.2pt,fill=fmR] (9.433,-1.900) circle[radius=0.13];\draw[fmR,line width=1.2pt,fill=white] (10.622,-1.900) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-2.450)--(13.400,-2.450);\draw[fmmuted,line width=0.6pt] (2.300,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-4$};\draw[fmmuted,line width=0.6pt] (3.489,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (4.678,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.867,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (7.056,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.244,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.433,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (10.622,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (11.811,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\draw[fmmuted,line width=0.6pt] (13.000,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$5$};\end{tikzpicture}\end{center}
+
+\begin{fmnote}El 3 no se incluye porque no es solución de la primera inecuación. El \fmm{-2} y el 2 sí, porque son solución de las dos.\end{fmnote}
+\item Resuelve el sistema \fmm{\begin{cases}x-2\gt0\\ x+1\lt0\end{cases}}
+
+\fmm{x\gt2:\ (2,+\infty).\qquad x\lt-1:\ (-\infty,-1)}
+
+Representamos la solución de cada inecuación en una recta real, una sobre la otra:
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (5.357,0.1)--(5.357,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (9.943,0.1)--(9.943,-1.700);\node[anchor=west,font=\small] at (0,-0.400) {$x-2>0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (9.943,-0.400)--(13.000,-0.400);\fill[fmA] (13.250,-0.400)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=white] (9.943,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x+1<0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (2.300,-1.150)--(5.357,-1.150);\fill[fmB] (2.050,-1.150)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (5.357,-1.150) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-1.700)--(13.400,-1.700);\draw[fmmuted,line width=0.6pt] (2.300,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (3.829,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.357,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (6.886,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.414,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.943,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (11.471,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (13.000,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\end{tikzpicture}\end{center}
+
+Los dos intervalos no tienen ningún punto en común: la intersección es vacía y el sistema no tiene solución.
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (5.357,0.1)--(5.357,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (9.943,0.1)--(9.943,-2.450);\node[anchor=west,font=\small] at (0,-0.400) {$x-2>0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (9.943,-0.400)--(13.000,-0.400);\fill[fmA] (13.250,-0.400)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=white] (9.943,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x+1<0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (2.300,-1.150)--(5.357,-1.150);\fill[fmB] (2.050,-1.150)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (5.357,-1.150) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.900) {$\text{Solución}$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.900)--(13.000,-1.900);\node[font=\small] at (7.650,-1.650) {$\emptyset$};\draw[fmmuted,line width=0.8pt,-latex] (2.100,-2.450)--(13.400,-2.450);\draw[fmmuted,line width=0.6pt] (2.300,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (3.829,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.357,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (6.886,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.414,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.943,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (11.471,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (13.000,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Inecuaciones con dos incógnitas}\hypertarget{sec4}{}
+\begin{fmdef}{Inecuaciones lineales con dos incógnitas}
+Una inecuación lineal con dos incógnitas tiene la forma \fmm{ax+by\lt c} (o con \fmm{\gt,\le,\ge}). Una \textbf{solución} es un par de números \fmm{(x,y)} que la cumple, es decir, un punto del plano. Hay infinitas: todas juntas forman un \textbf{semiplano}, una de las dos regiones en que la recta \fmm{ax+by=c} divide el plano.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Cómo se resuelven, paso a paso}
+\begin{enumerate}
+\item \textbf{Recta frontera.} Cambiamos la desigualdad por un igual: \fmm{ax+by=c}.
+\item \textbf{Dibujamos la recta} a partir de dos puntos (por ejemplo, los cortes con los ejes, haciendo \fmm{x=0} e \fmm{y=0}). Es \textbf{continua} si la desigualdad es \fmm{\le} o \fmm{\ge}, porque los puntos de la recta son solución, y \textbf{discontinua} si es \fmm{\lt} o \fmm{\gt}, porque no lo son.
+\item \textbf{Punto de prueba.} Elegimos un punto que no esté en la recta (a menudo \fmm{O(0,0)}; si la recta pasa por el origen, otro, como \fmm{(1,0)}) y lo sustituimos en la inecuación.
+\item \textbf{Elegimos el semiplano.} Si el punto cumple la inecuación, la solución es el semiplano que lo contiene; si no, es el otro. Lo sombreamos.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: inecuaciones con dos incógnitas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{x+2y\le6}.
+
+Recta frontera: \fmm{x+2y=6}. Dos puntos: \fmm{(6,0)} y \fmm{(0,3)}. Como hay \fmm{\le}, la recta es continua.
+
+Punto de prueba \fmm{O(0,0)}: \fmm{0+2\cdot0=0\le6\ \checkmark}
+
+El punto cumple la inecuación: la solución es el semiplano que contiene el origen, con la recta incluida.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=5.6cm,height=5.6cm,xmin=-3,xmax=7,ymin=-3,ymax=7,xtick={-2,2,4,6},ytick={-2,2,4,6},minor xtick={-3,-2,-1,0,1,2,3,4,5,6,7},minor ytick={-3,-2,-1,0,1,2,3,4,5,6,7},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:-3.0000,-3.0000)--(axis cs:7.0000,-3.0000)--(axis cs:7.0000,-0.5000)--(axis cs:-3.0000,4.5000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-4.0000,5.0000)--(axis cs:8.0000,-1.0000);\node[circle,fill=fmK,inner sep=0pt,minimum size=6pt] at (axis cs:0,0) {};\end{axis}\end{tikzpicture}\end{center}
+\item Resuelve \fmm{y\gt x+1}.
+
+Recta frontera: \fmm{y=x+1}. Dos puntos: \fmm{(-1,0)} y \fmm{(0,1)}. Como hay \fmm{\gt}, la recta es discontinua.
+
+Punto de prueba \fmm{O(0,0)}: \fmm{0\gt0+1} es falso.
+
+El punto no cumple la inecuación: la solución es el semiplano que no contiene el origen, sin la recta.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=5.6cm,height=5.6cm,xmin=-5,xmax=5,ymin=-5,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},minor xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},minor ytick={-5,-4,-3,-2,-1,0,1,2,3,4,5},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:4.0000,5.0000)--(axis cs:-5.0000,5.0000)--(axis cs:-5.0000,-4.0000)--cycle;\draw[fmA,line width=1.5pt,dash pattern=on 5pt off 3.5pt] (axis cs:-6.0000,-5.0000)--(axis cs:6.0000,7.0000);\node[circle,fill=fmR,inner sep=0pt,minimum size=6pt] at (axis cs:0,0) {};\end{axis}\end{tikzpicture}\end{center}
+\item Resuelve \fmm{y\ge2x}.
+
+Recta frontera: \fmm{y=2x}. Dos puntos: \fmm{(0,0)} y \fmm{(1,2)}. Recta continua.
+
+La recta pasa por el origen, así que debemos probar otro punto: \fmm{(1,0)}: \fmm{0\ge2\cdot1} es falso.
+
+La solución es el semiplano que no contiene el punto \fmm{(1,0)}, con la recta incluida.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=5.6cm,height=5.6cm,xmin=-5,xmax=5,ymin=-5,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},minor xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},minor ytick={-5,-4,-3,-2,-1,0,1,2,3,4,5},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:-5.0000,-5.0000)--(axis cs:-2.5000,-5.0000)--(axis cs:2.5000,5.0000)--(axis cs:-5.0000,5.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-6.0000,-12.0000)--(axis cs:6.0000,12.0000);\node[circle,fill=fmR,inner sep=0pt,minimum size=6pt] at (axis cs:1,0) {};\end{axis}\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Sistemas de inecuaciones con dos incógnitas}\hypertarget{sec5}{}
+\begin{fmprop}{Cómo se resuelven}
+\begin{enumerate}
+\item Se resuelve cada inecuación por separado, como en el apartado anterior: cada una da un semiplano.
+\item La solución del sistema es la \textbf{intersección} de todos los semiplanos, la \textbf{región factible}. Si no tienen ningún punto en común, el sistema no tiene solución.
+\item Los \textbf{vértices} de la región son los puntos de corte de las rectas frontera: se calculan resolviendo el sistema formado por las dos ecuaciones.
+\item La región puede ser \textbf{acotada} (un polígono) o \textbf{no acotada} (se extiende indefinidamente).
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: sistemas con dos incógnitas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{\begin{cases}x+y\le4\\ y\ge x-2\\ x\ge0,\ y\ge0\end{cases}}
+
+\fmm{x+y\le4}: recta \fmm{x+y=4}; con \fmm{O(0,0)}: \fmm{0\le4\ \checkmark}: semiplano de \fmm{O}.
+
+\fmm{y\ge x-2}: recta \fmm{y=x-2}; con \fmm{O}: \fmm{0\ge-2\ \checkmark}: semiplano de \fmm{O}. \fmm{\ x\ge0,\ y\ge0}: primer cuadrante.
+
+La solución es el polígono de vértices \fmm{(0,0),\ (2,0),\ (3,1)} y \fmm{(0,4)}. La región es acotada.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=5.6cm,height=5.6cm,xmin=-2,xmax=6,ymin=-2,ymax=6,xtick={-2,2,4,6},ytick={-2,2,4,6},minor xtick={-2,-1,0,1,2,3,4,5,6},minor ytick={-2,-1,0,1,2,3,4,5,6},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:2.0000,0.0000)--(axis cs:3.0000,1.0000)--(axis cs:0.0000,4.0000)--(axis cs:0.0000,0.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-3.0000,7.0000)--(axis cs:7.0000,-3.0000);\draw[fmB,line width=1.5pt] (axis cs:-3.0000,-5.0000)--(axis cs:7.0000,5.0000);\draw[fmV,line width=1.5pt] (axis cs:0.0000,-3.0000)--(axis cs:0.0000,7.0000);\draw[fmK,line width=1.5pt] (axis cs:-3.0000,0.0000)--(axis cs:7.0000,0.0000);\end{axis}\end{tikzpicture}\end{center}
+\item Resuelve \fmm{\begin{cases}x+y\ge4\\ x+y\le1\end{cases}}
+
+Las rectas \fmm{x+y=4} y \fmm{x+y=1} son paralelas. Con \fmm{O}: \fmm{0\ge4} es falso, así que el primer semiplano no contiene el origen; \fmm{0\le1\ \checkmark}, así que el segundo sí.
+
+Los dos semiplanos no tienen ningún punto en común: el sistema no tiene solución.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=5.6cm,height=5.6cm,xmin=-3,xmax=7,ymin=-3,ymax=7,xtick={-2,2,4,6},ytick={-2,2,4,6},minor xtick={-3,-2,-1,0,1,2,3,4,5,6,7},minor ytick={-3,-2,-1,0,1,2,3,4,5,6,7},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\draw[fmA,line width=1.5pt] (axis cs:-4.0000,8.0000)--(axis cs:8.0000,-4.0000);\draw[fmB,line width=1.5pt] (axis cs:-4.0000,5.0000)--(axis cs:8.0000,-7.0000);\end{axis}\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Resolución de problemas}\hypertarget{sec6}{}
+\begin{fmprop}{Pautas para resolver problemas con sistemas}
+\begin{enumerate}
+\item \textbf{Leer} el enunciado con atención e identificar los datos y lo que se pide.
+\item \textbf{Nombrar las incógnitas} (\fmm{x,y,z}\dots{}) e indicar qué representa cada una (y en qué unidades).
+\item \textbf{Plantear} el sistema: cada condición del enunciado es una ecuación o, si dice «como máximo» o «como mínimo», una inecuación.
+\item \textbf{Resolverlo.}
+\item \textbf{Comprobar e interpretar} las soluciones: descartar las que no tienen sentido en el contexto (valores negativos, no enteros\dots{}) y responder con una frase.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: problemas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En una tienda hay 40 artículos entre camisetas de 12 € y pantalones de 25 €. Si el valor total es de 662 €, ¿cuántos hay de cada tipo?
+
+\fmm{x=} camisetas, \fmm{y=} pantalones: \fmm{\ \begin{cases}x+y=40\\ 12x+25y=662\end{cases}}
+
+\fmm{12(40-y)+25y=662\Rightarrow13y=182\Rightarrow y=14,\ x=26}
+
+Hay 26 camisetas y 14 pantalones.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
