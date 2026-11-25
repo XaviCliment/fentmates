@@ -1153,8 +1153,8 @@ if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25)
     assert len(ms) == 1  # salt de pàgina abans dels exemples de representació de funcions (en castellà deixava una pàgina quasi buida)
     m = ms[0]
     if not ES: doc = doc[:m.start()] + m.group(1) + '\\newpage\n%\\Needspace{5\\baselineskip}\n' + m.group(2) + doc[m.end():]
-    # l'exemple de la funció racional, amb més aire; l'apartat de les asímptotes és el 6.10 (unitat 6)
-    retoc(r'(\\fmm\{y=x\+1\} \(\w+) 8\.10\)\.\n', r'\1 6.10).\\\\[2ex]\n', True)
+    # l'exemple de la funció racional, amb més aire
+    retoc(r'(\\fmm\{y=x\+1\} \(\w+ 6\.10\)\.)\n', r'\1\\\\[2ex]\n', True)
     retoc(r'(=\\dfrac\{\(x-3\)\(x\+1\)\}\{\(x-1\)\^2\}\}\.) (\w+ \w+ \\fmm\{\(-\\infty,-1\)\\cup\(3,\+\\infty\)\}, \w+ \w+ \\fmm\{\(-1,1\)\\cup\(1,3\)\}\.) (M\w+ \\fmm\{\(-1,-2\)\})',
           r'\1 \\\\[2ex]\n\2 \\\\[2ex]\n\3', True)
 if N == 7:  # «Regla de la cadena» comença al final de la pàgina 6 (no hi deixa un forat de 5 cm)
