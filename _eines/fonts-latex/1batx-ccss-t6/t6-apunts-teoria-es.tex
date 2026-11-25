@@ -1,0 +1,1031 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 6: Límites y continuidad. 1.º de Bachillerato CCSS},pdfsubject={Matemáticas Aplicadas a las Ciencias Sociales I},pdfkeywords={límites, límites laterales, límites en el infinito, indeterminaciones, continuidad, discontinuidades, asíntotas, teorema de Bolzano}}
+
+% colors de la web (FentMates, bloque de Análisis: verde; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{6.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (24,36)--(226,36);
+  \draw[line width=4.5pt] (32,100) .. controls (70,98) and (92,80) .. (112,64);
+  \draw[line width=4.5pt] (122,58) .. controls (150,44) and (180,40) .. (222,38);
+  \draw[line width=4.5pt] (117,61) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=2.4,font=\large\itshape] at (138,84) {lím $f(x)=L$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato CCSS · Unidad 6: Límites y continuidad}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas Aplicadas a las Ciencias Sociales I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 6} · Límites y continuidad\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: el límite de una función en el infinito (gráfico y analítico), las operaciones con el infinito, la comparación de infinitos, las indeterminaciones \fmm{\frac{\infty}{\infty}}, \fmm{\infty-\infty}, \fmm{1^\infty} y \fmm{\frac00}, los límites laterales y el límite en un punto, la continuidad y los tipos de discontinuidad, las funciones a trozos (también con parámetros) y las ramas infinitas: asíntotas verticales, horizontales y oblicuas y ramas parabólicas.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \hyperlink{sec1}{\textbf{\color{fmgreen}6.1}\ \ Límites en el infinito: lectura gráfica}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}6.2}\ \ Cálculo analítico en el infinito}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}6.3}\ \ Comparación de infinitos}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}6.4}\ \ Indeterminaciones en el infinito}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}6.5}\ \ Límites en un número}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}6.6}\ \ Indeterminaciones en un punto}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}6.7}\ \ Continuidad en un punto}}\\[3pt]
+\hyperlink{sec8}{\textbf{\color{fmgreen}6.8}\ \ Continuidad de racionales y funciones a trozos}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}6.9}\ \ Funciones a trozos con parámetros}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}6.10}\ \ Ramas infinitas y asíntotas}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Límites en el infinito: cálculo geométrico}\hypertarget{sec1}{}
+\begin{fmdef}{Definición: límite cuando x tiende a infinito}
+Calcular el límite de una función \fmm{f(x)} cuando \fmm{x} tiende a infinito es conocer el comportamiento de esa función cuando \fmm{x} se hace \textbf{tan grande como queramos} (\fmm{x\to+\infty}) o \textbf{tan negativa como queramos} (\fmm{x\to-\infty}). Podemos encontrar tres posibilidades:
+
+\begin{itemize}
+\item \fmm{\displaystyle\lim_{x\to+\infty}f(x)=L}: los valores de \fmm{f(x)} se acercan tanto como queramos al número \fmm{L}. Gráficamente, la curva se acerca a la recta horizontal \fmm{y=L}, que es una \textbf{asíntota horizontal}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}f(x)=+\infty} (o \fmm{-\infty}): los valores de \fmm{f(x)} crecen (o decrecen) sin cota: la curva sube (o baja) indefinidamente.
+\item \textbf{No existe} el límite: los valores de \fmm{f(x)} no se estabilizan alrededor de un número ni crecen o decrecen hacia el infinito. También puede pasar que la función no esté definida en alguno de los infinitos, es decir, que su dominio empiece o acabe en un número determinado.
+\end{itemize}
+
+Lo mismo vale cuando \fmm{x\to-\infty}, mirando la parte \textbf{izquierda} de la gráfica.
+\end{fmdef}
+
+\newpage
+\begin{fmexfill}{Ejemplos: leemos los límites en la gráfica}
+\begin{minipage}[t][\tcbtextheight][s]{\linewidth}
+\noindent \begin{minipage}[t]{0.48\linewidth}\centering $f(x)=\dfrac{2x^2}{x^2+1}$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/988179bbee05.pdf}\par\smallskip $\displaystyle\lim_{x\to+\infty}f(x)=2,\qquad\lim_{x\to-\infty}f(x)=2$\\ \vspace*{0.2cm} Asíntota horizontal $y=2$ por los dos lados.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\centering $g(x)=2^x-1$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/78402a7433c2.pdf}\par\smallskip $\displaystyle\lim_{x\to-\infty}g(x)=-1,\qquad\lim_{x\to+\infty}g(x)=+\infty$\\ \vspace*{0.2cm} Asíntota horizontal $y=-1$ solo por la izquierda.\end{minipage}\par
+\vfill
+\noindent \begin{minipage}[t]{0.48\linewidth}\centering $h(x)=\dfrac{x^3}{10}-x$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/9e2648be8f08.pdf}\par\smallskip $\displaystyle\lim_{x\to-\infty}h(x)=-\infty,\qquad\lim_{x\to+\infty}h(x)=+\infty$\\ \vspace*{0.2cm} No tiene asíntota horizontal.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\centering $k(x)=\sin x$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/4516b1ea83fc.pdf}\par\smallskip $\displaystyle\nexists\lim_{x\to-\infty}\sin x,\qquad\nexists\lim_{x\to+\infty}\sin x$\\ \vspace*{0.2cm} Oscila entre $-1$ y $1$ sin parar.\end{minipage}\par
+\vfill
+\noindent \begin{minipage}[t]{0.48\linewidth}\centering $m(x)=\sqrt{x-2}$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/b5276160aaf6.pdf}\par\smallskip $\displaystyle\nexists\lim_{x\to-\infty}m(x),\qquad\lim_{x\to+\infty}m(x)=+\infty$\\ \vspace*{0.2cm} Dominio $[2,+\infty)$: no está definida para $x<2$.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\centering $n(x)=\sqrt{9-x^2}$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/8958e57cc33a.pdf}\par\smallskip $\displaystyle\nexists\lim_{x\to-\infty}n(x),\qquad\nexists\lim_{x\to+\infty}n(x)$\\ \vspace*{0.2cm} Dominio $[-3,3]$: no llega a ninguno de los dos infinitos.\end{minipage}\par
+\vfill
+
+      
+\begin{fmnote}\fmuline{Truco}: para \fmm{x\to+\infty} mira \textbf{el final derecho} de la gráfica; para \fmm{x\to-\infty}, \textbf{el final izquierdo}. Una tabla de valores con \fmm{x=10,\ 100,\ 1000,\dots} también te lo dice.\end{fmnote}
+\end{minipage}
+\end{fmexfill}
+
+\Needspace{5.7cm}
+\section{Cálculo analítico de límites en el infinito}\hypertarget{sec2}{}
+\begin{fmprop}{Operaciones con infinito}
+Para calcular un límite, \textbf{sustituimos} y operamos con estas reglas (\fmm{k} es un número real):
+
+\begin{center}\small\begin{tabularx}{\linewidth}{>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}\toprule
+\textbf{Sumas} & \textbf{Productos} & \textbf{Cocientes}\\\midrule
+\fmm{k\pm\infty=\pm\infty} & \fmm{k\cdot(\pm\infty)=\pm\infty\ \ (k\gt0)} & \fmm{\dfrac{k}{\pm\infty}=0}\\[6pt]
+\fmm{(+\infty)+(+\infty)=+\infty} & \fmm{k\cdot(\pm\infty)=\mp\infty\ \ (k\lt0)} & \fmm{\dfrac{\pm\infty}{k}=\pm\infty\ \ (k\gt0)}\\[6pt]
+\fmm{(-\infty)+(-\infty)=-\infty} & \fmm{(\pm\infty)\cdot(\pm\infty)=\pm\infty} (regla de los signos) & \fmm{\dfrac{k}{0}=\pm\infty\ \ (k\neq0)} (hay que estudiar el signo)\\[6pt]
+\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exponenciales}
+
+\fmdisp{k^{+\infty}=\begin{cases}+\infty&\text{si } k\gt 1\\0&\text{si } 0\leq k\lt 1\end{cases}}
+
+\fmdisp{k^{-\infty}=\begin{cases}0&\text{si } k\gt 1\\+\infty&\text{si } 0\lt k\lt 1\end{cases}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Potencias}
+
+\fmdisp{(+\infty)^k=\begin{cases}+\infty&\text{si } k\gt 0\\0&\text{si } k\lt 0\end{cases}}
+
+\fmdisp{(+\infty)^{+\infty}=+\infty,\ \ (+\infty)^{-\infty}=0}
+\end{minipage}\par\medskip
+
+Hay resultados que \textbf{no se pueden saber} de entrada: son las \textbf{indeterminaciones}, que estudiaremos en el apartado 6.4:
+
+\begin{center}\fmchip{\fmm{\dfrac{\infty}{\infty}}}\ \fmchip{\fmm{\infty-\infty}}\ \fmchip{\fmm{\dfrac00}}\ \fmchip{\fmm{0\cdot\infty}}\ \fmchip{\fmm{1^{\infty}}}\ \fmchip{\fmm{\infty^0}}\ \fmchip{\fmm{0^0}}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Potencias, monomios y polinomios}
+\begin{itemize}
+\item \textbf{Potencias} \fmm{x^n} con \fmm{n\gt0}: cuando \fmm{x\to+\infty} siempre dan \fmm{+\infty}. Cuando \fmm{x\to-\infty}, depende de la paridad:
+
+\fmdisp{\lim_{x\to-\infty}x^n=\begin{cases}+\infty&\text{si } n \text{ par}\\-\infty&\text{si } n\text{ impar}\end{cases}\qquad\qquad\lim_{x\to\pm\infty}\frac{1}{x^n}=0}
+
+\item \textbf{Monomios} \fmm{a\,x^n}: el límite es \fmm{\pm\infty}; el signo lo deciden el signo de \fmm{a} y el de \fmm{x^n}.
+\item \textbf{Polinomios}: cuando \fmm{x\to\pm\infty}, el límite de un polinomio es el límite de su \fmkey{término de mayor grado}; los demás términos son «pequeños» a su lado.
+
+\fmdisp{\lim_{x\to\pm\infty}\left(a_nx^n+a_{n-1}x^{n-1}+\dots+a_0\right)=\lim_{x\to\pm\infty}a_nx^n}
+
+\end{itemize}
+
+\begin{fmnote}\fmuline{Cuidado}: \fmm{(-\infty)^3} es \fmm{-\infty}, pero \fmm{(-\infty)^4} es \fmm{+\infty}. Si dudas, cambia \fmm{x} por \fmm{-x}: \fmm{\displaystyle\lim_{x\to-\infty}f(x)=\lim_{x\to+\infty}f(-x)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to-\infty}2x^3=2\cdot(-\infty)^3=2\cdot(-\infty)=-\infty}  y  \fmm{\displaystyle\lim_{x\to-\infty}(-5x^3)=(-5)\cdot(-\infty)=+\infty}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(x^3-100x^2-7\right)=\lim_{x\to+\infty}x^3=+\infty}. Aunque \fmm{100x^2} parece grande, \fmm{x^3} gana.
+\item \fmm{\displaystyle\lim_{x\to-\infty}\left(-2x^4+x^3+1\right)=\lim_{x\to-\infty}(-2x^4)=-2\cdot(+\infty)=-\infty}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\tfrac12\right)^x=\left(\tfrac12\right)^{+\infty}=0}, \fmm{\ \ \displaystyle\lim_{x\to-\infty}3^x=3^{-\infty}=0}, \fmm{\ \ \displaystyle\lim_{x\to+\infty}\sqrt{x}=\sqrt{+\infty}=+\infty}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Cocientes de polinomios: comparamos los grados}
+Si \fmm{P(x)} tiene grado \fmm{n} y coeficiente principal \fmm{a_n}, y \fmm{Q(x)} tiene grado \fmm{m} y coeficiente principal \fmm{b_m}, al sustituir obtenemos \fmm{\frac{\infty}{\infty}}. Nos quedamos con los términos de mayor grado:
+
+\fmdisp{\lim_{x\to\pm\infty}\frac{P(x)}{Q(x)}=\lim_{x\to\pm\infty}\frac{a_nx^n}{b_mx^m}=\begin{cases}\pm\infty&\text{si } n\gt m\ \ (\text{el signo, simplificando})\\[4pt]\dfrac{a_n}{b_m}&\text{si } n=m\\[8pt]0&\text{si } n\lt m\end{cases}}
+
+Las \textbf{raíces} también tienen grado: \fmm{\sqrt{x^3+x}} se comporta como \fmm{\sqrt{x^3}=x^{3/2}} (grado \fmm{\tfrac32}) y \fmm{\sqrt{4x^2+1}} como \fmm{\sqrt{4x^2}=2|x|} (grado 1).
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos de cocientes}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{3x^2-5x+1}{x^3-x}\overset{\frac{\infty}{\infty}}{=}\lim_{x\to+\infty}\frac{3x^2}{x^3}=\lim_{x\to+\infty}\frac{3}{x}=\frac{3}{+\infty}=0} (grado de arriba < grado de abajo).
+\item \fmm{\displaystyle\lim_{x\to-\infty}\frac{4x^3+x}{2x^3-7}\overset{\frac{\infty}{\infty}}{=}\lim_{x\to-\infty}\frac{4x^3}{2x^3}=\frac42=2} (mismo grado: cociente de los coeficientes principales).
+\item Grado de arriba mayor: hay que mirar el signo a cada lado.
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{x^3+1}{2x-x^2}=\lim_{x\to+\infty}\frac{x^3}{-x^2}=\lim_{x\to+\infty}(-x)=-\infty}
+
+\fmm{\displaystyle\lim_{x\to-\infty}\frac{x^3+1}{2x-x^2}=\lim_{x\to-\infty}(-x)=-(-\infty)=+\infty}
+\item Con raíces: \fmm{\displaystyle\lim_{x\to+\infty}\frac{\sqrt{x^3+x-2}}{x+5}=\lim_{x\to+\infty}\frac{x^{3/2}}{x}=\lim_{x\to+\infty}\sqrt{x}=+\infty} y \fmm{\displaystyle\lim_{x\to+\infty}\frac{\sqrt{9x^2+1}}{x-4}=\lim_{x\to+\infty}\frac{3x}{x}=3}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Cálculo de límites por comparación de infinitos}\hypertarget{sec3}{}
+\begin{fmdef}{Orden de un infinito}
+Si \fmm{\displaystyle\lim_{x\to+\infty}f(x)=\lim_{x\to+\infty}g(x)=+\infty}, decimos que \fmm{f} es un \textbf{infinito de orden superior} a \fmm{g} si
+
+\fmdisp{\lim_{x\to+\infty}\frac{f(x)}{g(x)}=+\infty\qquad\left(\text{o, lo que es lo mismo, }\lim_{x\to+\infty}\frac{g(x)}{f(x)}=0\right)}
+
+Es decir, \fmm{f} crece «mucho más deprisa» que \fmm{g}. Si el límite del cociente es un número \fmm{k\neq0}, son \textbf{del mismo orden}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Jerarquía de infinitos (cuando x $\to$ +$\infty$)}
+\begin{center}\fmlevel{logaritmos}{\fmm{\log_a x,\ \ln x}}\quad{\Large\color{fmaccent}$\ll$}\quad\fmlevel{potencias}{\fmm{x^p\ \ (p\gt0)}}\quad{\Large\color{fmaccent}$\ll$}\quad\fmlevel{exponenciales}{\fmm{a^x\ \ (a\gt1)}}\end{center}
+
+\begin{itemize}
+\item Entre dos \textbf{potencias}, gana la de exponente mayor: \fmm{x^3\gg x^2\gg\sqrt x}.
+\item Entre dos \textbf{exponenciales}, gana la de base mayor: \fmm{5^x\gg e^x\gg2^x}.
+\item Los coeficientes no cambian el orden: \fmm{0{,}001\cdot2^x\gg1000\,x^{10}}.
+\end{itemize}
+
+\textbf{Consecuencias:} en un \textbf{cociente} \fmm{\frac{\infty}{\infty}}, si el de arriba es de orden superior el límite es \fmm{\pm\infty}, y si lo es el de abajo, es \fmm{0}. En una \textbf{suma o resta} de infinitos, el resultado lo decide el de orden superior.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{x^2}{e^x}=0} (la exponencial de abajo es de orden superior).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{2^x}{x^{10}}=+\infty} (¡aunque para \fmm{x} pequeños el denominador es mayor!).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{\ln x}{\sqrt x}=0} (el logaritmo es de orden inferior a cualquier potencia).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(x^3-2^x\right)=-\infty} (gana \fmm{-2^x}).
+\item Mismo orden: \fmm{\displaystyle\lim_{x\to+\infty}\frac{e^x+x^5}{3e^x-x}=\lim_{x\to+\infty}\frac{e^x}{3e^x}=\frac13}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{3^x}{2^x}=\lim_{x\to+\infty}\left(\tfrac32\right)^x=+\infty}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Indeterminaciones en el infinito}\hypertarget{sec4}{}
+
+Cuando al sustituir obtenemos una indeterminación, hay que \textbf{transformar la expresión} antes de calcular el límite. Aquí vemos las tres que estudiaremos cuando \fmm{x\to\pm\infty}.
+
+\Needspace{5.1cm}
+\subsection*{Indeterminación \fmm{\dfrac{\infty}{\infty}}}
+\begin{fmdef}{Dos métodos equivalentes}
+\textbf{Método 1}: nos quedamos con los \textbf{términos de mayor grado} del numerador y del denominador y simplificamos (es lo que hemos hecho en el apartado 6.2).
+
+\textbf{Método 2}: \textbf{dividimos} numerador y denominador por la potencia de \fmm{x} de mayor grado de la fracción; todos los términos del tipo \fmm{\frac{k}{x^n}} tienden a 0.
+
+\fmdisp{\lim_{x\to+\infty}\frac{3x^2-5x+1}{x^3-x}=\lim_{x\to+\infty}\frac{\frac{3x^2}{x^3}-\frac{5x}{x^3}+\frac{1}{x^3}}{\frac{x^3}{x^3}-\frac{x}{x^3}}=\lim_{x\to+\infty}\frac{\overbrace{\tfrac{3}{x}}^{0}-\overbrace{\tfrac{5}{x^2}}^{0}+\overbrace{\tfrac{1}{x^3}}^{0}}{1-\underbrace{\tfrac{1}{x^2}}_{0}}=\frac01=0}
+
+\end{fmdef}
+
+\Needspace{5.1cm}
+\subsection*{Indeterminación \fmm{\infty-\infty}}
+\begin{fmdef}{Caso 1: resta de fracciones algebraicas}
+\textbf{Hacemos la resta} (con denominador común) y calculamos el límite de la fracción resultante, que suele ser \fmm{\frac{\infty}{\infty}}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{x^2}{x-1}-x\right)}
+
+Sustituimos: \fmm{\displaystyle\lim\frac{x^2}{x-1}=\lim\frac{x^2}{x}=+\infty}, y \fmm{\lim x=+\infty\Rightarrow+\infty-\infty\ \ \text{IND.}}
+
+Restamos las fracciones: \fmm{\dfrac{x^2}{x-1}-\dfrac{x(x-1)}{x-1}=\dfrac{x^2-x^2+x}{x-1}=\dfrac{x}{x-1}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{x}{x-1}=1} (mismo grado).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{3x^2+2}{x+1}-\frac{2x^3-x}{x^2-1}\right)}
+
+\fmm{\displaystyle\lim\frac{3x^2}{x}-\lim\frac{2x^3}{x^2}=\lim3x-\lim2x=+\infty-\infty\ \ \text{IND.}}
+
+Como \fmm{x^2-1=(x+1)(x-1)}, el denominador común es \fmm{x^2-1}:
+\fmdisp{\frac{(3x^2+2)(x-1)-(2x^3-x)}{x^2-1}=\frac{3x^3-3x^2+2x-2-2x^3+x}{x^2-1}=\frac{x^3-3x^2+3x-2}{x^2-1}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{x^3-3x^2+3x-2}{x^2-1}=\lim_{x\to+\infty}\frac{x^3}{x^2}=\lim_{x\to+\infty}x=+\infty}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Caso 2: resta con raíces cuadradas}
+\textbf{Multiplicamos y dividimos por el conjugado} y usamos \fmm{(A-B)(A+B)=A^2-B^2}, que hace desaparecer las raíces de arriba:
+
+\fmdisp{\left(\sqrt{A}-B\right)\cdot\frac{\sqrt{A}+B}{\sqrt{A}+B}=\frac{A-B^2}{\sqrt{A}+B}}
+
+\begin{fmnote}\fmuline{Antes de nada}, mira los términos principales: si \fmm{\sqrt{4x^2-2}\approx2x} y le restamos \fmm{4x}, ya tenemos \fmm{2x-4x\to-\infty} y \textbf{no hace falta} el conjugado. El conjugado solo hace falta cuando los términos principales \textbf{se cancelan} (como en \fmm{\sqrt{x^2+4x}-x}).\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+4x}-x\right)}
+
+\fmm{\sqrt{+\infty}-\infty=+\infty-\infty\ \ \text{IND.}} (y los términos principales \fmm{\sqrt{x^2}=x} y \fmm{x} se cancelan).
+
+Multiplicamos y dividimos por el conjugado:
+\fmdisp{\left(\sqrt{x^2+4x}-x\right)\frac{\sqrt{x^2+4x}+x}{\sqrt{x^2+4x}+x}=\frac{x^2+4x-x^2}{\sqrt{x^2+4x}+x}=\frac{4x}{\sqrt{x^2+4x}+x}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{4x}{\sqrt{x^2+4x}+x}=\lim_{x\to+\infty}\frac{4x}{x+x}=\frac{4}{2}=2}
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+x}-\sqrt{x^2-x}\right)}
+
+\fmm{+\infty-\infty\ \ \text{IND.}} Multiplicamos y dividimos por \fmm{\sqrt{x^2+x}+\sqrt{x^2-x}}:
+\fmdisp{\frac{(x^2+x)-(x^2-x)}{\sqrt{x^2+x}+\sqrt{x^2-x}}=\frac{2x}{\sqrt{x^2+x}+\sqrt{x^2-x}}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{2x}{x+x}=1}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Indeterminación \fmm{1^{\infty}}}
+\begin{fmprop}{Fórmula para la indeterminación 1\textsuperscript{$\infty$}}
+Si \fmm{\displaystyle\lim f(x)=1} y \fmm{\displaystyle\lim g(x)=\pm\infty}, tenemos \fmm{1^{\infty}}. Entonces:
+
+\fmdisp{\lim_{x\to\pm\infty}f(x)^{g(x)}=e^{\lim\limits_{x\to\pm\infty}\big(f(x)-1\big)\cdot g(x)}}
+
+\begin{enumerate}
+\item Restamos 1 a la base: \fmm{f(x)-1} (normalmente, haciendo la resta de fracciones).
+\item Multiplicamos por el exponente: \fmm{(f(x)-1)\cdot g(x)}.
+\item Calculamos el límite \fmm{\lambda} de este producto; el resultado es \fmm{e^{\lambda}} (con \fmm{e^{+\infty}=+\infty} y \fmm{e^{-\infty}=0}).
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Cuidado}: si la base tiende a un número \fmm{k\neq1}, \textbf{no} hay indeterminación: \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{2x+1}{x+3}\right)^{x}=2^{+\infty}=+\infty}, \fmm{\ \displaystyle\lim_{x\to+\infty}\left(\frac{x+1}{3x}\right)^{x^2}=\left(\tfrac13\right)^{+\infty}=0}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to-\infty}\left(\frac{x-3}{x-1}\right)^{2x-1}}
+
+\fmm{\displaystyle\lim_{x\to-\infty}\frac{x-3}{x-1}=1} y \fmm{\displaystyle\lim_{x\to-\infty}(2x-1)=-\infty\Rightarrow1^{-\infty}\ \ \text{IND.}}
+
+1.$-$ \fmm{\ \dfrac{x-3}{x-1}-1=\dfrac{x-3-(x-1)}{x-1}=\dfrac{-2}{x-1}}
+
+2.$-$ \fmm{\ \dfrac{-2}{x-1}\cdot(2x-1)=\dfrac{-4x+2}{x-1}}
+
+3.$-$ \fmm{\ \displaystyle\lim_{x\to-\infty}\frac{-4x+2}{x-1}=-4\Rightarrow\lim_{x\to-\infty}\left(\frac{x-3}{x-1}\right)^{2x-1}=e^{-4}=\frac{1}{e^4}}
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{2x+1}{2x-3}\right)^{x}}
+
+\fmm{1^{+\infty}\ \ \text{IND.}} \fmm{\quad\dfrac{2x+1}{2x-3}-1=\dfrac{4}{2x-3}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{4}{2x-3}\cdot x=\lim_{x\to+\infty}\frac{4x}{2x-3}=2\Rightarrow} el límite es \fmm{e^2}
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(1+\frac{3}{x}\right)^{x}=e^{\lim\frac3x\cdot x}=e^{3}}. Y, en cambio, \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{x^2+1}{x^2}\right)^{x}=e^{\lim\frac{1}{x^2}\cdot x}=e^{0}=1}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Aplicación: el comportamiento «a muy largo plazo» (problemas de la PAU)}
+Cuando un problema pregunta qué pasa «a largo plazo», «si se invierte un capital muy elevado» o si una cantidad «tiene algún límite», hay que calcular un \textbf{límite en el infinito}.
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU 2018}La superficie deshelada (km$^2$) \fmm{t} días después del impacto de un meteorito es \fmm{f(t)=\dfrac{10t+21}{t+3}}. ¿Tiene algún límite la extensión del deshielo?
+
+\textit{Solución:} \fmm{\displaystyle\lim_{t\to+\infty}\frac{10t+21}{t+3}=\frac{10}{1}=10}. Sí: la superficie deshelada se acerca a \fmm{10\ \text{km}^2} pero nunca los supera.
+\item \fmpau{PAU 2015}Una máquina con más de 5 años revela \fmm{f(x)=\dfrac{5x+45}{x+2}} fotografías por minuto (\fmm{x} = años). ¿Es cierto que nunca revelará menos de 5?
+
+\textit{Solución:} \fmm{\displaystyle\lim_{x\to+\infty}\frac{5x+45}{x+2}=5}, y como \fmm{\dfrac{5x+45}{x+2}=5+\dfrac{35}{x+2}\gt5}, sí: la función decrece hacia 5 sin llegar nunca.
+\newpage
+\item \fmpau{PAU 2017}El beneficio (miles de euros) de un fondo cuando se invierten \fmm{x\gt8} miles de euros es \fmm{B(x)=1{,}26\dfrac{x}{x^2-1}+0{,}02}. Si se invierte un capital muy elevado, ¿cuál sería como mínimo el beneficio?
+
+\textit{Solución:} \fmm{\displaystyle\lim_{x\to+\infty}\left(1{,}26\frac{x}{x^2-1}+0{,}02\right)=0+0{,}02=0{,}02} miles de euros. Como el primer sumando es siempre positivo, el beneficio es siempre mayor que \textbf{20 €} y se acerca a ellos.
+\item \fmpau{PAU 2008}La cuenta de resultados (millones de euros) de una empresa después de \fmm{x} años es \fmm{y=\dfrac{5x^2+20x-25}{x^2+7}}. ¿Cuáles serán sus beneficios a muy largo plazo?
+
+\textit{Solución:} \fmm{\displaystyle\lim_{x\to+\infty}\frac{5x^2+20x-25}{x^2+7}=5}: a la larga, los beneficios se estabilizan alrededor de 5 millones de euros.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Límites en un número: cálculo gráfico y analítico}\hypertarget{sec5}{}
+\begin{fmdef}{Límite en un punto y límites laterales}
+\fmm{\displaystyle\lim_{x\to a}f(x)=L} significa que, cuando \fmm{x} se acerca a \fmm{a} (sin llegar a ser \fmm{a}), \fmm{f(x)} se acerca a \fmm{L}. Nos podemos acercar a \fmm{a} por dos lados:
+
+\begin{itemize}
+\item \textbf{Límite por la izquierda} \fmm{\displaystyle\lim_{x\to a^-}f(x)}: con valores \fmm{x\lt a} (por ejemplo \fmm{a-0{,}1,\ a-0{,}01,\dots}).
+\item \textbf{Límite por la derecha} \fmm{\displaystyle\lim_{x\to a^+}f(x)}: con valores \fmm{x\gt a}.
+\end{itemize}
+
+\fmdisp{\exists\lim_{x\to a}f(x)=L\iff\lim_{x\to a^-}f(x)=\lim_{x\to a^+}f(x)=L}
+
+Si algún límite lateral es \fmm{\pm\infty}, la recta \fmm{x=a} es una \textbf{asíntota vertical}. Observa que el límite en \fmm{a} \textbf{no depende} del valor \fmm{f(a)}: puede que \fmm{f(a)} ni exista.
+\end{fmdef}
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmex}{Cálculo gráfico}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip
+
+Leemos en la gráfica de \fmm{f} (un punto vacío $\circ$ significa que el punto \textbf{no} es de la gráfica):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{$x\to$} & \textbf{Por la izquierda} & \textbf{Por la derecha} & \textbf{Límite} & \textbf{$f(a)$}\\\midrule
+$-1$ & $+\infty$ & $-1$ & $\nexists$ & $\nexists$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$1$ & $1$ & $1$ & $1$ & $3$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$2$ & $2$ & $4$ & $\nexists$ & $4$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+Además, \fmm{\displaystyle\lim_{x\to-\infty}f(x)=0} (asíntota horizontal \fmm{y=0}) y \fmm{\displaystyle\lim_{x\to+\infty}f(x)=-\infty}.
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Cálculo analítico}
+\begin{enumerate}
+\item \textbf{Sustituimos} \fmm{x=a}. Si obtenemos un número, ese es el límite: \fmm{\displaystyle\lim_{x\to2}\left(x^2-3x+5\right)=4-6+5=3}.
+\item Si obtenemos \fmm{\dfrac{k}{0}} con \fmm{k\neq0}, el límite es infinito: calculamos los \textbf{límites laterales} para saber el signo (sustituyendo valores cercanos, como \fmm{a-0{,}1} y \fmm{a+0{,}1}).
+\item Si obtenemos \fmm{\dfrac00}, es una indeterminación: la resolveremos en el apartado 6.6.
+\item En una \textbf{función a trozos}, en los puntos donde cambia la expresión calculamos cada límite lateral con el trozo que le corresponde.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Función a trozos: \fmm{f(x)=\begin{cases}2x^2-6&\text{si } x\leq1\\[2pt]\dfrac{2x}{x-3}&\text{si } x\gt1\end{cases}}. Calculamos \fmm{\displaystyle\lim_{x\to1}f(x)}.
+
+\fmm{\displaystyle\lim_{x\to1^-}f(x)=\lim_{x\to1}\left(2x^2-6\right)=2-6=-4}
+
+\fmm{\displaystyle\lim_{x\to1^+}f(x)=\lim_{x\to1}\frac{2x}{x-3}=\frac{2}{-2}=-1}
+
+Los límites laterales son distintos: \fmm{\nexists\displaystyle\lim_{x\to1}f(x)}.
+\item \fmm{\displaystyle\lim_{x\to1}\frac{4x^2}{x^2-1}}
+
+Sustituimos: \fmm{\dfrac{4}{0}\Rightarrow} límite infinito; estudiamos el signo a cada lado.
+
+\fmm{x=0{,}9:\ \dfrac{4\cdot0{,}81}{0{,}81-1}=\dfrac{+}{-}\lt0\Rightarrow\displaystyle\lim_{x\to1^-}f(x)=-\infty}
+
+\fmm{x=1{,}1:\ \dfrac{4\cdot1{,}21}{1{,}21-1}=\dfrac{+}{+}\gt0\Rightarrow\displaystyle\lim_{x\to1^+}f(x)=+\infty}
+
+\fmm{\nexists\displaystyle\lim_{x\to1}f(x)} y \fmm{x=1} es una asíntota vertical.
+\item \fmm{\displaystyle\lim_{x\to2}\frac{3}{(x-2)^2}=\frac30}: el denominador es siempre positivo, así que los dos laterales son \fmm{+\infty} y \fmm{\displaystyle\lim_{x\to2}\frac{3}{(x-2)^2}=+\infty}.
+\item \fmm{\displaystyle\lim_{x\to3^+}\log(x-3)=\log(0^+)=-\infty}; por la izquierda no existe (el logaritmo de un número negativo no está definido).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Indeterminaciones en un punto: 0/0 y 1\textsuperscript{$\infty$}}\hypertarget{sec6}{}
+\begin{fmdef}{Cómo se resuelve la indeterminación 0/0}
+Si \fmm{P(a)=0} y \fmm{Q(a)=0}, por el teorema del factor \textbf{los dos polinomios son divisibles por \fmm{(x-a)}}. Por tanto:
+
+\begin{enumerate}
+\item \textbf{Factorizamos} numerador y denominador: sacando factor común, con las identidades notables, resolviendo la ecuación de 2º grado o con Ruffini.
+\item \textbf{Simplificamos} el factor \fmm{(x-a)} (podemos hacerlo porque \fmm{x\neq a} cuando calculamos el límite).
+\item \textbf{Volvemos a sustituir}. Si vuelve a salir \fmm{\frac00}, repetimos; si sale \fmm{\frac{k}{0}}, estudiamos los límites laterales.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to2}\frac{x^2-x-2}{x^2-4}}
+
+Sustituimos: \fmm{\dfrac{4-2-2}{4-4}=\dfrac00\ \ \text{IND.}}
+
+Factorizamos (\fmm{x^2-x-2=0\Rightarrow x=2,\ x=-1}; \fmm{\ x^2-4} es una diferencia de cuadrados):
+\fmdisp{\lim_{x\to2}\frac{\cancel{(x-2)}(x+1)}{\cancel{(x-2)}(x+2)}=\lim_{x\to2}\frac{x+1}{x+2}=\frac34}
+
+\item \fmm{\displaystyle\lim_{x\to1}\frac{x^3-3x+2}{x^2-1}}
+
+\fmm{\dfrac{1-3+2}{1-1}=\dfrac00\ \ \text{IND.}} Dividimos el numerador por \fmm{(x-1)} con Ruffini:
+
+\begin{center}\begin{tabular}{r|rrrr}
+ & $1$ & $0$ & $-3$ & $2$\\
+$1$ &  & $1$ & $1$ & $-2$\\\hline
+ & $1$ & $1$ & $-2$ & \fbox{$0$}\\
+\end{tabular}\end{center}
+
+\fmm{x^3-3x+2=(x-1)(x^2+x-2)=(x-1)(x-1)(x+2)}
+
+\fmdisp{\lim_{x\to1}\frac{(x-1)^2(x+2)}{(x-1)(x+1)}=\lim_{x\to1}\frac{(x-1)(x+2)}{x+1}=\frac{0\cdot3}{2}=0}
+
+\item \fmm{\displaystyle\lim_{x\to-1}\frac{x^2+x}{x^2+2x+1}}
+
+\fmm{\dfrac00\ \ \text{IND.}} \fmm{\quad\displaystyle\lim_{x\to-1}\frac{x\cancel{(x+1)}}{(x+1)^{\cancel{2}}}=\lim_{x\to-1}\frac{x}{x+1}=\frac{-1}{0}}
+
+Ahora sale \fmm{\frac{k}{0}}: laterales. \fmm{\ x=-1{,}1:\ \frac{-}{-}\gt0\Rightarrow\displaystyle\lim_{x\to-1^-}=+\infty}; \fmm{\ x=-0{,}9:\ \frac{-}{+}\lt0\Rightarrow\displaystyle\lim_{x\to-1^+}=-\infty}. No existe el límite.
+\item Con raíces, por el conjugado: \fmm{\displaystyle\lim_{x\to4}\frac{\sqrt x-2}{x-4}=\lim_{x\to4}\frac{(\sqrt x-2)(\sqrt x+2)}{(x-4)(\sqrt x+2)}=\lim_{x\to4}\frac{\cancel{x-4}}{\cancel{(x-4)}(\sqrt x+2)}=\frac14}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Indeterminación \fmm{1^{\infty}} en un punto}
+\begin{fmprop}{La misma fórmula que en el infinito}
+Cuando \fmm{x\to a} también puede pasar que la base tienda a 1 y el exponente a \fmm{\pm\infty} (normalmente, porque el exponente es de la forma \fmm{\frac{k}{0}}). Se resuelve igual que en el apartado 6.4:
+
+\fmdisp{\lim_{x\to a}f(x)^{g(x)}=e^{\lim\limits_{x\to a}\big(f(x)-1\big)\cdot g(x)}}
+
+\begin{fmnote}A menudo, al multiplicar \fmm{(f(x)-1)\cdot g(x)} aparece un \fmm{\frac00} que se simplifica factorizando.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to1}\left(\frac1x\right)^{\frac{1}{x^2-1}}}
+
+Sustituimos: la base tiende a \fmm{\frac11=1} y el exponente a \fmm{\frac10}, es decir, a \fmm{\pm\infty}: \fmm{1^{\infty}\ \ \text{IND.}}
+
+1.$-$ \fmm{\ \dfrac1x-1=\dfrac{1-x}{x}\qquad} 2.$-$ \fmm{\ \dfrac{1-x}{x}\cdot\dfrac{1}{x^2-1}=\dfrac{-(x-1)}{x(x-1)(x+1)}=\dfrac{-1}{x(x+1)}}
+
+3.$-$ \fmm{\ \displaystyle\lim_{x\to1}\frac{-1}{x(x+1)}=-\frac12\Rightarrow\lim_{x\to1}\left(\frac1x\right)^{\frac{1}{x^2-1}}=e^{-\frac12}=\frac{1}{\sqrt e}}
+\item \fmm{\displaystyle\lim_{x\to0}\left(1+2x\right)^{\frac3x}}
+
+\fmm{1^{\infty}\ \ \text{IND.}\qquad(1+2x-1)\cdot\dfrac3x=2x\cdot\dfrac3x=6}
+
+El límite es \fmm{e^{6}}.
+\item \fmm{\displaystyle\lim_{x\to2}\left(\frac{x+1}{3}\right)^{\frac{1}{x-2}}}
+
+\fmm{1^{\infty}\ \ \text{IND.}\qquad\dfrac{x+1}{3}-1=\dfrac{x-2}{3}}
+
+\fmm{\displaystyle\lim_{x\to2}\frac{x-2}{3}\cdot\frac{1}{x-2}=\frac13\Rightarrow} el límite es \fmm{e^{1/3}=\sqrt[3]{e}}.
+\end{enumerate}
+
+Practica: \fmm{\ \text{a)}\ \displaystyle\lim_{x\to0}(1-x)^{\frac2x}\qquad\text{b)}\ \lim_{x\to3}(x-2)^{\frac{1}{x-3}}\qquad\text{c)}\ \lim_{x\to1}(2x-1)^{\frac{x}{x-1}}}
+
+\textit{Solución:} a) \fmm{(-x)\cdot\frac2x=-2\Rightarrow e^{-2}\qquad} b) \fmm{(x-3)\cdot\frac{1}{x-3}=1\Rightarrow e\qquad} c) \fmm{(2x-2)\cdot\frac{x}{x-1}=2x\to2\Rightarrow e^{2}}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Continuidad de una función en un punto}\hypertarget{sec7}{}
+\begin{fmdef}{Definición: función continua en un punto}
+Intuitivamente, \fmm{f} es continua en \fmm{x=a} si su gráfica se puede dibujar alrededor de \fmm{a} \textbf{sin levantar el lápiz}. Formalmente, \fmm{f} es \textbf{continua en \fmm{x=a}} si se cumplen las tres condiciones:
+
+\begin{enumerate}
+\item \fmm{\exists f(a)} (la función está definida en \fmm{a}).
+\item \fmm{\exists\displaystyle\lim_{x\to a}f(x)} y es un número (los dos límites laterales coinciden).
+\item \fmm{\displaystyle\lim_{x\to a}f(x)=f(a)}.
+\end{enumerate}
+
+Si falla alguna condición, \fmm{f} es \textbf{discontinua} en \fmm{a}. Una función es continua en un intervalo si lo es en todos los puntos del intervalo.
+\end{fmdef}
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmev}{Evitable}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/c8f4a0dc715a.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Existe \fmm{\lim\limits_{x\to a}f(x)=k}, pero \fmm{\nexists f(a)} o \fmm{f(a)\neq k}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsf}{De salto finito}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6af73017e034.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Los dos límites laterales son números, pero distintos.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsi}{De salto infinito}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/7b0c40b621ff.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Un límite lateral es \fmm{\pm\infty} y el otro es un número.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmas}{Asintótica}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6dab4a23b2e6.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Los dos límites laterales son \fmm{\pm\infty}.\par}\end{minipage}\par\medskip}
+\begin{fmprop}{Tipos de discontinuidad}
+\par\noindent \begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmev}{Evitable}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/c8f4a0dc715a.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Existe \fmm{\lim\limits_{x\to a}f(x)=k}, pero \fmm{\nexists f(a)} o \fmm{f(a)\neq k}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsf}{De salto finito}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6af73017e034.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Los dos límites laterales son números, pero distintos.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsi}{De salto infinito}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/7b0c40b621ff.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Un límite lateral es \fmm{\pm\infty} y el otro es un número.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmas}{Asintótica}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6dab4a23b2e6.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Los dos límites laterales son \fmm{\pm\infty}.\par}\end{minipage}\par\medskip
+
+\begin{fmnote}Se llama \textbf{evitable} porque, redefiniendo \fmm{f(a)=k}, la función se haría continua. En las demás (no evitables) el límite no existe.\end{fmnote}
+\end{fmprop}
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmex}{Ejemplo: la gráfica del apartado 6.5}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip
+
+\begin{itemize}
+\item \fmm{x=-1}: \fmm{\nexists f(-1)}, \fmm{\lim_{x\to-1^-}f=+\infty} y \fmm{\lim_{x\to-1^+}f=-1} $\to$ discontinuidad \fmbadge{fmsi}{de salto infinito}.
+\item \fmm{x=1}: \fmm{f(1)=3}, pero \fmm{\lim_{x\to1}f=1\neq3} $\to$ discontinuidad \fmbadge{fmev}{evitable}.
+\item \fmm{x=2}: \fmm{\lim_{x\to2^-}f=2} y \fmm{\lim_{x\to2^+}f=4} $\to$ discontinuidad \fmbadge{fmsf}{de salto finito} (salto de 2 unidades).
+\item En el resto de puntos, \fmm{f} es continua.
+\end{itemize}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Estudio de la continuidad: funciones racionales y a trozos}\hypertarget{sec8}{}
+\begin{fmprop}{Continuidad de las funciones elementales}
+\begin{itemize}
+\item \textbf{Polinómicas} y \textbf{exponenciales}: continuas en todo \fmm{\mathbb R}.
+\item \textbf{Racionales} \fmm{\frac{P(x)}{Q(x)}}: continuas en todo \fmm{\mathbb R} excepto en los puntos donde \fmm{Q(x)=0}.
+\item \textbf{Raíces cuadradas} \fmm{\sqrt{g(x)}}: continuas donde \fmm{g(x)\geq0}. \textbf{Logaritmos} \fmm{\log g(x)}: continuos donde \fmm{g(x)\gt0}.
+\item Las sumas, restas, productos y composiciones de funciones continuas son continuas; los cocientes, también, excepto donde se anula el denominador.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5.1cm}
+\subsection*{Funciones racionales}
+\begin{fmdef}{Método}
+\begin{enumerate}
+\item Buscamos los puntos que \textbf{anulan el denominador}: \fmm{Q(x)=0}. Fuera de ellos, la función es continua.
+\item En cada punto \fmm{a}, calculamos \fmm{\displaystyle\lim_{x\to a}f(x)}: si da \fmm{\frac00} y al simplificar sale un número, la discontinuidad es \fmbadge{fmev}{evitable}; si da \fmm{\frac{k}{0}}, es \fmbadge{fmas}{asintótica} (asíntota vertical).
+\end{enumerate}
+\end{fmdef}
+
+\enlargethispage{1cm}
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo}
+Estudiamos la continuidad de \fmm{f(x)=\dfrac{x^2-1}{x^2-3x+2}}.
+
+\fmm{x^2-3x+2=0\Rightarrow x=\dfrac{3\pm\sqrt{9-8}}{2}\Rightarrow x=1,\ x=2}. \fmm{f} es continua en \fmm{\mathbb R-\{1,2\}}.
+
+\fmm{x=1}: \fmm{\displaystyle\lim_{x\to1}\frac{x^2-1}{x^2-3x+2}\overset{\frac00}{=}\lim_{x\to1}\frac{\cancel{(x-1)}(x+1)}{\cancel{(x-1)}(x-2)}=\frac{2}{-1}=-2}. Como \fmm{\nexists f(1)}: discontinuidad \fmbadge{fmev}{evitable}.
+
+\fmm{x=2}: \fmm{\displaystyle\lim_{x\to2}\frac{x+1}{x-2}=\frac30}; laterales: \fmm{-\infty} (con \fmm{1{,}9}) y \fmm{+\infty} (con \fmm{2{,}1}): discontinuidad \fmbadge{fmas}{asintótica}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=3.0cm,keepaspectratio]{figs/ee6f7dab0fdc.pdf}\par}\end{minipage}\par\medskip
+
+\begin{fmnote}Si el denominador no se anula nunca, la función es continua en todo \fmm{\mathbb R}: por ejemplo, \fmm{\dfrac{x+3}{x^2+1}}.\end{fmnote}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Funciones a trozos}
+\begin{fmdef}{Método}
+\begin{enumerate}
+\item \textbf{Estudiamos la continuidad de cada trozo por separado}, en su intervalo abierto: polinomios, continuos; racionales, continuas excepto donde se anula el denominador \textbf{si ese punto está dentro de su intervalo}.
+\item \textbf{Miramos ahora los puntos donde la función se rompe} (donde cambia la expresión) y comprobamos las tres condiciones: \fmm{f(a)}, \fmm{\lim_{x\to a^-}f} (trozo de la izquierda) y \fmm{\lim_{x\to a^+}f} (trozo de la derecha).
+\item \textbf{Conclusión}: dónde es continua y qué tipo de discontinuidad tiene en cada punto.
+\end{enumerate}
+
+\begin{fmnote}Una función con \textbf{valor absoluto} se transforma primero en una función a trozos: \fmm{|x-2|=\begin{cases}-(x-2)&\text{si } x\lt2\\x-2&\text{si } x\geq2\end{cases}}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejercicios de la PAU resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU 2006}Estudia la continuidad en el intervalo \fmm{[-3,3]} de la función:
+\fmdisp{f(x)=\begin{cases}3x+10&\text{si } -3\leq x\lt-2\\x^2&\text{si } -2\leq x\lt1\\\dfrac{x+3}{2}&\text{si } 1\leq x\leq3\end{cases}}
+
+Los tres trozos son polinómicos: continuos en sus intervalos abiertos. Quedan los puntos \fmm{x=-2} y \fmm{x=1}.
+
+\fmm{x=-2}: \fmm{\ f(-2)=(-2)^2=4}; \fmm{\ \displaystyle\lim_{x\to-2^-}(3x+10)=4}; \fmm{\ \displaystyle\lim_{x\to-2^+}x^2=4}. Las tres coinciden: \fmbadge{fmok}{continua}.
+
+\fmm{x=1}: \fmm{\ f(1)=\frac{1+3}{2}=2}; \fmm{\ \displaystyle\lim_{x\to1^-}x^2=1}; \fmm{\ \displaystyle\lim_{x\to1^+}\frac{x+3}{2}=2}. Laterales finitos y distintos: \fmbadge{fmsf}{salto finito}.
+
+\textbf{Conclusión}: \fmm{f} es continua en \fmm{[-3,3]} excepto en \fmm{x=1}, donde tiene una discontinuidad de salto finito.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/1afaf4a4a02c.pdf}\par}\end{minipage}\par\medskip
+\item \fmpau{PAU 2014}El valor de una acción (€) \fmm{x} horas después del inicio de la sesión es la función siguiente. Estudia su continuidad.
+\fmdisp{f(x)=\begin{cases}-x+15&\text{si } 0\leq x\leq3\\x^2-8x+26&\text{si } 3\lt x\leq6\\2x+2&\text{si } 6\lt x\leq8\end{cases}}
+
+Trozos polinómicos: continuos. Estudiamos \fmm{x=3} y \fmm{x=6}.
+
+\fmm{x=3}: \fmm{\ f(3)=12}; \fmm{\ \displaystyle\lim_{x\to3^-}(-x+15)=12}; \fmm{\ \displaystyle\lim_{x\to3^+}(x^2-8x+26)=9-24+26=11} $\to$ \fmbadge{fmsf}{salto finito}
+
+\fmm{x=6}: \fmm{\ f(6)=36-48+26=14}; \fmm{\ \displaystyle\lim_{x\to6^-}=14}; \fmm{\ \displaystyle\lim_{x\to6^+}(2x+2)=14} $\to$ \fmbadge{fmok}{continua}
+
+\fmm{f} es continua en \fmm{[0,8]} excepto en \fmm{x=3} (salto finito: el valor de la acción cae bruscamente de 12 a 11 €).
+\item \fmpau{PAU 2006}Estudia la continuidad de \fmm{\ f(x)=\begin{cases}3x&\text{si } x\lt-1\\2&\text{si } -1\leq x\lt1\\\dfrac{2x-11}{x-3}&\text{si } x\geq1\end{cases}} (es el apartado b con \fmm{a=0}).
+
+Trozos: los dos primeros, polinómicos. El tercero es racional y el denominador se anula en \fmm{x=3}, que \textbf{sí} es de su intervalo \fmm{[1,+\infty)}: \fmm{\displaystyle\lim_{x\to3}\frac{2x-11}{x-3}=\frac{-5}{0}} $\to$ \fmbadge{fmas}{asintótica} en \fmm{x=3}.
+
+\fmm{x=-1}: \fmm{\ f(-1)=2}; \fmm{\ \displaystyle\lim_{x\to-1^-}3x=-3}; \fmm{\ \displaystyle\lim_{x\to-1^+}2=2} $\to$ \fmbadge{fmsf}{salto finito}
+
+\fmm{x=1}: \fmm{\ f(1)=\frac{-9}{-2}=\frac92}; \fmm{\ \displaystyle\lim_{x\to1^-}2=2}; \fmm{\ \displaystyle\lim_{x\to1^+}\frac{2x-11}{x-3}=\frac92} $\to$ \fmbadge{fmsf}{salto finito}
+
+\fmm{f} es continua en \fmm{\mathbb R-\{-1,1,3\}}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Funciones a trozos que dependen de un parámetro}\hypertarget{sec9}{}
+\begin{fmdef}{Método}
+Queremos encontrar el valor (o valores) del parámetro que hacen la función continua.
+
+\begin{enumerate}
+\item Comprobamos que cada trozo es continuo en su intervalo (¡cuidado con los denominadores!).
+\item En cada punto de cambio \fmm{a}, calculamos \fmm{\lim_{x\to a^-}f} y \fmm{\lim_{x\to a^+}f}: dependerán del parámetro.
+\item \textbf{Igualamos} los límites laterales (y \fmm{f(a)}): obtenemos una ecuación (o un sistema, si hay dos parámetros) y la resolvemos.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla el valor de \fmm{a} para que \fmm{f} sea continua en su dominio: \fmm{\ f(x)=\begin{cases}ax^2-6&\text{si } x\leq1\\[2pt]\dfrac{2x}{x+3}+x&\text{si } x\gt1\end{cases}}
+
+Si \fmm{x\lt1}, \fmm{f} es polinómica: continua. Si \fmm{x\gt1}, es continua excepto en \fmm{x=-3}, que no está en \fmm{(1,+\infty)}: continua.
+
+\fmm{x=1}: \fmm{\ f(1)=a-6}; \fmm{\ \displaystyle\lim_{x\to1^-}(ax^2-6)=a-6}; \fmm{\ \displaystyle\lim_{x\to1^+}\left(\frac{2x}{x+3}+x\right)=\frac24+1=\frac32}
+
+\fmm{a-6=\dfrac32\Rightarrow a=\dfrac{15}{2}}. Para \fmm{a=\frac{15}{2}}, \fmm{f} es continua en \fmm{\mathbb R}.
+\item \fmpau{PAU 2007}Halla \fmm{a} para que \fmm{f} sea continua en \fmm{[0,8]}: \fmm{\ f(x)=\begin{cases}x+2&\text{si } 0\leq x\lt2\\x^2-6x+12&\text{si } 2\leq x\leq4\\-2x+a&\text{si } 4\lt x\leq8\end{cases}}
+
+\fmm{x=2}: \fmm{\ \displaystyle\lim_{x\to2^-}(x+2)=4}, \fmm{\ \displaystyle\lim_{x\to2^+}(x^2-6x+12)=4}, \fmm{\ f(2)=4}: continua para cualquier \fmm{a}.
+
+\fmm{x=4}: \fmm{\ f(4)=16-24+12=4}; \fmm{\ \displaystyle\lim_{x\to4^+}(-2x+a)=-8+a}. \fmm{\ -8+a=4\Rightarrow a=12}.
+\item \fmpau{PAU 2017}Calcula \fmm{a} para que \fmm{f} sea continua en \fmm{x=3}: \fmm{\ f(x)=\begin{cases}x^3-3x-20&\text{si } x\leq3\\\dfrac{2}{a-x}&\text{si } x\gt3\end{cases}}
+
+\fmm{f(3)=\displaystyle\lim_{x\to3^-}f(x)=27-9-20=-2}; \fmm{\ \displaystyle\lim_{x\to3^+}\frac{2}{a-x}=\frac{2}{a-3}}
+
+\fmm{\dfrac{2}{a-3}=-2\Rightarrow a-3=-1\Rightarrow a=2}. (Con \fmm{a=2}, el denominador \fmm{2-x} se anula en \fmm{x=2}, que no es del trozo \fmm{x\gt3}.)
+\item Dos parámetros: halla \fmm{a} y \fmm{b} para que \fmm{f} sea continua en \fmm{\mathbb R}: \fmm{\ f(x)=\begin{cases}x^2+a&\text{si } x\lt1\\bx+1&\text{si } 1\leq x\lt3\\2x-a&\text{si } x\geq3\end{cases}}
+
+\fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}(x^2+a)=1+a}, \fmm{\ \displaystyle\lim_{x\to1^+}(bx+1)=b+1=f(1)\Rightarrow1+a=b+1}
+
+\fmm{x=3}: \fmm{\ \displaystyle\lim_{x\to3^-}(bx+1)=3b+1}, \fmm{\ \displaystyle\lim_{x\to3^+}(2x-a)=6-a=f(3)\Rightarrow3b+1=6-a}
+
+\fmm{\begin{cases}a-b=0\\a+3b=5\end{cases}\Rightarrow4b=5\Rightarrow a=b=\dfrac54}
+\item \fmpau{PAU 2026}Halla \fmm{a} y \fmm{b} para que \fmm{f} sea continua en todo punto: \fmm{\ f(x)=\begin{cases}\ln(x^2+a)&\text{si } x\lt1\\(x+1)^2&\text{si } 1\leq x\leq4\\5x+\dfrac{b}{x+1}&\text{si } x\gt4\end{cases}}
+
+\fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}\ln(x^2+a)=\ln(1+a)}, \fmm{\ \displaystyle\lim_{x\to1^+}(x+1)^2=4\Rightarrow\ln(1+a)=4\Rightarrow1+a=e^4\Rightarrow a=e^4-1\approx53{,}6}
+
+\fmm{x=4}: \fmm{\ f(4)=25}, \fmm{\ \displaystyle\lim_{x\to4^+}\left(5x+\frac{b}{x+1}\right)=20+\frac b5\Rightarrow20+\frac b5=25\Rightarrow b=25}
+
+Con \fmm{a=e^4-1\gt0}, \fmm{x^2+a\gt0} siempre y el logaritmo está definido; el denominador \fmm{x+1} se anula en \fmm{-1}, fuera de \fmm{x\gt4}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Ramas infinitas. Asíntotas}\hypertarget{sec10}{}
+\begin{fmdef}{Asíntota}
+Una \textbf{asíntota} es una recta a la que la gráfica de una función se acerca cada vez más, sin llegar a tocarla, cuando nos alejamos hacia el infinito. Las asíntotas se calculan con \textbf{límites}: son la «traducción gráfica» de los límites infinitos y de los límites en el infinito que hemos estudiado en esta unidad.
+
+\begin{itemize}
+\item \textbf{Verticales}: rectas \fmm{x=a}.
+\item \textbf{Horizontales}: rectas \fmm{y=b}.
+\item \textbf{Oblicuas}: rectas \fmm{y=mx+n}, con \fmm{m\neq0}.
+\end{itemize}
+\end{fmdef}
+
+\fmheadboxalt{
+\subsection*{Asíntotas verticales}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{x=a} es una \textbf{asíntota vertical} (AV) de \fmm{f} si al menos uno de los límites laterales en \fmm{a} es infinito:
+
+\fmdisp{\lim_{x\to a^-}f(x)=\pm\infty\quad o\quad\lim_{x\to a^+}f(x)=\pm\infty}
+
+Es lo que en el apartado 6.8 hemos llamado una discontinuidad \fmbadge{fmas}{asintótica}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/e7297af13050.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Asíntota vertical}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{x=a} es una \textbf{asíntota vertical} (AV) de \fmm{f} si al menos uno de los límites laterales en \fmm{a} es infinito:
+
+\fmdisp{\lim_{x\to a^-}f(x)=\pm\infty\quad o\quad\lim_{x\to a^+}f(x)=\pm\infty}
+
+Es lo que en el apartado 6.8 hemos llamado una discontinuidad \fmbadge{fmas}{asintótica}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/e7297af13050.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La recta \fmm{x=a} es una \textbf{asíntota vertical} (AV) de \fmm{f} si al menos uno de los límites laterales en \fmm{a} es infinito:
+
+\fmdisp{\lim_{x\to a^-}f(x)=\pm\infty\quad o\quad\lim_{x\to a^+}f(x)=\pm\infty}
+
+Es lo que en el apartado 6.8 hemos llamado una discontinuidad \fmbadge{fmas}{asintótica}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/e7297af13050.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{¿Dónde las buscamos?} En una función racional \fmm{\dfrac{P(x)}{Q(x)}}, en los puntos donde \fmm{Q(x)=0}:
+
+\begin{itemize}
+\item Si al sustituir sale \fmm{\dfrac{k}{0}}, con \fmm{k\neq0}: \textbf{hay AV}. Los signos de los límites laterales nos dicen si la gráfica sube (\fmm{+\infty}) o baja (\fmm{-\infty}) a cada lado.
+\item Si sale \fmm{\dfrac00}: simplificamos. Si el límite da un número, \textbf{no hay AV} (es una discontinuidad evitable, un «agujero»); si vuelve a dar \fmm{\dfrac k0}, sí que hay.
+\end{itemize}
+
+\begin{fmnote}Las funciones polinómicas y las exponenciales del tipo \fmm{a^x} no tienen asíntotas verticales. Una gráfica no puede cortar nunca una asíntota vertical.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Asíntotas verticales de \fmm{f(x)=\dfrac{x+1}{x^2-4}} (es la función del gráfico).
+
+\fmm{x^2-4=0\Rightarrow x=-2,\ x=2}. En los dos el numerador no se anula: \fmm{\frac{-1}{0}} y \fmm{\frac{3}{0}}.
+
+\fmm{x=-2}: \fmm{\ \displaystyle\lim_{x\to-2^-}\frac{x+1}{x^2-4}=\frac{-1}{0^+}=-\infty}, \fmm{\ \displaystyle\lim_{x\to-2^+}\frac{x+1}{x^2-4}=\frac{-1}{0^-}=+\infty} (con \fmm{-2{,}1} y \fmm{-1{,}9}).
+
+\fmm{x=2}: \fmm{\ \displaystyle\lim_{x\to2^-}\frac{x+1}{x^2-4}=\frac{3}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to2^+}\frac{x+1}{x^2-4}=\frac{3}{0^+}=+\infty}.
+
+\textbf{AV: \fmm{x=-2} y \fmm{x=2}}.
+\item Asíntotas verticales de \fmm{f(x)=\dfrac{x^2-1}{x^2-3x+2}} (el ejemplo del apartado 6.8).
+
+El denominador se anula en \fmm{x=1} y en \fmm{x=2}.
+
+\fmm{x=1}: \fmm{\frac00\Rightarrow\displaystyle\lim_{x\to1}\frac{(x-1)(x+1)}{(x-1)(x-2)}=-2}. Límite finito: \textbf{no} hay AV (agujero en \fmm{(1,-2)}).
+
+\fmm{x=2}: \fmm{\frac30\Rightarrow} \textbf{AV \fmm{x=2}}.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Asíntotas horizontales}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=b} es una \textbf{asíntota horizontal} (AH) de \fmm{f} si el límite en el infinito es un número:
+
+\fmdisp{\lim_{x\to+\infty}f(x)=b\quad o\quad\lim_{x\to-\infty}f(x)=b}
+
+Hay que calcular los dos límites (\fmm{+\infty} y \fmm{-\infty}): una función puede tener AH solo por un lado, o una AH distinta por cada lado.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5b807f36a70f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Asíntota horizontal}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=b} es una \textbf{asíntota horizontal} (AH) de \fmm{f} si el límite en el infinito es un número:
+
+\fmdisp{\lim_{x\to+\infty}f(x)=b\quad o\quad\lim_{x\to-\infty}f(x)=b}
+
+Hay que calcular los dos límites (\fmm{+\infty} y \fmm{-\infty}): una función puede tener AH solo por un lado, o una AH distinta por cada lado.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5b807f36a70f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La recta \fmm{y=b} es una \textbf{asíntota horizontal} (AH) de \fmm{f} si el límite en el infinito es un número:
+
+\fmdisp{\lim_{x\to+\infty}f(x)=b\quad o\quad\lim_{x\to-\infty}f(x)=b}
+
+Hay que calcular los dos límites (\fmm{+\infty} y \fmm{-\infty}): una función puede tener AH solo por un lado, o una AH distinta por cada lado.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5b807f36a70f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{Funciones racionales}: comparamos los grados, como en el apartado 6.2.
+
+\begin{itemize}
+\item grado \fmm{P\lt} grado \fmm{Q\ \Rightarrow} AH \fmm{y=0}.
+\item grado \fmm{P=} grado \fmm{Q\ \Rightarrow} AH \fmm{y=\dfrac{a_n}{b_n}} (cociente de los coeficientes principales).
+\item grado \fmm{P\gt} grado \fmm{Q\ \Rightarrow} no tiene AH (el límite es infinito).
+\end{itemize}
+
+\begin{fmnote}\fmuline{Posición}: el signo de \fmm{f(x)-b} para \fmm{x} muy grande (o muy negativo) nos dice si la gráfica queda por encima (\fmm{+}) o por debajo (\fmm{-}) de la asíntota. A diferencia de las verticales, la gráfica sí puede cortar una asíntota horizontal.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\dfrac{3x^2-1}{x^2+2}} (es la función del gráfico).
+
+Grados iguales: \fmm{\displaystyle\lim_{x\to\pm\infty}\frac{3x^2-1}{x^2+2}=\frac31=3}. \textbf{AH: \fmm{y=3}} por los dos lados. No tiene AV: \fmm{x^2+2\neq0}.
+
+Posición: \fmm{f(x)-3=\dfrac{3x^2-1-3x^2-6}{x^2+2}=\dfrac{-7}{x^2+2}\lt0}: la gráfica queda siempre \textbf{por debajo} de la asíntota.
+\item \fmm{f(x)=\dfrac{2x}{x^2+1}}
+
+Grado de abajo mayor: \fmm{\displaystyle\lim_{x\to\pm\infty}f(x)=0\Rightarrow} \textbf{AH: \fmm{y=0}}. Por la derecha \fmm{f(x)\gt0} (por encima); por la izquierda \fmm{f(x)\lt0} (por debajo).
+\item \fmm{f(x)=2^x-1}
+
+\fmm{\displaystyle\lim_{x\to-\infty}(2^x-1)=0-1=-1\Rightarrow} \textbf{AH \fmm{y=-1}} por la izquierda. \fmm{\ \displaystyle\lim_{x\to+\infty}(2^x-1)=+\infty}: por la derecha no hay.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Asíntotas oblicuas: método del cociente}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=mx+n}, con \fmm{m\neq0}, es una \textbf{asíntota oblicua} (AO) si la gráfica se acerca a ella cuando \fmm{x\to\pm\infty}:
+
+\fmdisp{\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0}
+
+Una función racional \fmm{\dfrac{P(x)}{Q(x)}} tiene asíntota oblicua cuando \textbf{grado \fmm{P=} grado \fmm{Q+1}} (el numerador tiene exactamente un grado más). En este caso no tiene asíntota horizontal.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/210654ff2398.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Asíntota oblicua}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=mx+n}, con \fmm{m\neq0}, es una \textbf{asíntota oblicua} (AO) si la gráfica se acerca a ella cuando \fmm{x\to\pm\infty}:
+
+\fmdisp{\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0}
+
+Una función racional \fmm{\dfrac{P(x)}{Q(x)}} tiene asíntota oblicua cuando \textbf{grado \fmm{P=} grado \fmm{Q+1}} (el numerador tiene exactamente un grado más). En este caso no tiene asíntota horizontal.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/210654ff2398.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La recta \fmm{y=mx+n}, con \fmm{m\neq0}, es una \textbf{asíntota oblicua} (AO) si la gráfica se acerca a ella cuando \fmm{x\to\pm\infty}:
+
+\fmdisp{\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0}
+
+Una función racional \fmm{\dfrac{P(x)}{Q(x)}} tiene asíntota oblicua cuando \textbf{grado \fmm{P=} grado \fmm{Q+1}} (el numerador tiene exactamente un grado más). En este caso no tiene asíntota horizontal.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/210654ff2398.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{Método del cociente}: dividimos \fmm{P(x):Q(x)} y obtenemos el cociente \fmm{C(x)=mx+n} y el resto \fmm{R(x)}:
+
+\fmdisp{P(x)=Q(x)\cdot C(x)+R(x)\quad\Longrightarrow\quad f(x)=C(x)+\frac{R(x)}{Q(x)}}
+
+Como \fmm{\dfrac{R(x)}{Q(x)}\to0} cuando \fmm{x\to\pm\infty} (grado de arriba menor), la gráfica se acerca a la recta: \textbf{la asíntota oblicua es \fmm{y=C(x)}}. El signo de \fmm{\dfrac{R(x)}{Q(x)}} nos dice si la gráfica queda por encima o por debajo.
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Todas las asíntotas de \fmm{f(x)=\dfrac{x^2+3}{x-1}} (es la función del gráfico).
+
+AV: \fmm{x-1=0\Rightarrow x=1}, \fmm{\ \frac40}: \fmm{\displaystyle\lim_{x\to1^-}f(x)=-\infty}, \fmm{\ \displaystyle\lim_{x\to1^+}f(x)=+\infty}. \textbf{AV \fmm{x=1}}.
+
+Grados 2 y 1: no tiene AH (el límite es \fmm{\pm\infty}), pero sí AO. Dividimos \fmm{(x^2+3):(x-1)} (por Ruffini o con la división larga):
+
+\begin{center}\begin{tabular}{r|rrr}
+ & $1$ & $0$ & $3$\\
+$1$ &  & $1$ & $1$\\\hline
+ & $1$ & $1$ & \fbox{$4$}\\
+\end{tabular}\end{center}
+
+\fmm{C(x)=x+1,\ R=4\Rightarrow f(x)=x+1+\dfrac{4}{x-1}}. \textbf{AO: \fmm{y=x+1}}.
+
+Posición: si \fmm{x\to+\infty}, \fmm{\frac{4}{x-1}\gt0}: por encima; si \fmm{x\to-\infty}, \fmm{\frac{4}{x-1}\lt0}: por debajo.
+\item \fmm{f(x)=\dfrac{2x^2-x+1}{x}}
+
+AV \fmm{x=0} (\fmm{\frac10}). La división entre un monomio es directa: \fmm{f(x)=2x-1+\dfrac1x\Rightarrow} \textbf{AO \fmm{y=2x-1}}.
+\item ¿Tiene asíntota oblicua \fmm{f(x)=\dfrac{x^3+1}{x}}?
+
+Grados 3 y 1: el numerador tiene \textbf{dos} grados más. El cociente es \fmm{x^2}, que no es una recta: \textbf{no} tiene AO (ni AH).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Método general para la asíntota oblicua}
+Si la función no es racional (o no queremos hacer la división), calculamos la pendiente \fmm{m} y la ordenada \fmm{n} con dos límites:
+
+\fmdisp{m=\lim_{x\to\pm\infty}\frac{f(x)}{x}\ \ (m\neq0,\ m\neq\pm\infty)\qquad\qquad n=\lim_{x\to\pm\infty}\big[f(x)-mx\big]\ \ (n\in\mathbb R)}
+
+Si \fmm{m} es un número distinto de 0 y \fmm{n} también es un número, la asíntota oblicua es \fmm{y=mx+n}.
+\end{fmdef}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Asíntota oblicua de \fmm{f(x)=\dfrac{x^2-3x+5}{x}}.
+
+\fmm{\displaystyle m=\lim_{x\to\pm\infty}\frac{x^2-3x+5}{x^2}=1\neq0}
+
+\fmm{\displaystyle n=\lim_{x\to\pm\infty}\left(\frac{x^2-3x+5}{x}-x\right)=\lim_{x\to\pm\infty}\frac{-3x+5}{x}=-3}
+
+AO: \fmm{y=x-3}. Con la división habríamos obtenido lo mismo: \fmm{f(x)=x-3+\dfrac5x}.
+
+Posición: \fmm{f(x)-(x-3)=\dfrac5x}. Si \fmm{x\to+\infty} es positivo (la curva queda por encima) y si \fmm{x\to-\infty} es negativo (por debajo). Lo puedes comprobar con \fmm{f(1000)=997{,}005\gt997}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/9db90b8c6040.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmex}{Ejemplo}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Asíntota oblicua de \fmm{f(x)=\dfrac{x^2-3x+5}{x}}.
+
+\fmm{\displaystyle m=\lim_{x\to\pm\infty}\frac{x^2-3x+5}{x^2}=1\neq0}
+
+\fmm{\displaystyle n=\lim_{x\to\pm\infty}\left(\frac{x^2-3x+5}{x}-x\right)=\lim_{x\to\pm\infty}\frac{-3x+5}{x}=-3}
+
+AO: \fmm{y=x-3}. Con la división habríamos obtenido lo mismo: \fmm{f(x)=x-3+\dfrac5x}.
+
+Posición: \fmm{f(x)-(x-3)=\dfrac5x}. Si \fmm{x\to+\infty} es positivo (la curva queda por encima) y si \fmm{x\to-\infty} es negativo (por debajo). Lo puedes comprobar con \fmm{f(1000)=997{,}005\gt997}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/9db90b8c6040.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Asíntota oblicua de \fmm{f(x)=\dfrac{x^2-3x+5}{x}}.
+
+\fmm{\displaystyle m=\lim_{x\to\pm\infty}\frac{x^2-3x+5}{x^2}=1\neq0}
+
+\fmm{\displaystyle n=\lim_{x\to\pm\infty}\left(\frac{x^2-3x+5}{x}-x\right)=\lim_{x\to\pm\infty}\frac{-3x+5}{x}=-3}
+
+AO: \fmm{y=x-3}. Con la división habríamos obtenido lo mismo: \fmm{f(x)=x-3+\dfrac5x}.
+
+Posición: \fmm{f(x)-(x-3)=\dfrac5x}. Si \fmm{x\to+\infty} es positivo (la curva queda por encima) y si \fmm{x\to-\infty} es negativo (por debajo). Lo puedes comprobar con \fmm{f(1000)=997{,}005\gt997}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/9db90b8c6040.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmex}\global\fmstackfalse
+
+\Needspace{5.1cm}
+\subsection*{Ramas parabólicas}
+\begin{fmdef}{Rama parabólica}
+Cuando \fmm{x\to\pm\infty} y \fmm{f(x)\to\pm\infty}, la gráfica tiene una \textbf{rama infinita}. Si la curva no se acerca a ninguna recta (no hay asíntota oblicua), decimos que es una \textbf{rama parabólica}. Lo sabemos calculando \fmm{m=\lim\frac{f(x)}{x}}:
+
+\begin{itemize}
+\item \fmm{m=\pm\infty}: la curva sube (o baja) cada vez más deprisa, «hacia la vertical». Pasa con los polinomios de grado 2 o más, con las racionales con dos grados más arriba que abajo y con las exponenciales \fmm{a^x\ (a\gt1)} cuando \fmm{x\to+\infty}.
+\item \fmm{m=0}: la curva crece sin cota pero cada vez más despacio, «hacia la horizontal», sin acercarse a ninguna recta. Pasa con las raíces \fmm{\sqrt x} y los logaritmos \fmm{\log x}.
+\end{itemize}
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8846e9687276.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=\dfrac{x^2}{4}-1}: \fmm{m=\displaystyle\lim_{x\to\pm\infty}\frac{x^2-4}{4x}=\pm\infty}\par}\end{minipage}\par\medskip\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/166ab2816fcb.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{g(x)=2\sqrt x}: \fmm{m=\displaystyle\lim_{x\to+\infty}\frac{2\sqrt x}{x}=0}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8846e9687276.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=\dfrac{x^2}{4}-1}: \fmm{m=\displaystyle\lim_{x\to\pm\infty}\frac{x^2-4}{4x}=\pm\infty}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/166ab2816fcb.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{g(x)=2\sqrt x}: \fmm{m=\displaystyle\lim_{x\to+\infty}\frac{2\sqrt x}{x}=0}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\begin{fmnote}Resumen de las ramas infinitas cuando \fmm{x\to\pm\infty}: si \fmm{\lim f(x)=b}, asíntota horizontal; si \fmm{\lim f(x)=\pm\infty}, asíntota oblicua (si \fmm{m} y \fmm{n} son números y \fmm{m\neq0}) o rama parabólica (en caso contrario).\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Resumen: asíntotas de una función racional $\frac{P(x)}{Q(x)}$}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Grados} & \textbf{Horizontal} & \textbf{Oblicua}\\\midrule
+grado $P\lt$ grado $Q$ & $y=0$ & no\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}grado $P=$ grado $Q$ & $y=\dfrac{a_n}{b_n}$ & no\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}grado $P=$ grado $Q+1$ & no & $y=C(x)$, cociente de $P:Q$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}grado $P\geq$ grado $Q+2$ & no & no\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}Las \textbf{verticales} no dependen de los grados: están en los ceros de \fmm{Q} que dan \fmm{\frac k0}. Por eso una función racional puede tener muchas AV, pero como mucho una AH o una AO.\end{fmnote}
+\end{fmprop}
+
+  
+\end{document}
