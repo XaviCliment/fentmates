@@ -1145,6 +1145,18 @@ if N == 5:  # l'exemple de la funció a trossos: les quatre gràfiques dels pass
     doc = doc[:i] + doc[i:j].replace('width=6.2cm,height=5.2cm', 'width=6.2cm,height=3.9cm') + doc[j:]
 if N == 10:  # el títol de 10.2 (dues línies) i el començament del requadre caben al final de la pàgina 2
     retoc(r'\\Needspace\{[\d.]+cm\}(\n\\section\{Variables aleat\w+ discret)', r'\\enlargethispage{1cm}\\Needspace{4cm}\1', True)
+if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25)
+    ms = list(re.finditer(r'(\n\}\n)\n(\\fmuline\{M\w+\}:)', doc)); assert len(ms) == 2  # salt de pàgina abans del mètode dels extrems absoluts
+    m = ms[1]; doc = doc[:m.start()] + m.group(1) + '\\newpage\n' + m.group(2) + doc[m.end():]
+    ms = [m for m in re.finditer(r'(\\global\\fmstackfalse\n)\n\\Needspace\{5\\baselineskip\}\n(\\begin\{fmex\}\{E\w+ res\w+\}\n)', doc)
+          if re.search(r'comparaci\w+ (?:d\'|de )infinit', doc[max(0, m.start() - 1500):m.start()])]
+    assert len(ms) == 1  # salt de pàgina abans dels exemples de representació de funcions (en castellà deixava una pàgina quasi buida)
+    m = ms[0]
+    if not ES: doc = doc[:m.start()] + m.group(1) + '\\newpage\n%\\Needspace{5\\baselineskip}\n' + m.group(2) + doc[m.end():]
+    # l'exemple de la funció racional, amb més aire; l'apartat de les asímptotes és el 6.10 (unitat 6)
+    retoc(r'(\\fmm\{y=x\+1\} \(\w+) 8\.10\)\.\n', r'\1 6.10).\\\\[2ex]\n', True)
+    retoc(r'(=\\dfrac\{\(x-3\)\(x\+1\)\}\{\(x-1\)\^2\}\}\.) (\w+ \w+ \\fmm\{\(-\\infty,-1\)\\cup\(3,\+\\infty\)\}, \w+ \w+ \\fmm\{\(-1,1\)\\cup\(1,3\)\}\.) (M\w+ \\fmm\{\(-1,-2\)\})',
+          r'\1 \\\\[2ex]\n\2 \\\\[2ex]\n\3', True)
 if N == 7:  # «Regla de la cadena» comença al final de la pàgina 6 (no hi deixa un forat de 5 cm)
     retoc(r'\\Needspace\{5.7cm\}(\n\\section\{Regla de la cadena)', r'\\enlargethispage{1cm}\\Needspace{4cm}\1', True)
 
