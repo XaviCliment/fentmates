@@ -1,0 +1,1063 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 9: Derivadas y aplicaciones. 1.º de Bachillerato MI},pdfsubject={Matemáticas I},pdfkeywords={tasa de variación media, derivada en un punto, recta tangente, función derivada, reglas de derivación, monotonía, máximos y mínimos, representación de funciones, optimización}}
+
+% colors de la web (FentMates, bloque de Análisis: verde; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{9.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (30,96) .. controls (70,94) and (110,70) .. (140,44) .. controls (160,26) and (180,14) .. (220,8);
+  \draw[line width=4pt,opacity=0.6] (60,112)--(220,4);
+  \fill (128,54) circle (6);
+  \node[anchor=base west,inner sep=0pt,scale=2.4,font=\large\itshape] at (138,90) {$f'(a)=m$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato MI · Unidad 9: Derivadas y aplicaciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 9} · Derivadas y aplicaciones\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: tasa de variación media, derivada en un punto y función derivada, reglas de derivación y regla de la cadena, recta tangente y normal, monotonía y extremos, representación gráfica de funciones y problemas de optimización.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}9.1}\ \ Tasa de variación media}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}9.2}\ \ Derivada en un punto}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}9.3}\ \ Función derivada y operaciones}}\\[3pt]
+\hyperlink{sec4}{\textbf{\color{fmgreen}9.4}\ \ Derivadas de las funciones elementales}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}9.5}\ \ Regla de la cadena}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}9.6}\ \ Recta tangente y normal}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}9.7}\ \ Monotonía y extremos}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}9.8}\ \ Representación gráfica de funciones}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}9.9}\ \ Problemas de optimización}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Tasa de variación media}\hypertarget{sec1}{}
+\begin{fmdef}{Definición: tasa de variación media (TVM)}
+La \textbf{tasa de variación media} de una función \fmm{f} en el intervalo \fmm{[a,b]} mide cuánto cambia, de media, la función por cada unidad que aumenta \fmm{x}:
+
+\fmdisp{\text{TVM}[a,b]=\frac{f(b)-f(a)}{b-a}}
+
+Si escribimos \fmm{b=a+h} (\fmm{h} es la longitud del intervalo): \fmm{\ \text{TVM}[a,a+h]=\dfrac{f(a+h)-f(a)}{h}}.
+
+\fmuline{Interpretación geométrica}: la TVM es la \textbf{pendiente de la recta secante} que pasa por los puntos \fmm{(a,f(a))} y \fmm{(b,f(b))} de la gráfica. Si es positiva, la función, de media, sube; si es negativa, baja.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/a4c6bfa6c5b7.pdf}\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo}
+El beneficio (en miles de euros) de una empresa \fmm{x} años después de crearse es \fmm{B(x)=-x^2+10x}. Calcula la TVM en los intervalos \fmm{[1,3]}, \fmm{[3,5]} y \fmm{[5,7]} e interprétala.
+
+\fmm{B(1)=9,\ B(3)=21,\ B(5)=25,\ B(7)=21}.
+
+\fmm{\text{TVM}[1,3]=\dfrac{21-9}{3-1}=6}: entre el primer y el tercer año, el beneficio aumenta de media 6 000 € por año.
+
+\fmm{\text{TVM}[3,5]=\dfrac{25-21}{2}=2}: sigue creciendo, pero más despacio.
+
+\fmm{\text{TVM}[5,7]=\dfrac{21-25}{2}=-2}: el beneficio disminuye de media 2 000 € por año.
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Derivada de una función en un punto}\hypertarget{sec2}{}
+\begin{fmdef}{Definición de derivada}
+Si hacemos el intervalo \fmm{[a,a+h]} cada vez más pequeño (\fmm{h\to0}), la TVM se convierte en la \textbf{tasa de variación instantánea}: la rapidez con la que cambia la función \emph{justo} en el punto \fmm{a}. Este límite es la \textbf{derivada de \fmm{f} en \fmm{x=a}}:
+
+\fmdisp{f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}\qquad\left(\text{o también}\quad f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}\right)}
+
+Si este límite existe y es un número real, decimos que \fmm{f} es \textbf{derivable} en \fmm{x=a}.
+\end{fmdef}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Cuando \fmm{h\to0}, el segundo punto de la secante se acerca a \fmm{P=(a,f(a))} y las secantes se acercan a la \textbf{recta tangente} a la curva en \fmm{P}. Por tanto:
+
+\begin{center}\colorbox{fmyellow!45}{\parbox{0.9\linewidth}{\centering\strut \fmm{f'(a)} es la pendiente de la recta tangente a la gráfica de \fmm{f} en \fmm{x=a}.\strut}}\end{center}
+
+La ecuación de la recta tangente es (punto-pendiente):
+
+\fmdisp{y-f(a)=f'(a)\,(x-a)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ddfac251e7d2.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmprop}{Interpretación geométrica: la recta tangente}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Cuando \fmm{h\to0}, el segundo punto de la secante se acerca a \fmm{P=(a,f(a))} y las secantes se acercan a la \textbf{recta tangente} a la curva en \fmm{P}. Por tanto:
+
+\begin{center}\colorbox{fmyellow!45}{\parbox{0.9\linewidth}{\centering\strut \fmm{f'(a)} es la pendiente de la recta tangente a la gráfica de \fmm{f} en \fmm{x=a}.\strut}}\end{center}
+
+La ecuación de la recta tangente es (punto-pendiente):
+
+\fmdisp{y-f(a)=f'(a)\,(x-a)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ddfac251e7d2.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Cuando \fmm{h\to0}, el segundo punto de la secante se acerca a \fmm{P=(a,f(a))} y las secantes se acercan a la \textbf{recta tangente} a la curva en \fmm{P}. Por tanto:
+
+\begin{center}\colorbox{fmyellow!45}{\parbox{0.9\linewidth}{\centering\strut \fmm{f'(a)} es la pendiente de la recta tangente a la gráfica de \fmm{f} en \fmm{x=a}.\strut}}\end{center}
+
+La ecuación de la recta tangente es (punto-pendiente):
+
+\fmdisp{y-f(a)=f'(a)\,(x-a)}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ddfac251e7d2.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\begin{fmnote}\fmuline{En economía}: si \fmm{C(x)} es el coste de producir \fmm{x} unidades, \fmm{C'(x)} es el \textbf{coste marginal}, el coste aproximado de producir una unidad más. Igualmente, \fmm{B'(x)} es el beneficio marginal.\end{fmnote}
+\end{fmprop}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sabemos que \fmm{f(2)=3} y \fmm{f'(2)=-1}. La recta tangente en \fmm{x=2} es \fmm{y-3=-1\,(x-2)}, es decir, \fmm{y=-x+5}.
+\item Para \fmm{f(x)=x^2}, la herramienta de arriba indica que \fmm{f'(1)=2} (lo calcularemos en el apartado siguiente). Como \fmm{f(1)=1}, la tangente en \fmm{x=1} es \fmm{y-1=2(x-1)}, es decir, \fmm{y=2x-1}.
+\item Si \fmm{f'(a)\gt0}, la tangente sube y la función es creciente cerca de \fmm{a}; si \fmm{f'(a)\lt0}, es decreciente; si \fmm{f'(a)=0}, la tangente es \textbf{horizontal}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Cálculo de derivadas por definición}
+\begin{fmdef}{Método}
+Para calcular \fmm{f'(a)} aplicando la definición:
+
+\begin{enumerate}
+\item Calculamos \fmm{f(a+h)} y \fmm{f(a)}.
+\item Restamos y simplificamos \fmm{f(a+h)-f(a)}: \textbf{siempre} nos tiene que quedar un factor \fmm{h}.
+\item Dividimos por \fmm{h} y simplificamos: así deshacemos la indeterminación \fmm{\frac00}.
+\item Calculamos el límite cuando \fmm{h\to0}.
+\end{enumerate}
+
+Si hacemos lo mismo con un \fmm{x} cualquiera en lugar de \fmm{a}, obtenemos la \textbf{función derivada} \fmm{f'(x)=\displaystyle\lim_{h\to0}\frac{f(x+h)-f(x)}{h}}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Polinomio: \fmm{f(x)=x^2-3x} en \fmm{a=2}.
+
+\fmm{f(2+h)=(2+h)^2-3(2+h)=4+4h+h^2-6-3h=h^2+h-2}; \fmm{\ f(2)=4-6=-2}.
+
+\fmm{f(2+h)-f(2)=h^2+h-2-(-2)=h^2+h=h(h+1)}
+
+\fmm{f'(2)=\displaystyle\lim_{h\to0}\frac{h(h+1)}{h}=\lim_{h\to0}(h+1)=1}
+\item Función racional: \fmm{f(x)=\dfrac3x} en \fmm{a=1}.
+
+\fmm{f(1+h)-f(1)=\dfrac{3}{1+h}-3=\dfrac{3-3(1+h)}{1+h}=\dfrac{-3h}{1+h}} (hacemos la resta con denominador común)
+
+\fmm{f'(1)=\displaystyle\lim_{h\to0}\frac{\frac{-3h}{1+h}}{h}=\lim_{h\to0}\frac{-3}{1+h}=-3}
+\item Con una raíz (multiplicamos por el conjugado, como en la unidad 8): \fmm{f(x)=\sqrt x} en \fmm{a=4}.
+
+\fmm{\dfrac{f(4+h)-f(4)}{h}=\dfrac{\sqrt{4+h}-2}{h}=\dfrac{(\sqrt{4+h}-2)(\sqrt{4+h}+2)}{h(\sqrt{4+h}+2)}=\dfrac{4+h-4}{h(\sqrt{4+h}+2)}}
+
+\fmm{f'(4)=\displaystyle\lim_{h\to0}\frac{1}{\sqrt{4+h}+2}=\frac14}
+\item \fmpau{PAU Navarra 2023}Calcule la derivada de la función \fmm{g(x)=-x^2+4x+3} en el punto \fmm{x=1}, aplicando la definición de derivada.
+
+\fmm{g(1+h)=-(1+2h+h^2)+4+4h+3=-h^2+2h+6}; \fmm{\ g(1)=6}.
+
+\fmm{g'(1)=\displaystyle\lim_{h\to0}\frac{-h^2+2h}{h}=\lim_{h\to0}(-h+2)=2}
+\item Función derivada de \fmm{f(x)=x^2} y de \fmm{g(x)=\dfrac1x}:
+
+\fmm{f'(x)=\displaystyle\lim_{h\to0}\frac{(x+h)^2-x^2}{h}=\lim_{h\to0}\frac{2xh+h^2}{h}=\lim_{h\to0}(2x+h)=2x}
+
+\fmm{g'(x)=\displaystyle\lim_{h\to0}\frac{\frac{1}{x+h}-\frac1x}{h}=\lim_{h\to0}\frac{\frac{x-(x+h)}{x(x+h)}}{h}=\lim_{h\to0}\frac{-1}{x(x+h)}=-\frac{1}{x^2}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Función derivada. Operaciones con derivadas}\hypertarget{sec3}{}
+\begin{fmdef}{Función derivada}
+La \textbf{función derivada} \fmm{f'} asocia a cada \fmm{x} el valor \fmm{f'(x)}, es decir, la pendiente de la tangente en cada punto. Si derivamos \fmm{f'} obtenemos la \textbf{derivada segunda} \fmm{f''}, y así sucesivamente.
+
+Calcular siempre por definición sería muy largo. Por eso usamos unas \textbf{propiedades} y una \textbf{tabla de derivadas} (apartados 9.4 y 9.5). De momento basta con estas, que se demuestran por definición como en el apartado anterior:
+
+\fmdisp{(k)'=0\qquad(x)'=1\qquad(x^n)'=n\,x^{n-1}\qquad\big(\text{p. ej. }(x^2)'=2x,\ (x^5)'=5x^4\big)}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propiedades de la derivada (operaciones)}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Operación} & \textbf{Regla} & \textbf{Ejemplo}\\\midrule
+Suma y resta & $[f(x)\pm g(x)]'=f'(x)\pm g'(x)$ & $(x^3+x^2)'=3x^2+2x$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Constante por una función & $[k\cdot f(x)]'=k\cdot f'(x)$ & $(5x^4)'=5\cdot4x^3=20x^3$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Producto & $[f(x)\cdot g(x)]'=f'(x)\cdot g(x)+f(x)\cdot g'(x)$ & $[x^2(x+1)]'=2x(x+1)+x^2\cdot1$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Cociente & $\left[\dfrac{f(x)}{g(x)}\right]'=\dfrac{f'(x)\cdot g(x)-f(x)\cdot g'(x)}{[g(x)]^2}$ & $\left(\dfrac{x}{x+1}\right)'=\dfrac{1\cdot(x+1)-x\cdot1}{(x+1)^2}=\dfrac{1}{(x+1)^2}$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{¡Cuidado!} La derivada de un producto \textbf{no} es el producto de las derivadas: \fmm{(f\cdot g)'\neq f'\cdot g'}. Por ejemplo, \fmm{(x\cdot x)'=(x^2)'=2x}, pero \fmm{(x)'\cdot(x)'=1}. Tampoco la derivada de un cociente es el cociente de las derivadas. Y en el cociente, el orden de la resta importa: primero \fmm{f'g}.\end{fmnote}
+
+\begin{fmnote}\fmuline{Truco}: si el denominador es un número, no hace falta la regla del cociente: \fmm{\left(\dfrac{x^3-x}{4}\right)'=\dfrac{3x^2-1}{4}}. Y si el numerador es un número: \fmm{\left(\dfrac{k}{g}\right)'=\dfrac{-k\,g'}{g^2}}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=3x^4-5x^2+2x-7\ \Rightarrow\ f'(x)=12x^3-10x+2} (y \fmm{f''(x)=36x^2-10})
+\item Producto: \fmm{f(x)=(x^2+1)(x^3-2x)}
+
+\fmm{f'(x)=2x\,(x^3-2x)+(x^2+1)(3x^2-2)}
+
+\fmm{=2x^4-4x^2+3x^4-2x^2+3x^2-2=5x^4-3x^2-2} (también podíamos multiplicar primero y después derivar).
+\item Cociente: \fmm{f(x)=\dfrac{2x+1}{x-3}}
+
+\fmm{f'(x)=\dfrac{2\,(x-3)-(2x+1)\cdot1}{(x-3)^2}}
+
+\fmm{=\dfrac{2x-6-2x-1}{(x-3)^2}=\dfrac{-7}{(x-3)^2}}
+\item \fmm{f(x)=\dfrac{x^2}{x^2+1}\ \Rightarrow\ f'(x)=\dfrac{2x(x^2+1)-x^2\cdot2x}{(x^2+1)^2}=\dfrac{2x}{(x^2+1)^2}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Derivadas de las funciones elementales}\hypertarget{sec4}{}
+\begin{fmdef}{Tabla de derivadas (funciones simples)}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Función} & \textbf{Derivada} & \textbf{Función} & \textbf{Derivada}\\\midrule
+$f(x)=k$ & $f'(x)=0$ & $f(x)=\sin x$ & $f'(x)=\cos x$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=x$ & $f'(x)=1$ & $f(x)=\cos x$ & $f'(x)=-\sin x$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=x^n$ & $f'(x)=n\,x^{n-1}$ & $f(x)=\tan x$ & $f'(x)=1+\tan^2x=\dfrac{1}{\cos^2x}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=a^x$ & $f'(x)=a^x\cdot\ln a$ & $f(x)=\arcsin x$ & $f'(x)=\dfrac{1}{\sqrt{1-x^2}}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=e^x$ & $f'(x)=e^x$ & $f(x)=\arccos x$ & $f'(x)=\dfrac{-1}{\sqrt{1-x^2}}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=\log_a x$ & $f'(x)=\dfrac{1}{x\cdot\ln a}$ & $f(x)=\arctan x$ & $f'(x)=\dfrac{1}{1+x^2}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=\ln x$ & $f'(x)=\dfrac1x$ &  & \\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{Raíces e inversas como potencias}: la regla \fmm{(x^n)'=nx^{n-1}} vale para \textbf{cualquier} exponente \fmm{n}, también negativo o fraccionario. Por eso escribimos antes las raíces y las fracciones como potencias:
+        \fmm{\sqrt x=x^{1/2}}, \fmm{\ \sqrt[3]{x^2}=x^{2/3}}, \fmm{\ \dfrac{1}{x^3}=x^{-3}}. En particular, \fmm{\left(\sqrt x\right)'=\dfrac{1}{2\sqrt x}} y \fmm{\left(\dfrac1x\right)'=-\dfrac{1}{x^2}}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\sqrt[3]{x^2}=x^{2/3}\ \Rightarrow\ f'(x)=\tfrac23x^{-1/3}=\dfrac{2}{3\sqrt[3]{x}}}
+\item \fmm{f(x)=\dfrac{4}{x^3}=4x^{-3}\ \Rightarrow\ f'(x)=-12x^{-4}=\dfrac{-12}{x^4}}
+\item \fmm{f(x)=3^x+\log_2x\ \Rightarrow\ f'(x)=3^x\ln3+\dfrac{1}{x\ln2}}
+\item Producto: \fmm{f(x)=x\ln x\ \Rightarrow\ f'(x)=1\cdot\ln x+x\cdot\dfrac1x=\ln x+1}
+\item Producto: \fmm{f(x)=e^x\sin x\ \Rightarrow\ f'(x)=e^x\sin x+e^x\cos x=e^x(\sin x+\cos x)}
+\item Cociente: \fmm{f(x)=\dfrac{\ln x}{x}\ \Rightarrow\ f'(x)=\dfrac{\frac1x\cdot x-\ln x\cdot1}{x^2}=\dfrac{1-\ln x}{x^2}}
+\item De dónde sale la derivada de la tangente: \fmm{\left(\dfrac{\sin x}{\cos x}\right)'=\dfrac{\cos x\cos x-\sin x(-\sin x)}{\cos^2x}=\dfrac{\cos^2x+\sin^2x}{\cos^2x}=\dfrac{1}{\cos^2x}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Regla de la cadena}\hypertarget{sec5}{}
+\begin{fmdef}{Regla de la cadena}
+Una función como \fmm{\sqrt{x^2+1}} es una \textbf{función compuesta}: primero calculamos \fmm{g(x)=x^2+1} (función de dentro) y después le aplicamos la raíz (función de fuera). Para derivarla, derivamos la función de fuera (dejando dentro \fmm{g(x)}) y multiplicamos por la derivada de la de dentro:
+
+\fmdisp{\big[f(g(x))\big]'=f'\big(g(x)\big)\cdot g'(x)}
+
+Aplicándola a cada fila de la tabla anterior, obtenemos la tabla de derivadas de las funciones compuestas:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Función} & \textbf{Derivada} & \textbf{Función} & \textbf{Derivada}\\\midrule
+$f(x)=[g(x)]^n$ & $f'(x)=n[g(x)]^{n-1}\cdot g'(x)$ & $f(x)=\sin g(x)$ & $f'(x)=\cos(g(x))\cdot g'(x)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=\sqrt{g(x)}$ & $f'(x)=\dfrac{g'(x)}{2\sqrt{g(x)}}$ & $f(x)=\cos g(x)$ & $f'(x)=-\sin(g(x))\cdot g'(x)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=a^{g(x)}$ & $f'(x)=a^{g(x)}\cdot g'(x)\cdot\ln a$ & $f(x)=\tan g(x)$ & $f'(x)=\dfrac{g'(x)}{\cos^2(g(x))}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=e^{g(x)}$ & $f'(x)=e^{g(x)}\cdot g'(x)$ & $f(x)=\arcsin g(x)$ & $f'(x)=\dfrac{g'(x)}{\sqrt{1-g^2(x)}}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=\log_a g(x)$ & $f'(x)=\dfrac{g'(x)}{g(x)\cdot\ln a}$ & $f(x)=\arccos g(x)$ & $f'(x)=\dfrac{-g'(x)}{\sqrt{1-g^2(x)}}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x)=\ln g(x)$ & $f'(x)=\dfrac{g'(x)}{g(x)}$ & $f(x)=\arctan g(x)$ & $f'(x)=\dfrac{g'(x)}{1+g^2(x)}$\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=(x^2+1)^5\ \Rightarrow\ f'(x)=5(x^2+1)^4\cdot2x=10x(x^2+1)^4}
+\item \fmm{f(x)=\sqrt{3x-1}\ \Rightarrow\ f'(x)=\dfrac{3}{2\sqrt{3x-1}}}
+\item \fmm{f(x)=e^{x^2-x}\ \Rightarrow\ f'(x)=e^{x^2-x}\cdot(2x-1)}
+\item \fmm{f(x)=\ln(x^2+1)\ \Rightarrow\ f'(x)=\dfrac{2x}{x^2+1}}
+\item \fmm{f(x)=\sin 3x\ \Rightarrow\ f'(x)=3\cos3x}; \fmm{\quad g(x)=\cos^2x=(\cos x)^2\ \Rightarrow\ g'(x)=2\cos x\cdot(-\sin x)=-2\sin x\cos x}
+\item \fmm{f(x)=2^{3x}\ \Rightarrow\ f'(x)=2^{3x}\cdot3\cdot\ln2}; \fmm{\quad g(x)=\arctan x^2\ \Rightarrow\ g'(x)=\dfrac{2x}{1+x^4}}
+\item \fmpau{PAU Andalusia 2021}Deriva \fmm{f(x)=\ln\left(\dfrac{x-1}{x+1}\right)}. Antes de derivar, conviene aplicar las propiedades de los logaritmos:
+
+\fmm{f(x)=\ln(x-1)-\ln(x+1)}
+
+\fmm{f'(x)=\dfrac{1}{x-1}-\dfrac{1}{x+1}=\dfrac{(x+1)-(x-1)}{(x-1)(x+1)}=\dfrac{2}{x^2-1}}
+\item \fmpau{PAU Andalusia 2024}Deriva \fmm{f(x)=(x^2+2)^3\cdot e^{-2x}} (producto y regla de la cadena):
+
+\fmm{f'(x)=3(x^2+2)^2\cdot2x\cdot e^{-2x}+(x^2+2)^3\cdot e^{-2x}\cdot(-2)}
+
+Sacamos factor común \fmm{2(x^2+2)^2e^{-2x}}: \fmm{\ f'(x)=2(x^2+2)^2e^{-2x}\big(3x-(x^2+2)\big)=-2(x^2-3x+2)(x^2+2)^2e^{-2x}}
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\section{Recta tangente y recta normal}\hypertarget{sec6}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Como hemos visto en el apartado 9.2, la derivada nos da la \textbf{pendiente de la recta tangente} a la curva en el punto \fmm{(a,f(a))}:
+
+\fmdisp{m=f'(a)}
+
+La ecuación de la recta tangente la obtenemos con la ecuación \textbf{punto-pendiente}:
+
+\fmdisp{y-f(a)=f'(a)\cdot(x-a)\qquad\Longleftrightarrow\qquad y=f(a)+f'(a)\cdot(x-a)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5c6ad0273463.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Recta tangente en un punto $x=a$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Como hemos visto en el apartado 9.2, la derivada nos da la \textbf{pendiente de la recta tangente} a la curva en el punto \fmm{(a,f(a))}:
+
+\fmdisp{m=f'(a)}
+
+La ecuación de la recta tangente la obtenemos con la ecuación \textbf{punto-pendiente}:
+
+\fmdisp{y-f(a)=f'(a)\cdot(x-a)\qquad\Longleftrightarrow\qquad y=f(a)+f'(a)\cdot(x-a)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5c6ad0273463.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Como hemos visto en el apartado 9.2, la derivada nos da la \textbf{pendiente de la recta tangente} a la curva en el punto \fmm{(a,f(a))}:
+
+\fmdisp{m=f'(a)}
+
+La ecuación de la recta tangente la obtenemos con la ecuación \textbf{punto-pendiente}:
+
+\fmdisp{y-f(a)=f'(a)\cdot(x-a)\qquad\Longleftrightarrow\qquad y=f(a)+f'(a)\cdot(x-a)}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5c6ad0273463.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{Método}:
+
+\begin{enumerate}
+\item Calculamos \fmm{f(a)}: es el \textbf{punto de tangencia} \fmm{P(a,f(a))}.
+\item Derivamos y calculamos \fmm{f'(a)}: es la \textbf{pendiente}.
+\item Sustituimos en \fmm{y-f(a)=f'(a)(x-a)} y, si queremos, despejamos \fmm{y}.
+\end{enumerate}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Recta tangente a \fmm{f(x)=x^2-4x+5} en \fmm{x=3}.
+
+Punto: \fmm{f(3)=9-12+5=2\Rightarrow P(3,2)}
+
+Pendiente: \fmm{f'(x)=2x-4\Rightarrow f'(3)=2}
+
+Recta: \fmm{y-2=2(x-3)\Rightarrow y=2x-4}
+\item Recta tangente a \fmm{f(x)=x\cdot e^x} en \fmm{x=0}.
+
+\fmm{f(0)=0\cdot e^0=0\Rightarrow P(0,0)}
+
+\fmm{f'(x)=1\cdot e^x+x\cdot e^x=(1+x)\,e^x\Rightarrow f'(0)=1}
+
+\fmm{y-0=1\cdot(x-0)\Rightarrow y=x}
+\item Recta tangente a \fmm{f(x)=\ln(x^2-3)} en \fmm{x=2}.
+
+\fmm{f(2)=\ln(4-3)=\ln1=0\Rightarrow P(2,0)}
+
+\fmm{f'(x)=\dfrac{2x}{x^2-3}\Rightarrow f'(2)=\dfrac{4}{1}=4}
+
+\fmm{y-0=4(x-2)\Rightarrow y=4x-8}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Otros tipos de ejercicios de tangentes}
+\begin{itemize}
+\item \textbf{Tangente con una pendiente dada o paralela a una recta}: dos rectas paralelas tienen la misma pendiente. Si la tangente tiene que ser paralela a \fmm{y=mx+n}, resolvemos la ecuación \fmm{f'(x)=m} para saber en qué puntos ocurre.
+\item \textbf{Tangente horizontal}: es el caso \fmm{m=0}, es decir, \fmm{f'(x)=0}. La recta es \fmm{y=f(a)}.
+\item \textbf{Hallar parámetros} a partir de la tangente: si la tangente en \fmm{x=a} es \fmm{y=mx+n}, entonces \fmm{f(a)=m\,a+n} (el punto es de la recta) y \fmm{f'(a)=m} (misma pendiente). Son dos ecuaciones.
+\end{itemize}
+
+\begin{fmnote}Cuidado: si la recta viene dada en forma implícita, como \fmm{3x+y=0}, primero despejamos \fmm{y} para ver la pendiente: \fmm{y=-3x\Rightarrow m=-3}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Halla las rectas tangentes a \fmm{f(x)=x^3-3x+1} que son paralelas a la recta \fmm{y=9x+2}.
+
+Pendiente que queremos: \fmm{m=9}. Resolvemos \fmm{f'(x)=3x^2-3=9\Rightarrow x^2=4\Rightarrow x=\pm2}.
+
+\fmm{x=2}: \fmm{\ f(2)=8-6+1=3\Rightarrow y-3=9(x-2)\Rightarrow y=9x-15}
+
+\fmm{x=-2}: \fmm{\ f(-2)=-8+6+1=-1\Rightarrow y+1=9(x+2)\Rightarrow y=9x+17}
+\item La gráfica de \fmm{f(x)=ax^3+bx} pasa por el punto \fmm{(1,1)} y, en ese punto, la recta tangente es paralela a \fmm{3x+y=0}. Calcula \fmm{a} y \fmm{b}.
+
+Pasa por \fmm{(1,1)}: \fmm{f(1)=a+b=1}.
+
+\fmm{3x+y=0\Rightarrow y=-3x\Rightarrow m=-3}. Como \fmm{f'(x)=3ax^2+b}: \fmm{\ f'(1)=3a+b=-3}.
+
+\fmm{\begin{cases}a+b=1\\3a+b=-3\end{cases}\Rightarrow 2a=-4\Rightarrow a=-2,\ b=3}. La función es \fmm{f(x)=-2x^3+3x}.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Recta normal}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La \textbf{recta normal} a la curva en \fmm{P(a,f(a))} es la recta que pasa por \fmm{P} y es \textbf{perpendicular} a la recta tangente. Dos rectas perpendiculares cumplen \fmm{m_t\cdot m_n=-1}, así que la pendiente de la normal es:
+
+\fmdisp{m_n=-\frac{1}{f'(a)}}\\[4ex]
+
+
+Y la ecuación de la recta normal, a partir de la ecuación punto-pendiente:
+
+\fmdisp{y-f(a)=-\frac{1}{f'(a)}\cdot(x-a)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/61e5277c237f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Recta normal en un punto $x=a$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La \textbf{recta normal} a la curva en \fmm{P(a,f(a))} es la recta que pasa por \fmm{P} y es \textbf{perpendicular} a la recta tangente. Dos rectas perpendiculares cumplen \fmm{m_t\cdot m_n=-1}, así que la pendiente de la normal es:
+
+\fmdisp{m_n=-\frac{1}{f'(a)}}
+
+Y la ecuación de la recta normal, a partir de la ecuación punto-pendiente:
+
+\fmdisp{y-f(a)=-\frac{1}{f'(a)}\cdot(x-a)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/61e5277c237f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La \textbf{recta normal} a la curva en \fmm{P(a,f(a))} es la recta que pasa por \fmm{P} y es \textbf{perpendicular} a la recta tangente. Dos rectas perpendiculares cumplen \fmm{m_t\cdot m_n=-1}, así que la pendiente de la normal es:
+
+\fmdisp{m_n=-\frac{1}{f'(a)}}
+
+Y la ecuación de la recta normal, a partir de la ecuación punto-pendiente:
+
+\fmdisp{y-f(a)=-\frac{1}{f'(a)}\cdot(x-a)}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/61e5277c237f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\begin{fmnote}\fmuline{Caso especial}: si \fmm{f'(a)=0}, la tangente es horizontal, \fmm{y=f(a)}, y la normal es la recta \textbf{vertical} \fmm{x=a}.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Recta normal a \fmm{f(x)=x^2-4x+5} en \fmm{x=3} (es la función del ejemplo 1 del apartado anterior).
+
+\fmm{P(3,2)} y \fmm{f'(3)=2\Rightarrow m_n=-\dfrac12}
+
+\fmm{y-2=-\dfrac12(x-3)\Rightarrow y=-\dfrac12x+\dfrac72}
+\item Rectas tangente y normal a \fmm{f(x)=\sqrt x} en \fmm{x=4}.
+
+\fmm{f(4)=2\Rightarrow P(4,2)}; \fmm{\ f'(x)=\dfrac{1}{2\sqrt x}\Rightarrow f'(4)=\dfrac14}
+
+Tangente: \fmm{y-2=\dfrac14(x-4)\Rightarrow y=\dfrac14x+1}
+
+Normal: \fmm{m_n=-\dfrac{1}{1/4}=-4\Rightarrow y-2=-4(x-4)\Rightarrow y=-4x+18}
+\item Rectas tangente y normal a \fmm{f(x)=x^3-3x} en \fmm{x=1}.
+
+\fmm{f(1)=-2}; \fmm{\ f'(x)=3x^2-3\Rightarrow f'(1)=0}: tangente horizontal.
+
+Tangente: \fmm{y=-2}. Normal (vertical): \fmm{x=1}.
+\item ¿En qué punto de \fmm{f(x)=x^2} la recta normal tiene pendiente \fmm{-\frac14}? Escríbela.
+
+\fmm{-\dfrac{1}{f'(a)}=-\dfrac14\Rightarrow f'(a)=4\Rightarrow 2a=4\Rightarrow a=2}, punto \fmm{P(2,4)}.
+
+\fmm{y-4=-\dfrac14(x-2)\Rightarrow y=-\dfrac14x+\dfrac92}
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\section{Monotonía y extremos de una función}\hypertarget{sec7}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una función \fmm{f} es \textbf{creciente} en un intervalo si, al aumentar \fmm{x}, aumenta \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\lt f(x_2)}. La gráfica «sube» cuando la leemos de izquierda a derecha.
+
+Es \textbf{decreciente} si, al aumentar \fmm{x}, disminuye \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\gt f(x_2)}. La gráfica «baja».
+
+Estudiar la \textbf{monotonía} de una función es encontrar los intervalos donde es creciente y donde es decreciente.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8f238c9cccd4.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Función creciente y decreciente}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Una función \fmm{f} es \textbf{creciente} en un intervalo si, al aumentar \fmm{x}, aumenta \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\lt f(x_2)}. La gráfica «sube» cuando la leemos de izquierda a derecha.
+
+Es \textbf{decreciente} si, al aumentar \fmm{x}, disminuye \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\gt f(x_2)}. La gráfica «baja».
+
+Estudiar la \textbf{monotonía} de una función es encontrar los intervalos donde es creciente y donde es decreciente.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8f238c9cccd4.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Una función \fmm{f} es \textbf{creciente} en un intervalo si, al aumentar \fmm{x}, aumenta \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\lt f(x_2)}. La gráfica «sube» cuando la leemos de izquierda a derecha.
+
+Es \textbf{decreciente} si, al aumentar \fmm{x}, disminuye \fmm{f(x)}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\gt f(x_2)}. La gráfica «baja».
+
+Estudiar la \textbf{monotonía} de una función es encontrar los intervalos donde es creciente y donde es decreciente.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8f238c9cccd4.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Monotonía y signo de la derivada}
+El signo de \fmm{f'} es el signo de la pendiente de las tangentes y, por tanto, nos dice si la función sube o baja:
+
+\fmdisp{f'(x)\gt0\ \text{en }(a,b)\ \Rightarrow\ f\ \text{es creciente en }(a,b)\qquad\qquad f'(x)\lt0\ \text{en }(a,b)\ \Rightarrow\ f\ \text{es decreciente en }(a,b)}
+
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Método para estudiar la monotonía}
+\begin{enumerate}
+\item Calculamos el \textbf{dominio} de \fmm{f}.
+\item Calculamos \fmm{f'(x)} y la \textbf{simplificamos} (si podemos, la factorizamos).
+\item Resolvemos \fmm{f'(x)=0}. Estos puntos, junto con los puntos que \textbf{no son del dominio}, dividen la recta real en intervalos.
+\item En cada intervalo elegimos un \textbf{valor de prueba} y miramos el signo de \fmm{f'} (lo resumimos en una tabla).
+\item \textbf{Conclusión}: donde \fmm{f'\gt0}, creciente ($\nearrow$); donde \fmm{f'\lt0}, decreciente ($\searrow$).
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Truco}: las exponenciales \fmm{e^{g(x)}} y los cuadrados del denominador \fmm{(x-a)^2} son siempre positivos, así que no influyen en el signo de \fmm{f'}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Estudia la monotonía de \fmm{f(x)=x^3-3x^2-9x+1}.
+
+Polinomio: dominio \fmm{\mathbb R}. \fmm{\ f'(x)=3x^2-6x-9=3(x^2-2x-3)=3(x+1)(x-3)}
+
+\fmm{f'(x)=0\Rightarrow x=-1,\ x=3}. Tabla de signos:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{$x$} & $(-\infty,-1)$ & $-1$ & $(-1,3)$ & $3$ & $(3,+\infty)$\\[3pt]
+\textbf{Valor de prueba} & $f'(-2)=15$ &  & $f'(0)=-9$ &  & $f'(4)=15$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\textbf{$f'(x)$} & + & 0 & $-$ & 0 & +\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\textbf{$f(x)$} & $\nearrow$ &  & $\searrow$ &  & $\nearrow$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\textbf{Creciente} en \fmm{(-\infty,-1)\cup(3,+\infty)} y \textbf{decreciente} en \fmm{(-1,3)}.
+\item Estudia la monotonía de \fmm{f(x)=\dfrac{x^2}{x-1}}.
+
+Dominio: \fmm{\mathbb R-\{1\}}. \fmm{\ f'(x)=\dfrac{2x(x-1)-x^2}{(x-1)^2}=\dfrac{x^2-2x}{(x-1)^2}=\dfrac{x(x-2)}{(x-1)^2}}
+
+\fmm{f'(x)=0\Rightarrow x=0,\ x=2}. Además, \fmm{x=1} no es del dominio: también lo ponemos en la tabla.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{$x$} & $(-\infty,0)$ & $0$ & $(0,1)$ & $1$ & $(1,2)$ & $2$ & $(2,+\infty)$\\[3pt]
+\textbf{Valor de prueba} & $f'(-1)=\frac34$ &  & $f'(\frac12)=-3$ &  & $f'(\frac32)=-3$ &  & $f'(3)=\frac34$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\textbf{$f'(x)$} & + & 0 & $-$ & $\nexists$ & $-$ & 0 & +\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\textbf{$f(x)$} & $\nearrow$ &  & $\searrow$ & $\nexists$ & $\searrow$ &  & $\nearrow$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+Creciente en \fmm{(-\infty,0)\cup(2,+\infty)} y decreciente en \fmm{(0,1)\cup(1,2)}. (No podemos escribir \fmm{(0,2)}: el punto \fmm{x=1} no es del dominio.)
+\item Estudia la monotonía de \fmm{f(x)=x\cdot e^{-x}}.
+
+Dominio \fmm{\mathbb R}. \fmm{\ f'(x)=e^{-x}+x\cdot e^{-x}\cdot(-1)=e^{-x}(1-x)}
+
+Como \fmm{e^{-x}\gt0} siempre, el signo de \fmm{f'} es el de \fmm{1-x}: \fmm{f'(x)=0\Rightarrow x=1}; \fmm{\ f'(0)=1\gt0} y \fmm{f'(2)=-e^{-2}\lt0}.
+
+Creciente en \fmm{(-\infty,1)} y decreciente en \fmm{(1,+\infty)}.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Máximos y mínimos relativos}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{f} tiene un \textbf{máximo relativo} en \fmm{x=a} si \fmm{f(a)} es mayor que los valores de \fmm{f} en los puntos próximos a \fmm{a}: la gráfica hace una «cima».
+
+Tiene un \textbf{mínimo relativo} en \fmm{x=a} si \fmm{f(a)} es menor que los valores próximos: la gráfica hace un «valle».
+
+Los máximos y mínimos relativos se llaman \textbf{extremos relativos}. El resultado siempre hay que darlo como un \textbf{punto} \fmm{(a,f(a))}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/4223a455f50d.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Máximo y mínimo relativo}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{f} tiene un \textbf{máximo relativo} en \fmm{x=a} si \fmm{f(a)} es mayor que los valores de \fmm{f} en los puntos próximos a \fmm{a}: la gráfica hace una «cima».
+
+Tiene un \textbf{mínimo relativo} en \fmm{x=a} si \fmm{f(a)} es menor que los valores próximos: la gráfica hace un «valle».
+
+Los máximos y mínimos relativos se llaman \textbf{extremos relativos}. El resultado siempre hay que darlo como un \textbf{punto} \fmm{(a,f(a))}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/4223a455f50d.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\fmm{f} tiene un \textbf{máximo relativo} en \fmm{x=a} si \fmm{f(a)} es mayor que los valores de \fmm{f} en los puntos próximos a \fmm{a}: la gráfica hace una «cima».
+
+Tiene un \textbf{mínimo relativo} en \fmm{x=a} si \fmm{f(a)} es menor que los valores próximos: la gráfica hace un «valle».
+
+Los máximos y mínimos relativos se llaman \textbf{extremos relativos}. El resultado siempre hay que darlo como un \textbf{punto} \fmm{(a,f(a))}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/4223a455f50d.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si \fmm{f} es derivable y tiene un extremo relativo en \fmm{x=a}, la tangente es horizontal: \fmm{f'(a)=0}. Los puntos con \fmm{f'(a)=0} se llaman \textbf{puntos críticos} (o singulares): son los \textbf{candidatos} a máximo o mínimo.
+
+\begin{fmnote}\fmuline{Cuidado}: el recíproco no es cierto. \fmm{f(x)=x^3} tiene \fmm{f'(0)=0}, pero en \fmm{x=0} no hay ningún extremo: la función crece antes y después (es un \textbf{punto de inflexión} con tangente horizontal).\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b71d9344ef1d.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmprop}{Condición necesaria: $f'(a)=0$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si \fmm{f} es derivable y tiene un extremo relativo en \fmm{x=a}, la tangente es horizontal: \fmm{f'(a)=0}. Los puntos con \fmm{f'(a)=0} se llaman \textbf{puntos críticos} (o singulares): son los \textbf{candidatos} a máximo o mínimo.
+
+\begin{fmnote}\fmuline{Cuidado}: el recíproco no es cierto. \fmm{f(x)=x^3} tiene \fmm{f'(0)=0}, pero en \fmm{x=0} no hay ningún extremo: la función crece antes y después (es un \textbf{punto de inflexión} con tangente horizontal).\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b71d9344ef1d.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Si \fmm{f} es derivable y tiene un extremo relativo en \fmm{x=a}, la tangente es horizontal: \fmm{f'(a)=0}. Los puntos con \fmm{f'(a)=0} se llaman \textbf{puntos críticos} (o singulares): son los \textbf{candidatos} a máximo o mínimo.
+
+\begin{fmnote}\fmuline{Cuidado}: el recíproco no es cierto. \fmm{f(x)=x^3} tiene \fmm{f'(0)=0}, pero en \fmm{x=0} no hay ningún extremo: la función crece antes y después (es un \textbf{punto de inflexión} con tangente horizontal).\end{fmnote}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b71d9344ef1d.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmprop}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Dos criterios para decidir si un punto crítico es máximo o mínimo}
+\textbf{Criterio 1: a partir de la monotonía.} Miramos el cambio de signo de \fmm{f'} en la tabla de signos:
+
+\begin{itemize}
+\item Si pasa de creciente a decreciente ($\nearrow$ $\searrow$, de \fmm{+} a \fmm{-}): \textbf{máximo relativo}.
+\item Si pasa de decreciente a creciente ($\searrow$ $\nearrow$, de \fmm{-} a \fmm{+}): \textbf{mínimo relativo}.
+\item Si \fmm{f'} no cambia de signo: no es extremo.
+\end{itemize}
+
+\textbf{Criterio 2: con la segunda derivada.} Si \fmm{f'(a)=0}, sustituimos el punto en \fmm{f''}:
+
+\begin{itemize}
+\item \fmm{f''(a)\lt0\ \Rightarrow} \textbf{máximo relativo} (la curva es cóncava hacia abajo $\cap$).
+\item \fmm{f''(a)\gt0\ \Rightarrow} \textbf{mínimo relativo} (la curva es cóncava hacia arriba $\cup$).
+\item \fmm{f''(a)=0\ \Rightarrow} el criterio no decide: tenemos que hacer el estudio de la monotonía (criterio 1).
+\end{itemize}
+
+En los dos casos, acabamos calculando la segunda coordenada \fmm{f(a)} para dar el punto.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Máximos y mínimos de \fmm{f(x)=x^3-3x^2-9x+1} (la función del ejemplo 1 del apartado 9.7) por los dos criterios.
+
+Puntos críticos: \fmm{f'(x)=3(x+1)(x-3)=0\Rightarrow x=-1,\ x=3}.
+
+Criterio 1: en \fmm{x=-1}, \fmm{f'} pasa de \fmm{+} a \fmm{-} ($\nearrow$ $\searrow$): máximo. En \fmm{x=3} pasa de \fmm{-} a \fmm{+} ($\searrow$ $\nearrow$): mínimo.
+
+Criterio 2: \fmm{f''(x)=6x-6}. \fmm{\ f''(-1)=-12\lt0\Rightarrow} máximo; \fmm{\ f''(3)=12\gt0\Rightarrow} mínimo.
+
+\fmm{f(-1)=-1-3+9+1=6}, \fmm{\ f(3)=27-27-27+1=-26}. \textbf{Máximo relativo} \fmm{(-1,6)} y \textbf{mínimo relativo} \fmm{(3,-26)}.
+\item Máximos y mínimos de \fmm{f(x)=x^4-2x^2} con la segunda derivada.
+
+\fmm{f'(x)=4x^3-4x=4x(x^2-1)=0\Rightarrow x=0,\ x=\pm1}
+
+\fmm{f''(x)=12x^2-4}: \fmm{\ f''(0)=-4\lt0} (máximo), \fmm{\ f''(\pm1)=8\gt0} (mínimos).
+
+Máximo relativo \fmm{(0,0)}; mínimos relativos \fmm{(-1,-1)} y \fmm{(1,-1)}.
+\item Máximos y mínimos de \fmm{f(x)=\dfrac{x^2}{x-1}} (ejemplo 2 del apartado 9.7).
+
+De la tabla de signos: en \fmm{x=0}, $\nearrow$ $\searrow$ (máximo); en \fmm{x=2}, $\searrow$ $\nearrow$ (mínimo). En \fmm{x=1} no hay: no es del dominio.
+
+Máximo relativo \fmm{(0,0)} y mínimo relativo \fmm{(2,4)}. Fíjate en que el máximo relativo es más bajo que el mínimo: ¡«relativo» quiere decir solo comparado con los puntos próximos!
+\item Calcula \fmm{a} y \fmm{b} para que \fmm{f(x)=x^3+ax^2+b} tenga un extremo relativo en el punto \fmm{(2,-1)}. ¿Es máximo o mínimo?
+
+Extremo en \fmm{x=2}: \fmm{f'(x)=3x^2+2ax\Rightarrow f'(2)=12+4a=0\Rightarrow a=-3}
+
+Pasa por \fmm{(2,-1)}: \fmm{f(2)=8-12+b=-1\Rightarrow b=3}
+
+\fmm{f''(x)=6x-6\Rightarrow f''(2)=6\gt0}: es un \textbf{mínimo} relativo.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Extremos absolutos en un intervalo cerrado}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En muchos problemas la variable solo puede tomar valores en un intervalo \fmm{[a,b]} (por ejemplo, las horas de un día o las unidades que puede fabricar una empresa). Entonces nos interesa el valor \textbf{más grande} (máximo absoluto) y el \textbf{más pequeño} (mínimo absoluto) de \fmm{f} en todo el intervalo.
+
+Si \fmm{f} es continua en \fmm{[a,b]}, siempre tiene máximo y mínimo absolutos, y se alcanzan en un \textbf{punto crítico} de dentro del intervalo o en un \textbf{extremo del intervalo}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/409dc6c115b8.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Máximo y mínimo absoluto}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En muchos problemas la variable solo puede tomar valores en un intervalo \fmm{[a,b]} (por ejemplo, las horas de un día o las unidades que puede fabricar una empresa). Entonces nos interesa el valor \textbf{más grande} (máximo absoluto) y el \textbf{más pequeño} (mínimo absoluto) de \fmm{f} en todo el intervalo.
+
+Si \fmm{f} es continua en \fmm{[a,b]}, siempre tiene máximo y mínimo absolutos, y se alcanzan en un \textbf{punto crítico} de dentro del intervalo o en un \textbf{extremo del intervalo}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/409dc6c115b8.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+En muchos problemas la variable solo puede tomar valores en un intervalo \fmm{[a,b]} (por ejemplo, las horas de un día o las unidades que puede fabricar una empresa). Entonces nos interesa el valor \textbf{más grande} (máximo absoluto) y el \textbf{más pequeño} (mínimo absoluto) de \fmm{f} en todo el intervalo.
+
+Si \fmm{f} es continua en \fmm{[a,b]}, siempre tiene máximo y mínimo absolutos, y se alcanzan en un \textbf{punto crítico} de dentro del intervalo o en un \textbf{extremo del intervalo}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/409dc6c115b8.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{Método}:
+
+\begin{enumerate}
+\item Resolvemos \fmm{f'(x)=0} y nos quedamos con las soluciones que están \textbf{dentro} de \fmm{(a,b)}.
+\item Calculamos \fmm{f} en estos puntos y en los extremos \fmm{a} y \fmm{b}.
+\item El valor más grande es el \textbf{máximo absoluto} y el más pequeño, el \textbf{mínimo absoluto}.
+\end{enumerate}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Extremos absolutos de \fmm{f(x)=x^3-6x^2+9x+2} en \fmm{[0,5]}.
+
+\fmm{f'(x)=3x^2-12x+9=3(x-1)(x-3)=0\Rightarrow x=1,\ x=3} (los dos dentro de \fmm{[0,5]}).
+
+\fmm{f(0)=2,\quad f(1)=6,\quad f(3)=2,\quad f(5)=22}
+
+\textbf{Máximo absoluto}: 22, en \fmm{x=5} (¡un extremo del intervalo!). \textbf{Mínimo absoluto}: 2, en \fmm{x=0} y en \fmm{x=3}. El máximo relativo \fmm{(1,6)} no es el máximo absoluto.
+\item Extremos absolutos de \fmm{f(x)=x^3-3x^2-9x+1} en \fmm{[-2,4]}.
+
+Puntos críticos \fmm{x=-1} y \fmm{x=3} (dentro del intervalo). \fmm{\ f(-2)=-1,\ f(-1)=6,\ f(3)=-26,\ f(4)=-19}
+
+Máximo absoluto 6 en \fmm{x=-1}; mínimo absoluto \fmm{-26} en \fmm{x=3}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Representación gráfica de funciones}\hypertarget{sec8}{}
+\begin{fmprop}{Guion para representar una función}
+Para dibujar la gráfica de una función \fmm{y=f(x)} sin hacer una tabla de valores enorme, estudiamos sus características principales en este orden:
+
+\begin{enumerate}
+\item \textbf{Dominio}: dónde existe la función.
+\item \textbf{Puntos de corte} con los ejes OX y OY.
+\item \textbf{Simetrías}: si es par o impar, solo hay que estudiar la mitad.
+\item \textbf{Asíntotas}: verticales, horizontales y oblicuas.
+\item \textbf{Monotonía y extremos}: dónde crece, dónde decrece, máximos y mínimos relativos (apartado 9.7).
+\item \textbf{Signo de la función}: dónde la gráfica queda por encima (\fmm{f(x)\gt0}) o por debajo (\fmm{f(x)\lt0}) del eje OX. Se decide con los puntos de corte y los puntos que no son del dominio.
+\item \textbf{Tabla de valores}: unos cuantos puntos más, sobre todo cerca de las asíntotas y de los extremos.
+\item \textbf{Representación gráfica}: colocamos toda la información y unimos los puntos respetándola.
+\end{enumerate}
+
+\begin{fmnote}El dominio, los puntos de corte y las simetrías los estudiaste en la unidad 6, y las asíntotas, en la unidad 8. Al final de este apartado tienes una herramienta que hace el estudio paso a paso con la función que tú escribas.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Qué tenemos que tener en cuenta}
+\begin{itemize}
+\item \textbf{Polinómicas}: dominio \fmm{\mathbb R}, continuas y sin asíntotas. En los extremos, \fmm{f(x)\to\pm\infty} según el signo del término de mayor grado. La forma la deciden los cortes con OX y los máximos y mínimos.
+\item \textbf{Racionales}: el dominio y las asíntotas verticales salen de los ceros del denominador; las horizontales u oblicuas, de comparar los grados. Los límites laterales nos dicen por dónde «sube» o «baja» la gráfica al lado de cada asíntota vertical.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=x^3-6x^2+9x}.
+
+\textbf{Dominio} \fmm{\mathbb R}. \textbf{Cortes}: \fmm{x(x^2-6x+9)=x(x-3)^2=0\Rightarrow(0,0),\ (3,0)}. OY: \fmm{(0,0)}.
+
+\textbf{Simetría}: hay potencias pares e impares: ninguna. \textbf{Asíntotas}: ninguna (polinómica); \fmm{\lim_{x\to+\infty}f=+\infty}, \fmm{\lim_{x\to-\infty}f=-\infty}.
+
+\fmm{f'(x)=3x^2-12x+9=3(x-1)(x-3)=0\Rightarrow x=1,\ x=3}. Creciente en \fmm{(-\infty,1)\cup(3,+\infty)} y decreciente en \fmm{(1,3)}: máximo \fmm{(1,4)}, mínimo \fmm{(3,0)}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/d6d933e658ac.pdf}\par}\end{minipage}\par\medskip
+\item Representa \fmm{f(x)=x^4-2x^2}.
+
+Dominio \fmm{\mathbb R}. Cortes: \fmm{x^2(x^2-2)=0\Rightarrow(0,0),\ (\pm\sqrt2,0)}. \textbf{Par} (solo potencias pares): simétrica respecto de OY. Ninguna asíntota.
+
+\fmm{f'(x)=4x^3-4x=4x(x-1)(x+1)=0\Rightarrow x=-1,0,1}. Decreciente en \fmm{(-\infty,-1)\cup(0,1)}, creciente en \fmm{(-1,0)\cup(1,+\infty)}. Mínimos \fmm{(-1,-1)} y \fmm{(1,-1)}; máximo \fmm{(0,0)}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/2e814a49ba60.pdf}\par}\end{minipage}\par\medskip
+\item Representa \fmm{f(x)=\dfrac{x^2}{x^2-4}}.
+
+Dominio \fmm{\mathbb R-\{-2,2\}}. Cortes: solo \fmm{(0,0)}. \textbf{Par}: \fmm{f(-x)=f(x)}.
+
+AV \fmm{x=2}: \fmm{\displaystyle\lim_{x\to2^-}\frac{x^2}{x^2-4}=\frac{4}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to2^+}=\frac{4}{0^+}=+\infty}; por simetría, también \fmm{x=-2}. AH \fmm{y=1} (grados iguales).
+
+Monotonía (apartado 9.7): máximo relativo \fmm{(0,0)}; creciente a la izquierda de 0 y decreciente a la derecha.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/6a317c659c0d.pdf}\par}\end{minipage}\par\medskip
+\item Representa \fmm{f(x)=\dfrac{x^2+3}{x-1}}.
+
+Dominio \fmm{\mathbb R-\{1\}}. OX: \fmm{x^2+3=0} no tiene solución. OY: \fmm{(0,-3)}. Sin simetrías (el dominio no es simétrico).
+
+AV \fmm{x=1} (\fmm{-\infty} por la izquierda, \fmm{+\infty} por la derecha). AO \fmm{y=x+1} (apartado 8.10).
+
+\fmm{f'(x)=\dfrac{2x(x-1)-(x^2+3)}{(x-1)^2}=\dfrac{x^2-2x-3}{(x-1)^2}=\dfrac{(x-3)(x+1)}{(x-1)^2}}. Creciente en \fmm{(-\infty,-1)\cup(3,+\infty)}, decreciente en \fmm{(-1,1)\cup(1,3)}. Máximo \fmm{(-1,-2)}, mínimo \fmm{(3,6)}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/af7f0ce66a19.pdf}\par}\end{minipage}\par\medskip
+
+\begin{fmnote}Fíjate: el máximo relativo \fmm{(-1,-2)} está más abajo que el mínimo relativo \fmm{(3,6)}. Son extremos \emph{relativos}, no absolutos.\end{fmnote}
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Funciones exponenciales, logarítmicas y a trozos}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exponencial} \fmm{y=a^x} (\fmm{a\gt0}, \fmm{a\neq1}): dominio \fmm{\mathbb R}; siempre positiva; pasa por \fmm{(0,1)}; asíntota horizontal \fmm{y=0}. Si \fmm{a\gt1} (como \fmm{e^x}) es creciente y la asíntota es por la izquierda; si \fmm{0\lt a\lt1}, decreciente y la asíntota es por la derecha.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/85dd413dc55b.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Las gráficas básicas}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exponencial} \fmm{y=a^x} (\fmm{a\gt0}, \fmm{a\neq1}): dominio \fmm{\mathbb R}; siempre positiva; pasa por \fmm{(0,1)}; asíntota horizontal \fmm{y=0}. Si \fmm{a\gt1} (como \fmm{e^x}) es creciente y la asíntota es por la izquierda; si \fmm{0\lt a\lt1}, decreciente y la asíntota es por la derecha.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/85dd413dc55b.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\textbf{Exponencial} \fmm{y=a^x} (\fmm{a\gt0}, \fmm{a\neq1}): dominio \fmm{\mathbb R}; siempre positiva; pasa por \fmm{(0,1)}; asíntota horizontal \fmm{y=0}. Si \fmm{a\gt1} (como \fmm{e^x}) es creciente y la asíntota es por la izquierda; si \fmm{0\lt a\lt1}, decreciente y la asíntota es por la derecha.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/85dd413dc55b.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Logarítmica} \fmm{y=\log_a x}: dominio \fmm{(0,+\infty)}; pasa por \fmm{(1,0)}; asíntota vertical \fmm{x=0}; no tiene asíntota horizontal. Si \fmm{a\gt1} (como \fmm{\ln x}) es creciente; si \fmm{0\lt a\lt1}, decreciente.
+
+\begin{fmnote}Recuerda la comparación de infinitos de la unidad 8: cuando \fmm{x\to+\infty}, la exponencial gana a cualquier potencia y la potencia gana al logaritmo. Por eso \fmm{\displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0} y \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}.\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/db46327eca38.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\textbf{Logarítmica} \fmm{y=\log_a x}: dominio \fmm{(0,+\infty)}; pasa por \fmm{(1,0)}; asíntota vertical \fmm{x=0}; no tiene asíntota horizontal. Si \fmm{a\gt1} (como \fmm{\ln x}) es creciente; si \fmm{0\lt a\lt1}, decreciente.
+
+\begin{fmnote}Recuerda la comparación de infinitos de la unidad 8: cuando \fmm{x\to+\infty}, la exponencial gana a cualquier potencia y la potencia gana al logaritmo. Por eso \fmm{\displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0} y \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}.\end{fmnote}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/db46327eca38.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=x\,e^x}.
+
+Dominio \fmm{\mathbb R}. Cortes: \fmm{x\,e^x=0\Rightarrow x=0}: \fmm{(0,0)}. Sin simetría: \fmm{f(-1)=-\frac1e}, \fmm{f(1)=e}.
+
+Ninguna AV. \fmm{\displaystyle\lim_{x\to-\infty}x\,e^x=0}: AH \fmm{y=0} por la izquierda. \fmm{\displaystyle\lim_{x\to+\infty}x\,e^x=+\infty} y \fmm{\dfrac{f(x)}{x}=e^x\to+\infty}: por la derecha no hay.
+
+\fmm{f'(x)=(1+x)e^x=0\Rightarrow x=-1}. Decreciente en \fmm{(-\infty,-1)}, creciente en \fmm{(-1,+\infty)}. Mínimo \fmm{\left(-1,-\frac1e\right)\approx(-1;\,-0{,}37)}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/4c2e9cfa598a.pdf}\par}\end{minipage}\par\medskip
+\item Representa \fmm{f(x)=\dfrac{\ln x}{x}}.
+
+Dominio \fmm{(0,+\infty)}. Cortes: \fmm{\ln x=0\Rightarrow(1,0)}; OY: no (0 no es del dominio). Sin simetría.
+
+\fmm{\displaystyle\lim_{x\to0^+}\frac{\ln x}{x}=\frac{-\infty}{0^+}=-\infty\Rightarrow} AV \fmm{x=0}. \fmm{\ \displaystyle\lim_{x\to+\infty}\frac{\ln x}{x}=0\Rightarrow} AH \fmm{y=0} por la derecha.
+
+\fmm{f'(x)=\dfrac{\frac1x\cdot x-\ln x}{x^2}=\dfrac{1-\ln x}{x^2}=0\Rightarrow\ln x=1\Rightarrow x=e}. Creciente en \fmm{(0,e)}, decreciente en \fmm{(e,+\infty)}. Máximo \fmm{\left(e,\frac1e\right)\approx(2{,}72;\,0{,}37)}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/a7ab8194f6d5.pdf}\par}\end{minipage}\par\medskip
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Funciones definidas a trozos}
+Para representar una función a trozos:
+
+\begin{enumerate}
+\item Dibujamos cada trozo \textbf{solo en su intervalo}: normalmente son rectas, parábolas, hipérbolas, exponenciales o logaritmos, que sabemos dibujar con pocos puntos.
+\item En cada \textbf{punto de cambio} calculamos los límites laterales y el valor de la función: nos dicen si es continua o si hay un salto. Marcamos con punto lleno el valor que toma la función y con punto vacío el extremo que no pertenece.
+\item La monotonía y los extremos se estudian en cada trozo. En los puntos de cambio puede haber un máximo o un mínimo aunque la derivada no exista (punto anguloso).
+\item Las asíntotas horizontales solo las buscamos en los trozos que llegan a \fmm{\pm\infty}.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Representa \fmm{f(x)=\begin{cases}x+3&\text{si } x\lt-1\\x^2+1&\text{si } -1\leq x\lt1\\\dfrac2x&\text{si } x\geq1\end{cases}}
+
+Trozos: una recta (pendiente 1), un trozo de parábola con vértice \fmm{(0,1)} y un trozo de hipérbola. Dominio \fmm{\mathbb R} (\fmm{\frac2x} solo se usa para \fmm{x\geq1}).
+
+\fmm{x=-1}: \fmm{\ \displaystyle\lim_{x\to-1^-}(x+3)=2}, \fmm{\ \displaystyle\lim_{x\to-1^+}(x^2+1)=2}, \fmm{\ f(-1)=2}: continua.\newline \fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}(x^2+1)=2}, \fmm{\ \displaystyle\lim_{x\to1^+}\frac2x=2}, \fmm{\ f(1)=2}: continua.
+
+Asíntotas: \fmm{\displaystyle\lim_{x\to+\infty}\frac2x=0\Rightarrow} AH \fmm{y=0} por la derecha; por la izquierda, \fmm{x+3\to-\infty}.
+
+Monotonía: creciente en \fmm{(-\infty,-1)} (recta), decreciente en \fmm{(-1,0)} y creciente en \fmm{(0,1)} (parábola), decreciente en \fmm{(1,+\infty)} (\fmm{f'(x)=-\frac{2}{x^2}\lt0}). Máximos relativos \fmm{(-1,2)} y \fmm{(1,2)} (puntos angulosos) y mínimo relativo \fmm{(0,1)}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/1e6cc90b5a14.pdf}\par}\end{minipage}\par\medskip
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Problemas de optimización}\hypertarget{sec9}{}
+\begin{fmdef}{Problemas de optimización}
+Son problemas en los que tenemos que encontrar el \textbf{máximo o el mínimo} de una función que viene descrita en un enunciado (beneficio máximo, coste mínimo, área máxima\dots{}). Normalmente la dificultad está en determinar correctamente la función. Distinguimos dos casos:
+
+\begin{itemize}
+\item \textbf{El enunciado nos da la función} (este apartado): solo hay que calcular su máximo o mínimo.
+\item \textbf{Tenemos que construir la función} a partir del enunciado (apartado 9.9).
+\end{itemize}
+
+\fmuline{Método cuando conocemos la función}:
+
+\begin{enumerate}
+\item Identificamos la función y \textbf{qué valores puede tomar la variable} (por ejemplo, \fmm{x\geq0}, o \fmm{t\in[0,24]}).
+\item Derivamos e igualamos a cero: \fmm{f'(x)=0}.
+\item \textbf{Justificamos} que es máximo o mínimo (segunda derivada o monotonía). Si la variable está en un intervalo cerrado, también comparamos con los extremos.
+\item Calculamos el valor óptimo y \textbf{respondemos a la pregunta} con las unidades.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Se estima que el beneficio mensual de una fábrica de golosinas viene dado por \fmm{f(x)=-0{,}1x^2+2{,}5x-10}, donde \fmm{x} son las toneladas fabricadas y el beneficio está en millones de euros. \textbf{a)} ¿Cuántas toneladas hay que vender para que el beneficio sea máximo? ¿Cuál es ese beneficio? Justifica que es máximo.
+
+\fmm{f'(x)=-0{,}2x+2{,}5=0\Rightarrow x=12{,}5} toneladas.
+
+\fmm{f''(x)=-0{,}2\Rightarrow f''(12{,}5)=-0{,}2\lt0}: es un \textbf{máximo}.
+
+\fmm{f(12{,}5)=-15{,}625+31{,}25-10=5{,}625}. Vendiendo 12,5 toneladas el beneficio es máximo: 5,625 millones de euros.
+
+\textbf{b)} ¿Qué cantidad produce el máximo beneficio \textbf{por tonelada} vendida?
+
+Construimos la función de beneficio por tonelada: \fmm{g(x)=\dfrac{f(x)}{x}=-0{,}1x+2{,}5-\dfrac{10}{x}}, \fmm{x\gt0}.
+
+\fmm{g'(x)=-0{,}1+\dfrac{10}{x^2}=0\Rightarrow x^2=100\Rightarrow x=10} (la solución negativa no tiene sentido).
+
+\fmm{g''(x)=-\dfrac{20}{x^3}\Rightarrow g''(10)=-0{,}02\lt0}: máximo. \fmm{\ g(10)=-1+2{,}5-1=0{,}5}.
+
+Con 10 toneladas se obtiene el máximo beneficio por tonelada: 0,5 millones de euros (500 000 €) por tonelada.
+\item El coste de fabricar \fmm{x} unidades de un producto es \fmm{C(x)=x^2+10x+400} euros. ¿Cuántas unidades hay que fabricar para que el \textbf{coste medio} por unidad sea mínimo?
+
+Coste medio: \fmm{CM(x)=\dfrac{C(x)}{x}=x+10+\dfrac{400}{x}}, \fmm{x\gt0}.
+
+\fmm{CM'(x)=1-\dfrac{400}{x^2}=0\Rightarrow x^2=400\Rightarrow x=20}
+
+\fmm{CM''(x)=\dfrac{800}{x^3}\Rightarrow CM''(20)\gt0}: mínimo. \fmm{\ CM(20)=20+10+20=50}. Fabricando 20 unidades, el coste medio es mínimo: 50 € por unidad.
+\item El nivel de contaminación de una ciudad entre las 0 h y las 8 h viene dado por \fmm{C(t)=t^3-15t^2+63t+40}, \fmm{t\in[0,8]} (en horas). ¿A qué hora la contaminación es máxima? ¿Y mínima?
+
+\fmm{C'(t)=3t^2-30t+63=3(t-3)(t-7)=0\Rightarrow t=3,\ t=7} (dentro de \fmm{[0,8]}).
+
+Es un intervalo cerrado: comparamos con los extremos. \fmm{\ C(0)=40,\ C(3)=121,\ C(7)=89,\ C(8)=96}
+
+La contaminación es máxima a las 3 h (121) y mínima a las 0 h (40).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Problemas en los que hay que construir la función}
+\begin{fmdef}{Método con dos variables}
+Cuando el enunciado no nos da la función, normalmente aparecen \textbf{dos variables}. Dividimos el proceso en cinco pasos:
+
+\begin{enumerate}
+\item \textbf{Identificamos las dos variables} y buscamos una \textbf{ecuación que las relacione} (la condición o ligadura). En esta ecuación despejamos una variable en función de la otra.
+\item Buscamos la \textbf{función a optimizar} y sustituimos en ella la variable por la expresión del paso anterior. Así obtenemos una función de una sola variable.
+\item Derivamos la función e igualamos a 0 para encontrar los posibles máximos o mínimos.
+\item Hacemos la segunda derivada (o estudiamos el crecimiento y el decrecimiento) para saber si los puntos obtenidos son máximos o mínimos.
+\item Tomamos el punto buscado, calculamos la otra variable e \textbf{interpretamos el resultado} final.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Consejos}: haz un dibujo y pon las variables; escribe qué valores pueden tomar (longitudes positivas, número de personas\dots{}); y recuerda las fórmulas básicas: área del rectángulo \fmm{b\cdot h}, perímetro \fmm{2b+2h}, volumen de un prisma \fmm{A_{base}\cdot h}, ingresos = precio · cantidad.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Determina las condiciones más económicas de una piscina al aire libre, de volumen 32 m$^3$, con fondo cuadrado, de forma que la superficie de las paredes y el suelo necesite la mínima cantidad de material.
+
+\textbf{1.} Variables: \fmm{x} = lado de la base, \fmm{y} = altura (en m). Como el volumen es 32 m$^3$: \fmm{\ V=A_b\cdot h\Rightarrow x^2y=32\Rightarrow y=\dfrac{32}{x^2}}
+
+\textbf{2.} Función a minimizar: la superficie del fondo y las cuatro paredes (no tiene techo): \fmm{\ S=x^2+4xy\Rightarrow S(x)=x^2+4x\cdot\dfrac{32}{x^2}=x^2+\dfrac{128}{x}}, \fmm{x\gt0}.
+
+\textbf{3.} \fmm{S'(x)=2x-\dfrac{128}{x^2}=0\Rightarrow 2x^3=128\Rightarrow x^3=64\Rightarrow x=4}
+
+\textbf{4.} \fmm{S''(x)=2+\dfrac{256}{x^3}\Rightarrow S''(4)=6\gt0}: \textbf{mínimo}.
+
+\textbf{5.} \fmm{x=4} m e \fmm{y=\dfrac{32}{16}=2} m. La piscina más económica tiene una base de 4 m $\times$ 4 m y 2 m de profundidad, y necesita \fmm{S(4)=16+32=48} m$^2$ de material.
+\item Descompón el número 12 en dos sumandos positivos de forma que el producto del cuadrado del primero por el segundo sea máximo.
+
+\textbf{1.} Sumandos \fmm{x} e \fmm{y}: \fmm{x+y=12\Rightarrow y=12-x}, \fmm{\ 0\lt x\lt12}.
+
+\textbf{2.} \fmm{P=x^2y\Rightarrow P(x)=x^2(12-x)=12x^2-x^3}
+
+\textbf{3--4.} \fmm{P'(x)=24x-3x^2=3x(8-x)=0\Rightarrow x=8} (\fmm{x=0} no es válido). \fmm{\ P''(x)=24-6x\Rightarrow P''(8)=-24\lt0}: máximo.
+
+\textbf{5.} Los sumandos son 8 y 4, y el producto máximo es \fmm{8^2\cdot4=256}.
+\item Queremos vallar un campo rectangular junto a un río con 400 m de valla. El lado del río no hay que vallarlo. ¿Qué dimensiones hacen máxima el área?
+
+\textbf{1.} \fmm{x} = lados perpendiculares al río, \fmm{y} = lado paralelo. Valla: \fmm{2x+y=400\Rightarrow y=400-2x}, \fmm{\ 0\lt x\lt200}.
+
+\textbf{2.} \fmm{A=x\cdot y\Rightarrow A(x)=x(400-2x)=400x-2x^2}
+
+\textbf{3--4.} \fmm{A'(x)=400-4x=0\Rightarrow x=100}; \fmm{\ A''(x)=-4\lt0}: máximo.
+
+\textbf{5.} \fmm{x=100} m e \fmm{y=200} m. El área máxima es 20 000 m$^2$.
+\item De una lámina cuadrada de cartón de 12 cm de lado recortamos un cuadrado de lado \fmm{x} en cada esquina y doblamos para hacer una caja sin tapa. ¿Cuánto debe valer \fmm{x} para que el volumen sea máximo?
+
+\textbf{1--2.} La base es un cuadrado de lado \fmm{12-2x} y la altura es \fmm{x}, con \fmm{0\lt x\lt6}: \fmm{\ V(x)=(12-2x)^2\cdot x=4x^3-48x^2+144x}
+
+\textbf{3.} \fmm{V'(x)=12x^2-96x+144=12(x-2)(x-6)=0\Rightarrow x=2} (\fmm{x=6} no es válido: no habría caja).
+
+\textbf{4.} \fmm{V''(x)=24x-96\Rightarrow V''(2)=-48\lt0}: máximo.
+
+\textbf{5.} Recortamos cuadrados de 2 cm: la caja mide 8 $\times$ 8 $\times$ 2 cm y tiene un volumen máximo de 128 cm$^3$.
+\item Una agencia organiza un viaje con un mínimo de 30 personas a 600 € por persona. Por cada persona adicional, el precio de \textbf{todos} los viajeros baja 10 €. ¿Cuántas personas tienen que ir al viaje para que los ingresos sean máximos?
+
+\textbf{1.} \fmm{x} = personas adicionales. Van \fmm{30+x} personas y cada una paga \fmm{600-10x} euros.
+
+\textbf{2.} Ingresos = personas · precio: \fmm{\ I(x)=(30+x)(600-10x)=18\,000+300x-10x^2}
+
+\textbf{3--4.} \fmm{I'(x)=300-20x=0\Rightarrow x=15}; \fmm{\ I''(x)=-20\lt0}: máximo.
+
+\textbf{5.} Tienen que ir 45 personas, a 450 € cada una. Los ingresos máximos son \fmm{45\cdot450=20\,250} €.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

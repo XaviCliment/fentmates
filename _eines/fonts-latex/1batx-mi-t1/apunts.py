@@ -1052,6 +1052,33 @@ if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als do
         k = doc.rindex('\\begin{fmex}{Ejemplos resueltos}', 0, doc.index('\\textbf{Ingresos.}'))
         n = doc.rindex('\\Needspace{', 0, k); assert k - n < 40
         doc = doc[:n] + '\\Needspace{9cm}\n' + doc[k:]
+if N == 8:  # el primer requadre d'exemples (llegim els límits a la gràfica), com el de 2n Batx MII U5: equació dalt de la
+    # gràfica, els dos límits l'un al costat de l'altre i una línia de comentari davall; ocupa la pàgina sencera.
+    # Text i disposició de ../2batx-mii-t1/t5-grafica[-es].tex; les gràfiques, les de la pàgina (inf1..inf6), com la resta de la unitat
+    retoc('\\newtcolorbox{fmnote}', '\\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\\faPencil*\\ #1},\n  titlerule=0.4pt,titlerule style={fmex!40,dashed}}\n\\newtcolorbox{fmnote}')
+    box = open(os.path.join(HERE, '..', '2batx-mii-t1', 't5-grafica%s.tex' % ('-es' if ES else '')), encoding='utf-8').read().rstrip('\n')
+    figs = iter('inf%d' % k for k in range(1, 7))
+    box, k = re.subn(r'\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}',
+                     lambda m: r'\includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{%s}' % svgpdf(DOMG[next(figs)])[0], box, flags=re.S)
+    assert k == 6
+    i = doc.index(T('\\begin{fmex}{Exemples: llegim', '\\begin{fmex}{Ejemplos: leemos')); j = doc.index('\\end{fmex}', i) + len('\\end{fmex}')
+    n = doc.rindex('\\fmboxneed{', 0, i); assert '\\section' not in doc[n:i] and '\\end{fm' not in doc[n:i]  # la reserva del requadre (mesura del primer bloc)
+    doc = doc[:n] + '\\newpage\n' + box + doc[j:]
+if N == 9:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als dos idiomes
+    i = doc.index("\\fmdisp{m_n=-\\frac{1}{f'(a)}}\n")  # (la primera còpia és la que mesura el bloc de la recta normal)
+    doc = doc[:i] + doc[i:].replace("\\fmdisp{m_n=-\\frac{1}{f'(a)}}\n", "\\fmdisp{m_n=-\\frac{1}{f'(a)}}\\\\[4ex]\n\n", 1)
+    # salts de pàgina: només en valencià (en castellà el text és més llarg i deixaven pàgines quasi buides)
+    def _np(anchor):  # salt de pàgina en lloc de la reserva següent
+        global doc
+        k = doc.index(anchor); m = doc.index('\n\n\\Needspace{5\\baselineskip}\n', k)
+        doc = doc[:m] + '\n\\newpage\n%\\Needspace{5\\baselineskip}\n' + doc[m + len('\n\n\\Needspace{5\\baselineskip}\n'):]
+    if not ES:
+        _np('\\fmm{e^{g(x)}}')
+        _np('\\begin{fmdef}{Les gràfiques bàsiques}')
+        k = doc.index('\\begin{fmdef}{Funcions definides a trossos}')
+        m = doc.rindex('\n\n\\Needspace{5\\baselineskip}\n', 0, k); assert k - m < 40
+        doc = doc[:m] + '\n\\newpage\n%\\Needspace{5\\baselineskip}\n' + doc[m + len('\n\n\\Needspace{5\\baselineskip}\n'):]
+        retoc(r'\n(\\item Representa \\fmm\{f\(x\)=x\^4-2x\^2\})', r'\n\\newpage\n\1', True)
 if N in (2, 3):  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 2:  # la fórmula del grau de la suma, en una línia a part (evita els buits del text justificat)
