@@ -1143,6 +1143,9 @@ if N == 5:  # l'exemple de la funció a trossos: les quatre gràfiques dels pass
     i = doc.index(T('\\begin{fmex}{Exemple resolt: representa $f(x)=\\begin{cases}', '\\begin{fmex}{Ejemplo resuelto: representa $f(x)=\\begin{cases}')); j = doc.index('\\end{fmex}', i)
     assert doc[i:j].count('width=6.2cm,height=5.2cm') == 4
     doc = doc[:i] + doc[i:j].replace('width=6.2cm,height=5.2cm', 'width=6.2cm,height=3.9cm') + doc[j:]
+if N == 8:  # retocs de l'autor (Desktop, revisió 2026-11-25): les marques de classe i les mitjanes marginals, amb més aire
+    retoc(r'(\\fmm\{2\{,\}5,\\ 6,\\ 8\{,\}5\}\.)\n', r'\1\\\\[2ex]\n', True)
+    retoc(r'(=\\dfrac\{124\}\{40\}=3\{,\}1\} \w+,) (\\fmm\{\\ \\bar y=[^\n]*?=5\{,\}85\}\.)\n', r'\1 \\\\[2ex]\n\2\\\\[2ex]\n', True)
 if N == 10:  # el títol de 10.2 (dues línies) i el començament del requadre caben al final de la pàgina 2
     retoc(r'\\Needspace\{[\d.]+cm\}(\n\\section\{Variables aleat\w+ discret)', r'\\enlargethispage{1cm}\\Needspace{4cm}\1', True)
 if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25)

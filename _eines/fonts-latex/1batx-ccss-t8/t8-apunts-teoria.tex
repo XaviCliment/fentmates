@@ -1,0 +1,552 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 8: Distribucions bidimensionals. 1r de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials I},pdfkeywords={estadística bidimensional, taules de doble entrada, núvol de punts, covariància, correlació, coeficient de correlació, recta de regressió, estimacions}}
+
+% colors de la web (FentMates, bloc de Probabilitat i Estadística: morat; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{684E88}
+\definecolor{fmgreenl}{HTML}{8064A1}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.4cm+5\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{8.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \foreach \x/\y in {40/92,58/84,66/90,80/74,92/78,104/64,116/68,128/56,140/60,152/46,166/50,178/38,192/34,206/26}
+    \fill (\x,\y) circle (5);
+  \draw[line width=4pt,opacity=0.7] (30,98)--(222,22);
+  \node[anchor=base west,inner sep=0pt,scale=2.2,font=\large\itshape] at (150,96) {$r\approx0{,}9$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat CCSS · Unitat 8: Distribucions bidimensionals}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques Aplicades a les Ciències Socials I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 8} · Distribucions bidimensionals\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: distribucions bidimensionals i taules de freqüències (simples i de doble entrada), núvol de punts, correlació i regressió, covariància, coeficient de correlació lineal i les dues rectes de regressió, amb estimacions i la seua fiabilitat.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}8.1}\ \ Distribucions bidimensionals. Taules}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}8.2}\ \ Núvol de punts}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}8.3}\ \ Correlació i regressió}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}8.4}\ \ Correlació lineal. Covariància}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}8.5}\ \ Coeficient de correlació}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}8.6}\ \ Rectes de regressió}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{Distribucions bidimensionals. Taules de freqüències}\hypertarget{sec1}{}
+
+Fins ara has estudiat una sola característica de cada individu (l'estadística \textbf{unidimensional}). En aquesta unitat n'estudiem dues alhora per a veure si estan relacionades: si quan una creix l'altra també creix, si decreix o si no hi ha cap relació, i per a poder \textbf{estimar} el valor d'una a partir de l'altra.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Variable estadística bidimensional}
+Quan en cada individu estudiem \textbf{dues} característiques alhora, obtenim una \textbf{variable bidimensional} \fmm{(X,Y)}: cada dada és un parell \fmm{(x_i,y_i)}. Per exemple, les hores d'estudi i la nota de cada alumne, l'altura i el pes de cada persona o la temperatura i les vendes de gelats de cada dia. L'objectiu és saber si hi ha \textbf{relació} entre les dues variables i com és de forta.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Dues maneres d'organitzar les dades}
+\begin{itemize}
+\item \textbf{Taula simple} (en files o columnes): una llista dels \fmm{N} parells. És la més còmoda quan hi ha poques dades i quasi no es repeteixen.
+\item \textbf{Taula de doble entrada}: a les files posem els valors de \fmm{X}, a les columnes els de \fmm{Y}, i en cada casella la \textbf{freqüència conjunta} \fmm{f_{ij}}, el nombre d'individus amb \fmm{X=x_i} i \fmm{Y=y_j}. Les sumes de les files donen la \textbf{distribució marginal de X} i les de les columnes, la \textbf{distribució marginal de Y}. La suma de totes les caselles és \fmm{N}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple: taula simple}
+Una empresa anota els diners que inverteix cada mes en publicitat (\fmm{X}, en milers d'euros) i les vendes del mes (\fmm{Y}, en milers d'euros):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccccc}\toprule
+\textbf{Mes} & \textbf{Gen.} & \textbf{Febr.} & \textbf{Març} & \textbf{Abr.} & \textbf{Maig} & \textbf{Juny}\\\midrule
+$x_i$ & 1 & 2 & 3 & 4 & 5 & 6\\
+$y_i$ & 10 & 14 & 15 & 19 & 21 & 23\\
+\bottomrule\end{tabular}\end{center}
+
+Hi ha \fmm{N=6} parells i cap no es repeteix, per això n'hi ha prou amb una taula simple. Ja s'intueix que, com més s'inverteix en publicitat, més es ven: ho estudiarem amb el núvol de punts (8.2), la covariància (8.4) i el coeficient de correlació (8.5), i en l'apartat 8.6 calcularem la recta que permet estimar les vendes.
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple: germans i mascotes}
+Preguntem a 20 alumnes el nombre de germans (\fmm{X}) i el nombre de mascotes que tenen a casa (\fmm{Y}):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{$X\backslash Y$} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{$f_x$}\\\midrule
+0 & 3 & 2 & 0 & 5\\
+1 & 2 & 5 & 2 & 9\\
+2 & 0 & 2 & 4 & 6\\
+$f_y$ & 5 & 9 & 6 & 20\\
+\bottomrule\end{tabular}\end{center}
+
+\begin{itemize}
+\item La casella \fmm{(1,1)} val 5: cinc alumnes tenen un germà i una mascota.
+\item Distribució marginal de \fmm{X}: els valors 0, 1, 2 amb freqüències 5, 9, 6. La seua mitjana és \fmm{\bar x=\dfrac{0\cdot5+1\cdot9+2\cdot6}{20}=\dfrac{21}{20}=1{,}05}.
+\item Distribució marginal de \fmm{Y}: 0, 1, 2 amb freqüències 5, 9, 6, i també \fmm{\bar y=1{,}05}.
+\item Observa que les freqüències grans són a la diagonal: els alumnes amb més germans solen tindre més mascotes.
+\end{itemize}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Freqüències relatives, distribucions condicionades i dades agrupades}
+\begin{itemize}
+\item La \textbf{freqüència relativa} d'una casella és \fmm{h_{ij}=\dfrac{f_{ij}}{N}} (multiplicada per 100, és un percentatge). Totes juntes sumen 1.
+\item Una \textbf{distribució condicionada} és una sola fila (o una sola columna) de la taula: per exemple, com es reparteix \fmm{Y} entre els individus que tenen \fmm{X=x_i}. Els percentatges es calculen respecte del total d'aquella fila.
+\item Si les variables són contínues o tenen molts valors, s'agrupen en \textbf{intervals} i, per a fer els càlculs, cada interval es representa per la seua \textbf{marca de classe} (el punt mitjà).
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple: hores d'estudi i nota (dades agrupades)}
+Les hores d'estudi setmanals (\fmm{X}) i la nota final (\fmm{Y}) de 40 alumnes, agrupades en intervals:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{$X\backslash Y$} & \textbf{$[0,5)$} & \textbf{$[5,7)$} & \textbf{$[7,10]$} & \textbf{$f_x$}\\\midrule
+$[0,2)$ & 6 & 3 & 1 & 10\\
+$[2,4)$ & 4 & 9 & 5 & 18\\
+$[4,6)$ & 1 & 4 & 7 & 12\\
+$f_y$ & 11 & 16 & 13 & 40\\
+\bottomrule\end{tabular}\end{center}
+
+Marques de classe: per a \fmm{X}, \fmm{1,\ 3,\ 5}; per a \fmm{Y}, \fmm{2{,}5,\ 6,\ 8{,}5}.\\[2ex]
+
+Mitjanes marginals: \fmm{\bar x=\dfrac{1\cdot10+3\cdot18+5\cdot12}{40}=\dfrac{124}{40}=3{,}1} hores, \\[2ex]
+\fmm{\ \bar y=\dfrac{2{,}5\cdot11+6\cdot16+8{,}5\cdot13}{40}=\dfrac{234}{40}=5{,}85}.\\[2ex]
+
+Freqüència relativa de la casella \fmm{([2,4),[5,7))}: \fmm{h=\frac{9}{40}=0{,}225}, és a dir, el \fmm{22{,}5\,\%} dels alumnes estudia entre 2 i 4 hores i trau entre un 5 i un 7.
+
+Distribució condicionada a \fmm{X\in[4,6)} (la tercera fila): dels 12 alumnes que estudien més de 4 hores, en treuen un 7 o més \fmm{\frac{7}{12}\approx58{,}3\,\%}, mentre que dels que estudien menys de 2 hores només \fmm{\frac{1}{10}=10\,\%}. Sembla que hi ha relació entre les dues variables.
+\end{fmex}
+
+\fmheadboxalt{
+\section{Representació gràfica: el núvol de punts}\hypertarget{sec2}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Representem cada parell \fmm{(x_i,y_i)} com un punt del pla. El conjunt de punts és el \textbf{núvol de punts}. La seua forma ens diu, d'un colp d'ull, si hi ha relació entre les variables:
+
+\begin{itemize}
+\item si els punts s'agrupen al voltant d'una recta, diem que hi ha \textbf{correlació lineal};
+\item si la recta puja, la correlació és \textbf{positiva} (directa); si baixa, \textbf{negativa} (inversa);
+\item com més estret és el núvol, més \textbf{forta} és la relació.
+\end{itemize}
+
+El punt \fmm{(\bar x,\bar y)} s'anomena \textbf{centre de gravetat} del núvol.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/a143dbbb6320.pdf}\par}\par\smallskip{\centering\footnotesize Els punts \fmm{(1,2),(2,3),(3,5),(4,4),(5,6)} i el centre de gravetat \fmm{(3,4)}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Núvol de punts (diagrama de dispersió)}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Representem cada parell \fmm{(x_i,y_i)} com un punt del pla. El conjunt de punts és el \textbf{núvol de punts}. La seua forma ens diu, d'un colp d'ull, si hi ha relació entre les variables:
+
+\begin{itemize}
+\item si els punts s'agrupen al voltant d'una recta, diem que hi ha \textbf{correlació lineal};
+\item si la recta puja, la correlació és \textbf{positiva} (directa); si baixa, \textbf{negativa} (inversa);
+\item com més estret és el núvol, més \textbf{forta} és la relació.
+\end{itemize}
+
+El punt \fmm{(\bar x,\bar y)} s'anomena \textbf{centre de gravetat} del núvol.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/a143dbbb6320.pdf}\par}\par\smallskip{\centering\footnotesize Els punts \fmm{(1,2),(2,3),(3,5),(4,4),(5,6)} i el centre de gravetat \fmm{(3,4)}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Representem cada parell \fmm{(x_i,y_i)} com un punt del pla. El conjunt de punts és el \textbf{núvol de punts}. La seua forma ens diu, d'un colp d'ull, si hi ha relació entre les variables:
+
+\begin{itemize}
+\item si els punts s'agrupen al voltant d'una recta, diem que hi ha \textbf{correlació lineal};
+\item si la recta puja, la correlació és \textbf{positiva} (directa); si baixa, \textbf{negativa} (inversa);
+\item com més estret és el núvol, més \textbf{forta} és la relació.
+\end{itemize}
+
+El punt \fmm{(\bar x,\bar y)} s'anomena \textbf{centre de gravetat} del núvol.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/a143dbbb6320.pdf}\par}\par\smallskip{\centering\footnotesize Els punts \fmm{(1,2),(2,3),(3,5),(4,4),(5,6)} i el centre de gravetat \fmm{(3,4)}.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/0e9e9c81c2e5.pdf}\par}\par\smallskip{\centering\footnotesize Positiva i forta · $r\approx0{,}92$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/65f231e9a1ff.pdf}\par}\par\smallskip{\centering\footnotesize Negativa i forta · $r\approx-0{,}85$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/9c0877b5d55c.pdf}\par}\par\smallskip{\centering\footnotesize Positiva i feble · $r\approx0{,}45$\par}\end{minipage}\par\medskip}
+\begin{fmex}{Quatre núvols típics}
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/0e9e9c81c2e5.pdf}\par}\par\smallskip{\centering\footnotesize Positiva i forta · $r\approx0{,}92$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/65f231e9a1ff.pdf}\par}\par\smallskip{\centering\footnotesize Negativa i forta · $r\approx-0{,}85$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/9c0877b5d55c.pdf}\par}\par\smallskip{\centering\footnotesize Positiva i feble · $r\approx0{,}45$\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/e83c6fcc4dd4.pdf}\par}\par\smallskip{\centering\footnotesize Sense correlació · $r\approx0{,}02$\par}\end{minipage}\hfill\hspace*{0.653\linewidth}\par\medskip
+
+\begin{fmnote}Exemples: l'altura i el pes de les persones (positiva), el preu d'un producte i la quantitat que se'n ven (negativa), la talla de sabata i la nota de matemàtiques (sense relació).\end{fmnote}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Correlació i regressió}\hypertarget{sec3}{}
+
+Davant d'una distribució bidimensional ens fem dues preguntes: \textbf{com de fort} és la relació entre les variables (d'això s'encarrega la \textbf{correlació}) i \textbf{quina funció} la descriu, per a poder estimar una variable a partir de l'altra (d'això s'encarrega la \textbf{regressió}).
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Tipus de dependència entre dues variables}
+\begin{itemize}
+\item \textbf{Dependència funcional}: el valor de \fmm{X} determina \textbf{exactament} el de \fmm{Y}; hi ha una fórmula \fmm{y=f(x)}. Per exemple, el preu que pagues per unes pomes a 2 €/kg i els quilos que en compres: \fmm{y=2x}. Tots els punts són sobre una línia.
+\item \textbf{Dependència estadística} (o aleatòria): hi ha relació, però no és exacta. Dues persones de la mateixa altura no pesen igual, però en general les més altes pesen més. Els punts formen un núvol al voltant d'una línia. És el cas que estudia aquesta unitat.
+\item \textbf{Independència}: no hi ha cap relació. Conéixer \fmm{X} no ens diu res de \fmm{Y} (el número de sabata i la nota de matemàtiques). El núvol no té cap forma.
+\end{itemize}
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/4403f9bbe3cc.pdf}\par}\par\smallskip{\centering\footnotesize Funcional: \fmm{y=2x}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/eb6f202507aa.pdf}\par}\par\smallskip{\centering\footnotesize Estadística\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/c2bef8cb2d3b.pdf}\par}\par\smallskip{\centering\footnotesize Independència\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Correlació i regressió}
+\begin{itemize}
+\item La \textbf{correlació} estudia el \textbf{grau} de dependència entre les variables. Si el núvol s'agrupa al voltant d'una recta, parlem de \textbf{correlació lineal}: \textbf{positiva} o directa si la recta puja, \textbf{negativa} o inversa si baixa, i més \textbf{forta} com més estret és el núvol. La mesurarem amb la covariància (8.4) i, sobretot, amb el coeficient de correlació (8.5).
+\item La \textbf{regressió} busca la funció que millor s'ajusta al núvol de punts per a fer \textbf{estimacions} o prediccions. Si la funció és una recta, és \textbf{regressió lineal} (apartat 8.6). Si la relació té forma de paràbola, d'exponencial\dots{}, és una regressió no lineal (no l'estudiarem).
+\end{itemize}
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/0e9e9c81c2e5.pdf}\par}\par\smallskip{\centering\footnotesize Lineal: el núvol segueix una recta\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d04f60868461.pdf}\par}\par\smallskip{\centering\footnotesize Parabòlica: el rendiment d'un esportista segons l'edat\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/6e2e2cb093d3.pdf}\par}\par\smallskip{\centering\footnotesize Exponencial: els bacteris d'un cultiu al llarg del temps\par}\end{minipage}\par\medskip
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Correlació no vol dir causalitat}
+Que dues variables tinguen una correlació forta \textbf{no} vol dir que una siga la causa de l'altra. Per exemple, en els pobles de la costa, les vendes de gelats i el nombre de cremades pel sol tenen una correlació positiva forta, però els gelats no provoquen cremades: totes dues depenen d'una \textbf{tercera variable}, la calor (i el nombre de turistes). També hi ha correlacions per pura casualitat.
+\end{fmprop}
+
+\Needspace{5.7cm}
+\section{Correlació lineal. Covariància}\hypertarget{sec4}{}
+\begin{fmdef}{Paràmetres marginals}
+Cada variable per separat té la seua mitjana, la seua variància i la seua desviació típica (són els paràmetres de les distribucions marginals):
+
+\fmdisp{\bar x=\frac{\sum x_i}{N}\qquad\bar y=\frac{\sum y_i}{N}\qquad\sigma_x^2=\frac{\sum x_i^2}{N}-\bar x^2\qquad\sigma_y^2=\frac{\sum y_i^2}{N}-\bar y^2}
+
+Si les dades estan en una taula de doble entrada, cada producte es multiplica per la freqüència: \fmm{\bar x=\frac{\sum x_if_i}{N}}, etc.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Covariància}
+La \textbf{covariància} mesura com varien les dues variables \textbf{conjuntament}:
+
+\fmdisp{\sigma_{xy}=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{N}=\frac{\sum x_i\,y_i}{N}-\bar x\,\bar y\qquad\left(\text{amb freqüències: }\ \frac{\sum x_i\,y_j\,f_{ij}}{N}-\bar x\,\bar y\right)}
+
+\begin{itemize}
+\item \fmm{\sigma_{xy}\gt0}: quan una variable creix, l'altra també tendeix a créixer. La majoria de punts són als quadrants 1r i 3r respecte de \fmm{(\bar x,\bar y)}, on \fmm{(x_i-\bar x)(y_i-\bar y)\gt0}.
+\item \fmm{\sigma_{xy}\lt0}: quan una creix, l'altra tendeix a decréixer (quadrants 2n i 4t).
+\item \fmm{\sigma_{xy}\approx0}: no hi ha relació lineal.
+\end{itemize}
+
+\begin{fmnote}La covariància depén de les unitats (si passem de metres a centímetres, es multiplica per 100), per això no ens diu com és de \textbf{forta} la relació. Per a això farem servir el coeficient de correlació (apartat 8.5).\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Els punts de l'apartat 8.2: \fmm{(1,2),(2,3),(3,5),(4,4),(5,6)}. Fem una taula amb les columnes que necessitem:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{$x_i$} & \textbf{$y_i$} & \textbf{$x_i^2$} & \textbf{$y_i^2$} & \textbf{$x_iy_i$}\\\midrule
+1 & 2 & 1 & 4 & 2\\
+2 & 3 & 4 & 9 & 6\\
+3 & 5 & 9 & 25 & 15\\
+4 & 4 & 16 & 16 & 16\\
+5 & 6 & 25 & 36 & 30\\
+15 & 20 & 55 & 90 & 69\\
+\bottomrule\end{tabular}\end{center}
+
+\fmm{\bar x=\dfrac{15}{5}=3\qquad\bar y=\dfrac{20}{5}=4}
+
+\fmm{\sigma_x^2=\dfrac{55}{5}-3^2=2\qquad\sigma_y^2=\dfrac{90}{5}-4^2=2\qquad\sigma_x=\sigma_y=\sqrt2\approx1{,}41}
+
+\fmm{\sigma_{xy}=\dfrac{69}{5}-3\cdot4=13{,}8-12=1{,}8\gt0}: relació positiva.
+\item Amb la taula de doble entrada de l'apartat 8.1 (germans i mascotes, \fmm{\bar x=\bar y=1{,}05}), sumem \fmm{x_i\,y_j\,f_{ij}} en les caselles (les que tenen un 0 no hi sumen):
+
+\fmm{\sum x_iy_jf_{ij}=1\cdot1\cdot5+1\cdot2\cdot2+2\cdot1\cdot2+2\cdot2\cdot4=5+4+4+16=29}
+
+\fmm{\sigma_{xy}=\dfrac{29}{20}-1{,}05\cdot1{,}05=1{,}45-1{,}1025=0{,}3475\gt0}
+
+\fmm{\sum x_i^2f_x=0\cdot5+1\cdot9+4\cdot6=33\Rightarrow\sigma_x^2=\dfrac{33}{20}-1{,}05^2=0{,}5475}. Igualment, \fmm{\sigma_y^2=0{,}5475}.
+\item Publicitat (\fmm{X}) i vendes (\fmm{Y}) de l'apartat 8.1, en milers d'euros:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{$x_i$} & \textbf{$y_i$} & \textbf{$x_i^2$} & \textbf{$y_i^2$} & \textbf{$x_iy_i$}\\\midrule
+1 & 10 & 1 & 100 & 10\\
+2 & 14 & 4 & 196 & 28\\
+3 & 15 & 9 & 225 & 45\\
+4 & 19 & 16 & 361 & 76\\
+5 & 21 & 25 & 441 & 105\\
+6 & 23 & 36 & 529 & 138\\
+21 & 102 & 91 & 1852 & 402\\
+\bottomrule\end{tabular}\end{center}
+
+\fmm{\bar x=\dfrac{21}{6}=3{,}5\qquad\bar y=\dfrac{102}{6}=17}
+
+\fmm{\sigma_x^2=\dfrac{91}{6}-3{,}5^2\approx2{,}917\qquad\sigma_y^2=\dfrac{1852}{6}-17^2\approx19{,}667}
+
+\fmm{\sigma_{xy}=\dfrac{402}{6}-3{,}5\cdot17=67-59{,}5=7{,}5\gt0}: quan s'inverteix més en publicitat, les vendes tendeixen a ser més altes.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Coeficient de correlació lineal}\hypertarget{sec5}{}
+\begin{fmdef}{Coeficient de correlació lineal de Pearson}
+
+\fmdisp{r=\frac{\sigma_{xy}}{\sigma_x\,\sigma_y}}
+
+Com que dividim per les desviacions típiques, \fmm{r} no té unitats i sempre compleix \fmm{-1\leq r\leq1}. Té el mateix signe que la covariància.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Com s'interpreta}
+\begin{itemize}
+\item \textbf{El signe} indica el sentit: \fmm{r\gt0}, correlació positiva (directa); \fmm{r\lt0}, negativa (inversa).
+\item \textbf{El valor absolut} indica la força: \fmm{|r|=1}, els punts són exactament sobre una recta (dependència \textbf{funcional}); \fmm{|r|} prop d'1 (per exemple, més de 0,8), correlació \textbf{forta}; entre 0,5 i 0,8, \textbf{moderada}; per davall de 0,5, \textbf{feble}; \fmm{r\approx0}, no hi ha correlació lineal.
+\end{itemize}
+
+\begin{itemize}
+\item \fmm{r} \textbf{no depén de les unitats}: si mesurem en centímetres en lloc de metres, \fmm{r} no canvia (la covariància, sí).
+\item Si \fmm{r=0} diem que les variables són \textbf{incorrelades}: no hi ha relació \textbf{lineal}, però en pot haver d'una altra mena (vegeu més avall).
+\end{itemize}
+
+\begin{fmnote}Aquests límits (0,8 i 0,5) són orientatius: no hi ha una frontera exacta entre una correlació forta i una de moderada.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Els punts \fmm{(1,2),(2,3),(3,5),(4,4),(5,6)} de l'apartat 8.4: \fmm{\sigma_{xy}=1{,}8} i \fmm{\sigma_x=\sigma_y=\sqrt2}.
+
+\fmdisp{r=\frac{1{,}8}{\sqrt2\cdot\sqrt2}=\frac{1{,}8}{2}=0{,}9}
+
+          Correlació lineal positiva i forta.
+\item Germans i mascotes (apartat 8.4): \fmm{\ r=\dfrac{0{,}3475}{\sqrt{0{,}5475}\cdot\sqrt{0{,}5475}}=\dfrac{0{,}3475}{0{,}5475}\approx0{,}63}: correlació positiva moderada.
+\item El preu (€) i les unitats venudes d'un producte en 5 botigues: \fmm{(2,40),(3,34),(4,30),(5,25),(6,21)}. Ara \fmm{\sum x_i=20}, \fmm{\sum y_i=150}, \fmm{\sum x_i^2=90}, \fmm{\sum y_i^2=4\,722} i \fmm{\sum x_iy_i=553}.
+
+\fmm{\bar x=4,\ \bar y=30,\ \sigma_x^2=\dfrac{90}{5}-16=2,\ \sigma_y^2=\dfrac{4\,722}{5}-900=44{,}4}
+
+\fmm{\sigma_{xy}=\dfrac{553}{5}-4\cdot30=110{,}6-120=-9{,}4}
+
+\fmm{r=\dfrac{-9{,}4}{\sqrt2\cdot\sqrt{44{,}4}}\approx\dfrac{-9{,}4}{9{,}423}\approx-0{,}998}: correlació negativa molt forta (com més car, menys se'n ven).
+\item Publicitat i vendes (apartat 8.4): \fmm{\sigma_{xy}=7{,}5}, \fmm{\sigma_x^2\approx2{,}917}, \fmm{\sigma_y^2\approx19{,}667}.
+
+\fmdisp{r=\frac{7{,}5}{\sqrt{2{,}917}\cdot\sqrt{19{,}667}}\approx\frac{7{,}5}{1{,}708\cdot4{,}435}\approx0{,}99}
+
+          Correlació positiva molt forta: té sentit fer servir una recta per a estimar les vendes (apartat 8.6).
+\end{enumerate}
+\end{fmex}
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d04f60868461.pdf}\par}\par\smallskip{\centering\footnotesize Parabòlica: el rendiment d'un esportista segons l'edat. Creix i després decreix. $r\approx0$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/6e2e2cb093d3.pdf}\par}\par\smallskip{\centering\footnotesize Exponencial: el nombre de bacteris d'un cultiu al llarg del temps. $r\approx0{,}89$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/f507e832ac94.pdf}\par}\par\smallskip{\centering\footnotesize De saturació: el que recordes d'un tema segons les hores que hi dediques. $r\approx0{,}85$\par}\end{minipage}\par\medskip}
+\begin{fmex}{Compte: $r$ només mesura la relació lineal}
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d04f60868461.pdf}\par}\par\smallskip{\centering\footnotesize Parabòlica: el rendiment d'un esportista segons l'edat. Creix i després decreix. $r\approx0$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/6e2e2cb093d3.pdf}\par}\par\smallskip{\centering\footnotesize Exponencial: el nombre de bacteris d'un cultiu al llarg del temps. $r\approx0{,}89$\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/f507e832ac94.pdf}\par}\par\smallskip{\centering\footnotesize De saturació: el que recordes d'un tema segons les hores que hi dediques. $r\approx0{,}85$\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/54977b7b6c4f.pdf}\par}\par\smallskip{\centering\footnotesize Els punts formen una circumferència: hi ha una relació perfecta, però \fmm{r=0}. $r\approx0$\par}\end{minipage}\hfill\hspace*{0.653\linewidth}\par\medskip
+
+\begin{fmnote}Fixa't en la paràbola i en la circumferència: \fmm{r} és pràcticament 0 i, en canvi, \fmm{Y} depén clarament de \fmm{X}. Per això \textbf{sempre} cal mirar el núvol de punts abans d'interpretar \fmm{r}. En l'exponencial i en la de saturació, \fmm{r} és alt, però els punts no segueixen una recta.\end{fmnote}
+\end{fmex}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un sol punt molt allunyat dels altres (en roig) pot canviar molt el coeficient. Ací els set punts de baix no tenen cap relació entre ells, però el punt atípic fa que \fmm{r} isca molt alt. Abans de calcular, cal revisar si hi ha dades errònies o excepcionals.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/86bff594a541.pdf}\par}\par\smallskip{\centering\footnotesize $r\approx0{,}98$\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmex}{Valors atípics}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un sol punt molt allunyat dels altres (en roig) pot canviar molt el coeficient. Ací els set punts de baix no tenen cap relació entre ells, però el punt atípic fa que \fmm{r} isca molt alt. Abans de calcular, cal revisar si hi ha dades errònies o excepcionals.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/86bff594a541.pdf}\par}\par\smallskip{\centering\footnotesize $r\approx0{,}98$\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Un sol punt molt allunyat dels altres (en roig) pot canviar molt el coeficient. Ací els set punts de baix no tenen cap relació entre ells, però el punt atípic fa que \fmm{r} isca molt alt. Abans de calcular, cal revisar si hi ha dades errònies o excepcionals.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/86bff594a541.pdf}\par}\par\smallskip{\centering\footnotesize $r\approx0{,}98$\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmex}\global\fmstackfalse
+
+\Needspace{8\baselineskip}
+\section{Rectes de regressió}\hypertarget{sec6}{}
+
+Quan hi ha correlació lineal, podem dibuixar la recta que millor s'ajusta al núvol de punts i fer-la servir per a \textbf{estimar} valors d'una variable a partir de l'altra. Com que no és el mateix estimar \fmm{y} coneguda \fmm{x} que estimar \fmm{x} coneguda \fmm{y}, hi ha \textbf{dues} rectes de regressió.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Recta de regressió de Y sobre X}
+És la recta que fa mínima la suma dels quadrats de les distàncies \textbf{verticals} dels punts a la recta (mètode dels \textbf{mínims quadrats}). Passa pel centre de gravetat \fmm{(\bar x,\bar y)} i el seu pendent és el \textbf{coeficient de regressió de Y sobre X}, \fmm{m_{yx}=\frac{\sigma_{xy}}{\sigma_x^2}}:
+
+\fmdisp{y-\bar y=\frac{\sigma_{xy}}{\sigma_x^2}\,(x-\bar x)}
+
+Serveix per a \textbf{estimar \fmm{y}} quan coneixem \fmm{x}. El coeficient de regressió diu quant augmenta (o disminueix, si és negatiu) \fmm{y}, de mitjana, per cada unitat que augmenta \fmm{x}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Recta de regressió de X sobre Y}
+Fa mínima la suma dels quadrats de les distàncies \textbf{horitzontals}. També passa per \fmm{(\bar x,\bar y)} i el seu coeficient és \fmm{m_{xy}=\frac{\sigma_{xy}}{\sigma_y^2}}:
+
+\fmdisp{x-\bar x=\frac{\sigma_{xy}}{\sigma_y^2}\,(y-\bar y)}
+
+Serveix per a \textbf{estimar \fmm{x}} quan coneixem \fmm{y}. Compte: per a estimar \fmm{x} \textbf{no} s'aïlla \fmm{x} de la recta de Y sobre X; cal fer servir aquesta altra recta.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propietats de les dues rectes}
+\begin{itemize}
+\item Les dues es tallen en el centre de gravetat \fmm{(\bar x,\bar y)}.
+\item Els dos coeficients de regressió tenen el signe de \fmm{\sigma_{xy}} (i de \fmm{r}): les dues rectes són creixents o les dues decreixents.
+\item El producte dels coeficients és el quadrat del coeficient de correlació: \fmm{\ m_{yx}\cdot m_{xy}=\dfrac{\sigma_{xy}}{\sigma_x^2}\cdot\dfrac{\sigma_{xy}}{\sigma_y^2}=\dfrac{\sigma_{xy}^2}{\sigma_x^2\sigma_y^2}=r^2}. Per això \fmm{r=\pm\sqrt{m_{yx}\,m_{xy}}}, amb el signe dels coeficients.
+\item Si \fmm{|r|=1}, les dues rectes \textbf{coincideixen} (tots els punts són sobre la recta). Com més pròxim a 0 és \fmm{r}, més s'obri l'angle entre elles; si \fmm{r=0}, són \fmm{y=\bar y} i \fmm{x=\bar x}: \textbf{perpendiculars}.
+\item \textbf{Quina és quina?} Si escrivim totes dues en la forma \fmm{y=ax+b}, la de Y sobre X és la de pendent més xicotet en valor absolut (la més «plana»): el seu pendent és \fmm{m_{yx}} i el de l'altra és \fmm{\frac{1}{m_{xy}}}, i el quocient \fmm{m_{yx}:\frac{1}{m_{xy}}=r^2} no pot passar d'1.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Fiabilitat de les estimacions}
+\begin{itemize}
+\item Com més pròxim a 1 siga \fmm{|r|}, més fiable és l'estimació. Si \fmm{|r|} és xicotet, les rectes no serveixen per a estimar.
+\item Només són fiables les estimacions per a valors \textbf{dins} (o prop) de l'interval de les dades. Fora d'ell (\textbf{extrapolar}) la relació pot canviar.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Els punts \fmm{(1,2),(2,3),(3,5),(4,4),(5,6)} dels apartats 8.4 i 8.5: \fmm{\bar x=3}, \fmm{\bar y=4}, \fmm{\sigma_x^2=\sigma_y^2=2}, \fmm{\sigma_{xy}=1{,}8}, \fmm{r=0{,}9}.
+
+Recta de Y sobre X: \fmm{\ y-4=\dfrac{1{,}8}{2}(x-3)\Rightarrow y=0{,}9x+1{,}3}
+
+Estimació per a \fmm{x=4{,}5}: \fmm{\ \hat y=0{,}9\cdot4{,}5+1{,}3=5{,}35}. És fiable: \fmm{r=0{,}9} i \fmm{4{,}5} és dins de l'interval \fmm{[1,5]}.
+
+Recta de X sobre Y: \fmm{\ x-3=\dfrac{1{,}8}{2}(y-4)\Rightarrow x=0{,}9y-0{,}6}
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=7cm,height=5.2cm,keepaspectratio]{figs/0ec023f02656.pdf}\par}\end{minipage}\par\medskip
+\item Publicitat (\fmm{X}) i vendes (\fmm{Y}), en milers d'euros (apartats 8.4 i 8.5): \fmm{\bar x=3{,}5}, \fmm{\bar y=17}, \fmm{\sigma_x^2=\frac{35}{12}\approx2{,}917}, \fmm{\sigma_y^2=\frac{59}{3}\approx19{,}667}, \fmm{\sigma_{xy}=7{,}5}, \fmm{r\approx0{,}99}.
+
+Recta de Y sobre X: \fmm{\ m_{yx}=\dfrac{7{,}5}{35/12}=\dfrac{18}{7}\approx2{,}571}, \fmm{\ y-17=2{,}571\,(x-3{,}5)\Rightarrow y\approx2{,}571x+8}. Per cada 1000 € més de publicitat, les vendes pugen, de mitjana, uns 2571 €.
+
+Si s'inverteixen 4500 € (\fmm{x=4{,}5}), s'estimen unes vendes de \fmm{\ \hat y=2{,}571\cdot4{,}5+8\approx19{,}57}, és a dir, uns 19 570 €.
+
+Recta de X sobre Y: \fmm{\ m_{xy}=\dfrac{7{,}5}{59/3}=\dfrac{45}{118}\approx0{,}381}, \fmm{\ x-3{,}5=0{,}381\,(y-17)\Rightarrow x\approx0{,}381y-2{,}983}.
+
+Per a vendre 20 000 € (\fmm{y=20}) caldria invertir \fmm{\ \hat x=0{,}381\cdot20-2{,}983\approx4{,}64}, uns 4640 € en publicitat. Les dues estimacions són fiables: \fmm{r\approx0{,}99} i els valors són dins de les dades.
+
+Comprovació: \fmm{\ m_{yx}\cdot m_{xy}=\dfrac{18}{7}\cdot\dfrac{45}{118}\approx0{,}981=r^2\Rightarrow r\approx0{,}99}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=7cm,height=5.2cm,keepaspectratio]{figs/0e571202be8f.pdf}\par}\par\smallskip{\centering\footnotesize En blau, la recta de Y sobre X; en verd, la de X sobre Y. Es tallen en \fmm{(3{,}5;\ 17)}.\par}\end{minipage}\par\medskip
+\item Preu (€) i unitats venudes (apartat 8.5): \fmm{\bar x=4}, \fmm{\bar y=30}, \fmm{\sigma_x^2=2}, \fmm{\sigma_{xy}=-9{,}4}, \fmm{r\approx-0{,}998}.
+
+\fmm{y-30=\dfrac{-9{,}4}{2}(x-4)\Rightarrow y=-4{,}7x+48{,}8}
+
+Si el preu és 4,50 €, s'estima que se'n vendran \fmm{\hat y=-4{,}7\cdot4{,}5+48{,}8=27{,}65\approx28} unitats (molt fiable). En canvi, per a un preu de 12 € eixiria \fmm{-7{,}6} unitats: no té sentit, perquè 12 és molt lluny de les dades.
+\item Les rectes de regressió d'una distribució són \fmm{x+2y=10} i \fmm{2x+y=11}. Troba el centre de gravetat, digues quina és cada recta i calcula \fmm{r}.
+
+Centre de gravetat: resolem el sistema format per les dues rectes. \fmm{\ \left\{\begin{array}{l}x+2y=10\\2x+y=11\end{array}\right.\Rightarrow x=4,\ y=3}. Per tant, \fmm{(\bar x,\bar y)=(4,3)}.
+
+En la forma \fmm{y=ax+b}: \fmm{y=-0{,}5x+5} i \fmm{y=-2x+11}. La més plana és la primera: és la de \textbf{Y sobre X}, amb \fmm{m_{yx}=-0{,}5}. La segona, aïllant \fmm{x}: \fmm{x=-0{,}5y+5{,}5}, és la de \textbf{X sobre Y}, amb \fmm{m_{xy}=-0{,}5}.
+
+\fmm{r^2=m_{yx}\cdot m_{xy}=(-0{,}5)(-0{,}5)=0{,}25\Rightarrow r=-0{,}5} (negatiu, com els coeficients): correlació negativa moderada.
+
+Si ho haguérem fet al revés, eixiria \fmm{r^2=(-2)(-2)=4\gt1}: impossible. Així es comprova que l'elecció és la bona.
+\item D'una distribució sabem que \fmm{\bar x=10}, \fmm{\bar y=20}, \fmm{\sigma_x=2}, \fmm{\sigma_y=5} i \fmm{r=0{,}8}. Troba les dues rectes de regressió.
+
+Primer, la covariància: \fmm{\ \sigma_{xy}=r\,\sigma_x\,\sigma_y=0{,}8\cdot2\cdot5=8}.
+
+Y sobre X: \fmm{\ y-20=\dfrac{8}{4}(x-10)\Rightarrow y=2x}. \fmm{\quad} X sobre Y: \fmm{\ x-10=\dfrac{8}{25}(y-20)\Rightarrow x=0{,}32y+3{,}6}.
+
+Comprovació: \fmm{\ 2\cdot0{,}32=0{,}64=0{,}8^2}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
