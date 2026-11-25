@@ -1031,6 +1031,27 @@ if N == 6:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als do
     # el bloc amb figura del final del 6.4 cap a la pàgina 5 (on quedava un blanc) i així el 6.5 cap sencer en una pàgina
     i = doc.index('\\hypertarget{sec4}'); j = doc.index('\\hypertarget{sec5}')
     doc = doc[:i] + doc[i:j].replace('height=4.5cm', 'height=3.6cm') + doc[j:]
+if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als dos idiomes
+    retoc('=\\dfrac{r(x)}{Q(x)}+q(x)}.\n', '=\\dfrac{r(x)}{Q(x)}+q(x)}.\\\\[2ex]\n')
+    retoc(r'((?:Exemple|Ejemplo): \\fmm\{y=\\dfrac\{3x\+1\}\{x-2\}\})\n', r'\1\\\\[2ex]\n', True)
+    retoc('\\fmm{3x+1-3(x-2)=7}.\n', '\\fmm{3x+1-3(x-2)=7}.\\\\[2ex]\n')
+    retoc(r'(\\fmm\{y=\\frac7x\}[^\n]*?\.) (As[ií]\w+ \\fmm\{x=2\})', r'\1 \\\\[2ex]\n\2', True)
+    # exemple «1. Ingressos» (7.9) sencer en una pàgina: columna de text més ampla i gràfica més menuda, sempre costat per costat
+    def _arg(k):
+        d = 0
+        for x in range(k, len(doc)):
+            d += {'{': 1, '}': -1}.get(doc[x], 0)
+            if d == 0: return x
+    i = doc.index('\\fmtwoin{', doc.index(T('\\textbf{Ingressos.}', '\\textbf{Ingresos.}')))
+    e1 = _arg(i + 8); e2 = _arg(e1 + 1)
+    side = doc[i + 9:e1]
+    assert side.count('\\begin{minipage}[t]{0.48\\linewidth}') == 2 and side.count('height=4.5cm') == 1
+    side = side.replace('\\begin{minipage}[t]{0.48\\linewidth}', '\\begin{minipage}[t]{%s\\linewidth}' % T('0.6', '0.64'), 1).replace('\\begin{minipage}[t]{0.48\\linewidth}', '\\begin{minipage}[t]{%s\\linewidth}' % T('0.37', '0.33'), 1)
+    doc = doc[:i] + side.replace('height=4.5cm', 'height=%s' % T('3.4cm', '3.0cm')) + doc[e2 + 1:]
+    if ES:  # en castellà l'enunciat ja cau al final de la pàgina: el requadre d'exemples comença a la pàgina següent, amb l'exemple 1 sencer
+        k = doc.rindex('\\begin{fmex}{Ejemplos resueltos}', 0, doc.index('\\textbf{Ingresos.}'))
+        n = doc.rindex('\\Needspace{', 0, k); assert k - n < 40
+        doc = doc[:n] + '\\Needspace{9cm}\n' + doc[k:]
 if N in (2, 3):  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 2:  # la fórmula del grau de la suma, en una línia a part (evita els buits del text justificat)

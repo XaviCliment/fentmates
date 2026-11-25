@@ -1,0 +1,626 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 7: Funcions elementals. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={funcions lineals, funcions quadràtiques, funcions de proporcionalitat inversa, funcions racionals, funcions radicals, funcions exponencials, funcions logarítmiques, funcions trigonomètriques, funcions a trossos, valor absolut}}
+
+% colors de la web (FentMates, bloc d'Anàlisi: verd; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{7.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (110,114)--(110,6);
+  \draw[line width=4.5pt] (30,100) .. controls (90,100) and (120,80) .. (150,40) .. controls (160,26) and (166,14) .. (172,6);
+  \draw[line width=4.5pt,opacity=0.75] (122,114) .. controls (126,70) and (150,56) .. (226,48);
+  \draw[line width=4.5pt,opacity=0.55] (40,10) .. controls (80,140) and (140,140) .. (180,10);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (176,30) {$e^x$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (190,72) {$\ln x$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat MI · Unitat 7: Funcions elementals}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 7} · Funcions elementals\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas sobre les famílies de funcions més importants: lineals i afins, quadràtiques i cúbiques, racionals, radicals, exponencials, logarítmiques i trigonomètriques, amb les seues propietats i translacions, i les funcions a trossos i amb valor absolut. Acaba amb problemes de màxims i mínims (ingressos, costos, àrees\dots{}) resolts amb el vèrtex de la paràbola.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}7.1}\ \ Funcions lineals i afins}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}7.2}\ \ Funcions quadràtiques i cúbiques}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}7.3}\ \ Funcions racionals}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}7.4}\ \ Funcions radicals}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}7.5}\ \ Funcions exponencials}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}7.6}\ \ Funcions logarítmiques}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}7.7}\ \ Funcions trigonomètriques}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}7.8}\ \ A trossos i valor absolut}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}7.9}\ \ Problemes de màxims i mínims}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Funcions polinòmiques. Funcions lineals i afins}\hypertarget{sec1}{}
+\begin{fmdef}{Funcions polinòmiques}
+Són les que s'expressen amb un polinomi, \fmm{f(x)=P(x)}. El seu domini és sempre \fmm{\mathbb R}. Segons el grau:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Grau} & \textbf{Nom} & \textbf{Expressió}\\\midrule
+0 & Funció constant & $y=k$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}1 & Funció lineal\newline Funció afí & $y=mx$\newline $y=mx+n$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}2 & Funció quadràtica & $y=ax^2+bx+c$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}3 & Funció cúbica & $y=ax^3+bx^2+cx+d$\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/e3af5bdfebf0.pdf}\par}\par\smallskip{\centering\footnotesize \textbf{Constant} \fmm{f(x)=k}: recta horitzontal. \fmm{D(f)=\mathbb R}, \fmm{R(f)=\{k\}}; talla \fmm{OY} en \fmm{(0,k)} i no talla \fmm{OX} (si \fmm{k\neq0}).\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/f68d03d33a77.pdf}\par}\par\smallskip{\centering\footnotesize \textbf{Lineal} \fmm{f(x)=mx}: rectes que passen per \fmm{(0,0)}; \fmm{m} és el \textbf{pendent}. \fmm{D(f)=R(f)=\mathbb R}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/3fdb43385fec.pdf}\par}\par\smallskip{\centering\footnotesize \textbf{Afí} \fmm{f(x)=mx+n}: rectes que passen per \fmm{(0,n)}; \fmm{n} és l'\textbf{ordenada en l'origen}.\par}\end{minipage}\par\medskip}
+\begin{fmdef}{Constant, lineal i afí}
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/e3af5bdfebf0.pdf}\par}\par\smallskip{\centering\footnotesize \textbf{Constant} \fmm{f(x)=k}: recta horitzontal. \fmm{D(f)=\mathbb R}, \fmm{R(f)=\{k\}}; talla \fmm{OY} en \fmm{(0,k)} i no talla \fmm{OX} (si \fmm{k\neq0}).\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/f68d03d33a77.pdf}\par}\par\smallskip{\centering\footnotesize \textbf{Lineal} \fmm{f(x)=mx}: rectes que passen per \fmm{(0,0)}; \fmm{m} és el \textbf{pendent}. \fmm{D(f)=R(f)=\mathbb R}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/3fdb43385fec.pdf}\par}\par\smallskip{\centering\footnotesize \textbf{Afí} \fmm{f(x)=mx+n}: rectes que passen per \fmm{(0,n)}; \fmm{n} és l'\textbf{ordenada en l'origen}.\par}\end{minipage}\par\medskip
+
+Si \fmm{m\gt0} la recta és \textbf{creixent}; si \fmm{m\lt0}, \textbf{decreixent}. La funció constant és el cas particular \fmm{m=0} de la funció afí.
+\end{fmdef}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si coneixem dos punts \fmm{A(x_1,y_1)} i \fmm{B(x_2,y_2)}, el \textbf{pendent} és el quocient entre el que puja i el que avança:
+
+\fmdisp{m=\frac{y_2-y_1}{x_2-x_1}}
+
+i l'\textbf{equació punt-pendent} és
+
+\fmdisp{y=y_1+m(x-x_1)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5ff5262050a1.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{m=\frac42=2}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmprop}{Equació d'una recta}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Si coneixem dos punts \fmm{A(x_1,y_1)} i \fmm{B(x_2,y_2)}, el \textbf{pendent} és el quocient entre el que puja i el que avança:
+
+\fmdisp{m=\frac{y_2-y_1}{x_2-x_1}}
+
+i l'\textbf{equació punt-pendent} és
+
+\fmdisp{y=y_1+m(x-x_1)}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5ff5262050a1.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{m=\frac42=2}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Si coneixem dos punts \fmm{A(x_1,y_1)} i \fmm{B(x_2,y_2)}, el \textbf{pendent} és el quocient entre el que puja i el que avança:
+
+\fmdisp{m=\frac{y_2-y_1}{x_2-x_1}}
+
+i l'\textbf{equació punt-pendent} és
+
+\fmdisp{y=y_1+m(x-x_1)}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5ff5262050a1.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{m=\frac42=2}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmprop}\global\fmstackfalse
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/fed3555d2091.pdf}\par}\par\smallskip{\centering\footnotesize a)\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/82ecf2a8f73e.pdf}\par}\par\smallskip{\centering\footnotesize b)\par}\end{minipage}\par\medskip}
+\begin{fmex}{Exemple resolt: troba l'equació de les rectes}
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/fed3555d2091.pdf}\par}\par\smallskip{\centering\footnotesize a)\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/82ecf2a8f73e.pdf}\par}\par\smallskip{\centering\footnotesize b)\par}\end{minipage}\par\medskip
+
+a) Llegim dos punts amb coordenades enteres: \fmm{(3,1)} i \fmm{(4,4)}. \fmm{\ m=\dfrac{4-1}{4-3}=3}.
+
+\fmm{y=1+3(x-3)\Rightarrow y=3x-8}
+
+b) \fmm{(4,4)} i \fmm{(6,0)}: \fmm{\ m=\dfrac{0-4}{6-4}=-2\Rightarrow y=4-2(x-4)\Rightarrow y=-2x+12}
+\end{fmex}
+
+\fmheadboxalt{
+\section{Funcions quadràtiques i cúbiques}\hypertarget{sec2}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La seua gràfica és una \textbf{paràbola}.
+
+\begin{itemize}
+\item Si \fmm{a\gt0} és \textbf{còncava} (oberta cap amunt, $\cup$); si \fmm{a\lt0}, \textbf{convexa} (oberta cap avall, $\cap$).
+\item El \textbf{vèrtex} és \fmm{V(V_x,V_y)}, amb \fmm{V_x=\dfrac{-b}{2a}} i \fmm{V_y=f(V_x)}.
+\item \fmm{D(f)=\mathbb R} i té un \textbf{eix de simetria}, la recta \fmm{x=V_x}.
+\end{itemize}
+
+\begin{fmnote}Alguns llibres (i, a 2n de Batxillerat, l'estudi amb la derivada segona) fan servir els noms al revés: «convexa» per a $\cup$ i «còncava» per a $\cap$. Per a no equivocar-te, acompanya sempre la paraula amb el dibuix $\cup$ o $\cap$.\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fd57ccd6f61f.pdf}\par}\par\smallskip{\centering\footnotesize Verda: \fmm{a\gt0}, còncava $\cup$. Blava: \fmm{a\lt0}, convexa $\cap$.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Funció quadràtica: $f(x)=ax^2+bx+c\ \ (a\neq0)$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La seua gràfica és una \textbf{paràbola}.
+
+\begin{itemize}
+\item Si \fmm{a\gt0} és \textbf{còncava} (oberta cap amunt, $\cup$); si \fmm{a\lt0}, \textbf{convexa} (oberta cap avall, $\cap$).
+\item El \textbf{vèrtex} és \fmm{V(V_x,V_y)}, amb \fmm{V_x=\dfrac{-b}{2a}} i \fmm{V_y=f(V_x)}.
+\item \fmm{D(f)=\mathbb R} i té un \textbf{eix de simetria}, la recta \fmm{x=V_x}.
+\end{itemize}
+
+\begin{fmnote}Alguns llibres (i, a 2n de Batxillerat, l'estudi amb la derivada segona) fan servir els noms al revés: «convexa» per a $\cup$ i «còncava» per a $\cap$. Per a no equivocar-te, acompanya sempre la paraula amb el dibuix $\cup$ o $\cap$.\end{fmnote}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fd57ccd6f61f.pdf}\par}\par\smallskip{\centering\footnotesize Verda: \fmm{a\gt0}, còncava $\cup$. Blava: \fmm{a\lt0}, convexa $\cap$.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La seua gràfica és una \textbf{paràbola}.
+
+\begin{itemize}
+\item Si \fmm{a\gt0} és \textbf{còncava} (oberta cap amunt, $\cup$); si \fmm{a\lt0}, \textbf{convexa} (oberta cap avall, $\cap$).
+\item El \textbf{vèrtex} és \fmm{V(V_x,V_y)}, amb \fmm{V_x=\dfrac{-b}{2a}} i \fmm{V_y=f(V_x)}.
+\item \fmm{D(f)=\mathbb R} i té un \textbf{eix de simetria}, la recta \fmm{x=V_x}.
+\end{itemize}
+
+\begin{fmnote}Alguns llibres (i, a 2n de Batxillerat, l'estudi amb la derivada segona) fan servir els noms al revés: «convexa» per a $\cup$ i «còncava» per a $\cap$. Per a no equivocar-te, acompanya sempre la paraula amb el dibuix $\cup$ o $\cap$.\end{fmnote}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fd57ccd6f61f.pdf}\par}\par\smallskip{\centering\footnotesize Verda: \fmm{a\gt0}, còncava $\cup$. Blava: \fmm{a\lt0}, convexa $\cap$.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Forma:} \fmm{a=1\gt0\Rightarrow} còncava $\cup$.
+
+\textbf{Talls:} \fmm{OY:\ f(0)=-3\Rightarrow(0,-3)}. \fmm{\ OX:\ x^2+2x-3=0\Rightarrow x=1,\ x=-3\Rightarrow(1,0),\ (-3,0)}.
+
+\textbf{Vèrtex:} \fmm{V_x=\dfrac{-2}{2}=-1}, \fmm{\ V_y=f(-1)=1-2-3=-4\Rightarrow V(-1,-4)}.
+
+\textbf{Representem} els punts i els unim amb una paràbola simètrica respecte de \fmm{x=-1}. Si no ixen prou punts, fem una taula de valors.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/785a14a48546.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmex}{Exemple resolt: representa $f(x)=x^2+2x-3$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Forma:} \fmm{a=1\gt0\Rightarrow} còncava $\cup$.
+
+\textbf{Talls:} \fmm{OY:\ f(0)=-3\Rightarrow(0,-3)}. \fmm{\ OX:\ x^2+2x-3=0\Rightarrow x=1,\ x=-3\Rightarrow(1,0),\ (-3,0)}.
+
+\textbf{Vèrtex:} \fmm{V_x=\dfrac{-2}{2}=-1}, \fmm{\ V_y=f(-1)=1-2-3=-4\Rightarrow V(-1,-4)}.
+
+\textbf{Representem} els punts i els unim amb una paràbola simètrica respecte de \fmm{x=-1}. Si no ixen prou punts, fem una taula de valors.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/785a14a48546.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\textbf{Forma:} \fmm{a=1\gt0\Rightarrow} còncava $\cup$.
+
+\textbf{Talls:} \fmm{OY:\ f(0)=-3\Rightarrow(0,-3)}. \fmm{\ OX:\ x^2+2x-3=0\Rightarrow x=1,\ x=-3\Rightarrow(1,0),\ (-3,0)}.
+
+\textbf{Vèrtex:} \fmm{V_x=\dfrac{-2}{2}=-1}, \fmm{\ V_y=f(-1)=1-2-3=-4\Rightarrow V(-1,-4)}.
+
+\textbf{Representem} els punts i els unim amb una paràbola simètrica respecte de \fmm{x=-1}. Si no ixen prou punts, fem una taula de valors.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/785a14a48546.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmex}\global\fmstackfalse
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/a5c4051ea9ea.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=ax^2}: vèrtex \fmm{(0,0)}, eix \fmm{x=0}. \fmm{R(f)=[0,+\infty[} si \fmm{a\gt0} i \fmm{\left]-\infty,0\right]} si \fmm{a\lt0}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/c47158fddbf9.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=ax^2+c}: vèrtex \fmm{(0,c)}, eix \fmm{x=0}. \fmm{R(f)=[c,+\infty[} o \fmm{\left]-\infty,c\right]}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/723679c000cc.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=ax^2+bx}: passa per \fmm{(0,0)}. L'altre tall és \fmm{x=-\frac ba}.\par}\end{minipage}\par\medskip}
+\begin{fmprop}{Casos particulars}
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/a5c4051ea9ea.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=ax^2}: vèrtex \fmm{(0,0)}, eix \fmm{x=0}. \fmm{R(f)=[0,+\infty[} si \fmm{a\gt0} i \fmm{\left]-\infty,0\right]} si \fmm{a\lt0}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/c47158fddbf9.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=ax^2+c}: vèrtex \fmm{(0,c)}, eix \fmm{x=0}. \fmm{R(f)=[c,+\infty[} o \fmm{\left]-\infty,c\right]}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/723679c000cc.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=ax^2+bx}: passa per \fmm{(0,0)}. L'altre tall és \fmm{x=-\frac ba}.\par}\end{minipage}\par\medskip
+\end{fmprop}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Els rajos para\lgem{}els a l'eix que xoquen amb una paràbola es reflecteixen tots cap a un mateix punt, el \textbf{focus}. Per això tenen forma parabòlica les antenes parabòliques i els reflectors de les llanternes.
+
+Una cadena penjada de dos punts \textbf{no} fa una paràbola, sinó una \textbf{catenària} (en taronja), una mica més plana al centre. Gaudí la va fer servir, cap per avall, per als arcs de la Sagrada Família, i també té aquesta forma l'arc de Saint Louis (EUA).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ee224b4d3ba3.pdf}\par}\par\smallskip{\centering\footnotesize Catenària \fmm{y=\frac{e^x+e^{-x}}{2}} i paràbola \fmm{y=0{,}6x^2+1}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Paràbola i catenària}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Els rajos para\lgem{}els a l'eix que xoquen amb una paràbola es reflecteixen tots cap a un mateix punt, el \textbf{focus}. Per això tenen forma parabòlica les antenes parabòliques i els reflectors de les llanternes.
+
+Una cadena penjada de dos punts \textbf{no} fa una paràbola, sinó una \textbf{catenària} (en taronja), una mica més plana al centre. Gaudí la va fer servir, cap per avall, per als arcs de la Sagrada Família, i també té aquesta forma l'arc de Saint Louis (EUA).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ee224b4d3ba3.pdf}\par}\par\smallskip{\centering\footnotesize Catenària \fmm{y=\frac{e^x+e^{-x}}{2}} i paràbola \fmm{y=0{,}6x^2+1}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Els rajos para\lgem{}els a l'eix que xoquen amb una paràbola es reflecteixen tots cap a un mateix punt, el \textbf{focus}. Per això tenen forma parabòlica les antenes parabòliques i els reflectors de les llanternes.
+
+Una cadena penjada de dos punts \textbf{no} fa una paràbola, sinó una \textbf{catenària} (en taronja), una mica més plana al centre. Gaudí la va fer servir, cap per avall, per als arcs de la Sagrada Família, i també té aquesta forma l'arc de Saint Louis (EUA).
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ee224b4d3ba3.pdf}\par}\par\smallskip{\centering\footnotesize Catenària \fmm{y=\frac{e^x+e^{-x}}{2}} i paràbola \fmm{y=0{,}6x^2+1}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\mathbb R}. El signe de \fmm{a} diu com acaba la gràfica: si \fmm{a\gt0}, baixa a l'esquerra i puja a la dreta; si \fmm{a\lt0}, al revés. Pel mig pot ser sempre creixent (o decreixent) o tindre un màxim i un mínim relatius. Talla l'eix \fmm{OX} una, dues o tres vegades.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/9764c2b02954.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-x^3-1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/af36a4b6bf36.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=x^3+2{,}5x^2}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Funció cúbica: $f(x)=ax^3+bx^2+cx+d\ \ (a\neq0)$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\mathbb R}. El signe de \fmm{a} diu com acaba la gràfica: si \fmm{a\gt0}, baixa a l'esquerra i puja a la dreta; si \fmm{a\lt0}, al revés. Pel mig pot ser sempre creixent (o decreixent) o tindre un màxim i un mínim relatius. Talla l'eix \fmm{OX} una, dues o tres vegades.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/9764c2b02954.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-x^3-1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/af36a4b6bf36.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=x^3+2{,}5x^2}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\mathbb R}. El signe de \fmm{a} diu com acaba la gràfica: si \fmm{a\gt0}, baixa a l'esquerra i puja a la dreta; si \fmm{a\lt0}, al revés. Pel mig pot ser sempre creixent (o decreixent) o tindre un màxim i un mínim relatius. Talla l'eix \fmm{OX} una, dues o tres vegades.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/9764c2b02954.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-x^3-1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/af36a4b6bf36.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=x^3+2{,}5x^2}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5.7cm}
+\section{Funcions racionals}\hypertarget{sec3}{}
+\begin{fmdef}{Definició}
+Una funció racional és un quocient de polinomis, \fmm{y=\dfrac{P(x)}{Q(x)}}. Ens centrarem en les de \textbf{proporcionalitat inversa}, \fmm{y=\dfrac kx}, les gràfiques de les quals són \textbf{hipèrboles}.
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$k\gt0$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5a59c4543a32.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\dfrac3x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R-\{0\}}, \fmm{\ R(f)=\mathbb R-\{0\}}. Decreixent a cada branca; sense màxims ni mínims. Asímptota vertical \fmm{x=0} i horitzontal \fmm{y=0}.
+\end{fmprop}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$k\lt0$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b88e0af4791b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\dfrac1x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R-\{0\}}, \fmm{\ R(f)=\mathbb R-\{0\}}. Creixent a cada branca; sense màxims ni mínims. Asímptotes \fmm{x=0} i \fmm{y=0}.
+\end{fmprop}\end{minipage}\par\medskip
+
+\begin{fmnote}Diem «decreixent a cada branca» i no «decreixent sempre»: \fmm{f(-1)=-3\lt f(1)=3}, encara que \fmm{-1\lt1}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Translacions de $y=\dfrac kx$}
+\begin{fmnote}Són les translacions de l'apartat 6.7 aplicades a \fmm{f(x)=\frac kx}: \fmm{f(x)+k} mou la gràfica en vertical i \fmm{f(x-h)}, en horitzontal. Passa el mateix amb les radicals, les exponencials i les logarítmiques.\end{fmnote}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Vertical} & $y=\dfrac kx\pm a$ & L'asímptota horitzontal passa a ser $y=\pm a$.\\[3pt]
+\textbf{Horitzontal} & $y=\dfrac k{x\pm a}$ & L'asímptota vertical passa a ser $x=\mp a$ (signe contrari!).\\[3pt]
+\textbf{Diagonal} & $y=\dfrac k{x\pm a}\pm b$ & Es mouen les dues asímptotes.\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/b4c8ddd41782.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\frac3x+2}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/dfa92458463e.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\frac3x-1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/aa7b994cda53.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\frac3{x-1}}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/3636e4b7763b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\frac3{x+4}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/b4847f414b53.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\frac3{x-2}+1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/e830ed37a212.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\frac3{x+3}-2}\par}\end{minipage}\par\medskip
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Cas particular: quocient de dos polinomis de primer grau}
+Si \fmm{y=\dfrac{P(x)}{Q(x)}} amb \fmm{P} i \fmm{Q} de primer grau, fem la divisió \fmm{P(x)=Q(x)\cdot q(x)+r(x)} i l'escrivim com una translació: \fmm{\ \dfrac{P(x)}{Q(x)}=\dfrac{r(x)}{Q(x)}+q(x)}.\\[2ex]
+
+Exemple: \fmm{y=\dfrac{3x+1}{x-2}}\\[2ex]
+
+\fmm{(3x+1):(x-2)}: quocient \fmm{3}, residu \fmm{3x+1-3(x-2)=7}.\\[2ex]
+
+\fmm{y=\dfrac{3x+1}{x-2}=\dfrac{7}{x-2}+3}: la hipèrbola \fmm{y=\frac7x} desplaçada 2 cap a la dreta i 3 cap amunt. \\[2ex]
+Asímptotes \fmm{x=2} i \fmm{y=3}.
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Funcions radicals}\hypertarget{sec4}{}
+\begin{fmdef}{Definició: $y=\sqrt[n]{P(x)}$}
+La forma de la gràfica depén de si l'índex és parell o senar. Amb índex parell la funció només existeix on el radicand és \fmm{\geq0} i comença en un punt; amb índex senar existeix sempre.
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/931fe63cdac8.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{n=2}: \fmm{\sqrt x,\ \sqrt{2x},\ 2\sqrt x}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/baa7136fcddc.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{n=4}: \fmm{\sqrt[4]x,\ \sqrt[4]{2x}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/ee69c44a4f98.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{n=3}: \fmm{\sqrt[3]x}\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Transformacions de $y=\sqrt x$}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Vertical} & $y=\sqrt x\pm b$ & Comença en $(0,\pm b)$.\\[3pt]
+\textbf{Horitzontal} & $y=\sqrt{x\pm b}$ & Comença en $(\mp b,0)$.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\textbf{Diagonal} & $y=\sqrt{x\pm b}\pm c$ & Comença en $(\mp b,\pm c)$.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\textbf{Reflexions} & $-\sqrt x,\ \ \sqrt{-x},\ \ -\sqrt{-x}$ & Respecte de l'eix $OX$, de l'eix $OY$ i de tots dos.\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/05f194a75b67.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt x+3}\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/00561218239b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt x-1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/a2986068fd3b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{x+3}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/249930023b3c.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{x-1}}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/83fde590419b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{x+2}-3}\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/a31a587cbe5f.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{x-1}+2}\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/d6b301681ff6.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\sqrt x}\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/d36810ddee43.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{-x}}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/4b60563124a2.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\sqrt{-x}}\par}\end{minipage}\hfill\hspace*{0.735\linewidth}\par\medskip
+\end{fmprop}
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d5a31e735adb.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\sqrt{x+2}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/8a46d0cef8bd.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{-x+3}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/4da66740d720.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\sqrt{-x-1}+1}\par}\end{minipage}\par\medskip}
+\begin{fmex}{Exemple resolt: on comença i cap on va?}
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d5a31e735adb.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\sqrt{x+2}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/8a46d0cef8bd.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\sqrt{-x+3}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/4da66740d720.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\sqrt{-x-1}+1}\par}\end{minipage}\par\medskip
+
+\fmm{y=-\sqrt{x+2}}: el radicand s'anu\lgem{}a en \fmm{x=-2}: comença en \fmm{(-2,0)}, cap a la dreta (\fmm{+x}) i cap avall (signe \fmm{-} davant de l'arrel).
+
+\fmm{y=\sqrt{-x+3}}: \fmm{-x+3=0\Rightarrow x=3}. Comença en \fmm{(3,0)} i va cap a l'esquerra (\fmm{-x}) i cap amunt. \fmm{D(f)=\left]-\infty,3\right]}.
+
+\fmm{y=-\sqrt{-x-1}+1}: \fmm{-x-1=0\Rightarrow x=-1}. Comença en \fmm{(-1,1)}, cap a l'esquerra i cap avall. \fmm{D(f)=\left]-\infty,-1\right]}, \fmm{R(f)=\left]-\infty,1\right]}.
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Funcions exponencials}\hypertarget{sec5}{}
+
+La funció exponencial és una de les més importants: modela processos naturals com el creixement d'una població, la desintegració radioactiva o el començament d'una pandèmia (en què el nombre de casos es multiplica per una quantitat fixa cada cert temps).
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$a\gt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/d005158876a7.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=2^x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\left]0,+\infty\right[}. \textbf{Creixent} sempre. Passa per \fmm{(0,1)}. Asímptota horitzontal \fmm{y=0} (per l'esquerra).
+\end{fmprop}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$0\lt a\lt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/a55a8ec54448.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\left(\frac12\right)^x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\left]0,+\infty\right[}. \textbf{Decreixent} sempre. Passa per \fmm{(0,1)}. Asímptota horitzontal \fmm{y=0} (per la dreta).
+\end{fmprop}\end{minipage}\par\medskip}
+\begin{fmdef}{Definició: $y=a^{P(x)},\ \ a\gt0,\ a\neq1$}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$a\gt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/d005158876a7.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=2^x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\left]0,+\infty\right[}. \textbf{Creixent} sempre. Passa per \fmm{(0,1)}. Asímptota horitzontal \fmm{y=0} (per l'esquerra).
+\end{fmprop}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$0\lt a\lt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/a55a8ec54448.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\left(\frac12\right)^x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=\left]0,+\infty\right[}. \textbf{Decreixent} sempre. Passa per \fmm{(0,1)}. Asímptota horitzontal \fmm{y=0} (per la dreta).
+\end{fmprop}\end{minipage}\par\medskip
+
+\begin{fmnote}El recorregut és \fmm{\left]0,+\infty\right[} i no \fmm{[0,+\infty[}: una potència de base positiva mai no val 0.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Transformacions de $y=a^x$}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Vertical} & $y=a^x\pm b$ & L'asímptota passa a ser $y=\pm b$ i el punt de referència, $(0,1\pm b)$.\\[3pt]
+\textbf{Horitzontal} & $y=a^{x\pm b}$ & L'asímptota no canvia; el punt de referència passa a $(\mp b,1)$.\\[3pt]
+\textbf{Diagonal} & $y=a^{x\pm b}\pm c$ & Asímptota $y=\pm c$; punt de referència $(\mp b,1\pm c)$.\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/0845615c3184.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=3^x+2}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d4fbe168ce62.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=3^x-1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/db4d697b271a.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=3^{x+2}}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/a60f7af8697b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=3^{x-1}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/5af1f06574f0.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=3^{x+1}-2}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/6a28d2663f90.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=3^{x-2}+1}\par}\end{minipage}\par\medskip
+
+      {\color{fmnavy}\bfseries Simetries}\par
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/822762bd1b17.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-2^x}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/0704395e178e.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-\left(\frac12\right)^x}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/f0ec41fa2f4b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=2^{-x}}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/0cad53ac3320.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\left(\frac12\right)^{-x}}\par}\end{minipage}\hfill\hspace*{0.653\linewidth}\par\medskip
+
+\begin{fmnote}Recorda que \fmm{2^{-x}=\left(\frac12\right)^x}: canviar \fmm{x} per \fmm{-x} és el mateix que invertir la base.\end{fmnote}
+\end{fmprop}
+
+\Needspace{8\baselineskip}
+\section{Funcions logarítmiques}\hypertarget{sec6}{}
+
+La funció logarítmica, junt amb l'exponencial, també serveix per a modelar processos reals; per exemple, en les gràfiques d'una pandèmia es fa servir sovint una escala logarítmica per a veure si el creixement deixa de ser exponencial. Com vas veure a l'apartat 6.9 de la unitat 6, \fmm{y=\log_ax} és la \textbf{inversa} de \fmm{y=a^x}.
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$a\gt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/cf8dd7b18260.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\left]0,+\infty\right[}, \fmm{\ R(f)=\mathbb R}. \textbf{Creixent} sempre. Passa per \fmm{(1,0)}. Asímptota vertical \fmm{x=0}.
+\end{fmprop}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$0\lt a\lt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ef17cc85acce.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_{\frac12}x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\left]0,+\infty\right[}, \fmm{\ R(f)=\mathbb R}. \textbf{Decreixent} sempre. Passa per \fmm{(1,0)}. Asímptota vertical \fmm{x=0}.
+\end{fmprop}\end{minipage}\par\medskip}
+\begin{fmdef}{Definició: $y=\log_a(P(x)),\ \ a\gt0,\ a\neq1$}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$a\gt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/cf8dd7b18260.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\left]0,+\infty\right[}, \fmm{\ R(f)=\mathbb R}. \textbf{Creixent} sempre. Passa per \fmm{(1,0)}. Asímptota vertical \fmm{x=0}.
+\end{fmprop}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{$0\lt a\lt1$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ef17cc85acce.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_{\frac12}x}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\left]0,+\infty\right[}, \fmm{\ R(f)=\mathbb R}. \textbf{Decreixent} sempre. Passa per \fmm{(1,0)}. Asímptota vertical \fmm{x=0}.
+\end{fmprop}\end{minipage}\par\medskip
+
+\begin{fmnote}El domini és \fmm{\left]0,+\infty\right[} (obert): el logaritme de 0 no existeix.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Transformacions de $y=\log_ax$}
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Vertical} & $y=\log_ax\pm b$ & L'asímptota no canvia; el punt de referència passa a $(1,\pm b)$.\\[3pt]
+\textbf{Horitzontal} & $y=\log_a(x\pm b)$ & L'asímptota passa a ser $x=\mp b$ i el punt de referència, $(1\mp b,0)$.\\[3pt]
+\textbf{Diagonal} & $y=\log_a(x\pm b)\pm c$ & Asímptota $x=\mp b$; punt de referència $(1\mp b,\pm c)$.\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/8db937bbd3fd.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2x+1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/2018c76b08a0.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2x-3}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/9cc2ba63af94.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2(x+1)}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/72fc4a03f705.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2(x-3)}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/54953c5cecba.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2(x-1)+2}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/964a92147e46.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\log_2(x+3)-1}\par}\end{minipage}\par\medskip
+\end{fmprop}
+
+\Needspace{8\baselineskip}
+\section{Funcions trigonomètriques}\hypertarget{sec7}{}
+
+Les vas estudiar a la unitat de trigonometria; ací en resumim les característiques amb el vocabulari d'aquesta unitat. L'angle \fmm{x} es mesura sempre en \textbf{radians}.
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/8a163506e918.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmdef}{Funció sinus: $y=\sin x$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/8a163506e918.pdf}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=[-1,1]}. Contínua i periòdica de període \fmm{2\pi}. Té infinits màxims absoluts en els punts \fmm{\left(\frac\pi2+2\pi k,\,1\right)} i infinits mínims absoluts en \fmm{\left(\frac{3\pi}2+2\pi k,\,-1\right)}, \fmm{k\in\mathbb Z}. Passa per \fmm{(0,0)} i és senar.
+\end{fmdef}
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/8ea9fbfcd120.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmdef}{Funció cosinus: $y=\cos x$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/8ea9fbfcd120.pdf}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R}, \fmm{\ R(f)=[-1,1]}. Contínua i periòdica de període \fmm{2\pi}. Màxims absoluts en \fmm{(2\pi k,\,1)} i mínims absoluts en \fmm{(\pi+2\pi k,\,-1)}. Passa per \fmm{(0,1)} i és parella.
+\end{fmdef}
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/7685a6b9a2e3.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmdef}{Funció tangent: $y=\tan x$}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/7685a6b9a2e3.pdf}\par}\end{minipage}\par\medskip
+
+\fmm{D(f)=\mathbb R-\left\{\frac\pi2+\pi k,\ k\in\mathbb Z\right\}}, \fmm{\ R(f)=\mathbb R}. Periòdica de període \fmm{\pi}. Creixent a cada branca; no té màxims ni mínims. És discontínua (asimptòtica) en \fmm{x=\frac\pi2+\pi k}, on té asímptotes verticals. Passa per \fmm{(0,0)} i és senar.
+\end{fmdef}
+
+\fmheadboxalt{
+\section{Funcions a trossos i valor absolut}\hypertarget{sec8}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright És una funció formada per diferents funcions, cadascuna definida en un interval del domini. Per exemple:
+
+\fmdisp{f(x)=\begin{cases}x^2, & \text{si } x\lt2\\ 4, & \text{si } x\gt2\end{cases}}
+
+En \fmm{x=2} no està definida (cap dels dos trossos inclou el 2): hi ha un punt buit.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/745130941b81.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Funció definida a trossos}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright És una funció formada per diferents funcions, cadascuna definida en un interval del domini. Per exemple:
+
+\fmdisp{f(x)=\begin{cases}x^2, & \text{si } x\lt2\\ 4, & \text{si } x\gt2\end{cases}}
+
+En \fmm{x=2} no està definida (cap dels dos trossos inclou el 2): hi ha un punt buit.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/745130941b81.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+És una funció formada per diferents funcions, cadascuna definida en un interval del domini. Per exemple:
+
+\fmdisp{f(x)=\begin{cases}x^2, & \text{si } x\lt2\\ 4, & \text{si } x\gt2\end{cases}}
+
+En \fmm{x=2} no està definida (cap dels dos trossos inclou el 2): hi ha un punt buit.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/745130941b81.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: representa $f(x)=\begin{cases}-x+1, & \text{si } x\lt-2\\ x^2-x-2, & \text{si } -2\le x\le3\\ 2, & \text{si } x\gt3\end{cases}$}
+\textbf{1r pas.} Marquem (amb línies discontínues) els punts on hi ha un canvi de funció: \fmm{x=-2} i \fmm{x=3}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=6.2cm,height=5.2cm,keepaspectratio]{figs/1638149addbd.pdf}\par}\end{minipage}\par\medskip
+
+\textbf{2n pas.} Representem cada funció per separat, només en el seu interval, amb una taula de valors que incloga els extrems. Recta \fmm{y=-x+1} per a \fmm{x\lt-2}: \fmm{f(-2)=3} amb punt buit.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=6.2cm,height=5.2cm,keepaspectratio]{figs/7896fd73d2e9.pdf}\par}\end{minipage}\par\medskip
+
+Paràbola \fmm{y=x^2-x-2} en \fmm{[-2,3]}: \fmm{f(-2)=4} i \fmm{f(3)=4}, punts plens; vèrtex \fmm{\left(\frac12,-\frac94\right)}; talls \fmm{x=-1} i \fmm{x=2}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=6.2cm,height=5.2cm,keepaspectratio]{figs/998ebfce4473.pdf}\par}\end{minipage}\par\medskip
+
+Recta horitzontal \fmm{y=2} per a \fmm{x\gt3}, amb punt buit en \fmm{(3,2)}. La funció té salts finits en \fmm{x=-2} i en \fmm{x=3}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=6.2cm,height=5.2cm,keepaspectratio]{figs/f3566549bcd4.pdf}\par}\end{minipage}\par\medskip
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Funció valor absolut: $y=|f(x)|$}
+És un cas particular de funció a trossos: on \fmm{f(x)\geq0} es queda igual i on \fmm{f(x)\lt0} se li canvia el signe. Per a escriure-la a trossos:
+
+\begin{enumerate}
+\item Calculem els talls amb l'eix \fmm{OX}, resolent \fmm{f(x)=0} (per exemple \fmm{x=a}, \fmm{x=b}).
+\item Els situem en la recta i mirem on \fmm{f(x)} és positiva o negativa.
+\item Si, per exemple, el signe és \fmm{+\ -\ +}: \fmm{\ |f(x)|=\begin{cases}f(x), & \text{si } x\lt a\\ -f(x), & \text{si } a\le x\le b\\ f(x), & \text{si } x\gt b\end{cases}}
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: $y=\left|-x^2-x+2\right|$}
+Talls: \fmm{-x^2-x+2=0\Rightarrow x=1,\ x=-2}.
+
+Signe de \fmm{-x^2-x+2} (paràbola $\cap$): \fmm{-} en \fmm{\left]-\infty,-2\right[}, \fmm{+} en \fmm{\left]-2,1\right[}, \fmm{-} en \fmm{\left]1,+\infty\right[}.
+
+\fmm{y=\begin{cases}x^2+x-2, & \text{si } x\lt-2\\ -x^2-x+2, & \text{si } -2\le x\le1\\ x^2+x-2, & \text{si } x\gt1\end{cases}}
+
+\textbf{Gràficament:} representem \fmm{y=-x^2-x+2} i fem la simetria respecte de l'eix \fmm{OX} de la part que queda per davall de l'eix.
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/6b9541fabc23.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=-x^2-x+2}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/59b42fa8ee21.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\left|-x^2-x+2\right|}\par}\end{minipage}\par\medskip
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Problemes amb funcions quadràtiques: màxims i mínims}\hypertarget{sec9}{}
+
+Moltes situacions d'economia, de geometria o de física es descriuen amb una funció quadràtica: ingressos, beneficis, costos, àrees, altures\dots{} Com que la gràfica és una paràbola, podem trobar-ne el valor més gran o més xicotet \textbf{sense límits ni derivades}: només cal el vèrtex.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Màxim i mínim d'una paràbola}
+\begin{itemize}
+\item Si \fmm{a\lt0} (convexa $\cap$), el vèrtex \fmm{V\left(\frac{-b}{2a},\,f\!\left(\frac{-b}{2a}\right)\right)} és el \textbf{màxim absolut}; si \fmm{a\gt0} (còncava $\cup$), és el \textbf{mínim absolut}.
+\item \textbf{En un interval tancat} \fmm{[p,q]}, el màxim i el mínim només poden estar en el vèrtex (si és dins de l'interval) o en els extrems \fmm{p} i \fmm{q}. Es calculen \fmm{f(p)}, \fmm{f(q)} i, si cal, \fmm{f(V_x)}, i es comparen.
+\end{itemize}
+
+\textbf{Passos per a resoldre un problema:} 1) tria la variable i indica quins valors pot prendre (l'interval); 2) escriu la funció; 3) calcula el vèrtex; 4) mira si és dins de l'interval i compara amb els extrems; 5) respon amb les unitats del problema.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Ingressos.} Si un article es ven a \fmm{p} euros, se'n venen \fmm{300-5p} unitats (\fmm{0\le p\le60}). A quin preu són màxims els ingressos? I si el preu ha d'estar entre 35 i 50 €?
+
+\par\noindent \begin{minipage}[t]{0.6\linewidth}\vspace{0pt}\raggedright Ingressos = preu $\times$ unitats: \fmm{I(p)=p(300-5p)=-5p^2+300p}. Paràbola $\cap$.
+
+Vèrtex: \fmm{p=\dfrac{-300}{-10}=30}, \fmm{\ I(30)=4\,500}. Ingressos màxims de 4 500 € amb un preu de 30 €.
+
+En \fmm{[35,50]} el vèrtex no hi és i la funció hi és decreixent: \fmm{I(35)=4\,375}, \fmm{I(50)=2\,500}. Convé el preu de 35 €.\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=3.4cm,keepaspectratio]{figs/fbc703675117.pdf}\par}\par\smallskip{\centering\footnotesize En blau, el tros \fmm{35\le p\le50}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip
+\item \textbf{Benefici.} Els ingressos per vendre \fmm{x} unitats són \fmm{I(x)=50x} i els costos, \fmm{C(x)=x^2+10x+200}. Troba el benefici màxim.
+
+\fmm{B(x)=I(x)-C(x)=50x-x^2-10x-200=-x^2+40x-200}
+
+Vèrtex: \fmm{x=\dfrac{-40}{-2}=20}, \fmm{\ B(20)=200}. El benefici màxim és de 200 € venent 20 unitats. Hi ha guanys entre les arrels de \fmm{B}: \fmm{x=20\pm10\sqrt2}, és a dir, aproximadament entre 6 i 34 unitats.
+\item \textbf{En un interval.} Troba el màxim i el mínim de \fmm{f(x)=x^2-2x-3} en \fmm{[-2,2]}.
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Vèrtex en \fmm{x=1}, dins de l'interval: \fmm{f(1)=-4}.
+
+Extrems: \fmm{f(-2)=5}, \fmm{f(2)=-3}. Màxim \fmm{(-2,5)} i mínim \fmm{(1,-4)}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/180192ad7f5c.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Vèrtex en \fmm{x=1}, dins de l'interval: \fmm{f(1)=-4}.
+
+Extrems: \fmm{f(-2)=5}, \fmm{f(2)=-3}. Màxim \fmm{(-2,5)} i mínim \fmm{(1,-4)}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/180192ad7f5c.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
