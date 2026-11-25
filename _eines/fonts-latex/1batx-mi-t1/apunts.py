@@ -1079,6 +1079,25 @@ if N == 9:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als do
         m = doc.rindex('\n\n\\Needspace{5\\baselineskip}\n', 0, k); assert k - m < 40
         doc = doc[:m] + '\n\\newpage\n%\\Needspace{5\\baselineskip}\n' + doc[m + len('\n\n\\Needspace{5\\baselineskip}\n'):]
         retoc(r'\n(\\item Representa \\fmm\{f\(x\)=x\^4-2x\^2\})', r'\n\\newpage\n\1', True)
+if N == 8:  # retocs de l'autor (Desktop, revisió 2026-11-25)
+    retoc(r'\n(\\item \\fmpau\{PAU 2017\}El benefici)', r'\n\\newpage\n\1', True)
+    # exemple de continuïtat d'una funció racional (8.8): la gràfica més baixa perquè l'exemple càpiga sencer en una pàgina
+    i = doc.index(T("Si el denominador no s'anu", 'Si el denominador no se anula')); j = doc.rindex('height=5.2cm', 0, i); assert i - j < 400
+    doc = doc[:j] + 'height=%s' % T('3.4cm', '3.0cm') + doc[j + len('height=5.2cm'):]  # en castellà el text és més llarg
+    if ES:  # i la pàgina s'allarga un poc perquè la nota final de l'exemple no passe sola a la pàgina següent
+        k = doc.rindex('\\begin{fmex}{Ejemplo}', 0, j); n = doc.rindex('\\Needspace{', 0, k); assert k - n < 40
+        doc = doc[:n] + '\\enlargethispage{1cm}\n' + doc[n:]
+if N == 10:  # retocs de l'autor (Desktop, revisió 2026-11-25): tres salts de pàgina
+    NP10 = True  # també en castellà: tallen pels mateixos llocs que en valencià
+    def _np10(k):
+        global doc
+        m = doc.index('\n\n\\Needspace{5\\baselineskip}\n', k)
+        doc = doc[:m] + '\n\\newpage\n%\\Needspace{5\\baselineskip}\n' + doc[m + len('\n\n\\Needspace{5\\baselineskip}\n'):]
+    if NP10:
+        _np10(doc.index(T('\\textbf{Variable qualitativa}', '\\textbf{Variable cualitativa}')))
+        retoc(r'(\\fmm\{CV=\\dfrac\{1\{,\}51\}\{6\{,\}1\}[^\n]*\n)', r'\1\\newpage\n', True)
+        k = doc.index(T('\\begin{fmex}{Exemple: germans i mascotes}', '\\begin{fmex}{Ejemplo: hermanos y mascotas}'))
+        _np10(doc.rindex('\n\n\\Needspace{5\\baselineskip}\n', 0, k) - 1)
 if N in (2, 3):  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 2:  # la fórmula del grau de la suma, en una línia a part (evita els buits del text justificat)
