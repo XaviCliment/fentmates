@@ -1157,6 +1157,15 @@ if N == 9:  # retocs de l'autor (Desktop, revisió 2026-11-25)
         t = t.replace('p{3.2cm}', 'p{%s}' % w)
         if st: t = t.replace('\\renewcommand{\\arraystretch}{1.5}', '\\renewcommand{\\arraystretch}{%s}' % st, 1)
         doc = doc[:i] + t + doc[k:]
+if N == 10:  # retocs de l'autor (Desktop, revisió 2026-11-25)
+    # discreta / contínua: les dues columnes, un poc més estretes
+    retoc(r'\\begin\{minipage\}\[t\]\{0\.48\\linewidth\}(\\vspace\{0pt\}\\raggedright \\textbf\{Discreta\}: .*?\\end\{minipage\}\\hfill\\begin\{minipage\}\[t\]\{)0\.48(\\linewidth\}\\vspace\{0pt\}\\raggedright \\textbf\{Cont\w+\})',
+          lambda m: '\\begin{minipage}[t]{0.47\\linewidth}' + m.group(1) + '0.46' + m.group(2), True)
+    # les taules estadística/probabilitat i de la correcció de continuïtat, amb la primera columna més ampla
+    for key in (r'\$p_i=P\(X=x_i\)\$', r"\$P\(X'\\leq k\+0\{,\}5\)\$"):
+        j = re.search(key, doc).start(); i = doc.rindex('\\begin{center}', 0, j); k = doc.index('\\end{center}', j)
+        assert doc[i:k].count('p{3.2cm}') == 6
+        doc = doc[:i] + doc[i:k].replace('p{3.2cm}', 'p{5.2cm}') + doc[k:]
 if N == 10:  # el títol de 10.2 (dues línies) i el començament del requadre caben al final de la pàgina 2
     retoc(r'\\Needspace\{[\d.]+cm\}(\n\\section\{Variables aleat\w+ discret)', r'\\enlargethispage{1cm}\\Needspace{4cm}\1', True)
 if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25)
