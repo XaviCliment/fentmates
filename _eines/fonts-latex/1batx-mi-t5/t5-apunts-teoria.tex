@@ -1,0 +1,941 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 5: Trigonometria. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={angles, radians, raons trigonomètriques, circumferència goniomètrica, reducció al primer quadrant, fórmules trigonomètriques, equacions trigonomètriques, teorema del sinus, teorema del cosinus, resolució de triangles}}
+
+% colors de la web (FentMates, bloc de Geometria: taronja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{5.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.2pt,opacity=0.7] (20,64)--(220,64) (120,4)--(120,124);
+  \draw (120,64) circle (52);
+  \draw[line width=3.6pt] (120,64)--(159.8,30.6);
+  \draw[line width=3.6pt,dash pattern=on 7pt off 6pt] (159.8,30.6)--(159.8,64);
+  \fill[opacity=0.4] (120,64)--(140,64) arc[start angle=0,end angle=40,radius=20]--cycle;
+  \fill (159.8,30.6) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (146,84) {$\alpha$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{18}{18}\selectfont] at (166,52) {$\sin\alpha$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat MI · Unitat 5: Trigonometria}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 5} · Trigonometria\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: el radian, les raons trigonomètriques i la circumferència goniomètrica, les relacions entre angles, la resolució de triangles rectangles i qualssevol (teoremes del sinus i del cosinus), les fórmules trigonomètriques, les equacions i els sistemes trigonomètrics i les funcions trigonomètriques.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}5.1}\ \ El radian}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}5.2}\ \ Raons d'un angle agut}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}5.3}\ \ Raons d'un angle qualsevol}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}5.4}\ \ Relacions entre angles}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}5.5}\ \ Triangles rectangles}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}5.6}\ \ Teorema del sinus}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}5.7}\ \ Teorema del cosinus}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}5.8}\ \ Suma i diferència d'angles}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}5.9}\ \ Angle doble i angle meitat}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}5.10}\ \ Sumes en productes}}\\[3pt]
+\mbox{\hyperlink{sec11}{\textbf{\color{fmgreen}5.11}\ \ Equacions trigonomètriques}}\\[3pt]
+\mbox{\hyperlink{sec12}{\textbf{\color{fmgreen}5.12}\ \ Sistemes trigonomètrics}}\\[3pt]
+\mbox{\hyperlink{sec13}{\textbf{\color{fmgreen}5.13}\ \ Funcions trigonomètriques}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{El radian: unitat de mesura d'angles}\hypertarget{sec1}{}
+
+Fins ara hem mesurat els angles en \textbf{graus sexagesimals} (\fmm{1^\circ=60'}, \fmm{1'=60''}). Continuaran sent útils per a resoldre triangles, en topografia o en navegació, però per a estudiar les funcions trigonomètriques és molt més pràctica una altra unitat: el \textbf{radian}.
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un \textbf{radian} (rad) és l'angle central que abasta un arc de la mateixa longitud que el radi amb què s'ha traçat.
+
+\fmdisp{\alpha=1\ \text{rad}\iff \text{longitud}\ \overset{\frown}{AB}=\overline{OA}=r}
+
+En general, la mesura en radians d'un angle és el quocient entre la longitud de l'arc i el radi: \fmm{\ \alpha=\dfrac{l}{r}}. Per tant, la \textbf{longitud d'un arc} és \fmm{\ l=\alpha\cdot r} (amb \fmm{\alpha} en radians).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b740adab89a6.pdf}\par}\par\smallskip{\centering\footnotesize L'arc \fmm{\overset{\frown}{AB}} mesura el mateix que el radi.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Definició: radian}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un \textbf{radian} (rad) és l'angle central que abasta un arc de la mateixa longitud que el radi amb què s'ha traçat.
+
+\fmdisp{\alpha=1\ \text{rad}\iff \text{longitud}\ \overset{\frown}{AB}=\overline{OA}=r}
+
+En general, la mesura en radians d'un angle és el quocient entre la longitud de l'arc i el radi: \fmm{\ \alpha=\dfrac{l}{r}}. Per tant, la \textbf{longitud d'un arc} és \fmm{\ l=\alpha\cdot r} (amb \fmm{\alpha} en radians).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b740adab89a6.pdf}\par}\par\smallskip{\centering\footnotesize L'arc \fmm{\overset{\frown}{AB}} mesura el mateix que el radi.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Un \textbf{radian} (rad) és l'angle central que abasta un arc de la mateixa longitud que el radi amb què s'ha traçat.
+
+\fmdisp{\alpha=1\ \text{rad}\iff \text{longitud}\ \overset{\frown}{AB}=\overline{OA}=r}
+
+En general, la mesura en radians d'un angle és el quocient entre la longitud de l'arc i el radi: \fmm{\ \alpha=\dfrac{l}{r}}. Per tant, la \textbf{longitud d'un arc} és \fmm{\ l=\alpha\cdot r} (amb \fmm{\alpha} en radians).
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b740adab89a6.pdf}\par}\par\smallskip{\centering\footnotesize L'arc \fmm{\overset{\frown}{AB}} mesura el mateix que el radi.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Pas de graus a radians i de radians a graus}
+La circumferència completa mesura \fmm{2\pi r}: l'angle complet és de \fmm{2\pi} radians. Com que també fa \fmm{360^\circ}:
+
+\fmdisp{360^\circ=2\pi\ \text{rad}\qquad\Longleftrightarrow\qquad 180^\circ=\pi\ \text{rad}}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{Graus → radians:}\quad \alpha\ \text{rad}=\alpha^\circ\cdot\frac{\pi}{180^\circ}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{Radians → graus:}\quad \alpha^\circ=\alpha\ \text{rad}\cdot\frac{180^\circ}{\pi}}
+\end{minipage}\par\medskip
+
+Un radian val \fmm{\ \dfrac{180^\circ}{\pi}\approx 57^\circ17'45''}. Quan un angle s'expressa en radians, normalment no s'escriu la unitat: \fmm{\ \alpha=\frac{\pi}{2}} vol dir \fmm{\frac{\pi}{2}} rad.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccccccccc}\toprule
+\textbf{Graus} & $0^\circ$ & $30^\circ$ & $45^\circ$ & $60^\circ$ & $90^\circ$ & $120^\circ$ & $135^\circ$ & $150^\circ$ & $180^\circ$ & $270^\circ$ & $360^\circ$\\
+\textbf{Radians} & $0$ & $\frac{\pi}{6}$ & $\frac{\pi}{4}$ & $\frac{\pi}{3}$ & $\frac{\pi}{2}$ & $\frac{2\pi}{3}$ & $\frac{3\pi}{4}$ & $\frac{5\pi}{6}$ & $\pi$ & $\frac{3\pi}{2}$ & $2\pi$\\
+\bottomrule\end{tabular}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: canvis d'unitat}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Passa a radians \fmm{30^\circ} i \fmm{140^\circ40'}.
+
+\fmm{30^\circ\cdot\dfrac{\pi}{180^\circ}=\dfrac{\pi}{6}\ \text{rad}\approx 0{,}52\ \text{rad}}
+
+Primer passem els minuts a graus: \fmm{\ 140^\circ40'=140+\frac{40}{60}=140{,}\overline{6}^\circ}. Aleshores \fmm{\ 140{,}\overline{6}\cdot\dfrac{\pi}{180}\approx 2{,}455\ \text{rad}}.
+\item Passa a graus \fmm{\frac{\pi}{5}} rad i \fmm{2} rad.
+
+\fmm{\dfrac{\pi}{5}\cdot\dfrac{180^\circ}{\pi}=36^\circ}
+
+\fmm{2\cdot\dfrac{180^\circ}{\pi}\approx 114{,}59^\circ=114^\circ35'30''} (la part decimal es passa a minuts i segons multiplicant per 60).
+\item Una roda de 30 cm de radi gira un angle de \fmm{\frac{5\pi}{3}} rad. Quina distància recorre un punt de la vora?
+
+\fmm{l=\alpha\cdot r=\dfrac{5\pi}{3}\cdot30=50\pi\approx 157{,}08\ \text{cm}}
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\section{Raons trigonomètriques d'un angle agut}\hypertarget{sec2}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En un triangle rectangle \fmm{ABC}, amb l'angle recte en \fmm{C}, anomenem \fmm{c} la hipotenusa i \fmm{a}, \fmm{b} els catets oposats als vèrtexs \fmm{A} i \fmm{B}. Per a l'angle agut \fmm{\alpha=\hat A}:
+
+\fmdisp{\sin\alpha=\frac{a}{c}=\frac{\text{catet oposat}}{\text{hipotenusa}}}
+
+\fmdisp{\cos\alpha=\frac{b}{c}=\frac{\text{catet contigu}}{\text{hipotenusa}}}
+
+\fmdisp{\tan\alpha=\frac{a}{b}=\frac{\text{catet oposat}}{\text{catet contigu}}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/113e16143357.pdf}\par}\par\smallskip{\centering\footnotesize El costat \fmm{a} és oposat a \fmm{\hat A}; el \fmm{b}, oposat a \fmm{\hat B}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Definició: sinus, cosinus i tangent}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En un triangle rectangle \fmm{ABC}, amb l'angle recte en \fmm{C}, anomenem \fmm{c} la hipotenusa i \fmm{a}, \fmm{b} els catets oposats als vèrtexs \fmm{A} i \fmm{B}. Per a l'angle agut \fmm{\alpha=\hat A}:
+
+\fmdisp{\sin\alpha=\frac{a}{c}=\frac{\text{catet oposat}}{\text{hipotenusa}}}
+
+\fmdisp{\cos\alpha=\frac{b}{c}=\frac{\text{catet contigu}}{\text{hipotenusa}}}
+
+\fmdisp{\tan\alpha=\frac{a}{b}=\frac{\text{catet oposat}}{\text{catet contigu}}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/113e16143357.pdf}\par}\par\smallskip{\centering\footnotesize El costat \fmm{a} és oposat a \fmm{\hat A}; el \fmm{b}, oposat a \fmm{\hat B}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+En un triangle rectangle \fmm{ABC}, amb l'angle recte en \fmm{C}, anomenem \fmm{c} la hipotenusa i \fmm{a}, \fmm{b} els catets oposats als vèrtexs \fmm{A} i \fmm{B}. Per a l'angle agut \fmm{\alpha=\hat A}:
+
+\fmdisp{\sin\alpha=\frac{a}{c}=\frac{\text{catet oposat}}{\text{hipotenusa}}}
+
+\fmdisp{\cos\alpha=\frac{b}{c}=\frac{\text{catet contigu}}{\text{hipotenusa}}}
+
+\fmdisp{\tan\alpha=\frac{a}{b}=\frac{\text{catet oposat}}{\text{catet contigu}}}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/113e16143357.pdf}\par}\par\smallskip{\centering\footnotesize El costat \fmm{a} és oposat a \fmm{\hat A}; el \fmm{b}, oposat a \fmm{\hat B}.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\begin{fmnote}Les raons \fmuline{no depenen de la grandària del triangle}: tots els triangles rectangles amb un angle \fmm{\alpha} són semblants (teorema de Tales) i els quocients entre els costats són els mateixos. A més, com que la hipotenusa és el costat més llarg, \fmm{\ 0\lt\sin\alpha\lt1} i \fmm{\ 0\lt\cos\alpha\lt1}.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{I.}\quad \sin^2\alpha+\cos^2\alpha=1}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{II.}\quad \tan\alpha=\frac{\sin\alpha}{\cos\alpha}}
+\end{minipage}\par\medskip}
+\begin{fmprop}{Relacions fonamentals}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{I.}\quad \sin^2\alpha+\cos^2\alpha=1}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{II.}\quad \tan\alpha=\frac{\sin\alpha}{\cos\alpha}}
+\end{minipage}\par\medskip
+
+\textbf{Demostració}. I: per Pitàgores, \fmm{a^2+b^2=c^2}; dividint entre \fmm{c^2}: \fmm{\left(\frac ac\right)^2+\left(\frac bc\right)^2=1}. II: \fmm{\dfrac{\sin\alpha}{\cos\alpha}=\dfrac{a/c}{b/c}=\dfrac ab=\tan\alpha}.
+
+Si dividim I entre \fmm{\cos^2\alpha} obtenim una tercera relació, molt útil quan coneixem la tangent:
+
+\fmdisp{\text{III.}\quad 1+\tan^2\alpha=\frac{1}{\cos^2\alpha}}
+
+\begin{fmnote}\fmuline{Notació}: \fmm{\sin^2\alpha} vol dir \fmm{(\sin\alpha)^2}. La tangent també s'escriu \fmm{\text{tg}\,\alpha} i el sinus, \fmm{\text{sen}\,\alpha}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Raons dels angles de 30$^\circ$, 45$^\circ$ i 60$^\circ$}
+La diagonal d'un quadrat de costat 1 mesura \fmm{\sqrt2} i forma \fmm{45^\circ} amb els costats. L'altura d'un triangle equilàter de costat 2 mesura \fmm{\sqrt3} i el divideix en dos triangles rectangles d'angles \fmm{30^\circ} i \fmm{60^\circ}. D'aquestes dues figures s'obté la taula:
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/5689a32d83a7.pdf}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/bcd29846bc28.pdf}\par}\end{minipage}\par\medskip
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccc}\toprule
+\textbf{} & \textbf{$30^\circ=\frac{\pi}{6}$} & \textbf{$45^\circ=\frac{\pi}{4}$} & \textbf{$60^\circ=\frac{\pi}{3}$}\\\midrule
+$\sin$ & $\frac12$ & $\frac{\sqrt2}{2}$ & $\frac{\sqrt3}{2}$\\
+$\cos$ & $\frac{\sqrt3}{2}$ & $\frac{\sqrt2}{2}$ & $\frac12$\\
+$\tan$ & $\frac{\sqrt3}{3}$ & $1$ & $\sqrt3$\\
+\bottomrule\end{tabular}\end{center}
+
+\begin{fmnote}Truc per a recordar-la: els sinus de \fmm{30^\circ,45^\circ,60^\circ} són \fmm{\frac{\sqrt1}{2},\frac{\sqrt2}{2},\frac{\sqrt3}{2}}; els cosinus, els mateixos en ordre invers.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: les relacions fonamentals}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sabent que \fmm{\cos\alpha=0{,}86} i que \fmm{\alpha} és agut, calcula \fmm{\sin\alpha} i \fmm{\tan\alpha}.
+
+Amb la relació I: \fmm{\ \sin^2\alpha=1-0{,}86^2=0{,}2604\Rightarrow\sin\alpha=\sqrt{0{,}2604}\approx0{,}51} (agafem l'arrel positiva perquè l'angle és agut).
+
+Amb la relació II: \fmm{\ \tan\alpha=\dfrac{0{,}51}{0{,}86}\approx0{,}59}
+\item Sabent que \fmm{\tan\alpha=2{,}83} i que \fmm{\alpha} és agut, calcula \fmm{\sin\alpha} i \fmm{\cos\alpha}.
+
+Amb la relació III: \fmm{\ \dfrac{1}{\cos^2\alpha}=1+2{,}83^2=9{,}0089\Rightarrow\cos^2\alpha\approx0{,}111\Rightarrow\cos\alpha\approx0{,}33}
+
+\fmm{\sin\alpha=\cos\alpha\cdot\tan\alpha\approx0{,}33\cdot2{,}83\approx0{,}93}
+\item Si \fmm{\sin\beta=\frac35} i \fmm{\beta} és agut, calcula'n les altres raons de manera exacta.
+
+\fmm{\cos\beta=\sqrt{1-\frac{9}{25}}=\sqrt{\frac{16}{25}}=\frac45,\qquad \tan\beta=\dfrac{3/5}{4/5}=\frac34}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Raons trigonomètriques d'un angle qualsevol}\hypertarget{sec3}{}
+\begin{fmdef}{Circumferència goniomètrica}
+Per a definir les raons d'angles majors de \fmm{90^\circ} fem servir la \textbf{circumferència goniomètrica}:
+
+\begin{itemize}
+\item És la circumferència de \textbf{radi 1} i centre l'origen de coordenades.
+\item Els angles tenen el vèrtex en el centre i un costat sobre el semieix positiu \fmm{OX}. L'altre costat s'obri en \textbf{sentit contrari a les agulles del rellotge} (angles positius); si s'obri en el sentit de les agulles, l'angle és negatiu.
+\item Els eixos divideixen el pla en quatre \textbf{quadrants}: I (\fmm{0^\circ}--\fmm{90^\circ}), II (\fmm{90^\circ}--\fmm{180^\circ}), III (\fmm{180^\circ}--\fmm{270^\circ}) i IV (\fmm{270^\circ}--\fmm{360^\circ}).
+\end{itemize}
+
+El segon costat de l'angle \fmm{\alpha} talla la circumferència en un punt \fmm{P}. Aleshores:
+
+\fmdisp{P=(\cos\alpha,\ \sin\alpha)\qquad\tan\alpha=\frac{\sin\alpha}{\cos\alpha}\ \ (\cos\alpha\neq0)}
+
+El \textbf{cosinus} és l'abscissa de \fmm{P} i el \textbf{sinus}, l'ordenada (si l'angle és agut, coincideixen amb les raons del triangle rectangle, ja que la hipotenusa val 1). La \textbf{tangent} és l'ordenada del punt \fmm{T} on el costat de l'angle (o la seua prolongació) talla la recta tangent \fmm{x=1}. Els angles de \fmm{90^\circ} i \fmm{270^\circ} \textbf{no tenen tangent} (\fmm{\cos\alpha=0}).
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Signe i valors de les raons}
+Com que \fmm{P} és sobre una circumferència de radi 1: \fmm{\ -1\le\sin\alpha\le1,\ \ -1\le\cos\alpha\le1}, mentre que la tangent pot prendre qualsevol valor real. A més, la relació \fmm{\sin^2\alpha+\cos^2\alpha=1} continua sent certa (és l'equació de la circumferència \fmm{x^2+y^2=1}). El signe depén del quadrant:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{Quadrant} & \textbf{I} & \textbf{II} & \textbf{III} & \textbf{IV}\\\midrule
+$\sin\alpha$ & + & + & $-$ & $-$\\
+$\cos\alpha$ & + & $-$ & $-$ & +\\
+$\tan\alpha$ & + & $-$ & + & $-$\\
+\bottomrule\end{tabular}\end{center}
+
+Raons dels angles que són sobre els eixos:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccc}\toprule
+\textbf{} & \textbf{$0^\circ$} & \textbf{$90^\circ=\frac{\pi}{2}$} & \textbf{$180^\circ=\pi$} & \textbf{$270^\circ=\frac{3\pi}{2}$} & \textbf{$360^\circ=2\pi$}\\\midrule
+$\sin$ & $0$ & $1$ & $0$ & $-1$ & $0$\\
+$\cos$ & $1$ & $0$ & $-1$ & $0$ & $1$\\
+$\tan$ & $0$ & $\nexists$ & $0$ & $\nexists$ & $0$\\
+\bottomrule\end{tabular}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Angles majors de 360$^\circ$ i angles negatius}
+Un angle de \fmm{412^\circ=360^\circ+52^\circ} fa una volta completa i, a més, \fmm{52^\circ}: el seu costat coincideix amb el de \fmm{52^\circ} i \textbf{les raons són les mateixes}. En general,
+
+\fmdisp{\sin(\alpha+360^\circ\cdot k)=\sin\alpha,\quad \cos(\alpha+360^\circ\cdot k)=\cos\alpha,\quad \tan(\alpha+360^\circ\cdot k)=\tan\alpha\qquad(k\in\mathbb Z)}
+
+Per a reduir un angle gran a la primera volta, el dividim entre \fmm{360^\circ} i ens quedem amb el residu: \fmm{\ 1680^\circ=4\cdot360^\circ+240^\circ}. Els angles negatius es mesuren en el sentit de les agulles del rellotge: \fmm{\ -60^\circ} té el mateix costat que \fmm{300^\circ=360^\circ-60^\circ}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Raons recíproques}
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \text{secant:}\ \ \sec\alpha=\dfrac{1}{\cos\alpha}$ & $\displaystyle \text{cosecant:}\ \ \text{cosec}\,\alpha=\dfrac{1}{\sin\alpha}$\\[4pt]
+$\displaystyle \text{cotangent:}\ \ \text{cotg}\,\alpha=\dfrac{1}{\tan\alpha}=\dfrac{\cos\alpha}{\sin\alpha}$\\[4pt]
+\end{tabularx}\end{center}
+
+Tenen el mateix signe que la raó de la qual són inverses. Dividint \fmm{\sin^2\alpha+\cos^2\alpha=1} entre \fmm{\cos^2\alpha} o entre \fmm{\sin^2\alpha}: \fmm{\quad 1+\tan^2\alpha=\sec^2\alpha,\qquad 1+\text{cotg}^2\alpha=\text{cosec}^2\alpha}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Calcular les raons a partir d'una d'elles}
+Si coneixem una raó i el \textbf{quadrant} de l'angle, les relacions fonamentals ens donen les altres; el quadrant decideix el signe de l'arrel.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: raons d'un angle del segon quadrant}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sabent que \fmm{90^\circ\lt\alpha\lt180^\circ} i \fmm{\sin\alpha=0{,}62}, calcula \fmm{\cos\alpha} i \fmm{\tan\alpha}.
+
+\fmm{\cos^2\alpha=1-0{,}62^2=0{,}6156\Rightarrow\cos\alpha=\pm0{,}78}
+
+En el segon quadrant el cosinus és negatiu: \fmm{\ \cos\alpha\approx-0{,}78}
+
+\fmm{\tan\alpha=\dfrac{0{,}62}{-0{,}78}\approx-0{,}79}
+\item Calcula \fmm{\sin\alpha}, \fmm{\cos\alpha} i \fmm{\tan\alpha} si \fmm{\sec\alpha=4} i \fmm{270^\circ\lt\alpha\lt360^\circ}.
+
+\fmm{\cos\alpha=\frac14;\qquad \sin\alpha=-\sqrt{1-\frac{1}{16}}=-\frac{\sqrt{15}}{4}} (negatiu en el quart quadrant)
+
+\fmm{\tan\alpha=\dfrac{-\sqrt{15}/4}{1/4}=-\sqrt{15}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Amb la calculadora}
+\begin{itemize}
+\item Comprova el \textbf{mode}: \texttt{D} (graus) o \texttt{R} (radians). \fmm{\sin 30} dona \fmm{0{,}5} en graus, però \fmm{-0{,}988} en radians.
+\item Les raons recíproques no tenen tecla: \fmm{\ \sec 135^\circ=1\div\cos135^\circ\approx-1{,}414}. Els graus, minuts i segons s'introdueixen amb la tecla \texttt{$^\circ$ ' "}.
+\item Les tecles \fmm{\sin^{-1}}, \fmm{\cos^{-1}}, \fmm{\tan^{-1}} donen \textbf{un sol angle}; entre \fmm{0^\circ} i \fmm{360^\circ} n'hi ha \textbf{dos} amb la mateixa raó (els veurem a l'apartat següent):
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin x=k\ \Rightarrow\ x_1=\sin^{-1}k,\ \ x_2=180^\circ-x_1$ & $\displaystyle \cos x=k\ \Rightarrow\ x_1=\cos^{-1}k,\ \ x_2=360^\circ-x_1$\\[4pt]
+$\displaystyle \tan x=k\ \Rightarrow\ x_1=\tan^{-1}k,\ \ x_2=x_1+180^\circ$\\[4pt]
+\end{tabularx}\end{center}
+\end{itemize}
+
+Per exemple, \fmm{\cos x=-0{,}3996}: \fmm{\ x_1=\cos^{-1}(-0{,}3996)\approx113^\circ33'} i \fmm{\ x_2=360^\circ-x_1\approx246^\circ27'}.
+\end{fmprop}
+
+\Needspace{8\baselineskip}
+\section{Relacions entre les raons d'alguns angles}\hypertarget{sec4}{}
+
+Les raons de qualsevol angle es poden obtindre a partir de les d'un angle del \textbf{primer quadrant}. No cal aprendre's les fórmules de memòria: n'hi ha prou de dibuixar els dos angles en la circumferència goniomètrica i veure que els punts són simètrics.
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Reducció al primer quadrant}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Angles} & \textbf{Simetria} & \textbf{$\sin$} & \textbf{$\cos$} & \textbf{$\tan$}\\\midrule
+Suplementaris $180^\circ-\alpha$ & respecte de $OY$ & $\sin\alpha$ & $-\cos\alpha$ & $-\tan\alpha$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Difereixen 180$^\circ$ $180^\circ+\alpha$ & respecte de $O$ & $-\sin\alpha$ & $-\cos\alpha$ & $\tan\alpha$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Oposats $-\alpha=360^\circ-\alpha$ & respecte de $OX$ & $-\sin\alpha$ & $\cos\alpha$ & $-\tan\alpha$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Complementaris $90^\circ-\alpha$ & respecte de $y=x$ & $\cos\alpha$ & $\sin\alpha$ & $\dfrac{1}{\tan\alpha}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Difereixen 90$^\circ$ $90^\circ+\alpha$ & gir de $90^\circ$ & $\cos\alpha$ & $-\sin\alpha$ & $-\dfrac{1}{\tan\alpha}$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{Regla pràctica}: per a un angle del II, III o IV quadrant busquem l'angle agut \fmm{\alpha} que forma amb l'eix \fmm{OX} (\fmm{180^\circ-\beta}, \fmm{\beta-180^\circ} o \fmm{360^\circ-\beta}). Les raons de \fmm{\beta} tenen el \textbf{mateix valor absolut} que les de \fmm{\alpha} i el \textbf{signe del quadrant} de \fmm{\beta}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: a partir de les raons de 25$^\circ$}
+Sabent que \fmm{\sin25^\circ=0{,}423}, \fmm{\cos25^\circ=0{,}906} i \fmm{\tan25^\circ=0{,}466}, troba les raons de \fmm{65^\circ}, \fmm{115^\circ}, \fmm{155^\circ} i \fmm{205^\circ}.
+
+\fmm{65^\circ=90^\circ-25^\circ} (complementaris): \fmm{\ \sin65^\circ=\cos25^\circ=0{,}906;\ \ \cos65^\circ=\sin25^\circ=0{,}423;\ \ \tan65^\circ=\frac{1}{0{,}466}=2{,}146}
+
+\fmm{115^\circ=90^\circ+25^\circ}: \fmm{\ \sin115^\circ=\cos25^\circ=0{,}906;\ \ \cos115^\circ=-\sin25^\circ=-0{,}423;\ \ \tan115^\circ=-\frac{1}{0{,}466}=-2{,}146}
+
+\fmm{155^\circ=180^\circ-25^\circ} (suplementaris): \fmm{\ \sin155^\circ=0{,}423;\ \ \cos155^\circ=-0{,}906;\ \ \tan155^\circ=-0{,}466}
+
+\fmm{205^\circ=180^\circ+25^\circ}: \fmm{\ \sin205^\circ=-0{,}423;\ \ \cos205^\circ=-0{,}906;\ \ \tan205^\circ=0{,}466}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Resolució de triangles rectangles}\hypertarget{sec5}{}
+\begin{fmdef}{Resoldre un triangle}
+\textbf{Resoldre un triangle} és trobar els elements desconeguts (costats i angles) a partir dels coneguts. En un triangle rectangle ja coneixem l'angle recte, de manera que n'hi ha prou amb \textbf{dues dades}, de les quals almenys una ha de ser un costat.
+
+\begin{enumerate}
+\item \textbf{Coneixem dos costats}: el tercer, per Pitàgores; cada angle, amb la raó que el relaciona amb els costats coneguts.
+\item \textbf{Coneixem un costat i un angle agut}: l'altre angle és el complementari; cada costat, amb la raó que el relaciona amb el costat i l'angle coneguts.
+\end{enumerate}
+
+\fmdisp{\hat A+\hat B=90^\circ\qquad a^2+b^2=c^2\qquad \sin\hat A=\frac ac,\ \ \cos\hat A=\frac bc,\ \ \tan\hat A=\frac ab}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: els dos casos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Es coneixen un catet, \fmm{a=11} cm, i la hipotenusa, \fmm{c=20} cm. Resol el triangle.
+
+Pitàgores: \fmm{\ b=\sqrt{20^2-11^2}=\sqrt{279}\approx16{,}70\ \text{cm}}
+
+\fmm{\sin\hat A=\dfrac{11}{20}=0{,}55\Rightarrow\hat A\approx33^\circ22'}
+
+\fmm{\hat B=90^\circ-\hat A\approx56^\circ38'}
+\item Es coneixen un catet, \fmm{a=15} cm, i l'angle \fmm{\hat B=50^\circ}. Resol el triangle.
+
+La tangent de \fmm{\hat B} relaciona l'angle amb els dos catets (\fmm{a} és el contigu a \fmm{\hat B}): \fmm{\ \tan\hat B=\dfrac ba\Rightarrow b=15\cdot\tan50^\circ\approx17{,}88\ \text{cm}}
+
+\fmm{\cos\hat B=\dfrac ac\Rightarrow c=\dfrac{15}{\cos50^\circ}\approx23{,}34\ \text{cm}}
+
+\fmm{\hat A=90^\circ-50^\circ=40^\circ}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Angles d'elevació i de depressió. L'estratègia de l'altura}
+L'\textbf{angle d'elevació} és el que forma la visual cap a un objecte situat més amunt amb l'horitzontal; el de \textbf{depressió}, el que forma la visual cap a un objecte situat més avall. Molts problemes es resolen \textbf{traçant una altura} que descompon la figura en dos triangles rectangles; si queden dues incògnites, plantegem un sistema.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/c930334ab7cc.pdf}\par}\par\smallskip{\centering\footnotesize Des de \fmm{Q} es veu el cim \fmm{M} amb un angle de \fmm{32^\circ} i, 300 m més lluny, des de \fmm{P}, amb \fmm{29^\circ}.\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: estratègia de l'altura}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula l'altura \fmm{h} de la muntanya de la figura.
+
+En cada triangle rectangle: \fmm{\ \tan32^\circ=\dfrac hx,\qquad \tan29^\circ=\dfrac{h}{x+300}}
+
+Igualem les dues expressions de \fmm{h}: \fmm{\ x\tan32^\circ=(x+300)\tan29^\circ\Rightarrow x=\dfrac{300\tan29^\circ}{\tan32^\circ-\tan29^\circ}\approx2356{,}75\ \text{m}}
+
+\fmm{h=x\tan32^\circ\approx1472{,}66\ \text{m}}
+\item En un triangle \fmm{ABC} es coneixen \fmm{\hat A=49^\circ}, \fmm{b=3800} m i \fmm{a=5600} m. Calcula \fmm{c} traçant l'altura des de \fmm{C}.
+
+L'altura talla \fmm{c} en dos trossos \fmm{x} (costat d'\fmm{A}) i \fmm{y} (costat de \fmm{B}): \fmm{\ h=3800\sin49^\circ\approx2867{,}90,\ \ x=3800\cos49^\circ\approx2493{,}02}
+
+\fmm{y=\sqrt{5600^2-h^2}\approx4809{,}90\Rightarrow c=x+y\approx7302{,}93\ \text{m}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Teorema del sinus}\hypertarget{sec6}{}
+
+Per a resoldre un triangle \textbf{qualsevol} (obliquangle) podríem aplicar cada vegada l'estratègia de l'altura. Els teoremes del sinus i del cosinus ho fan d'una vegada per a sempre. Fem servir la notació habitual: \fmm{a}, \fmm{b}, \fmm{c} són els costats oposats als angles \fmm{\hat A}, \fmm{\hat B}, \fmm{\hat C}, i \fmm{\hat A+\hat B+\hat C=180^\circ}.
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En qualsevol triangle, els costats són proporcionals als sinus dels angles oposats:
+
+\fmdisp{\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}=\frac{c}{\sin\hat C}\ \ (=2R)}\\
+
+\vspace*{0.2cm}
+
+
+El valor comú és el diàmetre \fmm{2R} de la circumferència circumscrita al triangle.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/c894e7133461.pdf}\par}\par\smallskip{\centering\footnotesize L'altura des de \fmm{C} divideix el triangle en dos triangles rectangles.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Teorema del sinus}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En qualsevol triangle, els costats són proporcionals als sinus dels angles oposats:
+
+\fmdisp{\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}=\frac{c}{\sin\hat C}\ \ (=2R)}
+
+El valor comú és el diàmetre \fmm{2R} de la circumferència circumscrita al triangle.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/c894e7133461.pdf}\par}\par\smallskip{\centering\footnotesize L'altura des de \fmm{C} divideix el triangle en dos triangles rectangles.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+En qualsevol triangle, els costats són proporcionals als sinus dels angles oposats:
+
+\fmdisp{\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}=\frac{c}{\sin\hat C}\ \ (=2R)}
+
+El valor comú és el diàmetre \fmm{2R} de la circumferència circumscrita al triangle.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/c894e7133461.pdf}\par}\par\smallskip{\centering\footnotesize L'altura des de \fmm{C} divideix el triangle en dos triangles rectangles.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\textbf{Demostració}. Tracem l'altura \fmm{h} des de \fmm{C}. En els triangles rectangles \fmm{AHC} i \fmm{BHC}:
+
+\fmdisp{\sin\hat A=\frac hb\Rightarrow h=b\sin\hat A,\qquad \sin\hat B=\frac ha\Rightarrow h=a\sin\hat B\qquad\Longrightarrow\qquad b\sin\hat A=a\sin\hat B\iff\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}}
+
+Amb l'altura des de \fmm{B} obtenim igualment \fmm{\dfrac{a}{\sin\hat A}=\dfrac{c}{\sin\hat C}}. (Si l'angle \fmm{\hat A} és obtús, l'altura cau fora, però com que \fmm{\sin(180^\circ-\hat A)=\sin\hat A}, el resultat és el mateix.)
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Quan s'aplica el teorema del sinus}
+Cada igualtat relaciona \textbf{dos costats i els seus angles oposats}. L'apliquem quan tres d'aquests quatre elements són coneguts. Recorda que conéixer dos angles és conéixer els tres.
+
+\begin{fmnote}\fmuline{Compte}: quan la incògnita és un \textbf{angle}, hi pot haver \textbf{dues solucions}, perquè entre \fmm{0^\circ} i \fmm{180^\circ} hi ha dos angles amb el mateix sinus: un agut \fmm{\alpha} i un obtús \fmm{180^\circ-\alpha}. Cal comprovar si l'obtús és possible (la suma dels angles ha de ser menor de \fmm{180^\circ}). Aquest és el \textbf{cas ambigu}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: teorema del sinus}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item D'un triangle \fmm{ABC} coneixem \fmm{c=AB=63} m, \fmm{\hat B=42^\circ} i \fmm{\hat A=83^\circ}. Calcula \fmm{a=BC}.
+
+\fmm{\hat C=180^\circ-(83^\circ+42^\circ)=55^\circ}
+
+\fmm{\dfrac{a}{\sin83^\circ}=\dfrac{63}{\sin55^\circ}\Rightarrow a=\dfrac{63\cdot\sin83^\circ}{\sin55^\circ}\approx76{,}34\ \text{m}}
+\item Si \fmm{a=4} cm, \fmm{b=5} cm i \fmm{\hat B=30^\circ}, calcula \fmm{\hat A}.
+
+\fmm{\dfrac{4}{\sin\hat A}=\dfrac{5}{\sin30^\circ}\Rightarrow\sin\hat A=\dfrac{4\cdot0{,}5}{5}=0{,}4}
+
+Possibles solucions: \fmm{\ \hat A_1\approx23^\circ34'41''}, \fmm{\ \hat A_2=180^\circ-\hat A_1\approx156^\circ25'19''}.
+
+La segona no és vàlida, perquè \fmm{\hat A_2+\hat B\gt180^\circ}. Només hi ha una solució: \fmm{\hat A\approx23^\circ34'41''}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Teorema del cosinus. Resolució de triangles qualssevol}\hypertarget{sec7}{}
+\begin{fmdef}{Teorema del cosinus}
+En qualsevol triangle, el quadrat d'un costat és igual a la suma dels quadrats dels altres dos menys el doble del seu producte pel cosinus de l'angle que formen:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle a^2=b^2+c^2-2bc\cos\hat A$ & $\displaystyle b^2=a^2+c^2-2ac\cos\hat B$\\[4pt]
+$\displaystyle c^2=a^2+b^2-2ab\cos\hat C$\\[4pt]
+\end{tabularx}\end{center}
+
+\textbf{Demostració}. Tracem l'altura \fmm{h} des de \fmm{C} (figura de l'apartat anterior); el peu \fmm{H} divideix \fmm{c} en \fmm{AH=b\cos\hat A} i \fmm{HB=c-b\cos\hat A}. Per Pitàgores en \fmm{BHC} i \fmm{AHC}:
+
+\fmdisp{a^2=h^2+(c-b\cos\hat A)^2,\qquad h^2=b^2-b^2\cos^2\hat A}
+
+\fmdisp{a^2=b^2-b^2\cos^2\hat A+c^2-2bc\cos\hat A+b^2\cos^2\hat A=b^2+c^2-2bc\cos\hat A}
+
+\begin{fmnote}Si \fmm{\hat A=90^\circ}, \fmm{\cos\hat A=0} i obtenim el \textbf{teorema de Pitàgores}: el teorema del cosinus el generalitza. Per això, comparant el quadrat del costat major amb la suma dels quadrats dels altres dos sabem el tipus de triangle: \fmm{a^2\lt b^2+c^2} acutangle, \fmm{a^2=b^2+c^2} rectangle, \fmm{a^2\gt b^2+c^2} obtusangle.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Els quatre casos de resolució}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Dades} & \textbf{Com es resol} & \textbf{Solucions}\\\midrule
+Tres costats ($a,b,c$) & Teorema del cosinus per a dos angles, aïllant el cosinus; el tercer, per la suma $180^\circ$. & Una, si el costat major és menor que la suma dels altres dos.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Dos costats i l'angle comprés ($b,c,\hat A$) & Teorema del cosinus per al tercer costat; després, un altre angle (amb el cosinus, per evitar l'ambigüitat). & Sempre una.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Un costat i dos angles ($a,\hat B,\hat C$) & El tercer angle per la suma; els costats, pel teorema del sinus. & Una, si $\hat B+\hat C\lt180^\circ$.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Dos costats i un angle oposat ($a,b,\hat A$) & Teorema del sinus per a $\hat B$ (cas ambigu); després $\hat C$ i $c$. & Cap, una o dues.\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmprop}
+
+%\Needspace{5\baselineskip}
+\newpage
+\begin{fmdef}{Àrea d'un triangle}
+Si coneixem dos costats i l'angle que formen, l'altura sobre \fmm{c} és \fmm{h=b\sin\hat A} i, per tant:
+
+\fmdisp{S=\frac12\,b\,c\,\sin\hat A=\frac12\,a\,c\,\sin\hat B=\frac12\,a\,b\,\sin\hat C}
+
+Si coneixem els tres costats també podem fer servir la \textbf{fórmula d'Heró}: \fmm{\ S=\sqrt{p(p-a)(p-b)(p-c)}}, on \fmm{p=\frac{a+b+c}{2}} és el semiperímetre.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: teorema del cosinus}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En un triangle \fmm{ABC}, \fmm{a=BC=1200} m, \fmm{c=BA=700} m i \fmm{\hat B=108^\circ}. Calcula \fmm{b=AC}.
+
+Coneixem dos costats i l'angle comprés: \fmm{\ b^2=a^2+c^2-2ac\cos\hat B}
+
+\fmm{b=\sqrt{1200^2+700^2-2\cdot1200\cdot700\cdot\cos108^\circ}\approx1564{,}98\ \text{m}}
+\item Resol el triangle de costats \fmm{a=10}, \fmm{b=14} i \fmm{c=8} cm.
+
+\fmm{\cos\hat A=\dfrac{b^2+c^2-a^2}{2bc}=\dfrac{196+64-100}{224}\approx0{,}7143\Rightarrow\hat A\approx44^\circ24'55''}
+
+\fmm{\cos\hat B=\dfrac{a^2+c^2-b^2}{2ac}=\dfrac{100+64-196}{160}=-0{,}2\Rightarrow\hat B\approx101^\circ32'13''} (obtús: el cosinus negatiu ho detecta)
+
+\fmm{\hat C=180^\circ-\hat A-\hat B\approx34^\circ2'52''}
+\item Les forces \fmm{F_1=16} N i \fmm{F_2=12} N, aplicades en un mateix punt, tenen una resultant de \fmm{R=25} N. Quin angle formen?
+
+En el para\lgem{}elogram de forces, el triangle de costats 16, 12 i 25 té, oposat a \fmm{R}, l'angle \fmm{180^\circ-\theta}: \fmm{\ 25^2=16^2+12^2-2\cdot16\cdot12\cos(180^\circ-\theta)}
+
+\fmm{625=400+384\cos\theta\Rightarrow\cos\theta=\dfrac{225}{384}\approx0{,}5859\Rightarrow\theta\approx54^\circ7'51''}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Raons de la suma i de la diferència de dos angles}\hypertarget{sec8}{}
+\begin{fmdef}{Fórmules de l'angle suma}
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin(\alpha+\beta)=\sin\alpha\cos\beta+\cos\alpha\sin\beta$ & $\displaystyle \cos(\alpha+\beta)=\cos\alpha\cos\beta-\sin\alpha\sin\beta$\\[4pt]
+$\displaystyle \tan(\alpha+\beta)=\frac{\tan\alpha+\tan\beta}{1-\tan\alpha\tan\beta}$\\[4pt]
+\end{tabularx}\end{center}
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Demostració del sinus} (\fmm{\alpha}, \fmm{\beta} aguts). Al triangle rectangle \fmm{OAB} d'angle \fmm{\alpha} li acoblem el triangle rectangle \fmm{OBC} d'angle \fmm{\beta} i hipotenusa \fmm{OC=1}. Aleshores \fmm{\sin(\alpha+\beta)=DC=AE=AB+BE}.
+
+\begin{itemize}
+\item \fmm{OB=\cos\beta} i \fmm{AB=OB\sin\alpha=\sin\alpha\cos\beta}.
+\item El triangle \fmm{BEC} és semblant a \fmm{OAB} (girat \fmm{90^\circ}), amb angle \fmm{\alpha} en \fmm{C}: \fmm{BC=\sin\beta}, \fmm{BE=BC\cos\alpha=\cos\alpha\sin\beta}.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fb9834d89863.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\textbf{Demostració del sinus} (\fmm{\alpha}, \fmm{\beta} aguts). Al triangle rectangle \fmm{OAB} d'angle \fmm{\alpha} li acoblem el triangle rectangle \fmm{OBC} d'angle \fmm{\beta} i hipotenusa \fmm{OC=1}. Aleshores \fmm{\sin(\alpha+\beta)=DC=AE=AB+BE}.
+
+\begin{itemize}
+\item \fmm{OB=\cos\beta} i \fmm{AB=OB\sin\alpha=\sin\alpha\cos\beta}.
+\item El triangle \fmm{BEC} és semblant a \fmm{OAB} (girat \fmm{90^\circ}), amb angle \fmm{\alpha} en \fmm{C}: \fmm{BC=\sin\beta}, \fmm{BE=BC\cos\alpha=\cos\alpha\sin\beta}.
+\end{itemize}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fb9834d89863.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+Les altres s'obtenen d'aquesta. Per exemple, \fmm{\cos(\alpha+\beta)=\sin\big((90^\circ+\alpha)+\beta\big)=\sin(90^\circ+\alpha)\cos\beta+\cos(90^\circ+\alpha)\sin\beta=\cos\alpha\cos\beta-\sin\alpha\sin\beta}. La de la tangent surt de dividir la del sinus entre la del cosinus i dividir numerador i denominador entre \fmm{\cos\alpha\cos\beta}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Fórmules de l'angle diferència}
+Escrivim \fmm{\alpha-\beta=\alpha+(-\beta)} i fem servir que \fmm{\sin(-\beta)=-\sin\beta}, \fmm{\cos(-\beta)=\cos\beta}:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin(\alpha-\beta)=\sin\alpha\cos\beta-\cos\alpha\sin\beta$ & $\displaystyle \cos(\alpha-\beta)=\cos\alpha\cos\beta+\sin\alpha\sin\beta$\\[4pt]
+$\displaystyle \tan(\alpha-\beta)=\frac{\tan\alpha-\tan\beta}{1+\tan\alpha\tan\beta}$\\[4pt]
+\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: raons de 75$^\circ$ i de 15$^\circ$}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula les raons de \fmm{75^\circ=45^\circ+30^\circ}.
+
+\fmm{\sin75^\circ=\sin45^\circ\cos30^\circ+\cos45^\circ\sin30^\circ=\frac{\sqrt2}{2}\cdot\frac{\sqrt3}{2}+\frac{\sqrt2}{2}\cdot\frac12=\dfrac{\sqrt6+\sqrt2}{4}}
+
+\fmm{\cos75^\circ=\cos45^\circ\cos30^\circ-\sin45^\circ\sin30^\circ=\dfrac{\sqrt6-\sqrt2}{4}}
+
+\fmm{\tan75^\circ=\dfrac{1+\frac{\sqrt3}{3}}{1-\frac{\sqrt3}{3}}=\dfrac{3+\sqrt3}{3-\sqrt3}=\dfrac{(3+\sqrt3)^2}{9-3}=\dfrac{12+6\sqrt3}{6}=2+\sqrt3}
+\item Calcula les raons de \fmm{15^\circ=45^\circ-30^\circ}.
+
+\fmm{\sin15^\circ=\sin45^\circ\cos30^\circ-\cos45^\circ\sin30^\circ=\dfrac{\sqrt6-\sqrt2}{4}}
+
+\fmm{\cos15^\circ=\cos45^\circ\cos30^\circ+\sin45^\circ\sin30^\circ=\dfrac{\sqrt6+\sqrt2}{4}}
+
+\fmm{\tan15^\circ=\dfrac{1-\frac{\sqrt3}{3}}{1+\frac{\sqrt3}{3}}=\dfrac{3-\sqrt3}{3+\sqrt3}=2-\sqrt3} (fixa't que \fmm{15^\circ} i \fmm{75^\circ} són complementaris).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Raons de l'angle doble i de l'angle meitat}\hypertarget{sec9}{}
+\begin{fmdef}{Angle doble}
+Fent \fmm{\beta=\alpha} en les fórmules de la suma:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin2\alpha=2\sin\alpha\cos\alpha$ & $\displaystyle \cos2\alpha=\cos^2\alpha-\sin^2\alpha$\\[4pt]
+$\displaystyle \tan2\alpha=\frac{2\tan\alpha}{1-\tan^2\alpha}$\\[4pt]
+\end{tabularx}\end{center}
+
+Amb \fmm{\sin^2\alpha+\cos^2\alpha=1}, el cosinus també s'escriu \fmm{\ \cos2\alpha=2\cos^2\alpha-1=1-2\sin^2\alpha}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Angle meitat}
+Com que \fmm{\alpha=2\cdot\frac{\alpha}{2}}: \fmm{\ \cos\alpha=\cos^2\frac\alpha2-\sin^2\frac\alpha2\ } i \fmm{\ 1=\cos^2\frac\alpha2+\sin^2\frac\alpha2}. Sumant i restant aquestes igualtats: \fmm{\ 1+\cos\alpha=2\cos^2\frac\alpha2,\ \ 1-\cos\alpha=2\sin^2\frac\alpha2}. Aïllant:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin\frac\alpha2=\pm\sqrt{\frac{1-\cos\alpha}{2}}$ & $\displaystyle \cos\frac\alpha2=\pm\sqrt{\frac{1+\cos\alpha}{2}}$\\[4pt]
+$\displaystyle \tan\frac\alpha2=\pm\sqrt{\frac{1-\cos\alpha}{1+\cos\alpha}}$\\[4pt]
+\end{tabularx}\end{center}
+
+\begin{fmnote}El signe (\fmm{+} o \fmm{-}) depén del \fmuline{quadrant de l'angle \fmm{\frac\alpha2}}, no del d'\fmm{\alpha}. Si \fmm{0^\circ\lt\alpha\lt360^\circ}, aleshores \fmm{0^\circ\lt\frac\alpha2\lt180^\circ} i el sinus de \fmm{\frac\alpha2} és sempre positiu.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: angle doble i angle meitat}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula \fmm{\tan120^\circ} a partir de \fmm{\tan60^\circ=\sqrt3}.
+
+\fmm{\tan120^\circ=\tan(2\cdot60^\circ)=\dfrac{2\sqrt3}{1-(\sqrt3)^2}=\dfrac{2\sqrt3}{-2}=-\sqrt3}
+\item Sabent que \fmm{\sin148^\circ=0{,}53} i \fmm{\cos148^\circ=-0{,}85}, calcula \fmm{\sin296^\circ}, \fmm{\cos208^\circ}, \fmm{\text{cotg}\,74^\circ} i \fmm{\sin103^\circ}.
+
+\fmm{\sin296^\circ=\sin(2\cdot148^\circ)=2\cdot0{,}53\cdot(-0{,}85)\approx-0{,}90}
+
+\fmm{\cos208^\circ=\cos(148^\circ+60^\circ)=-0{,}85\cdot\frac12-0{,}53\cdot\frac{\sqrt3}{2}\approx-0{,}88}
+
+\fmm{74^\circ=\frac{148^\circ}{2}} és del primer quadrant: \fmm{\ \tan74^\circ=+\sqrt{\dfrac{1+0{,}85}{1-0{,}85}}\approx3{,}51\Rightarrow\text{cotg}\,74^\circ\approx0{,}28}
+
+\fmm{\sin103^\circ=\sin(148^\circ-45^\circ)=0{,}53\cdot\frac{\sqrt2}{2}-(-0{,}85)\cdot\frac{\sqrt2}{2}\approx0{,}98}
+\item Si \fmm{\sin\alpha=\frac35} i \fmm{\alpha} és del segon quadrant, calcula les raons de \fmm{\frac\alpha2}.
+
+\fmm{\cos\alpha=-\frac45}. Com que \fmm{90^\circ\lt\alpha\lt180^\circ}, \fmm{\ 45^\circ\lt\frac\alpha2\lt90^\circ}: totes les raons són positives.
+
+\fmm{\sin\frac\alpha2=\sqrt{\dfrac{1+\frac45}{2}}=\dfrac{3\sqrt{10}}{10},\quad \cos\frac\alpha2=\sqrt{\dfrac{1-\frac45}{2}}=\dfrac{\sqrt{10}}{10},\quad\tan\frac\alpha2=3}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Identitats trigonomètriques}
+Una \textbf{identitat} és una igualtat que es compleix per a \emph{tots} els valors de l'angle on els dos membres tenen sentit. Per a demostrar-la, transformem un dels membres (normalment el més complicat) fins a arribar a l'altre. Estratègies útils:
+
+\begin{itemize}
+\item Passar-ho tot a sinus i cosinus (\fmm{\tan=\frac{\sin}{\cos}}, \fmm{\sec=\frac1{\cos}}\dots{}).
+\item Fer servir \fmm{\sin^2\alpha+\cos^2\alpha=1} i les fórmules de l'angle doble perquè només hi haja un argument.
+\item Operar fraccions, traure factor comú i simplificar.
+\end{itemize}
+
+\emph{Exemple}: \fmm{\ \dfrac{\sin2\alpha}{1+\cos2\alpha}=\dfrac{2\sin\alpha\cos\alpha}{1+2\cos^2\alpha-1}=\dfrac{2\sin\alpha\cos\alpha}{2\cos^2\alpha}=\dfrac{\sin\alpha}{\cos\alpha}=\tan\alpha}.
+\end{fmprop}
+
+\Needspace{5.7cm}
+\section{Transformació de sumes en productes}\hypertarget{sec10}{}
+\begin{fmdef}{Sumes i diferències de sinus i de cosinus}
+De vegades convé escriure una suma com un producte (per exemple, per a resoldre una equació igualada a zero o per a simplificar una fracció):
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin A+\sin B=2\sin\frac{A+B}{2}\cos\frac{A-B}{2}$ & $\displaystyle \sin A-\sin B=2\cos\frac{A+B}{2}\sin\frac{A-B}{2}$\\[4pt]
+$\displaystyle \cos A+\cos B=2\cos\frac{A+B}{2}\cos\frac{A-B}{2}$ & $\displaystyle \cos A-\cos B=-2\sin\frac{A+B}{2}\sin\frac{A-B}{2}$\\[4pt]
+\end{tabularx}\end{center}
+
+\textbf{Demostració}. Sumant i restant \fmm{\sin(\alpha+\beta)=\sin\alpha\cos\beta+\cos\alpha\sin\beta} i \fmm{\sin(\alpha-\beta)=\sin\alpha\cos\beta-\cos\alpha\sin\beta}:
+
+\fmdisp{\sin(\alpha+\beta)+\sin(\alpha-\beta)=2\sin\alpha\cos\beta,\qquad \sin(\alpha+\beta)-\sin(\alpha-\beta)=2\cos\alpha\sin\beta}
+
+Fem el canvi \fmm{A=\alpha+\beta}, \fmm{B=\alpha-\beta}, és a dir, \fmm{\alpha=\frac{A+B}{2}}, \fmm{\beta=\frac{A-B}{2}}, i obtenim les dues primeres. Les dels cosinus es deduïxen igual a partir de \fmm{\cos(\alpha\pm\beta)}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: sumes en productes}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula \fmm{\cos75^\circ+\cos15^\circ} transformant-ho en producte.
+
+\fmm{\cos75^\circ+\cos15^\circ=2\cos\dfrac{75^\circ+15^\circ}{2}\cos\dfrac{75^\circ-15^\circ}{2}=2\cos45^\circ\cos30^\circ}
+
+\fmm{=2\cdot\dfrac{\sqrt2}{2}\cdot\dfrac{\sqrt3}{2}=\dfrac{\sqrt6}{2}}
+\item Simplifica \fmm{\dfrac{\sin3x+\sin x}{\cos3x+\cos x}}.
+
+\fmm{\dfrac{2\sin2x\cos x}{2\cos2x\cos x}=\dfrac{\sin2x}{\cos2x}=\tan2x}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Equacions trigonomètriques}\hypertarget{sec11}{}
+\begin{fmdef}{Equacions trigonomètriques}
+Una \textbf{equació trigonomètrica} és una equació en què la incògnita és un angle afectat per raons trigonomètriques. Com que les raons de \fmm{x} i de \fmm{x+360^\circ\cdot k} són iguals, si té una solució en té \textbf{infinites}: normalment donem les de \fmm{[0^\circ,360^\circ)} i, si cal, la \textbf{solució general} (amb \fmm{k\in\mathbb Z}).
+
+\textbf{Equacions elementals} (\fmm{\alpha} és l'angle que dona la calculadora o la taula):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Equació} & \textbf{Solució general} & \textbf{Exemple}\\\midrule
+$\sin x=k\ \ (|k|\le1)$ & $x=\alpha+360^\circ k,\ \ x=180^\circ-\alpha+360^\circ k$ & $\sin x=\frac12\Rightarrow x=30^\circ,\ 150^\circ$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\cos x=k\ \ (|k|\le1)$ & $x=\pm\alpha+360^\circ k$ & $\cos x=-\frac12\Rightarrow x=120^\circ,\ 240^\circ$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\tan x=k$ & $x=\alpha+180^\circ k$ & $\tan x=1\Rightarrow x=45^\circ,\ 225^\circ$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}Si \fmm{|k|\gt1}, les equacions \fmm{\sin x=k} i \fmm{\cos x=k} \fmuline{no tenen solució}. Si l'argument és \fmm{2x}, \fmm{\frac x2}, \fmm{x+30^\circ}\dots{}, primer trobem l'argument amb la solució general i després aïllem \fmm{x}: \fmm{\ \sin2x=\frac12\Rightarrow 2x=30^\circ+360^\circ k\ \text{o}\ 2x=150^\circ+360^\circ k\Rightarrow x=15^\circ+180^\circ k\ \text{o}\ x=75^\circ+180^\circ k}. En \fmm{[0^\circ,360^\circ)}: \fmm{15^\circ, 75^\circ, 195^\circ, 255^\circ}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Com es resol una equació trigonomètrica}
+\begin{enumerate}
+\item Aplicar les fórmules (angle doble, suma, sumes en productes\dots{}) perquè totes les raons tinguen el \textbf{mateix argument}.
+\item Aplicar les relacions fonamentals perquè quede \textbf{una sola raó} (per exemple, \fmm{\cos^2x=1-\sin^2x}), o bé \textbf{factoritzar} si està igualada a zero.
+\item Resoldre l'equació algebraica que en resulta (de primer o de segon grau\dots{}) per a trobar el valor de la raó.
+\item Trobar els angles i \textbf{comprovar-los} en l'equació inicial: elevar al quadrat o multiplicar pot introduir \emph{solucions estranyes}.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{No dividisques} els dos membres per una expressió que pot valdre zero (com \fmm{\sin x} o \fmm{\cos x}): perdries solucions. És millor passar-ho tot a un membre i traure factor comú.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: equacions trigonomètriques}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{\cos(30^\circ+x)=\sin x}.
+
+Cosinus de la suma: \fmm{\ \frac{\sqrt3}{2}\cos x-\frac12\sin x=\sin x\Rightarrow\sqrt3\cos x=3\sin x}
+
+Ací podem dividir entre \fmm{\cos x}, perquè si \fmm{\cos x=0} també seria \fmm{\sin x=0}, cosa impossible: \fmm{\ \tan x=\dfrac{\sqrt3}{3}}
+
+\fmm{x_1=30^\circ,\ \ x_2=210^\circ} (les dues compleixen l'equació). Solució general: \fmm{\ x=30^\circ+180^\circ k}
+\item Resol \fmm{\sin2x=\tan x}.
+
+\fmm{2\sin x\cos x=\dfrac{\sin x}{\cos x}\Rightarrow2\sin x\cos^2x-\sin x=0\Rightarrow\sin x\,(2\cos^2x-1)=0}
+
+\fmm{\sin x=0\Rightarrow x=0^\circ,\ 180^\circ}
+
+\fmm{\cos^2x=\frac12\Rightarrow\cos x=\pm\frac{\sqrt2}{2}\Rightarrow x=45^\circ,\ 135^\circ,\ 225^\circ,\ 315^\circ}
+
+Les sis són vàlides. Solució general: \fmm{\ x=180^\circ k,\ \ x=45^\circ+90^\circ k}
+\item Resol \fmm{\cos3x+\cos x=0}.
+
+Suma en producte: \fmm{\ 2\cos\frac{3x+x}{2}\cos\frac{3x-x}{2}=0\Rightarrow2\cos2x\cos x=0}
+
+\fmm{\cos x=0\Rightarrow x=90^\circ,\ 270^\circ}
+
+\fmm{\cos2x=0\Rightarrow2x=90^\circ,\ 270^\circ,\ 450^\circ,\ 630^\circ\Rightarrow x=45^\circ,\ 135^\circ,\ 225^\circ,\ 315^\circ}
+\item Resol \fmm{3\sin^2x+\cos^2x+\cos x=0}.
+
+Només volem cosinus: \fmm{\ 3(1-\cos^2x)+\cos^2x+\cos x=0\Rightarrow2\cos^2x-\cos x-3=0}
+
+\fmm{\cos x=\dfrac{1\pm\sqrt{1+24}}{4}=\dfrac{1\pm5}{4}\Rightarrow\cos x=\frac32} (impossible) o \fmm{\cos x=-1}
+
+\fmm{x=180^\circ}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Sistemes d'equacions trigonomètriques}\hypertarget{sec12}{}
+\begin{fmdef}{Estratègies}
+Es resolen amb els mètodes de sempre (substitució, reducció, igualació), però les identitats trigonomètriques poden simplificar molt els càlculs:
+
+\begin{itemize}
+\item Si una equació és lineal (\fmm{x+y=90^\circ}), aïllem una incògnita i la substituïm en l'altra.
+\item Si apareixen \fmm{\cos x\cos y} i \fmm{\sin x\sin y}, sumant i restant obtenim \fmm{\cos(x-y)} i \fmm{\cos(x+y)}.
+\item Prendre com a incògnites les raons (\fmm{u=\sin x}, \fmm{v=\cos y}) i resoldre un sistema algebraic.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: sistemes trigonomètrics}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol en \fmm{[0^\circ,360^\circ)}: \fmm{\ \begin{cases}\cos x\cos y=-\frac12\\ \sin x\sin y=-\frac12\end{cases}}
+
+Sumant i restant: \fmm{\ \cos x\cos y+\sin x\sin y=-1,\ \ \cos x\cos y-\sin x\sin y=0}, és a dir, \fmm{\ \cos(x-y)=-1,\ \ \cos(x+y)=0}.
+
+Com que \fmm{x,y\in[0^\circ,360^\circ)}: \fmm{\ x-y=\pm180^\circ} i \fmm{\ x+y\in\{90^\circ,270^\circ,450^\circ,630^\circ\}}.
+
+Resolent cada sistema lineal i quedant-nos amb les solucions de la primera volta: \fmm{\ (x,y)=(45^\circ,225^\circ),\ (135^\circ,315^\circ),\ (225^\circ,45^\circ),\ (315^\circ,135^\circ)}
+\item Resol en \fmm{[0^\circ,360^\circ)}: \fmm{\ \begin{cases}x+y=90^\circ\\ \sin x+\sin y=1\end{cases}}
+
+\fmm{y=90^\circ-x\Rightarrow\sin x+\sin(90^\circ-x)=1\Rightarrow\sin x+\cos x=1\Rightarrow\cos x=1-\sin x}
+
+Substituint en \fmm{\sin^2x+\cos^2x=1}: \fmm{\ 2\sin^2x-2\sin x=0\Rightarrow2\sin x(\sin x-1)=0}
+
+\fmm{\sin x=0\Rightarrow x=0^\circ\ (y=90^\circ)} o \fmm{x=180^\circ\ (y=-90^\circ,} fora de l'interval\fmm{)}; \fmm{\ \sin x=1\Rightarrow x=90^\circ\ (y=0^\circ)}
+
+Solucions: \fmm{\ (0^\circ,90^\circ)} i \fmm{(90^\circ,0^\circ)}
+\item Resol en \fmm{[0^\circ,360^\circ)}: \fmm{\ \begin{cases}\cos^2x+\sin y=\frac12\\ \sin x+\sin y=\frac32\end{cases}}
+
+Restant les equacions (reducció): \fmm{\ \cos^2x-\sin x=-1\Rightarrow1-\sin^2x-\sin x=-1\Rightarrow\sin^2x+\sin x-2=0}
+
+\fmm{\sin x=1} o \fmm{\sin x=-2} (no val). Aleshores \fmm{x=90^\circ} i \fmm{\sin y=\frac12\Rightarrow y=30^\circ,\ 150^\circ}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Funcions trigonomètriques}\hypertarget{sec13}{}
+\begin{fmdef}{Les funcions sinus, cosinus i tangent}
+Les \textbf{funcions trigonomètriques} (o circulars) \fmm{y=\sin x}, \fmm{y=\cos x}, \fmm{y=\tan x} assignen a cada angle \fmm{x}, \textbf{mesurat en radians}, el valor de la seua raó. Fem servir radians perquè l'eix d'abscisses té una escala decimal, com els radians (no té sentit posar-hi graus sexagesimals).
+
+Quan el punt \fmm{P} fa voltes a la circumferència goniomètrica, la seua ordenada (el sinus) puja i baixa entre \fmm{-1} i \fmm{1} i dibuixa una ona, la \textbf{sinusoide}:
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propietats}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{$y=\sin x$} & \textbf{$y=\cos x$} & \textbf{$y=\tan x$}\\\midrule
+Domini & $\mathbb R$ & $\mathbb R$ & $\mathbb R-\left\{\frac\pi2+k\pi\right\}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Recorregut & $[-1,1]$ & $[-1,1]$ & $\mathbb R$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Període & $2\pi$ & $2\pi$ & $\pi$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Simetria & senar: $\sin(-x)=-\sin x$ & parell: $\cos(-x)=\cos x$ & senar\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Zeros & $x=k\pi$ & $x=\frac\pi2+k\pi$ & $x=k\pi$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Màxims / mínims & $1$ en $\frac\pi2+2k\pi$; $-1$ en $\frac{3\pi}2+2k\pi$ & $1$ en $2k\pi$; $-1$ en $\pi+2k\pi$ & no en té; asímptotes verticals en $x=\frac\pi2+k\pi$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+Una funció és \textbf{periòdica} de període \fmm{T} si \fmm{f(x+T)=f(x)} per a tot \fmm{x}: la gràfica es repeteix cada \fmm{T} unitats. A més, \fmm{\cos x=\sin\left(x+\frac\pi2\right)}: la gràfica del cosinus és la del sinus \textbf{desplaçada \fmm{\frac\pi2} cap a l'esquerra}.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Funcions del tipus $y=A\sin(Bx+C)+D$}
+\begin{itemize}
+\item \fmm{|A|} és l'\textbf{amplitud}: estira la gràfica verticalment (si \fmm{A\lt0}, a més, la reflecteix).
+\item \fmm{B} canvia el \textbf{període}: \fmm{T=\dfrac{2\pi}{|B|}} (per a la tangent, \fmm{\dfrac{\pi}{|B|}}). Si \fmm{B=2}, l'ona va el doble de ràpid; si \fmm{B=\frac12}, la meitat.
+\item \fmm{C} \textbf{desplaça} la gràfica horitzontalment \fmm{\frac{C}{B}} unitats (cap a l'esquerra si és positiu) i \fmm{D} la desplaça verticalment.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: funcions trigonomètriques}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En quins punts de \fmm{[0,4\pi]} talla l'eix \fmm{X} la funció \fmm{y=\cos\frac x2}?
+
+\fmm{\cos\frac x2=0\Rightarrow\frac x2=\frac\pi2+k\pi\Rightarrow x=\pi+2k\pi}
+
+En \fmm{[0,4\pi]}: \fmm{\ x=\pi} i \fmm{x=3\pi}. El període és \fmm{\frac{2\pi}{1/2}=4\pi}.
+\item Quina relació hi ha entre les gràfiques de \fmm{y=\sin\left(x+\frac\pi2\right)}, \fmm{y=\cos\left(x+\frac\pi2\right)} i les de \fmm{\sin x}, \fmm{\cos x}?
+
+\fmm{\sin\left(x+\frac\pi2\right)=\cos x}: és la gràfica del cosinus.
+
+\fmm{\cos\left(x+\frac\pi2\right)=-\sin x}: és la gràfica del sinus reflectida respecte de l'eix \fmm{X}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

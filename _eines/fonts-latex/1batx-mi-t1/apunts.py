@@ -21,6 +21,8 @@ def T(va, es): return es if ES else va
 
 ARI = dict(c='C99A2E', cl='E6B84A', block=T("bloc d'Aritmètica: groc", 'bloque de Aritmética: amarillo'))
 ALG = dict(c='3D6AA0', cl='4E81BD', block=T("bloc d'Àlgebra: blau", 'bloque de Álgebra: azul'))
+AN = dict(c='6A8A33', cl='7FA040', block=T("bloc d'Anàlisi: verd", 'bloque de Análisis: verde'))
+PR = dict(c='684E88', cl='8064A1', block=T('bloc de Probabilitat i Estadística: morat', 'bloque de Probabilidad y Estadística: morado'))
 GEO = dict(c='DC7A29', cl='F79645', block=T('bloc de Geometria: taronja', 'bloque de Geometría: naranja'))
 U = {
  1: dict(ARI, src='t1-nombres-reals.html', title=T('Nombres reals', 'Números reales'),
@@ -35,6 +37,24 @@ U = {
  4: dict(GEO, src='t4-geometria-pla.html', title=T('Geometria analítica en el pla', 'Geometría analítica en el plano'),
          kw=T('vectors, producte escalar, angle entre vectors, equacions de la recta, posicions relatives, angles, distàncies, punt simètric, triangles',
               'vectores, producto escalar, ángulo entre vectores, ecuaciones de la recta, posiciones relativas, ángulos, distancias, punto simétrico, triángulos')),
+ 5: dict(GEO, src='t5-trigonometria.html', title=T('Trigonometria', 'Trigonometría'),
+         kw=T('angles, radians, raons trigonomètriques, circumferència goniomètrica, reducció al primer quadrant, fórmules trigonomètriques, equacions trigonomètriques, teorema del sinus, teorema del cosinus, resolució de triangles',
+              'ángulos, radianes, razones trigonométricas, circunferencia goniométrica, reducción al primer cuadrante, fórmulas trigonométricas, ecuaciones trigonométricas, teorema del seno, teorema del coseno, resolución de triángulos')),
+ 6: dict(AN, src='t6-estudi-funcions.html', title=T('Estudi de funcions', 'Estudio de funciones'),
+         kw=T('funcions, domini, recorregut, talls amb els eixos, monotonia, extrems, continuïtat, simetries, periodicitat, translacions, composició, funció inversa',
+              'funciones, dominio, recorrido, cortes con los ejes, monotonía, extremos, continuidad, simetrías, periodicidad, traslaciones, composición, función inversa')),
+ 7: dict(AN, src='t7-funcions-elementals.html', title=T('Funcions elementals', 'Funciones elementales'),
+         kw=T('funcions lineals, funcions quadràtiques, funcions de proporcionalitat inversa, funcions racionals, funcions radicals, funcions exponencials, funcions logarítmiques, funcions trigonomètriques, funcions a trossos, valor absolut',
+              'funciones lineales, funciones cuadráticas, funciones de proporcionalidad inversa, funciones racionales, funciones radicales, funciones exponenciales, funciones logarítmicas, funciones trigonométricas, funciones a trozos, valor absoluto')),
+ 8: dict(AN, src='t8-limits-continuitat.html', title=T('Límits i continuïtat', 'Límites y continuidad'),
+         kw=T('límits, límits laterals, límits a l\'infinit, indeterminacions, continuïtat, discontinuïtats, asímptotes, teorema de Bolzano',
+              'límites, límites laterales, límites en el infinito, indeterminaciones, continuidad, discontinuidades, asíntotas, teorema de Bolzano')),
+ 9: dict(AN, src='t9-derivades.html', title=T('Derivades i aplicacions', 'Derivadas y aplicaciones'),
+         kw=T('taxa de variació mitjana, derivada en un punt, recta tangent, funció derivada, regles de derivació, monotonia, màxims i mínims, representació de funcions, optimització',
+              'tasa de variación media, derivada en un punto, recta tangente, función derivada, reglas de derivación, monotonía, máximos y mínimos, representación de funciones, optimización')),
+ 10: dict(PR, src='t10-estadistica.html', title=T('Estadística', 'Estadística'),
+         kw=T('estadística bidimensional, núvol de punts, covariància, correlació, coeficient de correlació, recta de regressió, estimacions',
+              'estadística bidimensional, nube de puntos, covarianza, correlación, coeficiente de correlación, recta de regresión, estimaciones')),
 }[N]
 
 SRC = os.path.join(HERE, '..', '..', '..', 'materials', '1batx-mi', U['src'])
@@ -52,6 +72,9 @@ def fix(a, b):
     global body
     assert body.count(a) == 1, a[:80]
     body = body.replace(a, b)
+if N == 9:
+    body, k = re.subn(r'<h3 class="sub"><span data-l="va">Estudi complet d\'una funció, pas a pas</span>.*?<div class="box lab">.*?</p>\s*</div>\s*</div>', '', body, count=1, flags=re.S)
+    assert k == 1
 
 # ---------- 2. arbre DOM senzill ----------
 VOID = {'input', 'br', 'img', 'hr'}
@@ -64,6 +87,7 @@ class P(HTMLParser):
         super().__init__(convert_charrefs=True); self.root = Node('root', []); self.cur = self.root
     def handle_starttag(self, tag, attrs):
         n = Node(tag, attrs, self.cur); self.cur.kids.append(n)
+        if tag == 'svg': n.pos = self.getpos()  # per a recuperar l'svg tal com és al text font
         if tag not in VOID: self.cur = n
     def handle_startendtag(self, tag, attrs):
         self.cur.kids.append(Node(tag, attrs, self.cur))
@@ -73,10 +97,139 @@ class P(HTMLParser):
         if n is not None and n.parent is not None: self.cur = n.parent
     def handle_data(self, d): self.cur.kids.append(d)
 p = P(); p.feed(body); ROOT = p.root
+LINE0 = [0] + [m.end() for m in re.finditer('\n', body)]
+def svg_raw(n):  # l'svg original (HTMLParser posa els atributs en minúscula: viewBox, clipPath…)
+    i = LINE0[n.pos[0] - 1] + n.pos[1]
+    return body[i:body.index('</svg>', i) + 6]
 
 # ---------- 3. figures ----------
 FIG = {}
 CMP = [0]
+# unitats 5-8: les figures fixes de la pàgina (svg.tg-svg, i les gràfiques svg.lp-svg de la U8, que la pàgina dibuixa amb
+# JavaScript) es passen a PDF vectorial amb Inkscape, amb els estils de la pàgina (colors del tema clar) dins de l'svg.
+# Els PDF es guarden a tN/figs/<hash>.pdf i el .tex els inclou amb \includegraphics.
+import hashlib, subprocess
+INKSCAPE = '/Applications/Inkscape.app/Contents/MacOS/inkscape'
+CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+FIGDIR = os.path.join(OUTDIR, 'figs')
+ROOTVARS = dict(re.findall(r'--([\w-]+):\s*([^;]+);', re.search(r':root\s*\{([^}]*)\}', src).group(1)))
+def unvar(x):
+    for _ in range(3): x = re.sub(r'var\(--([\w-]+)\)', lambda m: ROOTVARS[m.group(1)].strip(), x)
+    return x
+def svg_css():
+    css = '\n'.join(re.findall(r'<style>(.*?)</style>', src, re.S))
+    css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+    while '@media' in css:  # fora les regles del tema fosc i de pantalles menudes
+        i = css.index('@media'); j = css.index('{', i); d = 1; k = j + 1
+        while d: d += {'{': 1, '}': -1}.get(css[k], 0); k += 1
+        css = css[:i] + css[k:]
+    out = []
+    for sel, decl in re.findall(r'([^{}]+)\{([^{}]*)\}', css):
+        sels = [x.strip() for x in sel.split(',') if re.match(r'^\.(tg|lp|st)-svg[\s.]', x.strip()) and 'dark' not in x and ':hover' not in x]
+        if sels: out.append('%s { %s }' % (', '.join(sels), unvar(decl).replace('"Inter"', '"Helvetica Neue"')))
+    return '\n'.join(out)
+SVGCSS = svg_css() if N >= 5 else ''
+SVGTODO = []
+def svgpdf(raw):
+    raw = unvar(raw).replace('&nbsp;', '&#160;')
+    vb = [float(x) for x in re.search(r'viewBox="([^"]+)"', raw).group(1).replace(',', ' ').split()]
+    head = re.match(r'<svg[^>]*>', raw).group(0)
+    new = head[:-1].replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"', 1) if 'xmlns=' not in head else head[:-1]
+    new += ' width="%g" height="%g">' % (vb[2], vb[3])
+    # el fons arredonit de la figura, com a la web
+    new += '<style>%s</style><rect x="%g" y="%g" width="%g" height="%g" rx="12" fill="%s" stroke="%s" stroke-width="1"/>' % (
+        SVGCSS, vb[0] + 0.5, vb[1] + 0.5, vb[2] - 1, vb[3] - 1, ROOTVARS['bg'].strip(), ROOTVARS['border'].strip())
+    svg = new + raw[len(head):]
+    h = hashlib.md5(svg.encode()).hexdigest()[:12]
+    os.makedirs(FIGDIR, exist_ok=True)
+    f = os.path.join(FIGDIR, h)
+    if not os.path.exists(f + '.pdf'):
+        if f + '.svg' not in SVGTODO: open(f + '.svg', 'w', encoding='utf-8').write(svg); SVGTODO.append(f + '.svg')
+    return 'figs/%s.pdf' % h, vb[2] / vb[3]
+def run_inkscape():
+    for i in range(0, len(SVGTODO), 40):
+        subprocess.run([INKSCAPE, '--export-type=pdf', '--export-area-page', '--export-text-to-path'] + SVGTODO[i:i + 40], check=True, capture_output=True)
+    for f in SVGTODO: os.remove(f)
+# U8: les gràfiques data-g, del DOM que deixa Chrome després d'executar el JavaScript de la pàgina
+DOMG = {}
+DOMR = {}
+if N >= 8:
+    dom = subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-first-run', '--user-data-dir=' + __import__('tempfile').mkdtemp(),
+                          '--virtual-time-budget=5000', '--dump-dom', 'file://' + os.path.abspath(SRC)], capture_output=True, text=True).stdout
+    for m in re.finditer(r'<(?:figure|div) class="[lc]fig[^"]*" data-g="([^"]+)"[^>]*>', dom):
+        k = re.compile(r'<svg class="(?:lp|st)-svg".*?</svg>', re.S).search(dom, m.end())
+        if k and 'data-g=' not in dom[m.end():k.start()]: DOMG.setdefault(m.group(1), k.group(0))
+        e = dom.find('</figure>', m.end()); r = re.search(r'class="rcap">.*?<annotation encoding="application/x-tex">(.*?)</annotation>', dom[m.end():e], re.S)
+        if r: DOMR.setdefault(m.group(1), r.group(1).replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>'))
+    assert DOMG, 'Chrome no ha deixat cap gràfica'
+def incfig(raw, maxw, maxh='5.2cm'):
+    f, ar = svgpdf(raw)
+    return r'\includegraphics[width=%s,height=%s,keepaspectratio]{%s}' % (maxw, maxh, f)
+def figcap(fg):
+    cap = next((k for k in elems(fg) if k.tag == 'figcaption'), None)
+    return (r'\par\smallskip{\centering\footnotesize %s\par}' % text(cap).strip()) if cap else ''
+# alçada (cm) d'un bloc amb figura que no es pot partir: per a reservar-ne l'espai abans (\Needspace) i que no quede
+# un títol o el començament d'un requadre sol al final de la pàgina
+IN_BOX = [0]
+def vb_ar(raw):
+    vb = [float(x) for x in re.search(r'viewBox="([^"]+)"', raw).group(1).replace(',', ' ').split()]
+    return vb[2] / vb[3]
+def fig_raw(fg):
+    if fg.a.get('data-g'): return DOMG.get(fg.a['data-g'])
+    sv = fg if fg.tag == 'svg' else next((k for k in elems(fg) if k.tag == 'svg'), None)
+    return svg_raw(sv) if sv is not None else None
+def est_h(n, colw=None):
+    if isinstance(n, str) or N < 5: return 0
+    c = n.cls()
+    if (n.tag == 'figure' and ('tfig' in c or 'cfig' in c)) or 'lfig' in c or (n.tag == 'svg' and ('tg-svg' in c or 'lp-svg' in c)):
+        raw = fig_raw(n)
+        if not raw: return 0
+        w = colw or (8.6 if 'w' in c else 5.4 if 'sm' in c else 6.2 if 'tfig' in c or n.tag == 'svg' else 8)
+        return min(w / vb_ar(raw), MAXH[0]) + (0.7 if any(k.tag == 'figcaption' for k in elems(n)) else 0) + 0.5
+    if 'figs' in c or 'grid3' in c:
+        figs = [k for k in elems(n) if k.tag == 'figure']
+        per = 2 if 'c2' in c else min(3, len(figs))
+        return max([est_h(k, (colw or 18) * 0.98 / per - 0.3) for k in figs[:per]] + [0])
+    if 'two' in c or 'cmp' in c:  # dues columnes que no es parteixen: figures + text aproximat
+        def col(k):  # figures (recursivament) + línies de text aproximades + capçalera de requadre
+            if isinstance(k, str): return 0
+            if k.tag == 'figure' or 'figs' in k.cls() or 'lfig' in k.cls(): return est_h(k, 8.6)
+            if k.tag in ('p', 'li') or k.tag.startswith('h'): return len(re.sub(r'\s+', ' ', plain(k))) / 48 * 0.6 + 0.3
+            return sum(col(x) for x in elems(k)) + (1.2 if 'box' in k.cls() else 0)
+        def hasfig(k): return not isinstance(k, str) and (k.tag in ('figure', 'svg') or 'lfig' in k.cls() or any(hasfig(x) for x in elems(k)))
+        if not hasfig(n): return 0
+        return max([col(k) for k in elems(n)] + [0])
+    if n.tag in ('div', 'figure'):
+        ks = elems(n)
+        hs = [est_h(k, colw) for k in ks]
+        return sum(hs) if sum(1 for h in hs if h) > 1 else (hs[0] if hs else 0)  # figures apilades: se sumen
+    return 0
+def need(h): return ''
+# bloc que no es pot partir (figures, dues columnes): LaTeX el mesura i reserva exactament el seu espai (\fmblock)
+def hasfigure(k): return not isinstance(k, str) and (k.tag in ('figure', 'svg') or 'lfig' in k.cls() or any(hasfigure(x) for x in elems(k)))
+LASTTWO = ['']
+FIRSTROW = ['']
+def alt(side, stacked):  # dues columnes: si no caben, apilades (el text omple la pàgina i es pot partir)
+    LASTTWO[0] = side
+    return ('\\fmtwoin{%s}{%s}' if IN_BOX[0] else '\\fmtwo{%s}{%s}') % (side, stacked)
+def cellfml(x):  # cel·la d'una graella de fórmules
+    if N >= 5 and '\\[' in x:
+        return re.sub(r'\\\[(.*?)\\\]', lambda m: '$\\displaystyle ' + m.group(1).strip() + '$', x, flags=re.S).strip()
+    return x.replace('$', '$\\displaystyle ', 1)
+def blk(x): return ('\\fmblock{%s}' % x) if N >= 5 and not TWO[0] and not IN_BOX[0] else x
+def isblock(k):
+    if isinstance(k, str) or N < 5: return False
+    c = k.cls()
+    return bool({'two', 'cmp', 'figs', 'tfig', 'lfig', 'fig4', 'cfig', 'grid3'} & set(c)) or (k.tag == 'svg' and ('tg-svg' in c or 'lp-svg' in c))
+MAXH = [5.2]
+def onefig(fg, maxw):  # <figure> amb un svg (o gràfica data-g) i, potser, un peu
+    if fg.a.get('data-g'):
+        raw = DOMG[fg.a['data-g']]
+    else:
+        sv = next((k for k in elems(fg) if k.tag == 'svg'), None)
+        if sv is None: return text(fg)
+        raw = svg_raw(sv)
+    return '{\\centering %s\\par}%s' % (incfig(raw, maxw, '%.1fcm' % MAXH[0]), figcap(fg))
 INF = float('inf')
 def num(v): return ('%g' % v).replace('-', '-')
 # 1.3: interval menut de la taula (com wMini() de la pàgina de la U1: viewBox 200 × 34, y cap avall)
@@ -170,6 +323,7 @@ UNI = {'→': r'$\to$', '∞': r'$\infty$', '≪': r'$\ll$', '≤': r'$\leq$', '
        '↗': r'$\nearrow$', '↘': r'$\searrow$', '∩': r'$\cap$', '∪': r'$\cup$', '–': '--', '⇒': r'$\Rightarrow$', '⟺': r'$\Leftrightarrow$',
        '←': r'$\leftarrow$', '∅': r'$\emptyset$', '●': r'$\bullet$', '₁': r'$_1$', '₂': r'$_2$', '₃': r'$_3$', '₄': r'$_4$',
        'ᵗ': r'$^t$', '⁻¹': r'$^{-1}$', '²': r'$^2$', '³': r'$^3$', '½': r'$\frac12$', '√': r'$\surd$', '∈': r'$\in$', '∀': r'$\forall$', '′': r"$'$", '″': r"$''$", '°': r'$^\circ$'}
+if N >= 5: UNI['−'] = r'$-$'  # signe menys de veritat (a les taules de signes el guionet no es veu)
 MATH = re.compile(r'(\\\[.*?\\\]|\\\(.*?\\\))', re.S)
 def esc(t):
     out = []
@@ -212,7 +366,40 @@ def conv(n):
     if 'fig-half' in c: return text(n)
     if 'ids' in c:  # identitats notables, en dues columnes
         IN_TABLE[0] = True
-        cells = [text(k).strip().replace('$', '$\\displaystyle ', 1) for k in elems(n)]
+        cells = [cellfml(text(k).strip()) for k in elems(n)]
+        IN_TABLE[0] = False
+        rows = [' & '.join(cells[i:i + 2]) + r'\\[4pt]' for i in range(0, len(cells), 2)]
+        return '\n\\begin{center}\\renewcommand{\\arraystretch}{1.4}\\begin{tabularx}{\\linewidth}{XX}\n%s\n\\end{tabularx}\\end{center}\n' % '\n'.join(rows)
+    if N >= 5 and (t == 'figure' and ('tfig' in c or 'cfig' in c) or 'lfig' in c):
+        w = {'tfig': '6.2cm', 'lfig': '8cm', 'cfig': '7cm'}['tfig' if 'tfig' in c else 'cfig' if 'cfig' in c else 'lfig']
+        if 'w' in c: w = '8.6cm'
+        if 'sm' in c: w = '5.4cm'
+        if TWO[0] or any(p is not None and 'fig4' in p.cls() for p in (n.parent, n.parent.parent if n.parent else None)): w = '\\linewidth'
+        if TWO[0] and MAXH[0] > 4.5:  # figura al costat d'un text: una mica més baixa
+            MAXH[0] = 4.5; r = '\n\\par\\medskip\\begin{minipage}{\\linewidth}%s\\end{minipage}\\par\\medskip\n' % onefig(n, w); MAXH[0] = 5.2
+            return r
+        return '\n' + blk('\\par\\medskip\\begin{minipage}{\\linewidth}%s\\end{minipage}\\par\\medskip' % onefig(n, w)) + '\n'
+    if N >= 5 and ('figs' in c or 'grid3' in c):  # graella de figures: files de 3 (2 amb .c2)
+        figs = [k for k in elems(n) if k.tag == 'figure']
+        per = 2 if 'c2' in c else min(3, len(figs))
+        rows = [figs[i:i + per] for i in range(0, len(figs), per)]
+        MAXH[0] = 3.8 if per >= 3 else 4.6
+        out = ''
+        for ri, row in enumerate(rows):
+            r0 = len(out)
+            wd = 0.98 / per
+            out += '\\par\\noindent ' + '\\hfill'.join(r'\begin{minipage}[t]{%.3f\linewidth}\centering %s\end{minipage}' % (wd - 0.015, onefig(k, '\\linewidth')) for k in row)
+            out += ('\\hfill' + '\\hspace*{%.3f\\linewidth}' % (wd * (per - len(row)))) if len(row) < per else ''
+            out += '\\par\\medskip'
+            if ri == 0: FIRSTROW[0] = out[r0:]; out = out[:r0] + blk(out[r0:])
+            out += '\n'
+        MAXH[0] = 5.2
+        return '\n' + out
+    if N >= 5 and t == 'svg' and ('tg-svg' in c or 'lp-svg' in c):
+        return '\n\\begin{center}%s\\end{center}\n' % incfig(svg_raw(n), '6.2cm')
+    if 'fml' in c:  # fórmules en dues columnes
+        IN_TABLE[0] = True
+        cells = [cellfml(text(k).strip()) for k in elems(n)]
         IN_TABLE[0] = False
         rows = [' & '.join(cells[i:i + 2]) + r'\\[4pt]' for i in range(0, len(cells), 2)]
         return '\n\\begin{center}\\renewcommand{\\arraystretch}{1.4}\\begin{tabularx}{\\linewidth}{XX}\n%s\n\\end{tabularx}\\end{center}\n' % '\n'.join(rows)
@@ -236,7 +423,11 @@ def conv(n):
         cols = elems(n)
         box = r'\begin{tcolorbox}[enhanced,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright,equal height group=cmp%d]%s\end{tcolorbox}'
         CMP[0] += 1
-        return '\n\\par\\noindent ' + '\\hfill'.join(r'\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}%s\end{minipage}' % (box % (CMP[0], text(k).strip())) for k in cols) + '\\par\\medskip\n'
+        side = '\\par\\noindent ' + '\\hfill'.join(r'\begin{minipage}[t]{0.488\linewidth}\vspace{0pt}%s\end{minipage}' % (box % (CMP[0], text(k).strip())) for k in cols) + '\\par\\medskip'
+        if N >= 5 and not TWO[0]:
+            sbox = r'\begin{tcolorbox}[enhanced,breakable,colback=fmsurface,colframe=fmmuted!35,arc=2.5mm,boxrule=0.6pt,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm,before upper=\raggedright]%s\end{tcolorbox}'
+            return '\n' + alt(side, ''.join(sbox % text(k).strip() for k in cols)) + '\n'
+        return '\n' + blk(side) + '\n'
     if 'fig4' in c:
         figs = elems(n)
         w = 0.98 / min(len(figs), 4)
@@ -268,6 +459,7 @@ def conv(n):
     if 'widget' in c or 'box' in c and 'pr' in c or 'steps-ctl' in c or 'sec-head' in c: return ''
     if t == 'section': return conv_section(n)
     if t == 'h3': return '\n\\Needspace{6\\baselineskip}\n\\subsection*{%s}\n' % text(n).strip()
+    if 'box' in c and 'lab' in c: return ''
     if 'box' in c:
         kind = [k for k in ('def', 'prop', 'ex', 'warn') if k in c][0]
         bh = next(k for k in elems(n) if 'bh' in k.cls())
@@ -275,8 +467,18 @@ def conv(n):
         IN_TABLE[0] = True  # fórmules del títol com a $...$
         title = text(bh).strip()
         IN_TABLE[0] = False
+        IN_BOX[0] += 1
         inner = text(bb).strip()
-        return '\n\\Needspace{5\\baselineskip}\n\\begin{fm%s}{%s}\n%s\n\\end{fm%s}\n' % (kind, title, inner, kind)
+        IN_BOX[0] -= 1
+        if TWO[0] or IN_BOX[0]: return '\n\\begin{fm%s}{%s}\n%s\n\\end{fm%s}\n' % (kind, title, inner, kind)
+        if N >= 5 and elems(bb) and isblock(elems(bb)[0]):
+            IN_BOX[0] += 1; LASTTWO[0] = ''; fb = conv(elems(bb)[0]).strip(); IN_BOX[0] -= 1
+            if fb.startswith('\\fmtwoin{'):
+                return '\n\\fmboxneedalt{%s}\n\\begin{fm%s}{%s}\n%s\n\\end{fm%s}\\global\\fmstackfalse\n' % (LASTTWO[0], kind, title, inner, kind)
+            if 'figs' in elems(bb)[0].cls() or 'grid3' in elems(bb)[0].cls(): fb = FIRSTROW[0]  # només la primera fila
+            return '\n\\fmboxneed{%s}\n\\begin{fm%s}{%s}\n%s\n\\end{fm%s}\n' % (fb, kind, title, inner, kind)
+        ns = '5\\baselineskip'
+        return '\n\\Needspace{%s}\n\\begin{fm%s}{%s}\n%s\n\\end{fm%s}\n' % (ns, kind, title, inner, kind)
     if 'note' in c:
         inner = text(n).strip()
         return '\n\\begin{fmnote}%s\\end{fmnote}\n' % inner if inner else ''
@@ -294,7 +496,9 @@ def conv(n):
     if t == 'li': return text(n)
     if t == 'br': return '\\newline '
     if t in ('strong', 'b'): return r'\textbf{%s}' % text(n)
-    if t in ('em', 'i'): return r'\emph{%s}' % text(n)
+    if t in ('em', 'i'):
+        if N >= 5 and re.match(r'(Demostr|Proof)', plain(n).strip()): return r'\textbf{%s}' % text(n)
+        return r'\emph{%s}' % text(n)
     if t == 'u': return r'\underline{%s}' % text(n)
     if t == 'sup': return r'\textsuperscript{%s}' % text(n)
     if t == 'sub': return r'\textsubscript{%s}' % text(n)
@@ -302,6 +506,10 @@ def conv(n):
     if t == 'small': return r'{\footnotesize %s}' % text(n)
     if t == 'span':
         if 'key' in c: return r'\fmkey{%s}' % text(n)
+        if 'rcap' in c:
+            f = n
+            while f is not None and not f.a.get('data-g'): f = f.parent
+            return ('$%s$' % DOMR[f.a['data-g']]) if f is not None and f.a['data-g'] in DOMR else ''
         if 'sp' in c: return r'\textcolor{fmok}{\textbf{+}}'
         if 'sm' in c: return r'\textcolor{fmas}{$\boldsymbol{-}$}'
         if 'u-line' in c: return r'\fmuline{%s}' % text(n)
@@ -322,17 +530,33 @@ def conv(n):
     if 'two' in c or 'pl-wrap' in c:
         cols = elems(n)
         out = []
-        TWO[0] = True
+        was = TWO[0]; TWO[0] = True
         for i in range(0, len(cols), 2):
             pair = cols[i:i + 2]
-            out.append('\\par\\noindent ' + '\\hfill'.join(r'\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright %s\end{minipage}' % conv_cell(k).strip() for k in pair) + '\\par\\medskip\n')
-        TWO[0] = False
-        return '\n' + ''.join(out)
+            out.append('\\par\\noindent ' + '\\hfill'.join(r'\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright %s\end{minipage}' % conv_cell(k).strip() for k in pair) + '\\par\\medskip')
+        TWO[0] = was
+        if N >= 5 and not was and len(cols) == 2 and any(hasfigure(k) for k in cols):
+            figc = [k for k in cols if (k.tag == 'figure' or 'figs' in k.cls() or 'lfig' in k.cls()) or (hasfigure(k) and not plain(k).strip())]
+            txtc = [k for k in cols if k not in figc]
+            st = ''.join((conv(k) if 'box' in k.cls() else '\n\n' + text(k).strip() + '\n\n') for k in txtc)
+            TWO[0] = True
+            st += ''.join('\n\\begin{center}\\begin{minipage}{0.62\\linewidth}\\centering %s\\end{minipage}\\end{center}\n' % conv_cell(k).strip() for k in figc)
+            TWO[0] = was
+            return '\n' + alt(out[0], st) + '\n'
+        return '\n' + ''.join(blk(x) + '\n' for x in out)
     if t == 'table': return conv_table(n)
     return text(n)
 
 TWO = [False]
-def conv_cell(k): return conv(k) if k.tag == 'figure' else text(k)
+def conv_cell(k):
+    if k.tag == 'figure' or 'figs' in k.cls(): return conv(k)
+    if N >= 5 and 'box' in k.cls(): return conv(k)  # requadre dins d'una columna
+    if N >= 5 and sum(1 for x in elems(k) if x.tag == 'figure') > 1:  # dues figures o més una davall de l'altra
+        MAXH[0] = 4.0
+        r = text(k)
+        MAXH[0] = 5.2
+        return r
+    return text(k)
 
 def rows_of(n):
     out = []
@@ -372,7 +596,7 @@ def conv_table(n):
         IN_TABLE[0] = True
         cells = [[text(c).strip() for c in elems(r)] for r in rows]
         IN_TABLE[0] = False
-        cells = [[('$' + x.strip('$').replace('\\mathbf ', '') + '$') if x else '' for x in r] for r in cells]
+        cells = [[('$' + x.replace('$-$', '-').strip('$').replace('\\mathbf ', '') + '$') if x else '' for x in r] for r in cells]
         s = r'\begin{tabular}{r|%s}' % ('r' * (m - 1)) + '\n'
         s += ' & '.join(cells[0]) + r'\\' + '\n' + ' & '.join(cells[1]) + r'\\\hline' + '\n'
         last = cells[2]; last[-1] = r'\fbox{%s}' % last[-1]
@@ -423,6 +647,7 @@ def conv_section(n):
     return '\n\\Needspace{8\\baselineskip}\n\\section{%s}\n' % title + ''.join(conv(k) for k in n.kids)
 
 latex = conv(ROOT)
+run_inkscape()
 latex = re.sub(r'\n{3,}', '\n\n', latex)
 latex = re.sub(r'(?<!\\)\\\[', '\n\\[', latex)
 latex = re.sub(r'(?<!\\)\\\]', '\\]\n', latex)
@@ -435,6 +660,14 @@ latex = re.sub(r'(?<!\\)\\\[(.*?)(?<!\\)\\\]', lambda m: r'\fmdisp{%s}' % m.grou
 # fa saltar de pàgina just després del títol i el deixa sol al final de la pàgina)
 # (també una cadena apartat + subapartat + caixa); la reserva compta el títol i les primeres línies de la caixa
 HEADR = r'\\Needspace\{(\d+)\\baselineskip\}(\n(?:\\(?:sub)?section\*?\{[^\n]*\n)+)\s*\\Needspace\{\d+\\baselineskip\}\n'
+def _cm(x): return float(x[:-2]) if x.endswith('cm') else int(x.split('\\')[0]) * 0.57
+HEADR2 = r'\\Needspace\{([^}]+)\}(\n(?:\\(?:sub)?section\*?\{[^\n]*\n)+)\s*\\Needspace\{([^}]+)\}\n'
+if N >= 5:
+    HB = r'\\Needspace\{[^}]+\}(\n(?:\\(?:sub)?section\*?\{[^\n]*\n)+)\s*\\fm(block|boxneedalt|boxneed|two)\{'
+    latex = re.sub(HB, lambda m: '\\fmhead%s{%s}{' % ({'block': 'block', 'boxneed': 'box', 'boxneedalt': 'boxalt', 'two': 'two'}[m.group(2)], m.group(1)), latex)
+    while re.search(HEADR2, latex):
+        latex = re.sub(HEADR2, lambda m: '\\Needspace{%.1fcm}' % max(_cm(m.group(1)) + (0 if 'cm' in m.group(1) else 0), (11 if m.group(2).count('section') > 1 else 10 if '\\section{' in m.group(2) else 9) * 0.57,
+                                                                   _cm(m.group(3)) + m.group(2).count('\\section{') * 1.6 + m.group(2).count('\\subsection') * 1.0) + m.group(2), latex)
 while re.search(HEADR, latex):
     latex = re.sub(HEADR, lambda m: '\\Needspace{%d\\baselineskip}' % (10 if m.group(2).count('section') > 1 else 8 if '\\section{' in m.group(2) else 7) + m.group(2), latex)
 
@@ -483,6 +716,67 @@ CARD = {
   \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (112,92) {$\vec v$};
   \node[anchor=base west,inner sep=0pt,font=\fontsize{22}{22}\selectfont] at (196,64) {$r$};
   \node[anchor=base west,inner sep=0pt,font=\fontsize{19}{19}\selectfont] at (50,34) {$ax+by+c=0$};
+  \end{scope}
+\end{tikzpicture}''',
+ 5: r'''\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.2pt,opacity=0.7] (20,64)--(220,64) (120,4)--(120,124);
+  \draw (120,64) circle (52);
+  \draw[line width=3.6pt] (120,64)--(159.8,30.6);
+  \draw[line width=3.6pt,dash pattern=on 7pt off 6pt] (159.8,30.6)--(159.8,64);
+  \fill[opacity=0.4] (120,64)--(140,64) arc[start angle=0,end angle=40,radius=20]--cycle;
+  \fill (159.8,30.6) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (146,84) {$\alpha$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{18}{18}\selectfont] at (166,52) {$\sin\alpha$};
+  \end{scope}
+\end{tikzpicture}''',
+ 6: r'''\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (30,98) .. controls (50,50) and (64,26) .. (82,26) .. controls (100,26) and (116,86) .. (146,86) .. controls (170,86) and (196,50) .. (222,16);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (56,26)--(108,26) (120,86)--(172,86);
+  \fill (82,26) circle (5.5) (146,86) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=3] at (34,56) {$\nearrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (112,48) {$\searrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (196,62) {$\nearrow$};
+  \end{scope}
+\end{tikzpicture}''',
+ 7: r'''\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (110,114)--(110,6);
+  \draw[line width=4.5pt] (30,100) .. controls (90,100) and (120,80) .. (150,40) .. controls (160,26) and (166,14) .. (172,6);
+  \draw[line width=4.5pt,opacity=0.75] (122,114) .. controls (126,70) and (150,56) .. (226,48);
+  \draw[line width=4.5pt,opacity=0.55] (40,10) .. controls (80,140) and (140,140) .. (180,10);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (176,30) {$e^x$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (190,72) {$\ln x$};
+  \end{scope}
+\end{tikzpicture}''',
+ 8: r'''\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (24,36)--(226,36);
+  \draw[line width=4.5pt] (32,100) .. controls (70,98) and (92,80) .. (112,64);
+  \draw[line width=4.5pt] (122,58) .. controls (150,44) and (180,40) .. (222,38);
+  \draw[line width=4.5pt] (117,61) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=2.4,font=\large\itshape] at (138,84) {lím $f(x)=L$};
+  \end{scope}
+\end{tikzpicture}''',
+ 9: r'''\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (30,96) .. controls (70,94) and (110,70) .. (140,44) .. controls (160,26) and (180,14) .. (220,8);
+  \draw[line width=4pt,opacity=0.6] (60,112)--(220,4);
+  \fill (128,54) circle (6);
+  \node[anchor=base west,inner sep=0pt,scale=2.4,font=\large\itshape] at (138,90) {$f'(a)=m$};
+  \end{scope}
+\end{tikzpicture}''',
+ 10: r'''\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \foreach \x/\y in {40/92,58/84,66/90,80/74,92/78,104/64,116/68,128/56,140/60,152/46,166/50,178/38,192/34,206/26}
+    \fill (\x,\y) circle (5);
+  \draw[line width=4pt,opacity=0.7] (30,98)--(222,22);
+  \node[anchor=base west,inner sep=0pt,scale=2.2,font=\large\itshape] at (150,96) {$r\approx0{,}9$};
   \end{scope}
 \end{tikzpicture}''',
 }
@@ -643,6 +937,29 @@ for a, b in [('BABEL', T('catalan', 'spanish,es-minimal,es-noshorthands')),
              ('BLOCKCOL', U['block']), ('COLC', U['c']), ('COLL', U['cl']), ('UNITN', str(N)), ('CARD', CARD),
              ('HEADTXT', T('1r Batxillerat MI · Unitat %d: %s', '1.º Bachillerato MI · Unidad %d: %s') % (N, U.get('short', U['title'])))]:
     pre = pre.replace(a, b)
+if N >= 5:
+    i = pre.index(r'\newcommand{\fmm}[1]'); j = pre.index('\n', i)
+    pre = pre[:i] + r'''% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother''' + pre[j:]
+    pre = pre.replace('\\newcommand{\\lt}', r'''% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}''', 1)
 hero_tex = re.sub(r'</?strong>', '', hero_tex)  # la descripció del web porta etiquetes HTML
 title = TITLE.replace('HERO', hero_tex).replace('TOC1', '\n'.join(toc[:half])).replace('TOC2', '\n'.join(toc[half:]))
 for a, b in [('KICKER', T('Apunts de teoria · 1r Batxillerat · Matemàtiques I', 'Apuntes de teoría · 1.º Bachillerato · Matemáticas I')),
@@ -691,6 +1008,11 @@ if N == 1:  # retocs de l'autor (Desktop, revisió 2026-11-24): valen per als do
                      + '\\begin{fmnote}[before skip=4pt,after skip=0pt,top=0.5mm,bottom=0.5mm]\\fmuline{%s} %s\\end{fmnote}\n\\end{fmdef}\n' % (m.group(5), m.group(6))), True)
 if N == 4:  # retocs de l'autor (Desktop, revisió 2026-11-24): salt de pàgina després de l'exemple de rectes paral·leles
     retoc(r'(\\fmm\{\\ 5=3-6\\mu\\Rightarrow\\mu=-\\tfrac13\}\. [^\n]*\n)', r'\1\\newpage\n', True)
+if N == 5:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als dos idiomes
+    i = doc.index('\\sin\\hat C}\\ \\ (=2R)}\n')  # (la primera còpia és la que mesura el bloc del teorema del sinus)
+    j = doc.index('\n', i) + 1
+    doc = doc[:j - 1] + '\\\\\n\n\\vspace*{0.2cm}\n\n' + doc[j:]
+    retoc(r'\\Needspace\{5\\baselineskip\}\n(\\begin\{fmdef\}\{(?:Àrea d\'un triangle|Área de un triángulo)\})', r'%\\Needspace{5\\baselineskip}\n\\newpage\n\1', True)
 if N in (2, 3):  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 2:  # la fórmula del grau de la suma, en una línia a part (evita els buits del text justificat)

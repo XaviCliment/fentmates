@@ -1,0 +1,941 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 5: Trigonometría. 1.º de Bachillerato MI},pdfsubject={Matemáticas I},pdfkeywords={ángulos, radianes, razones trigonométricas, circunferencia goniométrica, reducción al primer cuadrante, fórmulas trigonométricas, ecuaciones trigonométricas, teorema del seno, teorema del coseno, resolución de triángulos}}
+
+% colors de la web (FentMates, bloque de Geometría: naranja; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{DC7A29}
+\definecolor{fmgreenl}{HTML}{F79645}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{5.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=2.2pt,opacity=0.7] (20,64)--(220,64) (120,4)--(120,124);
+  \draw (120,64) circle (52);
+  \draw[line width=3.6pt] (120,64)--(159.8,30.6);
+  \draw[line width=3.6pt,dash pattern=on 7pt off 6pt] (159.8,30.6)--(159.8,64);
+  \fill[opacity=0.4] (120,64)--(140,64) arc[start angle=0,end angle=40,radius=20]--cycle;
+  \fill (159.8,30.6) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (146,84) {$\alpha$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{18}{18}\selectfont] at (166,52) {$\sin\alpha$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato MI · Unidad 5: Trigonometría}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 5} · Trigonometría\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: el radián, las razones trigonométricas y la circunferencia goniométrica, las relaciones entre ángulos, la resolución de triángulos rectángulos y cualesquiera (teoremas del seno y del coseno), las fórmulas trigonométricas, las ecuaciones y los sistemas trigonométricos y las funciones trigonométricas.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}5.1}\ \ El radián}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}5.2}\ \ Razones de un ángulo agudo}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}5.3}\ \ Razones de un ángulo cualquiera}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}5.4}\ \ Relaciones entre ángulos}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}5.5}\ \ Triángulos rectángulos}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}5.6}\ \ Teorema del seno}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}5.7}\ \ Teorema del coseno}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}5.8}\ \ Suma y diferencia de ángulos}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}5.9}\ \ Ángulo doble y ángulo mitad}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}5.10}\ \ Sumas en productos}}\\[3pt]
+\mbox{\hyperlink{sec11}{\textbf{\color{fmgreen}5.11}\ \ Ecuaciones trigonométricas}}\\[3pt]
+\mbox{\hyperlink{sec12}{\textbf{\color{fmgreen}5.12}\ \ Sistemas trigonométricos}}\\[3pt]
+\mbox{\hyperlink{sec13}{\textbf{\color{fmgreen}5.13}\ \ Funciones trigonométricas}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{El radián: unidad de medida de ángulos}\hypertarget{sec1}{}
+
+Hasta ahora hemos medido los ángulos en \textbf{grados sexagesimales} (\fmm{1^\circ=60'}, \fmm{1'=60''}). Seguirán siendo útiles para resolver triángulos, en topografía o en navegación, pero para estudiar las funciones trigonométricas es mucho más práctica otra unidad: el \textbf{radián}.
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un \textbf{radián} (rad) es el ángulo central que abarca un arco de la misma longitud que el radio con el que se ha trazado.
+
+\fmdisp{\alpha=1\ \text{rad}\iff \text{longitud}\ \overset{\frown}{AB}=\overline{OA}=r}
+
+En general, la medida en radianes de un ángulo es el cociente entre la longitud del arco y el radio: \fmm{\ \alpha=\dfrac{l}{r}}. Por tanto, la \textbf{longitud de un arco} es \fmm{\ l=\alpha\cdot r} (con \fmm{\alpha} en radianes).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b740adab89a6.pdf}\par}\par\smallskip{\centering\footnotesize El arco \fmm{\overset{\frown}{AB}} mide lo mismo que el radio.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Definición: radián}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Un \textbf{radián} (rad) es el ángulo central que abarca un arco de la misma longitud que el radio con el que se ha trazado.
+
+\fmdisp{\alpha=1\ \text{rad}\iff \text{longitud}\ \overset{\frown}{AB}=\overline{OA}=r}
+
+En general, la medida en radianes de un ángulo es el cociente entre la longitud del arco y el radio: \fmm{\ \alpha=\dfrac{l}{r}}. Por tanto, la \textbf{longitud de un arco} es \fmm{\ l=\alpha\cdot r} (con \fmm{\alpha} en radianes).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b740adab89a6.pdf}\par}\par\smallskip{\centering\footnotesize El arco \fmm{\overset{\frown}{AB}} mide lo mismo que el radio.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Un \textbf{radián} (rad) es el ángulo central que abarca un arco de la misma longitud que el radio con el que se ha trazado.
+
+\fmdisp{\alpha=1\ \text{rad}\iff \text{longitud}\ \overset{\frown}{AB}=\overline{OA}=r}
+
+En general, la medida en radianes de un ángulo es el cociente entre la longitud del arco y el radio: \fmm{\ \alpha=\dfrac{l}{r}}. Por tanto, la \textbf{longitud de un arco} es \fmm{\ l=\alpha\cdot r} (con \fmm{\alpha} en radianes).
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/b740adab89a6.pdf}\par}\par\smallskip{\centering\footnotesize El arco \fmm{\overset{\frown}{AB}} mide lo mismo que el radio.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Paso de grados a radianes y de radianes a grados}
+La circunferencia completa mide \fmm{2\pi r}: el ángulo completo es de \fmm{2\pi} radianes. Como también mide \fmm{360^\circ}:
+
+\fmdisp{360^\circ=2\pi\ \text{rad}\qquad\Longleftrightarrow\qquad 180^\circ=\pi\ \text{rad}}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{Grados → radianes:}\quad \alpha\ \text{rad}=\alpha^\circ\cdot\frac{\pi}{180^\circ}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{Radianes → grados:}\quad \alpha^\circ=\alpha\ \text{rad}\cdot\frac{180^\circ}{\pi}}
+\end{minipage}\par\medskip
+
+Un radián vale \fmm{\ \dfrac{180^\circ}{\pi}\approx 57^\circ17'45''}. Cuando un ángulo se expresa en radianes, normalmente no se escribe la unidad: \fmm{\ \alpha=\frac{\pi}{2}} quiere decir \fmm{\frac{\pi}{2}} rad.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccccccccc}\toprule
+\textbf{Grados} & $0^\circ$ & $30^\circ$ & $45^\circ$ & $60^\circ$ & $90^\circ$ & $120^\circ$ & $135^\circ$ & $150^\circ$ & $180^\circ$ & $270^\circ$ & $360^\circ$\\
+\textbf{Radians} & $0$ & $\frac{\pi}{6}$ & $\frac{\pi}{4}$ & $\frac{\pi}{3}$ & $\frac{\pi}{2}$ & $\frac{2\pi}{3}$ & $\frac{3\pi}{4}$ & $\frac{5\pi}{6}$ & $\pi$ & $\frac{3\pi}{2}$ & $2\pi$\\
+\bottomrule\end{tabular}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: cambios de unidad}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Pasa a radianes \fmm{30^\circ} y \fmm{140^\circ40'}.
+
+\fmm{30^\circ\cdot\dfrac{\pi}{180^\circ}=\dfrac{\pi}{6}\ \text{rad}\approx 0{,}52\ \text{rad}}
+
+Primero pasamos los minutos a grados: \fmm{\ 140^\circ40'=140+\frac{40}{60}=140{,}\overline{6}^\circ}. Entonces \fmm{\ 140{,}\overline{6}\cdot\dfrac{\pi}{180}\approx 2{,}455\ \text{rad}}.
+\item Pasa a grados \fmm{\frac{\pi}{5}} rad y \fmm{2} rad.
+
+\fmm{\dfrac{\pi}{5}\cdot\dfrac{180^\circ}{\pi}=36^\circ}
+
+\fmm{2\cdot\dfrac{180^\circ}{\pi}\approx 114{,}59^\circ=114^\circ35'30''} (la parte decimal se pasa a minutos y segundos multiplicando por 60).
+\item Una rueda de 30 cm de radio gira un ángulo de \fmm{\frac{5\pi}{3}} rad. ¿Qué distancia recorre un punto del borde?
+
+\fmm{l=\alpha\cdot r=\dfrac{5\pi}{3}\cdot30=50\pi\approx 157{,}08\ \text{cm}}
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\section{Razones trigonométricas de un ángulo agudo}\hypertarget{sec2}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En un triángulo rectángulo \fmm{ABC}, con el ángulo recto en \fmm{C}, llamamos \fmm{c} a la hipotenusa y \fmm{a}, \fmm{b} a los catetos opuestos a los vértices \fmm{A} y \fmm{B}. Para el ángulo agudo \fmm{\alpha=\hat A}:
+
+\fmdisp{\sin\alpha=\frac{a}{c}=\frac{\text{cateto opuesto}}{\text{hipotenusa}}}
+
+\fmdisp{\cos\alpha=\frac{b}{c}=\frac{\text{cateto contiguo}}{\text{hipotenusa}}}
+
+\fmdisp{\tan\alpha=\frac{a}{b}=\frac{\text{cateto opuesto}}{\text{cateto contiguo}}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/113e16143357.pdf}\par}\par\smallskip{\centering\footnotesize El lado \fmm{a} es opuesto a \fmm{\hat A}; el \fmm{b}, opuesto a \fmm{\hat B}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Definición: seno, coseno y tangente}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En un triángulo rectángulo \fmm{ABC}, con el ángulo recto en \fmm{C}, llamamos \fmm{c} a la hipotenusa y \fmm{a}, \fmm{b} a los catetos opuestos a los vértices \fmm{A} y \fmm{B}. Para el ángulo agudo \fmm{\alpha=\hat A}:
+
+\fmdisp{\sin\alpha=\frac{a}{c}=\frac{\text{cateto opuesto}}{\text{hipotenusa}}}
+
+\fmdisp{\cos\alpha=\frac{b}{c}=\frac{\text{cateto contiguo}}{\text{hipotenusa}}}
+
+\fmdisp{\tan\alpha=\frac{a}{b}=\frac{\text{cateto opuesto}}{\text{cateto contiguo}}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/113e16143357.pdf}\par}\par\smallskip{\centering\footnotesize El lado \fmm{a} es opuesto a \fmm{\hat A}; el \fmm{b}, opuesto a \fmm{\hat B}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+En un triángulo rectángulo \fmm{ABC}, con el ángulo recto en \fmm{C}, llamamos \fmm{c} a la hipotenusa y \fmm{a}, \fmm{b} a los catetos opuestos a los vértices \fmm{A} y \fmm{B}. Para el ángulo agudo \fmm{\alpha=\hat A}:
+
+\fmdisp{\sin\alpha=\frac{a}{c}=\frac{\text{cateto opuesto}}{\text{hipotenusa}}}
+
+\fmdisp{\cos\alpha=\frac{b}{c}=\frac{\text{cateto contiguo}}{\text{hipotenusa}}}
+
+\fmdisp{\tan\alpha=\frac{a}{b}=\frac{\text{cateto opuesto}}{\text{cateto contiguo}}}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/113e16143357.pdf}\par}\par\smallskip{\centering\footnotesize El lado \fmm{a} es opuesto a \fmm{\hat A}; el \fmm{b}, opuesto a \fmm{\hat B}.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\begin{fmnote}Las razones \fmuline{no dependen del tamaño del triángulo}: todos los triángulos rectángulos con un ángulo \fmm{\alpha} son semejantes (teorema de Tales) y los cocientes entre los lados son los mismos. Además, como la hipotenusa es el lado más largo, \fmm{\ 0\lt\sin\alpha\lt1} y \fmm{\ 0\lt\cos\alpha\lt1}.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{I.}\quad \sin^2\alpha+\cos^2\alpha=1}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{II.}\quad \tan\alpha=\frac{\sin\alpha}{\cos\alpha}}
+\end{minipage}\par\medskip}
+\begin{fmprop}{Relaciones fundamentales}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{I.}\quad \sin^2\alpha+\cos^2\alpha=1}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\text{II.}\quad \tan\alpha=\frac{\sin\alpha}{\cos\alpha}}
+\end{minipage}\par\medskip
+
+\textbf{Demostración}. I: por Pitágoras, \fmm{a^2+b^2=c^2}; dividiendo entre \fmm{c^2}: \fmm{\left(\frac ac\right)^2+\left(\frac bc\right)^2=1}. II: \fmm{\dfrac{\sin\alpha}{\cos\alpha}=\dfrac{a/c}{b/c}=\dfrac ab=\tan\alpha}.
+
+Si dividimos I entre \fmm{\cos^2\alpha} obtenemos una tercera relación, muy útil cuando conocemos la tangente:
+
+\fmdisp{\text{III.}\quad 1+\tan^2\alpha=\frac{1}{\cos^2\alpha}}
+
+\begin{fmnote}\fmuline{Notación}: \fmm{\sin^2\alpha} quiere decir \fmm{(\sin\alpha)^2}. La tangente también se escribe \fmm{\text{tg}\,\alpha} y el seno, \fmm{\text{sen}\,\alpha}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Razones de los ángulos de 30$^\circ$, 45$^\circ$ y 60$^\circ$}
+La diagonal de un cuadrado de lado 1 mide \fmm{\sqrt2} y forma \fmm{45^\circ} con los lados. La altura de un triángulo equilátero de lado 2 mide \fmm{\sqrt3} y lo divide en dos triángulos rectángulos de ángulos \fmm{30^\circ} y \fmm{60^\circ}. De estas dos figuras se obtiene la tabla:
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/5689a32d83a7.pdf}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/bcd29846bc28.pdf}\par}\end{minipage}\par\medskip
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccc}\toprule
+\textbf{} & \textbf{$30^\circ=\frac{\pi}{6}$} & \textbf{$45^\circ=\frac{\pi}{4}$} & \textbf{$60^\circ=\frac{\pi}{3}$}\\\midrule
+$\sin$ & $\frac12$ & $\frac{\sqrt2}{2}$ & $\frac{\sqrt3}{2}$\\
+$\cos$ & $\frac{\sqrt3}{2}$ & $\frac{\sqrt2}{2}$ & $\frac12$\\
+$\tan$ & $\frac{\sqrt3}{3}$ & $1$ & $\sqrt3$\\
+\bottomrule\end{tabular}\end{center}
+
+\begin{fmnote}Truco para recordarla: los senos de \fmm{30^\circ,45^\circ,60^\circ} son \fmm{\frac{\sqrt1}{2},\frac{\sqrt2}{2},\frac{\sqrt3}{2}}; los cosenos, los mismos en orden inverso.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: las relaciones fundamentales}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sabiendo que \fmm{\cos\alpha=0{,}86} y que \fmm{\alpha} es agudo, calcula \fmm{\sin\alpha} y \fmm{\tan\alpha}.
+
+Con la relación I: \fmm{\ \sin^2\alpha=1-0{,}86^2=0{,}2604\Rightarrow\sin\alpha=\sqrt{0{,}2604}\approx0{,}51} (tomamos la raíz positiva porque el ángulo es agudo).
+
+Con la relación II: \fmm{\ \tan\alpha=\dfrac{0{,}51}{0{,}86}\approx0{,}59}
+\item Sabiendo que \fmm{\tan\alpha=2{,}83} y que \fmm{\alpha} es agudo, calcula \fmm{\sin\alpha} y \fmm{\cos\alpha}.
+
+Con la relación III: \fmm{\ \dfrac{1}{\cos^2\alpha}=1+2{,}83^2=9{,}0089\Rightarrow\cos^2\alpha\approx0{,}111\Rightarrow\cos\alpha\approx0{,}33}
+
+\fmm{\sin\alpha=\cos\alpha\cdot\tan\alpha\approx0{,}33\cdot2{,}83\approx0{,}93}
+\item Si \fmm{\sin\beta=\frac35} y \fmm{\beta} es agudo, calcula sus otras razones de manera exacta.
+
+\fmm{\cos\beta=\sqrt{1-\frac{9}{25}}=\sqrt{\frac{16}{25}}=\frac45,\qquad \tan\beta=\dfrac{3/5}{4/5}=\frac34}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Razones trigonométricas de un ángulo cualquiera}\hypertarget{sec3}{}
+\begin{fmdef}{Circunferencia goniométrica}
+Para definir las razones de ángulos mayores de \fmm{90^\circ} usamos la \textbf{circunferencia goniométrica}:
+
+\begin{itemize}
+\item Es la circunferencia de \textbf{radio 1} y centro el origen de coordenadas.
+\item Los ángulos tienen el vértice en el centro y un lado sobre el semieje positivo \fmm{OX}. El otro lado se abre en \textbf{sentido contrario a las agujas del reloj} (ángulos positivos); si se abre en el sentido de las agujas, el ángulo es negativo.
+\item Los ejes dividen el plano en cuatro \textbf{cuadrantes}: I (\fmm{0^\circ}--\fmm{90^\circ}), II (\fmm{90^\circ}--\fmm{180^\circ}), III (\fmm{180^\circ}--\fmm{270^\circ}) y IV (\fmm{270^\circ}--\fmm{360^\circ}).
+\end{itemize}
+
+El segundo lado del ángulo \fmm{\alpha} corta la circunferencia en un punto \fmm{P}. Entonces:
+
+\fmdisp{P=(\cos\alpha,\ \sin\alpha)\qquad\tan\alpha=\frac{\sin\alpha}{\cos\alpha}\ \ (\cos\alpha\neq0)}
+
+El \textbf{coseno} es la abscisa de \fmm{P} y el \textbf{seno}, la ordenada (si el ángulo es agudo, coinciden con las razones del triángulo rectángulo, ya que la hipotenusa vale 1). La \textbf{tangente} es la ordenada del punto \fmm{T} donde el lado del ángulo (o su prolongación) corta la recta tangente \fmm{x=1}. Los ángulos de \fmm{90^\circ} y \fmm{270^\circ} \textbf{no tienen tangente} (\fmm{\cos\alpha=0}).
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Signo y valores de las razones}
+Como \fmm{P} está sobre una circunferencia de radio 1: \fmm{\ -1\le\sin\alpha\le1,\ \ -1\le\cos\alpha\le1}, mientras que la tangente puede tomar cualquier valor real. Además, la relación \fmm{\sin^2\alpha+\cos^2\alpha=1} sigue siendo cierta (es la ecuación de la circunferencia \fmm{x^2+y^2=1}). El signo depende del cuadrante:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{ccccc}\toprule
+\textbf{Cuadrante} & \textbf{I} & \textbf{II} & \textbf{III} & \textbf{IV}\\\midrule
+$\sin\alpha$ & + & + & $-$ & $-$\\
+$\cos\alpha$ & + & $-$ & $-$ & +\\
+$\tan\alpha$ & + & $-$ & + & $-$\\
+\bottomrule\end{tabular}\end{center}
+
+Razones de los ángulos que están sobre los ejes:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccc}\toprule
+\textbf{} & \textbf{$0^\circ$} & \textbf{$90^\circ=\frac{\pi}{2}$} & \textbf{$180^\circ=\pi$} & \textbf{$270^\circ=\frac{3\pi}{2}$} & \textbf{$360^\circ=2\pi$}\\\midrule
+$\sin$ & $0$ & $1$ & $0$ & $-1$ & $0$\\
+$\cos$ & $1$ & $0$ & $-1$ & $0$ & $1$\\
+$\tan$ & $0$ & $\nexists$ & $0$ & $\nexists$ & $0$\\
+\bottomrule\end{tabular}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ángulos mayores de 360$^\circ$ y ángulos negativos}
+Un ángulo de \fmm{412^\circ=360^\circ+52^\circ} da una vuelta completa y, además, \fmm{52^\circ}: su lado coincide con el de \fmm{52^\circ} y \textbf{las razones son las mismas}. En general,
+
+\fmdisp{\sin(\alpha+360^\circ\cdot k)=\sin\alpha,\quad \cos(\alpha+360^\circ\cdot k)=\cos\alpha,\quad \tan(\alpha+360^\circ\cdot k)=\tan\alpha\qquad(k\in\mathbb Z)}
+
+Para reducir un ángulo grande a la primera vuelta, lo dividimos entre \fmm{360^\circ} y nos quedamos con el resto: \fmm{\ 1680^\circ=4\cdot360^\circ+240^\circ}. Los ángulos negativos se miden en el sentido de las agujas del reloj: \fmm{\ -60^\circ} tiene el mismo lado que \fmm{300^\circ=360^\circ-60^\circ}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Razones recíprocas}
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \text{secante:}\ \ \sec\alpha=\dfrac{1}{\cos\alpha}$ & $\displaystyle \text{cosecante:}\ \ \text{cosec}\,\alpha=\dfrac{1}{\sin\alpha}$\\[4pt]
+$\displaystyle \text{cotangente:}\ \ \text{cotg}\,\alpha=\dfrac{1}{\tan\alpha}=\dfrac{\cos\alpha}{\sin\alpha}$\\[4pt]
+\end{tabularx}\end{center}
+
+Tienen el mismo signo que la razón de la que son inversas. Dividiendo \fmm{\sin^2\alpha+\cos^2\alpha=1} entre \fmm{\cos^2\alpha} o entre \fmm{\sin^2\alpha}: \fmm{\quad 1+\tan^2\alpha=\sec^2\alpha,\qquad 1+\text{cotg}^2\alpha=\text{cosec}^2\alpha}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Calcular las razones a partir de una de ellas}
+Si conocemos una razón y el \textbf{cuadrante} del ángulo, las relaciones fundamentales nos dan las demás; el cuadrante decide el signo de la raíz.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: razones de un ángulo del segundo cuadrante}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Sabiendo que \fmm{90^\circ\lt\alpha\lt180^\circ} y \fmm{\sin\alpha=0{,}62}, calcula \fmm{\cos\alpha} y \fmm{\tan\alpha}.
+
+\fmm{\cos^2\alpha=1-0{,}62^2=0{,}6156\Rightarrow\cos\alpha=\pm0{,}78}
+
+En el segundo cuadrante el coseno es negativo: \fmm{\ \cos\alpha\approx-0{,}78}
+
+\fmm{\tan\alpha=\dfrac{0{,}62}{-0{,}78}\approx-0{,}79}
+\item Calcula \fmm{\sin\alpha}, \fmm{\cos\alpha} y \fmm{\tan\alpha} si \fmm{\sec\alpha=4} y \fmm{270^\circ\lt\alpha\lt360^\circ}.
+
+\fmm{\cos\alpha=\frac14;\qquad \sin\alpha=-\sqrt{1-\frac{1}{16}}=-\frac{\sqrt{15}}{4}} (negativo en el cuarto cuadrante)
+
+\fmm{\tan\alpha=\dfrac{-\sqrt{15}/4}{1/4}=-\sqrt{15}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Con la calculadora}
+\begin{itemize}
+\item Comprueba el \textbf{modo}: \texttt{D} (grados) o \texttt{R} (radianes). \fmm{\sin 30} da \fmm{0{,}5} en grados, pero \fmm{-0{,}988} en radianes.
+\item Las razones recíprocas no tienen tecla: \fmm{\ \sec 135^\circ=1\div\cos135^\circ\approx-1{,}414}. Los grados, minutos y segundos se introducen con la tecla \texttt{$^\circ$ ' "}.
+\item Las teclas \fmm{\sin^{-1}}, \fmm{\cos^{-1}}, \fmm{\tan^{-1}} dan \textbf{un solo ángulo}; entre \fmm{0^\circ} y \fmm{360^\circ} hay \textbf{dos} con la misma razón (los veremos en el apartado siguiente):
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin x=k\ \Rightarrow\ x_1=\sin^{-1}k,\ \ x_2=180^\circ-x_1$ & $\displaystyle \cos x=k\ \Rightarrow\ x_1=\cos^{-1}k,\ \ x_2=360^\circ-x_1$\\[4pt]
+$\displaystyle \tan x=k\ \Rightarrow\ x_1=\tan^{-1}k,\ \ x_2=x_1+180^\circ$\\[4pt]
+\end{tabularx}\end{center}
+\end{itemize}
+
+Por ejemplo, \fmm{\cos x=-0{,}3996}: \fmm{\ x_1=\cos^{-1}(-0{,}3996)\approx113^\circ33'} y \fmm{\ x_2=360^\circ-x_1\approx246^\circ27'}.
+\end{fmprop}
+
+\Needspace{8\baselineskip}
+\section{Relaciones entre las razones de algunos ángulos}\hypertarget{sec4}{}
+
+Las razones de cualquier ángulo se pueden obtener a partir de las de un ángulo del \textbf{primer cuadrante}. No hace falta aprenderse las fórmulas de memoria: basta con dibujar los dos ángulos en la circunferencia goniométrica y ver que los puntos son simétricos.
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Reducción al primer cuadrante}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Ángulos} & \textbf{Simetría} & \textbf{$\sin$} & \textbf{$\cos$} & \textbf{$\tan$}\\\midrule
+Suplementarios $180^\circ-\alpha$ & respecto de $OY$ & $\sin\alpha$ & $-\cos\alpha$ & $-\tan\alpha$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Difieren 180$^\circ$ $180^\circ+\alpha$ & respecto de $O$ & $-\sin\alpha$ & $-\cos\alpha$ & $\tan\alpha$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Opuestos $-\alpha=360^\circ-\alpha$ & respecto de $OX$ & $-\sin\alpha$ & $\cos\alpha$ & $-\tan\alpha$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Complementarios $90^\circ-\alpha$ & respecto de $y=x$ & $\cos\alpha$ & $\sin\alpha$ & $\dfrac{1}{\tan\alpha}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Difieren 90$^\circ$ $90^\circ+\alpha$ & giro de $90^\circ$ & $\cos\alpha$ & $-\sin\alpha$ & $-\dfrac{1}{\tan\alpha}$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{Regla práctica}: para un ángulo del II, III o IV cuadrante buscamos el ángulo agudo \fmm{\alpha} que forma con el eje \fmm{OX} (\fmm{180^\circ-\beta}, \fmm{\beta-180^\circ} o \fmm{360^\circ-\beta}). Las razones de \fmm{\beta} tienen el \textbf{mismo valor absoluto} que las de \fmm{\alpha} y el \textbf{signo del cuadrante} de \fmm{\beta}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: a partir de las razones de 25$^\circ$}
+Sabiendo que \fmm{\sin25^\circ=0{,}423}, \fmm{\cos25^\circ=0{,}906} y \fmm{\tan25^\circ=0{,}466}, halla las razones de \fmm{65^\circ}, \fmm{115^\circ}, \fmm{155^\circ} y \fmm{205^\circ}.
+
+\fmm{65^\circ=90^\circ-25^\circ} (complementarios): \fmm{\ \sin65^\circ=\cos25^\circ=0{,}906;\ \ \cos65^\circ=\sin25^\circ=0{,}423;\ \ \tan65^\circ=\frac{1}{0{,}466}=2{,}146}
+
+\fmm{115^\circ=90^\circ+25^\circ}: \fmm{\ \sin115^\circ=\cos25^\circ=0{,}906;\ \ \cos115^\circ=-\sin25^\circ=-0{,}423;\ \ \tan115^\circ=-\frac{1}{0{,}466}=-2{,}146}
+
+\fmm{155^\circ=180^\circ-25^\circ} (suplementarios): \fmm{\ \sin155^\circ=0{,}423;\ \ \cos155^\circ=-0{,}906;\ \ \tan155^\circ=-0{,}466}
+
+\fmm{205^\circ=180^\circ+25^\circ}: \fmm{\ \sin205^\circ=-0{,}423;\ \ \cos205^\circ=-0{,}906;\ \ \tan205^\circ=0{,}466}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Resolución de triángulos rectángulos}\hypertarget{sec5}{}
+\begin{fmdef}{Resolver un triángulo}
+\textbf{Resolver un triángulo} es hallar los elementos desconocidos (lados y ángulos) a partir de los conocidos. En un triángulo rectángulo ya conocemos el ángulo recto, de modo que basta con \textbf{dos datos}, de los cuales al menos uno tiene que ser un lado.
+
+\begin{enumerate}
+\item \textbf{Conocemos dos lados}: el tercero, por Pitágoras; cada ángulo, con la razón que lo relaciona con los lados conocidos.
+\item \textbf{Conocemos un lado y un ángulo agudo}: el otro ángulo es el complementario; cada lado, con la razón que lo relaciona con el lado y el ángulo conocidos.
+\end{enumerate}
+
+\fmdisp{\hat A+\hat B=90^\circ\qquad a^2+b^2=c^2\qquad \sin\hat A=\frac ac,\ \ \cos\hat A=\frac bc,\ \ \tan\hat A=\frac ab}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: los dos casos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Se conocen un cateto, \fmm{a=11} cm, y la hipotenusa, \fmm{c=20} cm. Resuelve el triángulo.
+
+Pitágoras: \fmm{\ b=\sqrt{20^2-11^2}=\sqrt{279}\approx16{,}70\ \text{cm}}
+
+\fmm{\sin\hat A=\dfrac{11}{20}=0{,}55\Rightarrow\hat A\approx33^\circ22'}
+
+\fmm{\hat B=90^\circ-\hat A\approx56^\circ38'}
+\item Se conocen un cateto, \fmm{a=15} cm, y el ángulo \fmm{\hat B=50^\circ}. Resuelve el triángulo.
+
+La tangente de \fmm{\hat B} relaciona el ángulo con los dos catetos (\fmm{a} es el contiguo a \fmm{\hat B}): \fmm{\ \tan\hat B=\dfrac ba\Rightarrow b=15\cdot\tan50^\circ\approx17{,}88\ \text{cm}}
+
+\fmm{\cos\hat B=\dfrac ac\Rightarrow c=\dfrac{15}{\cos50^\circ}\approx23{,}34\ \text{cm}}
+
+\fmm{\hat A=90^\circ-50^\circ=40^\circ}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ángulos de elevación y de depresión. La estrategia de la altura}
+El \textbf{ángulo de elevación} es el que forma la visual hacia un objeto situado más arriba con la horizontal; el de \textbf{depresión}, el que forma la visual hacia un objeto situado más abajo. Muchos problemas se resuelven \textbf{trazando una altura} que descompone la figura en dos triángulos rectángulos; si quedan dos incógnitas, planteamos un sistema.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/c930334ab7cc.pdf}\par}\par\smallskip{\centering\footnotesize Desde \fmm{Q} se ve la cima \fmm{M} con un ángulo de \fmm{32^\circ} y, 300 m más lejos, desde \fmm{P}, con \fmm{29^\circ}.\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: estrategia de la altura}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula la altura \fmm{h} de la montaña de la figura.
+
+En cada triángulo rectángulo: \fmm{\ \tan32^\circ=\dfrac hx,\qquad \tan29^\circ=\dfrac{h}{x+300}}
+
+Igualamos las dos expresiones de \fmm{h}: \fmm{\ x\tan32^\circ=(x+300)\tan29^\circ\Rightarrow x=\dfrac{300\tan29^\circ}{\tan32^\circ-\tan29^\circ}\approx2356{,}75\ \text{m}}
+
+\fmm{h=x\tan32^\circ\approx1472{,}66\ \text{m}}
+\item En un triángulo \fmm{ABC} se conocen \fmm{\hat A=49^\circ}, \fmm{b=3800} m y \fmm{a=5600} m. Calcula \fmm{c} trazando la altura desde \fmm{C}.
+
+La altura corta \fmm{c} en dos trozos \fmm{x} (lado de \fmm{A}) e \fmm{y} (lado de \fmm{B}): \fmm{\ h=3800\sin49^\circ\approx2867{,}90,\ \ x=3800\cos49^\circ\approx2493{,}02}
+
+\fmm{y=\sqrt{5600^2-h^2}\approx4809{,}90\Rightarrow c=x+y\approx7302{,}93\ \text{m}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Teorema del seno}\hypertarget{sec6}{}
+
+Para resolver un triángulo \textbf{cualquiera} (oblicuángulo) podríamos aplicar cada vez la estrategia de la altura. Los teoremas del seno y del coseno lo hacen de una vez para siempre. Usamos la notación habitual: \fmm{a}, \fmm{b}, \fmm{c} son los lados opuestos a los ángulos \fmm{\hat A}, \fmm{\hat B}, \fmm{\hat C}, y \fmm{\hat A+\hat B+\hat C=180^\circ}.
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En cualquier triángulo, los lados son proporcionales a los senos de los ángulos opuestos:
+
+\fmdisp{\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}=\frac{c}{\sin\hat C}\ \ (=2R)}\\
+
+\vspace*{0.2cm}
+
+
+El valor común es el diámetro \fmm{2R} de la circunferencia circunscrita al triángulo.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/c894e7133461.pdf}\par}\par\smallskip{\centering\footnotesize La altura desde \fmm{C} divide el triángulo en dos triángulos rectángulos.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Teorema del seno}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright En cualquier triángulo, los lados son proporcionales a los senos de los ángulos opuestos:
+
+\fmdisp{\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}=\frac{c}{\sin\hat C}\ \ (=2R)}
+
+El valor común es el diámetro \fmm{2R} de la circunferencia circunscrita al triángulo.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/c894e7133461.pdf}\par}\par\smallskip{\centering\footnotesize La altura desde \fmm{C} divide el triángulo en dos triángulos rectángulos.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+En cualquier triángulo, los lados son proporcionales a los senos de los ángulos opuestos:
+
+\fmdisp{\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}=\frac{c}{\sin\hat C}\ \ (=2R)}
+
+El valor común es el diámetro \fmm{2R} de la circunferencia circunscrita al triángulo.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/c894e7133461.pdf}\par}\par\smallskip{\centering\footnotesize La altura desde \fmm{C} divide el triángulo en dos triángulos rectángulos.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\textbf{Demostración}. Trazamos la altura \fmm{h} desde \fmm{C}. En los triángulos rectángulos \fmm{AHC} y \fmm{BHC}:
+
+\fmdisp{\sin\hat A=\frac hb\Rightarrow h=b\sin\hat A,\qquad \sin\hat B=\frac ha\Rightarrow h=a\sin\hat B\qquad\Longrightarrow\qquad b\sin\hat A=a\sin\hat B\iff\frac{a}{\sin\hat A}=\frac{b}{\sin\hat B}}
+
+Con la altura desde \fmm{B} obtenemos igualmente \fmm{\dfrac{a}{\sin\hat A}=\dfrac{c}{\sin\hat C}}. (Si el ángulo \fmm{\hat A} es obtuso, la altura cae fuera, pero como \fmm{\sin(180^\circ-\hat A)=\sin\hat A}, el resultado es el mismo.)
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Cuándo se aplica el teorema del seno}
+Cada igualdad relaciona \textbf{dos lados y sus ángulos opuestos}. La aplicamos cuando tres de estos cuatro elementos son conocidos. Recuerda que conocer dos ángulos es conocer los tres.
+
+\begin{fmnote}\fmuline{Cuidado}: cuando la incógnita es un \textbf{ángulo}, puede haber \textbf{dos soluciones}, porque entre \fmm{0^\circ} y \fmm{180^\circ} hay dos ángulos con el mismo seno: uno agudo \fmm{\alpha} y uno obtuso \fmm{180^\circ-\alpha}. Hay que comprobar si el obtuso es posible (la suma de los ángulos tiene que ser menor de \fmm{180^\circ}). Este es el \textbf{caso ambiguo}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: teorema del seno}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item De un triángulo \fmm{ABC} conocemos \fmm{c=AB=63} m, \fmm{\hat B=42^\circ} y \fmm{\hat A=83^\circ}. Calcula \fmm{a=BC}.
+
+\fmm{\hat C=180^\circ-(83^\circ+42^\circ)=55^\circ}
+
+\fmm{\dfrac{a}{\sin83^\circ}=\dfrac{63}{\sin55^\circ}\Rightarrow a=\dfrac{63\cdot\sin83^\circ}{\sin55^\circ}\approx76{,}34\ \text{m}}
+\item Si \fmm{a=4} cm, \fmm{b=5} cm y \fmm{\hat B=30^\circ}, calcula \fmm{\hat A}.
+
+\fmm{\dfrac{4}{\sin\hat A}=\dfrac{5}{\sin30^\circ}\Rightarrow\sin\hat A=\dfrac{4\cdot0{,}5}{5}=0{,}4}
+
+Posibles soluciones: \fmm{\ \hat A_1\approx23^\circ34'41''}, \fmm{\ \hat A_2=180^\circ-\hat A_1\approx156^\circ25'19''}.
+
+La segunda no es válida, porque \fmm{\hat A_2+\hat B\gt180^\circ}. Solo hay una solución: \fmm{\hat A\approx23^\circ34'41''}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Teorema del coseno. Resolución de triángulos cualesquiera}\hypertarget{sec7}{}
+\begin{fmdef}{Teorema del coseno}
+En cualquier triángulo, el cuadrado de un lado es igual a la suma de los cuadrados de los otros dos menos el doble de su producto por el coseno del ángulo que forman:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle a^2=b^2+c^2-2bc\cos\hat A$ & $\displaystyle b^2=a^2+c^2-2ac\cos\hat B$\\[4pt]
+$\displaystyle c^2=a^2+b^2-2ab\cos\hat C$\\[4pt]
+\end{tabularx}\end{center}
+
+\textbf{Demostración}. Trazamos la altura \fmm{h} desde \fmm{C} (figura del apartado anterior); el pie \fmm{H} divide \fmm{c} en \fmm{AH=b\cos\hat A} y \fmm{HB=c-b\cos\hat A}. Por Pitágoras en \fmm{BHC} y \fmm{AHC}:
+
+\fmdisp{a^2=h^2+(c-b\cos\hat A)^2,\qquad h^2=b^2-b^2\cos^2\hat A}
+
+\fmdisp{a^2=b^2-b^2\cos^2\hat A+c^2-2bc\cos\hat A+b^2\cos^2\hat A=b^2+c^2-2bc\cos\hat A}
+
+\begin{fmnote}Si \fmm{\hat A=90^\circ}, \fmm{\cos\hat A=0} y obtenemos el \textbf{teorema de Pitágoras}: el teorema del coseno lo generaliza. Por eso, comparando el cuadrado del lado mayor con la suma de los cuadrados de los otros dos sabemos el tipo de triángulo: \fmm{a^2\lt b^2+c^2} acutángulo, \fmm{a^2=b^2+c^2} rectángulo, \fmm{a^2\gt b^2+c^2} obtusángulo.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Los cuatro casos de resolución}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Datos} & \textbf{Cómo se resuelve} & \textbf{Soluciones}\\\midrule
+Tres lados ($a,b,c$) & Teorema del coseno para dos ángulos, despejando el coseno; el tercero, por la suma $180^\circ$. & Una, si el lado mayor es menor que la suma de los otros dos.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Dos lados y el ángulo comprendido ($b,c,\hat A$) & Teorema del coseno para el tercer lado; después, otro ángulo (con el coseno, para evitar la ambigüedad). & Siempre una.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Un lado y dos ángulos ($a,\hat B,\hat C$) & El tercer ángulo por la suma; los lados, por el teorema del seno. & Una, si $\hat B+\hat C\lt180^\circ$.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Dos lados y un ángulo opuesto ($a,b,\hat A$) & Teorema del seno para $\hat B$ (caso ambiguo); después $\hat C$ y $c$. & Ninguna, una o dos.\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmprop}
+
+%\Needspace{5\baselineskip}
+\newpage
+\begin{fmdef}{Área de un triángulo}
+Si conocemos dos lados y el ángulo que forman, la altura sobre \fmm{c} es \fmm{h=b\sin\hat A} y, por tanto:
+
+\fmdisp{S=\frac12\,b\,c\,\sin\hat A=\frac12\,a\,c\,\sin\hat B=\frac12\,a\,b\,\sin\hat C}
+
+Si conocemos los tres lados también podemos usar la \textbf{fórmula de Herón}: \fmm{\ S=\sqrt{p(p-a)(p-b)(p-c)}}, donde \fmm{p=\frac{a+b+c}{2}} es el semiperímetro.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: teorema del coseno}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item En un triángulo \fmm{ABC}, \fmm{a=BC=1200} m, \fmm{c=BA=700} m y \fmm{\hat B=108^\circ}. Calcula \fmm{b=AC}.
+
+Conocemos dos lados y el ángulo comprendido: \fmm{\ b^2=a^2+c^2-2ac\cos\hat B}
+
+\fmm{b=\sqrt{1200^2+700^2-2\cdot1200\cdot700\cdot\cos108^\circ}\approx1564{,}98\ \text{m}}
+\item Resuelve el triángulo de lados \fmm{a=10}, \fmm{b=14} y \fmm{c=8} cm.
+
+\fmm{\cos\hat A=\dfrac{b^2+c^2-a^2}{2bc}=\dfrac{196+64-100}{224}\approx0{,}7143\Rightarrow\hat A\approx44^\circ24'55''}
+
+\fmm{\cos\hat B=\dfrac{a^2+c^2-b^2}{2ac}=\dfrac{100+64-196}{160}=-0{,}2\Rightarrow\hat B\approx101^\circ32'13''} (obtuso: el coseno negativo lo detecta)
+
+\fmm{\hat C=180^\circ-\hat A-\hat B\approx34^\circ2'52''}
+\item Las fuerzas \fmm{F_1=16} N y \fmm{F_2=12} N, aplicadas en un mismo punto, tienen una resultante de \fmm{R=25} N. ¿Qué ángulo forman?
+
+En el paralelogramo de fuerzas, el triángulo de lados 16, 12 y 25 tiene, opuesto a \fmm{R}, el ángulo \fmm{180^\circ-\theta}: \fmm{\ 25^2=16^2+12^2-2\cdot16\cdot12\cos(180^\circ-\theta)}
+
+\fmm{625=400+384\cos\theta\Rightarrow\cos\theta=\dfrac{225}{384}\approx0{,}5859\Rightarrow\theta\approx54^\circ7'51''}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Razones de la suma y de la diferencia de dos ángulos}\hypertarget{sec8}{}
+\begin{fmdef}{Fórmulas del ángulo suma}
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin(\alpha+\beta)=\sin\alpha\cos\beta+\cos\alpha\sin\beta$ & $\displaystyle \cos(\alpha+\beta)=\cos\alpha\cos\beta-\sin\alpha\sin\beta$\\[4pt]
+$\displaystyle \tan(\alpha+\beta)=\frac{\tan\alpha+\tan\beta}{1-\tan\alpha\tan\beta}$\\[4pt]
+\end{tabularx}\end{center}
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Demostración del seno} (\fmm{\alpha}, \fmm{\beta} agudos). Al triángulo rectángulo \fmm{OAB} de ángulo \fmm{\alpha} le acoplamos el triángulo rectángulo \fmm{OBC} de ángulo \fmm{\beta} e hipotenusa \fmm{OC=1}. Entonces \fmm{\sin(\alpha+\beta)=DC=AE=AB+BE}.
+
+\begin{itemize}
+\item \fmm{OB=\cos\beta} y \fmm{AB=OB\sin\alpha=\sin\alpha\cos\beta}.
+\item El triángulo \fmm{BEC} es semejante a \fmm{OAB} (girado \fmm{90^\circ}), con ángulo \fmm{\alpha} en \fmm{C}: \fmm{BC=\sin\beta}, \fmm{BE=BC\cos\alpha=\cos\alpha\sin\beta}.
+\end{itemize}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fb9834d89863.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\textbf{Demostración del seno} (\fmm{\alpha}, \fmm{\beta} agudos). Al triángulo rectángulo \fmm{OAB} de ángulo \fmm{\alpha} le acoplamos el triángulo rectángulo \fmm{OBC} de ángulo \fmm{\beta} e hipotenusa \fmm{OC=1}. Entonces \fmm{\sin(\alpha+\beta)=DC=AE=AB+BE}.
+
+\begin{itemize}
+\item \fmm{OB=\cos\beta} y \fmm{AB=OB\sin\alpha=\sin\alpha\cos\beta}.
+\item El triángulo \fmm{BEC} es semejante a \fmm{OAB} (girado \fmm{90^\circ}), con ángulo \fmm{\alpha} en \fmm{C}: \fmm{BC=\sin\beta}, \fmm{BE=BC\cos\alpha=\cos\alpha\sin\beta}.
+\end{itemize}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/fb9834d89863.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+Las demás se obtienen de esta. Por ejemplo, \fmm{\cos(\alpha+\beta)=\sin\big((90^\circ+\alpha)+\beta\big)=\sin(90^\circ+\alpha)\cos\beta+\cos(90^\circ+\alpha)\sin\beta=\cos\alpha\cos\beta-\sin\alpha\sin\beta}. La de la tangente sale de dividir la del seno entre la del coseno y dividir numerador y denominador entre \fmm{\cos\alpha\cos\beta}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Fórmulas del ángulo diferencia}
+Escribimos \fmm{\alpha-\beta=\alpha+(-\beta)} y usamos que \fmm{\sin(-\beta)=-\sin\beta}, \fmm{\cos(-\beta)=\cos\beta}:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin(\alpha-\beta)=\sin\alpha\cos\beta-\cos\alpha\sin\beta$ & $\displaystyle \cos(\alpha-\beta)=\cos\alpha\cos\beta+\sin\alpha\sin\beta$\\[4pt]
+$\displaystyle \tan(\alpha-\beta)=\frac{\tan\alpha-\tan\beta}{1+\tan\alpha\tan\beta}$\\[4pt]
+\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: razones de 75$^\circ$ y de 15$^\circ$}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula las razones de \fmm{75^\circ=45^\circ+30^\circ}.
+
+\fmm{\sin75^\circ=\sin45^\circ\cos30^\circ+\cos45^\circ\sin30^\circ=\frac{\sqrt2}{2}\cdot\frac{\sqrt3}{2}+\frac{\sqrt2}{2}\cdot\frac12=\dfrac{\sqrt6+\sqrt2}{4}}
+
+\fmm{\cos75^\circ=\cos45^\circ\cos30^\circ-\sin45^\circ\sin30^\circ=\dfrac{\sqrt6-\sqrt2}{4}}
+
+\fmm{\tan75^\circ=\dfrac{1+\frac{\sqrt3}{3}}{1-\frac{\sqrt3}{3}}=\dfrac{3+\sqrt3}{3-\sqrt3}=\dfrac{(3+\sqrt3)^2}{9-3}=\dfrac{12+6\sqrt3}{6}=2+\sqrt3}
+\item Calcula las razones de \fmm{15^\circ=45^\circ-30^\circ}.
+
+\fmm{\sin15^\circ=\sin45^\circ\cos30^\circ-\cos45^\circ\sin30^\circ=\dfrac{\sqrt6-\sqrt2}{4}}
+
+\fmm{\cos15^\circ=\cos45^\circ\cos30^\circ+\sin45^\circ\sin30^\circ=\dfrac{\sqrt6+\sqrt2}{4}}
+
+\fmm{\tan15^\circ=\dfrac{1-\frac{\sqrt3}{3}}{1+\frac{\sqrt3}{3}}=\dfrac{3-\sqrt3}{3+\sqrt3}=2-\sqrt3} (fíjate en que \fmm{15^\circ} y \fmm{75^\circ} son complementarios).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Razones del ángulo doble y del ángulo mitad}\hypertarget{sec9}{}
+\begin{fmdef}{Ángulo doble}
+Haciendo \fmm{\beta=\alpha} en las fórmulas de la suma:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin2\alpha=2\sin\alpha\cos\alpha$ & $\displaystyle \cos2\alpha=\cos^2\alpha-\sin^2\alpha$\\[4pt]
+$\displaystyle \tan2\alpha=\frac{2\tan\alpha}{1-\tan^2\alpha}$\\[4pt]
+\end{tabularx}\end{center}
+
+Con \fmm{\sin^2\alpha+\cos^2\alpha=1}, el coseno también se escribe \fmm{\ \cos2\alpha=2\cos^2\alpha-1=1-2\sin^2\alpha}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Ángulo mitad}
+Como \fmm{\alpha=2\cdot\frac{\alpha}{2}}: \fmm{\ \cos\alpha=\cos^2\frac\alpha2-\sin^2\frac\alpha2\ } y \fmm{\ 1=\cos^2\frac\alpha2+\sin^2\frac\alpha2}. Sumando y restando estas igualdades: \fmm{\ 1+\cos\alpha=2\cos^2\frac\alpha2,\ \ 1-\cos\alpha=2\sin^2\frac\alpha2}. Despejando:
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin\frac\alpha2=\pm\sqrt{\frac{1-\cos\alpha}{2}}$ & $\displaystyle \cos\frac\alpha2=\pm\sqrt{\frac{1+\cos\alpha}{2}}$\\[4pt]
+$\displaystyle \tan\frac\alpha2=\pm\sqrt{\frac{1-\cos\alpha}{1+\cos\alpha}}$\\[4pt]
+\end{tabularx}\end{center}
+
+\begin{fmnote}El signo (\fmm{+} o \fmm{-}) depende del \fmuline{cuadrante del ángulo \fmm{\frac\alpha2}}, no del de \fmm{\alpha}. Si \fmm{0^\circ\lt\alpha\lt360^\circ}, entonces \fmm{0^\circ\lt\frac\alpha2\lt180^\circ} y el seno de \fmm{\frac\alpha2} es siempre positivo.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: ángulo doble y ángulo mitad}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula \fmm{\tan120^\circ} a partir de \fmm{\tan60^\circ=\sqrt3}.
+
+\fmm{\tan120^\circ=\tan(2\cdot60^\circ)=\dfrac{2\sqrt3}{1-(\sqrt3)^2}=\dfrac{2\sqrt3}{-2}=-\sqrt3}
+\item Sabiendo que \fmm{\sin148^\circ=0{,}53} y \fmm{\cos148^\circ=-0{,}85}, calcula \fmm{\sin296^\circ}, \fmm{\cos208^\circ}, \fmm{\text{cotg}\,74^\circ} y \fmm{\sin103^\circ}.
+
+\fmm{\sin296^\circ=\sin(2\cdot148^\circ)=2\cdot0{,}53\cdot(-0{,}85)\approx-0{,}90}
+
+\fmm{\cos208^\circ=\cos(148^\circ+60^\circ)=-0{,}85\cdot\frac12-0{,}53\cdot\frac{\sqrt3}{2}\approx-0{,}88}
+
+\fmm{74^\circ=\frac{148^\circ}{2}} es del primer cuadrante: \fmm{\ \tan74^\circ=+\sqrt{\dfrac{1+0{,}85}{1-0{,}85}}\approx3{,}51\Rightarrow\text{cotg}\,74^\circ\approx0{,}28}
+
+\fmm{\sin103^\circ=\sin(148^\circ-45^\circ)=0{,}53\cdot\frac{\sqrt2}{2}-(-0{,}85)\cdot\frac{\sqrt2}{2}\approx0{,}98}
+\item Si \fmm{\sin\alpha=\frac35} y \fmm{\alpha} es del segundo cuadrante, calcula las razones de \fmm{\frac\alpha2}.
+
+\fmm{\cos\alpha=-\frac45}. Como \fmm{90^\circ\lt\alpha\lt180^\circ}, \fmm{\ 45^\circ\lt\frac\alpha2\lt90^\circ}: todas las razones son positivas.
+
+\fmm{\sin\frac\alpha2=\sqrt{\dfrac{1+\frac45}{2}}=\dfrac{3\sqrt{10}}{10},\quad \cos\frac\alpha2=\sqrt{\dfrac{1-\frac45}{2}}=\dfrac{\sqrt{10}}{10},\quad\tan\frac\alpha2=3}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Identidades trigonométricas}
+Una \textbf{identidad} es una igualdad que se cumple para \emph{todos} los valores del ángulo donde los dos miembros tienen sentido. Para demostrarla, transformamos uno de los miembros (normalmente el más complicado) hasta llegar al otro. Estrategias útiles:
+
+\begin{itemize}
+\item Pasarlo todo a senos y cosenos (\fmm{\tan=\frac{\sin}{\cos}}, \fmm{\sec=\frac1{\cos}}\dots{}).
+\item Usar \fmm{\sin^2\alpha+\cos^2\alpha=1} y las fórmulas del ángulo doble para que solo haya un argumento.
+\item Operar fracciones, sacar factor común y simplificar.
+\end{itemize}
+
+\emph{Ejemplo}: \fmm{\ \dfrac{\sin2\alpha}{1+\cos2\alpha}=\dfrac{2\sin\alpha\cos\alpha}{1+2\cos^2\alpha-1}=\dfrac{2\sin\alpha\cos\alpha}{2\cos^2\alpha}=\dfrac{\sin\alpha}{\cos\alpha}=\tan\alpha}.
+\end{fmprop}
+
+\Needspace{5.7cm}
+\section{Transformación de sumas en productos}\hypertarget{sec10}{}
+\begin{fmdef}{Sumas y diferencias de senos y de cosenos}
+A veces conviene escribir una suma como un producto (por ejemplo, para resolver una ecuación igualada a cero o para simplificar una fracción):
+
+\begin{center}\renewcommand{\arraystretch}{1.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle \sin A+\sin B=2\sin\frac{A+B}{2}\cos\frac{A-B}{2}$ & $\displaystyle \sin A-\sin B=2\cos\frac{A+B}{2}\sin\frac{A-B}{2}$\\[4pt]
+$\displaystyle \cos A+\cos B=2\cos\frac{A+B}{2}\cos\frac{A-B}{2}$ & $\displaystyle \cos A-\cos B=-2\sin\frac{A+B}{2}\sin\frac{A-B}{2}$\\[4pt]
+\end{tabularx}\end{center}
+
+\textbf{Demostración}. Sumando y restando \fmm{\sin(\alpha+\beta)=\sin\alpha\cos\beta+\cos\alpha\sin\beta} y \fmm{\sin(\alpha-\beta)=\sin\alpha\cos\beta-\cos\alpha\sin\beta}:
+
+\fmdisp{\sin(\alpha+\beta)+\sin(\alpha-\beta)=2\sin\alpha\cos\beta,\qquad \sin(\alpha+\beta)-\sin(\alpha-\beta)=2\cos\alpha\sin\beta}
+
+Hacemos el cambio \fmm{A=\alpha+\beta}, \fmm{B=\alpha-\beta}, es decir, \fmm{\alpha=\frac{A+B}{2}}, \fmm{\beta=\frac{A-B}{2}}, y obtenemos las dos primeras. Las de los cosenos se deducen igual a partir de \fmm{\cos(\alpha\pm\beta)}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: sumas en productos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula \fmm{\cos75^\circ+\cos15^\circ} transformándolo en producto.
+
+\fmm{\cos75^\circ+\cos15^\circ=2\cos\dfrac{75^\circ+15^\circ}{2}\cos\dfrac{75^\circ-15^\circ}{2}=2\cos45^\circ\cos30^\circ}
+
+\fmm{=2\cdot\dfrac{\sqrt2}{2}\cdot\dfrac{\sqrt3}{2}=\dfrac{\sqrt6}{2}}
+\item Simplifica \fmm{\dfrac{\sin3x+\sin x}{\cos3x+\cos x}}.
+
+\fmm{\dfrac{2\sin2x\cos x}{2\cos2x\cos x}=\dfrac{\sin2x}{\cos2x}=\tan2x}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Ecuaciones trigonométricas}\hypertarget{sec11}{}
+\begin{fmdef}{Ecuaciones trigonométricas}
+Una \textbf{ecuación trigonométrica} es una ecuación en la que la incógnita es un ángulo afectado por razones trigonométricas. Como las razones de \fmm{x} y de \fmm{x+360^\circ\cdot k} son iguales, si tiene una solución tiene \textbf{infinitas}: normalmente damos las de \fmm{[0^\circ,360^\circ)} y, si hace falta, la \textbf{solución general} (con \fmm{k\in\mathbb Z}).
+
+\textbf{Ecuaciones elementales} (\fmm{\alpha} es el ángulo que da la calculadora o la tabla):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Ecuación} & \textbf{Solución general} & \textbf{Ejemplo}\\\midrule
+$\sin x=k\ \ (|k|\le1)$ & $x=\alpha+360^\circ k,\ \ x=180^\circ-\alpha+360^\circ k$ & $\sin x=\frac12\Rightarrow x=30^\circ,\ 150^\circ$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\cos x=k\ \ (|k|\le1)$ & $x=\pm\alpha+360^\circ k$ & $\cos x=-\frac12\Rightarrow x=120^\circ,\ 240^\circ$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$\tan x=k$ & $x=\alpha+180^\circ k$ & $\tan x=1\Rightarrow x=45^\circ,\ 225^\circ$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}Si \fmm{|k|\gt1}, las ecuaciones \fmm{\sin x=k} y \fmm{\cos x=k} \fmuline{no tienen solución}. Si el argumento es \fmm{2x}, \fmm{\frac x2}, \fmm{x+30^\circ}\dots{}, primero hallamos el argumento con la solución general y después despejamos \fmm{x}: \fmm{\ \sin2x=\frac12\Rightarrow 2x=30^\circ+360^\circ k\ \text{o}\ 2x=150^\circ+360^\circ k\Rightarrow x=15^\circ+180^\circ k\ \text{o}\ x=75^\circ+180^\circ k}. En \fmm{[0^\circ,360^\circ)}: \fmm{15^\circ, 75^\circ, 195^\circ, 255^\circ}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Cómo se resuelve una ecuación trigonométrica}
+\begin{enumerate}
+\item Aplicar las fórmulas (ángulo doble, suma, sumas en productos\dots{}) para que todas las razones tengan el \textbf{mismo argumento}.
+\item Aplicar las relaciones fundamentales para que quede \textbf{una sola razón} (por ejemplo, \fmm{\cos^2x=1-\sin^2x}), o bien \textbf{factorizar} si está igualada a cero.
+\item Resolver la ecuación algebraica que resulta (de primer o de segundo grado\dots{}) para hallar el valor de la razón.
+\item Hallar los ángulos y \textbf{comprobarlos} en la ecuación inicial: elevar al cuadrado o multiplicar puede introducir \emph{soluciones extrañas}.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{No dividas} los dos miembros por una expresión que puede valer cero (como \fmm{\sin x} o \fmm{\cos x}): perderías soluciones. Es mejor pasarlo todo a un miembro y sacar factor común.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: ecuaciones trigonométricas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve \fmm{\cos(30^\circ+x)=\sin x}.
+
+Coseno de la suma: \fmm{\ \frac{\sqrt3}{2}\cos x-\frac12\sin x=\sin x\Rightarrow\sqrt3\cos x=3\sin x}
+
+Aquí podemos dividir entre \fmm{\cos x}, porque si \fmm{\cos x=0} también sería \fmm{\sin x=0}, lo cual es imposible: \fmm{\ \tan x=\dfrac{\sqrt3}{3}}
+
+\fmm{x_1=30^\circ,\ \ x_2=210^\circ} (las dos cumplen la ecuación). Solución general: \fmm{\ x=30^\circ+180^\circ k}
+\item Resuelve \fmm{\sin2x=\tan x}.
+
+\fmm{2\sin x\cos x=\dfrac{\sin x}{\cos x}\Rightarrow2\sin x\cos^2x-\sin x=0\Rightarrow\sin x\,(2\cos^2x-1)=0}
+
+\fmm{\sin x=0\Rightarrow x=0^\circ,\ 180^\circ}
+
+\fmm{\cos^2x=\frac12\Rightarrow\cos x=\pm\frac{\sqrt2}{2}\Rightarrow x=45^\circ,\ 135^\circ,\ 225^\circ,\ 315^\circ}
+
+Las seis son válidas. Solución general: \fmm{\ x=180^\circ k,\ \ x=45^\circ+90^\circ k}
+\item Resuelve \fmm{\cos3x+\cos x=0}.
+
+Suma en producto: \fmm{\ 2\cos\frac{3x+x}{2}\cos\frac{3x-x}{2}=0\Rightarrow2\cos2x\cos x=0}
+
+\fmm{\cos x=0\Rightarrow x=90^\circ,\ 270^\circ}
+
+\fmm{\cos2x=0\Rightarrow2x=90^\circ,\ 270^\circ,\ 450^\circ,\ 630^\circ\Rightarrow x=45^\circ,\ 135^\circ,\ 225^\circ,\ 315^\circ}
+\item Resuelve \fmm{3\sin^2x+\cos^2x+\cos x=0}.
+
+Solo queremos cosenos: \fmm{\ 3(1-\cos^2x)+\cos^2x+\cos x=0\Rightarrow2\cos^2x-\cos x-3=0}
+
+\fmm{\cos x=\dfrac{1\pm\sqrt{1+24}}{4}=\dfrac{1\pm5}{4}\Rightarrow\cos x=\frac32} (imposible) o \fmm{\cos x=-1}
+
+\fmm{x=180^\circ}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Sistemas de ecuaciones trigonométricas}\hypertarget{sec12}{}
+\begin{fmdef}{Estrategias}
+Se resuelven con los métodos de siempre (sustitución, reducción, igualación), pero las identidades trigonométricas pueden simplificar mucho los cálculos:
+
+\begin{itemize}
+\item Si una ecuación es lineal (\fmm{x+y=90^\circ}), despejamos una incógnita y la sustituimos en la otra.
+\item Si aparecen \fmm{\cos x\cos y} y \fmm{\sin x\sin y}, sumando y restando obtenemos \fmm{\cos(x-y)} y \fmm{\cos(x+y)}.
+\item Tomar como incógnitas las razones (\fmm{u=\sin x}, \fmm{v=\cos y}) y resolver un sistema algebraico.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: sistemas trigonométricos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resuelve en \fmm{[0^\circ,360^\circ)}: \fmm{\ \begin{cases}\cos x\cos y=-\frac12\\ \sin x\sin y=-\frac12\end{cases}}
+
+Sumando y restando: \fmm{\ \cos x\cos y+\sin x\sin y=-1,\ \ \cos x\cos y-\sin x\sin y=0}, es decir, \fmm{\ \cos(x-y)=-1,\ \ \cos(x+y)=0}.
+
+Como \fmm{x,y\in[0^\circ,360^\circ)}: \fmm{\ x-y=\pm180^\circ} y \fmm{\ x+y\in\{90^\circ,270^\circ,450^\circ,630^\circ\}}.
+
+Resolviendo cada sistema lineal y quedándonos con las soluciones de la primera vuelta: \fmm{\ (x,y)=(45^\circ,225^\circ),\ (135^\circ,315^\circ),\ (225^\circ,45^\circ),\ (315^\circ,135^\circ)}
+\item Resuelve en \fmm{[0^\circ,360^\circ)}: \fmm{\ \begin{cases}x+y=90^\circ\\ \sin x+\sin y=1\end{cases}}
+
+\fmm{y=90^\circ-x\Rightarrow\sin x+\sin(90^\circ-x)=1\Rightarrow\sin x+\cos x=1\Rightarrow\cos x=1-\sin x}
+
+Sustituyendo en \fmm{\sin^2x+\cos^2x=1}: \fmm{\ 2\sin^2x-2\sin x=0\Rightarrow2\sin x(\sin x-1)=0}
+
+\fmm{\sin x=0\Rightarrow x=0^\circ\ (y=90^\circ)} o \fmm{x=180^\circ\ (y=-90^\circ,} fuera del intervalo\fmm{)}; \fmm{\ \sin x=1\Rightarrow x=90^\circ\ (y=0^\circ)}
+
+Soluciones: \fmm{\ (0^\circ,90^\circ)} y \fmm{(90^\circ,0^\circ)}
+\item Resuelve en \fmm{[0^\circ,360^\circ)}: \fmm{\ \begin{cases}\cos^2x+\sin y=\frac12\\ \sin x+\sin y=\frac32\end{cases}}
+
+Restando las ecuaciones (reducción): \fmm{\ \cos^2x-\sin x=-1\Rightarrow1-\sin^2x-\sin x=-1\Rightarrow\sin^2x+\sin x-2=0}
+
+\fmm{\sin x=1} o \fmm{\sin x=-2} (no vale). Entonces \fmm{x=90^\circ} y \fmm{\sin y=\frac12\Rightarrow y=30^\circ,\ 150^\circ}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Funciones trigonométricas}\hypertarget{sec13}{}
+\begin{fmdef}{Las funciones seno, coseno y tangente}
+Las \textbf{funciones trigonométricas} (o circulares) \fmm{y=\sin x}, \fmm{y=\cos x}, \fmm{y=\tan x} asignan a cada ángulo \fmm{x}, \textbf{medido en radianes}, el valor de su razón. Usamos radianes porque el eje de abscisas tiene una escala decimal, como los radianes (no tiene sentido poner grados sexagesimales).
+
+Cuando el punto \fmm{P} da vueltas a la circunferencia goniométrica, su ordenada (el seno) sube y baja entre \fmm{-1} y \fmm{1} y dibuja una onda, la \textbf{sinusoide}:
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propiedades}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{$y=\sin x$} & \textbf{$y=\cos x$} & \textbf{$y=\tan x$}\\\midrule
+Dominio & $\mathbb R$ & $\mathbb R$ & $\mathbb R-\left\{\frac\pi2+k\pi\right\}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Recorrido & $[-1,1]$ & $[-1,1]$ & $\mathbb R$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Periodo & $2\pi$ & $2\pi$ & $\pi$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Simetría & impar: $\sin(-x)=-\sin x$ & par: $\cos(-x)=\cos x$ & impar\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Ceros & $x=k\pi$ & $x=\frac\pi2+k\pi$ & $x=k\pi$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Máximos / mínimos & $1$ en $\frac\pi2+2k\pi$; $-1$ en $\frac{3\pi}2+2k\pi$ & $1$ en $2k\pi$; $-1$ en $\pi+2k\pi$ & no tiene; asíntotas verticales en $x=\frac\pi2+k\pi$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+Una función es \textbf{periódica} de periodo \fmm{T} si \fmm{f(x+T)=f(x)} para todo \fmm{x}: la gráfica se repite cada \fmm{T} unidades. Además, \fmm{\cos x=\sin\left(x+\frac\pi2\right)}: la gráfica del coseno es la del seno \textbf{desplazada \fmm{\frac\pi2} hacia la izquierda}.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Funciones del tipo $y=A\sin(Bx+C)+D$}
+\begin{itemize}
+\item \fmm{|A|} es la \textbf{amplitud}: estira la gráfica verticalmente (si \fmm{A\lt0}, además, la refleja).
+\item \fmm{B} cambia el \textbf{periodo}: \fmm{T=\dfrac{2\pi}{|B|}} (para la tangente, \fmm{\dfrac{\pi}{|B|}}). Si \fmm{B=2}, la onda va el doble de rápido; si \fmm{B=\frac12}, la mitad.
+\item \fmm{C} \textbf{desplaza} la gráfica horizontalmente \fmm{\frac{C}{B}} unidades (hacia la izquierda si es positivo) y \fmm{D} la desplaza verticalmente.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: funciones trigonométricas}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item ¿En qué puntos de \fmm{[0,4\pi]} corta el eje \fmm{X} la función \fmm{y=\cos\frac x2}?
+
+\fmm{\cos\frac x2=0\Rightarrow\frac x2=\frac\pi2+k\pi\Rightarrow x=\pi+2k\pi}
+
+En \fmm{[0,4\pi]}: \fmm{\ x=\pi} y \fmm{x=3\pi}. El periodo es \fmm{\frac{2\pi}{1/2}=4\pi}.
+\item ¿Qué relación hay entre las gráficas de \fmm{y=\sin\left(x+\frac\pi2\right)}, \fmm{y=\cos\left(x+\frac\pi2\right)} y las de \fmm{\sin x}, \fmm{\cos x}?
+
+\fmm{\sin\left(x+\frac\pi2\right)=\cos x}: es la gráfica del coseno.
+
+\fmm{\cos\left(x+\frac\pi2\right)=-\sin x}: es la gráfica del seno reflejada respecto del eje \fmm{X}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
