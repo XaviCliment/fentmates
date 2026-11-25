@@ -1,0 +1,525 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 1: Nombres reals. 1r de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials I},pdfkeywords={nombres reals, fracció generatriu, valor absolut, intervals, potències, radicals, racionalització, logaritmes, notació científica}}
+
+% colors de la web (FentMates, bloc d'Aritmètica: groc; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{C99A2E}
+\definecolor{fmgreenl}{HTML}{E6B84A}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.4cm+5\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{1.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3.2pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw (14,80)--(226,80) (216,72)--(228,80)--(216,88);
+  \draw[line width=2.4pt] (40,74)--(40,86) (100,74)--(100,86) (160,74)--(160,86);
+  \foreach \x/\t in {40/0,100/1,160/2} \node[anchor=base,inner sep=0pt,font=\fontsize{18}{18}\sffamily\bfseries] at (\x,106) {\t};
+  \draw[line width=2.2pt,opacity=0.6] (40,80)--(40,20)--(100,20);
+  \draw[line width=2.4pt] (40,80)--(100,20);
+  \draw[dash pattern=on 6pt off 6pt] (100,20) arc[start angle=45,end angle=0,radius=84.85];
+  \fill (125,80) circle (6.5) (194,80) circle (5);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (108,62) {$\sqrt2$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{20}{20}\selectfont] at (186,50) {$\pi$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat CCSS · Unitat 1: Nombres reals}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques Aplicades a les Ciències Socials I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmnavy}Unitat 1} · Nombres reals\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: els conjunts numèrics \fmm{\mathbb N,\ \mathbb Z,\ \mathbb Q,\ \mathbb I} i \fmm{\mathbb R}, els intervals i les semirectes, el valor absolut, la unió i la intersecció d'intervals, els radicals (forma exponencial, simplificació, índex comú, extracció i introducció de factors i operacions), la racionalització i els logaritmes amb les seues propietats.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}1.1}\ \ El conjunt dels nombres reals}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}1.2}\ \ Intervals i semirectes}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}1.3}\ \ Valor absolut}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}1.4}\ \ Unió i intersecció d'intervals}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}1.5}\ \ Radicals}}\\[3pt]
+\mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}1.6}\ \ Racionalització}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}1.7}\ \ Logaritmes}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}1.8}\ \ Propietats dels logaritmes}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{8\baselineskip}
+\section{El conjunt dels nombres reals}\hypertarget{sec1}{}
+
+Recordem que el conjunt dels \textbf{nombres racionals} \fmm{(\mathbb Q)} està format per tots aquells nombres que podem escriure com una fracció \fmm{\dfrac ab}, amb \fmm{a,b\in\mathbb Z} i \fmm{b\neq0}. El conjunt dels \textbf{nombres irracionals} \fmm{(\mathbb I)} està format pels decimals amb infinites xifres decimals i no periòdics, per exemple \fmm{\pi,\ e,\ \sqrt2,\ \sqrt3} o el nombre d'or \fmm{\phi=\frac{1+\sqrt5}{2}}.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Definició: nombres reals}
+\begin{itemize}
+\item \textbf{Naturals} \fmm{\mathbb N=\{0,1,2,3,\dots\}}: serveixen per a comptar.
+\item \textbf{Enters} \fmm{\mathbb Z=\{\dots,-2,-1,0,1,2,\dots\}}: els naturals i els seus oposats.
+\item \textbf{Racionals} \fmm{\mathbb Q}: els que es poden escriure com a fracció; la seua expressió decimal és exacta o periòdica.
+\item \textbf{Irracionals} \fmm{\mathbb I}: infinites xifres decimals no periòdiques (\fmm{\pi,\ \sqrt2,\ e\dots}).
+\end{itemize}
+
+El conjunt dels \textbf{nombres reals} \fmm{\mathbb R} és la unió del conjunt dels nombres racionals i del dels irracionals:
+
+\fmdisp{\mathbb R=\mathbb Q\cup\mathbb I\qquad\qquad \mathbb N\subset\mathbb Z\subset\mathbb Q\subset\mathbb R,\qquad \mathbb I\subset\mathbb R,\qquad \mathbb Q\cap\mathbb I=\varnothing}
+
+\end{fmdef}
+
+\Needspace{5.1cm}
+\subsection*{Expressions decimals i fracció generatriu}
+\begin{fmdef}{Tipus de decimals}
+Un nombre és racional si i només si la seua expressió decimal és \textbf{exacta} o \textbf{periòdica}. Tots aquests decimals tenen una \textbf{fracció generatriu}:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipus} & \textbf{Exemple}\\\midrule
+Exacte & $2{,}45=\dfrac{245}{100}=\dfrac{49}{20}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}Periòdic pur & $2{,}\widehat7=\dfrac{27-2}{9}=\dfrac{25}{9}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}Periòdic mixt & $1{,}2\widehat3=\dfrac{123-12}{90}=\dfrac{111}{90}=\dfrac{37}{30}$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}\fmuline{Regla}: al numerador, el nombre sense coma (fins al final del primer període) menys la part que no es repeteix; al denominador, tants \textbf{9} com xifres té el període seguits de tants \textbf{0} com xifres té l'anteperíode.\end{fmnote}
+\end{fmdef}
+
+\Needspace{8\baselineskip}
+\section{Intervals i semirectes}\hypertarget{sec2}{}
+
+Els nombres reals es poden representar en una recta on cada punt és un nombre real: el conjunt dels reals és \textbf{complet}, no hi ha «forats» en la recta. Com que entre dos nombres sempre n'hi ha infinits, per a descriure una part de la recta fem servir els \textbf{intervals}. Si un extrem pertany al conjunt, l'interval és \textbf{tancat} en eixe costat i escrivim \fmm{[\ ]}; si no hi pertany, és \textbf{obert} i escrivim \fmm{(\ )}.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Intervals i semirectes}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Nom} & \textbf{Interval} & \textbf{Desigualtat} & \textbf{Representació}\\\midrule
+Tancat & $[a,b]$ & $a\le x\le b$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (64,14)--(136,14);\draw[fmR,line width=1.1pt,fill=fmR] (64,14) circle[radius=4.5];\node[font=\footnotesize] at (64,29) {$a$};\draw[fmR,line width=1.1pt,fill=fmR] (136,14) circle[radius=4.5];\node[font=\footnotesize] at (136,29) {$b$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Obert & $(a,b)$ & $a\lt x\lt b$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (64,14)--(136,14);\draw[fmR,line width=1.1pt,fill=white] (64,14) circle[radius=4.5];\node[font=\footnotesize] at (64,29) {$a$};\draw[fmR,line width=1.1pt,fill=white] (136,14) circle[radius=4.5];\node[font=\footnotesize] at (136,29) {$b$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Obert per la dreta & $[a,b)$ & $a\le x\lt b$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (64,14)--(136,14);\draw[fmR,line width=1.1pt,fill=fmR] (64,14) circle[radius=4.5];\node[font=\footnotesize] at (64,29) {$a$};\draw[fmR,line width=1.1pt,fill=white] (136,14) circle[radius=4.5];\node[font=\footnotesize] at (136,29) {$b$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Obert per l'esquerra & $(a,b]$ & $a\lt x\le b$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (64,14)--(136,14);\draw[fmR,line width=1.1pt,fill=white] (64,14) circle[radius=4.5];\node[font=\footnotesize] at (64,29) {$a$};\draw[fmR,line width=1.1pt,fill=fmR] (136,14) circle[radius=4.5];\node[font=\footnotesize] at (136,29) {$b$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Semirecta tancada (dreta) & $[a,+\infty)$ & $x\ge a$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (100,14)--(182,14);\fill[fmR] (188,14)--++(-9,-6)--++(0,12)--cycle;\draw[fmR,line width=1.1pt,fill=fmR] (100,14) circle[radius=4.5];\node[font=\footnotesize] at (100,29) {$a$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Semirecta oberta (dreta) & $(a,+\infty)$ & $x\gt a$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (100,14)--(182,14);\fill[fmR] (188,14)--++(-9,-6)--++(0,12)--cycle;\draw[fmR,line width=1.1pt,fill=white] (100,14) circle[radius=4.5];\node[font=\footnotesize] at (100,29) {$a$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Semirecta tancada (esquerra) & $(-\infty,b]$ & $x\le b$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (14,14)--(100,14);\fill[fmR] (8,14)--++(9,-6)--++(0,12)--cycle;\draw[fmR,line width=1.1pt,fill=fmR] (100,14) circle[radius=4.5];\node[font=\footnotesize] at (100,29) {$b$};\end{tikzpicture}\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Semirecta oberta (esquerra) & $(-\infty,b)$ & $x\lt b$ & \begin{tikzpicture}[x=0.0125cm,y=-0.0125cm,baseline=-0.2cm]\draw[fmmuted,line width=0.8pt] (10,14)--(186,14);\fill[fmmuted] (192,14)--++(-8,-4)--++(0,8)--cycle;\draw[fmR,line width=2.2pt] (14,14)--(100,14);\fill[fmR] (8,14)--++(9,-6)--++(0,12)--cycle;\draw[fmR,line width=1.1pt,fill=white] (100,14) circle[radius=4.5];\node[font=\footnotesize] at (100,29) {$b$};\end{tikzpicture}\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}Les \textbf{semirectes} tenen un extrem en l'infinit, i per l'infinit l'interval sempre és obert. La recta sencera és \fmm{\mathbb R=(-\infty,+\infty)}. En alguns llibres l'extrem obert s'escriu amb el claudàtor girat: \fmm{]-2,2[\ =(-2,2)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Escriu com a interval i representa «els nombres majors que \fmm{-1} i menors o iguals que 3».
+
+Desigualtat: \fmm{\ -1\lt x\le 3}
+
+El \fmm{-1} no hi és (obert) i el 3 sí (tancat): \fmm{\ x\in(-1,\,3]}
+
+A la recta: punt buit en el \fmm{-1}, punt ple en el 3 i el tros entre tots dos pintat.
+\item Escriu com a semirecta «els nombres menors que 2».
+
+\fmm{x\lt 2\ \Rightarrow\ x\in(-\infty,\,2)}: oberta en el 2 perquè el 2 no compleix la condició.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Valor absolut}\hypertarget{sec3}{}
+\begin{fmdef}{Definició: valor absolut}
+Donat \fmm{x} un nombre real qualsevol, definim el \textbf{valor absolut} de \fmm{x} com:
+
+\fmdisp{|x|=\begin{cases}\ \ x & \text{si } x\ge0\\ -x & \text{si } x\lt0\end{cases}}
+
+El valor absolut d'un nombre és la \textbf{distància} d'aquest nombre fins al zero; per això mai és negatiu. Per exemple, \fmm{|-5|=5=|5|}: tots dos estan a 5 unitats del zero. En general, la distància entre dos nombres \fmm{a} i \fmm{b} és \fmm{d(a,b)=|a-b|}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Propietats del valor absolut}
+
+\fmdisp{|x|\ge0\qquad |-x|=|x|\qquad |x\cdot y|=|x|\cdot|y|\qquad |x+y|\le|x|+|y|}
+
+\begin{fmnote}Per a llevar el valor absolut cal saber el signe del que hi ha dins: \fmm{|\pi-4|=4-\pi} perquè \fmm{\pi-4\lt0}.\end{fmnote}
+\end{fmprop}
+
+\newpage
+%\Needspace{5\baselineskip}
+\begingroup\tcbset{before skip=5pt,after skip=5pt}\setlist{itemsep=2pt,topsep=0pt}
+\begin{fmex}{Exemple resolt: equacions amb valor absolut}
+Si \fmm{r\gt0}, \fmm{\ |A|=r\iff A=r\ \ \text{o}\ \ A=-r}: hi ha dos nombres a distància \fmm{r} del zero.
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{|2x-3|=7}: \fmm{2x-3=7\ \Rightarrow\ x=5}\ \ o\ \ \fmm{2x-3=-7\ \Rightarrow\ x=-2}. Solucions: \fmm{x=5} i \fmm{x=-2}.
+\end{enumerate}
+
+\begin{fmnote}\fmm{|A|=-3} no té solució: un valor absolut mai és negatiu.\end{fmnote}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Valor absolut i intervals}
+Com que \fmm{|x-a|} és la distància de \fmm{x} a \fmm{a}, les desigualtats amb valor absolut descriuen intervals de la recta: \fmm{|x-a|\lt r} són els punts a distància menor que \fmm{r} del centre \fmm{a}, és a dir, l'interval \fmm{(a-r,\ a+r)}.
+
+\fmdisp{|A|\lt r\iff -r\lt A\lt r\qquad\qquad |A|\gt r\iff A\lt -r\ \ \text{o}\ \ A\gt r}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: desigualtats amb valor absolut}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{|3x-6|\le9}: \fmm{-9\le 3x-6\le 9}. Sumem 6 als tres membres: \fmm{\ -3\le 3x\le 15}. Dividim entre 3: \fmm{\ -1\le x\le 5\ \Rightarrow\ x\in[-1,\,5]}
+\item Resol \fmm{|-2x+4|\gt6}: \fmm{-2x+4\gt 6\ \ \text{o}\ \ -2x+4\lt -6\ \ \Rightarrow\ \ -2x\gt 2\ \ \text{o}\ \ -2x\lt -10}. En dividir entre un nombre negatiu, la desigualtat \textbf{canvia de sentit}: \fmm{\ x\lt -1\ \ \text{o}\ \ x\gt 5\ \Rightarrow\ x\in(-\infty,-1)\cup(5,+\infty)}
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Compte}: \fmm{|A|\lt -2} no té solució (un valor absolut mai és negatiu) i \fmm{|A|\gt -1} es compleix per a tot \fmm{x\in\mathbb R}.\end{fmnote}
+\end{fmex}
+
+\enlargethispage{0.4cm}\Needspace{5.7cm}
+\section{Unió i intersecció d'intervals}\hypertarget{sec4}{}
+\begin{fmdef}{Operacions amb intervals}
+Donats dos intervals \fmm{A} i \fmm{B}:
+
+\begin{itemize}
+\item La \textbf{unió} \fmm{A\cup B} està formada pels nombres que estan en \fmm{A} \textbf{o} en \fmm{B} (en algun dels dos).
+\item La \textbf{intersecció} \fmm{A\cap B} està formada pels nombres que estan en \fmm{A} \textbf{i} en \fmm{B} (en tots dos alhora).
+\end{itemize}
+
+\begin{fmnote}El més còmode és dibuixar els dos intervals en la mateixa recta, l'un damunt de l'altre. Si no tenen cap nombre en comú, la intersecció és el \textbf{conjunt buit} \fmm{\varnothing}; i de vegades la unió no es pot escriure com un únic interval: \fmm{[0,2)\cup(2,4]}.\end{fmnote}
+\end{fmdef}
+
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Siguen \fmm{A=[-3,2]}, \fmm{B=(0,5]} i \fmm{C=[4,+\infty)}. Calcula \fmm{A\cap B}, \fmm{A\cup B}, \fmm{B\cap C} i \fmm{A\cap C}. Dibuixem els tres intervals en la mateixa recta: així es veu de seguida què tenen en comú.
+
+\fmm{A\cap B=(0,\,2]}: el 0 no és de \fmm{B} i el 2 sí que és dels dos. \fmm{A\cup B=[-3,\,5]}\qquad \fmm{B\cap C=[4,\,5]}\qquad \fmm{A\cap C=\varnothing}: \fmm{A} s'acaba en el 2 i \fmm{C} comença en el 4.
+\end{enumerate}
+\end{fmex}
+\endgroup
+
+\Needspace{5.7cm}
+\section{Radicals}\hypertarget{sec5}{}
+\begin{fmdef}{Definició: arrel enèsima}
+Donats \fmm{a} un nombre real i \fmm{n} un nombre natural, l'\textbf{arrel enèsima} de \fmm{a} és:
+
+\fmdisp{\sqrt[n]{a}=x\iff a=x^{n}}
+
+El nombre \fmm{a} és el \textbf{radicand} i \fmm{n} l'\textbf{índex} del radical. Si l'índex és parell i el radicand negatiu, l'arrel no existeix en \fmm{\mathbb R}: \fmm{\sqrt{-4}\notin\mathbb R}, però \fmm{\sqrt[3]{-8}=-2}.
+\end{fmdef}
+
+\fmblock{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{Propietats de les potències}
+
+\fmdisp{\begin{array}{l} a^n\cdot a^m=a^{n+m}\\[2pt] a^n : a^m=a^{n-m}\\[2pt] a^n\cdot b^n=(a\cdot b)^n\\[2pt] a^n : b^n=(a:b)^n\\[2pt] (a^n)^m=a^{n\cdot m}\\[2pt] a^{-n}=\dfrac{1}{a^n}\qquad a^0=1\end{array}}
+
+\end{fmprop}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmprop}{Propietats dels radicals}
+
+\fmdisp{\begin{array}{l} \sqrt[n\cdot p]{a^{p}}=\sqrt[n]{a}\\[2pt] \left(\sqrt[n]{a}\right)^p=\sqrt[n]{a^p}\\[2pt] \sqrt[m]{\sqrt[n]{a}}=\sqrt[m\cdot n]{a}\\[2pt] \sqrt[n]{a}\cdot\sqrt[n]{b}=\sqrt[n]{a\cdot b}\\[2pt] \dfrac{\sqrt[n]{a}}{\sqrt[n]{b}}=\sqrt[n]{\dfrac ab}\end{array}}
+
+\end{fmprop}\end{minipage}\par\medskip}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Errors freqüents}
+\begin{itemize}
+\item \fmm{-3^2=-9\ } però \fmm{\ (-3)^2=9}: l'exponent només afecta el que té just davant.
+\item \fmm{\sqrt{9+16}=\sqrt{25}=5\neq3+4}: l'arrel \textbf{no} es reparteix en sumes ni restes.
+\item \fmm{(a+b)^2=a^2+2ab+b^2\neq a^2+b^2}
+\item \fmm{2^{-3}=\frac18\gt0}: un exponent negatiu no fa negatiu el resultat.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5.1cm}
+\subsection*{Forma exponencial i simplificació}
+\begin{fmdef}{Radicals com a potències}
+Tot radical es pot escriure com una potència d'exponent fraccionari: l'exponent del radicand va al numerador i l'índex, al denominador.
+
+\fmdisp{\sqrt[n]{a^m}=a^{\frac mn}\qquad\quad \sqrt5=5^{\frac12},\quad \sqrt[3]{x^2}=x^{\frac23},\quad 7^{\frac34}=\sqrt[4]{7^3},\quad 2^{-\frac12}=\dfrac{1}{\sqrt2}}
+
+Així, totes les propietats dels radicals són les de les potències. Per a \textbf{simplificar} un radical, simplifiquem la fracció de l'exponent (dividim l'índex i l'exponent pel mateix nombre):
+
+\fmdisp{\sqrt[6]{2^4}=2^{\frac46}=2^{\frac23}=\sqrt[3]{2^2}=\sqrt[3]4\qquad\quad \sqrt[12]{a^8b^4}=\sqrt[3]{a^2b}}
+
+\end{fmdef}
+
+\Needspace{5.1cm}
+\subsection*{Reducció a índex comú}
+\begin{fmdef}{Índex comú}
+Per a multiplicar, dividir o comparar radicals d'índex diferent, els escrivim amb el mateix índex: el \textbf{m.c.m.} dels índexs. Cada radicand s'eleva al nombre pel qual hem multiplicat el seu índex.
+
+\fmdisp{\sqrt{3},\ \sqrt[3]{5}\ \xrightarrow{\ \text{m.c.m.}(2,3)=6\ }\ \sqrt[6]{3^3}=\sqrt[6]{27},\quad \sqrt[6]{5^2}=\sqrt[6]{25}\ \Rightarrow\ \sqrt[3]5\lt\sqrt3}
+
+\end{fmdef}
+
+\Needspace{5.1cm}
+\subsection*{Extracció i introducció de factors}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Introduir} factors: entren a l'arrel elevats a l'índex.
+
+\fmm{2^4\cdot 5\sqrt[3]{2\cdot 7}=\sqrt[3]{(2^4)^3\cdot 5^3\cdot 2\cdot 7}}
+
+\fmm{=\sqrt[3]{2^{13}\cdot 5^3\cdot 7}}
+\item \textbf{Extraure} factors: només ixen els que tenen exponent major o igual que l'índex. Dividim cada exponent entre l'índex: el quocient és l'exponent de fora i el residu el de dins.
+
+\fmm{\sqrt[4]{2^7\cdot 3^2\cdot 5^8}}: \fmm{\quad 7=1\cdot4+3,\quad 2\lt4,\quad 8=2\cdot4+0}
+
+\fmm{=2\cdot 5^2\sqrt[4]{2^3\cdot 3^2}=50\sqrt[4]{72}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Operacions amb radicals}
+\begin{fmdef}{Suma, resta, producte, quocient i potència}
+\begin{itemize}
+\item \textbf{Sumes i restes}: només es poden sumar radicals \textbf{semblants} (mateix índex i mateix radicand): \fmm{2\sqrt[3]{21}+4\sqrt[3]{21}=6\sqrt[3]{21}}, però \fmm{2\sqrt{21}+4\sqrt[3]{21}} no es pot simplificar. De vegades cal extraure factors per a descobrir-ho: \fmm{\sqrt8+\sqrt{18}=2\sqrt2+3\sqrt2=5\sqrt2}.
+\item \textbf{Producte i quocient}: amb el mateix índex, es multipliquen o es divideixen els radicands: \fmm{\sqrt{12}\cdot\sqrt3=\sqrt{36}=6}, \fmm{\ \dfrac{\sqrt[3]{40}}{\sqrt[3]5}=\sqrt[3]8=2}. Si no tenen el mateix índex, primer els reduïm a índex comú: \fmm{\sqrt[3]{5}\cdot\sqrt2=\sqrt[6]{5^2}\cdot\sqrt[6]{2^3}=\sqrt[6]{200}}.
+\item \textbf{Potència}: s'eleva el radicand: \fmm{\left(\sqrt[3]{4}\right)^2=\sqrt[3]{16}=2\sqrt[3]2}, \fmm{\ \left(\sqrt3\right)^4=\sqrt{3^4}=9}.
+\item \textbf{Arrel d'una arrel}: es multipliquen els índexs: \fmm{\sqrt{\sqrt[3]{4}}=\sqrt[6]{4}=\sqrt[3]{2}}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{3\sqrt{50}-2\sqrt{18}+\sqrt{8}}
+
+Extraiem factors i sumem: \fmm{\ 3\cdot5\sqrt2-2\cdot3\sqrt2+2\sqrt2=(15-6+2)\sqrt2=11\sqrt2}
+
+\item \fmm{\dfrac{\sqrt[4]{8}\cdot\sqrt2}{\sqrt[3]{4}}}
+
+Índex comú: m.c.m.\fmm{(4,2,3)=12}:\\[2ex]
+
+\fmm{\dfrac{\sqrt[12]{2^9}\cdot\sqrt[12]{2^6}}{\sqrt[12]{2^8}}=\sqrt[12]{2^{9+6-8}}=\sqrt[12]{2^7}=\sqrt[12]{128}}
+
+Amb potències és més ràpid: \fmm{\ 2^{\frac34+\frac12-\frac23}=2^{\frac{7}{12}}}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Racionalització}\hypertarget{sec6}{}
+\begin{fmdef}{Racionalitzar}
+\textbf{Racionalitzar} és buscar una fracció equivalent sense arrels al denominador. Hi ha dos casos:
+
+\begin{itemize}
+\item Al denominador hi ha una \textbf{única arrel}: multipliquem dalt i baix pel que calga perquè desaparega.
+\item Al denominador hi ha una \textbf{suma o resta amb arrels}: multipliquem pel \textbf{conjugat} i fem servir \fmm{(a+b)(a-b)=a^2-b^2}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\dfrac{2}{\sqrt[3]{5}}=\dfrac{2\cdot\sqrt[3]{5^2}}{\sqrt[3]{5}\cdot\sqrt[3]{5^2}}=\dfrac{2\sqrt[3]{5^2}}{\sqrt[3]{5^3}}=\dfrac{2\sqrt[3]{25}}{5}}
+
+
+\item \fmm{\dfrac{5}{1+\sqrt3}=\dfrac{5}{1+\sqrt3}\cdot\dfrac{1-\sqrt3}{1-\sqrt3}=\dfrac{5(1-\sqrt3)}{1^2-(\sqrt3)^2}=\dfrac{5(1-\sqrt3)}{-2}=-\dfrac52\left(1-\sqrt3\right)}
+
+
+\item \fmm{\dfrac{2}{\sqrt2-\sqrt3}=\dfrac{2(\sqrt2+\sqrt3)}{(\sqrt2)^2-(\sqrt3)^2}=\dfrac{2(\sqrt2+\sqrt3)}{-1}=-2\left(\sqrt2+\sqrt3\right)}
+
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Logaritmes}\hypertarget{sec7}{}
+\begin{fmdef}{Definició: logaritme}
+El \textbf{logaritme en base \fmm{a} de \fmm{b}} és l'exponent al qual hem d'elevar \fmm{a} per a obtenir \fmm{b}:
+
+\fmdisp{\log_a b=c\iff a^c=b\qquad (a\gt0,\ a\neq1,\ b\gt0)}
+
+Per exemple, \fmm{\log_{10}1000=3} perquè \fmm{10^3=1000}. Quan la base és 10 escrivim \fmm{\log} (logaritme decimal) i quan és el nombre \fmm{e} escrivim \fmm{\ln} (logaritme neperià). Com que \fmm{a^0=1}, \fmm{\log_a1=0} en qualsevol base.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Conseqüències de la definició}
+
+\fmdisp{\log_a 1=0\qquad \log_a a=1\qquad \log_a a^n=n\qquad a^{\log_a b}=b}
+
+\begin{fmnote}No existeixen els logaritmes de nombres negatius ni del zero: \fmm{\log(-10)} i \fmm{\log0} no són nombres reals, perquè cap potència de base positiva no dona un resultat negatiu o zero.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: logaritmes amb la definició}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\log_2\dfrac18}. Busquem l'exponent: \fmm{\ 2^c=\dfrac18=2^{-3}\ \Rightarrow\ \log_2\dfrac18=-3}
+\item \fmm{\log_3\sqrt[5]{9}}: \fmm{\sqrt[5]{9}=\sqrt[5]{3^2}=3^{\frac25}\ \Rightarrow\ \log_3 3^{\frac25}=\dfrac25}
+\item Troba \fmm{x} si \fmm{\log_x 125=3}: \fmm{x^3=125=5^3\ \Rightarrow\ x=5}
+\end{enumerate}
+\end{fmex}
+
+\fmheadbox{
+\section{Propietats dels logaritmes}\hypertarget{sec8}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\begin{array}{l}\log_a a=1\\[2pt] \log_a a^n=n\\[2pt] \log_a(p\cdot q)=\log_a p+\log_a q\\[2pt] \log_a(p:q)=\log_a p-\log_a q\\[2pt] \log_a b^n=n\cdot\log_a b\\[2pt] \log_a x=\dfrac{\log_b x}{\log_b a}\end{array}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exemples}:
+
+\fmm{\log10+\log5=\log(10\cdot5)=\log50}
+
+\fmm{\log10-\log5=\log\tfrac{10}{5}=\log2}
+
+\fmm{\ln 5^3=3\ln5}
+
+Canvi de base: \fmm{\ \log_3 20=\dfrac{\log20}{\log3}=\dfrac{\ln20}{\ln3}\approx 2{,}727}\end{minipage}\par\medskip}
+\begin{fmprop}{Propietats dels logaritmes}
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\begin{array}{l}\log_a a=1\\[2pt] \log_a a^n=n\\[2pt] \log_a(p\cdot q)=\log_a p+\log_a q\\[2pt] \log_a(p:q)=\log_a p-\log_a q\\[2pt] \log_a b^n=n\cdot\log_a b\\[2pt] \log_a x=\dfrac{\log_b x}{\log_b a}\end{array}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exemples}:
+
+\fmm{\log10+\log5=\log(10\cdot5)=\log50}
+
+\fmm{\log10-\log5=\log\tfrac{10}{5}=\log2}
+
+\fmm{\ln 5^3=3\ln5}
+
+Canvi de base: \fmm{\ \log_3 20=\dfrac{\log20}{\log3}=\dfrac{\ln20}{\ln3}\approx 2{,}727}\end{minipage}\par\medskip
+
+\begin{fmnote}\fmuline{Compte}: \fmm{\log(p+q)\neq\log p+\log q}. La propietat és per al \textbf{producte}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: aplicar les propietats}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula \fmm{\log_2 48-\log_2 3} i \fmm{\ 2\log 5+\log 4}.
+
+\fmm{\log_2 48-\log_2 3=\log_2\dfrac{48}{3}=\log_2 16=4}
+
+\fmm{2\log5+\log4=\log5^2+\log4=\log(25\cdot4)=\log100=2}
+\item Si \fmm{\log2\approx 0{,}301} i \fmm{\log3\approx 0{,}477}, calcula \fmm{\log 12} i \fmm{\log 1{,}5}.
+
+\fmm{\log12=\log(2^2\cdot3)=2\log2+\log3\approx 1{,}079}
+
+\fmm{\log 1{,}5=\log\dfrac32=\log3-\log2\approx 0{,}176}
+\newpage
+\item Desenvolupa \fmm{\log\dfrac{100\,x^3}{\sqrt y}}.
+
+\fmm{=\log100+\log x^3-\log y^{\frac12}}
+
+\fmm{=2+3\log x-\dfrac12\log y}
+\item Expressa \fmm{A} sense logaritmes si \fmm{\log A=2\log x-\log y+1}.
+
+\fmm{\log A=\log x^2-\log y+\log10=\log\dfrac{10x^2}{y}}
+
+\fmm{A=\dfrac{10x^2}{y}}
+\item Un capital de 5000 € es co\lgem{}oca al 4 \% d'interès compost anual. Quants anys calen perquè es convertisca en 8000 €?
+
+\fmm{5000\cdot 1{,}04^t=8000\ \Rightarrow\ 1{,}04^t=1{,}6}
+
+Prenem logaritmes: \fmm{\ t\log 1{,}04=\log 1{,}6\ \Rightarrow\ t=\dfrac{\log 1{,}6}{\log 1{,}04}\approx 11{,}98}
+
+Calen 12 anys.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
