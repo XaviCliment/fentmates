@@ -1146,6 +1146,17 @@ if N == 5:  # l'exemple de la funció a trossos: les quatre gràfiques dels pass
 if N == 8:  # retocs de l'autor (Desktop, revisió 2026-11-25): les marques de classe i les mitjanes marginals, amb més aire
     retoc(r'(\\fmm\{2\{,\}5,\\ 6,\\ 8\{,\}5\}\.)\n', r'\1\\\\[2ex]\n', True)
     retoc(r'(=\\dfrac\{124\}\{40\}=3\{,\}1\} \w+,) (\\fmm\{\\ \\bar y=[^\n]*?=5\{,\}85\}\.)\n', r'\1 \\\\[2ex]\n\2\\\\[2ex]\n', True)
+if N == 9:  # retocs de l'autor (Desktop, revisió 2026-11-25)
+    # triangle de Tartaglia: espais normals entre els nombres (no espais no separables)
+    assert doc.count('\xa0') == 42 and all('$n=' in l for l in doc.split('\n') if '\xa0' in l)
+    doc = doc.replace('\xa0', ' ')
+    # taula de fórmules de recompte: primera columna més ampla i més interlineat; taula de propietats de la probabilitat: primera columna més ampla
+    for key, w, st in ((r'\$VR_\{n,k\}=n\^k\$', '7.2cm', '1.8'), (r'\$P\(A\\cup B\)=P\(A\)\+P\(B\)-P\(A\\cap B\)\$', '5.2cm', None)):
+        j = re.search(key, doc).start(); i = doc.rindex('\\begin{center}', 0, j); k = doc.index('\\end{center}', j)
+        t = doc[i:k]; assert t.count('p{3.2cm}') >= 4
+        t = t.replace('p{3.2cm}', 'p{%s}' % w)
+        if st: t = t.replace('\\renewcommand{\\arraystretch}{1.5}', '\\renewcommand{\\arraystretch}{%s}' % st, 1)
+        doc = doc[:i] + t + doc[k:]
 if N == 10:  # el títol de 10.2 (dues línies) i el començament del requadre caben al final de la pàgina 2
     retoc(r'\\Needspace\{[\d.]+cm\}(\n\\section\{Variables aleat\w+ discret)', r'\\enlargethispage{1cm}\\Needspace{4cm}\1', True)
 if N == 7:  # retocs de l'autor (Desktop, revisió 2026-11-25)
