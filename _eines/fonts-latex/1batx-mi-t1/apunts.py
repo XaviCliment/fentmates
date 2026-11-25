@@ -1081,6 +1081,7 @@ if N == 9:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als do
         retoc(r'\n(\\item Representa \\fmm\{f\(x\)=x\^4-2x\^2\})', r'\n\\newpage\n\1', True)
 if N == 8:  # retocs de l'autor (Desktop, revisió 2026-11-25)
     retoc(r'\n(\\item \\fmpau\{PAU 2017\}El benefici)', r'\n\\newpage\n\1', True)
+    if not ES: retoc(r'\n\n(Si \\fmm\{x\\lt1\}, \\fmm\{f\} és polin)', r'\n\\newpage\n\1', True)  # 8.9, exemple 1: la resolució a la pàgina següent (en castellà deixava una pàgina quasi buida)
     # exemple de continuïtat d'una funció racional (8.8): la gràfica més baixa perquè l'exemple càpiga sencer en una pàgina
     i = doc.index(T("Si el denominador no s'anu", 'Si el denominador no se anula')); j = doc.rindex('height=5.2cm', 0, i); assert i - j < 400
     doc = doc[:j] + 'height=%s' % T('3.4cm', '3.0cm') + doc[j + len('height=5.2cm'):]  # en castellà el text és més llarg

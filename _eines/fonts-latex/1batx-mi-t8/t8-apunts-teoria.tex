@@ -1,0 +1,1030 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 8: Límits i continuïtat. 1r de Batxillerat MI},pdfsubject={Matemàtiques I},pdfkeywords={límits, límits laterals, límits a l'infinit, indeterminacions, continuïtat, discontinuïtats, asímptotes, teorema de Bolzano}}
+
+% colors de la web (FentMates, bloc d'Anàlisi: verd; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{8.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (24,36)--(226,36);
+  \draw[line width=4.5pt] (32,100) .. controls (70,98) and (92,80) .. (112,64);
+  \draw[line width=4.5pt] (122,58) .. controls (150,44) and (180,40) .. (222,38);
+  \draw[line width=4.5pt] (117,61) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=2.4,font=\large\itshape] at (138,84) {lím $f(x)=L$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat MI · Unitat 8: Límits i continuïtat}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmexfill}[1]{fmbase,breakable=false,height fill,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 8} · Límits i continuïtat\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: el límit d'una funció a l'infinit (gràfic i analític), les operacions amb l'infinit, la comparació d'infinits, les indeterminacions \fmm{\frac{\infty}{\infty}}, \fmm{\infty-\infty}, \fmm{1^\infty} i \fmm{\frac00}, els límits laterals i el límit en un punt, la continuïtat i els tipus de discontinuïtat, les funcions a trossos (també amb paràmetres) i les branques infinites: asímptotes verticals, horitzontals i obliqües i branques parabòliques.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}8.1}\ \ Límits a l'infinit: lectura gràfica}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}8.2}\ \ Càlcul analític a l'infinit}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}8.3}\ \ Comparació d'infinits}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}8.4}\ \ Indeterminacions a l'infinit}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}8.5}\ \ Límits en un nombre}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}8.6}\ \ Indeterminacions en un punt}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}8.7}\ \ Continuïtat en un punt}}\\[3pt]
+\hyperlink{sec8}{\textbf{\color{fmgreen}8.8}\ \ Continuïtat de racionals i funcions a trossos}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}8.9}\ \ Funcions a trossos amb paràmetres}}\\[3pt]
+\mbox{\hyperlink{sec10}{\textbf{\color{fmgreen}8.10}\ \ Branques infinites i asímptotes}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Límits a l'infinit: càlcul geomètric}\hypertarget{sec1}{}
+\begin{fmdef}{Definició: límit quan x tendeix a infinit}
+Calcular el límit d'una funció \fmm{f(x)} quan \fmm{x} tendeix a l'infinit és conéixer el comportament d'aquesta funció quan \fmm{x} es fa \textbf{tan gran com vulguem} (\fmm{x\to+\infty}) o \textbf{tan negativa com vulguem} (\fmm{x\to-\infty}). Podem trobar tres possibilitats:
+
+\begin{itemize}
+\item \fmm{\displaystyle\lim_{x\to+\infty}f(x)=L}: els valors de \fmm{f(x)} s'acosten tant com vulguem al nombre \fmm{L}. Gràficament, la corba s'acosta a la recta horitzontal \fmm{y=L}, que és una \textbf{asímptota horitzontal}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}f(x)=+\infty} (o \fmm{-\infty}): els valors de \fmm{f(x)} creixen (o decreixen) sense fita: la corba puja (o baixa) indefinidament.
+\item \textbf{No existeix} el límit: els valors de \fmm{f(x)} no s'estabilitzen al voltant d'un nombre ni creixen o decreixen cap a l'infinit. També pot passar que la funció no estiga definida en algun dels infinits, és a dir, que el seu domini comence o acabe en un nombre determinat.
+\end{itemize}
+
+El mateix val quan \fmm{x\to-\infty}, mirant la part \textbf{esquerra} de la gràfica.
+\end{fmdef}
+
+\newpage
+\begin{fmexfill}{Exemples: llegim els límits a la gràfica}
+\begin{minipage}[t][\tcbtextheight][s]{\linewidth}
+\noindent \begin{minipage}[t]{0.48\linewidth}\centering $f(x)=\dfrac{2x^2}{x^2+1}$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/988179bbee05.pdf}\par\smallskip $\displaystyle\lim_{x\to+\infty}f(x)=2,\qquad\lim_{x\to-\infty}f(x)=2$ \\ \vspace*{0.2cm} Asímptota horitzontal $y=2$ pels dos costats.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\centering $g(x)=2^x-1$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/78402a7433c2.pdf}\par\smallskip $\displaystyle\lim_{x\to-\infty}g(x)=-1,\qquad\lim_{x\to+\infty}g(x)=+\infty$ \\ \vspace*{0.2cm} Asímptota horitzontal $y=-1$ només per l’esquerra.\end{minipage}\par
+\vfill
+\noindent \begin{minipage}[t]{0.48\linewidth}\centering $h(x)=\dfrac{x^3}{10}-x$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/9e2648be8f08.pdf}\par\smallskip $\displaystyle\lim_{x\to-\infty}h(x)=-\infty,\qquad\lim_{x\to+\infty}h(x)=+\infty$\\ \vspace*{0.2cm} No té asímptota horitzontal.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\centering $k(x)=\sin x$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/4516b1ea83fc.pdf}\par\smallskip $\displaystyle\nexists\lim_{x\to-\infty}\sin x,\qquad\nexists\lim_{x\to+\infty}\sin x$\\ \vspace*{0.2cm} Osci\lgem{}a entre $-1$ i $1$ sense parar.\end{minipage}\par
+\vfill
+\noindent \begin{minipage}[t]{0.48\linewidth}\centering $m(x)=\sqrt{x-2}$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/b5276160aaf6.pdf}\par\smallskip $\displaystyle\nexists\lim_{x\to-\infty}m(x),\qquad\lim_{x\to+\infty}m(x)=+\infty$\\ \vspace*{0.2cm} Domini $[2,+\infty)$: no està definida per a $x<2$.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\centering $n(x)=\sqrt{9-x^2}$\par\smallskip \includegraphics[width=6.4cm,height=4.6cm,keepaspectratio]{figs/8958e57cc33a.pdf}\par\smallskip $\displaystyle\nexists\lim_{x\to-\infty}n(x),\qquad\nexists\lim_{x\to+\infty}n(x)$\\ \vspace*{0.2cm} Domini $[-3,3]$: no arriba a cap dels dos infinits.\end{minipage}\par
+\vfill
+
+      
+\begin{fmnote}\fmuline{Truc}: per a \fmm{x\to+\infty} mira \textbf{el final dret} de la gràfica; per a \fmm{x\to-\infty}, \textbf{el final esquerre}. Una taula de valors amb \fmm{x=10,\ 100,\ 1000,\dots} també t'ho diu.\end{fmnote}
+\end{minipage}
+\end{fmexfill}
+
+\Needspace{5.7cm}
+\section{Càlcul analític de límits a l'infinit}\hypertarget{sec2}{}
+\begin{fmprop}{Operacions amb infinit}
+Per calcular un límit, \textbf{substituïm} i operem amb aquestes regles (\fmm{k} és un nombre real):
+
+\begin{center}\small\begin{tabularx}{\linewidth}{>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}\toprule
+\textbf{Sumes} & \textbf{Productes} & \textbf{Quocients}\\\midrule
+\fmm{k\pm\infty=\pm\infty} & \fmm{k\cdot(\pm\infty)=\pm\infty\ \ (k\gt0)} & \fmm{\dfrac{k}{\pm\infty}=0}\\[6pt]
+\fmm{(+\infty)+(+\infty)=+\infty} & \fmm{k\cdot(\pm\infty)=\mp\infty\ \ (k\lt0)} & \fmm{\dfrac{\pm\infty}{k}=\pm\infty\ \ (k\gt0)}\\[6pt]
+\fmm{(-\infty)+(-\infty)=-\infty} & \fmm{(\pm\infty)\cdot(\pm\infty)=\pm\infty} (regla dels signes) & \fmm{\dfrac{k}{0}=\pm\infty\ \ (k\neq0)} (cal estudiar el signe)\\[6pt]
+\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Exponencials}
+
+\fmdisp{k^{+\infty}=\begin{cases}+\infty&\text{si } k\gt 1\\0&\text{si } 0\leq k\lt 1\end{cases}}
+
+\fmdisp{k^{-\infty}=\begin{cases}0&\text{si } k\gt 1\\+\infty&\text{si } 0\lt k\lt 1\end{cases}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Potències}
+
+\fmdisp{(+\infty)^k=\begin{cases}+\infty&\text{si } k\gt 0\\0&\text{si } k\lt 0\end{cases}}
+
+\fmdisp{(+\infty)^{+\infty}=+\infty,\ \ (+\infty)^{-\infty}=0}
+\end{minipage}\par\medskip
+
+Hi ha resultats que \textbf{no es poden saber} d'entrada: són les \textbf{indeterminacions}, que estudiarem a l'apartat 8.4:
+
+\begin{center}\fmchip{\fmm{\dfrac{\infty}{\infty}}}\ \fmchip{\fmm{\infty-\infty}}\ \fmchip{\fmm{\dfrac00}}\ \fmchip{\fmm{0\cdot\infty}}\ \fmchip{\fmm{1^{\infty}}}\ \fmchip{\fmm{\infty^0}}\ \fmchip{\fmm{0^0}}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Potències, monomis i polinomis}
+\begin{itemize}
+\item \textbf{Potències} \fmm{x^n} amb \fmm{n\gt0}: quan \fmm{x\to+\infty} sempre donen \fmm{+\infty}. Quan \fmm{x\to-\infty}, depén de la paritat:
+
+\fmdisp{\lim_{x\to-\infty}x^n=\begin{cases}+\infty&\text{si } n \text{ parell}\\-\infty&\text{si } n\text{ senar}\end{cases}\qquad\qquad\lim_{x\to\pm\infty}\frac{1}{x^n}=0}
+
+\item \textbf{Monomis} \fmm{a\,x^n}: el límit és \fmm{\pm\infty}; el signe el decideixen el signe de \fmm{a} i el de \fmm{x^n}.
+\item \textbf{Polinomis}: quan \fmm{x\to\pm\infty}, el límit d'un polinomi és el límit del seu \fmkey{terme de major grau}; els altres termes són «petits» al costat d'ell.
+
+\fmdisp{\lim_{x\to\pm\infty}\left(a_nx^n+a_{n-1}x^{n-1}+\dots+a_0\right)=\lim_{x\to\pm\infty}a_nx^n}
+
+\end{itemize}
+
+\begin{fmnote}\fmuline{Compte}: \fmm{(-\infty)^3} és \fmm{-\infty}, però \fmm{(-\infty)^4} és \fmm{+\infty}. Si dubtes, canvia \fmm{x} per \fmm{-x}: \fmm{\displaystyle\lim_{x\to-\infty}f(x)=\lim_{x\to+\infty}f(-x)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to-\infty}2x^3=2\cdot(-\infty)^3=2\cdot(-\infty)=-\infty}  i  \fmm{\displaystyle\lim_{x\to-\infty}(-5x^3)=(-5)\cdot(-\infty)=+\infty}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(x^3-100x^2-7\right)=\lim_{x\to+\infty}x^3=+\infty}. Encara que \fmm{100x^2} sembla gran, \fmm{x^3} guanya.
+\item \fmm{\displaystyle\lim_{x\to-\infty}\left(-2x^4+x^3+1\right)=\lim_{x\to-\infty}(-2x^4)=-2\cdot(+\infty)=-\infty}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\tfrac12\right)^x=\left(\tfrac12\right)^{+\infty}=0}, \fmm{\ \ \displaystyle\lim_{x\to-\infty}3^x=3^{-\infty}=0}, \fmm{\ \ \displaystyle\lim_{x\to+\infty}\sqrt{x}=\sqrt{+\infty}=+\infty}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Quocients de polinomis: comparem els graus}
+Si \fmm{P(x)} té grau \fmm{n} i coeficient principal \fmm{a_n}, i \fmm{Q(x)} té grau \fmm{m} i coeficient principal \fmm{b_m}, en substituir obtenim \fmm{\frac{\infty}{\infty}}. Ens quedem amb els termes de major grau:
+
+\fmdisp{\lim_{x\to\pm\infty}\frac{P(x)}{Q(x)}=\lim_{x\to\pm\infty}\frac{a_nx^n}{b_mx^m}=\begin{cases}\pm\infty&\text{si } n\gt m\ \ (\text{el signe, simplificant})\\[4pt]\dfrac{a_n}{b_m}&\text{si } n=m\\[8pt]0&\text{si } n\lt m\end{cases}}
+
+Les \textbf{arrels} també tenen grau: \fmm{\sqrt{x^3+x}} es comporta com \fmm{\sqrt{x^3}=x^{3/2}} (grau \fmm{\tfrac32}) i \fmm{\sqrt{4x^2+1}} com \fmm{\sqrt{4x^2}=2|x|} (grau 1).
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples de quocients}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{3x^2-5x+1}{x^3-x}\overset{\frac{\infty}{\infty}}{=}\lim_{x\to+\infty}\frac{3x^2}{x^3}=\lim_{x\to+\infty}\frac{3}{x}=\frac{3}{+\infty}=0} (grau de dalt < grau de baix).
+\item \fmm{\displaystyle\lim_{x\to-\infty}\frac{4x^3+x}{2x^3-7}\overset{\frac{\infty}{\infty}}{=}\lim_{x\to-\infty}\frac{4x^3}{2x^3}=\frac42=2} (mateix grau: quocient dels coeficients principals).
+\item Grau de dalt més gran: cal mirar el signe a cada costat.
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{x^3+1}{2x-x^2}=\lim_{x\to+\infty}\frac{x^3}{-x^2}=\lim_{x\to+\infty}(-x)=-\infty}
+
+\fmm{\displaystyle\lim_{x\to-\infty}\frac{x^3+1}{2x-x^2}=\lim_{x\to-\infty}(-x)=-(-\infty)=+\infty}
+\item Amb arrels: \fmm{\displaystyle\lim_{x\to+\infty}\frac{\sqrt{x^3+x-2}}{x+5}=\lim_{x\to+\infty}\frac{x^{3/2}}{x}=\lim_{x\to+\infty}\sqrt{x}=+\infty} i \fmm{\displaystyle\lim_{x\to+\infty}\frac{\sqrt{9x^2+1}}{x-4}=\lim_{x\to+\infty}\frac{3x}{x}=3}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Càlcul de límits per comparació d'infinits}\hypertarget{sec3}{}
+\begin{fmdef}{Ordre d'un infinit}
+Si \fmm{\displaystyle\lim_{x\to+\infty}f(x)=\lim_{x\to+\infty}g(x)=+\infty}, diem que \fmm{f} és un \textbf{infinit d'ordre superior} a \fmm{g} si
+
+\fmdisp{\lim_{x\to+\infty}\frac{f(x)}{g(x)}=+\infty\qquad\left(\text{o, el que és el mateix, }\lim_{x\to+\infty}\frac{g(x)}{f(x)}=0\right)}
+
+És a dir, \fmm{f} creix «molt més de pressa» que \fmm{g}. Si el límit del quocient és un nombre \fmm{k\neq0}, són \textbf{del mateix ordre}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Jerarquia d'infinits (quan x $\to$ +$\infty$)}
+\begin{center}\fmlevel{logaritmes}{\fmm{\log_a x,\ \ln x}}\quad{\Large\color{fmaccent}$\ll$}\quad\fmlevel{potències}{\fmm{x^p\ \ (p\gt0)}}\quad{\Large\color{fmaccent}$\ll$}\quad\fmlevel{exponencials}{\fmm{a^x\ \ (a\gt1)}}\end{center}
+
+\begin{itemize}
+\item Entre dues \textbf{potències}, guanya la d'exponent més gran: \fmm{x^3\gg x^2\gg\sqrt x}.
+\item Entre dues \textbf{exponencials}, guanya la de base més gran: \fmm{5^x\gg e^x\gg2^x}.
+\item Els coeficients no canvien l'ordre: \fmm{0{,}001\cdot2^x\gg1000\,x^{10}}.
+\end{itemize}
+
+\textbf{Conseqüències:} en un \textbf{quocient} \fmm{\frac{\infty}{\infty}}, si el de dalt és d'ordre superior el límit és \fmm{\pm\infty}, i si ho és el de baix, és \fmm{0}. En una \textbf{suma o resta} d'infinits, el resultat el decideix el d'ordre superior.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{x^2}{e^x}=0} (l'exponencial de baix és d'ordre superior).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{2^x}{x^{10}}=+\infty} (encara que per a \fmm{x} xicotets el denominador és més gran!).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{\ln x}{\sqrt x}=0} (el logaritme és d'ordre inferior a qualsevol potència).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(x^3-2^x\right)=-\infty} (guanya \fmm{-2^x}).
+\item Mateix ordre: \fmm{\displaystyle\lim_{x\to+\infty}\frac{e^x+x^5}{3e^x-x}=\lim_{x\to+\infty}\frac{e^x}{3e^x}=\frac13}.
+\item \fmm{\displaystyle\lim_{x\to+\infty}\frac{3^x}{2^x}=\lim_{x\to+\infty}\left(\tfrac32\right)^x=+\infty}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Indeterminacions a l'infinit}\hypertarget{sec4}{}
+
+Quan en substituir obtenim una indeterminació, cal \textbf{transformar l'expressió} abans de calcular el límit. Ací veiem les tres que estudiarem quan \fmm{x\to\pm\infty}.
+
+\Needspace{5.1cm}
+\subsection*{Indeterminació \fmm{\dfrac{\infty}{\infty}}}
+\begin{fmdef}{Dos mètodes equivalents}
+\textbf{Mètode 1}: ens quedem amb els \textbf{termes de major grau} del numerador i del denominador i simplifiquem (és el que hem fet a l'apartat 8.2).
+
+\textbf{Mètode 2}: \textbf{dividim} numerador i denominador per la potència de \fmm{x} de major grau de la fracció; tots els termes del tipus \fmm{\frac{k}{x^n}} tendeixen a 0.
+
+\fmdisp{\lim_{x\to+\infty}\frac{3x^2-5x+1}{x^3-x}=\lim_{x\to+\infty}\frac{\frac{3x^2}{x^3}-\frac{5x}{x^3}+\frac{1}{x^3}}{\frac{x^3}{x^3}-\frac{x}{x^3}}=\lim_{x\to+\infty}\frac{\overbrace{\tfrac{3}{x}}^{0}-\overbrace{\tfrac{5}{x^2}}^{0}+\overbrace{\tfrac{1}{x^3}}^{0}}{1-\underbrace{\tfrac{1}{x^2}}_{0}}=\frac01=0}
+
+\end{fmdef}
+
+\Needspace{5.1cm}
+\subsection*{Indeterminació \fmm{\infty-\infty}}
+\begin{fmdef}{Cas 1: resta de fraccions algebraiques}
+\textbf{Fem la resta} (amb denominador comú) i calculem el límit de la fracció que en resulta, que sol ser \fmm{\frac{\infty}{\infty}}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{x^2}{x-1}-x\right)}
+
+Substituïm: \fmm{\displaystyle\lim\frac{x^2}{x-1}=\lim\frac{x^2}{x}=+\infty}, i \fmm{\lim x=+\infty\Rightarrow+\infty-\infty\ \ \text{IND.}}
+
+Restem les fraccions: \fmm{\dfrac{x^2}{x-1}-\dfrac{x(x-1)}{x-1}=\dfrac{x^2-x^2+x}{x-1}=\dfrac{x}{x-1}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{x}{x-1}=1} (mateix grau).
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{3x^2+2}{x+1}-\frac{2x^3-x}{x^2-1}\right)}
+
+\fmm{\displaystyle\lim\frac{3x^2}{x}-\lim\frac{2x^3}{x^2}=\lim3x-\lim2x=+\infty-\infty\ \ \text{IND.}}
+
+Com que \fmm{x^2-1=(x+1)(x-1)}, el denominador comú és \fmm{x^2-1}:
+\fmdisp{\frac{(3x^2+2)(x-1)-(2x^3-x)}{x^2-1}=\frac{3x^3-3x^2+2x-2-2x^3+x}{x^2-1}=\frac{x^3-3x^2+3x-2}{x^2-1}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{x^3-3x^2+3x-2}{x^2-1}=\lim_{x\to+\infty}\frac{x^3}{x^2}=\lim_{x\to+\infty}x=+\infty}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Cas 2: resta amb arrels quadrades}
+\textbf{Multipliquem i dividim pel conjugat} i usem \fmm{(A-B)(A+B)=A^2-B^2}, que fa desaparéixer les arrels de dalt:
+
+\fmdisp{\left(\sqrt{A}-B\right)\cdot\frac{\sqrt{A}+B}{\sqrt{A}+B}=\frac{A-B^2}{\sqrt{A}+B}}
+
+\begin{fmnote}\fmuline{Abans de res}, mira els termes principals: si \fmm{\sqrt{4x^2-2}\approx2x} i li restem \fmm{4x}, ja tenim \fmm{2x-4x\to-\infty} i \textbf{no cal} el conjugat. El conjugat només fa falta quan els termes principals \textbf{es cance\lgem{}en} (com en \fmm{\sqrt{x^2+4x}-x}).\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+4x}-x\right)}
+
+\fmm{\sqrt{+\infty}-\infty=+\infty-\infty\ \ \text{IND.}} (i els termes principals \fmm{\sqrt{x^2}=x} i \fmm{x} es cance\lgem{}en).
+
+Multipliquem i dividim pel conjugat:
+\fmdisp{\left(\sqrt{x^2+4x}-x\right)\frac{\sqrt{x^2+4x}+x}{\sqrt{x^2+4x}+x}=\frac{x^2+4x-x^2}{\sqrt{x^2+4x}+x}=\frac{4x}{\sqrt{x^2+4x}+x}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{4x}{\sqrt{x^2+4x}+x}=\lim_{x\to+\infty}\frac{4x}{x+x}=\frac{4}{2}=2}
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+x}-\sqrt{x^2-x}\right)}
+
+\fmm{+\infty-\infty\ \ \text{IND.}} Multipliquem i dividim per \fmm{\sqrt{x^2+x}+\sqrt{x^2-x}}:
+\fmdisp{\frac{(x^2+x)-(x^2-x)}{\sqrt{x^2+x}+\sqrt{x^2-x}}=\frac{2x}{\sqrt{x^2+x}+\sqrt{x^2-x}}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{2x}{x+x}=1}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Indeterminació \fmm{1^{\infty}}}
+\begin{fmprop}{Fórmula per a la indeterminació 1\textsuperscript{$\infty$}}
+Si \fmm{\displaystyle\lim f(x)=1} i \fmm{\displaystyle\lim g(x)=\pm\infty}, tenim \fmm{1^{\infty}}. Llavors:
+
+\fmdisp{\lim_{x\to\pm\infty}f(x)^{g(x)}=e^{\lim\limits_{x\to\pm\infty}\big(f(x)-1\big)\cdot g(x)}}
+
+\begin{enumerate}
+\item Restem 1 a la base: \fmm{f(x)-1} (normalment, fent la resta de fraccions).
+\item Multipliquem per l'exponent: \fmm{(f(x)-1)\cdot g(x)}.
+\item Calculem el límit \fmm{\lambda} d'aquest producte; el resultat és \fmm{e^{\lambda}} (amb \fmm{e^{+\infty}=+\infty} i \fmm{e^{-\infty}=0}).
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Compte}: si la base tendeix a un nombre \fmm{k\neq1}, \textbf{no} hi ha indeterminació: \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{2x+1}{x+3}\right)^{x}=2^{+\infty}=+\infty}, \fmm{\ \displaystyle\lim_{x\to+\infty}\left(\frac{x+1}{3x}\right)^{x^2}=\left(\tfrac13\right)^{+\infty}=0}.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to-\infty}\left(\frac{x-3}{x-1}\right)^{2x-1}}
+
+\fmm{\displaystyle\lim_{x\to-\infty}\frac{x-3}{x-1}=1} i \fmm{\displaystyle\lim_{x\to-\infty}(2x-1)=-\infty\Rightarrow1^{-\infty}\ \ \text{IND.}}
+
+1.$-$ \fmm{\ \dfrac{x-3}{x-1}-1=\dfrac{x-3-(x-1)}{x-1}=\dfrac{-2}{x-1}}
+
+2.$-$ \fmm{\ \dfrac{-2}{x-1}\cdot(2x-1)=\dfrac{-4x+2}{x-1}}
+
+3.$-$ \fmm{\ \displaystyle\lim_{x\to-\infty}\frac{-4x+2}{x-1}=-4\Rightarrow\lim_{x\to-\infty}\left(\frac{x-3}{x-1}\right)^{2x-1}=e^{-4}=\frac{1}{e^4}}
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{2x+1}{2x-3}\right)^{x}}
+
+\fmm{1^{+\infty}\ \ \text{IND.}} \fmm{\quad\dfrac{2x+1}{2x-3}-1=\dfrac{4}{2x-3}}
+
+\fmm{\displaystyle\lim_{x\to+\infty}\frac{4}{2x-3}\cdot x=\lim_{x\to+\infty}\frac{4x}{2x-3}=2\Rightarrow} el límit és \fmm{e^2}
+\item \fmm{\displaystyle\lim_{x\to+\infty}\left(1+\frac{3}{x}\right)^{x}=e^{\lim\frac3x\cdot x}=e^{3}}. I, en canvi, \fmm{\displaystyle\lim_{x\to+\infty}\left(\frac{x^2+1}{x^2}\right)^{x}=e^{\lim\frac{1}{x^2}\cdot x}=e^{0}=1}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Aplicació: el comportament «a molt llarg termini» (problemes de la PAU)}
+Quan un problema pregunta què passa «a llarg termini», «si s'inverteix un capital molt elevat» o si una quantitat «té algun límit», cal calcular un \textbf{límit a l'infinit}.
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU 2018}La superfície desglaçada (km$^2$) \fmm{t} dies després de l'impacte d'un meteorit és \fmm{f(t)=\dfrac{10t+21}{t+3}}. Té algun límit l'extensió del desglaç?
+
+\textit{Solució:} \fmm{\displaystyle\lim_{t\to+\infty}\frac{10t+21}{t+3}=\frac{10}{1}=10}. Sí: la superfície desglaçada s'acosta a \fmm{10\ \text{km}^2} però mai no els supera.
+\item \fmpau{PAU 2015}Una màquina amb més de 5 anys revela \fmm{f(x)=\dfrac{5x+45}{x+2}} fotografies per minut (\fmm{x} = anys). És cert que mai no en revelarà menys de 5?
+
+\textit{Solució:} \fmm{\displaystyle\lim_{x\to+\infty}\frac{5x+45}{x+2}=5}, i com que \fmm{\dfrac{5x+45}{x+2}=5+\dfrac{35}{x+2}\gt5}, sí: la funció decreix cap a 5 sense arribar-hi mai.
+\newpage
+\item \fmpau{PAU 2017}El benefici (milers d'euros) d'un fons quan s'inverteixen \fmm{x\gt8} milers d'euros és \fmm{B(x)=1{,}26\dfrac{x}{x^2-1}+0{,}02}. Si s'inverteix un capital molt elevat, quin seria com a mínim el benefici?
+
+\textit{Solució:} \fmm{\displaystyle\lim_{x\to+\infty}\left(1{,}26\frac{x}{x^2-1}+0{,}02\right)=0+0{,}02=0{,}02} milers d'euros. Com que el primer sumand és sempre positiu, el benefici és sempre més gran que \textbf{20 €} i s'hi acosta.
+\item \fmpau{PAU 2008}El compte de resultats (milions d'euros) d'una empresa després de \fmm{x} anys és \fmm{y=\dfrac{5x^2+20x-25}{x^2+7}}. Quins seran els seus beneficis a molt llarg termini?
+
+\textit{Solució:} \fmm{\displaystyle\lim_{x\to+\infty}\frac{5x^2+20x-25}{x^2+7}=5}: a la llarga, els beneficis s'estabilitzen al voltant de 5 milions d'euros.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Límits en un nombre: càlcul gràfic i analític}\hypertarget{sec5}{}
+\begin{fmdef}{Límit en un punt i límits laterals}
+\fmm{\displaystyle\lim_{x\to a}f(x)=L} vol dir que, quan \fmm{x} s'acosta a \fmm{a} (sense arribar a ser \fmm{a}), \fmm{f(x)} s'acosta a \fmm{L}. Ens podem acostar a \fmm{a} per dos costats:
+
+\begin{itemize}
+\item \textbf{Límit per l'esquerra} \fmm{\displaystyle\lim_{x\to a^-}f(x)}: amb valors \fmm{x\lt a} (per exemple \fmm{a-0{,}1,\ a-0{,}01,\dots}).
+\item \textbf{Límit per la dreta} \fmm{\displaystyle\lim_{x\to a^+}f(x)}: amb valors \fmm{x\gt a}.
+\end{itemize}
+
+\fmdisp{\exists\lim_{x\to a}f(x)=L\iff\lim_{x\to a^-}f(x)=\lim_{x\to a^+}f(x)=L}
+
+Si algun límit lateral és \fmm{\pm\infty}, la recta \fmm{x=a} és una \textbf{asímptota vertical}. Observa que el límit en \fmm{a} \textbf{no depén} del valor \fmm{f(a)}: pot ser que \fmm{f(a)} ni existisca.
+\end{fmdef}
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmex}{Càlcul gràfic}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip
+
+Llegim a la gràfica de \fmm{f} (un punt buit $\circ$ vol dir que el punt \textbf{no} és de la gràfica):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{$x\to$} & \textbf{Per l'esquerra} & \textbf{Per la dreta} & \textbf{Límit} & \textbf{$f(a)$}\\\midrule
+$-1$ & $+\infty$ & $-1$ & $\nexists$ & $\nexists$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$1$ & $1$ & $1$ & $1$ & $3$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$2$ & $2$ & $4$ & $\nexists$ & $4$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+A més, \fmm{\displaystyle\lim_{x\to-\infty}f(x)=0} (asímptota horitzontal \fmm{y=0}) i \fmm{\displaystyle\lim_{x\to+\infty}f(x)=-\infty}.
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Càlcul analític}
+\begin{enumerate}
+\item \textbf{Substituïm} \fmm{x=a}. Si obtenim un nombre, aquest és el límit: \fmm{\displaystyle\lim_{x\to2}\left(x^2-3x+5\right)=4-6+5=3}.
+\item Si obtenim \fmm{\dfrac{k}{0}} amb \fmm{k\neq0}, el límit és infinit: calculem els \textbf{límits laterals} per saber el signe (substituint valors propers, com \fmm{a-0{,}1} i \fmm{a+0{,}1}).
+\item Si obtenim \fmm{\dfrac00}, és una indeterminació: la resoldrem a l'apartat 8.6.
+\item En una \textbf{funció a trossos}, en els punts on canvia l'expressió calculem cada límit lateral amb el tros que li correspon.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Funció a trossos: \fmm{f(x)=\begin{cases}2x^2-6&\text{si } x\leq1\\[2pt]\dfrac{2x}{x-3}&\text{si } x\gt1\end{cases}}. Calculem \fmm{\displaystyle\lim_{x\to1}f(x)}.
+
+\fmm{\displaystyle\lim_{x\to1^-}f(x)=\lim_{x\to1}\left(2x^2-6\right)=2-6=-4}
+
+\fmm{\displaystyle\lim_{x\to1^+}f(x)=\lim_{x\to1}\frac{2x}{x-3}=\frac{2}{-2}=-1}
+
+Els límits laterals són diferents: \fmm{\nexists\displaystyle\lim_{x\to1}f(x)}.
+\item \fmm{\displaystyle\lim_{x\to1}\frac{4x^2}{x^2-1}}
+
+Substituïm: \fmm{\dfrac{4}{0}\Rightarrow} límit infinit; estudiem el signe a cada costat.
+
+\fmm{x=0{,}9:\ \dfrac{4\cdot0{,}81}{0{,}81-1}=\dfrac{+}{-}\lt0\Rightarrow\displaystyle\lim_{x\to1^-}f(x)=-\infty}
+
+\fmm{x=1{,}1:\ \dfrac{4\cdot1{,}21}{1{,}21-1}=\dfrac{+}{+}\gt0\Rightarrow\displaystyle\lim_{x\to1^+}f(x)=+\infty}
+
+\fmm{\nexists\displaystyle\lim_{x\to1}f(x)} i \fmm{x=1} és una asímptota vertical.
+\item \fmm{\displaystyle\lim_{x\to2}\frac{3}{(x-2)^2}=\frac30}: el denominador és sempre positiu, així que els dos laterals són \fmm{+\infty} i \fmm{\displaystyle\lim_{x\to2}\frac{3}{(x-2)^2}=+\infty}.
+\item \fmm{\displaystyle\lim_{x\to3^+}\log(x-3)=\log(0^+)=-\infty}; per l'esquerra no existeix (el logaritme d'un nombre negatiu no està definit).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Indeterminacions en un punt: 0/0 i 1\textsuperscript{$\infty$}}\hypertarget{sec6}{}
+\begin{fmdef}{Com es resol la indeterminació 0/0}
+Si \fmm{P(a)=0} i \fmm{Q(a)=0}, pel teorema del factor \textbf{tots dos polinomis són divisibles per \fmm{(x-a)}}. Per tant:
+
+\begin{enumerate}
+\item \textbf{Factoritzem} numerador i denominador: traient factor comú, amb les identitats notables, resolent l'equació de 2n grau o amb Ruffini.
+\item \textbf{Simplifiquem} el factor \fmm{(x-a)} (podem fer-ho perquè \fmm{x\neq a} quan calculem el límit).
+\item \textbf{Tornem a substituir}. Si torna a eixir \fmm{\frac00}, repetim; si ix \fmm{\frac{k}{0}}, estudiem els límits laterals.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to2}\frac{x^2-x-2}{x^2-4}}
+
+Substituïm: \fmm{\dfrac{4-2-2}{4-4}=\dfrac00\ \ \text{IND.}}
+
+Factoritzem (\fmm{x^2-x-2=0\Rightarrow x=2,\ x=-1}; \fmm{\ x^2-4} és una diferència de quadrats):
+\fmdisp{\lim_{x\to2}\frac{\cancel{(x-2)}(x+1)}{\cancel{(x-2)}(x+2)}=\lim_{x\to2}\frac{x+1}{x+2}=\frac34}
+
+\item \fmm{\displaystyle\lim_{x\to1}\frac{x^3-3x+2}{x^2-1}}
+
+\fmm{\dfrac{1-3+2}{1-1}=\dfrac00\ \ \text{IND.}} Dividim el numerador per \fmm{(x-1)} amb Ruffini:
+
+\begin{center}\begin{tabular}{r|rrrr}
+ & $1$ & $0$ & $-3$ & $2$\\
+$1$ &  & $1$ & $1$ & $-2$\\\hline
+ & $1$ & $1$ & $-2$ & \fbox{$0$}\\
+\end{tabular}\end{center}
+
+\fmm{x^3-3x+2=(x-1)(x^2+x-2)=(x-1)(x-1)(x+2)}
+
+\fmdisp{\lim_{x\to1}\frac{(x-1)^2(x+2)}{(x-1)(x+1)}=\lim_{x\to1}\frac{(x-1)(x+2)}{x+1}=\frac{0\cdot3}{2}=0}
+
+\item \fmm{\displaystyle\lim_{x\to-1}\frac{x^2+x}{x^2+2x+1}}
+
+\fmm{\dfrac00\ \ \text{IND.}} \fmm{\quad\displaystyle\lim_{x\to-1}\frac{x\cancel{(x+1)}}{(x+1)^{\cancel{2}}}=\lim_{x\to-1}\frac{x}{x+1}=\frac{-1}{0}}
+
+Ara ix \fmm{\frac{k}{0}}: laterals. \fmm{\ x=-1{,}1:\ \frac{-}{-}\gt0\Rightarrow\displaystyle\lim_{x\to-1^-}=+\infty}; \fmm{\ x=-0{,}9:\ \frac{-}{+}\lt0\Rightarrow\displaystyle\lim_{x\to-1^+}=-\infty}. No existeix el límit.
+\item Amb arrels, pel conjugat: \fmm{\displaystyle\lim_{x\to4}\frac{\sqrt x-2}{x-4}=\lim_{x\to4}\frac{(\sqrt x-2)(\sqrt x+2)}{(x-4)(\sqrt x+2)}=\lim_{x\to4}\frac{\cancel{x-4}}{\cancel{(x-4)}(\sqrt x+2)}=\frac14}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Indeterminació \fmm{1^{\infty}} en un punt}
+\begin{fmprop}{La mateixa fórmula que a l'infinit}
+Quan \fmm{x\to a} també pot passar que la base tendisca a 1 i l'exponent a \fmm{\pm\infty} (normalment, perquè l'exponent és de la forma \fmm{\frac{k}{0}}). Es resol igual que a l'apartat 8.4:
+
+\fmdisp{\lim_{x\to a}f(x)^{g(x)}=e^{\lim\limits_{x\to a}\big(f(x)-1\big)\cdot g(x)}}
+
+\begin{fmnote}Sovint, en multiplicar \fmm{(f(x)-1)\cdot g(x)} apareix un \fmm{\frac00} que se simplifica factoritzant.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\displaystyle\lim_{x\to1}\left(\frac1x\right)^{\frac{1}{x^2-1}}}
+
+Substituïm: la base tendeix a \fmm{\frac11=1} i l'exponent a \fmm{\frac10}, és a dir, a \fmm{\pm\infty}: \fmm{1^{\infty}\ \ \text{IND.}}
+
+1.$-$ \fmm{\ \dfrac1x-1=\dfrac{1-x}{x}\qquad} 2.$-$ \fmm{\ \dfrac{1-x}{x}\cdot\dfrac{1}{x^2-1}=\dfrac{-(x-1)}{x(x-1)(x+1)}=\dfrac{-1}{x(x+1)}}
+
+3.$-$ \fmm{\ \displaystyle\lim_{x\to1}\frac{-1}{x(x+1)}=-\frac12\Rightarrow\lim_{x\to1}\left(\frac1x\right)^{\frac{1}{x^2-1}}=e^{-\frac12}=\frac{1}{\sqrt e}}
+\item \fmm{\displaystyle\lim_{x\to0}\left(1+2x\right)^{\frac3x}}
+
+\fmm{1^{\infty}\ \ \text{IND.}\qquad(1+2x-1)\cdot\dfrac3x=2x\cdot\dfrac3x=6}
+
+El límit és \fmm{e^{6}}.
+\item \fmm{\displaystyle\lim_{x\to2}\left(\frac{x+1}{3}\right)^{\frac{1}{x-2}}}
+
+\fmm{1^{\infty}\ \ \text{IND.}\qquad\dfrac{x+1}{3}-1=\dfrac{x-2}{3}}
+
+\fmm{\displaystyle\lim_{x\to2}\frac{x-2}{3}\cdot\frac{1}{x-2}=\frac13\Rightarrow} el límit és \fmm{e^{1/3}=\sqrt[3]{e}}.
+\end{enumerate}
+
+Practica: \fmm{\ \text{a)}\ \displaystyle\lim_{x\to0}(1-x)^{\frac2x}\qquad\text{b)}\ \lim_{x\to3}(x-2)^{\frac{1}{x-3}}\qquad\text{c)}\ \lim_{x\to1}(2x-1)^{\frac{x}{x-1}}}
+
+\textit{Solució:} a) \fmm{(-x)\cdot\frac2x=-2\Rightarrow e^{-2}\qquad} b) \fmm{(x-3)\cdot\frac{1}{x-3}=1\Rightarrow e\qquad} c) \fmm{(2x-2)\cdot\frac{x}{x-1}=2x\to2\Rightarrow e^{2}}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Continuïtat d'una funció en un punt}\hypertarget{sec7}{}
+\begin{fmdef}{Definició: funció contínua en un punt}
+Intuïtivament, \fmm{f} és contínua en \fmm{x=a} si la seua gràfica es pot dibuixar al voltant de \fmm{a} \textbf{sense alçar el llapis}. Formalment, \fmm{f} és \textbf{contínua en \fmm{x=a}} si es compleixen les tres condicions:
+
+\begin{enumerate}
+\item \fmm{\exists f(a)} (la funció està definida en \fmm{a}).
+\item \fmm{\exists\displaystyle\lim_{x\to a}f(x)} i és un nombre (els dos límits laterals coincideixen).
+\item \fmm{\displaystyle\lim_{x\to a}f(x)=f(a)}.
+\end{enumerate}
+
+Si falla alguna condició, \fmm{f} és \textbf{discontínua} en \fmm{a}. Una funció és contínua en un interval si ho és en tots els punts de l'interval.
+\end{fmdef}
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmev}{Evitable}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/c8f4a0dc715a.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Existeix \fmm{\lim\limits_{x\to a}f(x)=k}, però \fmm{\nexists f(a)} o \fmm{f(a)\neq k}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsf}{De salt finit}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6af73017e034.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Els dos límits laterals són nombres, però diferents.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsi}{De salt infinit}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/7b0c40b621ff.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Un límit lateral és \fmm{\pm\infty} i l'altre és un nombre.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmas}{Asimptòtica}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6dab4a23b2e6.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Els dos límits laterals són \fmm{\pm\infty}.\par}\end{minipage}\par\medskip}
+\begin{fmprop}{Tipus de discontinuïtat}
+\par\noindent \begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmev}{Evitable}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/c8f4a0dc715a.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Existeix \fmm{\lim\limits_{x\to a}f(x)=k}, però \fmm{\nexists f(a)} o \fmm{f(a)\neq k}.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsf}{De salt finit}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6af73017e034.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Els dos límits laterals són nombres, però diferents.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmsi}{De salt infinit}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/7b0c40b621ff.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Un límit lateral és \fmm{\pm\infty} i l'altre és un nombre.\par}\end{minipage}\hfill\begin{minipage}[t]{0.235\linewidth}\centering {\centering \fmbadge{fmas}{Asimptòtica}\par}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=5.2cm,keepaspectratio]{figs/6dab4a23b2e6.pdf}\par}\end{minipage}\par\medskip
+
+          {\centering\footnotesize Els dos límits laterals són \fmm{\pm\infty}.\par}\end{minipage}\par\medskip
+
+\begin{fmnote}Es diu \textbf{evitable} perquè, redefinint \fmm{f(a)=k}, la funció es faria contínua. En les altres (no evitables) el límit no existeix.\end{fmnote}
+\end{fmprop}
+
+\fmboxneed{\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip}
+\begin{fmex}{Exemple: la gràfica de l'apartat 8.5}
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/8a9d573972ac.pdf}\par}\end{minipage}\par\medskip
+
+\begin{itemize}
+\item \fmm{x=-1}: \fmm{\nexists f(-1)}, \fmm{\lim_{x\to-1^-}f=+\infty} i \fmm{\lim_{x\to-1^+}f=-1} $\to$ discontinuïtat \fmbadge{fmsi}{de salt infinit}.
+\item \fmm{x=1}: \fmm{f(1)=3}, però \fmm{\lim_{x\to1}f=1\neq3} $\to$ discontinuïtat \fmbadge{fmev}{evitable}.
+\item \fmm{x=2}: \fmm{\lim_{x\to2^-}f=2} i \fmm{\lim_{x\to2^+}f=4} $\to$ discontinuïtat \fmbadge{fmsf}{de salt finit} (salt de 2 unitats).
+\item En la resta de punts, \fmm{f} és contínua.
+\end{itemize}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Estudi de la continuïtat: funcions racionals i a trossos}\hypertarget{sec8}{}
+\begin{fmprop}{Continuïtat de les funcions elementals}
+\begin{itemize}
+\item \textbf{Polinòmiques} i \textbf{exponencials}: contínues en tot \fmm{\mathbb R}.
+\item \textbf{Racionals} \fmm{\frac{P(x)}{Q(x)}}: contínues en tot \fmm{\mathbb R} excepte en els punts on \fmm{Q(x)=0}.
+\item \textbf{Arrels quadrades} \fmm{\sqrt{g(x)}}: contínues on \fmm{g(x)\geq0}. \textbf{Logaritmes} \fmm{\log g(x)}: contínues on \fmm{g(x)\gt0}.
+\item Les sumes, restes, productes i composicions de funcions contínues són contínues; els quocients, també, excepte on s'anu\lgem{}a el denominador.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5.1cm}
+\subsection*{Funcions racionals}
+\begin{fmdef}{Mètode}
+\begin{enumerate}
+\item Busquem els punts que \textbf{anu\lgem{}en el denominador}: \fmm{Q(x)=0}. Fora d'ells, la funció és contínua.
+\item En cada punt \fmm{a}, calculem \fmm{\displaystyle\lim_{x\to a}f(x)}: si dona \fmm{\frac00} i en simplificar ix un nombre, la discontinuïtat és \fmbadge{fmev}{evitable}; si dona \fmm{\frac{k}{0}}, és \fmbadge{fmas}{asimptòtica} (asímptota vertical).
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple}
+Estudiem la continuïtat de \fmm{f(x)=\dfrac{x^2-1}{x^2-3x+2}}.
+
+\fmm{x^2-3x+2=0\Rightarrow x=\dfrac{3\pm\sqrt{9-8}}{2}\Rightarrow x=1,\ x=2}. \fmm{f} és contínua en \fmm{\mathbb R-\{1,2\}}.
+
+\fmm{x=1}: \fmm{\displaystyle\lim_{x\to1}\frac{x^2-1}{x^2-3x+2}\overset{\frac00}{=}\lim_{x\to1}\frac{\cancel{(x-1)}(x+1)}{\cancel{(x-1)}(x-2)}=\frac{2}{-1}=-2}. Com que \fmm{\nexists f(1)}: discontinuïtat \fmbadge{fmev}{evitable}.
+
+\fmm{x=2}: \fmm{\displaystyle\lim_{x\to2}\frac{x+1}{x-2}=\frac30}; laterals: \fmm{-\infty} (amb \fmm{1{,}9}) i \fmm{+\infty} (amb \fmm{2{,}1}): discontinuïtat \fmbadge{fmas}{asimptòtica}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=3.4cm,keepaspectratio]{figs/ee6f7dab0fdc.pdf}\par}\end{minipage}\par\medskip
+
+\begin{fmnote}Si el denominador no s'anu\lgem{}a mai, la funció és contínua en tot \fmm{\mathbb R}: per exemple, \fmm{\dfrac{x+3}{x^2+1}}.\end{fmnote}
+\end{fmex}
+
+\Needspace{5.1cm}
+\subsection*{Funcions a trossos}
+\begin{fmdef}{Mètode}
+\begin{enumerate}
+\item \textbf{Estudiem la continuïtat de cada tros per separat}, en el seu interval obert: polinomis, contínues; racionals, contínues excepte on s'anu\lgem{}a el denominador \textbf{si aquest punt és dins del seu interval}.
+\item \textbf{Mirem ara els punts on la funció es trenca} (on canvia l'expressió) i comprovem les tres condicions: \fmm{f(a)}, \fmm{\lim_{x\to a^-}f} (tros de l'esquerra) i \fmm{\lim_{x\to a^+}f} (tros de la dreta).
+\item \textbf{Conclusió}: on és contínua i quin tipus de discontinuïtat té en cada punt.
+\end{enumerate}
+
+\begin{fmnote}Una funció amb \textbf{valor absolut} es transforma primer en una funció a trossos: \fmm{|x-2|=\begin{cases}-(x-2)&\text{si } x\lt2\\x-2&\text{si } x\geq2\end{cases}}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exercicis de la PAU resolts}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmpau{PAU 2006}Estudia la continuïtat en l'interval \fmm{[-3,3]} de la funció:
+\fmdisp{f(x)=\begin{cases}3x+10&\text{si } -3\leq x\lt-2\\x^2&\text{si } -2\leq x\lt1\\\dfrac{x+3}{2}&\text{si } 1\leq x\leq3\end{cases}}
+
+Els tres trossos són polinòmics: contínues en els seus intervals oberts. Queden els punts \fmm{x=-2} i \fmm{x=1}.
+
+\fmm{x=-2}: \fmm{\ f(-2)=(-2)^2=4}; \fmm{\ \displaystyle\lim_{x\to-2^-}(3x+10)=4}; \fmm{\ \displaystyle\lim_{x\to-2^+}x^2=4}. Les tres coincideixen: \fmbadge{fmok}{contínua}.
+
+\fmm{x=1}: \fmm{\ f(1)=\frac{1+3}{2}=2}; \fmm{\ \displaystyle\lim_{x\to1^-}x^2=1}; \fmm{\ \displaystyle\lim_{x\to1^+}\frac{x+3}{2}=2}. Laterals finits i diferents: \fmbadge{fmsf}{salt finit}.
+
+\textbf{Conclusió}: \fmm{f} és contínua en \fmm{[-3,3]} excepte en \fmm{x=1}, on té una discontinuïtat de salt finit.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8cm,height=5.2cm,keepaspectratio]{figs/1afaf4a4a02c.pdf}\par}\end{minipage}\par\medskip
+\item \fmpau{PAU 2014}El valor d'una acció (€) \fmm{x} hores després de l'inici de la sessió és la funció següent. Estudia'n la continuïtat.
+\fmdisp{f(x)=\begin{cases}-x+15&\text{si } 0\leq x\leq3\\x^2-8x+26&\text{si } 3\lt x\leq6\\2x+2&\text{si } 6\lt x\leq8\end{cases}}
+
+Trossos polinòmics: contínues. Estudiem \fmm{x=3} i \fmm{x=6}.
+
+\fmm{x=3}: \fmm{\ f(3)=12}; \fmm{\ \displaystyle\lim_{x\to3^-}(-x+15)=12}; \fmm{\ \displaystyle\lim_{x\to3^+}(x^2-8x+26)=9-24+26=11} $\to$ \fmbadge{fmsf}{salt finit}
+
+\fmm{x=6}: \fmm{\ f(6)=36-48+26=14}; \fmm{\ \displaystyle\lim_{x\to6^-}=14}; \fmm{\ \displaystyle\lim_{x\to6^+}(2x+2)=14} $\to$ \fmbadge{fmok}{contínua}
+
+\fmm{f} és contínua en \fmm{[0,8]} excepte en \fmm{x=3} (salt finit: el valor de l'acció cau bruscament d'12 a 11 €).
+\item \fmpau{PAU 2006}Estudia la continuïtat de \fmm{\ f(x)=\begin{cases}3x&\text{si } x\lt-1\\2&\text{si } -1\leq x\lt1\\\dfrac{2x-11}{x-3}&\text{si } x\geq1\end{cases}} (és l'apartat b amb \fmm{a=0}).
+
+Trossos: els dos primers, polinòmics. El tercer és racional i el denominador s'anu\lgem{}a en \fmm{x=3}, que \textbf{sí} que és del seu interval \fmm{[1,+\infty)}: \fmm{\displaystyle\lim_{x\to3}\frac{2x-11}{x-3}=\frac{-5}{0}} $\to$ \fmbadge{fmas}{asimptòtica} en \fmm{x=3}.
+
+\fmm{x=-1}: \fmm{\ f(-1)=2}; \fmm{\ \displaystyle\lim_{x\to-1^-}3x=-3}; \fmm{\ \displaystyle\lim_{x\to-1^+}2=2} $\to$ \fmbadge{fmsf}{salt finit}
+
+\fmm{x=1}: \fmm{\ f(1)=\frac{-9}{-2}=\frac92}; \fmm{\ \displaystyle\lim_{x\to1^-}2=2}; \fmm{\ \displaystyle\lim_{x\to1^+}\frac{2x-11}{x-3}=\frac92} $\to$ \fmbadge{fmsf}{salt finit}
+
+\fmm{f} és contínua en \fmm{\mathbb R-\{-1,1,3\}}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Funcions a trossos que depenen d'un paràmetre}\hypertarget{sec9}{}
+\begin{fmdef}{Mètode}
+Volem trobar el valor (o valors) del paràmetre que fan la funció contínua.
+
+\begin{enumerate}
+\item Comprovem que cada tros és continu en el seu interval (compte amb els denominadors!).
+\item En cada punt de canvi \fmm{a}, calculem \fmm{\lim_{x\to a^-}f} i \fmm{\lim_{x\to a^+}f}: dependran del paràmetre.
+\item \textbf{Igualem} els límits laterals (i \fmm{f(a)}): obtenim una equació (o un sistema, si hi ha dos paràmetres) i la resolem.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Troba el valor de \fmm{a} perquè \fmm{f} siga contínua en el seu domini: \fmm{\ f(x)=\begin{cases}ax^2-6&\text{si } x\leq1\\[2pt]\dfrac{2x}{x+3}+x&\text{si } x\gt1\end{cases}}
+\newpage
+Si \fmm{x\lt1}, \fmm{f} és polinòmica: contínua. Si \fmm{x\gt1}, és contínua excepte en \fmm{x=-3}, que no està en \fmm{(1,+\infty)}: contínua.
+
+\fmm{x=1}: \fmm{\ f(1)=a-6}; \fmm{\ \displaystyle\lim_{x\to1^-}(ax^2-6)=a-6}; \fmm{\ \displaystyle\lim_{x\to1^+}\left(\frac{2x}{x+3}+x\right)=\frac24+1=\frac32}
+
+\fmm{a-6=\dfrac32\Rightarrow a=\dfrac{15}{2}}. Per a \fmm{a=\frac{15}{2}}, \fmm{f} és contínua en \fmm{\mathbb R}.
+\item \fmpau{PAU 2007}Troba \fmm{a} perquè \fmm{f} siga contínua en \fmm{[0,8]}: \fmm{\ f(x)=\begin{cases}x+2&\text{si } 0\leq x\lt2\\x^2-6x+12&\text{si } 2\leq x\leq4\\-2x+a&\text{si } 4\lt x\leq8\end{cases}}
+
+\fmm{x=2}: \fmm{\ \displaystyle\lim_{x\to2^-}(x+2)=4}, \fmm{\ \displaystyle\lim_{x\to2^+}(x^2-6x+12)=4}, \fmm{\ f(2)=4}: contínua per a qualsevol \fmm{a}.
+
+\fmm{x=4}: \fmm{\ f(4)=16-24+12=4}; \fmm{\ \displaystyle\lim_{x\to4^+}(-2x+a)=-8+a}. \fmm{\ -8+a=4\Rightarrow a=12}.
+\item \fmpau{PAU 2017}Calcula \fmm{a} perquè \fmm{f} siga contínua en \fmm{x=3}: \fmm{\ f(x)=\begin{cases}x^3-3x-20&\text{si } x\leq3\\\dfrac{2}{a-x}&\text{si } x\gt3\end{cases}}
+
+\fmm{f(3)=\displaystyle\lim_{x\to3^-}f(x)=27-9-20=-2}; \fmm{\ \displaystyle\lim_{x\to3^+}\frac{2}{a-x}=\frac{2}{a-3}}
+
+\fmm{\dfrac{2}{a-3}=-2\Rightarrow a-3=-1\Rightarrow a=2}. (Amb \fmm{a=2}, el denominador \fmm{2-x} s'anu\lgem{}a en \fmm{x=2}, que no és del tros \fmm{x\gt3}.)
+\item Dos paràmetres: troba \fmm{a} i \fmm{b} perquè \fmm{f} siga contínua en \fmm{\mathbb R}: \fmm{\ f(x)=\begin{cases}x^2+a&\text{si } x\lt1\\bx+1&\text{si } 1\leq x\lt3\\2x-a&\text{si } x\geq3\end{cases}}
+
+\fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}(x^2+a)=1+a}, \fmm{\ \displaystyle\lim_{x\to1^+}(bx+1)=b+1=f(1)\Rightarrow1+a=b+1}
+
+\fmm{x=3}: \fmm{\ \displaystyle\lim_{x\to3^-}(bx+1)=3b+1}, \fmm{\ \displaystyle\lim_{x\to3^+}(2x-a)=6-a=f(3)\Rightarrow3b+1=6-a}
+
+\fmm{\begin{cases}a-b=0\\a+3b=5\end{cases}\Rightarrow4b=5\Rightarrow a=b=\dfrac54}
+\item \fmpau{PAU 2026}Troba \fmm{a} i \fmm{b} perquè \fmm{f} siga contínua en tot punt: \fmm{\ f(x)=\begin{cases}\ln(x^2+a)&\text{si } x\lt1\\(x+1)^2&\text{si } 1\leq x\leq4\\5x+\dfrac{b}{x+1}&\text{si } x\gt4\end{cases}}
+
+\fmm{x=1}: \fmm{\ \displaystyle\lim_{x\to1^-}\ln(x^2+a)=\ln(1+a)}, \fmm{\ \displaystyle\lim_{x\to1^+}(x+1)^2=4\Rightarrow\ln(1+a)=4\Rightarrow1+a=e^4\Rightarrow a=e^4-1\approx53{,}6}
+
+\fmm{x=4}: \fmm{\ f(4)=25}, \fmm{\ \displaystyle\lim_{x\to4^+}\left(5x+\frac{b}{x+1}\right)=20+\frac b5\Rightarrow20+\frac b5=25\Rightarrow b=25}
+
+Amb \fmm{a=e^4-1\gt0}, \fmm{x^2+a\gt0} sempre i el logaritme està definit; el denominador \fmm{x+1} s'anu\lgem{}a en \fmm{-1}, fora de \fmm{x\gt4}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Branques infinites. Asímptotes}\hypertarget{sec10}{}
+\begin{fmdef}{Asímptota}
+Una \textbf{asímptota} és una recta a la qual la gràfica d'una funció s'acosta cada vegada més, sense arribar a tocar-la, quan ens n'allunyem cap a l'infinit. Les asímptotes es calculen amb \textbf{límits}: són la «traducció gràfica» dels límits infinits i dels límits a l'infinit que hem estudiat en aquesta unitat.
+
+\begin{itemize}
+\item \textbf{Verticals}: rectes \fmm{x=a}.
+\item \textbf{Horitzontals}: rectes \fmm{y=b}.
+\item \textbf{Obliqües}: rectes \fmm{y=mx+n}, amb \fmm{m\neq0}.
+\end{itemize}
+\end{fmdef}
+
+\fmheadboxalt{
+\subsection*{Asímptotes verticals}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{x=a} és una \textbf{asímptota vertical} (AV) de \fmm{f} si almenys un dels límits laterals en \fmm{a} és infinit:
+
+\fmdisp{\lim_{x\to a^-}f(x)=\pm\infty\quad o\quad\lim_{x\to a^+}f(x)=\pm\infty}
+
+És el que en l'apartat 8.8 hem anomenat una discontinuïtat \fmbadge{fmas}{asimptòtica}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/e7297af13050.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Asímptota vertical}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{x=a} és una \textbf{asímptota vertical} (AV) de \fmm{f} si almenys un dels límits laterals en \fmm{a} és infinit:
+
+\fmdisp{\lim_{x\to a^-}f(x)=\pm\infty\quad o\quad\lim_{x\to a^+}f(x)=\pm\infty}
+
+És el que en l'apartat 8.8 hem anomenat una discontinuïtat \fmbadge{fmas}{asimptòtica}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/e7297af13050.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La recta \fmm{x=a} és una \textbf{asímptota vertical} (AV) de \fmm{f} si almenys un dels límits laterals en \fmm{a} és infinit:
+
+\fmdisp{\lim_{x\to a^-}f(x)=\pm\infty\quad o\quad\lim_{x\to a^+}f(x)=\pm\infty}
+
+És el que en l'apartat 8.8 hem anomenat una discontinuïtat \fmbadge{fmas}{asimptòtica}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/e7297af13050.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{On les busquem?} En una funció racional \fmm{\dfrac{P(x)}{Q(x)}}, en els punts on \fmm{Q(x)=0}:
+
+\begin{itemize}
+\item Si en substituir ix \fmm{\dfrac{k}{0}}, amb \fmm{k\neq0}: \textbf{hi ha AV}. Els signes dels límits laterals ens diuen si la gràfica puja (\fmm{+\infty}) o baixa (\fmm{-\infty}) a cada costat.
+\item Si ix \fmm{\dfrac00}: simplifiquem. Si el límit dona un nombre, \textbf{no hi ha AV} (és una discontinuïtat evitable, un «forat»); si torna a donar \fmm{\dfrac k0}, sí que n'hi ha.
+\end{itemize}
+
+\begin{fmnote}Les funcions polinòmiques i les exponencials del tipus \fmm{a^x} no tenen asímptotes verticals. Una gràfica no pot tallar mai una asímptota vertical.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Asímptotes verticals de \fmm{f(x)=\dfrac{x+1}{x^2-4}} (és la funció del gràfic).
+
+\fmm{x^2-4=0\Rightarrow x=-2,\ x=2}. En tots dos el numerador no s'anu\lgem{}a: \fmm{\frac{-1}{0}} i \fmm{\frac{3}{0}}.
+
+\fmm{x=-2}: \fmm{\ \displaystyle\lim_{x\to-2^-}\frac{x+1}{x^2-4}=\frac{-1}{0^+}=-\infty}, \fmm{\ \displaystyle\lim_{x\to-2^+}\frac{x+1}{x^2-4}=\frac{-1}{0^-}=+\infty} (amb \fmm{-2{,}1} i \fmm{-1{,}9}).
+
+\fmm{x=2}: \fmm{\ \displaystyle\lim_{x\to2^-}\frac{x+1}{x^2-4}=\frac{3}{0^-}=-\infty}, \fmm{\ \displaystyle\lim_{x\to2^+}\frac{x+1}{x^2-4}=\frac{3}{0^+}=+\infty}.
+
+\textbf{AV: \fmm{x=-2} i \fmm{x=2}}.
+\item Asímptotes verticals de \fmm{f(x)=\dfrac{x^2-1}{x^2-3x+2}} (l'exemple de l'apartat 8.8).
+
+El denominador s'anu\lgem{}a en \fmm{x=1} i en \fmm{x=2}.
+
+\fmm{x=1}: \fmm{\frac00\Rightarrow\displaystyle\lim_{x\to1}\frac{(x-1)(x+1)}{(x-1)(x-2)}=-2}. Límit finit: \textbf{no} hi ha AV (forat en \fmm{(1,-2)}).
+
+\fmm{x=2}: \fmm{\frac30\Rightarrow} \textbf{AV \fmm{x=2}}.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Asímptotes horitzontals}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=b} és una \textbf{asímptota horitzontal} (AH) de \fmm{f} si el límit a l'infinit és un nombre:
+
+\fmdisp{\lim_{x\to+\infty}f(x)=b\quad o\quad\lim_{x\to-\infty}f(x)=b}
+
+Cal calcular els dos límits (\fmm{+\infty} i \fmm{-\infty}): una funció pot tindre AH només per un costat, o una AH diferent per cada costat.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5b807f36a70f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Asímptota horitzontal}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=b} és una \textbf{asímptota horitzontal} (AH) de \fmm{f} si el límit a l'infinit és un nombre:
+
+\fmdisp{\lim_{x\to+\infty}f(x)=b\quad o\quad\lim_{x\to-\infty}f(x)=b}
+
+Cal calcular els dos límits (\fmm{+\infty} i \fmm{-\infty}): una funció pot tindre AH només per un costat, o una AH diferent per cada costat.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5b807f36a70f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La recta \fmm{y=b} és una \textbf{asímptota horitzontal} (AH) de \fmm{f} si el límit a l'infinit és un nombre:
+
+\fmdisp{\lim_{x\to+\infty}f(x)=b\quad o\quad\lim_{x\to-\infty}f(x)=b}
+
+Cal calcular els dos límits (\fmm{+\infty} i \fmm{-\infty}): una funció pot tindre AH només per un costat, o una AH diferent per cada costat.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/5b807f36a70f.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{Funcions racionals}: comparem els graus, com en l'apartat 8.2.
+
+\begin{itemize}
+\item grau \fmm{P\lt} grau \fmm{Q\ \Rightarrow} AH \fmm{y=0}.
+\item grau \fmm{P=} grau \fmm{Q\ \Rightarrow} AH \fmm{y=\dfrac{a_n}{b_n}} (quocient dels coeficients principals).
+\item grau \fmm{P\gt} grau \fmm{Q\ \Rightarrow} no té AH (el límit és infinit).
+\end{itemize}
+
+\begin{fmnote}\fmuline{Posició}: el signe de \fmm{f(x)-b} per a \fmm{x} molt gran (o molt negatiu) ens diu si la gràfica queda per damunt (\fmm{+}) o per davall (\fmm{-}) de l'asímptota. A diferència de les verticals, la gràfica sí que pot tallar una asímptota horitzontal.\end{fmnote}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\dfrac{3x^2-1}{x^2+2}} (és la funció del gràfic).
+
+Graus iguals: \fmm{\displaystyle\lim_{x\to\pm\infty}\frac{3x^2-1}{x^2+2}=\frac31=3}. \textbf{AH: \fmm{y=3}} pels dos costats. No té AV: \fmm{x^2+2\neq0}.
+
+Posició: \fmm{f(x)-3=\dfrac{3x^2-1-3x^2-6}{x^2+2}=\dfrac{-7}{x^2+2}\lt0}: la gràfica queda sempre \textbf{per davall} de l'asímptota.
+\item \fmm{f(x)=\dfrac{2x}{x^2+1}}
+
+Grau de baix major: \fmm{\displaystyle\lim_{x\to\pm\infty}f(x)=0\Rightarrow} \textbf{AH: \fmm{y=0}}. Per la dreta \fmm{f(x)\gt0} (per damunt); per l'esquerra \fmm{f(x)\lt0} (per davall).
+\item \fmm{f(x)=2^x-1}
+
+\fmm{\displaystyle\lim_{x\to-\infty}(2^x-1)=0-1=-1\Rightarrow} \textbf{AH \fmm{y=-1}} per l'esquerra. \fmm{\ \displaystyle\lim_{x\to+\infty}(2^x-1)=+\infty}: per la dreta no n'hi ha.
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\subsection*{Asímptotes obliqües: mètode del quocient}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=mx+n}, amb \fmm{m\neq0}, és una \textbf{asímptota obliqua} (AO) si la gràfica s'hi acosta quan \fmm{x\to\pm\infty}:
+
+\fmdisp{\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0}
+
+Una funció racional \fmm{\dfrac{P(x)}{Q(x)}} té asímptota obliqua quan \textbf{grau \fmm{P=} grau \fmm{Q+1}} (el numerador té exactament un grau més). En aquest cas no té asímptota horitzontal.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/210654ff2398.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Asímptota obliqua}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright La recta \fmm{y=mx+n}, amb \fmm{m\neq0}, és una \textbf{asímptota obliqua} (AO) si la gràfica s'hi acosta quan \fmm{x\to\pm\infty}:
+
+\fmdisp{\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0}
+
+Una funció racional \fmm{\dfrac{P(x)}{Q(x)}} té asímptota obliqua quan \textbf{grau \fmm{P=} grau \fmm{Q+1}} (el numerador té exactament un grau més). En aquest cas no té asímptota horitzontal.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/210654ff2398.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+La recta \fmm{y=mx+n}, amb \fmm{m\neq0}, és una \textbf{asímptota obliqua} (AO) si la gràfica s'hi acosta quan \fmm{x\to\pm\infty}:
+
+\fmdisp{\lim_{x\to\pm\infty}\big[f(x)-(mx+n)\big]=0}
+
+Una funció racional \fmm{\dfrac{P(x)}{Q(x)}} té asímptota obliqua quan \textbf{grau \fmm{P=} grau \fmm{Q+1}} (el numerador té exactament un grau més). En aquest cas no té asímptota horitzontal.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/210654ff2398.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\fmuline{Mètode del quocient}: dividim \fmm{P(x):Q(x)} i obtenim el quocient \fmm{C(x)=mx+n} i el residu \fmm{R(x)}:
+
+\fmdisp{P(x)=Q(x)\cdot C(x)+R(x)\quad\Longrightarrow\quad f(x)=C(x)+\frac{R(x)}{Q(x)}}
+
+Com que \fmm{\dfrac{R(x)}{Q(x)}\to0} quan \fmm{x\to\pm\infty} (grau de dalt menor), la gràfica s'acosta a la recta: \textbf{l'asímptota obliqua és \fmm{y=C(x)}}. El signe de \fmm{\dfrac{R(x)}{Q(x)}} ens diu si la gràfica queda per damunt o per davall.
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemples}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Totes les asímptotes de \fmm{f(x)=\dfrac{x^2+3}{x-1}} (és la funció del gràfic).
+
+AV: \fmm{x-1=0\Rightarrow x=1}, \fmm{\ \frac40}: \fmm{\displaystyle\lim_{x\to1^-}f(x)=-\infty}, \fmm{\ \displaystyle\lim_{x\to1^+}f(x)=+\infty}. \textbf{AV \fmm{x=1}}.
+
+Graus 2 i 1: no té AH (el límit és \fmm{\pm\infty}), però sí AO. Dividim \fmm{(x^2+3):(x-1)} (per Ruffini o amb la divisió llarga):
+
+\begin{center}\begin{tabular}{r|rrr}
+ & $1$ & $0$ & $3$\\
+$1$ &  & $1$ & $1$\\\hline
+ & $1$ & $1$ & \fbox{$4$}\\
+\end{tabular}\end{center}
+
+\fmm{C(x)=x+1,\ R=4\Rightarrow f(x)=x+1+\dfrac{4}{x-1}}. \textbf{AO: \fmm{y=x+1}}.
+
+Posició: si \fmm{x\to+\infty}, \fmm{\frac{4}{x-1}\gt0}: per damunt; si \fmm{x\to-\infty}, \fmm{\frac{4}{x-1}\lt0}: per davall.
+\item \fmm{f(x)=\dfrac{2x^2-x+1}{x}}
+
+AV \fmm{x=0} (\fmm{\frac10}). La divisió entre un monomi és directa: \fmm{f(x)=2x-1+\dfrac1x\Rightarrow} \textbf{AO \fmm{y=2x-1}}.
+\item Té asímptota obliqua \fmm{f(x)=\dfrac{x^3+1}{x}}?
+
+Graus 3 i 1: el numerador té \textbf{dos} graus més. El quocient és \fmm{x^2}, que no és una recta: \textbf{no} té AO (ni AH).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Mètode general per a l'asímptota obliqua}
+Si la funció no és racional (o no volem fer la divisió), calculem el pendent \fmm{m} i l'ordenada \fmm{n} amb dos límits:
+
+\fmdisp{m=\lim_{x\to\pm\infty}\frac{f(x)}{x}\ \ (m\neq0,\ m\neq\pm\infty)\qquad\qquad n=\lim_{x\to\pm\infty}\big[f(x)-mx\big]\ \ (n\in\mathbb R)}
+
+Si \fmm{m} és un nombre diferent de 0 i \fmm{n} també és un nombre, l'asímptota obliqua és \fmm{y=mx+n}.
+\end{fmdef}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Asímptota obliqua de \fmm{f(x)=\dfrac{x^2-3x+5}{x}}.
+
+\fmm{\displaystyle m=\lim_{x\to\pm\infty}\frac{x^2-3x+5}{x^2}=1\neq0}
+
+\fmm{\displaystyle n=\lim_{x\to\pm\infty}\left(\frac{x^2-3x+5}{x}-x\right)=\lim_{x\to\pm\infty}\frac{-3x+5}{x}=-3}
+
+AO: \fmm{y=x-3}. Amb la divisió hauríem obtingut el mateix: \fmm{f(x)=x-3+\dfrac5x}.
+
+Posició: \fmm{f(x)-(x-3)=\dfrac5x}. Si \fmm{x\to+\infty} és positiu (la corba queda per damunt) i si \fmm{x\to-\infty} és negatiu (per davall). Ho pots comprovar amb \fmm{f(1000)=997{,}005\gt997}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/9db90b8c6040.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmex}{Exemple}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Asímptota obliqua de \fmm{f(x)=\dfrac{x^2-3x+5}{x}}.
+
+\fmm{\displaystyle m=\lim_{x\to\pm\infty}\frac{x^2-3x+5}{x^2}=1\neq0}
+
+\fmm{\displaystyle n=\lim_{x\to\pm\infty}\left(\frac{x^2-3x+5}{x}-x\right)=\lim_{x\to\pm\infty}\frac{-3x+5}{x}=-3}
+
+AO: \fmm{y=x-3}. Amb la divisió hauríem obtingut el mateix: \fmm{f(x)=x-3+\dfrac5x}.
+
+Posició: \fmm{f(x)-(x-3)=\dfrac5x}. Si \fmm{x\to+\infty} és positiu (la corba queda per damunt) i si \fmm{x\to-\infty} és negatiu (per davall). Ho pots comprovar amb \fmm{f(1000)=997{,}005\gt997}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/9db90b8c6040.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Asímptota obliqua de \fmm{f(x)=\dfrac{x^2-3x+5}{x}}.
+
+\fmm{\displaystyle m=\lim_{x\to\pm\infty}\frac{x^2-3x+5}{x^2}=1\neq0}
+
+\fmm{\displaystyle n=\lim_{x\to\pm\infty}\left(\frac{x^2-3x+5}{x}-x\right)=\lim_{x\to\pm\infty}\frac{-3x+5}{x}=-3}
+
+AO: \fmm{y=x-3}. Amb la divisió hauríem obtingut el mateix: \fmm{f(x)=x-3+\dfrac5x}.
+
+Posició: \fmm{f(x)-(x-3)=\dfrac5x}. Si \fmm{x\to+\infty} és positiu (la corba queda per damunt) i si \fmm{x\to-\infty} és negatiu (per davall). Ho pots comprovar amb \fmm{f(1000)=997{,}005\gt997}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/9db90b8c6040.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmex}\global\fmstackfalse
+
+\Needspace{5.1cm}
+\subsection*{Branques parabòliques}
+\begin{fmdef}{Branca parabòlica}
+Quan \fmm{x\to\pm\infty} i \fmm{f(x)\to\pm\infty}, la gràfica té una \textbf{branca infinita}. Si la corba no s'acosta a cap recta (no hi ha asímptota obliqua), diem que és una \textbf{branca parabòlica}. Ho sabem calculant \fmm{m=\lim\frac{f(x)}{x}}:
+
+\begin{itemize}
+\item \fmm{m=\pm\infty}: la corba puja (o baixa) cada vegada més de pressa, «cap a la vertical». Passa amb els polinomis de grau 2 o més, amb les racionals amb dos graus més dalt que baix i amb les exponencials \fmm{a^x\ (a\gt1)} quan \fmm{x\to+\infty}.
+\item \fmm{m=0}: la corba creix sense fita però cada vegada més a poc a poc, «cap a l'horitzontal», sense acostar-se a cap recta. Passa amb les arrels \fmm{\sqrt x} i els logaritmes \fmm{\log x}.
+\end{itemize}
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8846e9687276.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=\dfrac{x^2}{4}-1}: \fmm{m=\displaystyle\lim_{x\to\pm\infty}\frac{x^2-4}{4x}=\pm\infty}\par}\end{minipage}\par\medskip\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/166ab2816fcb.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{g(x)=2\sqrt x}: \fmm{m=\displaystyle\lim_{x\to+\infty}\frac{2\sqrt x}{x}=0}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/8846e9687276.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=\dfrac{x^2}{4}-1}: \fmm{m=\displaystyle\lim_{x\to\pm\infty}\frac{x^2-4}{4x}=\pm\infty}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/166ab2816fcb.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{g(x)=2\sqrt x}: \fmm{m=\displaystyle\lim_{x\to+\infty}\frac{2\sqrt x}{x}=0}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\begin{fmnote}Resum de les branques infinites quan \fmm{x\to\pm\infty}: si \fmm{\lim f(x)=b}, asímptota horitzontal; si \fmm{\lim f(x)=\pm\infty}, asímptota obliqua (si \fmm{m} i \fmm{n} són nombres i \fmm{m\neq0}) o branca parabòlica (en cas contrari).\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Resum: asímptotes d'una funció racional $\frac{P(x)}{Q(x)}$}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Graus} & \textbf{Horitzontal} & \textbf{Obliqua}\\\midrule
+grau $P\lt$ grau $Q$ & $y=0$ & no\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}grau $P=$ grau $Q$ & $y=\dfrac{a_n}{b_n}$ & no\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}grau $P=$ grau $Q+1$ & no & $y=C(x)$, quocient de $P:Q$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}grau $P\geq$ grau $Q+2$ & no & no\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}Les \textbf{verticals} no depenen dels graus: són en els zeros de \fmm{Q} que donen \fmm{\frac k0}. Per aquest motiu, una funció racional pot tindre moltes AV, però com a molt una AH o una AO.\end{fmnote}
+\end{fmprop}
+
+  
+\end{document}
