@@ -1,0 +1,596 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 2: Àlgebra. 1r de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials I},pdfkeywords={polinomis, identitats notables, regla de Ruffini, teorema del residu, factorització, fraccions algebraiques, equacions, inequacions}}
+
+% colors de la web (FentMates, bloc d'Àlgebra: blau; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.4cm+5\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (14,44) {$P(x)=x^2+3x-4$};
+  \draw[line width=2.4pt] (40,62) rectangle (84,106) (88,62) rectangle (106,106);
+  \fill[opacity=0.3] (40,62) rectangle (84,106);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{17}{17}\selectfont] at (52,90) {$x^2$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{17}{17}\selectfont] at (91,90) {$x$};
+  \draw[line width=3.2pt] (140,106) .. controls (160,106) and (166,66) .. (186,66) .. controls (206,66) and (214,100) .. (226,74);
+  \draw[line width=2pt,opacity=0.6] (134,106)--(230,106);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat CCSS · Unitat 2: Àlgebra}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques Aplicades a les Ciències Socials I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 2} · Àlgebra\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: polinomis i les seues operacions, la regla de Ruffini i el teorema del residu, la factorització, les fraccions algebraiques (simplificació i operacions) i les equacions: de primer grau (amb parèntesis i denominadors), de segon grau, biquadrades i de grau superior, amb radicals, racionals, exponencials i logarítmiques.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}2.1}\ \ Polinomis. Operacions}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}2.2}\ \ Ruffini i teorema del residu}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}2.3}\ \ Factorització de polinomis}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}2.4}\ \ Fraccions algebraiques}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}2.5}\ \ Equacions polinòmiques}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}2.6}\ \ Equacions amb radicals}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}2.7}\ \ Equacions racionals}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}2.8}\ \ Equacions exponencials}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}2.9}\ \ Equacions logarítmiques}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Polinomis. Operacions}\hypertarget{sec1}{}
+\begin{fmdef}{Definicions}
+\begin{itemize}
+\item Un \textbf{monomi} és el producte d'un nombre (\textbf{coeficient}) i una o més lletres elevades a exponents naturals (\textbf{part literal}). El \textbf{grau} d'un monomi és la suma dels exponents de les lletres. Per exemple, \fmm{-5x^3} té coeficient \fmm{-5} i grau 3. Dos monomis són \textbf{semblants} si tenen la mateixa part literal; només es poden sumar o restar monomis semblants.
+\item Un \textbf{polinomi} en \fmm{x} és una suma de monomis: \fmm{\ P(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0,\ \ a_n\neq0.} El seu \textbf{grau} és \fmm{n}; \fmm{a_n} és el \textbf{coeficient principal} i \fmm{a_0}, el \textbf{terme independent}. És \textbf{complet} si té tots els termes des del grau \fmm{n} fins al terme independent i està \textbf{ordenat} si els termes van de major a menor grau.
+\item El \textbf{valor numèric} de \fmm{P(x)} per a \fmm{x=a} és el nombre \fmm{P(a)} que s'obté en substituir \fmm{x} per \fmm{a}.
+\item Dos polinomis són \textbf{iguals} si tenen el mateix grau i els coeficients dels termes del mateix grau són iguals. Això permet calcular coeficients desconeguts \emph{igualant coeficients}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Operacions amb polinomis}
+\begin{itemize}
+\item \textbf{Suma i resta}: se sumen (o resten) els monomis semblants. \fmm{\ \text{grau}(P\pm Q)\le\max(\text{grau}\,P,\ \text{grau}\,Q)}.
+\item \textbf{Producte}: es multiplica cada monomi del primer per cada monomi del segon (propietat distributiva) i es redueixen els termes semblants. \fmm{\ \text{grau}(P\cdot Q)=\text{grau}\,P+\text{grau}\,Q}.
+
+
+\item \textbf{Identitats notables}
+
+\begin{center}\renewcommand{\arraystretch}{0.4}\begin{tabularx}{\linewidth}{XX}
+$\displaystyle (a+b)^2=a^2+2ab+b^2$ & $\displaystyle (a-b)^2=a^2-2ab+b^2$\\[3ex]
+$\displaystyle (a+b)(a-b)=a^2-b^2$ & $\displaystyle (a+b+c)^2=a^2+b^2+c^2+2ab+2ac+2bc$\\[3ex]
+$\displaystyle (a+b)^3=a^3+3a^2b+3ab^2+b^3$ & $\displaystyle (a-b)^3=a^3-3a^2b+3ab^2-b^3$\\[3ex]
+\end{tabularx}\end{center}
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: operacions amb polinomis}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Simplifica \fmm{3(x-1)^2-(2x+3)(2x-3)+x(x^2-4)}.
+
+Desenvolupem amb les identitats notables i la propietat distributiva: \fmm{\ 3(x^2-2x+1)-(4x^2-9)+x^3-4x}
+
+\fmm{=3x^2-6x+3-4x^2+9+x^3-4x=x^3-x^2-10x+12}
+\item Calcula \fmm{a} i \fmm{b} perquè \fmm{(x+a)(2x-3)=2x^2+bx-6}.
+
+\fmm{(x+a)(2x-3)=2x^2+(2a-3)x-3a}
+
+Igualem coeficients: \fmm{\ -3a=-6\Rightarrow a=2;\quad b=2a-3=1}
+\end{enumerate}
+\end{fmex}
+\vspace*{0.3cm}
+\Needspace{6.1cm}
+\subsection*{Divisió de polinomis}
+\begin{fmdef}{Divisió entera de polinomis}
+Donats dos polinomis \fmm{D(x)} (\textbf{dividend}) i \fmm{d(x)\neq0} (\textbf{divisor}), existeixen dos únics polinomis \fmm{c(x)} (\textbf{quocient}) i \fmm{r(x)} (\textbf{residu}) tals que
+
+\fmdisp{D(x)=d(x)\cdot c(x)+r(x)\qquad \text{amb}\ \ \text{gr}\,r(x)\lt\text{gr}\,d(x)}
+
+Si \fmm{r(x)=0}, la divisió és \textbf{exacta}: \fmm{d(x)} és un \textbf{divisor} de \fmm{D(x)}.
+
+\begin{fmnote}\fmuline{Procediment}: s'ordenen els polinomis (deixant buit el lloc dels termes que falten), es divideix el primer terme del dividend entre el primer del divisor, es multiplica el resultat pel divisor i es resta. Es repeteix fins que el grau del que queda és menor que el del divisor.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5.7cm}
+\section{Regla de Ruffini. Teorema del residu}\hypertarget{sec2}{}
+\begin{fmdef}{Regla de Ruffini}
+Quan el divisor és de la forma \fmm{x-a}, la divisió es fa ràpidament amb la \textbf{regla de Ruffini}:
+
+\begin{enumerate}
+\item S'escriuen els coeficients del dividend, ordenats i \textbf{posant 0} en els termes que falten. A l'esquerra s'escriu el nombre \fmm{a}.
+\item Es baixa el primer coeficient. Es multiplica per \fmm{a}, s'escriu davall del coeficient següent i se sumen. Es repeteix fins al final.
+\item L'últim nombre és el \textbf{residu}; els anteriors són els coeficients del \textbf{quocient}, que té un grau menys que el dividend.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Atenció}: si el divisor és \fmm{x+3}, aleshores \fmm{a=-3}, perquè \fmm{x+3=x-(-3)}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Divisor de la forma $ax+b$}
+Com que \fmm{ax+b=a\left(x+\frac ba\right)}, fem Ruffini amb el nombre \fmm{-\frac ba}. El \textbf{residu és el mateix}, però el quocient obtingut s'ha de \textbf{dividir entre \fmm{a}}.
+
+Per exemple, \fmm{(6x^3-x^2+4x-3):(2x-1)}: Ruffini amb \fmm{\frac12} dona \fmm{6x^2+2x+5} i residu \fmm{-\frac12}. Dividint entre 2: \fmm{\ c(x)=3x^2+x+\frac52,\ \ r=-\frac12}.
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Teorema del residu i teorema del factor}
+\textbf{Teorema del residu}: el residu de la divisió \fmm{P(x):(x-a)} és igual al valor numèric \fmm{P(a)}.
+
+\fmdisp{r=P(a)}
+
+\textbf{Demostració}: \fmm{P(x)=(x-a)\,c(x)+r}. Si substituïm \fmm{x=a}: \fmm{P(a)=0\cdot c(a)+r=r}.
+
+Un nombre \fmm{a} és una \textbf{arrel} (o zero) de \fmm{P(x)} si \fmm{P(a)=0}. \textbf{Teorema del factor}:
+
+\fmdisp{P(a)=0\iff P(x)\ \text{és divisible per}\ (x-a)\iff P(x)=(x-a)\cdot c(x)}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: teorema del residu}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Calcula, sense fer la divisió, el residu de \fmm{(x^5-3x^2+7):(x+1)}.
+
+\fmm{r=P(-1)=(-1)^5-3(-1)^2+7=-1-3+7=3}
+\item Troba \fmm{k} perquè \fmm{P(x)=x^3+kx^2-5x+6} siga divisible per \fmm{x-3}.
+
+Ha de ser \fmm{P(3)=0}: \fmm{\ 27+9k-15+6=0}
+
+\fmm{9k=-18\Rightarrow k=-2}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Factorització de polinomis}\hypertarget{sec3}{}
+\begin{fmdef}{Arrels i factorització}
+\textbf{Factoritzar} un polinomi és escriure'l com a producte de polinomis del menor grau possible (\textbf{irreductibles}). Si \fmm{a_1,a_2,\ldots,a_n} són les arrels de \fmm{P(x)=a_nx^n+\cdots+a_0}, aleshores
+
+\fmdisp{P(x)=a_n\,(x-a_1)(x-a_2)\cdots(x-a_n)}
+
+\begin{itemize}
+\item Un polinomi de grau \fmm{n} té, com a màxim, \fmm{n} arrels reals.
+\item Si un factor \fmm{(x-a)} apareix \fmm{k} vegades, \fmm{a} és una \textbf{arrel de multiplicitat \fmm{k}} (doble, triple\dots{}).
+\item Les \textbf{arrels enteres} d'un polinomi amb coeficients enters són \textbf{divisors del terme independent} \fmm{a_0}. Les arrels racionals \fmm{\frac pq} (fracció irreductible) compleixen que \fmm{p} divideix \fmm{a_0} i \fmm{q} divideix \fmm{a_n}.
+\item Hi ha polinomis sense arrels reals, com \fmm{x^2+1} o \fmm{x^2+x+1} \fmm{(\Delta\lt0)}: són irreductibles.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Procediment per a factoritzar}
+\begin{enumerate}
+\item \textbf{Traure factor comú} si és possible: \fmm{\ 2x^4-6x^3=2x^3(x-3)}.
+\item Reconéixer \textbf{identitats notables}: \fmm{\ x^2-9=(x+3)(x-3),\ \ 4x^2+4x+1=(2x+1)^2}.
+\item Si és de \textbf{grau 2}, resoldre l'equació: \fmm{\ ax^2+bx+c=a(x-x_1)(x-x_2)}.
+\item Si és \textbf{biquadrat} \fmm{(ax^4+bx^2+c)}, fer el canvi \fmm{t=x^2}.
+\item Si és de grau major, aplicar \textbf{Ruffini} provant els divisors del terme independent (i, si cal, les fraccions \fmm{\frac pq}) fins a arribar a grau 2.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: factorització amb Ruffini}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Factoritza \fmm{P(x)=x^4-x^3-7x^2+x+6}.
+
+Possibles arrels enteres: divisors de 6: \fmm{\ \pm1,\pm2,\pm3,\pm6}.
+
+Ruffini amb \fmm{x=1} (residu 0) i, amb el quocient, \fmm{x=-1} (residu 0): \fmm{\ P(x)=(x-1)(x+1)(x^2-x-6)}
+
+\fmm{x^2-x-6=0\Rightarrow x=\dfrac{1\pm5}{2}\Rightarrow x=3,\ x=-2}
+
+\fmm{P(x)=(x-1)(x+1)(x-3)(x+2)}
+\item Factoritza \fmm{Q(x)=2x^4+x^3-5x^2+2x}.
+
+Factor comú: \fmm{\ Q(x)=x(2x^3+x^2-5x+2)}
+
+Ruffini amb \fmm{x=1}: \fmm{\ 2x^3+x^2-5x+2=(x-1)(2x^2+3x-2)}
+
+\fmm{2x^2+3x-2=0\Rightarrow x=\dfrac{-3\pm5}{4}\Rightarrow x=\frac12,\ x=-2}.\\
+ Aleshores \fmm{2x^2+3x-2=2\left(x-\frac12\right)(x+2)=(2x-1)(x+2) \Rightarrow Q(x)=x\,(x-1)(2x-1)(x+2)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Fraccions algebraiques}\hypertarget{sec4}{}
+\begin{fmdef}{Definicions}
+\begin{itemize}
+\item Una \textbf{fracció algebraica} és un quocient de dos polinomis, \fmm{\frac{P(x)}{Q(x)}}, amb \fmm{Q(x)\neq0}. Només té sentit per als valors de \fmm{x} que \textbf{no anu\lgem{}en el denominador}.
+\item Dues fraccions \fmm{\frac PQ} i \fmm{\frac RS} són \textbf{equivalents} si \fmm{P\cdot S=Q\cdot R}.
+\item \textbf{Simplificar} és dividir numerador i denominador per un mateix factor: cal \textbf{factoritzar} i eliminar els factors comuns.
+\item El \textbf{m.c.m.} de diversos polinomis és el producte dels factors comuns i no comuns elevats al major exponent; el \textbf{m.c.d.}, el producte dels factors comuns elevats al menor exponent.
+\end{itemize}
+
+\begin{fmnote}\fmuline{Atenció}: només es poden simplificar \emph{factors}, mai \emph{sumands}: \fmm{\ \dfrac{x+3}{x}\neq3}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Operacions amb fraccions algebraiques}
+\begin{itemize}
+\item \textbf{Suma i resta}: es redueixen a \textbf{comú denominador} (m.c.m. dels denominadors) i se sumen o resten els numeradors. \fmm{\ \dfrac PQ\pm\dfrac RS=\dfrac{P\cdot S\pm Q\cdot R}{Q\cdot S}}
+\item \textbf{Producte}: \fmm{\ \dfrac PQ\cdot\dfrac RS=\dfrac{P\cdot R}{Q\cdot S}\qquad} \textbf{Quocient}: \fmm{\ \dfrac PQ:\dfrac RS=\dfrac{P\cdot S}{Q\cdot R}}
+\item És convenient \textbf{factoritzar abans d'operar} i simplificar al final.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: operacions amb fraccions}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Simplifica \fmm{\dfrac{x^3-4x}{x^3-4x^2+4x}}.
+
+\fmm{\dfrac{x(x^2-4)}{x(x^2-4x+4)}=\dfrac{x(x+2)(x-2)}{x(x-2)^2}=\dfrac{x+2}{x-2}}
+\item Calcula \fmm{\dfrac{x}{x-1}-\dfrac{2}{x+1}+\dfrac{2}{x^2-1}}.
+
+Factoritzem els denominadors: \fmm{\ x^2-1=(x+1)(x-1)\Rightarrow} m.c.m. \fmm{=(x+1)(x-1)}
+
+\fmm{\dfrac{x(x+1)-2(x-1)+2}{(x+1)(x-1)}=\dfrac{x^2+x-2x+2+2}{(x+1)(x-1)}=\dfrac{x^2-x+4}{x^2-1}}
+\newpage
+\item Calcula i simplifica \fmm{\dfrac{x^2-9}{x^2+2x}\cdot\dfrac{x+2}{x-3}} i \fmm{\dfrac{2x-4}{x^2}:\dfrac{x^2-4}{x}}.
+
+\fmm{\dfrac{(x+3)(x-3)}{x(x+2)}\cdot\dfrac{x+2}{x-3}=\dfrac{(x+3)(x-3)(x+2)}{x(x+2)(x-3)}=\dfrac{x+3}{x}}
+
+\fmm{\dfrac{2(x-2)}{x^2}\cdot\dfrac{x}{(x+2)(x-2)}=\dfrac{2}{x(x+2)}}
+\item Operacions combinades: calcula i simplifica \fmm{\left(\dfrac{x}{x-1}-\dfrac{1}{x}\right):\dfrac{x^2-x+1}{x^2-x}}.
+
+Primer, el parèntesi (m.c.m. \fmm{=x(x-1)}): \fmm{\ \dfrac{x^2-(x-1)}{x(x-1)}=\dfrac{x^2-x+1}{x(x-1)}}
+
+Després, el quocient (\fmm{x^2-x=x(x-1)}): \fmm{\ \dfrac{x^2-x+1}{x(x-1)}\cdot\dfrac{x(x-1)}{x^2-x+1}=1}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{8\baselineskip}
+\section{Equacions polinòmiques}\hypertarget{sec5}{}
+
+Una \textbf{equació polinòmica} és una igualtat \fmm{P(x)=Q(x)} entre dos polinomis. El \textbf{grau} de l'equació és el del polinomi que queda en passar-ho tot a un membre i reduir. Les \textbf{solucions} són els valors de \fmm{x} que fan certa la igualtat.
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Equacions de primer grau}
+Després de reduir-la, una equació de primer grau té la forma \fmm{ax=b}. Per a arribar-hi:
+
+\begin{enumerate}
+\item Si hi ha \textbf{denominadors}, es multipliquen tots els termes (dels dos membres) pel \textbf{m.c.m.} dels denominadors.
+\item Es lleven els \textbf{parèntesis} aplicant la propietat distributiva (compte amb el signe \fmm{-} davant d'un parèntesi o d'una fracció: canvia el signe de \emph{tots} els termes).
+\item Es \textbf{transposen} els termes: els que tenen \fmm{x} a un membre i els nombres a l'altre, i es redueixen.
+\item S'\textbf{aïlla} la \fmm{x}: \fmm{\ ax=b\Rightarrow x=\dfrac ba\ \ (a\neq0)}.
+\end{enumerate}
+
+\begin{fmnote}Si en reduir queda \fmm{0\cdot x=b} amb \fmm{b\neq0}, l'equació \textbf{no té solució}; si queda \fmm{0\cdot x=0}, és una \textbf{identitat} i qualsevol nombre n'és solució.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: equacions de primer grau}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{3(2x-1)-2(x+4)=5-(x-2)}.
+
+Traiem els parèntesis: \fmm{\ 6x-3-2x-8=5-x+2}
+
+Reduïm i transposem: \fmm{\ 4x-11=7-x\Rightarrow4x+x=7+11\Rightarrow5x=18\Rightarrow x=\dfrac{18}{5}}
+\item Resol \fmm{\dfrac{x+3}{4}-\dfrac{2x-1}{6}=\dfrac{x}{3}-1}.
+
+m.c.m.\fmm{(4,6,3)=12}. Multipliquem cada terme per 12: \fmm{\ 3(x+3)-2(2x-1)=4x-12}
+
+\fmm{3x+9-4x+2=4x-12\Rightarrow-x+11=4x-12\Rightarrow-5x=-23\Rightarrow x=\dfrac{23}{5}}
+
+Fixa't que el signe \fmm{-} davant de la segona fracció canvia el signe de \fmm{2x} \emph{i} de \fmm{-1}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Equacions de segon grau}
+\begin{itemize}
+\item \textbf{Segon grau}: \fmm{\ ax^2+bx+c=0\ \Rightarrow\ x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}}
+\item El \textbf{discriminant} \fmm{\Delta=b^2-4ac} indica el nombre de solucions: \fmm{\Delta\gt0}: dues solucions; \fmm{\Delta=0}: una solució doble; \fmm{\Delta\lt0}: cap solució real.
+\item \textbf{Incompletes}: \fmm{ax^2+bx=0\Rightarrow x(ax+b)=0\Rightarrow x=0,\ x=-\frac ba}; \fmm{\ ax^2+c=0\Rightarrow x=\pm\sqrt{-\frac ca}}.
+\item Si \fmm{x_1} i \fmm{x_2} són les solucions: \fmm{x_1+x_2=-\frac ba,\ \ x_1\cdot x_2=\frac ca}.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Equacions biquadrades i de grau superior}
+\begin{itemize}
+\item \textbf{Biquadrades}: \fmm{ax^4+bx^2+c=0}. Es fa el canvi \fmm{t=x^2} i s'obté \fmm{at^2+bt+c=0}. Per cada solució \fmm{t\ge0} s'obtenen \fmm{x=\pm\sqrt t} (les \fmm{t\lt0} no donen solucions reals).
+\item El mateix mètode serveix per a \fmm{ax^{2n}+bx^n+c=0} amb \fmm{t=x^n} (per exemple, \fmm{x^6-9x^3+8=0} amb \fmm{t=x^3}).
+\item \textbf{Grau superior}: es passa tot a un membre, es \textbf{factoritza} (factor comú, Ruffini\dots{}) i s'aplica que un producte és zero si algun factor és zero:
+\end{itemize}
+
+\fmdisp{A(x)\cdot B(x)=0\iff A(x)=0\ \ \text{o}\ \ B(x)=0}
+
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: equacions polinòmiques}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{x^4-5x^2+4=0}.
+
+\fmm{t=x^2:\ \ t^2-5t+4=0\Rightarrow t=\dfrac{5\pm3}{2}\Rightarrow t=4,\ t=1}
+
+\fmm{x^2=4\Rightarrow x=\pm2;\quad x^2=1\Rightarrow x=\pm1.\quad x\in\{-2,-1,1,2\}}
+\item Resol \fmm{x^3-2x^2-5x+6=0}.
+
+Per Ruffini, \fmm{x=1} és arrel: \fmm{\ (x-1)(x^2-x-6)=0}
+
+\fmm{(x-1)(x-3)(x+2)=0\Rightarrow x=1,\ x=3,\ x=-2}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Equacions amb radicals}\hypertarget{sec6}{}
+\begin{fmdef}{Equacions irracionals}
+Són equacions en què la incògnita apareix dins d'una arrel. Per a resoldre-les:
+
+\begin{enumerate}
+\item S'\textbf{aïlla un radical} en un dels membres.
+\item S'\textbf{eleven els dos membres} a l'índex de l'arrel (al quadrat si és arrel quadrada).
+\item Si encara queda algun radical, es repeteix el procés.
+\item Es resol l'equació obtinguda i \textbf{es comproven totes les solucions} en l'equació inicial.
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Per què cal comprovar?} En elevar al quadrat poden aparéixer \textbf{solucions estranyes}, perquè \fmm{A^2=B^2} també es compleix quan \fmm{A=-B}. Amb arrels d'índex imparell no n'apareixen, però sempre és bo comprovar.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: equacions amb radicals}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{x-\sqrt{x+1}=5}.
+
+Aïllem el radical: \fmm{\ x-5=\sqrt{x+1}}. Elevem al quadrat: \fmm{\ x^2-10x+25=x+1}
+
+\fmm{x^2-11x+24=0\Rightarrow x=8,\ x=3}
+
+Comprovació: \fmm{x=8:\ 8-\sqrt9=5\ \checkmark;\quad x=3:\ 3-\sqrt4=1\neq5\ \times}. Solució: \fmm{x=8}
+\item Resol \fmm{\sqrt{2x+3}-\sqrt{x+1}=1}.
+
+\fmm{\sqrt{2x+3}=1+\sqrt{x+1}\Rightarrow 2x+3=1+2\sqrt{x+1}+x+1}
+
+\fmm{x+1=2\sqrt{x+1}\Rightarrow x^2+2x+1=4x+4\Rightarrow x^2-2x-3=0\Rightarrow x=3,\ x=-1}
+
+Comprovació: \fmm{x=3:\ 3-2=1\ \checkmark;\quad x=-1:\ 1-0=1\ \checkmark}. Totes dues són solució.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Equacions racionals}\hypertarget{sec7}{}
+\begin{fmdef}{Equacions racionals}
+Són equacions en què la incògnita apareix en algun \textbf{denominador}. Per a resoldre-les:
+
+\begin{enumerate}
+\item Es factoritzen els denominadors i es calcula el m.c.m.
+\item Es multipliquen els dos membres pel m.c.m. per a eliminar els denominadors.
+\item Es resol l'equació polinòmica resultant.
+\item \textbf{Es comproven les solucions}: cal descartar les que anu\lgem{}en algun denominador.
+\end{enumerate}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: equacions racionals}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{\dfrac{x}{x-1}+\dfrac{2}{x+1}=\dfrac{2}{x^2-1}}.
+
+m.c.m. \fmm{=(x+1)(x-1)}. Multipliquem els dos membres: \fmm{\ x(x+1)+2(x-1)=2}
+
+\fmm{x^2+3x-4=0\Rightarrow x=\dfrac{-3\pm5}{2}\Rightarrow x=1,\ x=-4}
+
+Comprovació: \fmm{x=1} anu\lgem{}a els denominadors \fmm{x-1} i \fmm{x^2-1}: es descarta. Solució: \fmm{x=-4}.
+\item Resol \fmm{\dfrac{x}{x-2}-\dfrac{2}{x-2}=3}.
+
+\fmm{x-2=3(x-2)\Rightarrow x-2=3x-6\Rightarrow x=2}
+
+Però \fmm{x=2} anu\lgem{}a el denominador: l'equació \textbf{no té solució}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Equacions exponencials}\hypertarget{sec8}{}
+\begin{fmdef}{Equacions exponencials}
+Són equacions en què la incògnita apareix en un \textbf{exponent}. Es basen en la propietat:
+
+\fmdisp{a^M=a^N\iff M=N\qquad(a\gt0,\ a\neq1)}
+
+\textbf{Recorda} les propietats de les potències: \fmm{\ a^m\cdot a^n=a^{m+n},\ \ \dfrac{a^m}{a^n}=a^{m-n},\ \ (a^m)^n=a^{m\cdot n},\ \ a^{-n}=\dfrac1{a^n},\ \ \sqrt[n]{a^m}=a^{m/n},\ \ a^0=1}.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Tipus d'equacions exponencials i com resoldre-les}
+\begin{enumerate}
+\item \textbf{Els dos membres es poden escriure com a potències de la mateixa base}: s'igualen els exponents.
+\item \textbf{No es poden reduir a la mateixa base}: es prenen logaritmes en els dos membres: \fmm{\ a^x=b\Rightarrow x=\dfrac{\log b}{\log a}}.
+\item \textbf{Sumes de potències de la mateixa base} amb exponents que difereixen en un nombre: es descomponen (\fmm{2^{x+1}=2\cdot2^x,\ 2^{x-1}=\frac{2^x}{2}}) i es trau factor comú \fmm{a^x}.
+\item \textbf{Apareixen \fmm{a^{2x}} i \fmm{a^x}} (per exemple \fmm{4^x} i \fmm{2^x}): es fa el \textbf{canvi de variable} \fmm{t=a^x} (aleshores \fmm{a^{2x}=t^2}) i s'obté una equació de segon grau. Com que \fmm{t=a^x\gt0}, les solucions \fmm{t\le0} no són vàlides.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: un de cada tipus}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{8^{x+1}=4^{x^2}}
+
+\fmm{2^{3x+3}=2^{2x^2}\Rightarrow 2x^2-3x-3=0\Rightarrow x=\dfrac{3\pm\sqrt{33}}{4}}
+\newpage
+\item \fmm{5^x=12}
+
+\fmm{x\log5=\log12\Rightarrow x=\dfrac{\log12}{\log5}\approx 1{,}544}
+\item \fmm{3^{x+1}+3^x+3^{x-1}=39}
+
+\fmm{3^x\left(3+1+\tfrac13\right)=39\Rightarrow 3^x\cdot\dfrac{13}{3}=39}
+
+\fmm{3^x=9\Rightarrow x=2}
+\item \fmm{4^x-6\cdot2^x+8=0}
+
+Com que \fmm{4^x=(2^2)^x=(2^x)^2}, fem \fmm{t=2^x}: \fmm{\ t^2-6t+8=0\Rightarrow t=4,\ t=2}
+
+\fmm{2^x=4\Rightarrow x=2;\quad 2^x=2\Rightarrow x=1}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Equacions logarítmiques}\hypertarget{sec9}{}
+\begin{fmdef}{Logaritmes}
+El \textbf{logaritme} en base \fmm{a} \fmm{(a\gt0,\ a\neq1)} d'un nombre \fmm{N\gt0} és l'exponent al qual cal elevar \fmm{a} per a obtindre \fmm{N}:
+
+\fmdisp{\log_aN=x\iff a^x=N}
+
+\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\begin{array}{l}\log_a(M\cdot N)=\log_aM+\log_aN\\[2pt] \log_a\dfrac MN=\log_aM-\log_aN\\[4pt] \log_aM^k=k\log_aM\end{array}}
+\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright
+\fmdisp{\begin{array}{l}\log_aa=1\qquad\log_a1=0\\[4pt] \log_aN=\dfrac{\log N}{\log a}=\dfrac{\ln N}{\ln a}\end{array}}
+\end{minipage}\par\medskip
+
+\begin{fmnote}\fmuline{Atenció}: només existeix el logaritme dels nombres \textbf{positius}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Com resoldre equacions logarítmiques}
+\begin{enumerate}
+\item Fent servir les propietats, s'agrupen els logaritmes fins a arribar a \fmm{\log_aA=\log_aB}, i aleshores \fmm{A=B}. Els nombres també es poden escriure com a logaritmes: \fmm{1=\log10,\ 2=\log100}\dots{}
+\item O bé s'arriba a \fmm{\log_aA=k} i s'aplica la definició: \fmm{A=a^k}.
+\item \textbf{Es comproven les solucions}: tots els logaritmes de l'equació original han de tindre arguments positius.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: equacions logarítmiques}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{\log x+\log(x-3)=1}.
+
+\fmm{\log\big(x(x-3)\big)=\log10\Rightarrow x^2-3x-10=0\Rightarrow x=5,\ x=-2}
+
+Comprovació: \fmm{x=-2} no és vàlida (\fmm{\log(-2)} no existeix). Solució: \fmm{x=5}.
+\item Resol \fmm{2\log x-\log(x+6)=0}.
+
+\fmm{\log x^2=\log(x+6)\Rightarrow x^2-x-6=0\Rightarrow x=3,\ x=-2}
+
+Només és vàlida \fmm{x=3}.
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}

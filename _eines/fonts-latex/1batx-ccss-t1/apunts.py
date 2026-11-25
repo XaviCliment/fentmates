@@ -1120,6 +1120,15 @@ if N == 1:  # retocs de l'autor (Desktop, revisió final 2026-11-25)
     doc = doc[:i] + doc[i:j].replace('}\n\n\\fmm{=', '=').replace('}\n\\item', '}\n\n\n\\item') + '\n' + doc[j:]
     if not ES:  # en castellà l'exemple ja cap sencer a la pàgina 9
         retoc(r'(\\fmm\{\\log 1\{,\}5=[^\n]*\}\n)(\\item \w+ \\fmm\{\\log\\dfrac\{100)', r'\1\\newpage\n\2', True)
+if N == 2:  # retocs de l'autor (Desktop, revisió 2026-11-25)
+    # les identitats notables, com un punt més de la llista d'operacions, amb més aire entre files
+    retoc(r'\\end\{itemize\}\n\n(\\textbf\{Identi\w+ notables\})\n\n\\begin\{center\}\\renewcommand\{\\arraystretch\}\{1\.4\}(\\begin\{tabularx\}\{\\linewidth\}\{XX\}\n.*?\\end\{tabularx\}\\end\{center\}\n)',
+          lambda m: '\n\n\\item ' + m.group(1) + '\n\n\\begin{center}\\renewcommand{\\arraystretch}{0.4}' + m.group(2).replace('\\\\[4pt]', '\\\\[3ex]') + '\\end{itemize}\n', True)
+    retoc(r'\n\n\\Needspace\{5\.1cm\}\n(\\subsection\*\{Divisi\w+ de polinomi)', r'\n\\vspace*{0.3cm}\n\\Needspace{6.1cm}\n\1', True)
+    retoc(r'(x=\\frac12,\\ x=-2\})\. (\w+) (\\fmm\{2x\^2\+3x-2=2\\left\(x-\\frac12\\right\)\(x\+2\)=\(2x-1\)\(x\+2\))\}\n\n\\fmm\{(Q\(x\)=x\\,\(x-1\)\(2x-1\)\(x\+2\)\})',
+          r'\1.\\\\\n \2 \3 \\Rightarrow \4', True)
+    retoc(r'(\n)(\\item \w+ \w+ \w+ \\fmm\{\\dfrac\{x\^2-9\}\{x\^2\+2x\})', r'\1\\newpage\n\2', True)
+    retoc(r'(\n)(\\item \\fmm\{5\^x=12\})', r'\1\\newpage\n\2', True)
 if N == 3:  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 5:  # l'exemple de la funció a trossos: les quatre gràfiques dels passos, més menudes (no deixen un forat de 5 cm)
