@@ -1131,6 +1131,10 @@ if N == 2:  # retocs de l'autor (Desktop, revisió 2026-11-25)
     retoc(r'(\n)(\\item \\fmm\{5\^x=12\})', r'\1\\newpage\n\2', True)
 if N == 3:  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
+if N == 3:  # retocs de l'autor (Desktop, revisió 2026-11-25): la taula dels tipus de sistemes amb la primera columna més ampla
+    j = doc.index('\\fmbadge{fmas}{SI} Incompatible'); i = doc.rindex('\\begin{center}', 0, j); j = doc.index('\\end{center}', j)
+    assert doc[i:j].count('p{3.2cm}') == 3
+    doc = doc[:i] + doc[i:j].replace('p{3.2cm}', 'p{4.2cm}') + doc[j:]
 if N == 5:  # l'exemple de la funció a trossos: les quatre gràfiques dels passos, més menudes (no deixen un forat de 5 cm)
     i = doc.index(T('\\begin{fmex}{Exemple resolt: representa $f(x)=\\begin{cases}', '\\begin{fmex}{Ejemplo resuelto: representa $f(x)=\\begin{cases}')); j = doc.index('\\end{fmex}', i)
     assert doc[i:j].count('width=6.2cm,height=5.2cm') == 4

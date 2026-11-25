@@ -1,0 +1,715 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 3: Sistemes d'equacions i inequacions. 1r de Batxillerat CCSS},pdfsubject={Matemàtiques Aplicades a les Ciències Socials I},pdfkeywords={sistemes d'equacions, mètode de Gauss, sistemes no lineals, inequacions, sistemes d'inequacions, inequacions amb dues incògnites, semiplans}}
+
+% colors de la web (FentMates, bloc d'Àlgebra: blau; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{3D6AA0}
+\definecolor{fmgreenl}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.4cm+5\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{3.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=4pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw (20,106)--(220,20);
+  \draw[opacity=0.75] (20,26)--(220,96);
+  \draw[opacity=0.55] (128,6)--(128,114);
+  \fill (128,59.5) circle (7);
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (18,124) {$x+y+z=6$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{21}{21}\selectfont] at (150,12) {$2x-y=1$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r Batxillerat CCSS · Unitat 3: Sistemes d'equacions i inequacions}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.0cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r Batxillerat · Matemàtiques Aplicades a les Ciències Socials I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unitat 3} · Sistemes d'equacions i inequacions\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoria i exemples resolts pas a pas: sistemes d'equacions lineals amb parèntesis i denominadors, el mètode de Gauss, sistemes no lineals, inequacions de primer grau, de segon grau i de grau superior, sistemes d'inequacions amb una incògnita, inequacions i sistemes amb dues incògnites i problemes de programació lineal.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índex}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}3.1}\ \ Sistemes d'equacions lineals}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}3.2}\ \ Mètode de Gauss}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}3.3}\ \ Sistemes d'equacions no lineals}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}3.4}\ \ Inequacions de primer grau}}\\[3pt]
+\hyperlink{sec5}{\textbf{\color{fmgreen}3.5}\ \ Inequacions de segon grau i de grau superior}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \hyperlink{sec6}{\textbf{\color{fmgreen}3.6}\ \ Sistemes d'inequacions amb una incògnita}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}3.7}\ \ Inequacions amb dues incògnites}}\\[3pt]
+\hyperlink{sec8}{\textbf{\color{fmgreen}3.8}\ \ Sistemes d'inequacions amb dues incògnites}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}3.9}\ \ Programació lineal}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Sistemes d'equacions lineals}\hypertarget{sec1}{}
+\begin{fmdef}{Sistemes i solucions}
+\begin{itemize}
+\item Un \textbf{sistema d'equacions lineals} és un conjunt d'equacions de primer grau amb diverses incògnites. Una \textbf{solució} és un conjunt de valors de les incògnites que verifica \textbf{totes} les equacions alhora.
+\item Amb dues incògnites, cada equació \fmm{ax+by=c} és una \textbf{recta} del pla, i les solucions del sistema són els punts comuns a les dues rectes.
+\item Dos sistemes són \textbf{equivalents} si tenen les mateixes solucions.
+\end{itemize}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipus} & \textbf{Solucions} & \textbf{Les rectes\dots{}} & \textbf{Coeficients}\\\midrule
+\fmbadge{fmok}{SCD} Compatible determinat & una única solució & es tallen en un punt & $\dfrac a{a'}\neq\dfrac b{b'}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\fmbadge{fmev}{SCI} Compatible indeterminat & infinites solucions & són coincidents & $\dfrac a{a'}=\dfrac b{b'}=\dfrac c{c'}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\fmbadge{fmas}{SI} Incompatible & cap solució & són para\lgem{}eles & $\dfrac a{a'}=\dfrac b{b'}\neq\dfrac c{c'}$\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Mètodes de resolució}
+\begin{itemize}
+\item \textbf{Substitució}: s'aïlla una incògnita en una equació i se substitueix en l'altra.
+\item \textbf{Igualació}: s'aïlla la mateixa incògnita en les dues equacions i s'igualen les expressions.
+\item \textbf{Reducció}: es multipliquen les equacions per nombres adequats perquè, en sumar-les o restar-les, desaparega una incògnita.
+\end{itemize}
+
+Quan les equacions tenen \textbf{parèntesis} o \textbf{denominadors}, primer les simplifiquem fins a la forma \fmm{ax+by=c}, com en les equacions de primer grau:
+
+\begin{enumerate}
+\item Traiem els parèntesis (atenció als signes \fmm{-} davant d'un parèntesi).
+\item Traiem els denominadors multiplicant els dos membres pel m.c.m. dels denominadors.
+\item Passem les incògnites a l'esquerra i els nombres a la dreta, i reduïm.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: sistemes amb parèntesis i denominadors}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{\begin{cases}3(x-1)-2(y+1)=1\\ 2(x+y)-(x-3)=13\end{cases}}
+
+Traiem parèntesis: \fmm{3x-3-2y-2=1\Rightarrow 3x-2y=6};\fmm{\quad 2x+2y-x+3=13\Rightarrow x+2y=10}
+
+Reducció: sumem les dues equacions i desapareix la \fmm{y}: \fmm{4x=16\Rightarrow x=4}
+
+Substituïm en la segona: \fmm{4+2y=10\Rightarrow y=3}. Solució: \fmm{(x,y)=(4,3)} \fmbadge{fmok}{SCD}
+\item Resol \fmm{\begin{cases}\dfrac x2+\dfrac y3=4\\[2mm] \dfrac{x+2}3-\dfrac{y-2}4=1\end{cases}}
+
+Primera equació per 6 (m.c.m. de 2 i 3): \fmm{3x+2y=24}
+
+Segona equació per 12: \fmm{4(x+2)-3(y-2)=12\Rightarrow 4x+8-3y+6=12\Rightarrow 4x-3y=-2}
+
+Reducció: la primera per 3 i la segona per 2, i sumem: \fmm{9x+6y=72,\ \ 8x-6y=-4\Rightarrow 17x=68\Rightarrow x=4}
+
+\fmm{3\cdot4+2y=24\Rightarrow y=6}. Solució: \fmm{(x,y)=(4,6)}
+\item Classifica \fmm{\begin{cases}2x-y=3\\ 4x-2y=6\end{cases}} i \fmm{\begin{cases}2x-y=3\\ 4x-2y=1\end{cases}}
+
+En el primer, la segona equació és la primera multiplicada per 2: \fmm{\frac24=\frac{-1}{-2}=\frac36}. Són la mateixa recta: \textbf{SCI}. Si fem \fmm{x=\lambda}, \fmm{y=2\lambda-3}: \fmm{(x,y)=(\lambda,\ 2\lambda-3)}.
+
+En el segon, \fmm{\frac24=\frac{-1}{-2}\neq\frac31}: les rectes són para\lgem{}eles. Per reducció queda \fmm{0=5}: \textbf{SI}, no té solució.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Mètode de Gauss}\hypertarget{sec2}{}
+\begin{fmdef}{Sistemes de tres equacions amb tres incògnites}
+Amb tres incògnites \fmm{x,y,z} els sistemes es classifiquen igual que abans (\textbf{SCD}, \textbf{SCI} o \textbf{SI}), però resoldre'ls per substitució és llarg. El mètode de Gauss ho fa de manera ordenada.
+
+Un sistema és \textbf{esglaonat} (o triangular) si cada equació té una incògnita menys que l'anterior. Es resol de baix cap amunt:
+
+\fmdisp{\begin{cases}x+y+z=6\\ \quad\ \ y+z=5\\ \qquad\ \ \, 2z=6\end{cases}\Rightarrow z=3,\ \ y=5-3=2,\ \ x=6-2-3=1}
+
+Obtenim un sistema \textbf{equivalent} (amb les mateixes solucions) si intercanviem dues equacions, multipliquem una equació per un nombre \fmm{\neq0} o sumem a una equació un múltiple d'una altra.
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Mètode de Gauss}
+Consisteix a transformar el sistema en un altre d'equivalent \textbf{esglaonat}. Treballem amb la \textbf{matriu ampliada} (coeficients i termes independents):
+
+\fmdisp{\left(\begin{array}{ccc|c}a&b&c&d\\ a'&b'&c'&d'\\ a''&b''&c''&d''\end{array}\right)\longrightarrow\left(\begin{array}{ccc|c}*&*&*&*\\ 0&*&*&*\\ 0&0&m&n\end{array}\right)}
+
+\begin{enumerate}
+\item Fem zeros en la primera columna, davall del primer element, combinant cada fila amb la primera: \fmm{F_2\to aF_2-a'F_1}\dots{}
+\item Fem zeros en la segona columna davall del segon element, combinant amb la segona fila.
+\item Mirem l'última fila \fmm{\left(0\ \ 0\ \ m\,|\,n\right)}:
+
+\begin{itemize}
+\item \fmm{m\neq0}: \textbf{SCD}. S'aïlla \fmm{z=\frac nm} i se substitueix cap amunt.
+\item \fmm{m=0,\ n=0}: \textbf{SCI}. L'última equació desapareix (\fmm{0=0}) i una incògnita passa a ser un paràmetre (\fmm{z=\lambda}).
+\item \fmm{m=0,\ n\neq0}: \textbf{SI}. L'última equació és \fmm{0=n}, impossible.
+\end{itemize}
+\end{enumerate}
+
+\begin{fmnote}\fmuline{Consell}: convé posar en primer lloc una equació amb coeficient 1 (o \fmm{-1}) en la primera incògnita.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: mètode de Gauss}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{\begin{cases}x+y+z=6\\ 2x-y+z=3\\ x+2y-z=2\end{cases}}
+
+\fmm{\left(\begin{array}{rrr|r}1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-2F_1}\left(\begin{array}{rrr|r}1&1&1&6\\ 0&-3&-1&-9\\ 0&1&-2&-4\end{array}\right)}
+
+\fmm{\xrightarrow{F_3\to 3F_3+F_2}\left(\begin{array}{rrr|r}1&1&1&6\\ 0&-3&-1&-9\\ 0&0&-7&-21\end{array}\right)}
+
+\fmm{-7z=-21\Rightarrow z=3;\quad -3y-3=-9\Rightarrow y=2;\quad x+2+3=6\Rightarrow x=1}. \textbf{SCD}: \fmm{(x,y,z)=(1,2,3)}
+\item Resol \fmm{\begin{cases}x-y+z=1\\ 2x+y-z=5\\ x+2y-2z=4\end{cases}}
+
+\fmm{\left(\begin{array}{rrr|r}1&-1&1&1\\ 2&1&-1&5\\ 1&2&-2&4\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-2F_1}\left(\begin{array}{rrr|r}1&-1&1&1\\ 0&3&-3&3\\ 0&3&-3&3\end{array}\right)\xrightarrow{F_3\to F_3-F_2}\left(\begin{array}{rrr|r}1&-1&1&1\\ 0&3&-3&3\\ 0&0&0&0\end{array}\right)}
+
+L'última fila és \fmm{0=0}: \textbf{SCI}. Fem \fmm{z=\lambda}: \fmm{\ 3y-3\lambda=3\Rightarrow y=1+\lambda;\ \ x=1+y-z=2}
+
+\fmm{(x,y,z)=(2,\ 1+\lambda,\ \lambda),\ \lambda\in\mathbb R}. Si el terme independent de la tercera equació fora 5, l'última fila quedaria \fmm{\left(0\ \ 0\ \ 0\,|\,1\right)}: \fmm{0=1}, el sistema seria \textbf{incompatible}.
+\item Un grup compra 10 entrades per a un museu: les d'adult costen 8 €, les de jove 6 € i les infantils 4 €. Paguen 56 € i hi ha tantes entrades infantils com d'adult i de jove juntes. Quantes n'han comprat de cada tipus?
+
+Siguen \fmm{x}, \fmm{y}, \fmm{z} les entrades d'adult, de jove i infantils: \fmm{\begin{cases}x+y+z=10\\ 8x+6y+4z=56\\ x+y-z=0\end{cases}}
+
+\fmm{\left(\begin{array}{rrr|r}1&1&1&10\\ 8&6&4&56\\ 1&1&-1&0\end{array}\right)\xrightarrow[F_3\to F_3-F_1]{F_2\to F_2-8F_1}\left(\begin{array}{rrr|r}1&1&1&10\\ 0&-2&-4&-24\\ 0&0&-2&-10\end{array}\right)}
+
+\fmm{z=5;\quad -2y-20=-24\Rightarrow y=2;\quad x=10-2-5=3}. 3 d'adult, 2 de jove i 5 infantils.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Sistemes d'equacions no lineals}\hypertarget{sec3}{}
+\begin{fmdef}{Sistemes no lineals}
+Són sistemes en què alguna equació no és de primer grau: hi apareixen quadrats, productes d'incògnites (\fmm{xy}), incògnites en el denominador\dots{} Els mètodes més habituals són:
+
+\begin{itemize}
+\item \textbf{Substitució}: s'aïlla una incògnita (preferiblement d'una equació lineal) i se substitueix en l'altra. Sol quedar una equació de segon grau.
+\item \textbf{Reducció}: si les incògnites apareixen amb la mateixa forma (\fmm{x^2} i \fmm{y^2}, per exemple), es combinen les equacions per a eliminar-ne una.
+\item Si hi ha \textbf{denominadors} amb incògnites, es multiplica pel m.c.m.; si hi ha \textbf{radicals}, s'aïlla el radical i s'eleva al quadrat. En tots dos casos poden aparéixer solucions que no ho són.
+\end{itemize}
+
+Cada solució és una \textbf{parella} \fmm{(x,y)}: per cada valor d'una incògnita cal calcular el valor corresponent de l'altra. Gràficament, les solucions són els punts de tall de les dues corbes.
+
+\begin{fmnote}Convé \textbf{comprovar} les solucions en les dues equacions, sobretot si hi ha denominadors o arrels.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: sistemes no lineals}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{\begin{cases}x-y=1\\ x^2+y^2=13\end{cases}}
+
+Substitució: \fmm{x=1+y\Rightarrow(1+y)^2+y^2=13\Rightarrow 2y^2+2y-12=0\Rightarrow y^2+y-6=0}
+
+\fmm{y=2\Rightarrow x=3;\quad y=-3\Rightarrow x=-2}. Solucions: \fmm{(3,2)} i \fmm{(-2,-3)}
+\item \fmm{\begin{cases}x+y=5\\ xy=6\end{cases}}
+
+\fmm{y=5-x\Rightarrow x(5-x)=6\Rightarrow x^2-5x+6=0\Rightarrow x=2} o \fmm{x=3}
+
+\fmm{x=2\Rightarrow y=3;\quad x=3\Rightarrow y=2}. Solucions: \fmm{(2,3)} i \fmm{(3,2)}
+\item \fmm{\begin{cases}x^2+y^2=25\\ x^2-y^2=7\end{cases}}
+
+Reducció: sumem les equacions, \fmm{2x^2=32\Rightarrow x^2=16\Rightarrow x=\pm4}
+
+\fmm{y^2=25-16=9\Rightarrow y=\pm3}. Hi ha quatre solucions: \fmm{(4,3),\ (4,-3),\ (-4,3),\ (-4,-3)}
+\item Amb denominadors: \fmm{\begin{cases}x+y=5\\[1mm] \dfrac1x+\dfrac1y=\dfrac56\end{cases}}
+
+Sumem les fraccions: \fmm{\dfrac{x+y}{xy}=\dfrac56\Rightarrow\dfrac{5}{xy}=\dfrac56\Rightarrow xy=6}
+
+\fmm{y=5-x\Rightarrow x(5-x)=6\Rightarrow x^2-5x+6=0\Rightarrow x=2} o \fmm{x=3}. Solucions: \fmm{(2,3)} i \fmm{(3,2)} (cap no anu\lgem{}a un denominador)
+\item Amb radicals: \fmm{\begin{cases}\sqrt x+y=5\\ x-y=7\end{cases}}
+
+\fmm{x=y+7\Rightarrow\sqrt{y+7}=5-y}. Elevem al quadrat: \fmm{y+7=25-10y+y^2\Rightarrow y^2-11y+18=0\Rightarrow y=2} o \fmm{y=9}
+
+Comprovem: amb \fmm{y=2}, \fmm{x=9} i \fmm{\sqrt9+2=5} . Amb \fmm{y=9}, \fmm{x=16} i \fmm{\sqrt{16}+9=13\neq5}  (en elevar al quadrat ha aparegut una solució falsa). Solució: \fmm{(9,2)}
+\item El perímetre d'un rectangle fa 14 cm i la seua àrea, 12 cm$^2$. Quant mesuren els costats?
+
+\fmm{\begin{cases}2x+2y=14\\ xy=12\end{cases}\Rightarrow y=7-x\Rightarrow x(7-x)=12\Rightarrow x^2-7x+12=0\Rightarrow x=3} o \fmm{x=4}
+
+Els costats mesuren 3 cm i 4 cm.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Inequacions de primer grau}\hypertarget{sec4}{}
+\begin{fmdef}{Inequacions i solucions}
+\begin{itemize}
+\item Una \textbf{inequació} és una desigualtat entre dues expressions algebraiques, amb un dels signes \fmm{\lt,\ \gt,\ \le,\ \ge}. Per exemple, \fmm{3x-5\le x+7}.
+\item Una \textbf{solució} és un valor de \fmm{x} que fa certa la desigualtat. Normalment n'hi ha infinites i formen un \textbf{interval} o una unió d'intervals. \textbf{Resoldre} una inequació és trobar-les totes.
+\item Una inequació és de \textbf{primer grau} si, després de simplificar, la \fmm{x} només apareix elevada a 1: es pot escriure com \fmm{ax\lt b} (o amb \fmm{\gt,\le,\ge}).
+\end{itemize}
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Desigualtat} & \textbf{$x\lt a$} & \textbf{$x\le a$} & \textbf{$x\gt a$} & \textbf{$x\ge a$} & \textbf{$a\lt x\le b$}\\\midrule
+Interval & $(-\infty,a)$ & $(-\infty,a]$ & $(a,+\infty)$ & $[a,+\infty)$ & $(a,b]$\\[3pt]
+\bottomrule\end{tabularx}\end{center}
+
+\begin{fmnote}El claudàtor \fmm{[\ ]} indica que l'extrem \textbf{s'inclou} (punt ple a la recta) i el parèntesi \fmm{(\ )}, que \textbf{no s'inclou} (punt buit). A \fmm{\pm\infty} sempre hi va parèntesi.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Regles per a transformar una inequació}
+\begin{itemize}
+\item Si \textbf{sumem o restem} el mateix nombre (o la mateixa expressió) als dos membres, la desigualtat \textbf{no canvia}: \fmm{x+3\lt5\iff x\lt2}.
+\item Si \textbf{multipliquem o dividim} els dos membres per un nombre \textbf{positiu}, la desigualtat \textbf{no canvia}: \fmm{2x\lt6\iff x\lt3}.
+\item Si \textbf{multipliquem o dividim} per un nombre \textbf{negatiu}, la desigualtat \textbf{canvia de sentit}: \fmm{-2x\lt6\iff x\gt-3}. (Penseu que \fmm{2\lt3} però \fmm{-2\gt-3}.)
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Com es resol una inequació de primer grau}
+\begin{enumerate}
+\item Traiem els \textbf{parèntesis} i, si n'hi ha, els \textbf{denominadors} (multiplicant pel m.c.m., que és positiu).
+\item \textbf{Transposem}: els termes amb \fmm{x} a un membre i els nombres a l'altre, i \textbf{reduïm}.
+\item \textbf{Aïllem} la \fmm{x} dividint pel coeficient. \textbf{Si és negatiu, la desigualtat canvia de sentit.}
+\item Escrivim la solució com a \textbf{interval} i la representem a la recta real.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: inequacions de primer grau}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{3x-5\le x+7}.
+
+\fmm{3x-x\le7+5\ \Rightarrow\ 2x\le12\ \Rightarrow\ x\le6}
+
+Solució: \fmm{x\in(-\infty,\,6]}. El 6 s'inclou perquè la desigualtat és \fmm{\le}.
+\item Resol \fmm{2(x-1)\gt5x+4}.
+
+Parèntesis: \fmm{2x-2\gt5x+4\ \Rightarrow\ 2x-5x\gt4+2\ \Rightarrow\ -3x\gt6}
+
+Dividim entre \fmm{-3}, \textbf{negatiu}: la desigualtat canvia de sentit. \fmm{\ x\lt\dfrac{6}{-3}=-2}
+
+Solució: \fmm{x\in(-\infty,\,-2)}
+\item Resol \fmm{\dfrac{x+1}{2}-\dfrac{x}{3}\ge1}.
+
+Multipliquem per \fmm{\text{m.c.m.}(2,3)=6}, que és positiu: \fmm{\ 3(x+1)-2x\ge6}
+
+\fmm{3x+3-2x\ge6\ \Rightarrow\ x\ge3}. Solució: \fmm{x\in[3,+\infty)}
+\item Resol \fmm{2(x+1)\ge2x-3}.
+
+\fmm{2x+2\ge2x-3\ \Rightarrow\ 0x\ge-5\ \Rightarrow\ 0\ge-5}
+
+La desigualtat \fmm{0\ge-5} és certa sempre, siga quin siga \fmm{x}: la solució és \fmm{\mathbb R}. (Si haguera quedat una desigualtat falsa, com \fmm{0\ge5}, no tindria solució.)
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: un problema}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Una empresa de lloguer de cotxes cobra 40 € fixos més 0,25 € per quilòmetre, i una altra, 60 € fixos més 0,15 € per quilòmetre. A partir de quants quilòmetres és més barata la segona?
+
+\fmm{x=} quilòmetres recorreguts. La segona és més barata quan \fmm{\ 60+0{,}15x\lt40+0{,}25x}
+
+\fmm{0{,}15x-0{,}25x\lt40-60\ \Rightarrow\ -0{,}1x\lt-20\ \Rightarrow\ x\gt\dfrac{-20}{-0{,}1}=200}
+
+La segona empresa és més barata si es fan \textbf{més de 200 km}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Inequacions de segon grau i de grau superior}\hypertarget{sec5}{}
+\begin{fmprop}{Mètode general: estudi del signe}
+\begin{enumerate}
+\item Passem tots els termes a un membre perquè quede \fmm{P(x)\gt0} (o \fmm{\lt0,\ \le0,\ \ge0}).
+\item Calculem les \textbf{arrels} de \fmm{P(x)}: en segon grau, amb la fórmula; en grau superior, traient factor comú o amb Ruffini.
+\item Les arrels divideixen la recta real en intervals. En cada interval \fmm{P(x)} té sempre el mateix signe: l'esbrinem \textbf{provant un valor} de l'interval o amb una \textbf{taula de signes} dels factors.
+\item Triem els intervals on el signe és el que demana la inequació. Les arrels s'inclouen si la desigualtat és \fmm{\le} o \fmm{\ge}.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Interpretació gràfica en segon grau}
+Resoldre \fmm{ax^2+bx+c\gt0} és buscar on la paràbola \fmm{y=ax^2+bx+c} està \textbf{per damunt} de l'eix \fmm{X} (i \fmm{\lt0}, per davall). Si \fmm{a\gt0} i hi ha dues arrels \fmm{x_1\lt x_2}:
+
+\begin{itemize}
+\item \fmm{ax^2+bx+c\lt0} \textbf{entre} les arrels: \fmm{(x_1,x_2)}.
+\item \fmm{ax^2+bx+c\gt0} \textbf{fora} de les arrels: \fmm{(-\infty,x_1)\cup(x_2,+\infty)}.
+\item Si no hi ha arrels reals (\fmm{\Delta\lt0}), la paràbola no talla l'eix i el polinomi té \textbf{sempre el mateix signe}: la solució és \fmm{\mathbb R} o \fmm{\varnothing}.
+\item Si \fmm{a\lt0}, convé multiplicar per \fmm{-1} (canviant el sentit de la desigualtat) per a tindre \fmm{a\gt0}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: inequacions de segon grau}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{x^2-5x+6\le0}.
+
+Arrels: \fmm{x=\dfrac{5\pm\sqrt{25-24}}{2}=\dfrac{5\pm1}{2}\Rightarrow x=2,\ x=3}
+
+Provem un valor de cada interval: \fmm{P(0)=6\gt0;\ \ P(2{,}5)=-0{,}25\lt0;\ \ P(4)=2\gt0}
+
+Volem \fmm{P(x)\le0}: l'interval del mig, amb les arrels incloses. \fmm{\ x\in[2,\,3]}
+\item Resol \fmm{-x^2+2x+3\lt0}.
+
+Multipliquem per \fmm{-1} i canviem el sentit: \fmm{\ x^2-2x-3\gt0}. Arrels: \fmm{-1} i \fmm{3}.
+
+La paràbola \fmm{y=x^2-2x-3} s'obri cap amunt: és positiva fora de les arrels. \fmm{\ x\in(-\infty,-1)\cup(3,+\infty)}
+\item Resol \fmm{x^2+x+3\gt0} i \fmm{x^2-6x+9\gt0}.
+
+\fmm{x^2+x+3}: \fmm{\Delta=1-12=-11\lt0}. No té arrels i \fmm{P(0)=3\gt0}: és sempre positiu. \fmm{\ x\in\mathbb R}
+
+\fmm{x^2-6x+9=(x-3)^2}, que és positiu sempre excepte en \fmm{x=3}, on val 0. \fmm{\ x\in(-\infty,3)\cup(3,+\infty)}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: grau superior}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{x^3-x^2-6x\ge0}.
+
+Factor comú i segon grau: \fmm{\ x(x^2-x-6)=x(x+2)(x-3)}. Arrels: \fmm{-2,\ 0,\ 3}.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccccc}\toprule
+\textbf{} & \textbf{$(-\infty,-2)$} & \textbf{$-2$} & \textbf{$(-2,0)$} & \textbf{$0$} & \textbf{$(0,3)$} & \textbf{$3$} & \textbf{$(3,+\infty)$}\\\midrule
+$x+2$ & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}} &  & \textcolor{fmok}{\textbf{+}} &  & \textcolor{fmok}{\textbf{+}}\\
+$x$ & \textcolor{fmas}{$\boldsymbol{-}$} &  & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}} &  & \textcolor{fmok}{\textbf{+}}\\
+$x-3$ & \textcolor{fmas}{$\boldsymbol{-}$} &  & \textcolor{fmas}{$\boldsymbol{-}$} &  & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}}\\
+$P(x)$ & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}} & 0 & \textcolor{fmas}{$\boldsymbol{-}$} & 0 & \textcolor{fmok}{\textbf{+}}\\
+\bottomrule\end{tabular}\end{center}
+
+Volem \fmm{P(x)\ge0}: \fmm{\ x\in[-2,\,0]\cup[3,+\infty)}
+\item Resol \fmm{x^3-2x^2-x+2\gt0}.
+
+Amb Ruffini (provant els divisors de 2) trobem les arrels \fmm{1,\ -1} i \fmm{2}: \fmm{\ P(x)=(x+1)(x-1)(x-2)}
+
+Signes: \fmm{(-\infty,-1):-;\ \ (-1,1):+;\ \ (1,2):-;\ \ (2,+\infty):+}
+
+\fmm{x\in(-1,\,1)\cup(2,+\infty)}
+\item El benefici d'una empresa, en milers d'euros, quan fabrica \fmm{x} centenars d'unitats és \fmm{B(x)=-x^2+12x-20}. Entre quines quantitats té beneficis?
+
+\fmm{-x^2+12x-20\gt0\iff x^2-12x+20\lt0}. Arrels: \fmm{x=2} i \fmm{x=10}.
+
+Negatiu entre les arrels: \fmm{x\in(2,\,10)}. Té beneficis si fabrica entre 200 i 1 000 unitats.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Sistemes d'inequacions amb una incògnita}\hypertarget{sec6}{}
+\begin{fmprop}{Com es resolen}
+\begin{itemize}
+\item Un \textbf{sistema d'inequacions} amb una incògnita és un conjunt d'inequacions que s'han de complir \textbf{alhora}.
+\item Es resol cada inequació per separat i la solució del sistema és la \textbf{intersecció} (la part comuna) de totes les solucions.
+\item Convé representar cada solució en una recta real, una sobre l'altra i amb la mateixa escala. Si no tenen cap punt en comú, el sistema \textbf{no té solució}.
+\end{itemize}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: sistemes d'inequacions}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol el sistema \fmm{\begin{cases}3x-2\le x+4\\ 2x+1\gt-3\end{cases}}
+
+\fmm{2x\le6\Rightarrow x\le3:\ (-\infty,3].\qquad 2x\gt-4\Rightarrow x\gt-2:\ (-2,+\infty)}
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (4.678,0.1)--(4.678,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (10.622,0.1)--(10.622,-1.700);\node[anchor=west,font=\small] at (0,-0.400) {$3x-2\leq x+4$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (2.300,-0.400)--(10.622,-0.400);\fill[fmA] (2.050,-0.400)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=fmA] (10.622,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$2x+1>-3$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (4.678,-1.150)--(13.000,-1.150);\fill[fmB] (13.250,-1.150)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (4.678,-1.150) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-1.700)--(13.400,-1.700);\draw[fmmuted,line width=0.6pt] (2.300,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-4$};\draw[fmmuted,line width=0.6pt] (3.489,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (4.678,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.867,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (7.056,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.244,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.433,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (10.622,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (11.811,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\draw[fmmuted,line width=0.6pt] (13.000,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$5$};\end{tikzpicture}\end{center}
+
+La solució és la part on coincideixen les dues rectes: \fmm{x\in(-2,\,3]}
+
+\begin{center}\begin{tikzpicture}[line cap=round]\fill[fmR,opacity=0.12] (4.678,0.1) rectangle (10.622,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (4.678,0.1)--(4.678,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (10.622,0.1)--(10.622,-2.450);\node[anchor=west,font=\small] at (0,-0.400) {$3x-2\leq x+4$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (2.300,-0.400)--(10.622,-0.400);\fill[fmA] (2.050,-0.400)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=fmA] (10.622,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$2x+1>-3$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (4.678,-1.150)--(13.000,-1.150);\fill[fmB] (13.250,-1.150)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (4.678,-1.150) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.900) {$\text{Solució}$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.900)--(13.000,-1.900);\draw[fmR,line width=2.6pt] (4.678,-1.900)--(10.622,-1.900);\draw[fmR,line width=1.2pt,fill=white] (4.678,-1.900) circle[radius=0.13];\draw[fmR,line width=1.2pt,fill=fmR] (10.622,-1.900) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-2.450)--(13.400,-2.450);\draw[fmmuted,line width=0.6pt] (2.300,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-4$};\draw[fmmuted,line width=0.6pt] (3.489,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (4.678,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.867,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (7.056,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.244,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.433,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (10.622,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (11.811,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\draw[fmmuted,line width=0.6pt] (13.000,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$5$};\end{tikzpicture}\end{center}
+\item Resol el sistema \fmm{\begin{cases}x^2-x-6\le0\\ x-1\gt0\end{cases}}
+
+Arrels de \fmm{x^2-x-6}: \fmm{-2} i \fmm{3}, i és negatiu entre elles: \fmm{[-2,3]}. \fmm{\quad x\gt1:\ (1,+\infty)}
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (4.678,0.1)--(4.678,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (8.244,0.1)--(8.244,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (10.622,0.1)--(10.622,-1.700);\node[anchor=west,font=\small] at (0,-0.400) {$x^2-x-6\leq 0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (4.678,-0.400)--(10.622,-0.400);\draw[fmA,line width=1.2pt,fill=fmA] (4.678,-0.400) circle[radius=0.13];\draw[fmA,line width=1.2pt,fill=fmA] (10.622,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x-1>0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (8.244,-1.150)--(13.000,-1.150);\fill[fmB] (13.250,-1.150)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (8.244,-1.150) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-1.700)--(13.400,-1.700);\draw[fmmuted,line width=0.6pt] (2.300,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-4$};\draw[fmmuted,line width=0.6pt] (3.489,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (4.678,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.867,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (7.056,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.244,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.433,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (10.622,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (11.811,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\draw[fmmuted,line width=0.6pt] (13.000,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$5$};\end{tikzpicture}\end{center}
+
+\fmm{x\in(1,\,3]}. L'1 no s'inclou perquè no compleix la segona inequació.
+
+\begin{center}\begin{tikzpicture}[line cap=round]\fill[fmR,opacity=0.12] (8.244,0.1) rectangle (10.622,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (4.678,0.1)--(4.678,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (8.244,0.1)--(8.244,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (10.622,0.1)--(10.622,-2.450);\node[anchor=west,font=\small] at (0,-0.400) {$x^2-x-6\leq 0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (4.678,-0.400)--(10.622,-0.400);\draw[fmA,line width=1.2pt,fill=fmA] (4.678,-0.400) circle[radius=0.13];\draw[fmA,line width=1.2pt,fill=fmA] (10.622,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x-1>0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (8.244,-1.150)--(13.000,-1.150);\fill[fmB] (13.250,-1.150)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (8.244,-1.150) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.900) {$\text{Solució}$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.900)--(13.000,-1.900);\draw[fmR,line width=2.6pt] (8.244,-1.900)--(10.622,-1.900);\draw[fmR,line width=1.2pt,fill=white] (8.244,-1.900) circle[radius=0.13];\draw[fmR,line width=1.2pt,fill=fmR] (10.622,-1.900) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-2.450)--(13.400,-2.450);\draw[fmmuted,line width=0.6pt] (2.300,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-4$};\draw[fmmuted,line width=0.6pt] (3.489,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (4.678,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.867,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (7.056,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.244,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.433,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (10.622,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (11.811,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\draw[fmmuted,line width=0.6pt] (13.000,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$5$};\end{tikzpicture}\end{center}
+\item Resol el sistema \fmm{\begin{cases}x-2\gt0\\ x+1\lt0\end{cases}}
+
+\fmm{x\gt2} i \fmm{x\lt-1}.
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (5.357,0.1)--(5.357,-1.700);\draw[fmmuted!60,dashed,line width=0.5pt] (9.943,0.1)--(9.943,-1.700);\node[anchor=west,font=\small] at (0,-0.400) {$x-2>0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (9.943,-0.400)--(13.000,-0.400);\fill[fmA] (13.250,-0.400)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=white] (9.943,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x+1<0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (2.300,-1.150)--(5.357,-1.150);\fill[fmB] (2.050,-1.150)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (5.357,-1.150) circle[radius=0.13];\draw[fmmuted,line width=0.8pt,-latex] (2.100,-1.700)--(13.400,-1.700);\draw[fmmuted,line width=0.6pt] (2.300,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (3.829,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.357,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (6.886,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.414,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.943,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (11.471,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (13.000,-1.700)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\end{tikzpicture}\end{center}
+
+No hi ha cap nombre que siga major que 2 i menor que \fmm{-1}: el sistema no té solució.
+
+\begin{center}\begin{tikzpicture}[line cap=round]\draw[fmmuted!60,dashed,line width=0.5pt] (5.357,0.1)--(5.357,-2.450);\draw[fmmuted!60,dashed,line width=0.5pt] (9.943,0.1)--(9.943,-2.450);\node[anchor=west,font=\small] at (0,-0.400) {$x-2>0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-0.400)--(13.000,-0.400);\draw[fmA,line width=2.6pt] (9.943,-0.400)--(13.000,-0.400);\fill[fmA] (13.250,-0.400)--++(-0.3,0.19)--++(0,-0.38)--cycle;\draw[fmA,line width=1.2pt,fill=white] (9.943,-0.400) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.150) {$x+1<0$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.150)--(13.000,-1.150);\draw[fmB,line width=2.6pt] (2.300,-1.150)--(5.357,-1.150);\fill[fmB] (2.050,-1.150)--++(0.3,0.19)--++(0,-0.38)--cycle;\draw[fmB,line width=1.2pt,fill=white] (5.357,-1.150) circle[radius=0.13];\node[anchor=west,font=\small] at (0,-1.900) {$\text{Solució}$};\draw[fmmuted!50,line width=0.6pt] (2.300,-1.900)--(13.000,-1.900);\node[font=\small] at (7.650,-1.650) {$\emptyset$};\draw[fmmuted,line width=0.8pt,-latex] (2.100,-2.450)--(13.400,-2.450);\draw[fmmuted,line width=0.6pt] (2.300,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-3$};\draw[fmmuted,line width=0.6pt] (3.829,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-2$};\draw[fmmuted,line width=0.6pt] (5.357,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$-1$};\draw[fmmuted,line width=0.6pt] (6.886,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$0$};\draw[fmmuted,line width=0.6pt] (8.414,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$1$};\draw[fmmuted,line width=0.6pt] (9.943,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$2$};\draw[fmmuted,line width=0.6pt] (11.471,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$3$};\draw[fmmuted,line width=0.6pt] (13.000,-2.450)--++(0,0.12)--++(0,-0.24) node[below,font=\scriptsize,text=fmmuted] {$4$};\end{tikzpicture}\end{center}
+\item Busquem els nombres enters tals que el seu doble menys 3 és menor que 11 i el seu triple més 1 és major que 7.
+
+\fmm{\begin{cases}2x-3\lt11\\ 3x+1\gt7\end{cases}\Rightarrow\begin{cases}x\lt7\\ x\gt2\end{cases}\Rightarrow x\in(2,\,7)}
+
+Els enters de l'interval són 3, 4, 5 i 6.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Inequacions amb dues incògnites}\hypertarget{sec7}{}
+\begin{fmdef}{Inequacions lineals amb dues incògnites}
+Una inequació lineal amb dues incògnites té la forma \fmm{ax+by\lt c} (o amb \fmm{\gt,\le,\ge}). Una \textbf{solució} és un parell de nombres \fmm{(x,y)} que la compleix, és a dir, un punt del pla. N'hi ha infinites: totes juntes formen un \textbf{semiplà}, una de les dues regions en què la recta \fmm{ax+by=c} divideix el pla.
+
+\begin{fmnote}Apareixen en molts problemes de l'economia. Per exemple, si amb 30 € com a màxim comprem \fmm{x} entrades de 5 € i \fmm{y} entrades de 3 €, ha de ser \fmm{5x+3y\le30}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Com es resolen, pas a pas}
+\begin{enumerate}
+\item \textbf{Recta frontera.} Canviem la desigualtat per un igual: \fmm{ax+by=c}.
+\item \textbf{Dibuixem la recta} a partir de dos punts (per exemple, els talls amb els eixos, fent \fmm{x=0} i \fmm{y=0}). És \textbf{contínua} si la desigualtat és \fmm{\le} o \fmm{\ge}, perquè els punts de la recta són solució, i \textbf{discontínua} si és \fmm{\lt} o \fmm{\gt}.
+\item \textbf{Punt de prova.} Triem un punt que no estiga en la recta (sovint \fmm{O(0,0)}; si la recta passa per l'origen, un altre, com \fmm{(1,0)}) i el substituïm en la inequació.
+\item \textbf{Triem el semiplà.} Si el punt compleix la inequació, la solució és el semiplà que el conté; si no, és l'altre. L'ombregem.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: inequacions amb dues incògnites}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{x+2y\le6}.
+
+Recta frontera: \fmm{x+2y=6}. Dos punts: \fmm{(6,0)} i \fmm{(0,3)}. Com que hi ha \fmm{\le}, la recta és contínua.
+
+Punt de prova \fmm{O(0,0)}: \fmm{0+2\cdot0=0\le6\ \checkmark}
+
+La solució és el semiplà que conté l'origen, amb la recta inclosa.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-3,xmax=7,ymin=-3,ymax=7,xtick={-2,2,4,6},ytick={-2,2,4,6},minor xtick={-3,-2,-1,0,1,2,3,4,5,6,7},minor ytick={-3,-2,-1,0,1,2,3,4,5,6,7},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:-3.0000,-3.0000)--(axis cs:7.0000,-3.0000)--(axis cs:7.0000,-0.5000)--(axis cs:-3.0000,4.5000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-4.0000,5.0000)--(axis cs:8.0000,-1.0000);\node[circle,fill=fmK,inner sep=0pt,minimum size=6pt] at (axis cs:0,0) {};\end{axis}\end{tikzpicture}\end{center}
+\item Resol \fmm{y\gt x+1}.
+
+Recta frontera: \fmm{y=x+1}. Dos punts: \fmm{(-1,0)} i \fmm{(0,1)}. Com que hi ha \fmm{\gt}, la recta és discontínua.
+
+Punt de prova \fmm{O(0,0)}: \fmm{0\gt0+1} és fals.
+
+La solució és el semiplà que no conté l'origen, sense la recta.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-5,xmax=5,ymin=-5,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},minor xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},minor ytick={-5,-4,-3,-2,-1,0,1,2,3,4,5},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:4.0000,5.0000)--(axis cs:-5.0000,5.0000)--(axis cs:-5.0000,-4.0000)--cycle;\draw[fmA,line width=1.5pt,dash pattern=on 5pt off 3.5pt] (axis cs:-6.0000,-5.0000)--(axis cs:6.0000,7.0000);\node[circle,fill=fmR,inner sep=0pt,minimum size=6pt] at (axis cs:0,0) {};\end{axis}\end{tikzpicture}\end{center}
+\item Resol \fmm{y\ge2x}.
+
+Recta frontera: \fmm{y=2x}. Dos punts: \fmm{(0,0)} i \fmm{(1,2)}. Recta contínua.
+
+La recta passa per l'origen, així que provem un altre punt: \fmm{(1,0)}: \fmm{0\ge2\cdot1} és fals.
+
+La solució és el semiplà que no conté el punt \fmm{(1,0)}, amb la recta inclosa.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-5,xmax=5,ymin=-5,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},minor xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},minor ytick={-5,-4,-3,-2,-1,0,1,2,3,4,5},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:-5.0000,-5.0000)--(axis cs:-2.5000,-5.0000)--(axis cs:2.5000,5.0000)--(axis cs:-5.0000,5.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-6.0000,-12.0000)--(axis cs:6.0000,12.0000);\node[circle,fill=fmR,inner sep=0pt,minimum size=6pt] at (axis cs:1,0) {};\end{axis}\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Sistemes d'inequacions amb dues incògnites}\hypertarget{sec8}{}
+\begin{fmprop}{Com es resolen}
+\begin{enumerate}
+\item Es resol cada inequació per separat, com a l'apartat anterior: cada una dona un semiplà.
+\item La solució del sistema és la \textbf{intersecció} de tots els semiplans, la \textbf{regió factible}. Si no tenen cap punt en comú, el sistema no té solució.
+\item Els \textbf{vèrtexs} de la regió són els punts de tall de les rectes frontera: es calculen resolent el sistema format per les dues equacions.
+\item La regió pot ser \textbf{fitada} (un polígon) o \textbf{no fitada} (s'estén indefinidament). Les restriccions \fmm{x\ge0,\ y\ge0} la limiten al primer quadrant.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: sistemes amb dues incògnites}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Resol \fmm{\begin{cases}x+y\le5\\ x-y\ge-1\\ x\ge0,\ y\ge0\end{cases}}
+
+\fmm{x+y\le5}: recta \fmm{x+y=5}; amb \fmm{O(0,0)}: \fmm{0\le5\ \checkmark}: semiplà de \fmm{O}.
+
+\fmm{x-y\ge-1}: recta \fmm{x-y=-1}, per \fmm{(0,1)} i \fmm{(-1,0)}; amb \fmm{O}: \fmm{0\ge-1\ \checkmark}: semiplà de \fmm{O}. \fmm{\ x\ge0,\ y\ge0}: primer quadrant.
+
+Vèrtex on es tallen les dues rectes obliqües: \fmm{\begin{cases}x+y=5\\ x-y=-1\end{cases}\Rightarrow 2x=4,\ x=2,\ y=3}
+
+La solució és el quadrilàter de vèrtexs \fmm{(0,0),\ (5,0),\ (2,3)} i \fmm{(0,1)}. La regió és fitada.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-2,xmax=6,ymin=-2,ymax=6,xtick={-2,2,4,6},ytick={-2,2,4,6},minor xtick={-2,-1,0,1,2,3,4,5,6},minor ytick={-2,-1,0,1,2,3,4,5,6},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:5.0000,0.0000)--(axis cs:2.0000,3.0000)--(axis cs:0.0000,1.0000)--(axis cs:0.0000,0.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-3.0000,8.0000)--(axis cs:7.0000,-2.0000);\draw[fmB,line width=1.5pt] (axis cs:-3.0000,-2.0000)--(axis cs:7.0000,8.0000);\draw[fmV,line width=1.5pt] (axis cs:0.0000,-3.0000)--(axis cs:0.0000,7.0000);\draw[fmK,line width=1.5pt] (axis cs:-3.0000,0.0000)--(axis cs:7.0000,0.0000);\end{axis}\end{tikzpicture}\end{center}
+\item Resol \fmm{\begin{cases}x+y\ge2\\ x-y\le2\end{cases}}
+
+Amb \fmm{O}: \fmm{0\ge2} és fals (semiplà sense \fmm{O}); \fmm{0\le2\ \checkmark} (semiplà de \fmm{O}). Les rectes es tallen en \fmm{(2,0)}.
+
+Regió \textbf{no fitada} amb un sol vèrtex, \fmm{(2,0)}.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-3,xmax=6,ymin=-3,ymax=6,xtick={-2,2,4,6},ytick={-2,2,4,6},minor xtick={-3,-2,-1,0,1,2,3,4,5,6},minor ytick={-3,-2,-1,0,1,2,3,4,5,6},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:6.0000,4.0000)--(axis cs:6.0000,6.0000)--(axis cs:-3.0000,6.0000)--(axis cs:-3.0000,5.0000)--(axis cs:2.0000,0.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-4.0000,6.0000)--(axis cs:7.0000,-5.0000);\draw[fmB,line width=1.5pt] (axis cs:-4.0000,-6.0000)--(axis cs:7.0000,5.0000);\end{axis}\end{tikzpicture}\end{center}
+\item Resol \fmm{\begin{cases}x+y\le1\\ x+y\ge3\end{cases}}
+
+Les rectes \fmm{x+y=1} i \fmm{x+y=3} són para\lgem{}eles i els semiplans no tenen cap punt en comú (cap parell de nombres pot sumar alhora com a màxim 1 i com a mínim 3): el sistema no té solució.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-2,xmax=5,ymin=-2,ymax=5,xtick={-2,2,4},ytick={-2,2,4},minor xtick={-2,-1,0,1,2,3,4,5},minor ytick={-2,-1,0,1,2,3,4,5},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\draw[fmA,line width=1.5pt] (axis cs:-3.0000,4.0000)--(axis cs:6.0000,-5.0000);\draw[fmB,line width=1.5pt] (axis cs:-3.0000,6.0000)--(axis cs:6.0000,-3.0000);\end{axis}\end{tikzpicture}\end{center}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Programació lineal}\hypertarget{sec9}{}
+\begin{fmdef}{Què és un problema de programació lineal}
+Moltes decisions d'empreses i famílies consisteixen a fer \textbf{màxim} un benefici o \textbf{mínim} un cost amb uns recursos limitats. Un problema de \textbf{programació lineal} amb dues variables té:
+
+\begin{itemize}
+\item Una \textbf{funció objectiu} \fmm{F(x,y)=ax+by}, que volem maximitzar o minimitzar.
+\item Unes \textbf{restriccions}: un sistema d'inequacions lineals (normalment amb \fmm{x\ge0,\ y\ge0}).
+\item La \textbf{regió factible}: el conjunt de punts que compleixen totes les restriccions (les solucions possibles). La \textbf{solució òptima} és el punt de la regió on \fmm{F} pren el valor màxim o mínim.
+\end{itemize}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Teorema fonamental}
+Si la regió factible és fitada, la funció objectiu assoleix el màxim i el mínim en un \textbf{vèrtex} de la regió. Si els assoleix en dos vèrtexs, també els assoleix en tots els punts del costat que els uneix (\textbf{infinites solucions}). Per tant, n'hi ha prou amb calcular \fmm{F} en els vèrtexs.
+
+\begin{fmnote}Si la regió no és fitada, pot ser que no hi haja màxim (o mínim): cal mirar cap on creix \fmm{F}. Si la regió és buida, el problema no té solució.\end{fmnote}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Passos per a resoldre un problema}
+\begin{enumerate}
+\item \textbf{Anomenem les incògnites} \fmm{x} i \fmm{y} i, si ajuda, organitzem les dades en una \textbf{taula}.
+\item Escrivim les \textbf{restriccions} («com a màxim» és \fmm{\le}; «com a mínim» és \fmm{\ge}) i la \textbf{funció objectiu}.
+\item Dibuixem la \textbf{regió factible} i calculem els seus \textbf{vèrtexs}.
+\item \textbf{Avaluem} \fmm{F} en cada vèrtex i triem el valor més gran (màxim) o el més menut (mínim).
+\item \textbf{Responem} la pregunta amb una frase.
+\end{enumerate}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: un problema de màxim}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Una fàbrica de joguets fa cotxes i trens. Cada cotxe necessita 1 hora de muntatge i 1 hora d'acabat, i cada tren, 2 hores de muntatge i 1 d'acabat. Cada dia hi ha com a màxim 16 hores de muntatge i 10 d'acabat. Cada cotxe dona un benefici de 30 € i cada tren, de 40 €. Quants n'ha de fer de cada tipus per a obtindre el benefici màxim?
+
+\fmm{x=} cotxes, \fmm{y=} trens.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{} & \textbf{Muntatge (h)} & \textbf{Acabat (h)} & \textbf{Benefici (€)}\\\midrule
+Cotxes $(x)$ & 1 & 1 & 30\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Trens $(y)$ & 2 & 1 & 40\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Disponible & 16 & 10 & \\[3pt]\bottomrule\end{tabularx}\end{center}
+
+Restriccions: \fmm{\begin{cases}x+2y\le16\\ x+y\le10\\ x\ge0,\ y\ge0\end{cases}\qquad} Funció objectiu: \fmm{F(x,y)=30x+40y} (màxim)
+
+Regió factible i vèrtexs. El vèrtex de dalt és el tall de \fmm{x+2y=16} i \fmm{x+y=10}: restant, \fmm{y=6} i \fmm{x=4}. \fmm{\ A(0,0),\ B(10,0),\ C(4,6),\ D(0,8)}
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-1,xmax=17,ymin=-1,ymax=17,xtick={2,4,6,8,10,12,14,16},ytick={2,4,6,8,10,12,14,16},minor xtick={-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17},minor ytick={-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:10.0000,0.0000)--(axis cs:4.0000,6.0000)--(axis cs:0.0000,8.0000)--(axis cs:0.0000,0.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-2.0000,9.0000)--(axis cs:18.0000,-1.0000);\draw[fmB,line width=1.5pt] (axis cs:-2.0000,12.0000)--(axis cs:18.0000,-8.0000);\draw[fmV,line width=1.5pt] (axis cs:0.0000,-2.0000)--(axis cs:0.0000,18.0000);\draw[fmK,line width=1.5pt] (axis cs:-2.0000,0.0000)--(axis cs:18.0000,0.0000);\end{axis}\end{tikzpicture}\end{center}
+
+\fmm{F(0,0)=0;\ \ F(10,0)=300;\ \ F(4,6)=120+240=\mathbf{360};\ \ F(0,8)=320}
+
+El benefici màxim és de \textbf{360 €} i s'obté fent \textbf{4 cotxes i 6 trens} al dia.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Exemple resolt: un problema de mínim}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item Un ramader barreja dos pinsos, A i B. Cada kg de A té 1 unitat de proteïnes i 2 de vitamines, i cada kg de B, 2 de proteïnes i 1 de vitamines. Cada dia necessita com a mínim 8 unitats de proteïnes i 10 de vitamines. El pinso A costa 3 €/kg i el B, 2 €/kg. Quina mescla és la més barata?
+
+\fmm{x=} kg de A, \fmm{y=} kg de B. \fmm{\ \begin{cases}x+2y\ge8\\ 2x+y\ge10\\ x\ge0,\ y\ge0\end{cases}\qquad C(x,y)=3x+2y} (mínim)
+
+La regió no és fitada (cap amunt i a la dreta). Vèrtexs: \fmm{(0,10)}, \fmm{(8,0)} i el tall de les dues rectes, \fmm{(4,2)}.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[fmaxis,axis equal image,width=4.6cm,height=4.6cm,xmin=-1,xmax=12,ymin=-1,ymax=12,xtick={2,4,6,8,10,12},ytick={2,4,6,8,10,12},minor xtick={-1,0,1,2,3,4,5,6,7,8,9,10,11,12},minor ytick={-1,0,1,2,3,4,5,6,7,8,9,10,11,12},grid=both,minor grid style={fmmuted!15},major grid style={fmmuted!15},tick label style={font=\tiny}]\fill[fmR,opacity=0.22] (axis cs:12.0000,0.0000)--(axis cs:12.0000,12.0000)--(axis cs:0.0000,12.0000)--(axis cs:0.0000,10.0000)--(axis cs:4.0000,2.0000)--(axis cs:8.0000,0.0000)--cycle;\draw[fmA,line width=1.5pt] (axis cs:-2.0000,5.0000)--(axis cs:13.0000,-2.5000);\draw[fmB,line width=1.5pt] (axis cs:-2.0000,14.0000)--(axis cs:13.0000,-16.0000);\draw[fmV,line width=1.5pt] (axis cs:0.0000,-2.0000)--(axis cs:0.0000,13.0000);\draw[fmK,line width=1.5pt] (axis cs:-2.0000,0.0000)--(axis cs:13.0000,0.0000);\end{axis}\end{tikzpicture}\end{center}
+
+\fmm{C(0,10)=20;\ \ C(4,2)=12+4=\mathbf{16};\ \ C(8,0)=24}
+
+Com que la regió s'estén cap on \fmm{C} creix, el mínim existeix: la mescla més barata és de \textbf{4 kg de A i 2 kg de B}, que costa \textbf{16 €}.
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Rectes de nivell i casos especials}
+\begin{itemize}
+\item Les rectes \fmm{ax+by=k} (totes para\lgem{}eles) són les \textbf{rectes de nivell}: en tots els seus punts \fmm{F} val \fmm{k}. Si desplacem la recta en el sentit en què creix \fmm{F}, l'última que toca la regió marca el màxim.
+\item \textbf{Infinites solucions:} si la recta de nivell és para\lgem{}ela a un costat, l'òptim s'assoleix en tot el costat. Per exemple, maximitzar \fmm{F=x+y} en la regió dels joguets: \fmm{F(10,0)=F(4,6)=10}.
+\item \textbf{Sense òptim:} en una regió no fitada, \fmm{F} pot créixer tant com vulguem. Per exemple, maximitzar \fmm{F=x+y} en la regió dels pinsos.
+\end{itemize}
+\end{fmprop}
+
+  
+\end{document}
