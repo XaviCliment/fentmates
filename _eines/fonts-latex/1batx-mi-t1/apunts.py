@@ -188,7 +188,7 @@ def est_h(n, colw=None):
         return min(w / vb_ar(raw), MAXH[0]) + (0.7 if any(k.tag == 'figcaption' for k in elems(n)) else 0) + 0.5
     if 'figs' in c or 'grid3' in c:
         figs = [k for k in elems(n) if k.tag == 'figure']
-        per = 2 if 'c2' in c else min(3, len(figs))
+        per = 2 if 'c2' in c else (4 if N >= 6 and len(figs) >= 7 else min(3, len(figs)))  # moltes figures: files de 4
         return max([est_h(k, (colw or 18) * 0.98 / per - 0.3) for k in figs[:per]] + [0])
     if 'two' in c or 'cmp' in c:  # dues columnes que no es parteixen: figures + text aproximat
         def col(k):  # figures (recursivament) + línies de text aproximades + capçalera de requadre
@@ -381,9 +381,9 @@ def conv(n):
         return '\n' + blk('\\par\\medskip\\begin{minipage}{\\linewidth}%s\\end{minipage}\\par\\medskip' % onefig(n, w)) + '\n'
     if N >= 5 and ('figs' in c or 'grid3' in c):  # graella de figures: files de 3 (2 amb .c2)
         figs = [k for k in elems(n) if k.tag == 'figure']
-        per = 2 if 'c2' in c else min(3, len(figs))
+        per = 2 if 'c2' in c else (4 if N >= 6 and len(figs) >= 7 else min(3, len(figs)))  # moltes figures: files de 4
         rows = [figs[i:i + per] for i in range(0, len(figs), per)]
-        MAXH[0] = 3.8 if per >= 3 else 4.6
+        MAXH[0] = 3.0 if per >= 4 else 3.8 if per >= 3 else 4.6
         out = ''
         for ri, row in enumerate(rows):
             r0 = len(out)
@@ -535,7 +535,7 @@ def conv(n):
             pair = cols[i:i + 2]
             out.append('\\par\\noindent ' + '\\hfill'.join(r'\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright %s\end{minipage}' % conv_cell(k).strip() for k in pair) + '\\par\\medskip')
         TWO[0] = was
-        if N >= 5 and not was and len(cols) == 2 and any(hasfigure(k) for k in cols):
+        if N >= 5 and not was and len(cols) == 2 and any(hasfigure(k) for k in cols) and not (N >= 6 and all('box' in k.cls() for k in cols)):  # dos requadres costat per costat: sencers
             figc = [k for k in cols if (k.tag == 'figure' or 'figs' in k.cls() or 'lfig' in k.cls()) or (hasfigure(k) and not plain(k).strip())]
             txtc = [k for k in cols if k not in figc]
             st = ''.join((conv(k) if 'box' in k.cls() else '\n\n' + text(k).strip() + '\n\n') for k in txtc)
@@ -1013,6 +1013,24 @@ if N == 5:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als do
     j = doc.index('\n', i) + 1
     doc = doc[:j - 1] + '\\\\\n\n\\vspace*{0.2cm}\n\n' + doc[j:]
     retoc(r'\\Needspace\{5\\baselineskip\}\n(\\begin\{fmdef\}\{(?:Àrea d\'un triangle|Área de un triángulo)\})', r'%\\Needspace{5\\baselineskip}\n\\newpage\n\1', True)
+if N == 6:  # retocs de l'autor (Desktop, revisió 2026-11-25): valen per als dos idiomes
+    retoc(r'\\Needspace\{5\\baselineskip\}\n(\\begin\{fmex\}\{(?:Exemple resolt|Ejemplo resuelto): dominio? (?:i|y) recorr[^\n]*\}\n[^\n]*)\n',
+          r'%\\Needspace{5\\baselineskip}\n\\newpage\n\1\\\\\n\\vspace*{0.3cm}\n', True)
+    i = doc.index('\\begin{center}\\renewcommand{\\arraystretch}{1.5}\\setlength{\\parskip}{0pt}\\small\\begin{tabularx}')  # taula de dominis
+    j = doc.index('\\end{center}', i)
+    assert doc[i:j].count('p{3.2cm}') == 6
+    doc = doc[:i] + doc[i:j].replace('p{3.2cm}', 'p{4.2cm}') + doc[j:]
+    retoc('$f(x)=\\dfrac{2x-1}{x^2-4}$: $x^2-4=0\\Rightarrow x=\\pm2', '$f(x)=\\dfrac{2x-1}{x^2-4}$: $x^2-4=0\\Rightarrow$\\\\\n& &$\\Rightarrow x=\\pm2')
+    retoc('$\\sqrt{x^2+x-2}\\Rightarrow D(f)=', '$\\sqrt{x^2+x-2}\\Rightarrow$\\\\\n& &$ D(f)=')
+    # 6.5 sencer en una pàgina: figures una mica més menudes (definició i graella dels tipus de discontinuïtat)
+    if ES:  # taules de translacions (dins d'una columna): «Movimiento» no hi cabia
+        k = 0
+        for _ in range(3):
+            m = doc.index('\\textbf{Movimiento}', k); i = doc.rindex('\\begin{center}', 0, m); j = doc.index('\\end{center}', m)
+            doc = doc[:i] + doc[i:j].replace('p{3.2cm}', 'p{2.6cm}') + doc[j:]; k = j
+    # el bloc amb figura del final del 6.4 cap a la pàgina 5 (on quedava un blanc) i així el 6.5 cap sencer en una pàgina
+    i = doc.index('\\hypertarget{sec4}'); j = doc.index('\\hypertarget{sec5}')
+    doc = doc[:i] + doc[i:j].replace('height=4.5cm', 'height=3.6cm') + doc[j:]
 if N in (2, 3):  # títol de dues línies: tot el text de la franja puja perquè no isca de la franja
     retoc('\\vspace*{0.55cm}\n\\tcbox', '\\vspace*{0.0cm}\n\\tcbox')
 if N == 2:  # la fórmula del grau de la suma, en una línia a part (evita els buits del text justificat)

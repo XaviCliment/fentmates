@@ -1,0 +1,576 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-minimal,es-noshorthands]{babel}
+\usepackage{lmodern}
+\linespread{1.22}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.5cm,right=1.5cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 6: Estudio de funciones. 1.º de Bachillerato MI},pdfsubject={Matemáticas I},pdfkeywords={funciones, dominio, recorrido, cortes con los ejes, monotonía, extremos, continuidad, simetrías, periodicidad, traslaciones, composición, función inversa}}
+
+% colors de la web (FentMates, bloque de Análisis: verde; es manté el nom fmgreen dels apunts de les altres unitats)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmgreen}{HTML}{6A8A33}
+\definecolor{fmgreenl}{HTML}{7FA040}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmteal}{HTML}{2BB3A3}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmprop}{HTML}{3B4252}\definecolor{fmpropbg}{HTML}{F3F4F7}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmmuted}{HTML}{5D6685}\definecolor{fmball0}{HTML}{E2483D}\definecolor{fmball1}{HTML}{2F6FD6}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{3B82F6}\definecolor{fmB}{HTML}{F97316}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% blocs que no es poden partir: es mesuren i es reserva exactament el seu espai (amb el títol o la capçalera del requadre)
+\newsavebox{\fmkb}
+\newcommand{\fmmeasure}[2]{\setbox\fmkb=\vbox{\hsize=\dimexpr\linewidth-#1\relax\linewidth=\hsize #2}}
+\newcommand{\fmblock}[1]{\fmmeasure{0pt}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb\relax}#1}
+\newcommand{\fmheadblock}[2]{\fmmeasure{0pt}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+2.2cm\relax}#1#2}
+\newcommand{\fmboxneed}[1]{\fmmeasure{9mm}{#1}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+1.6cm\relax}}
+\newif\iffmstack\newif\iffmfit
+\newcommand{\fmfits}[1]{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<\dimexpr\ht\fmkb+\dp\fmkb+#1\relax\global\fmfitfalse\else\global\fmfittrue\fi}
+\newcommand{\fmtwo}[2]{\fmmeasure{0pt}{#1}\fmfits{0pt}\iffmfit #1\else #2\fi}
+\newcommand{\fmheadtwo}[3]{\fmmeasure{0pt}{#2}\fmfits{2.2cm}\iffmfit #1#2\else\Needspace{\dimexpr1.6cm+7\baselineskip\relax}#1#3\fi}
+\newcommand{\fmtwoin}[2]{\iffmstack #2\else #1\fi}
+\newcommand{\fmboxneedalt}[1]{\fmmeasure{9mm}{#1}\fmfits{1.6cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{8\baselineskip}\fi}
+\newcommand{\fmheadboxalt}[2]{\fmmeasure{9mm}{#2}\fmfits{3.4cm}\iffmfit\global\fmstackfalse\else\global\fmstacktrue\Needspace{\dimexpr2.6cm+6\baselineskip\relax}\fi#1}
+\newcommand{\fmheadbox}[2]{\fmmeasure{9mm}{#2}\Needspace{\dimexpr\ht\fmkb+\dp\fmkb+3.4cm\relax}#1}
+\newcommand{\lt}{<}\newcommand{\gt}{>}
+% fórmula en línia que no es parteix mai; si no cap en una línia, es posa centrada
+% fórmula en línia; si ocupa més del 80 % de la línia, va centrada (amb la puntuació que la segueix)
+\makeatletter
+\newcommand{\fmm}[1]{\setbox0=\hbox{$#1$}\ifdim\wd0>0.8\linewidth\def\fmmnext{\fmmdisp{#1}}\else\def\fmmnext{\mbox{\box0}}\fi\fmmnext}
+\def\fmmdisp#1{\@ifnextchar.{\fmmdispp{#1}}{\@ifnextchar,{\fmmdispc{#1}}{\@ifnextchar;{\fmmdisps{#1}}{\fmdisp{#1}}}}}
+\def\fmmdispp#1.{\fmdisp{#1\,.}}\def\fmmdispc#1,{\fmdisp{#1\,,}}\def\fmmdisps#1;{\fmdisp{#1\,;}}
+\makeatother
+% fórmula centrada; si és més ampla que la línia, s'encongeix fins que hi cap
+\newcommand{\fmdisp}[1]{\[\setbox2=\hbox{$\displaystyle #1$}\ifdim\wd2>\linewidth\resizebox{\linewidth}{!}{\box2}\else\box2\fi\]}
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel}}\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}\DeclareUnicodeCharacter{2226}{\ensuremath{\nparallel}}
+\DeclareUnicodeCharacter{207A}{\ensuremath{^{+}}}\DeclareUnicodeCharacter{207B}{\ensuremath{^{-}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\setlength{\lineskip}{5pt}\setlength{\lineskiplimit}{5pt}  % més aire al voltant de les fraccions en línia
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=4pt,topsep=4pt}
+\renewcommand{\thesection}{6.\arabic{section}}
+\titleformat{\section}{\color{fmnavy}\Large\bfseries}{\colorbox{fmdef}{\color{white}\strut\ \thesection\ }}{0.6em}{}[{\color{fmdef}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat*{\subsection}{\color{fmgreen}\large\bfseries}
+\titlespacing*{\subsection}{0pt}{6pt plus 2pt}{0pt}
+\allowdisplaybreaks
+
+% dibuix de la targeta de la unitat a la web (illustrations.js), en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \draw[line width=3pt] (14,104)--(226,104) (24,114)--(24,8);
+  \draw[line width=4.5pt] (30,98) .. controls (50,50) and (64,26) .. (82,26) .. controls (100,26) and (116,86) .. (146,86) .. controls (170,86) and (196,50) .. (222,16);
+  \draw[line width=4pt,dash pattern=on 10pt off 10pt] (56,26)--(108,26) (120,86)--(172,86);
+  \fill (82,26) circle (5.5) (146,86) circle (5.5);
+  \node[anchor=base west,inner sep=0pt,scale=3] at (34,56) {$\nearrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (112,48) {$\searrow$};
+  \node[anchor=base west,inner sep=0pt,scale=3] at (196,62) {$\nearrow$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º Bachillerato MI · Unidad 6: Estudio de funciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% caixes (mateixos colors que la web)
+% quan una caixa es parteix entre dues pàgines, la vora del tall és discontínua
+\tcbset{fmbase/.style={enhanced,breakable,arc=3mm,boxrule=1pt,left=3.5mm,right=3.5mm,top=2mm,bottom=2.5mm,before skip=10pt,after skip=10pt,fonttitle=\bfseries,
+  frame style={fill=tcbcolframe},
+  overlay first={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east);},
+  overlay middle={\fill[tcbcolback] ([xshift=1pt]frame.south west) rectangle ([xshift=-1pt,yshift=1.2pt]frame.south east);
+    \fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.south west)--(frame.south east) (frame.north west)--(frame.north east);},
+  overlay last={\fill[tcbcolback] ([xshift=1pt]frame.north west) rectangle ([xshift=-1pt,yshift=-1.2pt]frame.north east);
+    \draw[tcbcolframe,line width=1pt,dash pattern=on 5pt off 3pt] (frame.north west)--(frame.north east);}}}
+\newtcolorbox{fmdef}[1]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1}}
+\newtcolorbox{fmprop}[1]{fmbase,colback=fmpropbg,colframe=fmprop,coltitle=white,title={#1},halign title=center}
+\newtcolorbox{fmex}[1]{fmbase,before upper=\raggedright,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ #1},
+  titlerule=0.4pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{fmwarn}[1]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,title={#1}}
+\newtcolorbox{fmnote}[1][]{enhanced,breakable,colback=white,colframe=white,borderline west={3pt}{0pt}{fmaccent},arc=0pt,left=3mm,right=2mm,top=1mm,bottom=1mm,before skip=6pt,after skip=6pt,before upper=\raggedright,#1}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!45}{\strut #1}}
+\newcommand{\fmuline}[1]{\textbf{\color{fmaccent}#1}}
+\definecolor{fmok}{HTML}{15803D}\definecolor{fmev}{HTML}{2563EB}\definecolor{fmsf}{HTML}{C2410C}\definecolor{fmsi}{HTML}{7C3AED}\definecolor{fmas}{HTML}{A3203A}
+\newcommand{\fmbadge}[2]{\tcbox[on line,colback=#1,colframe=#1,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\footnotesize\bfseries #2}}
+\newcommand{\fmchip}[1]{\tcbox[on line,colback=fmsf!10,colframe=fmsf!50,arc=2mm,boxsep=1pt,left=4pt,right=4pt]{#1}}
+\newcommand{\fmlevel}[2]{\tcbox[on line,colback=white,colframe=fmmuted!40,arc=2mm,boxsep=2pt,halign=center]{\begin{tabular}{c}{\scriptsize\color{fmmuted}\MakeUppercase{#1}}\\#2\end{tabular}}}
+% gràfiques
+\pgfplotsset{fmaxis/.style={axis lines=middle,grid=major,grid style={fmmuted!15},axis line style={fmmuted,-latex},
+  tick label style={font=\scriptsize,color=fmmuted},clip=true,unbounded coords=jump,restrict y to domain=-200:200,
+  every axis plot/.append style={line join=round}},
+  fmcurve/.style={fmaccent,line width=1.6pt,smooth}}
+\tikzset{fmasy/.style={fmmuted,dashed,line width=0.9pt},fmguide/.style={fmaccent,dotted,line width=0.8pt},
+  fmdot/.style={circle,fill=fmaccent,inner sep=0pt,minimum size=5pt},fmopen/.style={circle,draw=fmaccent,fill=white,line width=1pt,inner sep=0pt,minimum size=5pt}}
+\newcommand{\fmpau}[1]{\tcbox[on line,colback=fmnavy,colframe=fmnavy,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1.5pt,bottom=1.5pt]{\color{white}\scriptsize\bfseries\MakeUppercase{#1}}\ }
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmgreen] (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-10.1cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.5cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmgreen,colframe=white!15!fmgreen,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º Bachillerato · Matemáticas I}
+
+\vspace{4pt}
+{\raggedright\color{white}\fontsize{25}{30}\selectfont\bfseries{\color{fmyellow}Unidad 6} · Estudio de funciones\par}
+\vspace{6pt}
+\begin{minipage}{\linewidth}\color{white!88!fmgreen}\small Teoría y ejemplos resueltos paso a paso: qué es una función, cómo se hallan el dominio, el recorrido y los puntos de corte, cómo se estudian la monotonía, la continuidad, las simetrías y la periodicidad, cómo se desplaza una gráfica (traslaciones) y cómo se componen e invierten las funciones.\end{minipage}\par
+% l'índex comença sempre a la mateixa altura, per davall de la franja (com en les unitats 5-10)
+\vspace*{\dimexpr 8.6cm-\pagetotal\relax}
+
+\begin{tcolorbox}[colback=fmsurface,colframe=fmsurface,arc=3mm,left=4mm,right=4mm,top=2mm,bottom=2mm]
+\small\textbf{Índice}\par\smallskip
+\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec1}{\textbf{\color{fmgreen}6.1}\ \ Concepto de función}}\\[3pt]
+\mbox{\hyperlink{sec2}{\textbf{\color{fmgreen}6.2}\ \ Dominio y recorrido}}\\[3pt]
+\mbox{\hyperlink{sec3}{\textbf{\color{fmgreen}6.3}\ \ Puntos de corte con los ejes}}\\[3pt]
+\mbox{\hyperlink{sec4}{\textbf{\color{fmgreen}6.4}\ \ Monotonía. Máximos y mínimos}}\\[3pt]
+\mbox{\hyperlink{sec5}{\textbf{\color{fmgreen}6.5}\ \ Continuidad}}\\[3pt]\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\small \mbox{\hyperlink{sec6}{\textbf{\color{fmgreen}6.6}\ \ Simetrías y periodicidad}}\\[3pt]
+\mbox{\hyperlink{sec7}{\textbf{\color{fmgreen}6.7}\ \ Transformaciones de funciones}}\\[3pt]
+\mbox{\hyperlink{sec8}{\textbf{\color{fmgreen}6.8}\ \ Composición de funciones}}\\[3pt]
+\mbox{\hyperlink{sec9}{\textbf{\color{fmgreen}6.9}\ \ Función inversa}}\\[3pt]\end{minipage}
+\end{tcolorbox}
+
+\Needspace{5.7cm}
+\section{Concepto de función}\hypertarget{sec1}{}
+\begin{fmdef}{Definición: función}
+Una \textbf{función} es una relación entre dos variables, la \textbf{independiente} (\fmm{x}) y la \textbf{dependiente} (\fmm{y}), de modo que \fmuline{a cada valor de la variable independiente le corresponde, como máximo, un único valor de la variable dependiente}. Se escribe \fmm{y=f(x)} y se dice que \fmm{y} es la \textbf{imagen} de \fmm{x}.
+
+\textbf{Prueba de la recta vertical:} una gráfica es de una función si ninguna recta vertical la corta en más de un punto.
+\end{fmdef}
+
+\fmboxneed{\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/82d67c068a13.pdf}\par}\par\smallskip{\centering\footnotesize 1.ª: \textcolor{fmok}{\textbf{+}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/8488d6b7a790.pdf}\par}\par\smallskip{\centering\footnotesize 2.ª: \textcolor{fmas}{$\boldsymbol{-}$}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/56ec071c8639.pdf}\par}\par\smallskip{\centering\footnotesize 3.ª: \textcolor{fmok}{\textbf{+}}\par}\end{minipage}\par\medskip}
+\begin{fmex}{Ejemplos: ¿son funciones?}
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/82d67c068a13.pdf}\par}\par\smallskip{\centering\footnotesize 1.ª: \textcolor{fmok}{\textbf{+}}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/8488d6b7a790.pdf}\par}\par\smallskip{\centering\footnotesize 2.ª: \textcolor{fmas}{$\boldsymbol{-}$}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/56ec071c8639.pdf}\par}\par\smallskip{\centering\footnotesize 3.ª: \textcolor{fmok}{\textbf{+}}\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/cc5558792a86.pdf}\par}\par\smallskip{\centering\footnotesize 4.ª: \textcolor{fmas}{$\boldsymbol{-}$}\par}\end{minipage}\hfill\hspace*{0.653\linewidth}\par\medskip
+
+La primera y la tercera gráficas son de funciones. La segunda y la cuarta no, porque hay valores de la variable independiente a los que corresponden \textbf{dos o más} valores de la dependiente (en la segunda, por ejemplo, \fmm{x=1} tiene las imágenes 1 y 2).
+\end{fmex}
+
+\fmheadboxalt{
+\section{Dominio y recorrido}\hypertarget{sec2}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright El \textbf{dominio} de una función, \fmm{D(f)}, es el conjunto de valores de la variable independiente para los que existe la función (los valores de \fmm{x} que tienen imagen).
+
+El \textbf{recorrido} (o imagen), \fmm{R(f)}, es el conjunto de valores que toma la variable dependiente.
+
+Gráficamente, el dominio es la «sombra» de la gráfica sobre el eje \fmm{X} (en azul) y el recorrido, la sombra sobre el eje \fmm{Y} (en naranja).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/df3cc5f3215d.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{D(f)=[1,8]}, \fmm{\ R(f)=[0,4]}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Definiciones}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright El \textbf{dominio} de una función, \fmm{D(f)}, es el conjunto de valores de la variable independiente para los que existe la función (los valores de \fmm{x} que tienen imagen).
+
+El \textbf{recorrido} (o imagen), \fmm{R(f)}, es el conjunto de valores que toma la variable dependiente.
+
+Gráficamente, el dominio es la «sombra» de la gráfica sobre el eje \fmm{X} (en azul) y el recorrido, la sombra sobre el eje \fmm{Y} (en naranja).\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/df3cc5f3215d.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{D(f)=[1,8]}, \fmm{\ R(f)=[0,4]}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+El \textbf{dominio} de una función, \fmm{D(f)}, es el conjunto de valores de la variable independiente para los que existe la función (los valores de \fmm{x} que tienen imagen).
+
+El \textbf{recorrido} (o imagen), \fmm{R(f)}, es el conjunto de valores que toma la variable dependiente.
+
+Gráficamente, el dominio es la «sombra» de la gráfica sobre el eje \fmm{X} (en azul) y el recorrido, la sombra sobre el eje \fmm{Y} (en naranja).
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/df3cc5f3215d.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{D(f)=[1,8]}, \fmm{\ R(f)=[0,4]}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+%\Needspace{5\baselineskip}
+\newpage
+\begin{fmex}{Ejemplo resuelto: dominio y recorrido a partir de la gráfica}
+Fíjate en los puntos llenos (sí están) y vacíos (no están).\\
+\vspace*{0.3cm}
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/6c966a4d7723.pdf}\par}\par\smallskip{\centering\footnotesize a)\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/d9643c305c9a.pdf}\par}\par\smallskip{\centering\footnotesize b)\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/a5469e11a388.pdf}\par}\par\smallskip{\centering\footnotesize c)\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/5b82ec70fe03.pdf}\par}\par\smallskip{\centering\footnotesize d)\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/51cf6ffb9716.pdf}\par}\par\smallskip{\centering\footnotesize e)\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/a0700aa01fa4.pdf}\par}\par\smallskip{\centering\footnotesize f)\par}\end{minipage}\par\medskip
+
+a) \fmm{D(f)=\mathbb R}, \fmm{\ R(f)=[0,+\infty[}
+
+b) \fmm{D(f)=\left]-\infty,6\right[}, \fmm{\ R(f)=\left]-\infty,3\right]}. En \fmm{x=4} hay imagen (el punto lleno \fmm{(4,3)}); el trozo horizontal no la tiene en \fmm{x=6}.
+
+c) \fmm{D(f)=\mathbb R-\{0\}}, \fmm{\ R(f)=\mathbb R-\{0\}}
+
+d) \fmm{D(f)=\left[-4,6\right[}, \fmm{\ R(f)=[-1,3]\cup\{4\}}
+
+e) \fmm{D(f)=\mathbb R-\{2\}}, \fmm{\ R(f)=\mathbb R-\{1\}}. La recta llega a \fmm{y=1} sin tocarlo y la curva se acerca por encima.
+
+f) \fmm{D(f)=\mathbb R}, \fmm{\ R(f)=[-2,+\infty[}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Cálculo analítico del dominio}
+Para saber si un punto es del dominio, lo sustituimos: para \fmm{f(x)=\sqrt{x^2-2}}, \fmm{\ f(2)=\sqrt2} existe, y por tanto \fmm{2\in D(f)}; en cambio \fmm{f(1)=\sqrt{-1}} no existe, y \fmm{1\notin D(f)}. Pero para hallar todo el dominio pensamos qué puntos «hacen» que la función no exista:
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Tipo} & \textbf{Condición} & \textbf{Ejemplo}\\\midrule
+Polinómica & Ninguna & $f(x)=x^3+2x-1\Rightarrow D(f)=\mathbb R$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Racional & Denominador $\neq0$ & $f(x)=\dfrac{2x-1}{x^2-4}$: $x^2-4=0\Rightarrow$\\
+& &$\Rightarrow x=\pm2\Rightarrow D(f)=\mathbb R-\{-2,2\}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Radical de índice impar & La del radicando & $\sqrt[3]{x-7}\Rightarrow\mathbb R;\quad \sqrt[5]{\tfrac1x}\Rightarrow\mathbb R-\{0\}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Radical de índice par & Radicando $\geq0$ & $\sqrt{x^2+x-2}\Rightarrow$\\
+& &$ D(f)=\left]-\infty,-2\right]\cup\left[1,+\infty\right[$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Exponencial & La del exponente & $2^{x+5}\Rightarrow\mathbb R;\quad 5^{\frac{4x}{x+3}}\Rightarrow\mathbb R-\{-3\}$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}Logarítmica & Argumento $\gt0$ & $\log_2(6x+4)\Rightarrow D(f)=\left]-\tfrac23,+\infty\right[$\\[3pt]\bottomrule\end{tabularx}\end{center}
+\end{fmprop}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: dominios con raíces y logaritmos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\sqrt{x^2+x-2}}
+
+Índice par: el radicando debe ser positivo o cero, \fmm{\ x^2+x-2\geq0}.
+
+Raíces: \fmm{x^2+x-2=0\Rightarrow x=1,\ x=-2}. Estudiamos el signo en cada intervalo (probando un valor de cada trozo):
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\begin{tabular}{cccccc}\toprule
+\textbf{$x$} & $\left]-\infty,-2\right[$ & $-2$ & $\left]-2,1\right[$ & $1$ & $\left]1,+\infty\right[$\\
+\textbf{signo} & + & 0 & $-$ & 0 & +\\
+\bottomrule\end{tabular}\end{center}
+
+\fmm{D(f)=\left]-\infty,-2\right]\cup\left[1,+\infty\right[} (los extremos entran porque \fmm{\sqrt0=0} existe).
+\item \fmm{f(x)=\log_2(6x+4)}
+
+El argumento del logaritmo debe ser \textbf{estrictamente} positivo: \fmm{\ 6x+4\gt0\Rightarrow 6x\gt-4\Rightarrow x\gt-\dfrac23}
+
+\fmm{D(f)=\left]-\dfrac23,+\infty\right[}
+\end{enumerate}
+\end{fmex}
+
+\fmheadboxalt{
+\section{Puntos de corte con los ejes}\hypertarget{sec3}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Corte con el eje \fmm{OY}:} todos los puntos del eje \fmm{OY} tienen \fmm{x=0}. Calculamos \fmm{y=f(0)}: el punto es \fmm{(0,f(0))}. Como es una función, hay \textbf{como máximo uno}.
+
+\textbf{Cortes con el eje \fmm{OX}:} todos tienen \fmm{y=0}. Resolvemos la ecuación \fmm{f(x)=0}: cada solución \fmm{a} da un punto \fmm{(a,0)}. Puede haber ninguno, uno o muchos.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/4421a4a61406.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{OX:(-1,0),(1,0)}; \fmm{OY:(0,-2)}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/d35bd5e63063.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{OX:(-3,0),(-1,0)}; \fmm{OY:(0,4)}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Cómo se hallan}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Corte con el eje \fmm{OY}:} todos los puntos del eje \fmm{OY} tienen \fmm{x=0}. Calculamos \fmm{y=f(0)}: el punto es \fmm{(0,f(0))}. Como es una función, hay \textbf{como máximo uno}.
+
+\textbf{Cortes con el eje \fmm{OX}:} todos tienen \fmm{y=0}. Resolvemos la ecuación \fmm{f(x)=0}: cada solución \fmm{a} da un punto \fmm{(a,0)}. Puede haber ninguno, uno o muchos.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/4421a4a61406.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{OX:(-1,0),(1,0)}; \fmm{OY:(0,-2)}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/d35bd5e63063.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{OX:(-3,0),(-1,0)}; \fmm{OY:(0,4)}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+\textbf{Corte con el eje \fmm{OY}:} todos los puntos del eje \fmm{OY} tienen \fmm{x=0}. Calculamos \fmm{y=f(0)}: el punto es \fmm{(0,f(0))}. Como es una función, hay \textbf{como máximo uno}.
+
+\textbf{Cortes con el eje \fmm{OX}:} todos tienen \fmm{y=0}. Resolvemos la ecuación \fmm{f(x)=0}: cada solución \fmm{a} da un punto \fmm{(a,0)}. Puede haber ninguno, uno o muchos.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/4421a4a61406.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{OX:(-1,0),(1,0)}; \fmm{OY:(0,-2)}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/d35bd5e63063.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{OX:(-3,0),(-1,0)}; \fmm{OY:(0,4)}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: $f(x)=x^2-x-6$}
+Eje \fmm{OY}: \fmm{x=0\Rightarrow y=f(0)=0^2-0-6=-6}. Corta en \fmm{(0,-6)}.
+
+Eje \fmm{OX}: \fmm{y=0\Rightarrow x^2-x-6=0\Rightarrow x=\dfrac{1\pm\sqrt{1+24}}{2}=\dfrac{1\pm5}{2}\Rightarrow x=3,\ x=-2}. Corta en \fmm{(3,0)} y \fmm{(-2,0)}.
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Monotonía. Máximos y mínimos}\hypertarget{sec4}{}
+\begin{fmdef}{Crecimiento y decrecimiento}
+Una función es \textbf{creciente} en un intervalo si, a medida que aumentan los valores de la variable independiente, también lo hacen los de la dependiente: \fmm{x_1\lt x_2\Rightarrow f(x_1)\lt f(x_2)}. Es \textbf{decreciente} si, cuando aumenta \fmm{x}, disminuye \fmm{y}: \fmm{x_1\lt x_2\Rightarrow f(x_1)\gt f(x_2)}. Si \fmm{y} no cambia, es \textbf{constante}.
+
+\begin{fmnote}Los intervalos de monotonía se dan siempre con valores de \fmm{x} (se lee la gráfica de izquierda a derecha) y abiertos.\end{fmnote}
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/aaa00efc71ef.pdf}\par}\par\smallskip{\centering\footnotesize Decreciente: \fmm{\left]-\infty,0\right[}\newline Creciente: \fmm{\left]0,+\infty\right[}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/142c52597044.pdf}\par}\par\smallskip{\centering\footnotesize Decreciente: \fmm{\left]-4,-2\right[\cup\left]3,6\right[}\newline Creciente: \fmm{\left]-2,0\right[}; constante: \fmm{\left]0,3\right[}\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Máximos y mínimos}
+Un punto es un \textbf{máximo} si en él la función pasa de ser creciente a ser decreciente. Si es el punto más alto de toda la función es un \textbf{máximo absoluto}; si no, un \textbf{máximo relativo}.
+
+Un punto es un \textbf{mínimo} si la función pasa en él de ser decreciente a ser creciente. Si es el punto más bajo de toda la función, es un \textbf{mínimo absoluto}; si no, un \textbf{mínimo relativo}.
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=3.6cm,keepaspectratio]{figs/2cc50b23ef82.pdf}\par}\end{minipage}\par\medskip\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \textbf{Máximos:} \fmm{(1,15)}; \fmm{(5,20)} absoluto; \fmm{(7,18)}; \fmm{(9,12)}.
+
+\textbf{Mínimos:} \fmm{(3,6)} absoluto; \fmm{(6,15)}; \fmm{(8,10)}.
+
+\begin{fmnote}Si un extremo del dominio fuera el punto más alto (o más bajo) de la función, también lo consideraríamos un máximo (o mínimo) absoluto.\end{fmnote}\end{minipage}\par\medskip}{
+
+\textbf{Máximos:} \fmm{(1,15)}; \fmm{(5,20)} absoluto; \fmm{(7,18)}; \fmm{(9,12)}.
+
+\textbf{Mínimos:} \fmm{(3,6)} absoluto; \fmm{(6,15)}; \fmm{(8,10)}.
+
+\begin{fmnote}Si un extremo del dominio fuera el punto más alto (o más bajo) de la función, también lo consideraríamos un máximo (o mínimo) absoluto.\end{fmnote}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=3.6cm,keepaspectratio]{figs/2cc50b23ef82.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}
+
+\Needspace{5.7cm}
+\section{Continuidad}\hypertarget{sec5}{}
+\begin{fmdef}{Definición: función continua}
+Una función es \textbf{continua} si su gráfica no presenta saltos, es decir, \textbf{se puede dibujar de un solo trazo}, sin levantar el lápiz del papel. Si en un punto \fmm{x=a} hay que levantar el lápiz, la función es \textbf{discontinua} en \fmm{x=a}.
+
+\par\noindent \begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/6461f902b081.pdf}\par}\par\smallskip{\centering\footnotesize Continua\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/2795ae0ea36c.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua en \fmm{x=0} y \fmm{x=3}\par}\end{minipage}\hfill\begin{minipage}[t]{0.312\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.8cm,keepaspectratio]{figs/a9d74ce50df0.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua en \fmm{x=2}\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmprop}{Tipos de discontinuidad}
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}\toprule
+\textbf{Evitable} & Los dos trozos llegan a la misma altura, pero falta el punto o está fuera de lugar.\\[3pt]
+\textbf{De salto finito} & Los dos trozos llegan a alturas diferentes (finitas).\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}\textbf{De salto infinito} & Por un lado la función se va a infinito y por el otro llega a una altura finita.\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X}\textbf{Asintótica} & Por los dos lados la función se va a infinito: hay una asíntota vertical.\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\par\noindent \begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/9f7e81287f0f.pdf}\par}\par\smallskip{\centering\footnotesize Evitable\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/ce73f43e4d67.pdf}\par}\par\smallskip{\centering\footnotesize Evitable\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/642df7f8991b.pdf}\par}\par\smallskip{\centering\footnotesize Salto finito\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/96022edcb383.pdf}\par}\par\smallskip{\centering\footnotesize Salto finito\par}\end{minipage}\par\medskip
+\par\noindent \begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/76d9bbbeab30.pdf}\par}\par\smallskip{\centering\footnotesize Salto infinito\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/50e38d70a386.pdf}\par}\par\smallskip{\centering\footnotesize Salto infinito\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/d88aa2ca2aac.pdf}\par}\par\smallskip{\centering\footnotesize Asintótica\par}\end{minipage}\hfill\begin{minipage}[t]{0.230\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=3.0cm,keepaspectratio]{figs/32d39adb43db.pdf}\par}\par\smallskip{\centering\footnotesize Asintótica\par}\end{minipage}\par\medskip
+\end{fmprop}
+
+\fmheadblock{
+\section{Simetrías y periodicidad}\hypertarget{sec6}{}
+}{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmdef}{Funciones pares}
+Son \textbf{simétricas respecto del eje \fmm{OY}}:
+
+\fmdisp{f(-x)=f(x)}
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/e3e1588d5aaa.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=x^2+1}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/c442914eccad.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=\dfrac{x^2}{x^4-1}}\par}\end{minipage}\par\medskip
+\end{fmdef}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \begin{fmdef}{Funciones impares}
+Son \textbf{simétricas respecto del origen \fmm{(0,0)}}:
+
+\fmdisp{f(-x)=-f(x)}
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/fd6bb28ec356.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=x^3+x}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/7a11f73305a3.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{f(x)=\dfrac{x}{x^2+3}}\par}\end{minipage}\par\medskip
+\end{fmdef}\end{minipage}\par\medskip}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: estudia la simetría}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=\dfrac{x^2}{x^4-1}}
+
+\fmm{f(-x)=\dfrac{(-x)^2}{(-x)^4-1}=\dfrac{x^2}{x^4-1}=f(x)\Rightarrow} \textbf{par}. Las potencias pares «se comen» el signo.
+\item \fmm{g(x)=x^3+x}
+
+\fmm{g(-x)=(-x)^3+(-x)=-x^3-x=-(x^3+x)=-g(x)\Rightarrow} \textbf{impar}.
+\item \fmm{h(x)=x^2+x}
+
+\fmm{h(-x)=x^2-x}. No es ni \fmm{h(x)} ni \fmm{-h(x)=-x^2-x}: \textbf{no tiene simetría} (basta con verlo en un punto: \fmm{h(1)=2}, \fmm{h(-1)=0}).
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5\baselineskip}
+\begin{fmdef}{Funciones periódicas}
+Una función es \textbf{periódica} si está formada por un trozo de curva que \textbf{se repite indefinidamente}. La amplitud \fmm{T} del trozo que se repite es el \textbf{periodo}: \fmm{f(x+T)=f(x)} para todo \fmm{x}.
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/c93c5885547d.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=\cos x}: periodo \fmm{2\pi}. Un electrocardiograma también es (casi) periódico.\par}\end{minipage}\par\medskip
+\end{fmdef}
+
+\Needspace{8\baselineskip}
+\section{Transformaciones de funciones: traslaciones}\hypertarget{sec7}{}
+
+Si conocemos la gráfica de una función \fmm{y=f(x)}, podemos dibujar sin hacer ninguna tabla de valores las gráficas de \fmm{y=f(x)+k}, \fmm{y=f(x-h)} e \fmm{y=f(x-h)+k}: son la misma curva desplazada. Lo usaremos constantemente en la unidad 7 con las funciones elementales.
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Sumar \fmm{k} a la función desplaza la gráfica \textbf{\fmm{k} unidades hacia arriba} si \fmm{k\gt0} y \textbf{hacia abajo} si \fmm{k\lt0}. Cada punto \fmm{(a,b)} de la gráfica de \fmm{f} pasa a ser \fmm{(a,\,b+k)}.
+
+El dominio no cambia; el recorrido, los máximos, los mínimos y las asíntotas horizontales suben o bajan \fmm{k}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/0f02af737a18.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua: \fmm{y=f(x)}. Roja: \fmm{y=f(x)+2}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Traslación vertical: $y=f(x)+k$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Sumar \fmm{k} a la función desplaza la gráfica \textbf{\fmm{k} unidades hacia arriba} si \fmm{k\gt0} y \textbf{hacia abajo} si \fmm{k\lt0}. Cada punto \fmm{(a,b)} de la gráfica de \fmm{f} pasa a ser \fmm{(a,\,b+k)}.
+
+El dominio no cambia; el recorrido, los máximos, los mínimos y las asíntotas horizontales suben o bajan \fmm{k}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/0f02af737a18.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua: \fmm{y=f(x)}. Roja: \fmm{y=f(x)+2}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Sumar \fmm{k} a la función desplaza la gráfica \textbf{\fmm{k} unidades hacia arriba} si \fmm{k\gt0} y \textbf{hacia abajo} si \fmm{k\lt0}. Cada punto \fmm{(a,b)} de la gráfica de \fmm{f} pasa a ser \fmm{(a,\,b+k)}.
+
+El dominio no cambia; el recorrido, los máximos, los mínimos y las asíntotas horizontales suben o bajan \fmm{k}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/0f02af737a18.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua: \fmm{y=f(x)}. Roja: \fmm{y=f(x)+2}.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Cambiar \fmm{x} por \fmm{x-h} desplaza la gráfica \textbf{\fmm{h} unidades hacia la derecha} si \fmm{h\gt0} y \textbf{hacia la izquierda} si \fmm{h\lt0}. Cada punto \fmm{(a,b)} pasa a ser \fmm{(a+h,\,b)}.
+
+\begin{fmnote}\fmuline{Cuidado con el signo:} \fmm{y=f(x-3)} va hacia la \textbf{derecha} e \fmm{y=f(x+3)} hacia la \textbf{izquierda}. Piénsalo así: el valor que \fmm{f} tomaba en \fmm{x=0}, \fmm{f(x-3)} lo toma en \fmm{x=3}.\end{fmnote}
+
+El recorrido no cambia; el dominio, los extremos y las asíntotas verticales se desplazan \fmm{h}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/0b2f155e3626.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua: \fmm{y=f(x)}. Roja: \fmm{y=f(x-3)}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Traslación horizontal: $y=f(x-h)$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Cambiar \fmm{x} por \fmm{x-h} desplaza la gráfica \textbf{\fmm{h} unidades hacia la derecha} si \fmm{h\gt0} y \textbf{hacia la izquierda} si \fmm{h\lt0}. Cada punto \fmm{(a,b)} pasa a ser \fmm{(a+h,\,b)}.
+
+\begin{fmnote}\fmuline{Cuidado con el signo:} \fmm{y=f(x-3)} va hacia la \textbf{derecha} e \fmm{y=f(x+3)} hacia la \textbf{izquierda}. Piénsalo así: el valor que \fmm{f} tomaba en \fmm{x=0}, \fmm{f(x-3)} lo toma en \fmm{x=3}.\end{fmnote}
+
+El recorrido no cambia; el dominio, los extremos y las asíntotas verticales se desplazan \fmm{h}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/0b2f155e3626.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua: \fmm{y=f(x)}. Roja: \fmm{y=f(x-3)}.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Cambiar \fmm{x} por \fmm{x-h} desplaza la gráfica \textbf{\fmm{h} unidades hacia la derecha} si \fmm{h\gt0} y \textbf{hacia la izquierda} si \fmm{h\lt0}. Cada punto \fmm{(a,b)} pasa a ser \fmm{(a+h,\,b)}.
+
+\begin{fmnote}\fmuline{Cuidado con el signo:} \fmm{y=f(x-3)} va hacia la \textbf{derecha} e \fmm{y=f(x+3)} hacia la \textbf{izquierda}. Piénsalo así: el valor que \fmm{f} tomaba en \fmm{x=0}, \fmm{f(x-3)} lo toma en \fmm{x=3}.\end{fmnote}
+
+El recorrido no cambia; el dominio, los extremos y las asíntotas verticales se desplazan \fmm{h}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/0b2f155e3626.pdf}\par}\par\smallskip{\centering\footnotesize Discontinua: \fmm{y=f(x)}. Roja: \fmm{y=f(x-3)}.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmdef}\global\fmstackfalse
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Se hacen las dos traslaciones a la vez (el orden no importa): \fmm{h} unidades en horizontal y \fmm{k} en vertical. Cada punto \fmm{(a,b)} pasa a ser \fmm{(a+h,\,b+k)}.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Expresión} & \textbf{Movimiento} & \textbf{Punto}\\\midrule
+$f(x)+k$ & vertical & $(a,\,b+k)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x-h)$ & horizontal & $(a+h,\,b)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x-h)+k$ & las dos & $(a+h,\,b+k)$\\[3pt]\bottomrule\end{tabularx}\end{center}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ad5cdaadc6a7.pdf}\par}\par\smallskip{\centering\footnotesize Roja: \fmm{y=f(x+2)-3}: 2 hacia la izquierda y 3 hacia abajo.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmdef}{Traslación en las dos direcciones: $y=f(x-h)+k$}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Se hacen las dos traslaciones a la vez (el orden no importa): \fmm{h} unidades en horizontal y \fmm{k} en vertical. Cada punto \fmm{(a,b)} pasa a ser \fmm{(a+h,\,b+k)}.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Expresión} & \textbf{Movimiento} & \textbf{Punto}\\\midrule
+$f(x)+k$ & vertical & $(a,\,b+k)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x-h)$ & horizontal & $(a+h,\,b)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x-h)+k$ & las dos & $(a+h,\,b+k)$\\[3pt]\bottomrule\end{tabularx}\end{center}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ad5cdaadc6a7.pdf}\par}\par\smallskip{\centering\footnotesize Roja: \fmm{y=f(x+2)-3}: 2 hacia la izquierda y 3 hacia abajo.\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Se hacen las dos traslaciones a la vez (el orden no importa): \fmm{h} unidades en horizontal y \fmm{k} en vertical. Cada punto \fmm{(a,b)} pasa a ser \fmm{(a+h,\,b+k)}.
+
+\begin{center}\renewcommand{\arraystretch}{1.5}\setlength{\parskip}{0pt}\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}\toprule
+\textbf{Expresión} & \textbf{Movimiento} & \textbf{Punto}\\\midrule
+$f(x)+k$ & vertical & $(a,\,b+k)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x-h)$ & horizontal & $(a+h,\,b)$\\[3pt]\end{tabularx}\par\nointerlineskip\vskip0pt
+\small\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}$f(x-h)+k$ & las dos & $(a+h,\,b+k)$\\[3pt]\bottomrule\end{tabularx}\end{center}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/ad5cdaadc6a7.pdf}\par}\par\smallskip{\centering\footnotesize Roja: \fmm{y=f(x+2)-3}: 2 hacia la izquierda y 3 hacia abajo.\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+
+\par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=8.6cm,height=5.2cm,keepaspectratio]{figs/549ca69cc750.pdf}\par}\par\smallskip{\centering\footnotesize A partir de \fmm{y=x^2} (discontinua): \fmm{y=(x-3)^2} en rojo, \fmm{y=x^2-2} en azul e \fmm{y=(x+2)^2+1} en verde. Los puntos marcados son los vértices.\par}\end{minipage}\par\medskip
+\end{fmdef}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplos resueltos}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item La función \fmm{f} de las figuras tiene los puntos \fmm{(-3,0)}, \fmm{(-1,2)}, \fmm{(1,1)} y \fmm{(2,3)}, y dominio \fmm{[-3,2]}. Halla los puntos, el dominio y el recorrido de \fmm{g(x)=f(x+2)-3}.
+
+\fmm{f(x+2)-3=f\big(x-(-2)\big)-3}: \fmm{h=-2}, \fmm{k=-3}. Cada punto \fmm{(a,b)\to(a-2,\,b-3)}: \fmm{(-5,-3),\ (-3,-1),\ (-1,-2),\ (0,0)}.
+
+\fmm{D(g)=[-3-2,\,2-2]=[-5,0]}; \fmm{\ R(f)=[0,3]\Rightarrow R(g)=[-3,0]}.
+\item Escribe \fmm{y=x^2-4x+5} como una traslación de \fmm{y=x^2} y halla su vértice.
+
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Completamos el cuadrado: \fmm{x^2-4x+5=(x^2-4x+4)+1=(x-2)^2+1}.
+
+Es \fmm{y=x^2} desplazada 2 a la derecha y 1 hacia arriba: el vértice \fmm{(0,0)} pasa a \fmm{(2,1)}.\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/d87022e4747c.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Completamos el cuadrado: \fmm{x^2-4x+5=(x^2-4x+4)+1=(x-2)^2+1}.
+
+Es \fmm{y=x^2} desplazada 2 a la derecha y 1 hacia arriba: el vértice \fmm{(0,0)} pasa a \fmm{(2,1)}.
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/d87022e4747c.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{enumerate}
+\end{fmex}
+
+\begin{fmnote}En la unidad 7 verás también las \textbf{reflexiones}: \fmm{y=-f(x)} es la simétrica de \fmm{f} respecto del eje \fmm{OX} e \fmm{y=f(-x)}, respecto del eje \fmm{OY}.\end{fmnote}
+
+\Needspace{5.7cm}
+\section{Composición de funciones}\hypertarget{sec8}{}
+\begin{fmdef}{Definición}
+La \textbf{composición} de \fmm{f} y \fmm{g} (se lee «\fmm{g} compuesta con \fmm{f}» o «\fmm{f} círculo \fmm{g}») consiste en aplicar primero \fmm{g} y, al resultado, \fmm{f}:
+
+\fmdisp{(f\circ g)(x)=f\big(g(x)\big)}
+
+\begin{fmnote}Cuidado con el orden: en \fmm{f\circ g} se aplica \fmuline{primero la de la derecha}. En general, \fmm{f\circ g\neq g\circ f}.\end{fmnote}
+\end{fmdef}
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: $f(x)=x^2-1,\ \ g(x)=\dfrac{3x}{x-1},\ \ h(x)=\sqrt{x+1}$}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{(g\circ f)(x)}
+
+\fmm{g\big(f(x)\big)=g(x^2-1)=\dfrac{3(x^2-1)}{(x^2-1)-1}=\dfrac{3x^2-3}{x^2-2}}
+\item \fmm{(f\circ h)(x)}
+
+\fmm{f\big(h(x)\big)=f\left(\sqrt{x+1}\right)=\left(\sqrt{x+1}\right)^2-1=x+1-1=x} (para \fmm{x\geq-1}).
+\item \fmm{(f\circ f)(x)}
+
+\fmm{f\big(f(x)\big)=f(x^2-1)=(x^2-1)^2-1=x^4-2x^2+1-1=x^4-2x^2}
+\end{enumerate}
+\end{fmex}
+
+\Needspace{5.7cm}
+\section{Función inversa}\hypertarget{sec9}{}
+\begin{fmdef}{Definición}
+La \textbf{inversa} de una función \fmm{f}, que se escribe \fmm{f^{-1}}, es la función que «deshace» lo que hace \fmm{f}:
+
+\fmdisp{(f\circ f^{-1})(x)=x\qquad (f^{-1}\circ f)(x)=x}
+
+\textbf{Gráficamente}, dos funciones inversas son simétricas respecto de la bisectriz del primer cuadrante, \fmm{y=x}: si \fmm{(a,b)} es de la gráfica de \fmm{f}, \fmm{(b,a)} es de la de \fmm{f^{-1}}.
+
+\par\noindent \begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/dcbe1839db1b.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=2^x+1} y \fmm{y=\log_2(x-1)}\par}\end{minipage}\hfill\begin{minipage}[t]{0.475\linewidth}\centering {\centering \includegraphics[width=\linewidth,height=4.6cm,keepaspectratio]{figs/346e68654558.pdf}\par}\par\smallskip{\centering\footnotesize \fmm{y=x^2+3} con \fmm{x\geq0} e \fmm{y=\sqrt{x-3}}\par}\end{minipage}\par\medskip
+
+\begin{fmnote}Para que exista la inversa, cada \fmm{y} debe venir de un solo \fmm{x}. La parábola \fmm{y=x^2+3} entera no tiene inversa (\fmm{f(1)=f(-1)=4}): hay que quedarse con una sola rama, por ejemplo \fmm{x\geq0}.\end{fmnote}
+\end{fmdef}
+
+\fmboxneedalt{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Ejemplo: \fmm{f(x)=3x-1}
+
+\begin{enumerate}
+\item Sustituimos \fmm{f(x)} por \fmm{y}: \fmm{\ y=3x-1}
+\item Intercambiamos las variables: \fmm{\ x=3y-1}
+\item Despejamos \fmm{y}: \fmm{\ y=\dfrac{x+1}{3}}
+\item Ya tenemos la inversa: \fmm{\ f^{-1}(x)=\dfrac{x+1}{3}}
+\end{enumerate}
+
+Comprobación: \fmm{f\big(f^{-1}(x)\big)=3\cdot\dfrac{x+1}{3}-1=x}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/2e8d89b3202b.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}
+\begin{fmprop}{Cálculo de la inversa}
+\fmtwoin{\par\noindent \begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright Ejemplo: \fmm{f(x)=3x-1}
+
+\begin{enumerate}
+\item Sustituimos \fmm{f(x)} por \fmm{y}: \fmm{\ y=3x-1}
+\item Intercambiamos las variables: \fmm{\ x=3y-1}
+\item Despejamos \fmm{y}: \fmm{\ y=\dfrac{x+1}{3}}
+\item Ya tenemos la inversa: \fmm{\ f^{-1}(x)=\dfrac{x+1}{3}}
+\end{enumerate}
+
+Comprobación: \fmm{f\big(f^{-1}(x)\big)=3\cdot\dfrac{x+1}{3}-1=x}\end{minipage}\hfill\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\raggedright \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/2e8d89b3202b.pdf}\par}\end{minipage}\par\medskip\end{minipage}\par\medskip}{
+
+Ejemplo: \fmm{f(x)=3x-1}
+
+\begin{enumerate}
+\item Sustituimos \fmm{f(x)} por \fmm{y}: \fmm{\ y=3x-1}
+\item Intercambiamos las variables: \fmm{\ x=3y-1}
+\item Despejamos \fmm{y}: \fmm{\ y=\dfrac{x+1}{3}}
+\item Ya tenemos la inversa: \fmm{\ f^{-1}(x)=\dfrac{x+1}{3}}
+\end{enumerate}
+
+Comprobación: \fmm{f\big(f^{-1}(x)\big)=3\cdot\dfrac{x+1}{3}-1=x}
+
+\begin{center}\begin{minipage}{0.62\linewidth}\centering \par\medskip\begin{minipage}{\linewidth}{\centering \includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{figs/2e8d89b3202b.pdf}\par}\end{minipage}\par\medskip\end{minipage}\end{center}
+}
+\end{fmprop}\global\fmstackfalse
+
+\Needspace{5\baselineskip}
+\begin{fmex}{Ejemplo resuelto: calcula la inversa}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \fmm{f(x)=3x^2+2} (con \fmm{x\geq0})
+
+\fmm{y=3x^2+2\ \to\ x=3y^2+2\ \to\ y^2=\dfrac{x-2}{3}}
+
+\fmm{f^{-1}(x)=\sqrt{\dfrac{x-2}{3}}} (nos quedamos con el signo \fmm{+} porque \fmm{f} trabaja con \fmm{x\geq0}).
+\item \fmm{g(x)=\dfrac{3}{x-1}}
+
+\fmm{y=\dfrac{3}{x-1}\ \to\ x=\dfrac{3}{y-1}\ \to\ y-1=\dfrac3x}
+
+\fmm{g^{-1}(x)=1+\dfrac3x=\dfrac{x+3}{x}}
+\end{enumerate}
+\end{fmex}
+
+  
+\end{document}
