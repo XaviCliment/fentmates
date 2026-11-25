@@ -1135,6 +1135,10 @@ if N == 3:  # retocs de l'autor (Desktop, revisió 2026-11-25): la taula dels ti
     j = doc.index('\\fmbadge{fmas}{SI} Incompatible'); i = doc.rindex('\\begin{center}', 0, j); j = doc.index('\\end{center}', j)
     assert doc[i:j].count('p{3.2cm}') == 3
     doc = doc[:i] + doc[i:j].replace('p{3.2cm}', 'p{4.2cm}') + doc[j:]
+if N == 5:  # retocs de l'autor (Desktop, revisió 2026-11-25): el cas particular del quocient de polinomis de primer grau, amb més aire
+    for x in (r'=\\dfrac\{r\(x\)\}\{Q\(x\)\}\+q\(x\)\}\.', r'\\fmm\{y=\\dfrac\{3x\+1\}\{x-2\}\}', r'3x\+1-3\(x-2\)=7\}\.'):
+        retoc(r'(%s)\n' % x, r'\1\\\\[2ex]\n', True)
+    retoc(r'(\\fmm\{y=\\frac7x\} \w+ 2 [^\n]*?(?:amunt|arriba)\.) (As\w+ \\fmm\{x=2\})', r'\1 \\\\[2ex]\n\2', True)
 if N == 5:  # l'exemple de la funció a trossos: les quatre gràfiques dels passos, més menudes (no deixen un forat de 5 cm)
     i = doc.index(T('\\begin{fmex}{Exemple resolt: representa $f(x)=\\begin{cases}', '\\begin{fmex}{Ejemplo resuelto: representa $f(x)=\\begin{cases}')); j = doc.index('\\end{fmex}', i)
     assert doc[i:j].count('width=6.2cm,height=5.2cm') == 4
