@@ -1,0 +1,869 @@
+% Apunts de teoria en PDF · 3r ESO · Unitat 3: Proporcionalitat i percentatges
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 3: Proporcionalitat i percentatges. 3r ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={percentatges, índex de variació, interés compost, repartiments proporcionals, mescles, moviments, proporcionalitat simple, proporcionalitat composta}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{3.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{34}{34}\selectfont] at (14,44) {$25\,\%\quad \frac{a}{b}=\frac{c}{d}$};
+  \foreach \i in {0,...,4} \foreach \j in {0,...,4} {\draw[line width=1.6pt] (40+\i*10,60+\j*10) rectangle ++(10,10);}
+  \fill[opacity=0.6] (40,60) rectangle (90,70);
+  \draw[line width=3.2pt] (140,105) -- (140,55); \draw[line width=3.2pt] (140,105) -- (230,105);
+  \draw[line width=3pt] (140,105) -- (220,62);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3r ESO · Unitat 3: Proporcionalitat i percentatges}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 3r ESO · Matemàtiques}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 3}\\[2pt]Proporcionalitat i percentatges\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\pc}{\,\%}
+% quadrícula de 100 amb #1 caselles pintades
+\newcommand{\cent}[2]{\begin{tikzpicture}[x=#2,y=#2]
+  \foreach \k in {0,...,99} {\pgfmathtruncatemacro\i{mod(\k,10)}\pgfmathtruncatemacro\j{9-int(\k/10)}
+    \ifnum\k<#1 \filldraw[fill=fmB!45,draw=white,line width=0.6pt] (\i,\j) rectangle ++(1,1);
+    \else \filldraw[fill=fmsurface,draw=white,line width=0.6pt] (\i,\j) rectangle ++(1,1);\fi}
+  \draw[fmB,line width=1pt,rounded corners=1pt] (0,0) rectangle (10,10);
+\end{tikzpicture}}
+% capçalera de taula arrodonida (taules senzilles)
+% taula amb vores arrodonides: el contingut es retalla amb la forma
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+
+\begin{document}
+\portada{Percentatges, repartiments, mescles\dots: les matemàtiques de cada dia.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{3.1}{\faPercent}{Percentatges i fraccions}
+\itile{sec2}{3.2}{\faCalculator}{Càlcul de percentatges}
+\itile{sec3}{3.3}{\faQuestionCircle}{Quin tant per cent és?}
+\itile{sec4}{3.4}{\faArrowsAltV}{Augments i disminucions}
+\itile{sec5}{3.5}{\faUndo}{La quantitat inicial}
+\itile{sec6}{3.6}{\faLink}{Variacions encadenades}
+\itile{sec7}{3.7}{\faPiggyBank}{Interés compost}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec8}{3.8}{\faUsers}{Repartiments proporcionals}
+\itile{sec9}{3.9}{\faBlender}{Problemes de mescles}
+\itile{sec10}{3.10}{\faCarSide}{Problemes de moviments}
+\itile{sec11}{3.11}{\faBalanceScale}{Proporcionalitat simple}
+\itile{sec12}{3.12}{\faCubes}{Proporcionalitat composta}
+\itile{resum}{\phantom{3.12}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 3.1
+\clearpage
+\seccio{sec1}{Percentatges, fraccions i decimals}{Un percentatge diu quantes parts prenem de cada 100.}
+
+\begin{minipage}[c]{0.3\linewidth}\centering
+\cent{35}{0.42cm}\\[4pt]
+{\comic\color{fmB}35 de cada 100}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.67\linewidth}
+\begin{idea}[Tres maneres de dir el mateix]
+{\centering\fontsize{20}{26}\selectfont$\cB{35\pc}=\cA{\dfrac{35}{100}}=\cA{\dfrac{7}{20}}=\cK{0{,}35}$\par}\smallskip
+{\centering\chip{fmB}{percentatge}\quad \chip{fmA}{fracció}\quad \chip{fmK}{decimal (tant per u)}\par}\smallskip
+El $100\pc$ és el \textbf{total} ($=1$). Més del $100\pc$ és \textbf{més} que el total.
+\end{idea}
+\end{minipage}
+
+\subsection{Com passem d'una forma a una altra}
+\begin{center}
+\begin{tikzpicture}[b/.style={draw=#1,fill=#1!12,line width=1.3pt,rounded corners=3mm,minimum width=3.6cm,minimum height=1.3cm,align=center,font=\large}]
+  \node[b=fmB] (p) at (0,0) {\heavy Percentatge\\$35\pc$};
+  \node[b=fmK] (d) at (7,0) {\heavy Decimal\\$0{,}35$};
+  \node[b=fmA] (f) at (3.5,-2.6) {\heavy Fracció\\$\dfrac{35}{100}=\dfrac{7}{20}$};
+  \draw[-{Latex[length=3mm]},line width=1.3pt,fmmuted] ([yshift=5pt]p.east) -- node[above,font=\comic]{dividim entre 100} ([yshift=5pt]d.west);
+  \draw[-{Latex[length=3mm]},line width=1.3pt,fmmuted] ([yshift=-5pt]d.west) -- node[below,font=\comic]{multipliquem per 100} ([yshift=-5pt]p.east);
+  \draw[-{Latex[length=3mm]},line width=1.3pt,fmmuted] (p.south) -- node[left=4pt,font=\comic,align=right]{$\dfrac{p}{100}$ i\\simplifiquem} (f.west);
+  \draw[-{Latex[length=3mm]},line width=1.3pt,fmmuted] (f.east) -- node[right=4pt,font=\comic,align=left]{dividim\\dalt entre baix} (d.south);
+\end{tikzpicture}
+\end{center}
+
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+$4\pc=0{,}04\qquad 120\pc=1{,}2$\\[3pt]
+$0{,}375=37{,}5\pc\qquad 1{,}35=135\pc$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$60\pc=\dfrac{60}{100}=\dfrac35$\\[3pt]
+$\dfrac38=0{,}375=37{,}5\pc\qquad \dfrac{7}{25}=\dfrac{28}{100}=28\pc$
+\end{minipage}
+\end{exemple}
+
+\begin{center}
+\taularod{>{\columncolor{fmblue}\color{white}\heavy}l*{9}{w{c}{1.08cm}}}{
+\rowcolor{fmblue}\% & \color{white}$1\pc$ & \color{white}$5\pc$ & \color{white}$10\pc$ & \color{white}$20\pc$ & \color{white}$25\pc$ & \color{white}$33{,}\overline{3}\pc$ & \color{white}$50\pc$ & \color{white}$75\pc$ & \color{white}$100\pc$\\
+Fracció & $\frac{1}{100}$ & $\frac{1}{20}$ & $\frac{1}{10}$ & $\frac15$ & $\frac14$ & $\frac13$ & $\frac12$ & $\frac34$ & $1$\\
+\rowcolor{fmsurface}\cellcolor{fmblue}Decimal & $0{,}01$ & $0{,}05$ & $0{,}1$ & $0{,}2$ & $0{,}25$ & $0{,}\overline{3}$ & $0{,}5$ & $0{,}75$ & $1$
+}
+\end{center}
+{\comic\color{fmblue}\centering Val la pena saber-la de memòria: el $50\pc$ és la meitat, el $25\pc$ la quarta part, el $10\pc$ la desena part\dots\par}
+
+% ============================================================ 3.2
+\clearpage
+\seccio{sec2}{Càlcul de percentatges}{Multipliquem la quantitat pel percentatge en forma decimal.}
+
+\begin{minipage}[c]{0.52\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$p\pc$ de $C=C\cdot\dfrac{p}{100}$}\par\medskip
+$15\pc$ de $80=80\cdot0{,}15=\boxed{12}$
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[És una regla de tres]
+{\centering$\left.\begin{array}{l}100\ \longrightarrow\ p\\ C\ \ \ \longrightarrow\ x\end{array}\right\}\quad x=\dfrac{C\cdot p}{100}$\par}
+\end{idea}
+\end{minipage}
+
+\subsection{Trucs de càlcul mental}
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=2mm,bottom=2mm]
+{\Large\heavy\color{fmblue}$50\pc$}\par la \textbf{meitat}\par{\small$50\pc$ de $84=42$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=2mm,bottom=2mm]
+{\Large\heavy\color{fmblue}$25\pc$}\par la meitat de la meitat\par{\small$25\pc$ de $84=21$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=2mm,bottom=2mm]
+{\Large\heavy\color{fmblue}$10\pc$}\par dividim entre 10\par{\small$10\pc$ de $84=8{,}4$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=2mm,bottom=2mm]
+{\Large\heavy\color{fmblue}$1\pc$}\par dividim entre 100\par{\small$1\pc$ de $84=0{,}84$}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Combina'ls]
+$5\pc$: la meitat del $10\pc$. \ $20\pc$: el doble del $10\pc$.\\[4pt]
+$15\pc$ de $60=\underbrace{6}_{10\pc}+\underbrace{3}_{5\pc}=9$
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[Es poden intercanviar]
+El $p\pc$ de $C$ és igual que el $C\pc$ de $p$:\\[4pt]
+el $8\pc$ de $50$ = el $50\pc$ de $8=\boxed{4}$
+\end{truc}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ en un institut de 640 alumnes, el $45\pc$ són xiques. Quantes n'hi ha?]
+$45\pc$ de $640=640\cdot0{,}45=\boxed{288}$ xiques \qquad \nota{o bé: $\ 10\pc=64,\ \ 40\pc=256,\ \ 5\pc=32\ \to\ 256+32=288$}
+\end{exemple}
+
+% ============================================================ 3.3
+\seccio{sec3}{Quin tant per cent representa?}{Dividim la part entre el total i multipliquem per 100.}
+
+\begin{minipage}[c]{0.45\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$p=\dfrac{\cB{P}}{\cA{C}}\cdot100$}\par\smallskip
+{\small\cB{part} entre \cA{total}}\par\smallskip
+18 de 24: \ $\dfrac{18}{24}=0{,}75=\boxed{75\pc}$
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\taularod{>{\heavy}l<{\hspace{5pt}}>{\hspace{5pt}}l<{\hspace{5pt}}>{\hspace{5pt}}l<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}Volem & \color{white}\heavy Càlcul & \color{white}\heavy Exemple\\
+la part $P$ & $C\cdot\frac{p}{100}$ & $20\pc$ de $45=9$\\
+\rowcolor{fmsurface}el $\%$ & $\frac{P}{C}\cdot100$ & 9 de 45 $=20\pc$\\
+el total $C$ & $P:\frac{p}{100}$ & 9 és el $20\pc$ de $45$
+}
+\end{minipage}
+
+% ============================================================ 3.4
+\clearpage
+\seccio{sec4}{Augments i disminucions percentuals}{Multipliquem directament per l'índex de variació.}
+
+\begin{center}
+\begin{tikzpicture}[x=0.075cm]
+  \filldraw[fill=fmA!25,draw=fmA,line width=1.2pt] (0,0) rectangle (100,0.8); \node at (50,0.4) {\large$100\pc$ \ (inicial)};
+  \filldraw[fill=fmK!30,draw=fmK,line width=1.2pt] (100,0) rectangle (115,0.8); \node at (107.5,0.4) {$+15$};
+  \draw[decorate,decoration={brace,amplitude=5pt},fmK,line width=1.1pt] (0,0.95) -- (115,0.95) node[midway,above=6pt,font=\large,text=fmK!80!black]{augment del $15\pc$: \ $115\pc\ \to\ I_V=1{,}15$};
+  \begin{scope}[yshift=-1.9cm]
+  \filldraw[fill=fmA!25,draw=fmA,line width=1.2pt] (0,0) rectangle (80,0.8); \node at (40,0.4) {\large$80\pc$ \ (queda)};
+  \filldraw[fill=fmR!8,draw=fmR,line width=1.2pt,dashed] (80,0) rectangle (100,0.8); \node[text=fmR] at (90,0.4) {$-20$};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},fmR,line width=1.1pt] (0,-0.15) -- (80,-0.15) node[midway,below=6pt,font=\large,text=fmR]{disminució del $20\pc$: \ $80\pc\ \to\ I_V=0{,}8$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$C_f=C_i\cdot I_V$}\qquad\qquad augment: \ $I_V=1+\dfrac{p}{100}$\qquad\quad disminució: \ $I_V=1-\dfrac{p}{100}$
+\end{tcolorbox}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Exemples]
+Un preu de 80 € puja un $15\pc$:\\[2pt]
+\hspace*{1em}$80\cdot1{,}15=\boxed{92\text{ €}}$\\[4pt]
+Una jaqueta de 50 € té un $20\pc$ de descompte:\\[2pt]
+\hspace*{1em}$50\cdot0{,}8=\boxed{40\text{ €}}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{idea}[Llegir un índex de variació]
+$I_V>1$: \textbf{augmenta}. \ $I_V<1$: \textbf{disminueix}.\\[4pt]
+$1{,}15\to\cK{+15\pc}\qquad 0{,}92\to\cR{-8\pc}$\\[3pt]
+$1{,}05\to\cK{+5\pc}\qquad\ \ 0{,}7\to\cR{-30\pc}$\\[3pt]
+$2\to\cK{+100\pc}$
+\end{idea}
+\end{minipage}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[I si coneixem l'inici i el final?]
+$I_V=\dfrac{C_f}{C_i}$: \ de 40 € a 46 €, \ $\dfrac{46}{40}=1{,}15\to+15\pc$
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Un sol pas]
+No cal calcular l'augment i sumar-lo: multiplica per $I_V$ i ja ho tens.
+\end{compte}
+\end{minipage}
+
+\begin{exemple}[Més exemples]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{IVA del $21\pc$}: un article val 50 € sense IVA.\\[3pt]
+$50\cdot1{,}21=\boxed{60{,}50\text{ €}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Un poble de 25\,000 habitants perd el $4\pc$.\\[3pt]
+$25\,000\cdot0{,}96=\boxed{24\,000\text{ habitants}}$
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 3.5
+\clearpage
+\seccio{sec5}{Càlcul de la quantitat inicial}{Per a tornar enrere, dividim entre l'índex de variació.}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[draw=fmA,fill=fmA!12,line width=1.3pt,rounded corners=3mm,minimum width=3cm,minimum height=1.2cm,font=\Large] (i) at (0,0) {$C_i$};
+  \node[draw=fmK,fill=fmK!12,line width=1.3pt,rounded corners=3mm,minimum width=3cm,minimum height=1.2cm,font=\Large] (f) at (8,0) {$C_f$};
+  \draw[-{Latex[length=3mm]},line width=1.6pt,fmK] ([yshift=6pt]i.east) to[bend left=18] node[above,font=\Large]{$\cdot\,I_V$} ([yshift=6pt]f.west);
+  \draw[-{Latex[length=3mm]},line width=1.6pt,fmB] ([yshift=-6pt]f.west) to[bend left=18] node[below,font=\Large]{$:\,I_V$} ([yshift=-6pt]i.east);
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[c]{0.4\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$C_i=\dfrac{C_f}{I_V}$}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{compte}[Error molt freqüent]
+Aplicar el percentatge a la quantitat \textbf{final}. El \% es calculava sobre la \textbf{inicial}!
+\end{compte}
+\end{minipage}
+
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemple: \ amb un $25\pc$ de descompte paguem 60 €]
+$I_V=0{,}75$ \ $\to$ \ $60:0{,}75=\boxed{80\text{ €}}$\\[3pt]
+\mal{60+25\pc\text{ de }60=75\text{ €}}\\[2pt]
+\nota{comprovació: $80\cdot0{,}75=60$ \be{}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ després de pujar un $12\pc$ val 56 €]
+$I_V=1{,}12$ \ $\to$ \ $56:1{,}12=\boxed{50\text{ €}}$\\[3pt]
+\nota{comprovació: $50\cdot1{,}12=56$ \be{}}
+\end{exemple}
+\end{minipage}
+
+% ============================================================ 3.6
+\seccio{sec6}{Variacions percentuals encadenades}{Cada variació s'aplica sobre el resultat de l'anterior.}
+
+\begin{minipage}[c]{0.48\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$I_{V\,\text{total}}=I_{V_1}\cdot I_{V_2}\cdot I_{V_3}\cdots$}\par\smallskip
+els índexs es \textbf{multipliquen}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.49\linewidth}
+\begin{compte}[NO se sumen!]
+Puja un $20\pc$ i després baixa un $20\pc$:\\[3pt]
+$1{,}2\cdot0{,}8=0{,}96\ \to\ \cR{-4\pc}$\\[2pt]
+\notab{No tornem al preu inicial!}
+\end{compte}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ un preu de 200 € puja un $10\pc$, després baixa un $30\pc$ i després puja un $5\pc$]
+$I_V=1{,}1\cdot0{,}7\cdot1{,}05=0{,}8085$ \quad $\to$ \quad $200\cdot0{,}8085=\boxed{161{,}70\text{ €}}$ \quad \nota{en total, baixa un $19{,}15\pc$}
+\end{exemple}
+
+% ============================================================ 3.7
+\clearpage
+\seccio{sec7}{Interés compost}{Els interessos també produeixen interessos.}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Interés simple}]
+Els interessos es calculen sempre sobre el capital \textbf{inicial} i es retiren.\par\smallskip
+{\centering$I=\dfrac{C_0\cdot r\cdot t}{100}$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Interés compost}]
+Cada any els interessos s'\textbf{afigen} al capital: és una variació encadenada.\par\smallskip
+{\centering\Large$C_f=C_0\cdot\left(1+\dfrac{r}{100}\right)^{t}$\par}
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering $C_0$: capital inicial \quad $r$: rèdit (\% anual) \quad $t$: anys \quad $I=C_f-C_0$: interessos\par}
+
+\begin{exemple}[Exemple: \ dipositem 1000 € al $5\pc$ anual durant 3 anys]
+\begin{minipage}[c]{0.48\linewidth}\centering
+\begin{tikzpicture}[x=1.15cm,y=0.0042cm]
+  \draw[fmmuted,line width=0.8pt] (-0.4,0) -- (3.6,0);
+  \foreach \t/\v/\l in {0/1000/1000,1/1050/1050,2/1102.5/{1102{,}50},3/1157.625/{1157{,}63}} {
+    \filldraw[fill=fmK!35,draw=fmK,line width=1pt] (\t-0.32,0) rectangle (\t+0.32,\v-800);
+    \node[above,font=\small] at (\t,\v-800) {\l};
+    \node[below,font=\small] at (\t,0) {any \t};}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.49\linewidth}
+\textbf{Compost}: \ $1000\cdot1{,}05^{3}=\boxed{1157{,}63\text{ €}}$\\[2pt]
+\hspace*{1em}interessos: $157{,}63$ €\\[6pt]
+\textbf{Simple}: \ $I=\dfrac{1000\cdot5\cdot3}{100}=150$ €\\[4pt]
+\nota{Amb el compost guanyem més: els interessos creixen cada any.}
+\end{minipage}
+\end{exemple}
+
+\begin{minipage}[t]{0.55\linewidth}
+\begin{idea}[Si s'abona $n$ vegades l'any]
+Mensual $n=12$, trimestral $n=4$, semestral $n=2$:\\[4pt]
+{\centering\large$C_f=C_0\cdot\left(1+\dfrac{r}{100\cdot n}\right)^{n\cdot t}$\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}
+\begin{exemple}[Exemple]
+1000 € al $6\pc$, trimestral, 2 anys:\\[3pt]
+$1000\cdot\left(1+\dfrac{6}{400}\right)^{8}=$\\[2pt]
+$=1000\cdot1{,}015^{8}\approx\boxed{1126{,}49\text{ €}}$
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ 2000 € al $3\pc$ anual durant 4 anys. Quants interessos guanyem?]
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{Compost}: \ $2000\cdot1{,}03^{4}\approx2251{,}02$ €\\[2pt]
+\hspace*{1em}$I=2251{,}02-2000=\boxed{251{,}02\text{ €}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\textbf{Simple}: \ $I=\dfrac{2000\cdot3\cdot4}{100}=240$ €\\[2pt]
+\nota{la diferència creix com més anys passen}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 3.8
+\clearpage
+\seccio{sec8}{Repartiments proporcionals}{Repartir de manera justa: segons el que aporta cadascú.}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faArrowUp\ \ Directament proporcional}]
+\textbf{Més} nombre, \textbf{més} part (el doble, el doble).\par\smallskip
+\pas{1} Una part: \ $k=\dfrac{N}{a+b+c}$\\[3pt]
+\pas{2} Cadascú: \ $k\cdot a$, \ $k\cdot b$, \ $k\cdot c$\\[3pt]
+\pas{3} Comprovem que sumen $N$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={\faArrowDown\ \ Inversament proporcional}]
+\textbf{Més} nombre, \textbf{menys} part (el doble, la meitat).\par\smallskip
+És repartir directament als \textbf{inversos}: $\dfrac1a,\ \dfrac1b,\ \dfrac1c$\\[3pt]
+{\centering$k=\dfrac{N}{\frac1a+\frac1b+\frac1c}\qquad x=\dfrac{k}{a}\dots$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{exemple}[Exemple: \ repartim 900 € directament proporcional a 2, 3 i 4 (hores treballades)]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=0.7cm]
+  \foreach \i/\c in {0/fmA,1/fmA,2/fmB,3/fmB,4/fmB,5/fmK,6/fmK,7/fmK,8/fmK} {
+    \filldraw[fill=\c!35,draw=\c,line width=1pt] (\i,0) rectangle (\i+1,0.65);
+    \node[font=\scriptsize] at (\i+0.5,0.32) {100};}
+  \node[below,font=\small,text=fmA] at (1,0) {2 parts};
+  \node[below,font=\small,text=fmB] at (3.5,0) {3 parts};
+  \node[below,font=\small,text=fmK!80!black] at (7,0) {4 parts};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$k=\dfrac{900}{2+3+4}=100$ € cada part\\[4pt]
+\cA{$200$ €}, \ \cB{$300$ €}, \ \cK{$400$ €}\\[2pt]
+\nota{$200+300+400=900$ \be{}}
+\end{minipage}
+\end{exemple}
+
+\begin{minipage}[t]{0.52\linewidth}
+\begin{exemple}[Exemple: \ 600 € inversament a 2, 3 i 6]
+Inversos: \ $\dfrac12,\ \dfrac13,\ \dfrac16=\dfrac36,\ \dfrac26,\ \dfrac16$\\[4pt]
+Directament a \textbf{3, 2 i 1}: \ $k=\dfrac{600}{6}=100$\\[4pt]
+$\boxed{300\text{ €}},\ \boxed{200\text{ €}},\ \boxed{100\text{ €}}$\\[2pt]
+\nota{qui té el 2 (el menor) rep més}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{truc}[Sense fraccions]
+Reduïm els inversos a \textbf{comú denominador} (m.c.m.) i repartim \textbf{directament} als numeradors.
+\end{truc}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ tres amigues aporten 10 €, 15 € i 25 € a una butlleta i guanyen 150 €]
+\begin{minipage}[c]{0.5\linewidth}
+Repartiment \textbf{directe} a 10, 15 i 25:\\[3pt]
+$k=\dfrac{150}{10+15+25}=\dfrac{150}{50}=3$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$10\cdot3=\boxed{30\text{ €}}$, \ $15\cdot3=\boxed{45\text{ €}}$, \ $25\cdot3=\boxed{75\text{ €}}$\\[2pt]
+\nota{$30+45+75=150$ \be{}}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 3.9
+\clearpage
+\seccio{sec9}{Problemes de mescles}{El preu de la mescla és el cost total entre la quantitat total.}
+
+\begin{minipage}[c]{0.52\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$p_m=\dfrac{m_1\cdot p_1+m_2\cdot p_2}{m_1+m_2}$}\par\smallskip
+{\comic\color{fmmuted}cost total entre quantitat total}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}
+El preu de la mescla queda \textbf{entre} els dos preus, i més a prop del que hi entra en \textbf{més quantitat}.
+\end{idea}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ mesclem 30 kg de café de 8 €/kg amb 20 kg de 13 €/kg]
+\begin{minipage}[c]{0.55\linewidth}
+$p_m=\dfrac{30\cdot8+20\cdot13}{30+20}=\dfrac{240+260}{50}=\boxed{10\text{ €/kg}}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\nota{Queda entre 8 i 13, més a prop del 8 (n'hi ha més quantitat).}
+\end{minipage}
+\end{exemple}
+
+\subsection{El mètode de la balança}
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[x=0.9cm]
+  \draw[fmmuted,line width=1pt] (6,0) -- (12,0);
+  \foreach \k in {6,8,12} {\draw[fmmuted] (\k,-0.1) -- (\k,0.1); \node[below,font=\small] at (\k,-0.1) {$\k$ €};}
+  \fill[fmgold] (8,0.05) -- (7.75,-0.45) -- (8.25,-0.45) -- cycle;
+  \draw[fmnavy,line width=2pt] (6,0.25) -- (12,0.25);
+  \node[draw=fmA,fill=fmA!15,rounded corners=1.5mm,font=\small,anchor=south] at (6,0.35) {$x$ kg};
+  \node[draw=fmB,fill=fmB!15,rounded corners=1.5mm,font=\small,anchor=south] at (12,0.35) {10 kg};
+  \draw[decorate,decoration={brace,amplitude=4pt},line width=0.8pt,fmA] (6,1.05) -- (8,1.05) node[midway,above=4pt,font=\small,text=fmA]{$2$};
+  \draw[decorate,decoration={brace,amplitude=4pt},line width=0.8pt,fmB] (8,1.05) -- (12,1.05) node[midway,above=4pt,font=\small,text=fmB]{$4$};
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}cada quantitat «pesa» segons la distància al preu de la mescla}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+{\large$m_1\cdot(p_m-p_1)=m_2\cdot(p_2-p_m)$}\\[6pt]
+\begin{exemple}[Exemple]
+Quants kg de 6 €/kg mesclem amb 10 kg de 12 €/kg per a obtindre una mescla de 8 €/kg?\\[3pt]
+$x\cdot(8-6)=10\cdot(12-8)\ \to\ 2x=40\ \to\ \boxed{x=20\text{ kg}}$
+\end{exemple}
+\end{minipage}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Aliatges: la llei]
+{\centering$\text{llei}=\dfrac{\text{massa de metall preciós}}{\text{massa total}}$\par}\smallskip
+Un nombre entre 0 i 1. També serveix per a concentracions (\% de suc, de sal\dots).
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[Els quirats]
+L'or pur té \textbf{24 quirats}. Un or de 18 k té llei \ $\dfrac{18}{24}=0{,}750$.\\[3pt]
+\notab{Una peça de 40 g d'or de 18 k té $40\cdot0{,}75=30$ g d'or pur.}
+\end{truc}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ mesclem 2 L de suc al $40\pc$ amb 3 L al $20\pc$. Quina concentració té la mescla?]
+$\dfrac{2\cdot0{,}40+3\cdot0{,}20}{2+3}=\dfrac{0{,}8+0{,}6}{5}=0{,}28\ \to\ \boxed{28\pc}$ \qquad \nota{entre el 20 i el 40, més a prop del 20}
+\end{exemple}
+
+% ============================================================ 3.10
+\clearpage
+\seccio{sec10}{Problemes de moviments}{Distància = velocitat $\times$ temps.}
+
+\begin{minipage}[c]{0.45\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\fontsize{24}{28}\selectfont$d=v\cdot t$}\par\medskip
+$v=\dfrac{d}{t}\qquad t=\dfrac{d}{v}$
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{compte}[Compte amb les unitats!]
+Si $v$ està en km/h, $t$ en \textbf{hores}: \ 2 h 15 min $=2{,}25$ h.\\[4pt]
+De km/h a m/s, \textbf{dividim entre 3,6}:\\[2pt]
+$72$ km/h $=\dfrac{72\,000\text{ m}}{3\,600\text{ s}}=20$ m/s
+\end{compte}
+\end{minipage}
+
+\subsection{Dos mòbils}
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faArrowRight\,\faArrowLeft\ \ Es troben (sentits contraris)}]
+{\centering\begin{tikzpicture}[x=0.6cm]
+  \draw[fmmuted,line width=1pt] (0,0) -- (10,0);
+  \node[text=fmA,font=\Large] at (0.4,0.4) {\faCarSide}; \node[text=fmB,font=\Large,xscale=-1] at (9.6,0.4) {\faCarSide};
+  \draw[-{Latex},fmA,line width=1.2pt] (1.3,0.4) -- (3,0.4); \draw[-{Latex},fmB,line width=1.2pt] (8.7,0.4) -- (7,0.4);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},line width=0.8pt] (0,-0.15) -- (10,-0.15) node[midway,below=4pt,font=\small]{$d$};
+\end{tikzpicture}\par}\smallskip
+La distància es redueix a $v_1+v_2$:\par\smallskip
+{\centering\large$t=\dfrac{d}{v_1+v_2}$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faArrowRight\,\faArrowRight\ \ Un abasta l'altre (mateix sentit)}]
+{\centering\begin{tikzpicture}[x=0.6cm]
+  \draw[fmmuted,line width=1pt] (0,0) -- (10,0);
+  \node[text=fmA,font=\Large] at (0.4,0.4) {\faCarSide}; \node[text=fmB,font=\Large] at (5.4,0.4) {\faCarSide};
+  \draw[-{Latex},fmA,line width=1.2pt] (1.3,0.4) -- (3.4,0.4); \draw[-{Latex},fmB,line width=1.2pt] (6.3,0.4) -- (7.5,0.4);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},line width=0.8pt] (0,-0.15) -- (5,-0.15) node[midway,below=4pt,font=\small]{$d$};
+\end{tikzpicture}\par}\smallskip
+La distància es redueix a $v_1-v_2$:\par\smallskip
+{\centering\large$t=\dfrac{d}{v_1-v_2}$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemple: \ es troben]
+Dues ciutats estan a 300 km. Ixen alhora l'un cap a l'altre a 80 km/h i a 70 km/h.\\[3pt]
+$t=\dfrac{300}{80+70}=\dfrac{300}{150}=\boxed{2\text{ h}}$\\[2pt]
+\nota{el primer ha fet $80\cdot2=160$ km}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ l'abasta]
+Un camió va a 60 km/h i porta 30 km d'avantatge a un cotxe que va a 90 km/h.\\[3pt]
+$t=\dfrac{30}{90-60}=\dfrac{30}{30}=\boxed{1\text{ h}}$
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ si no ixen alhora]
+\begin{minipage}[c]{0.55\linewidth}
+Un cotxe ix a les 9 h a 60 km/h. Un altre ix a les 10 h del mateix lloc a 90 km/h. Quan l'abasta?
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+En 1 h el primer fa \textbf{60 km}: és l'avantatge.\\[3pt]
+$t=\dfrac{60}{90-60}=2$ h \ $\to$ \ \boxed{\text{a les 12 h}}
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Exemple: \ un ciclista va a 18 km/h. Quant tarda a fer 45 km?]
+$t=\dfrac{d}{v}=\dfrac{45}{18}=2{,}5$ h $=\boxed{2\text{ h }30\text{ min}}$ \qquad \nota{0,5 h són 30 minuts, no 50!}
+\end{exemple}
+
+% ============================================================ 3.11
+\clearpage
+\seccio{sec11}{Repàs: proporcionalitat simple}{El doble, el doble? O el doble, la meitat?}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faArrowUp\ \ Directament proporcionals},before upper=\centering]
+El doble $\to$ el doble. \ Es conserva el \textbf{quocient}.\par\smallskip
+\taularod[fmK]{>{\columncolor{fmK}\color{white}\heavy}l*{4}{w{c}{0.9cm}}}{
+kg & 1 & 2 & 3 & 5\\
+\rowcolor{fmK!8}\cellcolor{fmK}€ & 2,40 & 4,80 & 7,20 & 12
+}\par\smallskip
+$\dfrac{2{,}40}{1}=\dfrac{4{,}80}{2}=\dots=\cK{2{,}40}=k$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={\faArrowDown\ \ Inversament proporcionals},before upper=\centering]
+El doble $\to$ la meitat. \ Es conserva el \textbf{producte}.\par\smallskip
+\taularod[fmB]{>{\columncolor{fmB}\color{white}\heavy}l*{4}{w{c}{0.9cm}}}{
+pintors & 1 & 2 & 3 & 4\\
+\rowcolor{fmB!8}\cellcolor{fmB}dies & 60 & 30 & 20 & 15
+}\par\smallskip
+$1\cdot60=2\cdot30=\dots=\cB{60}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{center}
+\taularod{>{\heavy}l<{\hspace{10pt}}>{\hspace{10pt}}c<{\hspace{10pt}}>{\hspace{10pt}}c<{\hspace{6pt}}}{
+\rowcolor{fmblue} & \color{white}\heavy Directa (D) & \color{white}\heavy Inversa (I)\\
+Regla de tres & $\left.\begin{array}{l}a\to b\\ c\to x\end{array}\right\}\ x=\dfrac{b\cdot c}{a}$ & $\left.\begin{array}{l}a\to b\\ c\to x\end{array}\right\}\ x=\dfrac{a\cdot b}{c}$\\[10pt]
+\rowcolor{fmsurface}\rule[-15pt]{0pt}{36pt}Reducció a la unitat & $1\to\dfrac{b}{a}$, \ i multipliquem per $c$ & $1\to a\cdot b$, \ i dividim entre $c$
+}
+\end{center}
+
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemples]
+3 kg costen 7,20 €. I 5 kg? \ \chip{fmK}{D}\\[2pt]
+\hspace*{1em}$x=\dfrac{7{,}20\cdot5}{3}=\boxed{12\text{ €}}$\\[4pt]
+4 pintors tarden 15 dies. I 6 pintors? \ \chip{fmB}{I}\\[2pt]
+\hspace*{1em}$x=\dfrac{4\cdot15}{6}=\boxed{10\text{ dies}}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{compte}[No totes són proporcionals!]
+L'\textbf{edat} i l'\textbf{altura} creixen alhora, però amb el doble d'edat no tenim el doble d'altura.\\[3pt]
+El costat d'un quadrat i la seua àrea tampoc: el doble de costat, l'àrea \textbf{quàdruple}.
+\end{compte}
+\end{minipage}
+
+\begin{exemple}[Més exemples]
+\begin{minipage}[t]{0.48\linewidth}
+A 90 km/h tardem 4 h. I a 120 km/h? \ \chip{fmB}{I}\\[3pt]
+\hspace*{1em}$x=\dfrac{90\cdot4}{120}=\boxed{3\text{ h}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+5 bolígrafs costen 3,50 €. I 8? \ \chip{fmK}{D} \ \nota{a la unitat}\\[3pt]
+\hspace*{1em}1 boli: $3{,}50:5=0{,}70$ € \ $\to$ \ $8\cdot0{,}70=\boxed{5{,}60\text{ €}}$
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 3.12
+\clearpage
+\seccio{sec12}{Proporcionalitat composta}{Tres o més magnituds: les comparem d'una en una.}
+
+\begin{minipage}[c]{0.42\linewidth}\raggedright
+\pas{1} Fem una \textbf{taula} amb les dades; la $x$ al final.\\[6pt]
+\pas{2} Comparem \textbf{cada} magnitud amb la de la $x$, per separat: \chip{fmK}{D} o \chip{fmB}{I}?\\[6pt]
+\pas{3} Multipliquem el valor conegut per cada raó:\\[2pt]
+\hspace*{1.6em}\chip{fmK}{D}: \ $\dfrac{\text{nou}}{\text{antic}}$\qquad \chip{fmB}{I}: \ $\dfrac{\text{antic}}{\text{nou}}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{exemple}[Exemple: \ 5 màquines, 8 h al dia, fan 400 peces. I 3 màquines, 10 h al dia?]
+\centering
+\taularod[fmex]{lccc}{
+\rowcolor{fmex}\color{white}\heavy & \color{white}\heavy màquines & \color{white}\heavy hores/dia & \color{white}\heavy peces\\
+abans & 5 & 8 & 400\\
+\rowcolor{fmexbg}ara & 3 & 10 & $x$\\
+ & \chip{fmK}{D} & \chip{fmK}{D} &
+}\par\smallskip
+$x=400\cdot\dfrac{3}{5}\cdot\dfrac{10}{8}=\boxed{300\text{ peces}}$
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ 6 obrers, treballant 8 h al dia, tarden 10 dies. Quants dies tardaran 4 obrers treballant 6 h al dia?]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\taularod[fmex]{lccc}{
+\rowcolor{fmex}\color{white}\heavy & \color{white}\heavy obrers & \color{white}\heavy hores/dia & \color{white}\heavy dies\\
+abans & 6 & 8 & 10\\
+\rowcolor{fmexbg}ara & 4 & 6 & $x$\\
+ & \chip{fmB}{I} & \chip{fmB}{I} &
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\nota{menys obrers o menys hores $\to$ \textbf{més} dies}\\[4pt]
+$x=10\cdot\dfrac{6}{4}\cdot\dfrac{8}{6}=\boxed{20\text{ dies}}$\\[2pt]
+\nota{les raons inverses es giren: antic entre nou}
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Exemple: \ 12 vaques mengen 900 kg de pinso en 15 dies. Quant en mengen 20 vaques en 30 dies?]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\taularod[fmex]{lccc}{
+\rowcolor{fmex}\color{white}\heavy & \color{white}\heavy vaques & \color{white}\heavy dies & \color{white}\heavy kg\\
+abans & 12 & 15 & 900\\
+\rowcolor{fmexbg}ara & 20 & 30 & $x$\\
+ & \chip{fmK}{D} & \chip{fmK}{D} &
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\nota{més vaques o més dies $\to$ \textbf{més} pinso}\\[4pt]
+$x=900\cdot\dfrac{20}{12}\cdot\dfrac{30}{15}=\boxed{3000\text{ kg}}$
+\end{minipage}
+\end{exemple}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Pregunta clau]
+Per a cada magnitud: \textbf{si aquesta augmenta} (i les altres no canvien), \textbf{la $x$ augmenta o disminueix?}
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{idea}[També reduint a la unitat]
+1 obrer, 1 hora al dia: \ $10\cdot6\cdot8=480$ dies.\\
+4 obrers, 6 h: \ $480:(4\cdot6)=20$ dies.
+\end{idea}
+\end{minipage}
+
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=22pt,raster before skip=14pt]
+\rtile{3.1}{Percentatges}{$p\pc=\dfrac{p}{100}$. \ $35\pc=0{,}35=\frac{7}{20}$.}
+\rtile{3.2}{Càlcul}{$p\pc$ de $C=C\cdot\dfrac{p}{100}$. \ $10\pc$: entre 10.}
+\rtile{3.3}{Quin \%?}{$p=\dfrac{P}{C}\cdot100$: la part entre el total.}
+\rtile{3.4}{Augments i descomptes}{$C_f=C_i\cdot I_V$, \ $I_V=1\pm\frac{p}{100}$.}
+\rtile{3.5}{Quantitat inicial}{$C_i=\dfrac{C_f}{I_V}$. No apliques el \% al final!}
+\rtile{3.6}{Encadenades}{Els $I_V$ es \textbf{multipliquen}, no se sumen.}
+\rtile{3.7}{Interés compost}{$C_f=C_0\left(1+\frac{r}{100}\right)^t$}
+\rtile{3.8}{Repartiments}{Directe: $k=\dfrac{N}{a+b+c}$.\\[1ex] Invers: als inversos.}
+\rtile{3.9}{Mescles}{$p_m=\dfrac{m_1p_1+m_2p_2}{m_1+m_2}$}
+\rtile{3.10}{Moviments}{$d=v\cdot t$. Es troben: $v_1+v_2$. Abast: $v_1-v_2$.}
+\rtile{3.11}{Proporcionalitat simple}{D: es conserva el quocient. I: el producte.}
+\rtile{3.12}{Composta}{Cada magnitud per separat: D $\frac{\text{nou}}{\text{antic}}$,\\[1ex] I $\frac{\text{antic}}{\text{nou}}$.}
+\end{tcbraster}
+\end{document}
