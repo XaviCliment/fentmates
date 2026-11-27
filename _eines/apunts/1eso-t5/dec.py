@@ -27,7 +27,11 @@ s1 += box('prop', L('Les unitats decimals', 'Las unidades decimales', 'Decimal u
          r"Notice that \(0\dc27\) is 2 columns (2 tenths) and 7 small squares (7 hundredths): \(0\dc27=0\dc2+0\dc07\)."))
 s1 += sub('Valor de posició, lectura i descomposició', 'Valor de posición, lectura y descomposición', 'Place value, reading and expanded form')
 s1 += box('def', L('Cada xifra val segons el lloc que ocupa', 'Cada cifra vale según el lugar que ocupa', 'Each digit is worth what its place says'),
-  table([L(a, a, a) + '<br><small>' + L(va, es, en) + '</small>' for a, va, es, en in PV], [['2', '4', '5', '3', '7', '8']], 'data pv')
+  ('<div class="tbl-wrap"><table class="data pv"><thead><tr>'
+   + ''.join(f'<th>{a}<br><small>{L(va, es, en)}</small></th>' + ('<th class="pc"></th>' if i == 2 else '') for i, (a, va, es, en) in enumerate(PV))
+   + '</tr></thead><tbody><tr>'
+   + ''.join(f'<td class="{"pi" if i < 3 else "pf"}">{c}</td>' + ('<td class="pc">,</td>' if i == 2 else '') for i, c in enumerate('245378'))
+   + '</tr></tbody></table></div>')
   + P(r"<strong>Lectura.</strong> Llegim la part entera, la paraula <em>unitats</em> i després la part decimal amb el nom de l'<strong>última</strong> xifra: \(245\dc378\) es llig «245 unitats i 378 mil·lèsimes». També és correcte dir «245 coma 378».",
       r"<strong>Lectura.</strong> Leemos la parte entera, la palabra <em>unidades</em> y después la parte decimal con el nombre de la <strong>última</strong> cifra: \(245\dc378\) se lee «245 unidades y 378 milésimas». También es correcto decir «245 coma 378».",
       r"<strong>Reading.</strong> Read the whole part, the word <em>units</em>, and then the decimal part with the name of the <strong>last</strong> digit's place: \(245\dc378\) is “245 units and 378 thousandths”. You can also say “245 point 378”.")
