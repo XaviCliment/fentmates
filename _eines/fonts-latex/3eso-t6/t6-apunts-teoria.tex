@@ -1,0 +1,747 @@
+% Apunts de teoria en PDF · 3r ESO · Unitat 6: Sistemes d'equacions
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 6: Sistemes d'equacions. 3r ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={equacions lineals, sistemes, substitució, igualació, reducció, mètode gràfic, classificació, problemes}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{6.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{24}{24}\selectfont] at (14,40) {$\left\{\begin{array}{l}x+y=5\\x-y=1\end{array}\right.$};
+  \draw[line width=2pt,opacity=0.6] (120,100)--(230,100) (130,110)--(130,20);
+  \draw[line width=3.2pt] (140,30) -- (220,100);
+  \draw[line width=3.2pt] (140,105) -- (225,35);
+  \fill (intersection of 140,30--220,100 and 140,105--225,35) circle (5);
+  \end{scope}
+\end{tikzpicture}}
+% taula amb vores arrodonides: el contingut es retalla amb la forma
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3r ESO · Unitat 6: Sistemes d'equacions}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 3r ESO · Matemàtiques}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 6}\\[2pt]Sistemes d'equacions\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\sis}[2]{\left\{\begin{array}{@{}l@{}}#1\\[2pt]#2\end{array}\right.}
+
+\begin{document}
+\portada{Dues equacions, dues incògnites: busquem el punt on es troben.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{6.1}{\faGripLines}{Equacions amb dues incògnites}
+\itile{sec2}{6.2}{\faLink}{Sistemes d'equacions}
+\itile{sec3}{6.3}{\faIcon{exchange-alt}}{Mètode de substitució}
+\itile{sec4}{6.4}{\faEquals}{Mètode d'igualació}
+\itile{sec5}{6.5}{\faCompress}{Mètode de reducció}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{6.6}{\faChartLine}{Mètode gràfic}
+\itile{sec7}{6.7}{\faLayerGroup}{Classificació dels sistemes}
+\itile{sec8}{6.8}{\faPuzzlePiece}{Amb parèntesis i denominadors}
+\itile{sec9}{6.9}{\faTasks}{Problemes amb sistemes}
+\itile{resum}{\phantom{6.9}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 6.1
+\clearpage
+\seccio{sec1}{Equacions amb dues incògnites}{Ara tenim dues lletres: $x$ i $y$.}
+
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{30}{30}\selectfont,inner sep=3pt,text height=25pt,text depth=8pt}]
+  \node[t,fill=fmA!12,rounded corners=2mm] (a) {$\cA{a}x$};
+  \node[t,right=3pt of a,fill=fmB!12,rounded corners=2mm] (b) {$+\,\cB{b}y$};
+  \node[t,right=3pt of b] (eq) {$=$};
+  \node[t,right=3pt of eq,fill=fmK!12,rounded corners=2mm] (c) {$\cK{c}$};
+  \coordinate (pa) at ([xshift=10pt,yshift=-3pt]a.north west);
+  \coordinate (pb) at ([xshift=21pt,yshift=-3pt]b.north west);
+  \coordinate (pc) at ([yshift=-3pt]c.north);
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,anchor=south] (la) at ([xshift=-1.6cm,yshift=1cm]pa) {{\heavy\color{fmA}$a$} i {\heavy\color{fmB}$b$}: coeficients};
+  \node[fill=fmK!14,draw=fmK,rounded corners=2mm,font=\large,anchor=south west] (lc) at ([xshift=1cm,yshift=0.7cm]pc) {{\heavy\color{fmK!80!black}$c$}: terme independent};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (la.south -| pa) -- (pa);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (la.south east) to[out=-30,in=100] (pb);
+  \draw[-{Latex[length=3mm]},fmK,line width=1.3pt] (lc.west) to[out=180,in=80] (pc);
+  \node[anchor=west,font=\comic,text=fmmuted,align=left] at ([xshift=1.2cm]c.east) {$x$ i $y$: les\\\textbf{incògnites}};
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[És lineal?]
+Les incògnites van \textbf{soles}, elevades a 1:\\[3pt]
+{\centering\chip{fmK}{$2x+y=7$}\ \ \chip{fmK}{$x-3y=0$}\par}\smallskip
+\textbf{No} són lineals:\\[3pt]
+{\centering\chip{fmR}{$x^2+y=5$}\ \ \chip{fmR}{$xy=6$}\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{idea}[Les solucions són parells]
+Una \textbf{solució} és un parell $(x,\,y)$ que fa certa la igualtat. En $2x+y=7$:\\[4pt]
+\be{(1,\,5)}\ \ \nota{$2+5=7$}\qquad \be{(3,\,1)}\ \ \nota{$6+1=7$}\\[3pt]
+\mal{(2,\,2)}\ \ \nota{$4+2=6\neq7$}
+\end{idea}
+\end{minipage}
+
+\begin{compte}[L'ordre importa!]
+En el parell $(\cA{1},\,\cB{5})$, el primer és la $\cA{x}$ i el segon, la $\cB{y}$.\qquad El parell $(5,\,1)$ és un altre: \ $2\cdot5+1=11\neq7$.
+\end{compte}
+
+\subsection{Té infinites solucions: la taula de valors}
+{\large Donem valors a la $x$ i calculem la $y$.} El més còmode és \textbf{aïllar la $y$}: \ $2x+y=7\ \to\ y=7-2x$.
+
+\begin{minipage}[c]{0.5\linewidth}\centering
+\newcommand{\taulavalors}{%
+\renewcommand{\arraystretch}{1.5}\taulaclip{fmblue,line width=1.2pt}{\large%
+\begin{tabular}{>{\columncolor{fmblue}\color{white}\heavy}c*{6}{w{c}{0.95cm}}}
+$x$ & $-1$ & $0$ & $1$ & $2$ & $3$ & $4$\\
+\rowcolor{fmsurface}\cellcolor{fmblue}$y$ & $9$ & $7$ & $5$ & $3$ & $1$ & $-1$
+\end{tabular}}}
+\taulavalors\par\vspace{6pt}
+{\comic\color{fmmuted}cada columna és una solució: \ $(-1,9),\ (0,7),\ (1,5)\dots$}\\[10pt]
+\begin{truc}[Per a dibuixar-la]
+N'hi ha prou amb \textbf{dos punts} (un tercer serveix per a comprovar). Tria $x$ que donen $y$ enteres.
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[scale=0.52]
+  \eixos{-2}{5}{-2}{10}
+  \draw[fmblue,line width=1.6pt] (-1.4,9.8) -- (4.6,-2.2);
+  \foreach \x/\y in {-1/9,0/7,1/5,2/3,3/1,4/-1} \fill[fmR] (\x,\y) circle (4.5pt);
+  \node[fill=white,inner sep=2pt,text=fmblue,font=\large,anchor=west] at (1.6,6.5) {$2x+y=7$};
+  \node[fill=white,inner sep=1pt,font=\small,anchor=west] at (1.15,5) {$(1,5)$};
+\end{tikzpicture}\\[2pt]
+{\comic\color{fmblue}La gràfica és una \textbf{recta}: cada punt és una solució.}
+\end{minipage}
+
+% ============================================================ 6.2
+\clearpage
+\seccio{sec2}{Sistemes d'equacions}{Busquem el parell que compleix les dues equacions alhora.}
+
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Sistema de dues equacions lineals]
+Dues equacions amb una \textbf{clau}:\\[4pt]
+{\centering\Large$\sis{x+y=5}{x-y=1}$\par}\smallskip
+La \textbf{solució} és el parell $(x,\,y)$ que compleix \textbf{les dues} alhora.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faCheckCircle\ \ $(3,\,2)$}]
+$3+2=5$ \be{} \qquad $3-2=1$ \be{}\\[2pt]
+\notab{És la solució del sistema.}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={\faTimesCircle\ \ $(4,\,1)$}]
+$4+1=5$ \be{} \qquad \mal{4-1=3\neq1}\\[2pt]
+\notab{Només compleix la primera.}
+\end{tcolorbox}
+\end{minipage}
+
+\subsection{Què vol dir gràficament?}
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[scale=0.62]
+  \eixos{-1}{6}{-1}{6}
+  \draw[fmA,line width=1.6pt] (-0.6,5.6) -- (5.6,-0.6) node[pos=0.06,right=4pt,font=\large,fill=white,inner sep=1pt]{$x+y=5$};
+  \draw[fmB,line width=1.6pt] (0.4,-0.6) -- (6,5) node[pos=0.97,right=5pt,font=\large,fill=white,inner sep=1pt]{$x-y=1$};
+  \fill[fmR] (3,2) circle (6pt);
+  \node[fill=fmyellow!70,rounded corners=1.5mm,font=\large\heavy,inner sep=3pt,anchor=north west] at (3.25,1.7) {$(3,\,2)$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+{\Large Cada equació és una \textbf{recta}.}\\[8pt]
+La solució del sistema és el punt que està en \textbf{les dues rectes}: el \fmkey{\textbf{punt de tall}}.\\[10pt]
+\begin{truc}[Abans de començar]
+Escriu cada equació en la forma \ $ax+by=c$: \ les incògnites a l'esquerra, ordenades, i el nombre a la dreta.
+\end{truc}
+\end{minipage}
+
+\subsection{Com els resoldrem?}
+\begin{idea}
+{\centering\Large Eliminem una incògnita i queda una equació de \textbf{primer grau}, que ja sabem resoldre.\par}
+\end{idea}
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=3mm,bottom=3mm]
+{\color{fmblue}\LARGE\faIcon{exchange-alt}}\par\smallskip{\heavy Substitució}\par{\small 6.3}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=3mm,bottom=3mm]
+{\color{fmblue}\LARGE\faEquals}\par\smallskip{\heavy Igualació}\par{\small 6.4}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=3mm,bottom=3mm]
+{\color{fmblue}\LARGE\faCompress}\par\smallskip{\heavy Reducció}\par{\small 6.5}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,before upper=\centering,top=3mm,bottom=3mm]
+{\color{fmblue}\LARGE\faChartLine}\par\smallskip{\heavy Gràfic}\par{\small 6.6}
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Tots donen la \textbf{mateixa} solució: triar bé només fa que els càlculs siguen més curts.\par}
+
+% ============================================================ 6.3
+\clearpage
+\seccio{sec3}{Mètode de substitució}{Aïllem una incògnita i la «col·loquem» en l'altra equació.}
+
+\begin{minipage}[c]{0.4\linewidth}\raggedright
+\pas{1} \textbf{Aïllem} una incògnita en una equació (la que té coeficient $1$ o $-1$).\\[6pt]
+\pas{2} La \textbf{substituïm} en l'altra equació, \textbf{entre parèntesis}.\\[6pt]
+\pas{3} \textbf{Resolem} l'equació d'una incògnita.\\[6pt]
+\pas{4} Calculem l'\textbf{altra} incògnita.\\[6pt]
+\pas{5} \textbf{Comprovem} en les dues equacions.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{exemple}[Exemple: \ $\sis{2x+\cB{y}=7}{3x-2y=7}$]
+\pas{1} $\cB{y}=\cA{7-2x}$\\[5pt]
+\pas{2} $3x-2\,\cA{(7-2x)}=7$\\[5pt]
+\pas{3} $3x-14+4x=7\ \to\ 7x=21\ \to\ \boxed{x=3}$\\[5pt]
+\pas{4} $y=7-2\cdot\cR{3}=\boxed{1}$\\[5pt]
+\pas{5} \nota{$2\cdot3+1=7$ \be{} \quad $3\cdot3-2\cdot1=7$ \be{}}
+\end{exemple}
+\end{minipage}
+
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{22}{22}\selectfont,inner sep=3pt,text height=17pt,text depth=6pt}]
+  \node[t,anchor=west] (l1) at (0,0) {$\cB{y}=$};
+  \node[t,right=0pt of l1,draw=fmA,fill=fmA!10,rounded corners=2mm] (l2) {$\cA{7-2x}$};
+  \node[font=\comic,text=fmmuted,anchor=north] at ([yshift=-4pt]l2.south) {la $y$ aïllada};
+  \node[t,anchor=west] (m1) at (7,0.8) {$3x-2\,$};
+  \node[t,right=0pt of m1,draw=fmB,fill=fmB!10,rounded corners=2mm] (m2) {$\cB{y}$};
+  \node[t,right=0pt of m2] (m3) {$=7$};
+  \node[t,anchor=west] (n1) at (7,-1.2) {$3x-2\,$};
+  \node[t,right=0pt of n1,draw=fmA,fill=fmA!10,rounded corners=2mm] (n2) {$\cA{(7-2x)}$};
+  \node[t,right=0pt of n2] (n3) {$=7$};
+  \draw[-{Latex[length=3mm]},fmmuted,line width=1.4pt] (m2.south) -- ([xshift=-14pt]n2.north) node[midway,right=3pt,font=\comic,text=fmmuted]{canviem la $y$};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.5pt] (l2.east) to[out=-10,in=180] (n1.west);
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[t]{0.52\linewidth}
+\begin{compte}[Sempre entre parèntesis!]
+\be{-2\,(7-2x)=-14+4x}\\[4pt]
+\mal{-2\cdot7-2x=-14-2x}\\[3pt]
+Sense parèntesi, el $-2$ només multiplica el 7.
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{truc}[Quan va millor?]
+Quan una incògnita té coeficient \textbf{1} o \textbf{$-1$}, o quan ja està aïllada.
+\end{truc}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ $\sis{y=3x-2}{5x+2y=7}$ \ \ la $y$ ja està aïllada]
+\begin{minipage}[c]{0.55\linewidth}
+$5x+2\,\cA{(3x-2)}=7\ \to\ 5x+6x-4=7$\\[4pt]
+$11x=11\ \to\ \boxed{x=1}$, \quad $y=3\cdot1-2=\boxed{1}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\nota{Comprovació: \ $1=3-2$ \be{} \quad $5+2=7$ \be{}}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 6.4
+\clearpage
+\seccio{sec4}{Mètode d'igualació}{Aïllem la mateixa incògnita en les dues equacions i les igualem.}
+
+\begin{minipage}[c]{0.4\linewidth}\raggedright
+\pas{1} \textbf{Aïllem} la \textbf{mateixa} incògnita en les dues equacions.\\[6pt]
+\pas{2} \textbf{Igualem} les dues expressions.\\[6pt]
+\pas{3} \textbf{Resolem} l'equació d'una incògnita.\\[6pt]
+\pas{4} Substituïm en una expressió aïllada.\\[6pt]
+\pas{5} \textbf{Comprovem}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{exemple}[Exemple: \ $\sis{x+y=5}{x-2y=-1}$]
+\pas{1} $\sis{\cB{x}=\cA{5-y}}{\cB{x}=\cK{-1+2y}}$\\[6pt]
+\pas{2} $\cA{5-y}=\cK{-1+2y}$\\[5pt]
+\pas{3} $-y-2y=-1-5\ \to\ -3y=-6\ \to\ \boxed{y=2}$\\[5pt]
+\pas{4} $x=5-\cR{2}=\boxed{3}$\\[5pt]
+\pas{5} \nota{$3+2=5$ \be{} \quad $3-4=-1$ \be{}}
+\end{exemple}
+\end{minipage}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[font=\Large,draw=fmA,fill=fmA!10,rounded corners=2mm,inner sep=6pt] (p) at (0,0.8) {$\cB{x}=\cA{5-y}$};
+  \node[font=\Large,draw=fmK,fill=fmK!10,rounded corners=2mm,inner sep=6pt] (q) at (0,-0.8) {$\cB{x}=\cK{-1+2y}$};
+  \node[font=\fontsize{22}{22}\selectfont,draw=fmblue,fill=fmyellow!30,rounded corners=3mm,inner sep=8pt] (r) at (6.5,0) {$\cA{5-y}=\cK{-1+2y}$};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.5pt] (p.east) to[out=0,in=150] (r.west);
+  \draw[-{Latex[length=3mm]},fmK,line width=1.5pt] (q.east) to[out=0,in=-150] (r.west);
+  \node[font=\comic,text=fmmuted,align=center] at (3.2,1.35) {si les dues valen $x$,};
+  \node[font=\comic,text=fmmuted,align=center] at (3.2,-1.35) {són iguals entre si};
+\end{tikzpicture}
+\end{center}
+
+\begin{exemple}[Exemple: \ si en aïllar apareix una fracció]
+\begin{minipage}[c]{0.36\linewidth}
+$\sis{2x-y=3}{3x+2y=8}\ \to\ \sis{y=2x-3}{y=\dfrac{8-3x}{2}}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+$2x-3=\dfrac{8-3x}{2}$ \quad \nota{multipliquem per 2}\\[4pt]
+$2\,(2x-3)=8-3x\ \to\ 4x-6=8-3x\ \to\ 7x=14$\\[4pt]
+$\boxed{x=2}$, \quad $y=2\cdot2-3=\boxed{1}$
+\end{minipage}
+\end{exemple}
+
+\begin{truc}[Quan va millor?]
+Quan la \textbf{mateixa} incògnita ja està aïllada en les dues equacions: \quad $\sis{y=2x-1}{y=x+3}\ \to\ 2x-1=x+3\ \to\ x=4,\ \ y=7$
+\end{truc}
+
+% ============================================================ 6.5
+\clearpage
+\seccio{sec5}{Mètode de reducció}{Sumem les equacions perquè una incògnita desaparega.}
+
+\begin{minipage}[c]{0.4\linewidth}\raggedright
+\pas{1} Multipliquem les equacions perquè una incògnita tinga coeficients \textbf{oposats} ($6x$ i $-6x$).\\[6pt]
+\pas{2} \textbf{Sumem} les dues equacions: aquesta incògnita s'elimina.\\[6pt]
+\pas{3} \textbf{Resolem} l'equació que queda.\\[6pt]
+\pas{4} Substituïm en una equació inicial i \textbf{comprovem}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{exemple}[Exemple: \ ja són oposats]
+\begin{minipage}[c]{0.45\linewidth}\centering\large
+$\begin{array}{rrcr}3x&\cR{+2y}&=&8\\5x&\cR{-2y}&=&8\\\hline 8x&&=&16\end{array}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\nota{les $y$ s'anul·len}\\[4pt]
+$x=\dfrac{16}{8}=\boxed{2}$\\[4pt]
+$3\cdot2+2y=8\ \to\ \boxed{y=1}$
+\end{minipage}
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ $\sis{2x+3y=12}{3x-4y=1}$ \ \ per a eliminar la $x$: \ m.c.m.$(2,3)=6$]
+\begin{minipage}[c]{0.5\linewidth}\centering\large
+$\begin{array}{lrrcr}\scriptstyle\cK{(\cdot3)}&\cR{6x}&+9y&=&36\\\scriptstyle\cK{(\cdot(-2))}&\cR{-6x}&+8y&=&-2\\\hline &&17y&=&34\end{array}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\pas{1} La 1a per $3$ i la 2a per $-2$.\\[4pt]
+\pas{3} $y=\dfrac{34}{17}=\boxed{2}$\\[4pt]
+\pas{4} $2x+3\cdot2=12\ \to\ 2x=6\ \to\ \boxed{x=3}$
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Exemple: \ $\sis{4x+3y=10}{2x-5y=-8}$ \ \ n'hi ha prou de multiplicar-ne una]
+\begin{minipage}[c]{0.5\linewidth}\centering\large
+$\begin{array}{lrrcr}&\cR{4x}&+3y&=&10\\\scriptstyle\cK{(\cdot(-2))}&\cR{-4x}&+10y&=&16\\\hline &&13y&=&26\end{array}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\nota{$4x$ és el doble de $2x$: només multipliquem la 2a.}\\[4pt]
+$y=\dfrac{26}{13}=\boxed{2}$\\[4pt]
+$4x+3\cdot2=10\ \to\ 4x=4\ \to\ \boxed{x=1}$
+\end{minipage}
+\end{exemple}
+
+\begin{minipage}[t]{0.52\linewidth}
+\begin{compte}[Multiplica TOTS els termes]
+També el del segon membre, i compte amb els signes si el nombre és negatiu:\\[4pt]
+\be{(-2)\cdot(3x-4y=1)\to-6x+8y=-2}\\[3pt]
+\mal{-6x-4y=1}
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{truc}[Quan va millor?]
+Quan els coeficients d'una incògnita són \textbf{iguals}, \textbf{oposats} o \textbf{múltiples}, o quan no hi ha cap coeficient 1: així evitem les fraccions.
+\end{truc}
+\end{minipage}
+
+% ============================================================ 6.6
+\clearpage
+\seccio{sec6}{Mètode gràfic}{Dibuixem les dues rectes i mirem on es tallen.}
+
+\begin{minipage}[c]{0.38\linewidth}\raggedright
+\pas{1} Fem una \textbf{taula de valors} per a cada equació (dos o tres punts).\\[6pt]
+\pas{2} Dibuixem les dues \textbf{rectes} en els mateixos eixos.\\[6pt]
+\pas{3} El \textbf{punt de tall} és la solució. La comprovem.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.59\linewidth}
+\begin{exemple}[Exemple: \ $\sis{x+y=5}{2x-y=1}\ \to\ \sis{y=5-x}{y=2x-1}$]
+\centering\renewcommand{\arraystretch}{1.4}
+\taulaclip[2.5mm]{fmA,line width=1pt}{%
+\begin{tabular}{>{\columncolor{fmA}\color{white}\heavy}c*{3}{w{c}{0.7cm}}}
+$x$ & $0$ & $1$ & $5$\\
+\rowcolor{fmA!8}\cellcolor{fmA}$y$ & $5$ & $4$ & $0$
+\end{tabular}}\qquad
+\taulaclip[2.5mm]{fmB,line width=1pt}{%
+\begin{tabular}{>{\columncolor{fmB}\color{white}\heavy}c*{3}{w{c}{0.7cm}}}
+$x$ & $0$ & $1$ & $2$\\
+\rowcolor{fmB!8}\cellcolor{fmB}$y$ & $-1$ & $1$ & $3$
+\end{tabular}}\par
+{\small\color{fmA}$y=5-x$}\hspace{3.4cm}{\small\color{fmB}$y=2x-1$}
+\end{exemple}
+\end{minipage}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.68]
+  \eixos{-1}{6}{-2}{6}
+  \draw[fmA,line width=1.7pt] (-0.6,5.6) -- (5.8,-0.8) node[pos=0.9,above right=2pt,font=\large,fill=white,inner sep=1pt]{$x+y=5$};
+  \draw[fmB,line width=1.7pt] (-0.4,-1.8) -- (3.4,5.8) node[pos=0.97,right=4pt,font=\large,fill=white,inner sep=1pt]{$2x-y=1$};
+  \foreach \x/\y in {0/5,1/4,5/0} \fill[fmA] (\x,\y) circle (4pt);
+  \foreach \x/\y in {0/-1,1/1,2/3} \fill[fmB] (\x,\y) circle (4pt);
+  \fill[fmR] (2,3) circle (6.5pt);
+  \node[fill=fmyellow!70,rounded corners=1.5mm,font=\large\heavy,inner sep=3pt,anchor=west] at (2.45,3.1) {$(2,\,3)$};
+  \node[anchor=west,font=\comic\large,text=fmblue,align=left] at (8.4,3) {Es tallen en $(2,\,3)$:\\$x=2,\ \ y=3$};
+  \node[anchor=west,font=\comic,text=fmmuted,align=left] at (8.4,1.2) {\textbf{comprovació}:\\$2+3=5$ \be{}\quad $4-3=1$ \be{}};
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.5]
+  \eixos{-1}{4}{-1}{4}
+  \draw[fmA,line width=1.5pt] (-0.7,3.7) -- (3.7,-0.7);
+  \draw[fmB,line width=1.5pt] (-1,0) -- (3,4);
+  \fill[fmR] (1,2) circle (6pt);
+  \node[fill=fmyellow!70,rounded corners=1mm,font=\small\heavy,inner sep=2pt,anchor=west] at (1.3,2.3) {$(1,2)$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{exemple}[Exemple: \ $\sis{x+y=3}{x-y=-1}$]
+\cA{$y=3-x$}: \ punts $(0,3)$ i $(3,0)$\\[3pt]
+\cB{$y=x+1$}: \ punts $(0,1)$ i $(2,3)$\\[3pt]
+Es tallen en \ $\boxed{(1,\,2)}$: \ $x=1,\ y=2$\\[2pt] \nota{Comprovació: $1+2=3$ \be{} \ $1-2=-1$ \be{}}
+\end{exemple}
+\end{minipage}
+
+\begin{compte}[Només és exacte si el punt es llig bé]
+Si la solució és, per exemple, $x=\frac73$, el dibuix només en dona una \textbf{aproximació}. Aleshores cal un mètode \textbf{algebraic}. El mètode gràfic serveix sobretot per a \textbf{entendre} el sistema.
+\end{compte}
+
+% ============================================================ 6.7
+\clearpage
+\seccio{sec7}{Classificació dels sistemes}{Dues rectes es poden tallar, coincidir o no trobar-se mai.}
+
+\newcommand{\minirectes}[1]{\begin{tikzpicture}[scale=0.42]
+  \draw[-{Latex[length=1.6mm]},fmmuted,line width=0.6pt] (-0.3,0)--(4.3,0); \draw[-{Latex[length=1.6mm]},fmmuted,line width=0.6pt] (0,-0.3)--(0,3.6);
+  #1
+\end{tikzpicture}}
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Una solució},before upper=\centering]
+\minirectes{\draw[fmA,line width=1.4pt] (0.2,3.3)--(4,0.3); \draw[fmB,line width=1.4pt] (0.3,0.4)--(4,3.3); \fill[fmR] (2.15,1.75) circle (4.5pt);}\par
+\textbf{Secants}\par
+{\heavy\color{fmK!80!black}Compatible determinat}\par{\small (SCD)}\par\smallskip
+{\large$\sis{x+y=3}{x-y=-1}$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={Infinites solucions},before upper=\centering]
+\minirectes{\draw[fmA,line width=3.2pt] (0.2,0.4)--(4,3.3); \draw[fmB,line width=1.3pt,dashed] (0.2,0.4)--(4,3.3);}\par
+\textbf{Coincidents}\par
+{\heavy\color{fmgold!80!black}Compatible indeterminat}\par{\small (SCI)}\par\smallskip
+{\large$\sis{x+2y=2}{2x+4y=4}$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Cap solució},before upper=\centering]
+\minirectes{\draw[fmA,line width=1.4pt] (0.2,1.2)--(3.2,3.4); \draw[fmB,line width=1.4pt] (0.9,0.2)--(4,2.5);}\par
+\textbf{Paral·leles}\par
+{\heavy\color{fmR}Incompatible}\par{\small (SI)}\par\smallskip
+{\large$\sis{x-y=-2}{x-y=2}$}
+\end{tcolorbox}
+\end{tcbraster}
+
+\subsection{Com ho veiem en resoldre?}
+{\large Si \textbf{desapareixen les dues incògnites}, el sistema no té una sola solució.}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={\faInfinity\ \ Queda $0=0$: infinites (SCI)}]
+{\centering$\sis{x+2y=3}{2x+4y=6}\ \xrightarrow{\ \cdot(-2)\text{ i sumem}\ }\ \cK{0=0}$\par}\smallskip
+\notab{Totes les solucions de $x+2y=3$: $(3,0),\ (1,1),\ (-1,2)\dots$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={\faTimesCircle\ \ Queda $0=$ un nombre: cap (SI)}]
+{\centering$\sis{x+2y=3}{2x+4y=5}\ \xrightarrow{\ \cdot(-2)\text{ i sumem}\ }\ \cR{0=-1}$\par}\smallskip
+\notab{Una igualtat impossible: no hi ha cap solució.}
+\end{tcolorbox}
+\end{tcbraster}
+
+\subsection{I sense resoldre? Comparem els coeficients}
+\begin{minipage}[c]{0.53\linewidth}
+\renewcommand{\arraystretch}{2.3}
+\begin{tabular}{@{}l@{\quad}l@{}}
+$\dfrac{a}{a'}\neq\dfrac{b}{b'}$ & $\to$ \ \chip{fmK}{SCD} \ secants\\
+$\dfrac{a}{a'}=\dfrac{b}{b'}=\dfrac{c}{c'}$ & $\to$ \ \chip{fmgold}{SCI} \ coincidents\\
+$\dfrac{a}{a'}=\dfrac{b}{b'}\neq\dfrac{c}{c'}$ & $\to$ \ \chip{fmR}{SI} \ paral·leles
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}
+\begin{exemple}[Exemple]
+$\sis{2x-y=3}{4x-2y=6}$: \ $\dfrac24=\dfrac{-1}{-2}=\dfrac36$ \ $\to$ \ \textbf{SCI}\\[8pt]
+$\sis{2x-y=3}{4x-2y=1}$: \ $\dfrac24=\dfrac{-1}{-2}\neq\dfrac31$ \ $\to$ \ \textbf{SI}
+\end{exemple}
+\end{minipage}
+
+% ============================================================ 6.8
+\clearpage
+\seccio{sec8}{Sistemes amb parèntesis i denominadors}{Primer els deixem nets; després, com sempre.}
+
+\begin{idea}
+{\centering\Large Transformem cada equació en la forma \ \fmkey{$ax+by=c$}\par}\smallskip
+Igual que en les equacions de primer grau: llevem \textbf{denominadors} (pel m.c.m.), llevem \textbf{parèntesis}, transposem i reduïm. Si tots els coeficients tenen un divisor comú, \textbf{simplifiquem}.
+\end{idea}
+
+\begin{exemple}[Exemple: \ $\sis{2(x+1)-y=3(y-1)+5}{\dfrac{x+2}{3}+\dfrac{y-1}{2}=\dfrac52}$]
+\begin{minipage}[t]{0.52\linewidth}
+\chip{fmA}{1a} \ $2x+2-y=3y-3+5$\\[3pt]
+\hspace*{2.2em}$2x-4y=0\ \to\ \cA{x-2y=0}$ \ \nota{entre 2}\\[8pt]
+\chip{fmB}{2a} \ \nota{m.c.m.$=6$:} \ $2(x+2)+3(y-1)=15$\\[3pt]
+\hspace*{2.2em}$2x+4+3y-3=15\ \to\ \cB{2x+3y=14}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+Ja és un sistema net:\\[3pt]
+{\large$\sis{\cA{x-2y=0}}{\cB{2x+3y=14}}$}\\[6pt]
+Substitució: \ $x=2y\ \to\ 4y+3y=14$\\[3pt]
+$\boxed{y=2}$, \quad $\boxed{x=4}$
+\end{minipage}
+\end{exemple}
+
+\subsection{Quin mètode trie?}
+\newcommand{\metode}[4]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1\ \ #2}]
+#3\par\smallskip{\centering#4\par}
+\end{tcolorbox}}
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=10pt]
+\metode{\faIcon{exchange-alt}}{Substitució}{Una incògnita té coeficient $1$ o $-1$, o ja està aïllada.}{$\sis{y=2x-3}{3x+2y=8}$}
+\metode{\faEquals}{Igualació}{La mateixa incògnita està aïllada (o és fàcil d'aïllar) en les dues.}{$\sis{x=2y+1}{x=7-y}$}
+\metode{\faCompress}{Reducció}{Coeficients iguals, oposats o múltiples; o cap coeficient 1.}{$\sis{3x+2y=8}{5x-2y=8}$}
+\metode{\faChartLine}{Gràfic}{Per a veure el sistema i de quin tipus és. Només és exacte si la solució és entera.}{$\sis{x+y=5}{2x-y=1}$}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Qualsevol mètode dona la mateixa solució. Si vols, comprova-la amb un altre.\par}
+
+% ============================================================ 6.9
+\clearpage
+\seccio{sec9}{Problemes amb sistemes d'equacions}{Dues incògnites, dues relacions: dues equacions.}
+
+\passosproblema{\textbf{Triem}\\$x$ i $y$}{\textbf{Plantegem}\\el sistema}
+
+\begin{compte}[Busca dues relacions]
+Cada equació ix d'una \textbf{relació diferent} de l'enunciat. Comprova la solució en l'\textbf{enunciat}, no sols en les equacions.
+\end{compte}
+
+\subsection{Traduccions útils}
+\renewcommand{\dicratio}{0.58}
+\begin{minipage}[t]{0.485\linewidth}
+\begin{dicbox}
+\dic{Dos nombres sumen 20}{x+y=20}
+\dic{La seua diferència és 4}{x-y=4}
+\dic{Un és el triple de l'altre}{x=3y}
+\dic{Nombre de dues xifres}{10x+y}
+\end{dicbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}\renewcommand{\dicratio}{0.6}\renewcommand{\dic}[2]{#1 & $#2$\\}
+\begin{dicbox}
+\dic{Gallines i conills: 30 caps}{x+y=30}
+\dic{\dots\ i 84 potes}{2x+4y=84}
+\dic{Entrades de 8 € i 5 €: 750 €}{8x+5y=750}
+\dic{D'ací a 10 anys, el doble}{x+10=2(y+10)}
+\end{dicbox}
+\end{minipage}
+
+\medskip
+\begin{exemple}[Exemple: \ en una granja hi ha gallines i conills: 30 caps i 84 potes. Quants n'hi ha de cada?]
+\begin{minipage}[c]{0.42\linewidth}
+\pas{2} $x$ = gallines, \ $y$ = conills\\[4pt]
+\pas{3} $\sis{x+y=30}{2x+4y=84}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\pas{4} Reducció: la 1a per $-2$:\ \ $2y=24\ \to\ y=12$, \ $x=18$\\[4pt]
+\pas{5} Hi ha \textbf{18 gallines} i \textbf{12 conills}.\\[2pt]
+\hspace*{1.6em}\nota{$18+12=30$ caps, \ $36+48=84$ potes \be{}}
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Exemple: \ es venen 120 entrades, unes a 8 € i altres a 5 €, i es recapten 750 €. Quantes de cada?]
+\begin{minipage}[c]{0.42\linewidth}
+\pas{2} $x$ = entrades de 8 €, \ $y$ = de 5 €\\[4pt]
+\pas{3} $\sis{x+y=120}{8x+5y=750}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\pas{4} Substitució: $y=120-x\ \to\ 8x+600-5x=750$\\[2pt]
+\hspace*{1.6em}$3x=150\ \to\ x=50$, \ $y=70$\\[4pt]
+\pas{5} \textbf{50 entrades de 8 €} i \textbf{70 de 5 €}. \ \nota{$400+350=750$ \be{}}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=28pt,raster before skip=14pt]
+\rtile{6.1}{Dues incògnites}{$ax+by=c$. Té \textbf{infinites} solucions: parells $(x,y)$.\\[1ex] La gràfica és una \textbf{recta}.}
+\rtile{6.2}{Sistemes}{La solució compleix \textbf{les dues} equacions.\\[1ex] Gràficament, el \textbf{punt de tall}.}
+\rtile{6.3}{Substitució}{Aïllem una incògnita i la posem en l'altra equació, \textbf{entre parèntesis}.}
+\rtile{6.4}{Igualació}{Aïllem la \textbf{mateixa} incògnita en les dues i igualem.}
+\rtile{6.5}{Reducció}{Multipliquem perquè una incògnita tinga coeficients \textbf{oposats} i sumem.}
+\rtile{6.6}{Mètode gràfic}{Taules de valors, dues rectes i el punt de tall.\\[1ex] Exacte només si la solució es llig bé.}
+\rtile{6.7}{Classificació}{\textbf{SCD}: una solució (secants).\\ \textbf{SCI}: infinites (coincidents).\\ \textbf{SI}: cap solució (paral·leles).}
+\rtile{6.8}{Parèntesis i denominadors}{Primer, la forma $ax+by=c$. Després, el mètode més còmode.}
+\rtile{6.9}{Problemes}{Triem $x$ i $y$, busquem \textbf{dues relacions}, resolem i comprovem en l'enunciat.}
+\rtile{\faCheck}{Recorda}{Comprova sempre la solució en \textbf{les dues} equacions.}
+\end{tcbraster}
+\end{document}
