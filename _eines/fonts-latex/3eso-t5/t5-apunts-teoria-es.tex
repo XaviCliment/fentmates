@@ -1,0 +1,855 @@
+% Apunts de teoria en PDF · 3r ESO · Unitat 5: Equacions
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 5: Ecuaciones. 3.º ESO},pdfsubject={Matemáticas 3.º ESO},pdfkeywords={ecuaciones, identidades, transposición, ecuaciones de primer grado, denominadores, ecuaciones de segundo grado, discriminante, Ruffini, problemas}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{5.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (14,44) {$ax^2+bx+c=0$};
+  \draw[line width=3pt] (40,70) -- (100,70); \fill (70,70) circle (3); \draw[line width=3pt] (70,70) -- (70,106); \draw[line width=3pt] (58,106) -- (82,106);
+  \draw[line width=2pt] (40,70) -- (32,86) (40,70) -- (48,86) (100,70) -- (92,86) (100,70) -- (108,86);
+  \draw[line width=2.4pt] (30,86) arc[start angle=180,end angle=360,x radius=10,y radius=4] (90,86) arc[start angle=180,end angle=360,x radius=10,y radius=4];
+  \draw[line width=3.2pt] (140,60) .. controls (160,120) and (200,120) .. (220,60);
+  \draw[line width=2pt,opacity=0.6] (134,96)--(230,96);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3.º ESO · Unidad 5: Ecuaciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% balança (per a la idea d'equació)
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% paràbola petita per al discriminant: #1 = desplaçament vertical
+\newcommand{\minipar}[2]{\begin{tikzpicture}[x=0.55cm,y=0.42cm]
+  \draw[fmmuted,-{Latex[length=2mm]},line width=0.8pt] (-2.3,0) -- (2.3,0) node[right,font=\scriptsize]{$X$};
+  \draw[#2,line width=1.6pt,domain=-1.75:1.75,samples=40] plot (\x,{\x*\x+#1});
+\end{tikzpicture}}
+
+\begin{document}
+\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 3.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 5}\\[2pt]Ecuaciones\par}
+\vspace{8pt}
+{\color{white}\comic\Large Buscamos el número escondido que hace cierta una igualdad.\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{5.1}{\faBalanceScale}{Ecuaciones e identidades}
+\itile{sec2}{5.2}{\faEquals}{Ecuaciones de primer grado}
+\itile{sec3}{5.3}{\faPuzzlePiece}{Ecuaciones con denominadores}
+\itile{sec4}{5.4}{\faAdjust}{Segundo grado: incompletas}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{5.5}{\faSuperscript}{Segundo grado: la fórmula}
+\itile{sec6}{5.6}{\faCubes}{Tercer grado (Ruffini)}
+\itile{sec7}{5.7}{\faTasks}{Problemas con ecuaciones}
+\itile{resum}{\phantom{5.8}}{\faClipboardList}{En resumen}
+\end{minipage}
+
+\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}
+
+% ============================================================ 5.1
+\clearpage
+\seccio{sec1}{Ecuaciones e identidades}{Una ecuación es una pregunta: ¿qué número hace cierta la igualdad?}
+
+\begin{minipage}[c]{0.4\linewidth}\centering
+\balanca{2x+3}{11}{0.95}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+{\Large Una \textbf{ecuación} es como una\\ \textbf{balanza} en equilibrio.}\par
+Los dos lados del signo $=$ tienen que «pesar» lo mismo. Hay que encontrar cuánto vale la $x$ para que pase.\\[2pt]
+Aquí, \ $x=4$, \ porque \ $2\cdot4+3=11$.
+\end{minipage}
+
+\vspace{10pt}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faCheckCircle\ \ Identidad}]
+Se cumple para \textbf{cualquier} valor de la letra.\par\smallskip
+{\centering\chip{fmK}{$2(x+3)=2x+6$}\ \ \chip{fmK}{$(x+1)^2=x^2+2x+1$}\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faSearch\ \ Ecuación}]
+Solo se cumple para \textbf{algunos} valores (o para ninguno).\par\smallskip
+{\centering\chip{fmblue}{$2x+3=11$}\ \ solo si \ $x=4$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\subsection{Las partes de una ecuación}
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{28}{28}\selectfont,inner sep=2pt,text height=22pt,text depth=6pt},
+  lb/.style={rounded corners=2mm,font=\large,align=center,anchor=south}]
+  \node[t] (t1) {$3x^2$};
+  \node[t,right=3pt of t1] (t2) {$-5$};
+  \node[t,right=8pt of t2] (eq) {$=$};
+  \node[t,right=8pt of eq] (t3) {$2x$};
+  \node[t,right=3pt of t3] (t4) {$+3$};
+  \draw[decorate,decoration={brace,amplitude=6pt,mirror},fmA,line width=1.2pt] ([yshift=-3pt]t1.south west) -- ([yshift=-3pt]t2.south east) node[midway,below=8pt,font=\large\heavy,text=fmA] {1.er miembro};
+  \draw[decorate,decoration={brace,amplitude=6pt,mirror},fmB,line width=1.2pt] ([yshift=-3pt]t3.south west) -- ([yshift=-3pt]t4.south east) node[midway,below=8pt,font=\large\heavy,text=fmB] {2.º miembro};
+  % punts on apunten les fletxes
+  \coordinate (px) at ([xshift=23pt,yshift=-7pt]t1.north west);   % la x de 3x^2
+  \coordinate (pe) at ([xshift=-5pt,yshift=5pt]t1.north east);    % l'exponent 2
+  \coordinate (p5) at ([xshift=4pt,yshift=-5pt]t2.north);         % el 5
+  \coordinate (p3) at ([xshift=5pt,yshift=-5pt]t4.north);         % el 3
+  \node[lb,fill=fmV!12,draw=fmV] (inc) at ([xshift=-3.3cm,yshift=0.9cm]px) {{\heavy\color{fmV}incógnita}: $x$\\[-2pt]{\comic\small la letra}};
+  \draw[-{Latex[length=3mm]},fmV,line width=1.3pt] (inc.east) to[out=0,in=150] (px);
+  \node[lb,fill=fmK!12,draw=fmK] (gr) at ([xshift=-0.6cm,yshift=1.45cm]pe) {{\heavy\color{fmK!80!black}grado 2}\\[-2pt]{\comic\small el exponente mayor}};
+  \draw[-{Latex[length=3mm]},fmK,line width=1.3pt] (gr.south -| pe) -- (pe);
+  \node[lb,fill=fmB!12,draw=fmB] (ti) at ([xshift=4.4cm,yshift=1.45cm]p5) {{\heavy\color{fmB}términos independientes}\\[-2pt]{\comic\small los que no tienen letra}};
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (ti.south west) to[out=-150,in=80] (p5);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (ti.south -| p3) -- (p3);
+  \node[anchor=west,font=\comic,text=fmmuted,align=left] at ([xshift=1.1cm,yshift=-0.55cm]t4.east) {cada sumando\\es un \textbf{término}};
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Solución]
+Una \textbf{solución} es un valor de la $x$ que hace \textbf{cierta} la igualdad.\\[3pt]
+\textbf{Resolver} una ecuación es encontrar \textbf{todas} las soluciones (puede tener una, varias o ninguna).
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[¡Cuidado con el grado!]
+Antes de mirar el grado, \textbf{operamos}:\\[3pt]
+$x(x+2)=x^2+5$\\[2pt]
+$\cancel{x^2}+2x=\cancel{x^2}+5\ \to\ 2x=5$\\[2pt]
+Parecía de grado 2, pero es de \textbf{grado 1}.
+\end{compte}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ ¿identidad o ecuación?]
+\begin{tabular}{@{}p{0.47\linewidth}p{0.47\linewidth}@{}}
+$3(x-2)=3x-6$\ \ $\to$\ \ \chip{fmK}{identidad} &
+$3x-2=7$\ \ $\to$\ \ \chip{fmblue}{ecuación} \ \nota{solo si $x=3$}\\[6pt]
+$(x-1)^2=x^2-2x+1$\ \ $\to$\ \ \chip{fmK}{identidad} &
+$x^2=9$\ \ $\to$\ \ \chip{fmblue}{ecuación} \ \nota{solo si $x=3$ o $x=-3$}
+\end{tabular}\\[4pt]
+\nota{Para saberlo, operamos cada miembro: si quedan exactamente iguales, es una identidad.}
+\end{exemple}
+
+% ------------------------------------------------------------ 5.1 (solució i transposició)
+\clearpage
+\subsection{¿Es solución? Lo comprobamos}
+{\large Cambiamos la $x$ por el número en \textbf{cada miembro por separado}.} Si los dos resultados coinciden, es solución.
+
+\begin{center}
+\begin{tikzpicture}[card/.style={draw=#1,fill=#1!8,line width=1.2pt,rounded corners=3mm,minimum width=6.6cm,minimum height=2.4cm,align=center}]
+  \node[font=\Large,fill=fmyellow!45,rounded corners=2mm,inner sep=5pt] at (4.1,1.85) {$x^2+1=3x-1$};
+  \node[card=fmK] (a) at (0.6,0) {};
+  \node[font=\large] at (0.6,0.6) {\chip{fmK}{$x=\mathbf{2}$}};
+  \node at (0.6,-0.15) {$\cA{2^2+1=5}\qquad \cB{3\cdot2-1=5}$};
+  \node[text=fmK!80!black,font=\comic\large] at (0.6,-0.8) {\faCheckCircle\ iguales: sí es solución};
+  \node[card=fmR] (b) at (7.6,0) {};
+  \node[font=\large] at (7.6,0.6) {\chip{fmR}{$x=\mathbf{3}$}};
+  \node at (7.6,-0.15) {$\cA{3^2+1=10}\qquad \cB{3\cdot3-1=8}$};
+  \node[text=fmR,font=\comic\large] at (7.6,-0.8) {\faTimesCircle\ distintos: no es solución};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Ecuaciones equivalentes: la transposición}
+{\large Para resolver, hacemos \textbf{lo mismo en los dos lados}: la balanza sigue en equilibrio.} Así obtenemos ecuaciones \textbf{equivalentes} (con las mismas soluciones) cada vez más sencillas, hasta que la $x$ queda \textbf{sola}.
+
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{24}{24}\selectfont,inner sep=2pt,text height=19pt,text depth=6pt},
+  l/.style={font=\comic,align=left,anchor=west}]
+  % columna del signe =
+  \node[t] (a3) at (0,0) {$=$};
+  \node[t,anchor=east] (a2) at ([xshift=-6pt]a3.west) {$\cB{+5}$};
+  \node[t,anchor=east] (a1) at ([xshift=-2pt]a2.west) {$3x$};
+  \node[t,anchor=west] (a4) at ([xshift=6pt]a3.east) {$17$};
+  \node[t] (b3) at (0,-1.7) {$=$};
+  \node[t,anchor=east] (b1) at (a1.east |- b3) {$\cK{3}x$};
+  \node[t,anchor=west] (b4) at ([xshift=6pt]b3.east) {$17\cB{-5}=12$};
+  \node[t] (c3) at (0,-3.4) {$=$};
+  \node[t,anchor=east] (c1) at (b1.east |- c3) {$x$};
+  \node[t,anchor=west] (c4) at ([xshift=6pt]c3.east) {$12:\cK{3}=\boxed{4}$};
+  \coordinate (m5) at ([xshift=48pt,yshift=-4pt]b4.north west);   % el -5
+  \coordinate (d3) at ([xshift=34pt,yshift=-4pt]c4.north west);   % el 3 que divideix
+  \draw[-{Latex[length=3mm]},fmB,line width=1.5pt] ([yshift=2pt]a2.south) to[out=-60,in=110] (m5);
+  \draw[-{Latex[length=3mm]},fmK,line width=1.5pt] ([xshift=-1pt,yshift=2pt]b1.south) to[out=-60,in=110] (d3);
+  \node[l,text=fmB] at (5.2,-0.85) {el $+5$ estaba \textbf{sumando}:\\pasa \textbf{restando}};
+  \node[l,text=fmK!80!black] at (5.2,-2.55) {el $3$ estaba \textbf{multiplicando}:\\pasa \textbf{dividiendo}};
+  \node[anchor=west] at (9.3,-1.5) {\balanca{3x+5}{17}{0.9}};
+  \node[font=\comic,text=fmmuted,align=center] at (12.1,-3.05) {hacemos lo mismo\\en los dos platos};
+\end{tikzpicture}
+\end{center}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faPlus\,\faMinus\ \ Regla de la suma}]
+Lo que está \textbf{sumando} en un miembro pasa al otro \textbf{restando}, y al revés.\par\smallskip
+{\centering$x\cB{+7}=10\ \to\ x=10\cB{-7}=3$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faTimes\,\faDivide\ \ Regla del producto}]
+Lo que está \textbf{multiplicando} a todo un miembro pasa al otro \textbf{dividiendo}, y al revés.\par\smallskip
+{\centering$\cK{5}x=20\ \to\ x=\dfrac{20}{\cK{5}}=4$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[t]{0.55\linewidth}
+\begin{compte}[Cambia la operación, no el signo]
+En \ $\cK{-2}x=8$, \ el $\cK{-2}$ pasa dividiendo \textbf{con su signo}:\\[4pt]
+\be{x=\dfrac{8}{-2}=-4}\qquad \mal{x=\dfrac{8}{2}=4}
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}
+\begin{truc}[Compruébalo siempre]
+Sustituye la solución en la ecuación \textbf{del principio}:\\[4pt]
+$3\cdot\cR{4}+5=17$ \ \be{}
+\end{truc}
+\end{minipage}
+
+% ============================================================ 5.2
+\clearpage
+\seccio{sec2}{Ecuaciones de primer grado}{La $x$ solo aparece elevada a 1. Siempre tienen una solución.}
+
+\begin{idea}
+{\centering\Large Las reducimos hasta \ \fmkey{$ax=b$} \ y despejamos: \quad $x=\dfrac{b}{a}$\par}
+\end{idea}
+
+\begin{minipage}[c]{0.4\linewidth}\raggedright
+\pas{1} Quitamos \textbf{paréntesis}.\\[6pt]
+\pas{2} \textbf{Transponemos}: las $x$ a un lado y los números al otro.\\[6pt]
+\pas{3} \textbf{Reducimos}: sumamos los semejantes hasta $ax=b$.\\[6pt]
+\pas{4} \textbf{Despejamos} la $x$ y simplificamos.\\[6pt]
+\pas{5} \textbf{Comprobamos}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{exemple}[Ejemplo: \ $3(x-2)-2(x+1)=4-x$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&3x-6-2x-2=4-x &\qquad& \text{\nota{\pas{1}\ paréntesis}}\\
+&3x-2x\cB{+x}=4\cB{+6+2} && \text{\nota{\pas{2}\ transponemos}}\\
+&2x=12 && \text{\nota{\pas{3}\ reducimos}}\\
+&x=\dfrac{12}{2}=\boxed{6} && \text{\nota{\pas{4}\ despejamos}}
+\end{alignat*}
+\nota{\pas{5}\ $3\cdot4-2\cdot7=-2$ \ y \ $4-6=-2$ \ \be{}}
+\end{exemple}
+\end{minipage}
+
+\begin{compte}[El menos delante de un paréntesis]
+Cambia el signo de \textbf{todos} los términos de dentro:\\[4pt]
+\be{-2(x+1)=-2x\,\cR{-}\,2}\qquad\quad \be{-(3-x)=-3\,\cR{+}\,x}\qquad\quad \mal{-2(x+1)=-2x+2}
+\end{compte}
+
+\subsection{Casos especiales: cuando las $x$ desaparecen}
+{\large A veces las $x$ se anulan y llegamos a \ $0x=b$.}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={\faTimesCircle\ \ $0x=$ un número: ninguna solución}]
+$2(x+1)=2x+5$\\[2pt]
+$2x+2=2x+5\ \to\ \cR{0x=3}$\\[4pt]
+\notab{Ningún número multiplicado por 0 da 3.}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faInfinity\ \ $0x=0$: infinitas soluciones}]
+$3(x+2)-x=2x+6$\\[2pt]
+$2x+6=2x+6\ \to\ \cK{0x=0}$\\[4pt]
+\notab{Todos los números la cumplen: es una identidad.}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Ejemplo: \ $7x-4=3x+8$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&7x-3x=8+4 &\qquad& \text{\nota{transponemos}}\\
+&4x=12\ \to\ x=\dfrac{12}{4}=\boxed{3}
+\end{alignat*}
+\nota{Comprobación: $7\cdot3-4=17$ \ y \ $3\cdot3+8=17$ \be{}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{exemple}[Ejemplo: \ $2(x+5)=3x-1$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&2x+10=3x-1\\
+&2x-3x=-1-10\\
+&-x=-11\ \to\ \boxed{x=11} &\quad& \text{\nota{cambiamos el signo}}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+% ============================================================ 5.3
+\clearpage
+\seccio{sec3}{Ecuaciones con denominadores}{Primero nos libramos de las fracciones; después, como siempre.}
+
+\begin{idea}
+{\centering\Large Multiplicamos \textbf{todos} los términos por el \fmkey{m.c.m.} de los denominadores.\par}
+\smallskip Obtenemos una ecuación \textbf{equivalente} sin fracciones y seguimos como en el apartado anterior.
+\end{idea}
+
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{24}{24}\selectfont,inner sep=3pt},
+  r/.style={font=\fontsize{20}{20}\selectfont,inner sep=3pt},
+  l/.style={font=\comic\small,text=fmmuted,anchor=west}]
+  \node[t] (a) at (0,0) {$\dfrac{\cA{x+1}}{2}$};
+  \node[t] (m) at (1.6,0) {$-$};
+  \node[t] (b) at (3.2,0) {$\dfrac{\cB{x-2}}{3}$};
+  \node[t] (e) at (4.8,0) {$=$};
+  \node[t] (c) at (6.0,0) {$\cK{2}$};
+  \node[font=\Large\heavy,fill=fmyellow!60,rounded corners=2mm,inner sep=5pt,anchor=west] (mcm) at (8.0,0) {m.c.m.$(2,3)=6$};
+  \node[r] (a2) at (0,-2.5) {$3\,(\cA{x+1})$};
+  \node[r] (m2) at (1.6,-2.5) {$-$};
+  \node[r] (b2) at (3.2,-2.5) {$2\,(\cB{x-2})$};
+  \node[r] (e2) at (4.8,-2.5) {$=$};
+  \node[r] (c2) at (6.0,-2.5) {$12$};
+  \foreach \u/\v/\t in {a/a2/{6:2=3},b/b2/{6:3=2},c/c2/{2\cdot6=12}} {
+    \draw[-{Latex[length=2.5mm]},fmmuted,line width=1.1pt] ([yshift=-2pt]\u.south) -- ([yshift=2pt]\v.north);
+    \node[l] at ($(\u.south)!0.5!(\v.north)+(3pt,0)$) {$\t$};}
+  \node[font=\comic,text=fmmuted,align=left,anchor=north west] at (8.0,-0.75) {Dividimos el m.c.m. entre cada\\denominador y el resultado\\\textbf{multiplica} al numerador,\\que va \textbf{entre paréntesis}.};
+  \node[font=\Large,anchor=west] at (-0.9,-3.9) {$\Rightarrow\ 3x+3-2x+4=12\ \Rightarrow\ x+7=12\ \Rightarrow\ \boxed{x=5}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[t]{0.52\linewidth}
+\begin{compte}[El menos delante de una fracción]
+Afecta a \textbf{todo} el numerador. Por eso lo ponemos siempre \textbf{entre paréntesis}:\\[4pt]
+\be{-\dfrac{x-2}{3}\ \to\ -2(x-2)=-2x\cR{+4}}\\[4pt]
+\mal{-\dfrac{x-2}{3}\ \to\ -2x-4}
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{compte}[¡No te olvides!]
+Los términos \textbf{sin denominador} también se multiplican por el m.c.m.:\\[4pt]
+\be{\ldots=\cK{2}\ \to\ \ldots=12}\qquad \mal{\ldots=2}
+\end{compte}
+\end{minipage}
+
+\begin{minipage}[t]{0.58\linewidth}
+\begin{exemple}[Ejemplo: \ $\dfrac{x-1}{4}-\dfrac{x-3}{6}=1$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&3(x-1)-2(x-3)=12 &\qquad& \text{\nota{m.c.m.$(4,6)=12$}}\\
+&3x-3-2x+6=12\\
+&x+3=12\ \to\ \boxed{x=9}
+\end{alignat*}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.39\linewidth}
+\begin{truc}[¡No pasa nada!]
+La solución puede ser una \textbf{fracción}:\\[4pt]
+$-2x=-13\ \to\ x=\dfrac{13}{2}$\\[3pt]
+también es una solución válida.
+\end{truc}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ $\dfrac{x}{3}+\dfrac{x}{2}=10$]
+\begin{minipage}[c]{0.55\linewidth}
+m.c.m.$(3,2)=6$: \quad $2x+3x=60\ \to\ 5x=60\ \to\ \boxed{x=12}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\nota{Comprobación: $\dfrac{12}{3}+\dfrac{12}{2}=4+6=10$ \be{}}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 5.4
+\clearpage
+\seccio{sec4}{Ecuaciones de segundo grado incompletas}{Ahora la $x$ aparece al cuadrado. ¡Pueden tener dos soluciones!}
+
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{30}{30}\selectfont,inner sep=3pt,text height=25pt,text depth=8pt}]
+  \node[t,fill=fmA!12,rounded corners=2mm] (a) {$\cA{a}x^2$};
+  \node[t,right=3pt of a,fill=fmB!12,rounded corners=2mm] (b) {$+\,\cB{b}x$};
+  \node[t,right=3pt of b,fill=fmK!12,rounded corners=2mm] (c) {$+\,\cK{c}$};
+  \node[t,right=3pt of c] (z) {$=0$};
+  \node[font=\large,text=fmmuted,anchor=west] at ([xshift=6pt]z.east) {$(a\neq0)$};
+  \coordinate (pa) at ([xshift=12pt,yshift=-3pt]a.north west);
+  \coordinate (pb) at ([xshift=-14pt,yshift=-3pt]b.north east);
+  \coordinate (pc) at ([xshift=-7pt,yshift=-3pt]c.north east);
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,anchor=south] (la) at ([xshift=-1.2cm,yshift=1cm]pa) {{\heavy\color{fmA}$a$}: el que va con $x^2$};
+  \node[fill=fmB!14,draw=fmB,rounded corners=2mm,font=\large,anchor=south] (lb) at ([xshift=1.4cm,yshift=1.75cm]pb) {{\heavy\color{fmB}$b$}: el que va con $x$};
+  \node[fill=fmK!14,draw=fmK,rounded corners=2mm,font=\large,anchor=south west] (lc) at ([xshift=1.2cm,yshift=0.55cm]pc) {{\heavy\color{fmK!80!black}$c$}: el término independiente};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (la.south -| pa) -- (pa);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (lb.south) to[out=-90,in=80] (pb);
+  \draw[-{Latex[length=3mm]},fmK,line width=1.3pt] (lc.west) to[out=180,in=70] (pc);
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[t]{0.47\linewidth}
+\begin{idea}[¿Completa o incompleta?]
+\textbf{Completa}: tiene los tres términos.\\[2pt]
+{\centering\chip{fmblue}{$2x^2-7x+3=0$}\par}\smallskip
+\textbf{Incompleta}: le falta la $\cB{b}$ o la $\cK{c}$.\\[2pt]
+{\centering\chip{fmblue}{$x^2-9=0$}\ \ \chip{fmblue}{$3x^2+5x=0$}\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Primero, la forma general]
+Todo en el primer miembro, ordenado, y un 0 en el segundo:\\[4pt]
+$5x-x^2=2\ \to\ -x^2+5x-2=0$\\[3pt]
+$\cA{a=-1},\ \ \cB{b=5},\ \ \cK{c=-2}$
+\end{truc}
+\end{minipage}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Sin $x$: \ $ax^2+c=0$}]
+Despejamos $x^2$ y hacemos la \textbf{raíz}. \fmkey{Dos soluciones: $\pm$}\par\smallskip
+{\centering$2x^2-18=0$\\[2pt]
+$x^2=\dfrac{18}{2}=9$\\[2pt]
+$x=\pm\sqrt9=\boxed{\pm3}$\par}
+\smallskip
+\notab{Si $x^2$ da negativo, no hay solución: \ $x^2=-4$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Sin término independiente: \ $ax^2+bx=0$}]
+Sacamos \textbf{factor común} $x$. \fmkey{Una solución es $x=0$}\par\smallskip
+{\centering$3x^2-12x=0$\\[2pt]
+$3x\,(x-4)=0$\\[2pt]
+$\boxed{x=0}$ \ o \ $x-4=0\to\boxed{x=4}$\par}
+\smallskip
+\notab{Si un producto vale 0, algún factor vale 0.}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[¡No dividas entre $x$!]
+\mal{x^2=7x\ \to\ x=7}\ \ {\small pierdes el 0}\\[4pt]
+\be{x^2-7x=0\ \to\ x(x-7)=0}\\[2pt]
+\hspace*{1.4em}$x=0$, \ $x=7$
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Ejemplo: \ $(x+2)^2=4x+29$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&x^2+4x+4=4x+29 &\quad& \text{\nota{identidad notable}}\\
+&x^2-25=0\ \to\ x^2=25\\
+&\boxed{x=\pm5}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ dos incompletas]
+\begin{tabular}{@{}l@{\quad}l@{\qquad}l@{}}
+\chip{fmblue}{sin $x$} & $5x^2-45=0$ & $5x^2=45\ \to\ x^2=\dfrac{45}{5}=9\ \to\ \boxed{x=\pm3}$\\[10pt]
+\chip{fmblue}{sin número} & $x^2+7x=0$ & $x\,(x+7)=0\ \to\ \boxed{x=0}\ \ \text{y}\ \ x+7=0\to\boxed{x=-7}$
+\end{tabular}
+\end{exemple}
+
+% ============================================================ 5.5
+\clearpage
+\seccio{sec5}{Ecuaciones de segundo grado completas}{Una fórmula que siempre funciona.}
+
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=4mm,bottom=4mm,before skip=4pt]
+{\large Las soluciones de \ $\cA{a}x^2+\cB{b}x+\cK{c}=0$ \ son:}\par\vspace{8pt}
+{\fontsize{30}{36}\selectfont$x=\dfrac{-\cB{b}\pm\sqrt{\cB{b}^2-4\cA{a}\cK{c}}}{2\cA{a}}$\par}\vspace{6pt}
+{\comic\color{fmmuted}el $\pm$ nos da las dos soluciones: una con $+$ y otra con $-$\par}
+\end{tcolorbox}
+
+\begin{exemple}[Ejemplo: \ $x^2-5x+6=0$]
+\begin{minipage}[c]{0.18\linewidth}\centering
+\chip{fmA}{$a=1$}\\[3pt]\chip{fmB}{$b=-5$}\\[3pt]\chip{fmK}{$c=6$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.8\linewidth}
+{\large$x=\dfrac{-(\cB{-5})\pm\sqrt{(\cB{-5})^2-4\cdot\cA{1}\cdot\cK{6}}}{2\cdot\cA{1}}=\dfrac{5\pm\sqrt{1}}{2}=\dfrac{5\pm1}{2}$}\\[8pt]
+\hspace*{3em}{\large$x_1=\dfrac{5\cR{+}1}{2}=\boxed{3}\qquad\qquad x_2=\dfrac{5\cR{-}1}{2}=\boxed{2}$}
+\end{minipage}
+\end{exemple}
+
+\begin{compte}[Errores típicos con la fórmula]
+\begin{tabular}{@{}p{0.3\linewidth}p{0.3\linewidth}p{0.32\linewidth}@{}}
+$-b$ es el \textbf{opuesto} de $b$:\newline si $b=-5$, \ $-b=\cR{+5}$ &
+$b^2$ siempre es \textbf{positivo}:\newline $(-5)^2=\cR{+25}$ &
+La raya de fracción va debajo de \textbf{todo} el numerador.
+\end{tabular}
+\end{compte}
+
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Ejemplo: \ $2x^2-7x+3=0$]
+\chip{fmA}{$a=2$}\ \chip{fmB}{$b=-7$}\ \chip{fmK}{$c=3$}\\[6pt]
+$x=\dfrac{7\pm\sqrt{49-24}}{4}=\dfrac{7\pm5}{4}$\\[6pt]
+$x_1=\dfrac{12}{4}=\boxed{3}\qquad x_2=\dfrac{2}{4}=\boxed{\dfrac12}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Ejemplo: \ $(x+1)(x-2)=2x+2$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&x^2-x-2=2x+2 &\quad& \text{\nota{paréntesis}}\\
+&x^2-3x-4=0 && \text{\nota{todo a la izquierda}}\\
+&x=\dfrac{3\pm\sqrt{9+16}}{2}=\dfrac{3\pm5}{2}\\
+&\boxed{x_1=4},\quad\boxed{x_2=-1}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Ejemplo: \ $x^2+2x-15=0$]
+$x=\dfrac{-2\pm\sqrt{4+60}}{2}=\dfrac{-2\pm8}{2}$\\[6pt]
+$x_1=\dfrac{6}{2}=\boxed{3}\qquad x_2=\dfrac{-10}{2}=\boxed{-5}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{truc}[¿Y para las incompletas?]
+La fórmula también funciona, pero los métodos del apartado \textbf{5.4} son más rápidos.
+\end{truc}
+\end{minipage}
+
+% ------------------------------------------------------------ 5.5 (discriminant)
+\clearpage
+\subsection{El discriminante: ¿cuántas soluciones hay?}
+{\large El número de dentro de la raíz, \ \fmkey{$\Delta=b^2-4ac$}, \ nos lo dice \textbf{sin resolver}.}
+
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={$\Delta>0$},before upper=\centering]
+\minipar{-1.4}{fmK}\par
+\textbf{Dos} soluciones\par
+{\small$x^2-5x+6=0$: \ $\Delta=1$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={$\Delta=0$},before upper=\centering]
+\minipar{0}{fmgold}\par
+\textbf{Una} solución (doble)\par
+{\small$x^2-6x+9=0$: \ $\Delta=0$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={$\Delta<0$},before upper=\centering]
+\minipar{0.9}{fmR}\par
+\textbf{Ninguna} solución\par
+{\small$x^2+x+1=0$: \ $\Delta=-3$\par}
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Las soluciones son los puntos donde la parábola $y=ax^2+bx+c$ corta al eje $X$.\par}
+
+\begin{minipage}[t]{0.56\linewidth}
+\begin{exemple}[Ejemplo: \ ¿cuántas soluciones tiene?]
+$x^2-4x+4=0$: \ $\Delta=16-16=\cK{0}$ \ $\to$ \ \textbf{una}\\[4pt]
+$3x^2+2x+1=0$: \ $\Delta=4-12=\cR{-8}$ \ $\to$ \ \textbf{ninguna}\\[4pt]
+$x^2-3x-1=0$: \ $\Delta=9+4=\cA{13}$ \ $\to$ \ \textbf{dos}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.41\linewidth}
+\begin{truc}[¿$\Delta$ no es un cuadrado?]
+Dejamos la raíz:\\[4pt]
+$x^2-3x-1=0$\\[2pt]
+$x=\dfrac{3\pm\sqrt{13}}{2}$ \ \notab{($\approx3,3$ y $-0,3$)}
+\end{truc}
+\end{minipage}
+
+\subsection{Ecuaciones no reducidas}
+{\large Primero las dejamos en la forma \ $ax^2+bx+c=0$:} quitamos paréntesis y denominadores (como en las de primer grado) y lo pasamos todo al primer miembro.
+
+\begin{minipage}[t]{0.58\linewidth}
+\begin{exemple}[Ejemplo: \ $\dfrac{x(x-1)}{2}-\dfrac{x+1}{3}=1$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&3x(x-1)-2(x+1)=6 &\quad& \text{\nota{m.c.m.\ $=6$}}\\
+&3x^2-5x-8=0\\
+&x=\dfrac{5\pm\sqrt{25+96}}{6}=\dfrac{5\pm11}{6}\\
+&\boxed{x_1=\dfrac{16}{6}=\dfrac83},\quad\boxed{x_2=-1}
+\end{alignat*}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.39\linewidth}
+\begin{truc}[Hazlo más fácil]
+Si la $a$ es \textbf{negativa}, multiplícalo todo por $-1$:\\[3pt]
+$-x^2+2x+8=0\ \to\ x^2-2x-8=0$\\[5pt]
+Si todos tienen un \textbf{divisor común}, simplifica:\\[3pt]
+$2x^2-2x-12=0\ \to\ x^2-x-6=0$
+\end{truc}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ ¿cuánto debe valer $k$ para que \ $x^2-6x+k=0$ \ tenga una única solución?]
+\begin{minipage}[c]{0.5\linewidth}
+Una única solución $\to$ \ $\Delta=0$:\\[4pt]
+$(-6)^2-4\cdot1\cdot k=0\ \to\ 36-4k=0\ \to\ \boxed{k=9}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$x^2-6x+9=0\ \to\ x=\dfrac{6\pm0}{2}=\boxed{3}$\\[4pt]
+\nota{es la identidad notable $(x-3)^2=0$}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 5.6
+\clearpage
+\seccio{sec6}{Ecuaciones de tercer grado (Ruffini)}{No hay fórmula, pero podemos factorizar.}
+
+\begin{idea}
+{\centering\Large Si un \textbf{producto} vale \textbf{0}, alguno de los factores vale 0:\quad $A\cdot B=0\ \Rightarrow\ A=0\ \ \text{o}\ \ B=0$\par}
+\smallskip Por eso \textbf{factorizamos} el polinomio (unidad 4) y resolvemos cada factor. Como máximo hay \textbf{tres} soluciones.
+\end{idea}
+
+\begin{minipage}[c]{0.43\linewidth}\raggedright
+\pas{1} Lo pasamos todo al primer miembro:\\ \hspace*{1.6em}\mbox{$P(x)=0$}.\\[6pt]
+\pas{2} Buscamos una solución entre los \textbf{divisores del término independiente}: probamos con \mbox{$P(a)=0$}.\\[6pt]
+\pas{3} \textbf{Ruffini}: \ $P(x)=(x-a)\cdot C(x)$, \ con $C(x)$ de segundo grado.\\[6pt]
+\pas{4} Resolvemos $C(x)=0$ con la \textbf{fórmula}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{exemple}[Ejemplo: \ $x^3-2x^2-5x+6=0$]
+\pas{2} Divisores de 6: \ $\pm1,\ \pm2,\ \pm3,\ \pm6$\\[2pt]
+\hspace*{1.6em}$P(\cR{1})=1-2-5+6=0$ \ \be{}\\[2pt]
+\pas{3}\par\vspace{-14pt}
+{\centering\ruffini{1}{1,-2,-5,6}{1,-1,-6}{1,-1,-6,0}{4}\par}
+\pas{4} $x^2-x-6=0\ \to\ x=\dfrac{1\pm5}{2}$\\[4pt]
+\hspace*{1.6em}{\large Soluciones: \ $\boxed{x=1,\ \ x=3,\ \ x=-2}$}
+\end{exemple}
+\end{minipage}
+
+\begin{center}
+{\comic\large\color{fmblue}Y el polinomio queda factorizado: \ $x^3-2x^2-5x+6=(x-1)(x-3)(x+2)$}
+\end{center}
+
+\begin{minipage}[t]{0.48\linewidth}
+\begin{truc}[¿Sin término independiente?]
+No hace falta Ruffini: sacamos \textbf{factor común} $x$.\\[4pt]
+$x^3-x^2-6x=0$\\[2pt]
+$x\,(x^2-x-6)=0$\\[2pt]
+$\boxed{x=0}$, \ y con la fórmula: \ $\boxed{x=3},\ \boxed{x=-2}$
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{compte}[Puede tener menos de tres]
+Si la ecuación de segundo grado que queda tiene $\Delta<0$, no da más soluciones:\\[4pt]
+$x^3+x^2+x+1=(x+1)(x^2+1)$\\[2pt]
+Solo \ $x=-1$ \ ($x^2+1=0$ no tiene solución).
+\end{compte}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ $x^3-3x+2=0$ \ (falta el término en $x^2$)]
+\begin{minipage}[c]{0.42\linewidth}\centering
+\ruffini{1}{1,0,-3,2}{1,1,-2}{1,1,-2,0}{4}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\nota{En Ruffini ponemos un \textbf{0} donde falta un término.}\\[6pt]
+$x^2+x-2=0\ \to\ x=\dfrac{-1\pm3}{2}=1,\ -2$\\[6pt]
+La $x=1$ sale \textbf{dos veces}: es una solución \textbf{doble}.\\[2pt]
+{\large Soluciones: \ $\boxed{x=1\ (\text{doble}),\ \ x=-2}$}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ 5.7
+\clearpage
+\seccio{sec7}{Problemas con ecuaciones}{Traducimos el enunciado a lenguaje algebraico y resolvemos.}
+
+\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{\textbf{Elegimos}\\la $x$ (lo que\\preguntan)},3/\faEquals/{\textbf{Planteamos}\\la ecuación},4/\faCogs/{\textbf{Resolvemos}\\la ecuación},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}
+
+\begin{compte}[Al final, mira si tiene sentido]
+Respondemos con una \textbf{frase} y descartamos lo imposible: longitudes \textbf{negativas}, personas \textbf{decimales}\dots
+\end{compte}
+
+\subsection{Traducciones útiles}
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr0.62\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr0.38\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr0.62\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr0.38\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+\begin{minipage}[t]{0.485\linewidth}
+\begin{dicbox}
+\dic{Un número y su doble}{x,\ \ 2x}
+\dic{Dos números consecutivos}{x,\ \ x+1}
+\dic{Dos pares consecutivos}{2x,\ \ 2x+2}
+\dic{Dos números que suman 20}{x,\ \ 20-x}
+\end{dicbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\begin{dicbox}
+\dic{Edad hoy y dentro de 5 años}{x,\ \ x+5}
+\dic{Edad hoy y hace 3 años}{x,\ \ x-3}
+\dic{Los $\frac25$ de una cantidad}{\tfrac25\,x}
+\dic{Altura y base 3 m más larga}{x,\ \ x+3}
+\end{dicbox}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ la suma de tres números consecutivos es 84. ¿Cuáles son?]
+\begin{minipage}[c]{0.6\linewidth}
+\pas{2} $x$ = el menor; \ los otros: \ $x+1$, \ $x+2$\\[4pt]
+\pas{3} $x+(x+1)+(x+2)=84$\\[4pt]
+\pas{4} $3x+3=84\ \to\ 3x=81\ \to\ x=27$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.37\linewidth}
+\pas{5} Son \textbf{27, 28 y 29}.\\[3pt]
+\nota{$27+28+29=84$ \be{}}
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Ejemplo: \ un rectángulo mide 3 m más de largo que de ancho y tiene 40 m\textsuperscript{2} de área. ¿Qué dimensiones tiene?]
+\begin{minipage}[c]{0.27\linewidth}\centering
+\begin{tikzpicture}
+  \filldraw[fill=fmA!15,draw=fmA,line width=1.2pt] (0,0) rectangle (3.2,1.6);
+  \node at (1.6,0.8) {\large $A=40$};
+  \node[below,text=fmB] at (1.6,0) {$x+3$};
+  \node[left,text=fmB] at (0,0.8) {$x$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.7\linewidth}
+\pas{3} $x\,(x+3)=40\ \to\ x^2+3x-40=0$\\[4pt]
+\pas{4} $x=\dfrac{-3\pm\sqrt{9+160}}{2}=\dfrac{-3\pm13}{2}$ \ $\to$ \ $x=5$ \ o \ \cR{$x=-8$}\\[4pt]
+\pas{5} Una longitud no puede ser negativa: descartamos \cR{$-8$}.\\[2pt]
+\hspace*{1.6em}El rectángulo mide \textbf{5 m $\times$ 8 m}. \ \nota{$5\cdot8=40$ \be{}}
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Ejemplo: \ una madre tiene 38 años y su hijo, 10. ¿Cuándo tendrá el doble?]
+\begin{minipage}[c]{0.6\linewidth}
+\pas{2} $x$ = años que deben pasar: \ madre $38+x$, \ hijo $10+x$\\[4pt]
+\pas{3} $38+x=2\,(10+x)\ \to\ 38+x=20+2x\ \to\ x=18$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.37\linewidth}
+\pas{5} Dentro de \textbf{18 años}.\\[3pt]
+\nota{la madre tendrá 56 y el hijo 28 \be{}}
+\end{minipage}
+\end{exemple}
+
+% ============================================================ resum
+\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=52pt,raster before skip=18pt]
+\rtile{5.1}{Ecuaciones e identidades}{\textbf{Identidad}: cierta para cualquier valor.\\ \textbf{Ecuación}: solo para algunos.\\[2ex] \textbf{Solución}: el valor que hace cierta la igualdad.}
+\rtile{5.1}{Transposición}{Sumando $\leftrightarrow$ restando.\\ Multiplicando $\leftrightarrow$ dividiendo.\\[2ex] Cambia la \textbf{operación}, no el signo.}
+\rtile{5.2}{Primer grado}{Paréntesis, transponemos, reducimos y despejamos:\\ $ax=b\ \to\ x=\dfrac{b}{a}$\\[1ex] $0x=3$: ninguna solución. \ $0x=0$: infinitas.}
+\rtile{5.3}{Con denominadores}{Multiplicamos \textbf{todos} los términos por el \textbf{m.c.m.}\\[2ex] Numeradores \textbf{entre paréntesis}.}
+\rtile{5.4}{Segundo grado incompletas}{$ax^2+c=0$: despejamos $x^2$ y hacemos la raíz: \ $\pm$\\[2ex] $ax^2+bx=0$: factor común $x$. \ Una solución es $x=0$.}
+\rtile{5.5}{Segundo grado completas}{$x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}$\\[1ex] $\Delta>0$: dos. \ $\Delta=0$: una. \ $\Delta<0$: ninguna.}
+\rtile{5.6}{Tercer grado}{Divisores del término independiente y \textbf{Ruffini}:\\ $(x-a)\cdot C(x)=0$\\[1ex] Después, la fórmula para $C(x)=0$.}
+\rtile{5.7}{Problemas}{Leemos, elegimos la $x$, planteamos, resolvemos y \textbf{comprobamos}.\\[2ex] Descartamos las soluciones sin sentido.}
+\end{tcbraster}
+\end{document}
