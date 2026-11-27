@@ -1,0 +1,747 @@
+% Apunts de teoria en PDF · 3.º ESO · Unidad 2: Números reales
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 2: Números reales. 3.º ESO},pdfsubject={Matemáticas 3.º ESO},pdfkeywords={potencias, propiedades, exponente negativo, notación científica, radicales, intervalos, unión, intersección, números reales, irracionales}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$\sqrt{2}\quad \pi\quad 10^{-3}$};
+  \draw[line width=2.4pt] (20,95) -- (230,95);
+  \foreach \x in {30,60,90,120,150,180,210} \draw[line width=2.4pt] (\x,89) -- (\x,101);
+  \draw[line width=6pt] (90,95) -- (180,95);
+  \fill (90,95) circle (6); \draw[line width=2.4pt,fill=none] (180,95) circle (6);
+  \end{scope}
+\end{tikzpicture}}
+% taula amb vores arrodonides: el contingut es retalla amb la forma
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3.º ESO · Unidad 2: Números reales}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 3.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 2}\\[2pt]Números reales\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% interval sobre la recta: #1 extrem esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\begin{document}
+\portada{Potencias, raíces, intervalos\dots\ y todos los números de la recta.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{2.1}{\faSuperscript}{Potencias de exponente natural}
+\itile{sec2}{2.2}{\faLayerGroup}{Propiedades de las potencias}
+\itile{sec3}{2.3}{\faUndo}{Exponente negativo}
+\itile{sec4}{2.4}{\faAtom}{Notación científica}
+\itile{sec5}{2.5}{\faIcon{square-root-alt}}{Radicales: extraer e introducir}
+\itile{sec6}{2.6}{\faCalculator}{Operaciones con radicales}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec7}{2.7}{\faArrowsAltH}{Intervalos}
+\itile{sec8}{2.8}{\faRulerHorizontal}{Representación de intervalos}
+\itile{sec9}{2.9}{\faObjectGroup}{Unión e intersección}
+\itile{sec10}{2.10}{\faInfinity}{Los números reales}
+\itile{resum}{\phantom{2.10}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 2.1
+\clearpage
+\seccio{sec1}{Potencias de exponente natural}{Una potencia es una multiplicación de factores iguales.}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[font=\fontsize{44}{44}\selectfont,inner sep=2pt] (p) {$\cA{3}^{\cB{4}}$};
+  \node[font=\fontsize{26}{26}\selectfont,anchor=west] (e) at ([xshift=4pt]p.east) {$=\cA{3}\cdot\cA{3}\cdot\cA{3}\cdot\cA{3}=81$};
+  \draw[decorate,decoration={brace,amplitude=6pt,mirror},fmB,line width=1.2pt] ([xshift=22pt,yshift=-6pt]e.south west) -- ([xshift=-58pt,yshift=-6pt]e.south east) node[midway,below=8pt,font=\large,text=fmB]{4 factores};
+  \coordinate (pb) at ([xshift=-12pt,yshift=-16pt]p.center);
+  \coordinate (pe) at ([xshift=10pt,yshift=31pt]p.center);
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,anchor=east] (lb) at ([xshift=-1.6cm,yshift=-0.7cm]p.west) {{\heavy\color{fmA}base}: el factor que se repite};
+  \node[fill=fmB!14,draw=fmB,rounded corners=2mm,font=\large,anchor=east] (le) at ([xshift=-1.6cm,yshift=0.8cm]p.west) {{\heavy\color{fmB}exponente}: cuántas veces};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (lb.east) -- (pb);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (le.east) to[out=0,in=150] (pe);
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Regla de los signos]
+Base \textbf{positiva} $\to$ siempre positivo.\\[2pt]
+Base \textbf{negativa}: exponente \textbf{par} $\to$ \cK{positivo}; \textbf{impar} $\to$ \cR{negativo}.\\[4pt]
+{\centering$(-2)^4=\cK{16}\qquad (-2)^3=\cR{-8}$\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[¡Cuidado con los paréntesis!]
+\be{(-2)^4=16}\qquad \be{-2^4=-16}\\[3pt]
+Sin paréntesis, el exponente afecta \textbf{solo al número}, no al signo.
+\end{compte}
+\end{minipage}
+
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Casos especiales},before upper=\centering]
+$a^1=a$\par $a^2$: «al cuadrado»\par $a^3$: «al cubo»
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={De una fracción},before upper=\centering]
+{\large$\left(\dfrac{a}{b}\right)^{n}=\dfrac{a^{n}}{b^{n}}$}\par\smallskip
+$\left(\dfrac23\right)^{3}=\dfrac{8}{27}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Potencias de 10},before upper=\centering]
+$10^n$: un 1 y $n$ ceros\par\smallskip
+$10^6=1\,000\,000$
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.32\linewidth}
+$(-5)^2=25$\\[3pt]
+$-(-3)^3=-(-27)=27$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+$(-1)^{7}=-1$ \ \nota{impar}\\[3pt]
+$(-1)^{20}=1$ \ \nota{par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+$\left(-\dfrac25\right)^{3}=-\dfrac{8}{125}$\\[3pt]
+$0^5=0\qquad 1^{37}=1$
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Ejemplo: \ calcula]
+\begin{minipage}[t]{0.19\linewidth}\centering $2^5=32$\end{minipage}\hfill
+\begin{minipage}[t]{0.19\linewidth}\centering $(-3)^4=81$\end{minipage}\hfill
+\begin{minipage}[t]{0.19\linewidth}\centering $-3^4=\cR{-81}$\end{minipage}\hfill
+\begin{minipage}[t]{0.19\linewidth}\centering $\left(\dfrac12\right)^{4}=\dfrac{1}{16}$\end{minipage}\hfill
+\begin{minipage}[t]{0.19\linewidth}\centering $10^3=1000$\end{minipage}
+\end{exemple}
+
+\begin{truc}[¿Cómo se lee?]
+$a^n$ se lee «$a$ elevado a $n$». \ $5^2$: «cinco al cuadrado». \ $2^3$: «dos al cubo». \ $7^4$: «siete elevado a cuatro».
+\end{truc}
+
+% ============================================================ 2.2
+\clearpage
+\seccio{sec2}{Propiedades de las potencias}{Para multiplicar y dividir, jugamos con los exponentes.}
+
+\newcommand{\prop}[3]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1},before upper=\centering]
+{\Large$#2$}\par\smallskip{\small$#3$}
+\end{tcolorbox}}
+\begin{tcbraster}[raster columns=3,raster equal height=rows,raster column skip=8pt]
+\prop{\pas{1}\ Producto}{a^{m}\cdot a^{n}=a^{\cK{m+n}}}{2^{5}\cdot2^{3}=2^{8}=256}
+\prop{\pas{2}\ Cociente}{a^{m}:a^{n}=a^{\cK{m-n}}}{7^{9}:7^{7}=7^{2}=49}
+\prop{\pas{3}\ Potencia de potencia}{\left(a^{m}\right)^{n}=a^{\cK{m\cdot n}}}{\left(5^{2}\right)^{3}=5^{6}=15\,625}
+\prop{\pas{4}\ Mismo exponente}{a^{n}\cdot b^{n}=(\cA{a\cdot b})^{n}}{2^{4}\cdot5^{4}=10^{4}=10\,000}
+\prop{\pas{5}\ Mismo exponente}{a^{n}:b^{n}=(\cA{a:b})^{n}}{15^{3}:5^{3}=3^{3}=27}
+\prop{Exponente cero}{a^{0}=1\ \ (a\neq0)}{a^{n}:a^{n}=a^{0}=1}
+\end{tcbraster}
+
+\begin{compte}[¡Solo para productos y cocientes, no para sumas!]
+\mal{2^{2}+2^{3}=2^{5}}\ \ {\small$4+8=12$, \ pero $2^5=32$}\qquad\quad
+\mal{(2+3)^{2}=2^{2}+3^{2}}\ \ {\small$25$, \ pero $4+9=13$}
+\end{compte}
+
+\subsection{Bases distintas: descompón en factores primos}
+\begin{minipage}[c]{0.42\linewidth}\raggedright
+\pas{1} \textbf{Descompón} cada base: \ $12=2^2\cdot3$, \ $8=2^3$\dots\\[6pt]
+\pas{2} \textbf{Reparte} el exponente a cada factor: \ $12^{3}=2^{6}\cdot3^{3}$.\\[6pt]
+\pas{3} \textbf{Agrupa} las potencias de la misma base y calcula.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{exemple}[Ejemplo: \ $\dfrac{8^{2}\cdot4^{3}}{16^{2}}$]
+$=\dfrac{\left(2^{3}\right)^{2}\cdot\left(2^{2}\right)^{3}}{\left(2^{4}\right)^{2}}=\dfrac{2^{6}\cdot2^{6}}{2^{8}}=\dfrac{2^{12}}{2^{8}}=2^{4}=\boxed{16}$
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ $\dfrac{6^{3}\cdot9^{2}}{4\cdot27^{2}}$]
+$=\dfrac{(\cA{2}\cdot\cB{3})^{3}\cdot\left(\cB{3}^{2}\right)^{2}}{\cA{2}^{2}\cdot\left(\cB{3}^{3}\right)^{2}}=\dfrac{\cA{2}^{3}\cdot\cB{3}^{3}\cdot\cB{3}^{4}}{\cA{2}^{2}\cdot\cB{3}^{6}}=\dfrac{\cA{2}^{3}\cdot\cB{3}^{7}}{\cA{2}^{2}\cdot\cB{3}^{6}}=\cA{2}^{3-2}\cdot\cB{3}^{7-6}=2\cdot3=\boxed{6}$
+\end{exemple}
+
+\begin{exemple}[Ejemplo: \ $\dfrac{12^{2}\cdot18^{3}}{2^{5}\cdot27^{2}}$]
+$=\dfrac{\left(2^{2}\cdot3\right)^{2}\cdot\left(2\cdot3^{2}\right)^{3}}{2^{5}\cdot\left(3^{3}\right)^{2}}=\dfrac{2^{4}\cdot3^{2}\cdot2^{3}\cdot3^{6}}{2^{5}\cdot3^{6}}=\dfrac{2^{7}\cdot3^{8}}{2^{5}\cdot3^{6}}=2^{2}\cdot3^{2}=\boxed{36}$
+\end{exemple}
+
+% ============================================================ 2.3
+\clearpage
+\seccio{sec3}{Potencias de exponente negativo}{Un exponente negativo «da la vuelta» a la base.}
+
+\begin{minipage}[c]{0.5\linewidth}
+¿De dónde sale? \ Por la propiedad del cociente,\\ $2^{3}:2^{5}=2^{-2}$. \ Y si simplificamos:\par\smallskip
+{\centering$\dfrac{2^{3}}{2^{5}}=\dfrac{\cancel{2}\cdot\cancel{2}\cdot\cancel{2}}{\cancel{2}\cdot\cancel{2}\cdot\cancel{2}\cdot2\cdot2}=\dfrac{1}{2^{2}}$\par}\smallskip
+Por tanto, \ $2^{-2}=\dfrac{1}{2^{2}}$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$a^{-n}=\dfrac{1}{a^{n}}$}\par\medskip
+{\Large$\left(\dfrac{a}{b}\right)^{-n}=\left(\dfrac{b}{a}\right)^{n}$}
+\end{tcolorbox}
+\end{minipage}
+
+\begin{compte}[El resultado NO se vuelve negativo]
+El exponente negativo \textbf{invierte} la base, no cambia el signo: \qquad \be{2^{-3}=\dfrac18}\qquad \mal{2^{-3}=-8}
+\end{compte}
+
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.32\linewidth}
+$2^{-3}=\dfrac{1}{2^{3}}=\dfrac18$\\[5pt]
+$(-3)^{-2}=\dfrac{1}{(-3)^{2}}=\dfrac19$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+$\left(\dfrac25\right)^{-2}=\left(\dfrac52\right)^{2}=\dfrac{25}{4}$\\[5pt]
+$\left(-\dfrac12\right)^{-3}=(-2)^{3}=-8$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+$10^{-4}=\dfrac{1}{10\,000}=0{,}0001$\\[5pt]
+Y al revés: \ $\dfrac18=2^{-3}$
+\end{minipage}
+\end{exemple}
+
+\begin{idea}[Las propiedades también valen con exponentes negativos]
+Cuidado con los signos al sumar y restar exponentes:\\[4pt]
+{\centering$3^{-2}\cdot3^{5}=3^{-2+5}=3^{3}\qquad 5^{-3}:5^{-7}=5^{-3-(-7)}=5^{4}\qquad \left(2^{-3}\right)^{-2}=2^{6}\qquad 6^{-2}:3^{-2}=2^{-2}=\dfrac14$\par}
+\end{idea}
+
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Ejemplo: \ $\dfrac{4^{-2}\cdot8^{3}}{16^{-1}\cdot2^{5}}$]
+$=\dfrac{2^{-4}\cdot2^{9}}{2^{-4}\cdot2^{5}}=\dfrac{2^{5}}{2^{1}}=2^{4}=\boxed{16}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Ejemplo: \ $\left(\dfrac23\right)^{-2}\cdot\left(\dfrac49\right)^{3}$]
+$=\dfrac{3^{2}}{2^{2}}\cdot\dfrac{2^{6}}{3^{6}}=\dfrac{2^{4}}{3^{4}}=\boxed{\dfrac{16}{81}}$
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Ejemplo: \ $\dfrac{6^{-2}\cdot9^{3}}{4^{-1}\cdot3^{5}}$]
+$=\dfrac{(2\cdot3)^{-2}\cdot\left(3^{2}\right)^{3}}{\left(2^{2}\right)^{-1}\cdot3^{5}}=\dfrac{2^{-2}\cdot3^{-2}\cdot3^{6}}{2^{-2}\cdot3^{5}}=\dfrac{2^{-2}\cdot3^{4}}{2^{-2}\cdot3^{5}}=2^{0}\cdot3^{-1}=\boxed{\dfrac13}$
+\end{exemple}
+
+% ============================================================ 2.4
+\clearpage
+\seccio{sec4}{Notación científica}{Para números muy grandes o muy pequeños.}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[font=\fontsize{40}{40}\selectfont,inner sep=3pt] (n) {$\cA{1{,}496}\cdot10^{\cB{8}}$};
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,align=center,anchor=north] (la) at ([xshift=-1.3cm,yshift=-0.4cm]n.south) {{\heavy\color{fmA}$a$}: una sola cifra delante de la coma\\[-2pt]$1\le|a|<10$};
+  \node[fill=fmB!14,draw=fmB,rounded corners=2mm,font=\large,align=center,anchor=west] (lb) at ([xshift=1cm,yshift=0.4cm]n.east) {{\heavy\color{fmB}$n$}: un entero\\[-2pt]\small positivo si es grande, negativo si es pequeño};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (la.north) -- ([xshift=-1.3cm,yshift=4pt]n.south);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (lb.west) to[out=180,in=30] ([xshift=-6pt,yshift=-6pt]n.north east);
+  \node[font=\comic,text=fmmuted,anchor=east] at ([xshift=-0.6cm]n.west) {Tierra -- Sol (km)};
+\end{tikzpicture}
+\end{center}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faArrowLeft\ \ Número grande: coma a la izquierda}]
+El exponente es \textbf{positivo}: los lugares que movemos la coma.\par\smallskip
+{\centering\Large$340\,000\,000=3{,}4\cdot10^{\cK{8}}$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={\faArrowRight\ \ Número pequeño: coma a la derecha}]
+El exponente es \textbf{negativo}: hasta pasar la primera cifra no nula.\par\smallskip
+{\centering\Large$0{,}000\,052=5{,}2\cdot10^{\cR{-5}}$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[t]{0.48\linewidth}
+\begin{idea}[Y al revés]
+Exponente positivo: la coma a la \textbf{derecha}.\\ Exponente negativo: a la \textbf{izquierda}.\\[4pt]
+$2{,}03\cdot10^{6}=2\,030\,000$\\[2pt]
+$6{,}4\cdot10^{-4}=0{,}000\,64$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Ejemplos]
+$-72\,500=-7{,}25\cdot10^{4}$ \ \nota{el signo se mantiene}\\[3pt]
+$0{,}9=9\cdot10^{-1}\qquad 7=7\cdot10^{0}$\\[3pt]
+Un virus: \ $0{,}000\,000\,1$ m $=10^{-7}$ m
+\end{exemple}
+\end{minipage}
+
+\subsection{Números «mal escritos»}
+{\large$25\cdot10^{3}$ no está en notación científica, porque $25\ge10$.} Escribimos $a$ en notación científica y sumamos los exponentes:
+
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.32\linewidth}\centering
+$25\cdot10^{3}=2{,}5\cdot10^{1}\cdot10^{3}$\\$=2{,}5\cdot10^{4}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}\centering
+$0{,}3\cdot10^{-2}=3\cdot10^{-1}\cdot10^{-2}$\\$=3\cdot10^{-3}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}\centering
+$450\cdot10^{-7}=4{,}5\cdot10^{2}\cdot10^{-7}$\\$=4{,}5\cdot10^{-5}$
+\end{minipage}
+\end{exemple}
+
+\begin{truc}[El valor no cambia]
+Si haces $a$ más \textbf{pequeño} (la coma a la izquierda), el exponente tiene que \textbf{subir}; si haces $a$ más \textbf{grande}, el exponente tiene que \textbf{bajar}.
+\end{truc}
+
+% ============================================================ 2.5
+\clearpage
+\seccio{sec5}{Radicales: extraer e introducir factores}{La raíz deshace la potencia.}
+
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}
+  \node[font=\fontsize{40}{40}\selectfont,inner sep=3pt] (r) {$\sqrt[\cB{n}]{\cA{a}}=\cK{b}$};
+  \node[font=\Large,anchor=north] at ([yshift=-0.2cm]r.south) {porque \ $\cK{b}^{\cB{n}}=\cA{a}$};
+  \node[text=fmB,font=\large\heavy,anchor=east] (i) at ([xshift=-0.5cm,yshift=0.6cm]r.west) {índice};
+  \node[text=fmA,font=\large\heavy,anchor=south] (ra) at ([xshift=-0.4cm,yshift=0.4cm]r.north) {radicando};
+  \draw[-{Latex[length=2.5mm]},fmB,line width=1.2pt] (i.east) -- ([xshift=14pt,yshift=8pt]r.west);
+  \draw[-{Latex[length=2.5mm]},fmA,line width=1.2pt] (ra.south) -- ([xshift=-0.15cm,yshift=-4pt]r.north);
+\end{tikzpicture}\\[4pt]
+$\sqrt{49}=7\qquad \sqrt[3]{-8}=-2\qquad \sqrt[4]{81}=3$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{idea}[¿Cuántas raíces hay?]
+\textbf{Índice par}, radicando positivo: dos, opuestas ($\pm7$); el símbolo $\sqrt{\ }$ indica la positiva.\\[3pt]
+\textbf{Índice par}, radicando negativo: \textbf{ninguna} real: \ $\sqrt{-4}\notin\mathbb{R}$.\\[3pt]
+\textbf{Índice impar}: una, con el signo del radicando.
+\end{idea}
+\end{minipage}
+
+\subsection{Extraer factores}
+\begin{minipage}[c]{0.45\linewidth}\raggedright
+\pas{1} \textbf{Descompón} el radicando en factores primos.\\[6pt]
+\pas{2} \textbf{Divide} cada exponente entre el índice.\\[6pt]
+\pas{3} El \textbf{cociente} sale fuera; el \textbf{resto} se queda dentro.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}\centering
+\begin{tikzpicture}
+  \node[font=\fontsize{18}{18}\selectfont] (a) {$\sqrt{2^{5}}=\sqrt{\cA{2^{2}}\cdot\cA{2^{2}}\cdot2}=\cA{2\cdot2}\,\sqrt{2}=\boxed{4\sqrt2}$};
+  \node[font=\comic,text=fmmuted,anchor=north] at ([yshift=-2pt]a.south) {$5:2=$ \textbf{2} (fuera), resto \textbf{1} (dentro)};
+\end{tikzpicture}\\[2pt]
+{\comic\color{fmblue}$n$ factores iguales salen fuera como uno solo}
+\end{minipage}
+
+\begin{exemple}[Ejemplos de extracción]
+\begin{minipage}[t]{0.32\linewidth}
+$\sqrt{72}=\sqrt{2^{3}\cdot3^{2}}=\boxed{6\sqrt2}$\\[5pt]
+$\sqrt[3]{54}=\sqrt[3]{2\cdot3^{3}}=\boxed{3\sqrt[3]{2}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+$\sqrt[4]{2^{9}\cdot3^{5}}=2^{2}\cdot3\sqrt[4]{2\cdot3}=\boxed{12\sqrt[4]{6}}$\\[5pt]
+$\sqrt{a^{5}\,b^{2}}=\boxed{a^{2}\,b\sqrt{a}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+$\sqrt{\dfrac{50}{9}}=\dfrac{\sqrt{2\cdot5^{2}}}{\sqrt{3^{2}}}=\boxed{\dfrac{5\sqrt2}{3}}$
+\end{minipage}
+\end{exemple}
+
+\subsection{Introducir factores}
+\begin{minipage}[t]{0.45\linewidth}
+\begin{idea}
+{\centering\Large$a\sqrt[n]{b}=\sqrt[n]{a^{\cB{n}}\cdot b}$\par}\smallskip
+El factor de fuera entra \textbf{elevado al índice}:\\[3pt]
+$3\sqrt2=\sqrt{3^2\cdot2}=\sqrt{18}$\qquad $2\sqrt[3]{5}=\sqrt[3]{40}$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.52\linewidth}
+\begin{truc}[Para comparar radicales]
+¿Cuál es mayor, \ $3\sqrt2$ \ o \ $2\sqrt5$?\\[3pt]
+$3\sqrt2=\sqrt{18}$ \ y \ $2\sqrt5=\sqrt{20}$ \ $\to$ \ es mayor \ $2\sqrt5$.\\[3pt]
+\notab{Con índice par, el signo $-$ se queda fuera: $-3\sqrt2=-\sqrt{18}$.}
+\end{truc}
+\end{minipage}
+
+% ============================================================ 2.6
+\clearpage
+\seccio{sec6}{Operaciones con radicales}{Sumar, solo los semejantes; multiplicar, si tienen el mismo índice.}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faPlus\,\faMinus\ \ Suma y resta: radicales semejantes}]
+Mismo \textbf{índice} y mismo \textbf{radicando}. Sumamos los coeficientes, como \ $3x+5x=8x$:\par\smallskip
+{\centering$3\sqrt2+5\sqrt2-\sqrt2=\boxed{7\sqrt2}$\par}\smallskip
+Si no son semejantes, primero \textbf{extraemos factores}.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faTimes\,\faDivide\ \ Producto y cociente: mismo índice}]
+Multiplicamos (o dividimos) los \textbf{radicandos}:\par\smallskip
+{\centering$\sqrt[n]{a}\cdot\sqrt[n]{b}=\sqrt[n]{a\cdot b}\qquad \dfrac{\sqrt[n]{a}}{\sqrt[n]{b}}=\sqrt[n]{\dfrac{a}{b}}$\par}\smallskip
+Al final, extraemos factores si se puede.
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{compte}[Error muy frecuente]
+\mal{\sqrt{a}+\sqrt{b}=\sqrt{a+b}}\qquad\quad $\sqrt9+\sqrt{16}=3+4=\cK{7}$, \ pero \ $\sqrt{9+16}=\sqrt{25}=\cR{5}$
+\end{compte}
+
+\begin{exemple}[Ejemplo: \ $\sqrt{50}-\sqrt{18}+\sqrt{8}$]
+$=\sqrt{2\cdot5^{2}}-\sqrt{2\cdot3^{2}}+\sqrt{2^{3}}=5\sqrt2-3\sqrt2+2\sqrt2=(5-3+2)\sqrt2=\boxed{4\sqrt2}$
+\end{exemple}
+
+\begin{exemple}[Ejemplo: \ $\sqrt{12}+\sqrt{20}-\sqrt{27}+\sqrt{45}$ \ \ (dos tipos de radicales)]
+$=\cA{2\sqrt3}+\cB{2\sqrt5}-\cA{3\sqrt3}+\cB{3\sqrt5}=(2-3)\cA{\sqrt3}+(2+3)\cB{\sqrt5}=\boxed{-\sqrt3+5\sqrt5}$
+\end{exemple}
+
+\begin{exemple}[Ejemplos de productos y cocientes]
+\begin{minipage}[t]{0.48\linewidth}
+$\sqrt2\cdot\sqrt8=\sqrt{16}=4$\\[3pt]
+$\sqrt6\cdot\sqrt{15}=\sqrt{90}=3\sqrt{10}$\\[3pt]
+$\left(3\sqrt{10}\right)\cdot\left(2\sqrt5\right)=6\sqrt{50}=30\sqrt2$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$\sqrt{72}:\sqrt2=\sqrt{36}=6$\\[3pt]
+$\dfrac{6\sqrt{15}}{2\sqrt3}=\dfrac62\sqrt{\dfrac{15}{3}}=3\sqrt5$\\[3pt]
+$\left(\sqrt[3]{2}\right)^{5}=\sqrt[3]{2^{5}}=2\sqrt[3]{4}$
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[{Ejemplo: \ $2\sqrt[3]{16}+\sqrt[3]{54}$}]
+$=2\sqrt[3]{2^{4}}+\sqrt[3]{2\cdot3^{3}}=2\cdot2\sqrt[3]{2}+3\sqrt[3]{2}=4\sqrt[3]{2}+3\sqrt[3]{2}=\boxed{7\sqrt[3]{2}}$
+\end{exemple}
+
+\begin{truc}[Para saber más: índices distintos]
+Primero los pasamos a \textbf{índice común} (el m.c.m.): \quad $\sqrt2\cdot\sqrt[3]{3}=\sqrt[6]{2^{3}}\cdot\sqrt[6]{3^{2}}=\sqrt[6]{72}$
+\end{truc}
+
+% ============================================================ 2.7 i 2.8
+\clearpage
+\seccio{sec7}{Intervalos}{Un «trozo» de la recta real, con infinitos números.}
+
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Corchetes]
+\chip{fmK}{$[\ \ ]$} \ \textbf{cerrado}: el extremo \textbf{sí} está \ ($\le$, $\ge$) \ \ {\color{fmK}\faCircle}\\[6pt]
+\chip{fmR}{$]\ \ [$} \ \textbf{abierto}: el extremo \textbf{no} está \ ($<$, $>$) \ \ {\color{fmR}\faCircle[regular]}\\[6pt]
+$+\infty$ y $-\infty$ no son números: siempre con corchete \textbf{abierto}.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}
+\begin{exemple}[Ejemplos]
+$x\ge-3\ \to\ [-3,+\infty\ro$\\[3pt]
+$-1<x\le4\ \to\ \lo-1,4]$\\[3pt]
+«Entre 2 y 7, sin ellos» $\to\ \lo2,7\ro$\\[3pt]
+¿El 4 es de $\lo-1,4]$? \ \textbf{Sí}. \ ¿Y de $[-2,4\ro$? \ \textbf{No}.
+\end{exemple}
+\end{minipage}
+
+\seccio{sec8}{Representación gráfica de intervalos}{Punto lleno si el extremo está; punto vacío si no.}
+
+\newcommand{\fila}[4]{#1 & $#2$ & $#3$ & #4\\}
+{\centering\renewcommand{\arraystretch}{1.55}\taulaclip{fmblue,line width=1.2pt}{\rowcolors{2}{white}{fmsurface}%
+\begin{tabular}{@{\hspace{8pt}}w{l}{2.6cm}w{c}{2.3cm}w{c}{2.6cm}w{c}{6.4cm}@{}}
+\rowcolor{fmblue}{\color{white}\heavy Nombre} & {\color{white}\heavy Intervalo} & {\color{white}\heavy Desigualdad} & {\color{white}\heavy Gráfica}\\
+\fila{Abierto}{\lo a,b\ro}{a<x<b}{\intv{-2}{3}{o}{o}{fmA}}
+\fila{Cerrado}{[a,b]}{a\le x\le b}{\intv{-2}{3}{c}{c}{fmA}}
+\fila{Semiabierto}{\lo a,b]}{a<x\le b}{\intv{-2}{3}{o}{c}{fmA}}
+\fila{Semiabierto}{[a,b\ro}{a\le x<b}{\intv{-2}{3}{c}{o}{fmA}}
+\fila{Semirrecta}{\lo a,+\infty\ro}{x>a}{\intv{1}{6}{o}{a}{fmB}}
+\fila{Semirrecta}{[a,+\infty\ro}{x\ge a}{\intv{1}{6}{c}{a}{fmB}}
+\fila{Semirrecta}{\lo-\infty,b\ro}{x<b}{\intv{-5}{1}{a}{o}{fmB}}
+\fila{Semirrecta}{\lo-\infty,b]}{x\le b}{\intv{-5}{1}{a}{c}{fmB}}
+\end{tabular}}\par}\vspace{4pt}
+{\comic\color{fmmuted}\centering En la tabla, $a=-2$ y $b=3$; en las semirrectas, $a=b=1$. \ Toda la recta: \ $\lo-\infty,+\infty\ro=\mathbb{R}$.\par}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[De la gráfica al intervalo]
+\intv{-3}{2}{o}{c}{fmK}\\ $\to$ \ $\lo-3,2]$, \ $-3<x\le2$\\[4pt]
+\intv{1}{6}{c}{a}{fmK}\\ $\to$ \ $[1,+\infty\ro$, \ $x\ge1$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[Otra manera]
+Algunos libros, en lugar de puntos, dibujan directamente el \textbf{corchete} sobre la recta. Las dos maneras son correctas.
+\end{truc}
+\end{minipage}
+
+% ============================================================ 2.9
+\clearpage
+\seccio{sec9}{Unión e intersección de intervalos}{Todo lo que está pintado, o solo la parte común.}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Unión \ $A\cup B$: «o»}]
+Los números que son de $A$ \textbf{o} de $B$ (al menos de uno). Es \textbf{todo lo que está pintado}.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Intersección \ $A\cap B$: «y»}]
+Los números que son de $A$ \textbf{y} de $B$ a la vez. Es \textbf{la parte común}. Si no hay: $\varnothing$.
+\end{tcolorbox}
+\end{tcbraster}
+
+{\large Dibujamos los dos intervalos \textbf{uno debajo del otro}, con la misma escala, y miramos.} ¡Fíjate bien en los extremos!
+
+\newcommand{\ui}[7]{\begin{exemple}[{Ejemplo: \ #1}]
+\begin{minipage}[c]{0.52\linewidth}
+\begin{tabular}{@{}r@{\ \ }l@{}}
+$A$ & #2\\[2pt] $B$ & #3\\[2pt] \cA{$A\cup B$} & #4\\[2pt] \cK{$A\cap B$} & #5
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+{\large$A\cup B=#6$}\\[6pt]
+{\large$A\cap B=#7$}
+\end{minipage}
+\end{exemple}}
+\ui{$A=[-2,3\ro$, \ $B=\lo1,5]$}{\intv{-2}{3}{c}{o}{fmnavy}}{\intv{1}{5}{o}{c}{fmnavy}}{\intv{-2}{5}{c}{c}{fmA}}{\intv{1}{3}{o}{o}{fmK}}{[-2,5]}{\lo1,3\ro}
+\ui{$A=\lo-\infty,1]$, \ $B=\lo3,+\infty\ro$}{\intv{-5}{1}{a}{c}{fmnavy}}{\intv{3}{6}{o}{a}{fmnavy}}{\intv{-5}{1}{a}{c}{fmA}\hspace{-1pt}}{\textit{\small ninguna parte común}}{\lo-\infty,1]\cup\lo3,+\infty\ro}{\varnothing}
+\ui{$A=\lo-\infty,2\ro$, \ $B=[2,6]$}{\intv{-5}{2}{a}{o}{fmnavy}}{\intv{2}{6}{c}{c}{fmnavy}}{\intv{-5}{6}{a}{c}{fmA}}{\textit{\small ninguna parte común}}{\lo-\infty,6]}{\varnothing}
+
+\begin{compte}[Los extremos]
+En el último ejemplo, el 2 \textbf{no} es de $A$ pero \textbf{sí} de $B$: está en la unión, pero no en la intersección.
+\end{compte}
+
+% ============================================================ 2.10
+\clearpage
+\seccio{sec10}{Los números reales}{Racionales e irracionales: todos los puntos de la recta.}
+
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}
+  \filldraw[fill=fmyellow!18,draw=fmgold,line width=1.4pt,rounded corners=8mm] (0,0) rectangle (8.6,5.6);
+  \filldraw[fill=fmV!10,draw=fmV,line width=1.4pt,rounded corners=7mm] (0.3,0.3) rectangle (5.9,5.0);
+  \filldraw[fill=fmA!12,draw=fmA,line width=1.4pt,rounded corners=6mm] (0.6,0.6) rectangle (4.3,4.1);
+  \filldraw[fill=fmK!14,draw=fmK,line width=1.4pt,rounded corners=5mm] (0.9,0.9) rectangle (2.7,3.3);
+  \draw[fmgold,line width=1.4pt,dashed] (6.1,0.3) -- (6.1,5.3);
+  \node[font=\Large\heavy,text=fmgold!80!black] at (8.05,5.05) {$\mathbb{R}$};
+  \node[font=\Large\heavy,text=fmV] at (5.4,4.5) {$\mathbb{Q}$};
+  \node[font=\Large\heavy,text=fmA] at (3.85,3.6) {$\mathbb{Z}$};
+  \node[font=\Large\heavy,text=fmK!80!black] at (2.3,2.85) {$\mathbb{N}$};
+  \node[font=\Large\heavy,text=fmR] at (7.3,4.4) {$\mathbb{I}$};
+  \node at (1.8,1.9) {$0\ \ 1\ \ 7$};
+  \node at (1.8,1.3) {$\sqrt9$};
+  \node at (3.5,2.2) {$-4$};
+  \node at (3.5,1.4) {$-\sqrt{16}$};
+  \node at (5.1,3.2) {$\tfrac12$};
+  \node at (5.1,2.2) {$0{,}\overline{3}$};
+  \node at (5.1,1.2) {$-\tfrac34$};
+  \node at (7.3,3.3) {$\sqrt2$};
+  \node at (7.3,2.4) {$\pi$};
+  \node at (7.3,1.5) {$\varphi=\tfrac{1+\sqrt5}{2}$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\raggedright
+\chip{fmV}{$\mathbb{Q}$ racionales} \ se pueden escribir como \textbf{fracción}. Decimal \textbf{exacto} o \textbf{periódico}.\\[8pt]
+\chip{fmR}{$\mathbb{I}$ irracionales} \ \textbf{no} se pueden escribir como fracción: infinitas cifras \textbf{no periódicas}.\\
+\notab{$\sqrt2=1{,}414\,213\dots$ \ \ $\pi=3{,}141\,592\dots$ \ \ $e=2{,}718\,28\dots$}\\[8pt]
+\chip{fmgold}{$\mathbb{R}$ reales} \ todos juntos: \ $\mathbb{R}=\mathbb{Q}\cup\mathbb{I}$.
+\end{minipage}
+
+\begin{idea}
+{\centering\Large$\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}\qquad \mathbb{I}\subset\mathbb{R}\qquad \mathbb{Q}\cap\mathbb{I}=\varnothing$\par}
+\smallskip A cada número real le corresponde un \textbf{punto} de la recta, y a cada punto, un número real.
+\end{idea}
+
+\begin{compte}[Casos que engañan]
+\begin{tabular}{@{}p{0.47\linewidth}p{0.47\linewidth}@{}}
+$\sqrt9=3$ es \textbf{natural}, aunque tenga raíz.\newline $-\sqrt{16}=-4$ es \textbf{entero}. &
+$\dfrac{22}{7}$ es \textbf{racional}, aunque se parezca a $\pi$.\\[8pt]
+$0{,}121\,212\dots=0{,}\overline{12}$ \ tiene periodo $\to$ \textbf{racional}. &
+$0{,}121\,121\,112\dots$ \ (sin periodo) $\to$ \textbf{irracional}.\\[4pt]
+\multicolumn{2}{@{}l}{$\sqrt{-4}$ \ \textbf{no} es un número real.}
+\end{tabular}
+\end{compte}
+
+\begin{minipage}[t]{0.55\linewidth}
+\begin{exemple}[Ejemplo: \ el conjunto más pequeño]
+\chip{fmA}{$-7\in\mathbb{Z}$}\ \ \chip{fmV}{$\tfrac35\in\mathbb{Q}$}\ \ \chip{fmK}{$\sqrt{25}=5\in\mathbb{N}$}\\[5pt]
+\chip{fmR}{$\sqrt7\in\mathbb{I}$}\ \ \chip{fmV}{$0{,}1\overline{6}\in\mathbb{Q}$}\ \ \chip{fmR}{$\tfrac{\pi}{2}\in\mathbb{I}$}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}
+\begin{truc}[Raíces e irracionales]
+Raíz \textbf{exacta} $\to$ racional: \ $\sqrt{36}=6$.\\[3pt]
+Raíz \textbf{no exacta} $\to$ irracional: \ $\sqrt2,\ \sqrt3,\ \sqrt5\dots$
+\end{truc}
+\end{minipage}
+
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=30pt,raster before skip=16pt]
+\rtile{2.1}{Potencias}{$a^n$: $n$ factores iguales. Base negativa: par $+$, impar $-$. \ $-2^4\neq(-2)^4$.}
+\rtile{2.2}{Propiedades}{$a^m\cdot a^n=a^{m+n}$, \ $a^m:a^n=a^{m-n}$, \ $(a^m)^n=a^{m\cdot n}$, \ $a^0=1$.}
+\rtile{2.3}{Exponente negativo}{$a^{-n}=\dfrac{1}{a^n}$, \ $\left(\frac{a}{b}\right)^{-n}=\left(\frac{b}{a}\right)^{n}$.\\[1ex] No vuelve negativo el resultado.}
+\rtile{2.4}{Notación científica}{$a\cdot10^n$, con $1\le|a|<10$. Grande: $n>0$. Pequeño: $n<0$.}
+\rtile{2.5}{Radicales}{Extraer: exponente entre índice. Introducir: elevado al índice.}
+\rtile{2.6}{Operaciones}{Sumar: solo semejantes. Multiplicar: mismo índice. \ $\sqrt a+\sqrt b\neq\sqrt{a+b}$.}
+\rtile{2.7}{Intervalos}{$[\ ]$: el extremo está. \ $]\ [$: no está. \ $\pm\infty$: siempre abierto.}
+\rtile{2.8}{Gráfica}{Punto lleno: está. Punto vacío: no está. Flecha: hasta el infinito.}
+\rtile{2.9}{Unión e intersección}{$A\cup B$: todo lo pintado. \ $A\cap B$: la parte común.}
+\rtile{2.10}{Reales}{$\mathbb{R}=\mathbb{Q}\cup\mathbb{I}$. Irracionales: decimales infinitos no periódicos.}
+\end{tcbraster}
+\end{document}
