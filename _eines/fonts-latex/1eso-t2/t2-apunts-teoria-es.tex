@@ -1,0 +1,851 @@
+% Apuntes de teoría en PDF · 1.º ESO · Unidad 2: Divisibilidad (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 2: Divisibilidad. 1.º ESO},pdfsubject={Matemáticas 1.º ESO},pdfkeywords={divisibilidad, múltiplos, divisores, criterios de divisibilidad, números primos, números compuestos, criba de Eratóstenes, descomposición en factores primos, mínimo común múltiplo, máximo común divisor, problemas}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$360=2^3\cdot3^2\cdot5$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{24}{24}\selectfont] at (14,100) {mcm\quad MCD};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º ESO · Unidad 2: Divisibilidad}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 2}\\[2pt]Divisibilidad\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+\newcommand{\passos}[1]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Cómo se resuelven}]#1\end{tcolorbox}}
+\newcommand{\passosT}[2]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ #1}]#2\end{tcolorbox}}
+\newcommand{\barra}[3]{\filldraw[fill=#3!35,draw=#3,line width=0.9pt] (#1-0.32,0) rectangle (#1+0.32,#2);}
+\newcommand{\caixa}[7]{\draw[#7,line width=1.3pt] (#2,#1) -- (#3,#1) (#5,#1) -- (#6,#1) (#2,#1-0.25) -- (#2,#1+0.25) (#6,#1-0.25) -- (#6,#1+0.25);
+  \filldraw[fill=#7!20,draw=#7,line width=1.3pt] (#3,#1-0.45) rectangle (#5,#1+0.45); \draw[#7,line width=2.2pt] (#4,#1-0.45) -- (#4,#1+0.45);}
+
+
+\begin{document}
+\portada{Múltiplos, divisores y primos: las piezas con las que se construyen los números.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{2.1}{\faLink}{La relación de divisibilidad}
+\itile{sec2}{2.2}{\faTimes}{Múltiplos de un número}
+\itile{sec3}{2.3}{\faDivide}{Divisores de un número}
+\itile{sec4}{2.4}{\faCheckDouble}{Criterios de divisibilidad}
+\itile{sec5}{2.5}{\faStar}{Primos y compuestos}
+\itile{sec6}{2.6}{\faIcon{sitemap}}{Factores primos}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec7}{2.7}{\faIcon{arrow-up}}{Mínimo común múltiplo}
+\itile{sec8}{2.8}{\faBus}{Problemas de mcm}
+\itile{sec9}{2.9}{\faIcon{arrow-down}}{Máximo común divisor}
+\itile{sec10}{2.10}{\faTh}{Problemas de MCD}
+\itile{resum}{\phantom{2.10}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 2.1
+\clearpage
+\seccio{sec1}{La relación de divisibilidad}{Cuando la división es exacta.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Divisibilidad]
+Si la división $a:b$ es \textbf{exacta} (resto 0):\\[3pt]
+\faCheck\ $a$ es \textbf{múltiplo} de $b$\\[2pt]
+\faCheck\ $b$ es \textbf{divisor} de $a$ (o $b$ divide a $a$)\\[2pt]
+\faCheck\ $a$ es \textbf{divisible} por $b$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[font=\Large]
+  \node at (0,0) {$15$}; \node at (1.2,0) {$3$};
+  \draw[fmnavy,line width=1.2pt] (0.6,0.35) -- (0.6,-0.35) -- (1.9,-0.35);
+  \node at (1.2,-0.75) {$5$}; \node[text=fmK] at (0,-0.75) {$0$};
+  \node[font=\normalsize] at (3.3,-0.2) {$15=3\cdot5$};
+\end{tikzpicture}\\[4pt]
+\begin{tikzpicture}
+  \node[draw=fmB,fill=fmB!10,rounded corners=2mm,font=\large] (a) at (0,0) {15};
+  \node[draw=fmA,fill=fmA!10,rounded corners=2mm,font=\large] (b) at (3,0) {3};
+  \draw[-{Latex},fmB,line width=1.2pt] (a.north east) to[bend left=25] node[above,font=\scriptsize] {es múltiplo de} (b.north west);
+  \draw[-{Latex},fmA,line width=1.2pt] (b.south west) to[bend left=25] node[below,font=\scriptsize] {es divisor de} (a.south east);
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{compte}[Si no es exacta, no hay relación]
+$17:3$ da 5 y resto 2: \ 17 \textbf{no} es múltiplo de 3 y 3 \textbf{no} es divisor de 17.
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Un producto}]
+Si $a=b\cdot c$, $a$ es múltiplo de $b$ y de $c$: \ $42=6\cdot7$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={El 1 y él mismo}]
+El 1 divide a todos los números. Cada número es divisor y múltiplo de sí mismo.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={¿Y el 0?}]
+Es múltiplo de todos ($0=b\cdot0$), pero no es divisor de ninguno.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Dos maneras de decir lo mismo]
+«Ser múltiplo de» y «ser divisor de» son la misma relación leída al revés: el \textbf{múltiplo} es el grande y el \textbf{divisor}, el pequeño.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+¿Es 48 múltiplo de 6? \ $48:6=8$ exacta \ \be{} sí\\[4pt]
+¿Es 7 divisor de 50? \ $50:7=7$, resto 1 \ \mal{\text{no}}\\[4pt]
+¿Es 105 divisible por 5? \ $105:5=21$ \ \be{} sí
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$56=7\cdot8$: \ 56 es múltiplo de 7 y de 8; \ 7 y 8 son divisores de 56\\[4pt]
+Un divisor de 20 y un múltiplo de 20: \ 4 y 60
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 2.2
+\clearpage
+\seccio{sec2}{Múltiplos de un número}{Multiplicamos por 0, 1, 2, 3\dots}
+
+\vfill
+\begin{idea}[Múltiplos]
+Los múltiplos de $a$ se obtienen multiplicándolo por $0,\ 1,\ 2,\ 3\ldots$ \ El conjunto se escribe $\text{M}(a)$:\\[4pt]
+{\centering\Large$\text{M}(6)=\{0,\ 6,\ 12,\ 18,\ 24,\ 30,\ \ldots\}$\par}
+\end{idea}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[x=0.5cm]
+  \draw[fmnavy,line width=1.1pt] (0,0) -- (31,0);
+  \foreach \k in {0,...,30} \draw[fmmuted] (\k,-0.08) -- (\k,0.08);
+  \foreach \k in {0,6,...,30} {\fill[fmB] (\k,0) circle (3pt); \node[below,font=\small] at (\k,-0.1) {\k};}
+  \foreach \k in {0,6,...,24} \draw[-{Latex[length=1.8mm]},fmB,line width=1pt] (\k+0.2,0.25) to[bend left=40] node[above,font=\scriptsize] {$+6$} (\k+5.8,0.25);
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}saltamos de 6 en 6}
+\end{center}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Propiedades}]
+\faCheck\ Tiene \textbf{infinitos}.\\
+\faCheck\ Todo número es múltiplo de sí mismo; el 0, de todos.\\
+\faCheck\ Dos consecutivos se diferencian en $a$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Sumas y restas}]
+La suma y la resta de dos múltiplos de $a$ también es múltiplo de $a$:\par\smallskip
+$12+18=30$: todos múltiplos de 6.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Pares e impares]
+Los múltiplos de 2 son los \textbf{pares}: $0,\ 2,\ 4,\ 6\ldots$ \ Los demás, $1,\ 3,\ 5,\ 7\ldots$, son los \textbf{impares}.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+Los cinco primeros múltiplos de 7 (sin el 0): \ $7,\ 14,\ 21,\ 28,\ 35$\\[4pt]
+Múltiplos de 9 entre 40 y 80: \ $45,\ 54,\ 63,\ 72$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+El primer múltiplo de 13 mayor que 100: \ $13\cdot8=\boxed{104}$\\[4pt]
+Múltiplos comunes de 4 y 6 menores que 40: \ $12,\ 24,\ 36$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ unos caramelos se venden en bolsas de 8. ¿Se pueden comprar exactamente 60 caramelos? ¿Y 72?]
+60 no es múltiplo de 8 ($8\cdot7=56$, $8\cdot8=64$): \ \mal{\text{no}} \qquad $72=8\cdot9$: \ \be{} sí, 9 bolsas
+\end{exemple}
+
+\vfill
+% ============================================================ 2.3
+\clearpage
+\seccio{sec3}{Divisores de un número}{Los que lo dividen de manera exacta.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\passosT{Cómo se encuentran todos}{\pas{1} Dividimos entre $1,\ 2,\ 3,\ 4\ldots$ por orden.\\[3pt]
+\pas{2} Cada división exacta da \textbf{dos} divisores: el divisor y el cociente.\\[3pt]
+\pas{3} Paramos cuando el cociente se hace \textbf{menor o igual} que el divisor.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering\small
+\renewcommand{\arraystretch}{1.15}%
+\taularod{*{3}{>{\hspace{6pt}}c<{\hspace{6pt}}}}{
+\rowcolor{fmblue}\color{white}\heavy $36:$ & \color{white}\heavy cociente & \color{white}\heavy pareja\\
+1 & 36 & $1\cdot36$\\
+\rowcolor{fmsurface}2 & 18 & $2\cdot18$\\
+3 & 12 & $3\cdot12$\\
+\rowcolor{fmsurface}4 & 9 & $4\cdot9$\\
+5 & 7, resto 1 & \mal{}\\
+\rowcolor{fmsurface}6 & 6 & $6\cdot6$ \ \nota{paramos}
+}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\text{Div}(36)=\{1,\ 2,\ 3,\ 4,\ 6,\ 9,\ 12,\ 18,\ 36\}$}\par\smallskip
+{\small el 6 solo lo contamos una vez}
+\end{tcolorbox}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Propiedades]
+Un número tiene una cantidad \textbf{finita} de divisores.\\[2pt]
+El más pequeño es el \textbf{1} y el más grande, el \textbf{mismo número}.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[scale=0.3]
+  \draw[fmA,fill=fmA!20] (0,0) grid (12,1); \draw[fmB,fill=fmB!20] (0,2) grid (6,4); \draw[fmK,fill=fmK!20] (8,2) grid (12,5);
+  \node[font=\scriptsize] at (6,-0.7) {$1\times12$}; \node[font=\scriptsize] at (3,4.7) {$2\times6$}; \node[font=\scriptsize] at (10,5.7) {$3\times4$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}con 12 cuadraditos: los divisores de 12}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$\text{Div}(20)=\{1,\ 2,\ 4,\ 5,\ 10,\ 20\}$\\[4pt]
+$\text{Div}(17)=\{1,\ 17\}$ \ \nota{solo dos}\\[4pt]
+$\text{Div}(48)=\{1,2,3,4,6,8,12,16,24,48\}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Divisores comunes de 12 y 18: \ $1,\ 2,\ 3,\ 6$\\[4pt]
+Con 24 sillas, ¿en cuántas filas iguales las podemos poner? \ 1, 2, 3, 4, 6, 8, 12 o 24 filas
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[No te dejes ninguno]
+Haz las divisiones por orden y no pares hasta que el cociente sea menor o igual que el divisor. Comprueba que van por parejas: $1\cdot36$, $2\cdot18$\dots
+\end{compte}
+
+\vfill
+% ============================================================ 2.4
+\clearpage
+\seccio{sec4}{Criterios de divisibilidad}{Sabemos si es divisible sin hacer la división.}
+
+\vfill
+\begin{center}\small
+\taularod{>{\heavy\Large}c<{\hspace{4pt}}>{\hspace{4pt}}p{6.6cm}<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}\heavy Por & \color{white}\heavy Criterio & \color{white}\heavy Sí & \color{white}\heavy No\\
+2 & La última cifra es \textbf{par}: 0, 2, 4, 6 u 8. & 3\,546 & 1\,237\\
+\rowcolor{fmsurface}3 & La \textbf{suma de las cifras} es múltiplo de 3. & 2\,715 $\to$ 15 & 1\,001 $\to$ 2\\
+5 & La última cifra es \textbf{0 o 5}. & 2\,715 & 552\\
+\rowcolor{fmsurface}9 & La \textbf{suma de las cifras} es múltiplo de 9. & 5\,481 $\to$ 18 & 2\,715 $\to$ 15\\
+10 & Acaba en \textbf{0}. & 470 & 475\\
+\rowcolor{fmsurface}11 & Cifras de lugar impar menos las de lugar par (desde la derecha): 0 o múltiplo de 11. & 8\,261 $\to$ 11 & 1\,234 $\to$ 2
+}
+\end{center}
+
+\vfill
+\begin{exemple}[Ejemplo: \ el criterio del 11 con 8\,261]
+Lugar impar (desde la derecha): \ $1+2=3$ \qquad Lugar par: \ $6+8=14$ \qquad $14-3=11$, múltiplo de 11: \ \be{} divisible
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{truc}[Si la suma es grande]
+Volvemos a sumar sus cifras: \ $98\,766\to36\to9$: divisible por 9 (y por 3).
+\end{truc}
+\begin{compte}[Por 9 sí implica por 3]
+Todo divisible por 9 lo es por 3, pero no al revés: \ 12 es divisible por 3 y no por 9.
+\end{compte}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ ¿por cuáles de 2, 3, 5, 9, 10 y 11 es divisible 1\,980?]
+\begin{minipage}[t]{0.55\linewidth}
+Acaba en 0: \ por \textbf{2}, \textbf{5} y \textbf{10}\\[3pt]
+$1+9+8+0=18$: \ por \textbf{3} y por \textbf{9}\\[3pt]
+$(0+9)-(8+1)=0$: \ por \textbf{11}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}
+\boxed{\text{¡por los seis!}} \ \nota{$1\,980=2^2\cdot3^2\cdot5\cdot11$}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+4\,326: \ por 2 \be{} (acaba en 6) y por 3 \be{} (suma 15); por 9 \mal{}\\[4pt]
+735: \ por 3 (15) y por 5; no por 2
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+¿Qué cifra ponemos en $25\square$ para que sea divisible por 3? \ $2+5=7$: \ \boxed{2,\ 5\text{ u }8}\\[4pt]
+¿Y por 2 y por 5 a la vez? \ \boxed{0}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 2.5
+\clearpage
+\seccio{sec5}{Números primos y compuestos}{Los primos son las piezas de las que están hechos todos los números.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faStar\ \ Número primo}]
+Solo tiene \textbf{dos} divisores: el 1 y él mismo.\par\smallskip
+$2,\ 3,\ 5,\ 7,\ 11,\ 13,\ 17,\ 19\ldots$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={\faCubes\ \ Número compuesto}]
+Tiene \textbf{más de dos} divisores: se puede escribir como un producto.\par\smallskip
+$12=3\cdot4$, \ $15=3\cdot5$, \ $49=7\cdot7$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[I l'1?]
+El 1 no es ni primo ni compuesto: solo tiene un divisor. \ Y el 2 es el único primo par.
+\end{compte}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm,y=0.55cm]
+  \foreach \n in {1,...,50} {\pgfmathtruncatemacro\c{mod(\n-1,10)}\pgfmathtruncatemacro\r{(\n-1)/10}
+    \pgfmathtruncatemacro\p{(\n==2)||(\n==3)||(\n==5)||(\n==7)||(\n==11)||(\n==13)||(\n==17)||(\n==19)||(\n==23)||(\n==29)||(\n==31)||(\n==37)||(\n==41)||(\n==43)||(\n==47)}
+    \ifnum\p=1 \filldraw[fill=fmK!35,draw=fmK!80!black] (\c,-\r) rectangle ++(1,-1);\else \draw[fmmuted!50] (\c,-\r) rectangle ++(1,-1);\fi
+    \node[font=\scriptsize] at (\c+0.5,-\r-0.5) {\n};}
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}los primos hasta 50}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{idea}[Criba de Eratóstenes]
+\pas{1} Tachamos el 1.\\[2pt]
+\pas{2} Rodeamos el 2 y tachamos sus múltiplos.\\[2pt]
+\pas{3} El primero que queda (3) es primo: tachamos sus múltiplos.\\[2pt]
+\pas{4} Y así sucesivamente con 5, 7\dots\ Los que quedan son primos.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{truc}[¿Es primo?]
+Dividimos entre los primos 2, 3, 5, 7, 11\dots\ hasta que el cociente sea menor que el divisor. Si ninguna división es exacta, es primo. \ 97: no es divisible por 2, 3, 5 ni 7, y $97:11$ ya da un cociente (8) menor que 11: \ \textbf{primo}.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+51: \ $5+1=6$, divisible por 3: \ \textbf{compuesto} ($3\cdot17$)\\[4pt]
+53: \ no lo divide 2, 3, 5 ni 7: \ \textbf{primo}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Primos entre 20 y 40: \ $23,\ 29,\ 31,\ 37$\\[4pt]
+91: \ $91=7\cdot13$: \ \textbf{compuesto} \ \nota{¡parece primo!}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 2.6
+\clearpage
+\seccio{sec6}{Descomposición en factores primos}{Escribimos el número como un producto de primos.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Factorizar]
+Escribir un número como un \textbf{producto de números primos}. Todo número compuesto se puede descomponer, y de una \textbf{sola} manera.\\[4pt]
+\textbf{Método de la columna}: dividimos entre el primo más pequeño posible (2, 3, 5, 7\dots) y repetimos con el cociente hasta llegar a 1.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.2\linewidth}\centering\Large
+$\begin{array}{r|l}360&\cR{2}\\180&\cR{2}\\90&\cR{2}\\45&\cA{3}\\15&\cA{3}\\5&\cK{5}\\1&\end{array}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.22\linewidth}
+$360=\cR{2^3}\cdot\cA{3^2}\cdot\cK{5}$\\[4pt]
+\small factores repetidos, en potencia; ordenados de menor a mayor
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[level distance=0.9cm,sibling distance=2.2cm,every node/.style={font=\small},level 2/.style={sibling distance=1.1cm},level 3/.style={sibling distance=0.55cm}]
+  \node {360}
+    child {node {36} child {node {6} child {node[text=fmR] {2}} child {node[text=fmA] {3}}} child {node {6} child {node[text=fmR] {2}} child {node[text=fmA] {3}}}}
+    child {node {10} child {node[text=fmR] {2}} child {node[text=fmK] {5}}};
+\end{tikzpicture}\\
+{\small$360=\cR{2^3}\cdot\cA{3^2}\cdot\cK5$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Método del árbol]
+Partimos el número en dos factores cualesquiera ($360=36\cdot10$) y seguimos hasta que todas las ramas acaban en un primo. Sea cual sea el camino, el resultado es el \textbf{mismo}.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$84=2^2\cdot3\cdot7$\\[4pt]
+$150=2\cdot3\cdot5^2$\\[4pt]
+$1\,000=2^3\cdot5^3$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$126=2\cdot3^2\cdot7$\\[4pt]
+$97$ es primo: \ $97=97$\\[4pt]
+¿Qué número es $2^2\cdot3\cdot5$? \ $4\cdot3\cdot5=\boxed{60}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Todos deben ser primos]
+\mal{360=4\cdot9\cdot10}: 4, 9 y 10 no son primos. Hay que seguir hasta que todos lo sean.
+\end{compte}
+
+\vfill
+\begin{truc}[Usa los criterios]
+Para saber entre qué primo dividir, mira los criterios de divisibilidad: acaba en par, entre 2; las cifras suman múltiplo de 3, entre 3; acaba en 0 o 5, entre 5.
+\end{truc}
+
+\vfill
+% ============================================================ 2.7
+\clearpage
+\seccio{sec7}{Mínimo común múltiplo}{El más pequeño de los múltiplos comunes, sin el 0.}
+
+\vfill
+\begin{idea}[mcm con la lista de múltiplos]
+$\text{M}(4)=\{4,\ 8,\ \cR{12},\ 16,\ 20,\ \cR{24},\ 28,\ 32,\ \cR{36},\ldots\}$\\[2pt]
+$\text{M}(6)=\{6,\ \cR{12},\ 18,\ \cR{24},\ 30,\ \cR{36},\ldots\}$\\[4pt]
+Múltiplos comunes: $12,\ 24,\ 36\ldots$ \ El más pequeño: \ $\text{mcm}(4,6)=\boxed{12}$
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\passosT{Con la descomposición}{\pas{1} Descomponemos cada número en factores primos.\\[3pt]
+\pas{2} Tomamos los factores \textbf{comunes y no comunes}, con el \textbf{mayor} exponente.\\[3pt]
+\pas{3} Los multiplicamos.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{exemple}[Ejemplo: \ mcm(12, 18)]
+$12=2^2\cdot3$ \qquad $18=2\cdot3^2$\\[4pt]
+$\text{mcm}=2^2\cdot3^2=4\cdot9=\boxed{36}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ mcm(20, 30, 45)]
+$20=2^2\cdot5$ \qquad $30=2\cdot3\cdot5$ \qquad $45=3^2\cdot5$ \qquad $\text{mcm}=2^2\cdot3^2\cdot5=\boxed{180}$
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Uno es múltiplo del otro}]
+El mcm es el \textbf{mayor}: \ $\text{mcm}(6,18)=18$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Sin factores comunes}]
+El mcm es el \textbf{producto}: \ $\text{mcm}(8,15)=120$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$\text{mcm}(8,12)$: \ $2^3$ y $2^2\cdot3$ \ $\to$ \ $2^3\cdot3=\boxed{24}$\\[4pt]
+$\text{mcm}(9,15)$: \ $3^2$ y $3\cdot5$ \ $\to$ \ $\boxed{45}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$\text{mcm}(10,14)$: \ $2\cdot5$ y $2\cdot7$ \ $\to$ \ $\boxed{70}$\\[4pt]
+$\text{mcm}(4,6,10)$: \ $2^2\cdot3\cdot5=\boxed{60}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[El mcm es grande]
+El mcm siempre es \textbf{mayor o igual} que los números. Si te da más pequeño, te has equivocado.
+\end{truc}
+
+\vfill
+% ============================================================ 2.8
+\clearpage
+\seccio{sec8}{Problemas de mcm}{¿Cuándo volverán a coincidir?}
+
+\vfill
+\begin{idea}[¿Cómo lo reconocemos?]
+\faCheck\ Cosas que se \textbf{repiten} cada cierto tiempo y queremos saber cuándo volverán a \textbf{coincidir} (autobuses, luces, visitas\dots).\\[2pt]
+\faCheck\ El número \textbf{más pequeño} que es múltiplo de varios números a la vez (agrupar de 3 en 3, de 4 en 4\dots).\\[3pt]
+\textbf{Palabras clave}: volverán a coincidir, a la vez, como mínimo, el menor número\dots
+\end{idea}
+
+\vfill
+\begin{exemple}[Ejemplo: \ un autobús pasa cada 12 minutos y otro cada 18. Ahora salen juntos a las 9:00. ¿Cuándo volverán a coincidir?]
+\begin{minipage}[c]{0.55\linewidth}
+$\text{mcm}(12,18)=2^2\cdot3^2=36$\\[4pt]
+Volverán a coincidir a los 36 minutos: \ \boxed{\text{a las 9:36}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[x=0.12cm]
+  \draw[fmmuted] (0,0) -- (40,0);
+  \foreach \k in {0,12,24,36} \fill[fmA] (\k,0.25) circle (2.5pt);
+  \foreach \k in {0,18,36} \fill[fmB] (\k,-0.25) circle (2.5pt);
+  \foreach \k in {0,12,24,36} \node[above,font=\scriptsize,text=fmA] at (\k,0.35) {\k};
+  \foreach \k in {18} \node[below,font=\scriptsize,text=fmB] at (\k,-0.35) {\k};
+  \node[below,font=\scriptsize,text=fmR] at (36,-0.45) {coinciden};
+  \draw[fmR,line width=1pt] (36,-0.5) -- (36,0.5);
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ el menor número de cromos que se puede repartir en grupos de 4, de 6 y de 10 sin que sobre ninguno]
+$\text{mcm}(4,6,10)=2^2\cdot3\cdot5=\boxed{60\text{ cromos}}$
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{exemple}[Ejemplo: \ dos faros]
+Un faro se enciende cada 8 s y otro cada 12 s. Se encienden juntos ahora. ¿Cuándo volverán a hacerlo?\\[3pt]
+$\text{mcm}(8,12)=\boxed{24\text{ s}}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ visitas]
+Marta va a la piscina cada 3 días y Joan cada 4. Hoy coinciden. ¿Cuándo volverán a coincidir?\\[3pt]
+$\text{mcm}(3,4)=\boxed{12\text{ días}}$
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ unas baldosas de 15 cm $\times$ 20 cm. ¿Cuál es el cuadrado más pequeño que podemos hacer con baldosas enteras?]
+$\text{mcm}(15,20)=60$: \ un cuadrado de \boxed{60\text{ cm}} de lado, con $4\cdot3=12$ baldosas
+\end{exemple}
+
+\vfill
+\begin{compte}[El resultado es mayor]
+En un problema de mcm, el resultado es mayor o igual que los números del enunciado. Si sale más pequeño, seguramente era un problema de MCD.
+\end{compte}
+
+\vfill
+% ============================================================ 2.9
+\clearpage
+\seccio{sec9}{Máximo común divisor}{El mayor de los divisores comunes.}
+
+\vfill
+\begin{idea}[MCD con la lista de divisores]
+$\text{Div}(12)=\{\cK{1},\ \cK{2},\ \cK{3},\ 4,\ \cK{6},\ 12\}$ \qquad $\text{Div}(18)=\{\cK{1},\ \cK{2},\ \cK{3},\ \cK{6},\ 9,\ 18\}$\\[4pt]
+Divisores comunes: $1,\ 2,\ 3,\ 6$. \ El mayor: \ $\text{MCD}(12,18)=\boxed{6}$
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\passosT{Con la descomposición}{\pas{1} Descomponemos cada número en factores primos.\\[3pt]
+\pas{2} Tomamos \textbf{solo los comunes}, con el \textbf{menor} exponente.\\[3pt]
+\pas{3} Los multiplicamos.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{exemple}[Ejemplo: \ MCD(60, 90)]
+$60=2^2\cdot3\cdot5$ \qquad $90=2\cdot3^2\cdot5$\\[4pt]
+$\text{MCD}=2\cdot3\cdot5=\boxed{30}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{center}\small
+\taularod{>{\heavy}l>{\hspace{8pt}}c<{\hspace{8pt}}>{\hspace{8pt}}c<{\hspace{8pt}}}{
+\rowcolor{fmblue} & \color{white}\heavy mcm & \color{white}\heavy MCD\\
+Factores & comunes y no comunes & solo los comunes\\
+\rowcolor{fmsurface}Exponente & el mayor & el menor\\
+Resultado & mayor o igual que los números & menor o igual que los números
+}
+\end{center}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Primos entre sí}]
+Sin factores comunes: MCD $=1$. \ $\text{MCD}(8,15)=1$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Uno divide al otro}]
+El MCD es el \textbf{más pequeño}: \ $\text{MCD}(6,18)=6$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$\text{MCD}(24,36)$: \ $2^3\cdot3$ y $2^2\cdot3^2$ \ $\to$ \ $2^2\cdot3=\boxed{12}$\\[4pt]
+$\text{MCD}(14,35)=\boxed{7}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$\text{MCD}(30,45,75)=3\cdot5=\boxed{15}$\\[4pt]
+Comprueba: \ $\text{MCD}\cdot\text{mcm}=a\cdot b$: \ $6\cdot36=12\cdot18=216$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 2.10
+\clearpage
+\seccio{sec10}{Problemas de MCD}{Repartir en partes iguales, lo más grandes posible.}
+
+\vfill
+\begin{idea}[¿Cómo lo reconocemos?]
+Queremos \textbf{repartir} o \textbf{dividir} varias cantidades en partes \textbf{iguales}, sin que sobre nada, y que las partes sean lo \textbf{más grandes posible}.\\[3pt]
+\textbf{Palabras clave}: repartir, cortar en trozos iguales, sin que sobre, lo más grande posible\dots
+\end{idea}
+
+\vfill
+\begin{exemple}[Ejemplo: \ queremos poner baldosas cuadradas, lo más grandes posible, en un suelo de 120 cm $\times$ 90 cm]
+\begin{minipage}[c]{0.55\linewidth}
+El lado debe dividir 120 y 90: \ $\text{MCD}(120,90)=30$\\[4pt]
+Baldosas de \boxed{30\text{ cm}} de lado\\[3pt]
+¿Cuántas? \ $(120:30)\cdot(90:30)=4\cdot3=\boxed{12}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \foreach \i in {0,...,3} \foreach \j in {0,1,2} \filldraw[fill=fmA!25,draw=fmA,line width=0.9pt] (\i*1.5,\j*1.5) rectangle ++(1.5,1.5);
+  \node[below,font=\scriptsize] at (3,0) {120}; \node[left,font=\scriptsize] at (0,2.25) {90};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ tenemos 24 bolígrafos y 36 lápices y queremos hacer lotes iguales, los máximos posibles, sin que sobre ninguno]
+$\text{MCD}(24,36)=12$: \ \boxed{12\text{ lotes}}, cada uno con $24:12=2$ bolígrafos y $36:12=3$ lápices
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{exemple}[Ejemplo: \ cintas]
+Dos cintas de 60 cm y 84 cm, en trozos iguales lo más largos posible.\\[3pt]
+$\text{MCD}(60,84)=\boxed{12\text{ cm}}$: \ $5+7=12$ trozos
+\end{exemple}
+\begin{exemple}[Ejemplo: \ equipos]
+18 chicas y 24 chicos, en equipos iguales y mixtos, el máximo de equipos.\\[3pt]
+$\text{MCD}(18,24)=\boxed{6\text{ equipos}}$ de 3 chicas y 4 chicos
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[¿mcm o MCD?]
+\textbf{Coincidir}, el menor número que es múltiplo: \textbf{mcm} (resultado grande). \ \textbf{Repartir}, lo más grande posible: \textbf{MCD} (resultado pequeño).
+\end{compte}
+
+\vfill
+\begin{truc}[Comprueba]
+El MCD debe dividir exactamente todas las cantidades: \ $120:30=4$ \be{} \ $90:30=3$ \be{}
+\end{truc}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=34pt,raster before skip=20pt]
+\rtile{2.1}{Divisibilidad}{$a:b$ exacta:\\[1ex] $a$ es múltiplo de $b$; $b$ es divisor de $a$.}
+\rtile{2.2}{Múltiplos}{$a\cdot0,\ a\cdot1,\ a\cdot2\ldots$\\[1ex] Hay infinitos.}
+\rtile{2.3}{Divisores}{Van por parejas.\\[1ex] Del 1 al mismo número. Son finitos.}
+\rtile{2.4}{Criterios}{2: par. \ 5: 0 o 5. \ 10: 0.\\[1ex] 3 y 9: suma de cifras. \ 11: diferencia.}
+\rtile{2.5}{Primos}{Solo dos divisores.\\[1ex] El 1 no es primo.}
+\rtile{2.6}{Factores primos}{Columna o árbol.\\[1ex] $360=2^3\cdot3^2\cdot5$.}
+\rtile{2.7}{mcm}{Comunes y no comunes, mayor exponente.}
+\rtile{2.8}{Problemas de mcm}{¿Cuándo vuelven a coincidir?}
+\rtile{2.9}{MCD}{Solo comunes, menor exponente.}
+\rtile{2.10}{Problemas de MCD}{Repartir en partes iguales,\\[1ex] lo más grandes posible.}
+\end{tcbraster}
+\end{document}

@@ -1,0 +1,776 @@
+% Apuntes de teoría en PDF · 1.º ESO · Unidad 3: Números enteros (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 3: Números enteros. 1.º ESO},pdfsubject={Matemáticas 1.º ESO},pdfkeywords={números enteros, positivos, negativos, recta numérica, orden, valor absoluto, opuesto, suma y resta de enteros, paréntesis, multiplicación y división de enteros, regla de los signos, operaciones combinadas, problemas}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{3.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$-3\quad+5$};
+  \draw[line width=2.4pt] (20,95) -- (230,95);
+  \foreach \x in {35,65,95,125,155,185,215} \draw[line width=2.4pt] (\x,87) -- (\x,103);
+  \fill (125,95) circle (7);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º ESO · Unidad 3: Números enteros}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 3}\\[2pt]Números enteros\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\newcommand{\recta}[2]{\draw[-{Latex[length=2.5mm]},fmnavy,line width=1.1pt] (#1-0.6,0) -- (#2+0.6,0);
+  \foreach \k in {#1,...,#2} {\draw[fmnavy,line width=0.9pt] (\k,-0.12) -- (\k,0.12); \node[below=3pt,font=\small] at (\k,0) {$\k$};}}
+\newcommand{\barra}[4]{\begin{tikzpicture}
+  \foreach \i in {1,...,#1} {\pgfmathsetmacro\xa{(\i-1)*#4/#1}\pgfmathsetmacro\xb{\i*#4/#1}
+    \ifnum\i>#2 \filldraw[fill=white,draw=#3,line width=1pt] (\xa,0) rectangle (\xb,0.55);
+    \else \filldraw[fill=#3!35,draw=#3,line width=1pt] (\xa,0) rectangle (\xb,0.55); \fi}
+\end{tikzpicture}}
+
+
+\begin{document}
+\portada{Bajo cero, sótanos y deudas: los números con signo.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{3.1}{\faThermometerHalf}{Los números enteros}
+\itile{sec2}{3.2}{\faRulerHorizontal}{Recta numérica y orden}
+\itile{sec3}{3.3}{\faArrowsAltH}{Valor absoluto y opuesto}
+\itile{sec4}{3.4}{\faPlus}{Suma y resta de enteros}
+\itile{sec5}{3.5}{\faIcon{layer-group}}{Paréntesis y corchetes}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{3.6}{\faTimes}{Multiplicación y división}
+\itile{sec7}{3.7}{\faCalculator}{Operaciones combinadas}
+\itile{sec8}{3.8}{\faLightbulb}{Problemas con enteros}
+\itile{resum}{\phantom{3.8}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 3.1
+\clearpage
+\seccio{sec1}{Los números enteros}{Números con signo: por encima o por debajo del cero.}
+
+\vfill
+\begin{idea}[¿Por qué los necesitamos?]
+Con los naturales no podemos expresar una temperatura \textbf{bajo cero}, un \textbf{sótano}, una \textbf{deuda}, una \textbf{profundidad} o un año \textbf{antes de Cristo}, ni hacer restas como $3-5$. \ El signo $+$ dice que estamos por encima de una referencia (el cero) y el signo $-$, por debajo.
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\mathbb Z=\{\ldots,\ -3,\ -2,\ -1,\ 0,\ +1,\ +2,\ +3,\ \ldots\}$}
+\end{tcolorbox}
+\chip{fmK}{positivos} $+1,\ +2,\ +3\ldots$ \ el $+$ se puede omitir: $+7=7$\\[4pt]
+\chip{fmR}{negativos} $-1,\ -2,\ -3\ldots$ \ el $-$ siempre se escribe\\[4pt]
+\chip{fmmuted}{cero} \ el 0 no es ni positivo ni negativo
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=1cm,y=0.42cm]
+  \draw[fmmuted,line width=1pt,rounded corners=3pt] (-0.35,-6.5) rectangle (0.35,6.5);
+  \fill[fmR!70] (-0.2,-6.2) rectangle (0.2,0); \fill[fmR] (0,-6.6) circle (0.45);
+  \foreach \k in {-6,-4,...,6} {\draw[fmnavy] (0.35,\k) -- (0.6,\k); \node[right,font=\scriptsize] at (0.6,\k) {$\k$};}
+  \node[right,font=\scriptsize\heavy,text=fmK!80!black] at (1.3,4) {calor};
+  \node[right,font=\scriptsize\heavy,text=fmA] at (1.3,-4) {bajo cero};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos: \ de la situación al número entero]
+\centering\small
+\taularod[fmex]{>{\hspace{3pt}}l<{\hspace{3pt}}>{\hspace{3pt}}c<{\hspace{3pt}}>{\hspace{3pt}}l<{\hspace{3pt}}>{\hspace{3pt}}c<{\hspace{3pt}}}{
+\rowcolor{fmex}\color{white}\heavy Situación & \color{white}\heavy Entero & \color{white}\heavy Situación & \color{white}\heavy Entero\\
+Hace 5 °C sobre cero & $+5$ & Hace 3 °C bajo cero & $-3$\\
+\rowcolor{fmexbg}Vivimos en la cuarta planta & $+4$ & El coche está en el 2.º sótano & $-2$\\
+Tengo 20 € ahorrados & $+20$ & Debo 15 € a mi hermana & $-15$\\
+\rowcolor{fmexbg}Una montaña de 800 m & $+800$ & Un submarino a 50 m de profundidad & $-50$\\
+El año 2026 d. C. & $+2026$ & Sócrates nació en el 470 a. C. & $-470$
+}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Palabras que indican un negativo]
+bajo cero, sótano, deuda, debo, profundidad, bajo el nivel del mar, antes de Cristo, perder, bajar, gastar, retirar.
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Naturales y enteros]
+Todos los naturales son enteros, pero no todos los enteros son naturales: \ $-8$ es entero, pero no natural. \ $\mathbb N\subset\mathbb Z$.
+\end{compte}
+\end{minipage}
+
+\vfill
+% ============================================================ 3.2
+\clearpage
+\seccio{sec2}{Recta numérica, orden y comparación}{Cuanto más a la derecha, mayor.}
+
+\vfill
+\begin{idea}[Los enteros en la recta]
+Marcamos el 0: los \textbf{positivos} a la derecha y los \textbf{negativos} a la izquierda, siempre a la misma distancia. Es como un termómetro tumbado o un edificio con plantas y sótanos.
+\end{idea}
+
+{\centering \begin{tikzpicture}[x=0.62cm]
+  \draw[{Latex[length=2.4mm]}-{Latex[length=2.4mm]},fmnavy,line width=1.2pt] (-7.6,0) -- (7.6,0);
+  \foreach \k in {-7,...,7} {\draw[fmnavy,line width=1pt] (\k,-0.12) -- (\k,0.12); \node[below=2pt,font=\small] at (\k,-0.1) {$\k$};}
+  \draw[fmR,line width=4pt,opacity=0.5] (-7.4,0.35) -- (-0.3,0.35); \draw[fmK,line width=4pt,opacity=0.5] (0.3,0.35) -- (7.4,0.35);
+  \node[above=4pt,font=\small\heavy,text=fmR] at (-3.8,0.35) {negativos};
+  \node[above=4pt,font=\small\heavy,text=fmK!80!black] at (3.8,0.35) {positivos};
+  \foreach \x in {-5,-2,0,3,6} \fill[fmblue] (\x,0) circle (4pt);
+\end{tikzpicture}\par}
+{\centering\comic\color{fmmuted}hemos representado $-5,\ -2,\ 0,\ 3$ y $6$\par}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Positivo y negativo},before upper=\centering]
+Cualquier positivo es mayor que 0, y 0 es mayor que cualquier negativo.\par\smallskip
+$2>0>-100$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Dos positivos},before upper=\centering]
+Como con los naturales: el de más valor.\par\smallskip
+$8>3$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Dos negativos},before upper=\centering]
+Es mayor el que está \textbf{más cerca del cero}.\par\smallskip
+$-3>-8$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Piensa en temperaturas y en dinero]
+A $-3$ °C hace menos frío que a $-8$ °C: \ $-3>-8$. \ ¡Y es mejor deber 3 € que deber 8!
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplo: \ ordena de menor a mayor \ $5,\ -7,\ 0,\ -1,\ 3,\ -4$]
+Primero los negativos, del más alejado del cero al más próximo; después el cero y después los positivos:\\[4pt]
+{\centering\Large$-7<-4<-1<0<3<5$\par}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$-6\ \square\ -2$: \ \ $-6<-2$ \ \nota{$-2$ está más a la derecha}\\[4pt]
+$-15\ \square\ 1$: \ \ $-15<1$ \ \nota{positivo}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Enteros entre $-3$ y $2$: \ $-2,\ -1,\ 0,\ 1$\\[4pt]
+De mayor a menor: \ $9>4>0>-2>-10$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 3.3
+\clearpage
+\seccio{sec3}{Valor absoluto y opuesto}{En la recta, cuanto más a la derecha, mayor.}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[x=0.95cm]
+  \recta{-7}{7}
+  \fill[fmR] (-5,0) circle (4pt); \fill[fmR] (5,0) circle (4pt);
+  \draw[decorate,decoration={brace,amplitude=6pt},fmA,line width=1.2pt] (-5,0.35) -- (0,0.35) node[midway,above=7pt,font=\large,text=fmA]{$|-5|=5$};
+  \draw[decorate,decoration={brace,amplitude=6pt},fmA,line width=1.2pt] (0,0.35) -- (5,0.35) node[midway,above=7pt,font=\large,text=fmA]{$|5|=5$};
+  \draw[{Latex[length=2.5mm]}-{Latex[length=2.5mm]},fmB,line width=1.3pt] (-5,-0.75) to[bend right=18] node[below,font=\large,text=fmB]{opuestos: \ $\text{op}(5)=-5$} (5,-0.75);
+  \node[font=\comic,text=fmmuted,anchor=east] at (-6.6,0.8) {menores};
+  \node[font=\comic,text=fmmuted,anchor=west] at (6.6,0.8) {mayores};
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Valor absoluto \ $|a|$}]
+La \textbf{distancia} del número al 0. Nunca es negativo.\par\smallskip
+{\centering$|-7|=7\qquad |7|=7\qquad |0|=0$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Opuesto \ $\text{op}(a)=-a$}]
+Mismo valor absoluto, \textbf{signo contrario}.\par\smallskip
+{\centering$\text{op}(5)=-5\qquad \text{op}(-3)=3\qquad a+\text{op}(a)=0$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\subsection{Ordenar enteros}
+\begin{minipage}[t]{0.52\linewidth}
+\begin{idea}
+\begin{itemize}[leftmargin=1em]
+\item Cualquier \textbf{positivo} es mayor que 0, y 0 es mayor que cualquier \textbf{negativo}.
+\item Entre dos \textbf{negativos}, es mayor el que tiene \textbf{menor} valor absoluto: \ $-3>-8$.
+\end{itemize}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{truc}[Piensa en el termómetro]
+Hace menos frío a $-3$\,°C que a $-8$\,°C:\\[3pt]
+\hspace*{1em}{\Large$-3>-8$} \ \ {\color{fmA}\Large\faThermometerQuarter}
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.5\linewidth}
+Ordena de menor a mayor: \ $-5,\ 3,\ -1,\ 0,\ -12,\ 7$\\[4pt]
+{\large$-12<-5<-1<0<3<7$}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+$|-4|+|3|=4+3=7$\\[3pt]
+$\text{op}\big(|-6|\big)=\text{op}(6)=-6$\\[3pt]
+$-|-2|=-2$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ ¿qué enteros cumplen \ $|x|=5$? \ ¿Y \ $|x|<3$?]
+\begin{minipage}[c]{0.38\linewidth}
+$|x|=5$: \ $\boxed{x=5}$ \ o \ $\boxed{x=-5}$\\[6pt]
+$|x|<3$: \ $\boxed{-2,\ -1,\ 0,\ 1,\ 2}$\\[3pt]
+\nota{a menos de 3 pasos del 0}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}\centering
+\begin{tikzpicture}[x=0.7cm]
+  \recta{-5}{5}
+  \foreach \k in {-2,...,2} \fill[fmK] (\k,0) circle (4.5pt);
+  \fill[fmB] (-5,0) circle (4.5pt); \fill[fmB] (5,0) circle (4.5pt);
+  \draw[decorate,decoration={brace,amplitude=5pt},fmK,line width=1.1pt] (-2,0.3) -- (2,0.3) node[midway,above=6pt,font=\small,text=fmK!80!black]{$|x|<3$};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 3.4
+\clearpage
+\seccio{sec4}{Suma y resta de enteros}{Pensamos en dinero: lo que tengo y lo que debo.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Mismo signo: \textbf{sumamos}}]
+Sumamos los valores absolutos y ponemos el \textbf{signo común}.\par\smallskip
+$3+5=8$ \ \nota{gano 3 y 5}\\[2pt]
+$-3-5=-8$ \ \nota{debo 3 y debo 5: debo 8}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Signos distintos: \textbf{restamos}}]
+El grande menos el pequeño, con el signo del que tiene \textbf{mayor} valor absoluto.\par\smallskip
+$-7+4=-3$ \ \nota{debo 7 y pago 4}\\[2pt]
+$-2+6=4$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm]
+  \draw[fmnavy,line width=1.1pt] (-4.5,0) -- (6.5,0);
+  \foreach \k in {-4,...,6} {\draw[fmnavy] (\k,-0.1) -- (\k,0.1); \node[below=2pt,font=\scriptsize] at (\k,-0.1) {$\k$};}
+  \fill[fmR] (-2,0) circle (3.5pt); \fill[fmK] (4,0) circle (3.5pt);
+  \draw[-{Latex[length=2.4mm]},fmK,line width=1.4pt] (-2,0.25) to[bend left=35] node[above,font=\small] {$+6$} (4,0.25);
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}$-2+6=4$: sumar un positivo, hacia la derecha}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{idea}[Restar es sumar el opuesto]
+{\centering$a-b=a+\text{op}(b)$\par}\smallskip
+$5-7=5+(-7)=-2$\\[2pt]
+$4-(-6)=4+6=10$\\[2pt]
+¡Ahora ya podemos restar un número mayor de uno más pequeño!
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $5-9+8-2$, \ de dos maneras]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{De izquierda a derecha}, de dos en dos:\\[3pt]
+$5-9+8-2=-4+8-2=4-2=\boxed{2}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\textbf{Agrupando} positivos y negativos:\\[3pt]
+$(5+8)-(9+2)=13-11=\boxed{2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[El balance]
+Con muchos términos, suma todo lo que ganas, suma todo lo que pierdes y haz el balance: \ $-4+9-12+3-7=12-23=-11$.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$-6+10=4$ \qquad $-8-3=-11$ \qquad $7-12=-5$\\[4pt]
+$-5+5=0$ \ \nota{dos opuestos}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$12-15+4-6+9=25-21=\boxed{4}$\\[4pt]
+$-3-4+10-1=10-8=\boxed{2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 3.5
+\clearpage
+\seccio{sec5}{Paréntesis y corchetes}{Quitamos los paréntesis de dentro hacia fuera.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Mismo signo: \textbf{sumamos}}]
+Sumamos los valores absolutos y ponemos el \textbf{signo común}.\par\smallskip
+{\centering$(+4)+(+3)=+7\qquad (-4)+(-3)=-7$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Signos distintos: \textbf{restamos}}]
+El mayor menos el menor, con el signo del que tiene \textbf{mayor} valor absoluto.\par\smallskip
+{\centering$(+4)+(-9)=-5\qquad (-4)+(+9)=+5$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.46\linewidth}
+\begin{idea}[Quitar paréntesis]
+{\centering\renewcommand{\arraystretch}{1.4}\Large
+\begin{tabular}{cccc}
+$+(+a)$ & $+(-a)$ & $-(+a)$ & $-(-a)$\\
+$\cK{+a}$ & $\cR{-a}$ & $\cR{-a}$ & $\cK{+a}$
+\end{tabular}\par}\smallskip
+Un $-$ delante del paréntesis cambia \textbf{todos} los signos: \ $-(3-5+2)=-3+5-2$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.51\linewidth}
+\begin{exemple}[Ejemplo: \ $7-(-3)+(-5)-(+2)$]
+$=7+3-5-2$ \ \nota{quitamos paréntesis}\\[3pt]
+$=10-7=\boxed{3}$ \ \nota{positivos y negativos}
+\end{exemple}
+\begin{truc}[Agrupa]
+Suma aparte los positivos y los negativos:\\[2pt]
+$-4+9-12+3-7=(9+3)-(4+12+7)=12-23=-11$
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Ejemplo: \ $-8+(4-9)-(-6+2)$]
+$=-8+(-5)-(-4)$ \ \nota{dentro de los paréntesis}\\[3pt]
+$=-8-5+4$ \ \nota{quitamos paréntesis}\\[3pt]
+$=-13+4=\boxed{-9}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[{Ejemplo: \ $15-\left[6-(2-9)\right]$}]
+$=15-\left[6-(-7)\right]$ \ \nota{el de dentro primero}\\[3pt]
+$=15-\left[6+7\right]$\\[3pt]
+$=15-13=\boxed{2}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[El signo menos delante del paréntesis]
+\be{5-(-3)=5+3=8}\qquad\quad \be{-2-6=-2+(-6)=-8}\qquad\quad \mal{-(4-9)=-4-9}
+\end{compte}
+
+\vfill
+% ============================================================ 3.6
+\clearpage
+\seccio{sec6}{Multiplicación y división de enteros}{Signos iguales, positivo. Signos distintos, negativo.}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\renewcommand{\arraystretch}{1.6}\taulaclip{fmblue,line width=1.2pt}{\fontsize{20}{24}\selectfont%
+\begin{tabular}{>{\columncolor{fmblue}\color{white}}w{c}{1.6cm}w{c}{1.4cm}w{c}{1.4cm}}
+\rowcolor{fmblue}{\large$\cdot$ \ $:$} & \color{white}$+$ & \color{white}$-$\\
+$+$ & \cellcolor{fmK!18}$\cK{+}$ & \cellcolor{fmR!14}$\cR{-}$\\
+$-$ & \cellcolor{fmR!14}$\cR{-}$ & \cellcolor{fmK!18}$\cK{+}$
+\end{tabular}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[La regla de los signos]
+{\large Multiplicamos (o dividimos) los valores absolutos y ponemos el signo de la tabla.}\\[8pt]
+$(-6)\cdot(+4)=\cR{-}24\qquad (-3)\cdot(-5)=\cK{+}15$\\[4pt]
+$(-36):(-4)=\cK{+}9\qquad 42:(-7)=\cR{-}6$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Cuenta los negativos]
+\textbf{Par} de negativos $\to$ \cK{positivo}. \ \textbf{Impar} $\to$ \cR{negativo}.\\[4pt]
+$(-2)\cdot3\cdot(-1)\cdot(-5)=-30$ \ \nota{3 negativos}\\[3pt]
+$(-1)^{15}=-1\qquad (-1)^{20}=+1$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[¿Y si no es exacta?]
+La división solo da un entero si es \textbf{exacta}. Si no, da una \textbf{fracción}:\\[3pt]
+$(-7):2=-\dfrac72$ \ \ \nota{¡por eso hacen falta las fracciones!}
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$(-1)\cdot(-2)\cdot(-3)=\cR{-6}$ \ \nota{3 negativos}\\[4pt]
+$(-1)\cdot(-2)\cdot(-3)\cdot(-4)=\cK{+24}$ \ \nota{4 negativos}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$(-60):(+5):(-3)=$ \ \nota{de izquierda a derecha}\\[4pt]
+$=(-12):(-3)=\boxed{4}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Divisiones seguidas: de izquierda a derecha]
+\be{(-100):(-4):(-5)=25:(-5)=-5}\qquad\quad \mal{(-100):\big((-4):(-5)\big)}
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faSuperscript\ \ Potencias de base negativa}]
+Exponente \textbf{par} $\to$ \cK{positivo}. \ \textbf{Impar} $\to$ \cR{negativo}.\par\smallskip
+{\centering$(-2)^4=\cK{+16}\qquad (-2)^3=\cR{-8}$\par}
+\end{tcolorbox}
+\begin{compte}[¿Con paréntesis o sin?]
+\be{(-2)^4=(-2)\cdot(-2)\cdot(-2)\cdot(-2)=16}\\[3pt]
+\be{-2^4=-(2\cdot2\cdot2\cdot2)=-16}\\[2pt]
+{\small Sin paréntesis, el $-$ no se eleva.}
+\end{compte}
+\end{tcbraster}
+
+% ------------------------------------------------------------
+\clearpage
+
+\vfill
+% ============================================================ 3.7
+\clearpage
+\seccio{sec7}{Operaciones combinadas con enteros}{El orden importa: siempre la misma jerarquía.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[st/.style={draw=#1,fill=#1!12,line width=1.2pt,rounded corners=2mm,minimum height=0.8cm,anchor=south west,font=\large,inner xsep=6pt}]
+  \node[st=fmV] at (0,2.7) {\pas{1}\ \ Paréntesis $(\ )\ [\ ]$};
+  \node[st=fmA] at (0.5,1.8) {\pas{2}\ \ Potencias};
+  \node[st=fmK] at (1.0,0.9) {\pas{3}\ \ $\cdot$ \ y \ $:$};
+  \node[st=fmB] at (1.5,0) {\pas{4}\ \ $+$ \ y \ $-$};
+\end{tikzpicture}\\[3pt]
+{\comic\small\color{fmmuted}\pas{3} y \pas{4}: de izquierda a derecha}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{exemple}[Ejemplo: \ $12-3\cdot(5-8)+20:(-4)$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&=12-3\cdot(-3)+20:(-4) &\quad& \text{\nota{\pas{1}}}\\
+&=12-(-9)+(-5) && \text{\nota{\pas{3}}}\\
+&=12+9-5=\boxed{16} && \text{\nota{\pas{4}}}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[Errores típicos]
+\begin{tabular}{@{}p{0.31\linewidth}p{0.31\linewidth}p{0.3\linewidth}@{}}
+\be{12:2\cdot3=6\cdot3=18}\newline{\small de izquierda a derecha, no $12:6$} &
+\be{5-2\cdot(-3)=5+6=11}\newline{\small primero el producto, no $3\cdot(-3)$} &
+\be{-3^2=-9}\newline\be{(-3)^2=9}
+\end{tabular}
+\end{compte}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[{Ejemplo: \ $(-2)^3-4\cdot\left[5-(3-6)^2\right]$}]
+$=(-2)^3-4\cdot\left[5-(-3)^2\right]$ \ \nota{\pas{1}}\\[3pt]
+$=(-2)^3-4\cdot[5-9]$ \ \nota{\pas{2}}\\[3pt]
+$=(-2)^3-4\cdot(-4)$\\[3pt]
+$=-8+16=\boxed{8}$ \ \nota{\pas{2} \pas{3} \pas{4}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Ejemplo: \ $18:(-3)\cdot2-(-5)^2+3\cdot(-2)^2$]
+$=18:(-3)\cdot2-25+3\cdot4$ \ \nota{\pas{2}}\\[3pt]
+$=(-6)\cdot2-25+12$ \ \nota{\pas{3}}\\[3pt]
+$=-12-25+12$\\[3pt]
+$=\boxed{-25}$ \ \nota{\pas{4}}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Ejemplo: \ $3-2\cdot(4-7)-(-6):2$]
+$=3-2\cdot(-3)-(-6):2$ \ \nota{\pas{1}}\\[3pt]
+$=3-(-6)-(-3)$ \ \nota{\pas{3}}\\[3pt]
+$=3+6+3=\boxed{12}$ \ \nota{\pas{4}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[{Ejemplo: \ $2\cdot\left\{3-\left[4-(1-6)\right]\right\}$}]
+$=2\cdot\left\{3-\left[4-(-5)\right]\right\}$ \ \nota{de dentro hacia fuera}\\[3pt]
+$=2\cdot\left\{3-9\right\}$\\[3pt]
+$=2\cdot(-6)=\boxed{-12}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+% ============================================================ 3.8
+\clearpage
+\seccio{sec8}{Problemas con enteros}{Primero, dónde está el cero.}
+
+\passosproblema{\textbf{Buscamos}\\el cero}{\textbf{Cada dato}\\con su signo}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Subir y bajar]
+sube, gana, ingresa, sobre cero $\to$ \cK{$+$}\\[2pt]
+baja, pierde, gasta, debe, bajo cero $\to$ \cR{$-$}\\[4pt]
+\textbf{Cambio}: valor final $-$ valor inicial. Positivo, ha subido; negativo, ha bajado.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{truc}[La distancia entre dos valores]
+El mayor menos el menor. De $-3$ °C a $5$ °C: \ $5-(-3)=\boxed{8}$ grados.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{exemple}[Ejemplo: \ un ascensor]
+Está en la 3.ª planta, baja 5 plantas y después sube 2. ¿Dónde está?\\[3pt]
+$3-5+2=\boxed{0}$: en la planta baja.
+\end{exemple}
+\begin{exemple}[Ejemplo: \ una cuenta]
+Tengo 45 €, gasto 60 € e ingreso 20 €.\\[3pt]
+$45-60+20=\boxed{5}$ €: me quedan 5 €.
+\end{exemple}
+\begin{exemple}[Ejemplo: \ temperaturas]
+A las 7 h hacía $-4$ °C y a las 14 h, 9 °C. ¿Cuánto ha subido?\\[3pt]
+$9-(-4)=9+4=\boxed{13}$ °C
+\end{exemple}
+\begin{exemple}[Ejemplo: \ historia]
+Arquímedes nació en el 287 a. C. y murió en el 212 a. C. ¿Cuántos años vivió?\\[3pt]
+$-212-(-287)=\boxed{75}$ años
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ un submarino a 120 m de profundidad sube 45 m y después baja 30 m]
+$-120+45-30=\boxed{-105}$: \ está a 105 m de profundidad. \qquad Si ahora sube hasta la superficie: \ $0-(-105)=105$ m.
+\end{exemple}
+
+\vfill
+\begin{compte}[Interpreta el resultado]
+Responde con una frase: un $-5$ en una cuenta significa «debo 5 €»; un $-2$ en un ascensor, «el segundo sótano».
+\end{compte}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=34pt,raster before skip=18pt]
+\rtile{3.1}{Enteros}{$\mathbb Z$: positivos, negativos y el 0.\\[1ex] El signo: por encima o por debajo del 0.}
+\rtile{3.2}{Orden}{Más a la derecha, mayor.\\[1ex] De dos negativos, el más próximo al 0.}
+\rtile{3.3}{Valor absoluto}{$|a|$: distancia al 0.\\[1ex] Opuesto: el signo contrario.}
+\rtile{3.4}{Suma y resta}{Mismo signo: sumamos. Distinto: restamos.\\[1ex] Restar es sumar el opuesto.}
+\rtile{3.5}{Paréntesis}{Un $-$ delante cambia todos los signos.}
+\rtile{3.6}{Producto y cociente}{Signos iguales, $+$; distintos, $-$.}
+\rtile{3.7}{Combinadas}{Paréntesis, potencias, $\cdot$ y $:$, $+$ y $-$.}
+\rtile{3.8}{Problemas}{¿Dónde está el cero?\\[1ex] Cada dato con su signo.}
+\end{tcbraster}
+\end{document}

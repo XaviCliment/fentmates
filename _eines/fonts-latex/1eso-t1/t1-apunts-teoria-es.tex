@@ -1,0 +1,863 @@
+% Apuntes de teoría en PDF · 1.º ESO · Unidad 1: Números naturales (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 1: Números naturales. 1.º ESO},pdfsubject={Matemáticas 1.º ESO},pdfkeywords={números naturales, división entera, aproximación, truncamiento, redondeo, propiedades de las operaciones, jerarquía, problemas, potencias, potencias de base 10, propiedades de las potencias, raíces cuadradas}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{1.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$2^5\quad\sqrt{49}$};
+  \draw[line width=2.4pt] (20,95) -- (230,95);
+  \foreach \x in {30,60,90,120,150,180,210} \draw[line width=2.4pt] (\x,87) -- (\x,103);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º ESO · Unidad 1: Números naturales}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 1}\\[2pt]Números naturales\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+\newcommand{\passos}[1]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Cómo se resuelven}]#1\end{tcolorbox}}
+\newcommand{\passosT}[2]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ #1}]#2\end{tcolorbox}}
+\newcommand{\barra}[3]{\filldraw[fill=#3!35,draw=#3,line width=0.9pt] (#1-0.32,0) rectangle (#1+0.32,#2);}
+\newcommand{\caixa}[7]{\draw[#7,line width=1.3pt] (#2,#1) -- (#3,#1) (#5,#1) -- (#6,#1) (#2,#1-0.25) -- (#2,#1+0.25) (#6,#1-0.25) -- (#6,#1+0.25);
+  \filldraw[fill=#7!20,draw=#7,line width=1.3pt] (#3,#1-0.45) rectangle (#5,#1+0.45); \draw[#7,line width=2.2pt] (#4,#1-0.45) -- (#4,#1+0.45);}
+\newcommand{\recta}[2]{\draw[-{Latex[length=2.5mm]},fmnavy,line width=1.1pt] (#1-0.6,0) -- (#2+0.6,0);
+  \foreach \k in {#1,...,#2} {\draw[fmnavy,line width=0.9pt] (\k,-0.12) -- (\k,0.12); \node[below=3pt,font=\small] at (\k,0) {$\k$};}}
+
+
+\begin{document}
+\portada{Contar, ordenar y operar: los números de cada día.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{1.1}{\faSortNumericUp}{Los números naturales}
+\itile{sec2}{1.2}{\faIcon{cut}}{Truncamiento y redondeo}
+\itile{sec3}{1.3}{\faCalculator}{Operaciones con naturales}
+\itile{sec4}{1.4}{\faLightbulb}{Problemas con naturales}
+\itile{sec5}{1.5}{\faSuperscript}{Potencias}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{1.6}{\faIcon{expand-arrows-alt}}{Potencias de base 10}
+\itile{sec7}{1.7}{\faListOl}{Propiedades de las potencias}
+\itile{sec8}{1.8}{\faIcon{square-root-alt}}{Raíces cuadradas}
+\itile{sec9}{1.9}{\faTasks}{Problemas con potencias y raíces}
+\itile{resum}{\phantom{1.9}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 1.1
+\clearpage
+\seccio{sec1}{Los números naturales}{Para contar y para ordenar.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Los naturales $\mathbb N$]
+{\centering\Large$\mathbb N=\{0,\ 1,\ 2,\ 3,\ 4,\ \ldots\}$\par}\smallskip
+Sirven para \textbf{contar} (5 cajas, 120 alumnos) y para \textbf{ordenar} (el 3.º clasificado). Empiezan en el 0 y no se acaban nunca: después de $n$ siempre viene $n+1$.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[x=0.62cm]
+  \draw[-{Latex[length=2.4mm]},fmnavy,line width=1.2pt] (0,0) -- (9.6,0);
+  \foreach \k in {0,...,9} {\draw[fmnavy,line width=1pt] (\k,-0.12) -- (\k,0.12); \node[below=2pt,font=\small] at (\k,-0.1) {$\k$};}
+  \foreach \k in {0,...,8} \draw[fmB,line width=1pt,-{Latex[length=1.6mm]}] (\k+0.1,0.25) to[bend left=50] (\k+0.9,0.25);
+  \node[above,font=\scriptsize,text=fmB] at (4.5,0.7) {$+1$ cada paso};
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}una semirrecta: siempre la misma distancia}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\taularod{>{\heavy}l<{\hspace{4pt}}>{\hspace{4pt}}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}Operación & \color{white}\heavy Ejemplo & \color{white}\heavy ¿Da un natural?\\
+Suma & $7+5=12$ & \be{}\\
+\rowcolor{fmsurface}Multiplicación & $7\cdot5=35$ & \be{}\\
+Resta & $5-7=\ ?$ & \mal{} \ {\small (enteros)}\\
+\rowcolor{fmsurface}División & $7:5=\ ?$ & \mal{} \ {\small (si no es exacta)}
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Propiedad distributiva}]
+{\centering$a\cdot(b\pm c)=a\cdot b\pm a\cdot c$\par}\smallskip
+Para calcular de cabeza: \ $7\cdot99=7\cdot(100-1)=700-7=693$\\[3pt]
+Para sacar \textbf{factor común}: \ $12\cdot15+12\cdot5=12\cdot20=240$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[font=\Large]
+  \node (D) at (0,0) {$247$}; \node (d) at (1.6,0) {$12$};
+  \draw[fmnavy,line width=1.2pt] (0.75,0.35) -- (0.75,-0.35) -- (2.4,-0.35);
+  \node[text=fmA] at (1.6,-0.75) {$20$}; \node[text=fmR] at (0,-1.1) {$7$};
+  \node[font=\scriptsize,text=fmmuted] at (-0.9,0) {dividendo}; \node[font=\scriptsize,text=fmmuted] at (2.7,0) {divisor};
+  \node[font=\scriptsize,text=fmA] at (2.7,-0.75) {cociente}; \node[font=\scriptsize,text=fmR] at (-0.9,-1.1) {resto};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[La división entera]
+Si no es exacta, da un \textbf{cociente} $q$ y un \textbf{resto} $r$, siempre \textbf{menor} que el divisor:\\[4pt]
+{\centering\Large$D=d\cdot q+r$ \qquad \normalsize$247=12\cdot20+7$\par}\smallskip
+Es la \textbf{prueba de la división}: si no se cumple, hay un error.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+250 caramelos en bolsas de 12: \ $250=12\cdot20+10$\\ \hspace*{1em}\boxed{20\text{ bolsas y sobran }10}\\[4pt]
+$25\cdot101=25\cdot100+25=\boxed{2\,525}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+¿Qué dividendo tiene divisor 15, cociente 8 y resto 6?\\ \hspace*{1em}$D=15\cdot8+6=\boxed{126}$\\[4pt]
+$36\cdot7+36\cdot3=36\cdot10=\boxed{360}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[El resto siempre es menor que el divisor]
+$100=7\cdot13+9$ \mal{} \ no es una división entera: $9>7$. \ La correcta: \ $100=7\cdot14+2$ \be{} \qquad Y \textbf{no se puede dividir entre 0}.
+\end{compte}
+
+\vfill
+
+\vfill
+% ============================================================ 1.2
+\clearpage
+\seccio{sec2}{Aproximación: truncamiento y redondeo}{Un número próximo, más fácil de leer y de recordar.}
+
+\vfill
+\begin{idea}[Aproximar]
+Cambiar un número por otro próximo y más fácil. En un concierto hay 44\,863 personas: el periódico dirá «unas 45\,000». Se aproxima a un \textbf{orden}: decenas, centenas, millares\dots
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={\faIcon{cut}\ \ Truncar}]
+Cambiamos por \textbf{ceros} todas las cifras a la derecha del orden: «cortamos».\par\smallskip
+{\centering$44\,8\underline{63}\to44\,800$ \ \nota{a las centenas}\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={\faIcon{circle}\ \ Redondear}]
+Miramos la cifra \textbf{siguiente}: si es 0, 1, 2, 3 o 4, la del orden se queda igual; si es 5, 6, 7, 8 o 9, le \textbf{sumamos 1}. Después, ceros.\par\smallskip
+{\centering$44\,8\fbox{6}3\to44\,900$ \qquad $44\,8\fbox{2}3\to44\,800$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[x=0.11cm]
+  \draw[fmnavy,line width=1.1pt] (0,0) -- (100,0);
+  \foreach \k in {0,10,...,100} \draw[fmnavy] (\k,-0.12) -- (\k,0.12);
+  \node[below,font=\small] at (0,-0.1) {44\,800}; \node[below,font=\small] at (50,-0.1) {44\,850}; \node[below,font=\small] at (100,-0.1) {44\,900};
+  \fill[fmR] (63,0) circle (3pt) node[above=2pt,font=\small\heavy,text=fmR] {44\,863};
+  \draw[-{Latex[length=2mm]},fmK,line width=1.2pt] (63,0.5) to[bend left=20] node[above,font=\scriptsize] {más cerca} (100,0.5);
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}44\,863 está más cerca de 44\,900 que de 44\,800}
+\end{center}
+
+\vfill
+\begin{exemple}[Ejemplo: \ 44\,863 aproximado de las dos maneras]
+\centering\small
+\taularod[fmex]{>{\heavy}l*{4}{>{\hspace{8pt}}c<{\hspace{8pt}}}}{
+\rowcolor{fmex}\color{white}44\,863 & \color{white}Truncamiento & \color{white}Error & \color{white}Redondeo & \color{white}Error\\
+a las decenas & 44\,860 & 3 & 44\,860 & 3\\
+\rowcolor{fmexbg}a las centenas & 44\,800 & 63 & 44\,900 & \cK{37}\\
+a los millares & 44\,000 & 863 & 45\,000 & \cK{137}
+}\par\smallskip\raggedright
+El \textbf{error} es la diferencia entre el exacto y el aproximado: el redondeo siempre da el \textbf{más próximo}.
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+Redondea 7\,459 a las centenas: \ $\boxed{7\,500}$\\[4pt]
+Redondea 128\,350 a los millares: \ $\boxed{128\,000}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Trunca 9\,987 a las decenas: \ $\boxed{9\,980}$\\[4pt]
+Redondea 9\,987 a las decenas: \ $\boxed{9\,990}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Cuando se arrastra]
+2\,996 a las centenas: la cifra siguiente es un 9, así que sumamos 1 a las 9 centenas: se hacen 10 y nos llevamos una al millar: \ $\boxed{3\,000}$.
+\end{compte}
+
+\vfill
+% ============================================================ 1.3
+\clearpage
+\seccio{sec3}{Operaciones con números naturales}{Las propiedades nos ayudan a calcular más rápido.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Conmutativa},before upper=\centering]
+El orden no importa:\par\smallskip
+$7+5=5+7$\par $4\cdot9=9\cdot4$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Asociativa},before upper=\centering]
+Agrupamos como queramos:\par\smallskip
+$(25\cdot4)\cdot7=25\cdot(4\cdot7)$\par $=100\cdot7=700$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Distributiva},before upper=\centering]
+$a\cdot(b+c)=a\cdot b+a\cdot c$\par\smallskip
+$7\cdot99=700-7=693$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[La resta y la división no son conmutativas]
+$9-4\neq4-9$ \qquad $12:3\neq3:12$. \ Y recuerda que \textbf{no se puede dividir entre 0}.
+\end{compte}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[st/.style={draw=#1,fill=#1!12,line width=1.2pt,rounded corners=2mm,minimum height=0.8cm,anchor=south west,font=\large,inner xsep=6pt}]
+  \node[st=fmV] at (0,1.8) {\pas{1}\ \ Paréntesis $(\ )\ [\ ]$};
+  \node[st=fmK] at (0.5,0.9) {\pas{2}\ \ $\cdot$ \ y \ $:$};
+  \node[st=fmB] at (1.0,0) {\pas{3}\ \ $+$ \ y \ $-$};
+\end{tikzpicture}\\[3pt]
+{\comic\small\color{fmmuted}\pas{2} y \pas{3}: de izquierda a derecha}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{exemple}[Ejemplo: \ $30-4\cdot(9-3)+12:3$]
+$=30-4\cdot6+12:3$ \ \nota{\pas{1}}\\[3pt]
+$=30-24+4$ \ \nota{\pas{2}}\\[3pt]
+$=\boxed{10}$ \ \nota{\pas{3}}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[Errores frecuentes]
+\be{8+2\cdot5=18}, no $10\cdot5=50$: primero el producto. \qquad \be{12:2\cdot3=18}, no $12:6=2$: de izquierda a derecha.
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$5+3\cdot4=5+12=\boxed{17}$\\[4pt]
+$(5+3)\cdot4=8\cdot4=\boxed{32}$\\[4pt]
+$40:(2\cdot4)+1=40:8+1=\boxed{6}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$18-[7+(10-6)]=18-11=\boxed{7}$\\[4pt]
+$12\cdot15+12\cdot5=12\cdot20=\boxed{240}$ \ \nota{factor común}\\[4pt]
+$25\cdot13\cdot4=100\cdot13=\boxed{1\,300}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 1.4
+\clearpage
+\seccio{sec4}{Problemas con números naturales}{Cuatro pasos y la palabra que dice la operación.}
+
+\passosproblema{\textbf{Piensa}\\un plan}{\textbf{Elige}\\las operaciones}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}\centering\small
+\taularod{>{\hspace{3pt}}l<{\hspace{3pt}}>{\hspace{3pt}}c<{\hspace{3pt}}}{
+\rowcolor{fmblue}\color{white}\heavy Si el problema dice\dots & \color{white}\heavy Operación\\
+juntar, añadir, en total, entre todos & $+$\\
+\rowcolor{fmsurface}quitar, gastar, cuánto queda, cuánto falta & $-$\\
+cada uno\dots tiene\dots, veces, el doble, el triple & $\cdot$\\
+\rowcolor{fmsurface}repartir a partes iguales, cuántas veces cabe & $:$
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{compte}[¿Y el resto?]
+A veces hay que añadir un grupo más (\textbf{autobuses}: nadie se queda en tierra) y a veces no se cuenta (\textbf{cajas llenas}).
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{exemple}[Ejemplo: \ autobuses]
+150 alumnos van de excursión en autobuses de 55 plazas. ¿Cuántos autobuses hacen falta?\\[3pt]
+$150=55\cdot2+40$: sobran 40 alumnos, hace falta un autobús más: \ \boxed{3\text{ autobuses}}
+\end{exemple}
+\begin{exemple}[Ejemplo: \ cajas llenas]
+Tenemos 150 huevos y los ponemos en cajas de 12. ¿Cuántas cajas llenas?\\[3pt]
+$150=12\cdot12+6$: \ \boxed{12\text{ cajas}} \ y sobran 6.
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ una familia compra una tele de 549 € y paga 3 mensualidades de 125 € y el resto al final. ¿Cuánto paga al final?]
+Mensualidades: \ $3\cdot125=375$ € \qquad Resto: \ $549-375=\boxed{174\text{ €}}$ \qquad \nota{comprueba: $375+174=549$}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ en una biblioteca hay 12 estanterías de 5 baldas con 35 libros cada una. Llegan 300 libros más]
+Libros: \ $12\cdot5\cdot35=2\,100$ \qquad Ahora: \ $2\,100+300=\boxed{2\,400}$ \qquad Por estantería: \ $2\,400:12=\boxed{200}$
+\end{exemple}
+
+\vfill
+\begin{truc}[Escribe qué calculas]
+En cada paso, una frase corta: «Mensualidades: 375 €». Al final, responde con una \textbf{frase} y comprueba que tiene sentido.
+\end{truc}
+
+\vfill
+% ============================================================ 1.5
+\clearpage
+\seccio{sec5}{Potencias}{Una multiplicación de factores iguales.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}
+  \node[font=\fontsize{40}{44}\selectfont,text=fmA] (b) at (0,0) {3};
+  \node[font=\fontsize{24}{28}\selectfont,text=fmB,anchor=south west] (e) at (0.25,0.25) {4};
+  \node[font=\Large] at (2.9,0) {$=3\cdot3\cdot3\cdot3=81$};
+  \node[font=\small,text=fmA,draw=fmA,rounded corners=2mm,fill=fmA!8] at (-0.9,-1.1) {base};
+  \node[font=\small,text=fmB,draw=fmB,rounded corners=2mm,fill=fmB!8] at (1.3,1.2) {exponente};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{idea}[Potencia]
+La \cA{\textbf{base}} es el factor que se repite; el \cB{\textbf{exponente}}, cuántas veces.\\[3pt]
+{\centering$a^n=\underbrace{a\cdot a\cdots a}_{n\text{ veces}}$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{compte}[El exponente no multiplica]
+\be{2^5=2\cdot2\cdot2\cdot2\cdot2=32} \qquad \mal{2^5=2\cdot5=10}
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Cómo se leen},before upper=\centering]
+$a^2$: «al cuadrado»\par $a^3$: «al cubo»\par $7^4$: «siete elevado a cuatro»
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Casos especiales},before upper=\centering]
+$a^1=a$\par\smallskip $a^0=1$ \ (si $a\neq0$)\par\smallskip $1^n=1$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Cuadrados y cubos},before upper=\centering]
+\begin{tikzpicture}[scale=0.28]
+  \draw[fmA,fill=fmA!20] (0,0) grid (3,3) rectangle (0,0); \node[font=\scriptsize] at (1.5,-0.7) {$3^2=9$};
+  \begin{scope}[xshift=4.5cm]\draw[fmB,fill=fmB!25] (0,0) rectangle (2,2); \draw[fmB,fill=fmB!40] (0,2) -- (0.8,2.8) -- (2.8,2.8) -- (2,2) -- cycle; \draw[fmB,fill=fmB!55] (2,0) -- (2.8,0.8) -- (2.8,2.8) -- (2,2) -- cycle; \node[font=\scriptsize] at (1.4,-0.7) {$2^3=8$};\end{scope}
+\end{tikzpicture}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$5^3=5\cdot5\cdot5=\boxed{125}$\\[4pt]
+$2^6=\boxed{64}$ \qquad $10^4=\boxed{10\,000}$\\[4pt]
+$9^1=9$ \qquad $9^0=1$ \qquad $1^{20}=1$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+En forma de potencia: \ $6\cdot6\cdot6\cdot6=\boxed{6^4}$\\[4pt]
+$4\cdot4\cdot4\cdot7\cdot7=\boxed{4^3\cdot7^2}$\\[4pt]
+Cuadrados: $1,\ 4,\ 9,\ 16,\ 25,\ 36,\ 49,\ 64,\ 81,\ 100$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ cada caja tiene 6 bolsas, cada bolsa 6 paquetes y cada paquete 6 caramelos. ¿Cuántos caramelos hay en una caja?]
+$6\cdot6\cdot6=6^3=\boxed{216}$ caramelos
+\end{exemple}
+
+\vfill
+% ============================================================ 1.6
+\clearpage
+\seccio{sec6}{Potencias de base 10}{Un 1 seguido de ceros.}
+
+\vfill
+\begin{center}\small
+\taularod{>{\heavy}l*{7}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmblue}\color{white}Potencia & \color{white}$10^1$ & \color{white}$10^2$ & \color{white}$10^3$ & \color{white}$10^4$ & \color{white}$10^5$ & \color{white}$10^6$ & \color{white}$10^9$\\
+Valor & 10 & 100 & 1\,000 & 10\,000 & 100\,000 & 1\,000\,000 & 1\,000\,000\,000\\
+\rowcolor{fmsurface}Se lee & diez & cien & mil & diez mil & cien mil & un millón & mil millones
+}
+\end{center}
+
+\vfill
+\begin{idea}[El truco de los ceros]
+$10^n$ es un \textbf{1 seguido de $n$ ceros}. \ Multiplicar por $10^n$ es añadir $n$ ceros: \ $37\cdot10^3=37\,000$.
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Descomposición polinómica]
+Cada cifra vale según el lugar que ocupa: \textbf{unidades}, \textbf{decenas} ($10$), \textbf{centenas} ($10^2$), \textbf{millares} ($10^3$)\dots\\[4pt]
+$4\,705=4\cdot10^3+7\cdot10^2+0\cdot10+5$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\taularod{*{4}{>{\hspace{6pt}}c<{\hspace{6pt}}}}{
+\rowcolor{fmblue}\color{white}\heavy UM & \color{white}\heavy C & \color{white}\heavy D & \color{white}\heavy U\\
+\Large 4 & \Large 7 & \Large 0 & \Large 5\\
+\rowcolor{fmsurface}\small$4\cdot10^3$ & \small$7\cdot10^2$ & \small$0\cdot10$ & \small 5
+}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Números grandes}]
+La distancia de la Tierra al Sol: unos 150\,000\,000 km $=15\cdot10^7$ km.\par\smallskip
+La población del mundo: unos $8\cdot10^9$ personas.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Contamos los ceros}]
+$5\cdot10^6=5\,000\,000$\par\smallskip
+$32\,000=32\cdot10^3$\par\smallskip
+$10^2\cdot10^3=100\cdot1\,000=10^5$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$3\,604=3\cdot10^3+6\cdot10^2+4$\\[4pt]
+$2\cdot10^4+5\cdot10^2+1=\boxed{20\,501}$\\[4pt]
+$7\cdot10^5=\boxed{700\,000}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Un millón de personas: $10^6$\\[4pt]
+$450\,000=45\cdot10^4$\\[4pt]
+$10^6:10^2=10^4=10\,000$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Los ceros del medio cuentan]
+En $4\,705$ el 0 es la cifra de las decenas: $0\cdot10$. Si no lo ponemos, \mal{475} es otro número.
+\end{compte}
+
+\vfill
+% ============================================================ 1.7
+\clearpage
+\seccio{sec7}{Propiedades de las potencias}{Con la misma base, jugamos con los exponentes.}
+
+\providecommand{\prop}{}\renewcommand{\prop}[3]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1},before upper=\centering]
+{\Large$#2$}\par\smallskip{\small$#3$}
+\end{tcolorbox}}
+\begin{tcbraster}[raster columns=3,raster equal height=rows,raster column skip=8pt]
+\prop{\pas{1}\ Producto}{a^{m}\cdot a^{n}=a^{\cK{m+n}}}{2^{5}\cdot2^{3}=2^{8}=256}
+\prop{\pas{2}\ Cociente}{a^{m}:a^{n}=a^{\cK{m-n}}}{7^{9}:7^{7}=7^{2}=49}
+\prop{\pas{3}\ Potencia de potencia}{\left(a^{m}\right)^{n}=a^{\cK{m\cdot n}}}{\left(5^{2}\right)^{3}=5^{6}=15\,625}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Exponente 1 y exponente 0]
+$a^{1}=a$: \ $7^{1}=7$\\[4pt]
+$a^{0}=1$ \ (si $a\neq0$): \ $5^{3}:5^{3}=5^{0}=1$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{truc}[¿Por qué se suman?]
+$2^{3}\cdot2^{2}=(2\cdot2\cdot2)\cdot(2\cdot2)$: \ en total, $3+2=5$ factores iguales: \ $2^{5}$.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{compte}[Solo con la misma base, y para productos y cocientes]
+\mal{2^{2}+2^{3}=2^{5}}\ \ {\small$4+8=12$, \ pero $2^5=32$}\qquad\quad
+$2^{3}\cdot3^{2}$: bases distintas, calculamos cada una: \ $8\cdot9=72$
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplos de cada propiedad]
+\begin{minipage}[t]{0.32\linewidth}
+\pas{1} $4^{2}\cdot4^{5}=4^{7}$\\[4pt]
+\hspace*{1.3em}$10\cdot10^{4}=10^{5}$\\[4pt]
+\hspace*{1.3em}$2^{3}\cdot2^{3}\cdot2^{3}=2^{9}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+\pas{2} $3^{9}:3^{4}=3^{5}$\\[4pt]
+\hspace*{1.3em}$10^{6}:10^{2}=10^{4}$\\[4pt]
+\hspace*{1.3em}$8^{5}:8^{4}=8^{1}=8$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+\pas{3} $\left(3^{2}\right)^{4}=3^{8}$\\[4pt]
+\hspace*{1.3em}$\left(10^{3}\right)^{2}=10^{6}$\\[4pt]
+\hspace*{1.3em}$\left(6^{5}\right)^{1}=6^{5}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\clearpage
+\subsection{Aplicamos las propiedades}
+\begin{exemple}[Ejemplos: \ escribe como una sola potencia]
+\begin{minipage}[t]{0.48\linewidth}
+$3^{4}\cdot3^{2}\cdot3=3^{4+2+1}=\boxed{3^{7}}$ \ \nota{$3=3^1$}\\[5pt]
+$5^{8}:5^{3}=5^{8-3}=\boxed{5^{5}}$\\[5pt]
+$\left(2^{3}\right)^{4}=2^{3\cdot4}=\boxed{2^{12}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$10^{2}\cdot10^{3}\cdot10^{4}=\boxed{10^{9}}$\\[5pt]
+$6^{10}:6^{9}=6^{1}=\boxed{6}$\\[5pt]
+$\left(4^{2}\right)^{0}=4^{0}=\boxed{1}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Ejemplo: \ $\left(2^{5}\cdot2^{3}\right):2^{6}$]
+$=2^{8}:2^{6}$ \ \nota{\pas{1} primero el paréntesis}\\[3pt]
+$=2^{2}=\boxed{4}$ \ \nota{\pas{2}}
+\end{exemple}
+\begin{exemple}[Ejemplo: \ $\left(7^{2}\right)^{3}:7^{4}$]
+$=7^{6}:7^{4}$ \ \nota{\pas{3}}\\[3pt]
+$=7^{2}=\boxed{49}$ \ \nota{\pas{2}}
+\end{exemple}
+\begin{exemple}[{Ejemplo: \ $\left[\left(3^{2}\right)^{3}\cdot3^{4}\right]:3^{8}$}]
+$=\left[3^{6}\cdot3^{4}\right]:3^{8}=3^{10}:3^{8}$\\[3pt]
+$=3^{2}=\boxed{9}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ $\left(5^{4}\cdot5^{2}\right):\left(5^{3}\right)^{2}$]
+$=5^{6}:5^{6}$\\[3pt]
+$=5^{0}=\boxed{1}$ \ \nota{dividendo y divisor iguales}
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos: \ completa el exponente que falta]
+$4^{\square}\cdot4^{3}=4^{7}$: \ $\square=\boxed{4}$ \qquad $9^{8}:9^{\square}=9^{5}$: \ $\square=\boxed{3}$ \qquad $\left(2^{\square}\right)^{3}=2^{12}$: \ $\square=\boxed{4}$ \qquad $\dfrac{10^{7}\cdot10^{2}}{10^{6}}=10^{\square}$: \ $\square=\boxed{3}$
+\end{exemple}
+
+\vfill
+\begin{compte}[Errores típicos]
+$3^{2}\cdot3^{4}=3^{6}$, \ \mal{9^{6}}: la base no se multiplica\\[3pt] $\left(2^{3}\right)^{2}=2^{6}$, \ \mal{2^{5}}: los exponentes se multiplican\\[3pt] $5^{6}:5^{2}=5^{4}$, \ \mal{5^{3}}: se restan, no se dividen
+\end{compte}
+
+\vfill
+% ============================================================ 1.8
+\clearpage
+\seccio{sec8}{Raíces cuadradas}{La operación inversa de elevar al cuadrado.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Raíz cuadrada]
+{\centering\Large$\sqrt a=b\iff b^2=a$\par}\smallskip
+$\sqrt{49}=7$ porque $7^2=49$. \ El signo $\sqrt{\ }$ es el \textbf{radical} y el número de dentro, el \textbf{radicando}.\\[3pt]
+Elevar al cuadrado y hacer la raíz se \textbf{deshacen} la una a la otra.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.32]
+  \draw[fmA,fill=fmA!20] (0,0) grid (7,7); \draw[fmA,line width=1.3pt] (0,0) rectangle (7,7);
+  \node[below,font=\small] at (3.5,0) {7 cm}; \node[font=\small\heavy] at (3.5,3.5) {49 cm$^2$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}un cuadrado de 49 cm$^2$ mide 7 cm de lado}
+\end{minipage}
+
+\vfill
+\begin{center}\small
+\taularod{>{\heavy}l*{15}{>{\hspace{1pt}}c<{\hspace{1pt}}}}{
+\rowcolor{fmblue}\color{white}Raíz & \color{white}1 & \color{white}2 & \color{white}3 & \color{white}4 & \color{white}5 & \color{white}6 & \color{white}7 & \color{white}8 & \color{white}9 & \color{white}10 & \color{white}11 & \color{white}12 & \color{white}13 & \color{white}14 & \color{white}15\\
+Cuadrado & 1 & 4 & 9 & 16 & 25 & 36 & 49 & 64 & 81 & 100 & 121 & 144 & 169 & 196 & 225
+}\\[3pt]
+{\comic\color{fmmuted}los \textbf{cuadrados perfectos}: su raíz es exacta}
+\end{center}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Raíz entera y resto]
+Si no es un cuadrado perfecto, la \textbf{raíz entera} es el natural más grande cuyo cuadrado no pasa del radicando:\\[3pt]
+$\sqrt{40}$: \ $6^2=36\le40<49=7^2$ \ $\to$ \ raíz entera 6\\[2pt]
+Resto: \ $40-36=4$ \qquad $40=6^2+4$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{truc}[Los ceros]
+Si acaba en un número par de ceros, la raíz tiene la mitad:\\[3pt]
+$\sqrt{400}=20$ \qquad $\sqrt{2\,500}=50$\\[2pt]
+$\sqrt{10\,000}=100$
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$\sqrt{81}=\boxed{9}$ \qquad $\sqrt{144}=\boxed{12}$ \qquad $\sqrt{900}=\boxed{30}$\\[4pt]
+$\sqrt{60}$: \ $7^2=49$, $8^2=64$: \ raíz entera \boxed{7}, resto 11
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$\sqrt{150}$: \ $12^2=144$: \ raíz entera \boxed{12}, resto 6\\[4pt]
+Con 30 baldosas, el cuadrado más grande: \ $5\times5$ (25) y sobran 5
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 1.9
+\clearpage
+\seccio{sec9}{Problemas con potencias y raíces}{La jerarquía completa, y problemas con cuadrados y cubos.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[st/.style={draw=#1,fill=#1!12,line width=1.2pt,rounded corners=2mm,minimum height=0.8cm,anchor=south west,font=\large,inner xsep=6pt}]
+  \node[st=fmV] at (0,2.7) {\pas{1}\ \ Paréntesis $(\ )\ [\ ]$};
+  \node[st=fmA] at (0.5,1.8) {\pas{2}\ \ Potencias y raíces};
+  \node[st=fmK] at (1.0,0.9) {\pas{3}\ \ $\cdot$ \ y \ $:$};
+  \node[st=fmB] at (1.5,0) {\pas{4}\ \ $+$ \ y \ $-$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{exemple}[Ejemplo: \ el paréntesis cambia el resultado]
+$2+3\cdot4^2=2+3\cdot16=2+48=\boxed{50}$\\[4pt]
+$(2+3)\cdot4^2=5\cdot16=\boxed{80}$
+\end{exemple}
+\begin{truc}[El radical hace de paréntesis]
+Primero calculamos lo que hay dentro: \ $\sqrt{16+9}=\sqrt{25}=5$.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{compte}[No se reparten en las sumas]
+$\sqrt{9+16}=5$, pero $\sqrt9+\sqrt{16}=7$. \qquad $(2+3)^2=25$, pero $2^2+3^2=13$.
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplos de operaciones]
+\begin{minipage}[t]{0.48\linewidth}
+$20-3^2\cdot2+\sqrt{16}=20-18+4=\boxed{6}$\\[4pt]
+$\sqrt{49}+2\cdot(8-3)^2=7+50=\boxed{57}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$50-[18:(3^2-6)]\cdot4=50-24=\boxed{26}$\\[4pt]
+$5\cdot\sqrt{36}-2^4:8=30-2=\boxed{28}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{exemple}[Ejemplo: \ un patio cuadrado tiene 225 m$^2$. ¿Cuánto mide el lado? ¿Y la valla?]
+Lado: \ $\sqrt{225}=\boxed{15\text{ m}}$\\[3pt]
+Valla: \ $4\cdot15=\boxed{60\text{ m}}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ un cubo de 4 cm de arista, hecho de cubitos de 1 cm. ¿Cuántos cubitos tiene?]
+$4^3=4\cdot4\cdot4=\boxed{64}$ cubitos
+\end{exemple}
+\begin{exemple}[Ejemplo: \ un mensaje lo reciben 3 personas; cada una lo envía a 3 más, y así 5 veces]
+En el 5.º paso lo reciben \ $3^5=\boxed{243}$ personas
+\end{exemple}
+\begin{exemple}[Ejemplo: \ queremos hacer el cuadrado más grande posible con 90 baldosas]
+$9^2=81\le90<100$: \ un cuadrado de $\boxed{9\times9}$ y sobran 9
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=24pt,raster before skip=14pt]
+\rtile{1.1}{Naturales}{$\mathbb N=\{0,1,2,\dots\}$.\\[1ex] División entera: $D=d\cdot q+r$, \ $r<d$.}
+\rtile{1.2}{Aproximar}{Truncar: ceros.\\[1ex] Redondear: miramos la cifra siguiente.\\[1ex] Si es 5 o más, sumamos 1.}
+\rtile{1.3}{Operaciones}{Conmutativa, asociativa, distributiva.\\[1ex] Orden: paréntesis, $\cdot$ y $:$, $+$ y $-$.}
+\rtile{1.4}{Problemas}{Lee, piensa, resuelve y comprueba.\\[1ex] ¿Qué hacemos con el resto?}
+\rtile{1.5}{Potencias}{$a^n$: $a$ multiplicado $n$ veces.\\[1ex] $a^1=a$, \ $a^0=1$.}
+\rtile{1.6}{Base 10}{$10^n$: un 1 y $n$ ceros.\\[1ex] Descomposición polinómica.}
+\rtile{1.7}{Propiedades}{$a^m\cdot a^n=a^{m+n}$, \ $a^m:a^n=a^{m-n}$,\\[1ex] $(a^m)^n=a^{mn}$.}
+\rtile{1.8}{Raíces}{$\sqrt a=b\iff b^2=a$.\\[1ex] Raíz entera y resto.}
+\rtile{1.9}{Jerarquía}{Paréntesis, potencias y raíces, $\cdot$ y $:$, $+$ y $-$.}
+\end{tcbraster}
+\end{document}

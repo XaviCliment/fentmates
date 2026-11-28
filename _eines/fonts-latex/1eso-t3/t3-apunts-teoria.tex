@@ -1,0 +1,776 @@
+% Apunts de teoria en PDF · 1r ESO · Unitat 3: Nombres enters
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 3: Nombres enters. 1r ESO},pdfsubject={Matemàtiques 1r ESO},pdfkeywords={nombres enters, positius, negatius, recta numèrica, ordre, valor absolut, oposat, suma, resta, parèntesis, claudàtors, multiplicació, divisió, regla dels signes, operacions combinades, problemes}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{3.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$-3\quad+5$};
+  \draw[line width=2.4pt] (20,95) -- (230,95);
+  \foreach \x in {35,65,95,125,155,185,215} \draw[line width=2.4pt] (\x,87) -- (\x,103);
+  \fill (125,95) circle (7);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r ESO · Unitat 3: Nombres enters}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r ESO · Matemàtiques}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 3}\\[2pt]Nombres enters\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\newcommand{\recta}[2]{\draw[-{Latex[length=2.5mm]},fmnavy,line width=1.1pt] (#1-0.6,0) -- (#2+0.6,0);
+  \foreach \k in {#1,...,#2} {\draw[fmnavy,line width=0.9pt] (\k,-0.12) -- (\k,0.12); \node[below=3pt,font=\small] at (\k,0) {$\k$};}}
+\newcommand{\barra}[4]{\begin{tikzpicture}
+  \foreach \i in {1,...,#1} {\pgfmathsetmacro\xa{(\i-1)*#4/#1}\pgfmathsetmacro\xb{\i*#4/#1}
+    \ifnum\i>#2 \filldraw[fill=white,draw=#3,line width=1pt] (\xa,0) rectangle (\xb,0.55);
+    \else \filldraw[fill=#3!35,draw=#3,line width=1pt] (\xa,0) rectangle (\xb,0.55); \fi}
+\end{tikzpicture}}
+
+
+\begin{document}
+\portada{Baix zero, soterranis i deutes: els nombres amb signe.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{3.1}{\faThermometerHalf}{Els nombres enters}
+\itile{sec2}{3.2}{\faRulerHorizontal}{Recta numèrica i ordre}
+\itile{sec3}{3.3}{\faArrowsAltH}{Valor absolut i oposat}
+\itile{sec4}{3.4}{\faPlus}{Suma i resta d'enters}
+\itile{sec5}{3.5}{\faIcon{layer-group}}{Parèntesis i claudàtors}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{3.6}{\faTimes}{Multiplicació i divisió}
+\itile{sec7}{3.7}{\faCalculator}{Operacions combinades}
+\itile{sec8}{3.8}{\faLightbulb}{Problemes amb enters}
+\itile{resum}{\phantom{3.8}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 3.1
+\clearpage
+\seccio{sec1}{Els nombres enters}{Nombres amb signe: per damunt o per davall del zero.}
+
+\vfill
+\begin{idea}[Per què els necessitem?]
+Amb els naturals no podem expressar una temperatura \textbf{baix zero}, un \textbf{soterrani}, un \textbf{deute}, una \textbf{profunditat} o un any \textbf{abans de Crist}, ni fer restes com $3-5$. \ El signe $+$ diu que estem per damunt d'una referència (el zero) i el signe $-$, per davall.
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\mathbb Z=\{\ldots,\ -3,\ -2,\ -1,\ 0,\ +1,\ +2,\ +3,\ \ldots\}$}
+\end{tcolorbox}
+\chip{fmK}{positius} $+1,\ +2,\ +3\ldots$ \ el $+$ es pot ometre: $+7=7$\\[4pt]
+\chip{fmR}{negatius} $-1,\ -2,\ -3\ldots$ \ el $-$ sempre s'escriu\\[4pt]
+\chip{fmmuted}{zero} \ el 0 no és ni positiu ni negatiu
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=1cm,y=0.42cm]
+  \draw[fmmuted,line width=1pt,rounded corners=3pt] (-0.35,-6.5) rectangle (0.35,6.5);
+  \fill[fmR!70] (-0.2,-6.2) rectangle (0.2,0); \fill[fmR] (0,-6.6) circle (0.45);
+  \foreach \k in {-6,-4,...,6} {\draw[fmnavy] (0.35,\k) -- (0.6,\k); \node[right,font=\scriptsize] at (0.6,\k) {$\k$};}
+  \node[right,font=\scriptsize\heavy,text=fmK!80!black] at (1.3,4) {calor};
+  \node[right,font=\scriptsize\heavy,text=fmA] at (1.3,-4) {baix zero};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples: \ de la situació al nombre enter]
+\centering\small
+\taularod[fmex]{>{\hspace{3pt}}l<{\hspace{3pt}}>{\hspace{3pt}}c<{\hspace{3pt}}>{\hspace{3pt}}l<{\hspace{3pt}}>{\hspace{3pt}}c<{\hspace{3pt}}}{
+\rowcolor{fmex}\color{white}\heavy Situació & \color{white}\heavy Enter & \color{white}\heavy Situació & \color{white}\heavy Enter\\
+Fa 5 °C sobre zero & $+5$ & Fa 3 °C baix zero & $-3$\\
+\rowcolor{fmexbg}Vivim a la quarta planta & $+4$ & El cotxe està al 2n soterrani & $-2$\\
+Tinc 20 € estalviats & $+20$ & Dec 15 € a la meua germana & $-15$\\
+\rowcolor{fmexbg}Una muntanya de 800 m & $+800$ & Un submarí a 50 m de profunditat & $-50$\\
+L'any 2026 d. C. & $+2026$ & Sòcrates va nàixer el 470 a. C. & $-470$
+}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Paraules que indiquen un negatiu]
+baix zero, soterrani, deute, dec, profunditat, sota el nivell de la mar, abans de Crist, perdre, baixar, gastar, retirar.
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Naturals i enters]
+Tots els naturals són enters, però no tots els enters són naturals: \ $-8$ és enter, però no natural. \ $\mathbb N\subset\mathbb Z$.
+\end{compte}
+\end{minipage}
+
+\vfill
+% ============================================================ 3.2
+\clearpage
+\seccio{sec2}{Recta numèrica, ordre i comparació}{Com més a la dreta, més gran.}
+
+\vfill
+\begin{idea}[Els enters en la recta]
+Marquem el 0: els \textbf{positius} a la dreta i els \textbf{negatius} a l'esquerra, sempre a la mateixa distància. És com un termòmetre tombat o un edifici amb plantes i soterranis.
+\end{idea}
+
+{\centering \begin{tikzpicture}[x=0.62cm]
+  \draw[{Latex[length=2.4mm]}-{Latex[length=2.4mm]},fmnavy,line width=1.2pt] (-7.6,0) -- (7.6,0);
+  \foreach \k in {-7,...,7} {\draw[fmnavy,line width=1pt] (\k,-0.12) -- (\k,0.12); \node[below=2pt,font=\small] at (\k,-0.1) {$\k$};}
+  \draw[fmR,line width=4pt,opacity=0.5] (-7.4,0.35) -- (-0.3,0.35); \draw[fmK,line width=4pt,opacity=0.5] (0.3,0.35) -- (7.4,0.35);
+  \node[above=4pt,font=\small\heavy,text=fmR] at (-3.8,0.35) {negatius};
+  \node[above=4pt,font=\small\heavy,text=fmK!80!black] at (3.8,0.35) {positius};
+  \foreach \x in {-5,-2,0,3,6} \fill[fmblue] (\x,0) circle (4pt);
+\end{tikzpicture}\par}
+{\centering\comic\color{fmmuted}hem representat $-5,\ -2,\ 0,\ 3$ i $6$\par}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Positiu i negatiu},before upper=\centering]
+Qualsevol positiu és més gran que 0, i 0 més gran que qualsevol negatiu.\par\smallskip
+$2>0>-100$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Dos positius},before upper=\centering]
+Com amb els naturals: el de més valor.\par\smallskip
+$8>3$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Dos negatius},before upper=\centering]
+És més gran el que està \textbf{més a prop del zero}.\par\smallskip
+$-3>-8$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Pensa en temperatures i en diners]
+A $-3$ °C fa menys fred que a $-8$ °C: \ $-3>-8$. \ I és millor deure 3 € que deure'n 8!
+\end{truc}
+
+\vfill
+\begin{exemple}[Exemple: \ ordena de menor a major \ $5,\ -7,\ 0,\ -1,\ 3,\ -4$]
+Primer els negatius, del més allunyat del zero al més pròxim; després el zero i després els positius:\\[4pt]
+{\centering\Large$-7<-4<-1<0<3<5$\par}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+$-6\ \square\ -2$: \ \ $-6<-2$ \ \nota{$-2$ està més a la dreta}\\[4pt]
+$-15\ \square\ 1$: \ \ $-15<1$ \ \nota{positiu}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Enters entre $-3$ i $2$: \ $-2,\ -1,\ 0,\ 1$\\[4pt]
+De major a menor: \ $9>4>0>-2>-10$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 3.3
+\clearpage
+\seccio{sec3}{Valor absolut i oposat}{En la recta, com més a la dreta, més gran.}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[x=0.95cm]
+  \recta{-7}{7}
+  \fill[fmR] (-5,0) circle (4pt); \fill[fmR] (5,0) circle (4pt);
+  \draw[decorate,decoration={brace,amplitude=6pt},fmA,line width=1.2pt] (-5,0.35) -- (0,0.35) node[midway,above=7pt,font=\large,text=fmA]{$|-5|=5$};
+  \draw[decorate,decoration={brace,amplitude=6pt},fmA,line width=1.2pt] (0,0.35) -- (5,0.35) node[midway,above=7pt,font=\large,text=fmA]{$|5|=5$};
+  \draw[{Latex[length=2.5mm]}-{Latex[length=2.5mm]},fmB,line width=1.3pt] (-5,-0.75) to[bend right=18] node[below,font=\large,text=fmB]{oposats: \ $\text{op}(5)=-5$} (5,-0.75);
+  \node[font=\comic,text=fmmuted,anchor=east] at (-6.6,0.8) {menors};
+  \node[font=\comic,text=fmmuted,anchor=west] at (6.6,0.8) {majors};
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Valor absolut \ $|a|$}]
+La \textbf{distància} del nombre al 0. Mai és negatiu.\par\smallskip
+{\centering$|-7|=7\qquad |7|=7\qquad |0|=0$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Oposat \ $\text{op}(a)=-a$}]
+Mateix valor absolut, \textbf{signe contrari}.\par\smallskip
+{\centering$\text{op}(5)=-5\qquad \text{op}(-3)=3\qquad a+\text{op}(a)=0$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\subsection{Ordenar enters}
+\begin{minipage}[t]{0.52\linewidth}
+\begin{idea}
+\begin{itemize}[leftmargin=1em]
+\item Qualsevol \textbf{positiu} és major que 0, i 0 és major que qualsevol \textbf{negatiu}.
+\item Entre dos \textbf{negatius}, és major el que té \textbf{menor} valor absolut: \ $-3>-8$.
+\end{itemize}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{truc}[Pensa en el termòmetre]
+Fa menys fred a $-3$\,°C que a $-8$\,°C:\\[3pt]
+\hspace*{1em}{\Large$-3>-8$} \ \ {\color{fmA}\Large\faThermometerQuarter}
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.5\linewidth}
+Ordena de menor a major: \ $-5,\ 3,\ -1,\ 0,\ -12,\ 7$\\[4pt]
+{\large$-12<-5<-1<0<3<7$}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+$|-4|+|3|=4+3=7$\\[3pt]
+$\text{op}\big(|-6|\big)=\text{op}(6)=-6$\\[3pt]
+$-|-2|=-2$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ quins enters compleixen \ $|x|=5$? \ I \ $|x|<3$?]
+\begin{minipage}[c]{0.38\linewidth}
+$|x|=5$: \ $\boxed{x=5}$ \ o \ $\boxed{x=-5}$\\[6pt]
+$|x|<3$: \ $\boxed{-2,\ -1,\ 0,\ 1,\ 2}$\\[3pt]
+\nota{a menys de 3 passos del 0}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}\centering
+\begin{tikzpicture}[x=0.7cm]
+  \recta{-5}{5}
+  \foreach \k in {-2,...,2} \fill[fmK] (\k,0) circle (4.5pt);
+  \fill[fmB] (-5,0) circle (4.5pt); \fill[fmB] (5,0) circle (4.5pt);
+  \draw[decorate,decoration={brace,amplitude=5pt},fmK,line width=1.1pt] (-2,0.3) -- (2,0.3) node[midway,above=6pt,font=\small,text=fmK!80!black]{$|x|<3$};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 3.4
+\clearpage
+\seccio{sec4}{Suma i resta d'enters}{Pensem en diners: el que tinc i el que dec.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Mateix signe: \textbf{sumem}}]
+Sumem els valors absoluts i posem el \textbf{signe comú}.\par\smallskip
+$3+5=8$ \ \nota{guanye 3 i 5}\\[2pt]
+$-3-5=-8$ \ \nota{dec 3 i dec 5: dec 8}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Signes diferents: \textbf{restem}}]
+El gran menys el xicotet, amb el signe del que té \textbf{major} valor absolut.\par\smallskip
+$-7+4=-3$ \ \nota{dec 7 i en pague 4}\\[2pt]
+$-2+6=4$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm]
+  \draw[fmnavy,line width=1.1pt] (-4.5,0) -- (6.5,0);
+  \foreach \k in {-4,...,6} {\draw[fmnavy] (\k,-0.1) -- (\k,0.1); \node[below=2pt,font=\scriptsize] at (\k,-0.1) {$\k$};}
+  \fill[fmR] (-2,0) circle (3.5pt); \fill[fmK] (4,0) circle (3.5pt);
+  \draw[-{Latex[length=2.4mm]},fmK,line width=1.4pt] (-2,0.25) to[bend left=35] node[above,font=\small] {$+6$} (4,0.25);
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}$-2+6=4$: sumar un positiu, cap a la dreta}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{idea}[Restar és sumar l'oposat]
+{\centering$a-b=a+\text{op}(b)$\par}\smallskip
+$5-7=5+(-7)=-2$\\[2pt]
+$4-(-6)=4+6=10$\\[2pt]
+Ara ja podem restar un nombre més gran d'un de més xicotet!
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $5-9+8-2$, \ de dues maneres]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{D'esquerra a dreta}, de dos en dos:\\[3pt]
+$5-9+8-2=-4+8-2=4-2=\boxed{2}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\textbf{Agrupant} positius i negatius:\\[3pt]
+$(5+8)-(9+2)=13-11=\boxed{2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[El balanç]
+Amb molts termes, suma tot el que guanyes, suma tot el que perds i fes el balanç: \ $-4+9-12+3-7=12-23=-11$.
+\end{truc}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+$-6+10=4$ \qquad $-8-3=-11$ \qquad $7-12=-5$\\[4pt]
+$-5+5=0$ \ \nota{dos oposats}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$12-15+4-6+9=25-21=\boxed{4}$\\[4pt]
+$-3-4+10-1=10-8=\boxed{2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 3.5
+\clearpage
+\seccio{sec5}{Parèntesis i claudàtors}{Llevem els parèntesis de dins cap a fora.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Mateix signe: \textbf{sumem}}]
+Sumem els valors absoluts i posem el \textbf{signe comú}.\par\smallskip
+{\centering$(+4)+(+3)=+7\qquad (-4)+(-3)=-7$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Signes diferents: \textbf{restem}}]
+El major menys el menor, amb el signe del que té \textbf{major} valor absolut.\par\smallskip
+{\centering$(+4)+(-9)=-5\qquad (-4)+(+9)=+5$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.46\linewidth}
+\begin{idea}[Llevar parèntesis]
+{\centering\renewcommand{\arraystretch}{1.4}\Large
+\begin{tabular}{cccc}
+$+(+a)$ & $+(-a)$ & $-(+a)$ & $-(-a)$\\
+$\cK{+a}$ & $\cR{-a}$ & $\cR{-a}$ & $\cK{+a}$
+\end{tabular}\par}\smallskip
+Un $-$ davant del parèntesi canvia \textbf{tots} els signes: \ $-(3-5+2)=-3+5-2$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.51\linewidth}
+\begin{exemple}[Exemple: \ $7-(-3)+(-5)-(+2)$]
+$=7+3-5-2$ \ \nota{llevem parèntesis}\\[3pt]
+$=10-7=\boxed{3}$ \ \nota{positius i negatius}
+\end{exemple}
+\begin{truc}[Agrupa]
+Suma a part els positius i els negatius:\\[2pt]
+$-4+9-12+3-7=(9+3)-(4+12+7)=12-23=-11$
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ $-8+(4-9)-(-6+2)$]
+$=-8+(-5)-(-4)$ \ \nota{dins dels parèntesis}\\[3pt]
+$=-8-5+4$ \ \nota{llevem parèntesis}\\[3pt]
+$=-13+4=\boxed{-9}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[{Exemple: \ $15-\left[6-(2-9)\right]$}]
+$=15-\left[6-(-7)\right]$ \ \nota{el de dins primer}\\[3pt]
+$=15-\left[6+7\right]$\\[3pt]
+$=15-13=\boxed{2}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[El signe menys davant del parèntesi]
+\be{5-(-3)=5+3=8}\qquad\quad \be{-2-6=-2+(-6)=-8}\qquad\quad \mal{-(4-9)=-4-9}
+\end{compte}
+
+\vfill
+% ============================================================ 3.6
+\clearpage
+\seccio{sec6}{Multiplicació i divisió d'enters}{Signes iguals, positiu. Signes diferents, negatiu.}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\renewcommand{\arraystretch}{1.6}\taulaclip{fmblue,line width=1.2pt}{\fontsize{20}{24}\selectfont%
+\begin{tabular}{>{\columncolor{fmblue}\color{white}}w{c}{1.6cm}w{c}{1.4cm}w{c}{1.4cm}}
+\rowcolor{fmblue}{\large$\cdot$ \ $:$} & \color{white}$+$ & \color{white}$-$\\
+$+$ & \cellcolor{fmK!18}$\cK{+}$ & \cellcolor{fmR!14}$\cR{-}$\\
+$-$ & \cellcolor{fmR!14}$\cR{-}$ & \cellcolor{fmK!18}$\cK{+}$
+\end{tabular}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[La regla dels signes]
+{\large Multipliquem (o dividim) els valors absoluts i posem el signe de la taula.}\\[8pt]
+$(-6)\cdot(+4)=\cR{-}24\qquad (-3)\cdot(-5)=\cK{+}15$\\[4pt]
+$(-36):(-4)=\cK{+}9\qquad 42:(-7)=\cR{-}6$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Molts factors? Compta els negatius]
+\textbf{Parell} de negatius $\to$ \cK{positiu}. \ \textbf{Senar} $\to$ \cR{negatiu}.\\[4pt]
+$(-2)\cdot3\cdot(-1)\cdot(-5)=-30$ \ \nota{3 negatius}\\[3pt]
+$(-1)^{15}=-1\qquad (-1)^{20}=+1$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[I si no és exacta?]
+La divisió només dona un enter si és \textbf{exacta}. Si no, dona una \textbf{fracció}:\\[3pt]
+$(-7):2=-\dfrac72$ \ \ \nota{per això calen les fraccions!}
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+$(-1)\cdot(-2)\cdot(-3)=\cR{-6}$ \ \nota{3 negatius}\\[4pt]
+$(-1)\cdot(-2)\cdot(-3)\cdot(-4)=\cK{+24}$ \ \nota{4 negatius}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$(-60):(+5):(-3)=$ \ \nota{d'esquerra a dreta}\\[4pt]
+$=(-12):(-3)=\boxed{4}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Divisions seguides: d'esquerra a dreta]
+\be{(-100):(-4):(-5)=25:(-5)=-5}\qquad\quad \mal{(-100):\big((-4):(-5)\big)}
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faSuperscript\ \ Potències de base negativa}]
+Exponent \textbf{parell} $\to$ \cK{positiu}. \ \textbf{Senar} $\to$ \cR{negatiu}.\par\smallskip
+{\centering$(-2)^4=\cK{+16}\qquad (-2)^3=\cR{-8}$\par}
+\end{tcolorbox}
+\begin{compte}[Amb parèntesi o sense?]
+\be{(-2)^4=(-2)\cdot(-2)\cdot(-2)\cdot(-2)=16}\\[3pt]
+\be{-2^4=-(2\cdot2\cdot2\cdot2)=-16}\\[2pt]
+{\small Sense parèntesi, el $-$ no s'eleva.}
+\end{compte}
+\end{tcbraster}
+
+% ------------------------------------------------------------
+\clearpage
+
+\vfill
+% ============================================================ 3.7
+\clearpage
+\seccio{sec7}{Operacions combinades amb enters}{L'ordre importa: sempre la mateixa jerarquia.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[st/.style={draw=#1,fill=#1!12,line width=1.2pt,rounded corners=2mm,minimum height=0.8cm,anchor=south west,font=\large,inner xsep=6pt}]
+  \node[st=fmV] at (0,2.7) {\pas{1}\ \ Parèntesis $(\ )\ [\ ]$};
+  \node[st=fmA] at (0.5,1.8) {\pas{2}\ \ Potències};
+  \node[st=fmK] at (1.0,0.9) {\pas{3}\ \ $\cdot$ \ i \ $:$};
+  \node[st=fmB] at (1.5,0) {\pas{4}\ \ $+$ \ i \ $-$};
+\end{tikzpicture}\\[3pt]
+{\comic\small\color{fmmuted}\pas{3} i \pas{4}: d'esquerra a dreta}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{exemple}[Exemple: \ $12-3\cdot(5-8)+20:(-4)$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&=12-3\cdot(-3)+20:(-4) &\quad& \text{\nota{\pas{1}}}\\
+&=12-(-9)+(-5) && \text{\nota{\pas{3}}}\\
+&=12+9-5=\boxed{16} && \text{\nota{\pas{4}}}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[Errors típics]
+\begin{tabular}{@{}p{0.31\linewidth}p{0.31\linewidth}p{0.3\linewidth}@{}}
+\be{12:2\cdot3=6\cdot3=18}\newline{\small d'esquerra a dreta, no $12:6$} &
+\be{5-2\cdot(-3)=5+6=11}\newline{\small primer el producte, no $3\cdot(-3)$} &
+\be{-3^2=-9}\newline\be{(-3)^2=9}
+\end{tabular}
+\end{compte}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[{Exemple: \ $(-2)^3-4\cdot\left[5-(3-6)^2\right]$}]
+$=(-2)^3-4\cdot\left[5-(-3)^2\right]$ \ \nota{\pas{1}}\\[3pt]
+$=(-2)^3-4\cdot[5-9]$ \ \nota{\pas{2}}\\[3pt]
+$=(-2)^3-4\cdot(-4)$\\[3pt]
+$=-8+16=\boxed{8}$ \ \nota{\pas{2} \pas{3} \pas{4}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemple: \ $18:(-3)\cdot2-(-5)^2+3\cdot(-2)^2$]
+$=18:(-3)\cdot2-25+3\cdot4$ \ \nota{\pas{2}}\\[3pt]
+$=(-6)\cdot2-25+12$ \ \nota{\pas{3}}\\[3pt]
+$=-12-25+12$\\[3pt]
+$=\boxed{-25}$ \ \nota{\pas{4}}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ $3-2\cdot(4-7)-(-6):2$]
+$=3-2\cdot(-3)-(-6):2$ \ \nota{\pas{1}}\\[3pt]
+$=3-(-6)-(-3)$ \ \nota{\pas{3}}\\[3pt]
+$=3+6+3=\boxed{12}$ \ \nota{\pas{4}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[{Exemple: \ $2\cdot\left\{3-\left[4-(1-6)\right]\right\}$}]
+$=2\cdot\left\{3-\left[4-(-5)\right]\right\}$ \ \nota{de dins cap a fora}\\[3pt]
+$=2\cdot\left\{3-9\right\}$\\[3pt]
+$=2\cdot(-6)=\boxed{-12}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+% ============================================================ 3.8
+\clearpage
+\seccio{sec8}{Problemes amb enters}{Primer, on és el zero.}
+
+\passosproblema{\textbf{Busquem}\\el zero}{\textbf{Cada dada}\\amb el seu signe}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Pujar i baixar]
+puja, guanya, ingressa, sobre zero $\to$ \cK{$+$}\\[2pt]
+baixa, perd, gasta, deu, baix zero $\to$ \cR{$-$}\\[4pt]
+\textbf{Canvi}: valor final $-$ valor inicial. Positiu, ha pujat; negatiu, ha baixat.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{truc}[La distància entre dos valors]
+El major menys el menor. De $-3$ °C a $5$ °C: \ $5-(-3)=\boxed{8}$ graus.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{exemple}[Exemple: \ un ascensor]
+Està a la 3a planta, baixa 5 plantes i després puja 2. On és?\\[3pt]
+$3-5+2=\boxed{0}$: a la planta baixa.
+\end{exemple}
+\begin{exemple}[Exemple: \ un compte]
+Tinc 45 €, gaste 60 € i ingresse 20 €.\\[3pt]
+$45-60+20=\boxed{5}$ €: em queden 5 €.
+\end{exemple}
+\begin{exemple}[Exemple: \ temperatures]
+A les 7 h feia $-4$ °C i a les 14 h, 9 °C. Quant ha pujat?\\[3pt]
+$9-(-4)=9+4=\boxed{13}$ °C
+\end{exemple}
+\begin{exemple}[Exemple: \ història]
+Arquimedes va nàixer el 287 a. C. i va morir el 212 a. C. Quants anys va viure?\\[3pt]
+$-212-(-287)=\boxed{75}$ anys
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple: \ un submarí a 120 m de profunditat puja 45 m i després baixa 30 m]
+$-120+45-30=\boxed{-105}$: \ està a 105 m de profunditat. \qquad Si ara puja fins a la superfície: \ $0-(-105)=105$ m.
+\end{exemple}
+
+\vfill
+\begin{compte}[Interpreta el resultat]
+Respon amb una frase: un $-5$ en un compte vol dir «dec 5 €»; un $-2$ en un ascensor, «el segon soterrani».
+\end{compte}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=34pt,raster before skip=18pt]
+\rtile{3.1}{Enters}{$\mathbb Z$: positius, negatius i el 0.\\[1ex] El signe: per damunt o per davall del 0.}
+\rtile{3.2}{Ordre}{Més a la dreta, més gran.\\[1ex] De dos negatius, el més pròxim al 0.}
+\rtile{3.3}{Valor absolut}{$|a|$: distància al 0.\\[1ex] Oposat: el signe contrari.}
+\rtile{3.4}{Suma i resta}{Mateix signe: sumem. Diferent: restem.\\[1ex] Restar és sumar l'oposat.}
+\rtile{3.5}{Parèntesis}{Un $-$ davant canvia tots els signes.}
+\rtile{3.6}{Producte i quocient}{Signes iguals, $+$; diferents, $-$.}
+\rtile{3.7}{Combinades}{Parèntesis, potències, $\cdot$ i $:$, $+$ i $-$.}
+\rtile{3.8}{Problemes}{On és el zero?\\[1ex] Cada dada amb el seu signe.}
+\end{tcbraster}
+\end{document}
