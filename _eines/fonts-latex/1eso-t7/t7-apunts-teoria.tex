@@ -1,0 +1,1296 @@
+% Apunts de teoria en PDF · 1r ESO · Unitat 7: Geometria del pla
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 7: Geometria del pla. 1r ESO},pdfsubject={Matemàtiques 1r ESO},pdfkeywords={punt, recta, semirecta, segment, rectes paral·leles, rectes perpendiculars, mediatriu, angles, bisectriu, sistema sexagesimal, angles complementaris, angles suplementaris, polígons, diagonals, triangles, quadrilàters, polígons regulars, mosaics}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{7.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$180^\circ$};
+  \draw (130,115) -- (235,115) -- (165,30) -- cycle;
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1r ESO · Unitat 7: Geometria del pla}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 1r ESO · Matemàtiques}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 7}\\[2pt]Geometria del pla\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\usetikzlibrary{decorations.markings}
+% marques d'igualtat en un segment (una o dues ratletes al mig)
+\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\draw[line width=0.9pt,solid] (0,-3pt) -- (0,3pt);}}}},
+  tkk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\draw[line width=0.9pt,solid] (-1.3pt,-3pt) -- (-1.3pt,3pt) (1.3pt,-3pt) -- (1.3pt,3pt);}}}},
+  rr/.style={{Latex[length=2mm]}-{Latex[length=2mm]},line width=1.2pt},
+  sr/.style={-{Latex[length=2mm]},line width=1.2pt}}
+% punt amb nom: \pnt{posició}{etiqueta}{lloc}
+\newcommand{\pnt}[3]{\fill[fmnavy] #1 circle (2pt) node[#3,font=\small] {#2};}
+% angle dibuixat: \angd{graus}{color}{text}
+\newcommand{\angd}[3]{\begin{tikzpicture}[baseline=(current bounding box.center)]
+  \path (-1.25,-1.15) rectangle (1.35,1.25);
+  \fill[#2!22] (0,0) -- (0:0.55) arc (0:#1:0.55) -- cycle; \draw[#2,line width=1pt] (0:0.55) arc (0:#1:0.55);
+  \draw[line width=1.3pt,fmnavy,line cap=round] (1.25,0) -- (0,0) -- (#1:1.25); \fill[fmnavy] (0,0) circle (1.6pt);
+  \node[font=\scriptsize,text=#2!80!black] at (#1/2:0.85) {#3};
+\end{tikzpicture}}
+% marca d'angle recte en (x,y), girada a graus
+\newcommand{\recte}[3][0]{\draw[fmnavy,line width=0.8pt,rotate around={#1:(#2,#3)}] (#2+0.22,#3) -- (#2+0.22,#3+0.22) -- (#2,#3+0.22);}
+% caixeta amb color: \caixa{color}{títol}{contingut}
+\newcommand{\caixa}[3]{\begin{tcolorbox}[fmbase,colback=#1!8,colframe=#1,coltitle=white,title={#2},before upper=\centering,left=2mm,right=2mm]#3\end{tcolorbox}}
+
+
+\begin{document}
+\portada{Rectes, angles i polígons: les peces de totes les figures.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{7.1}{\faIcon{dot-circle}}{Punts, rectes i segments}
+\itile{sec2}{7.2}{\faIcon{equals}}{Posicions de rectes. Mediatriu}
+\itile{sec3}{7.3}{\faIcon{drafting-compass}}{Angles}
+\itile{sec4}{7.4}{\faClock}{El sistema sexagesimal}
+\itile{sec5}{7.5}{\faIcon{project-diagram}}{Relacions entre angles}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{7.6}{\faIcon{draw-polygon}}{Polígons}
+\itile{sec7}{7.7}{\tikz[baseline=-0.2ex]\fill (0,0) -- (0.34,0) -- (0.17,0.3) -- cycle;}{Triangles}
+\itile{sec8}{7.8}{\faIcon{square}}{Quadrilàters}
+\itile{sec9}{7.9}{\faIcon{shapes}}{Angles dels polígons}
+\itile{resum}{\phantom{7.9}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 7.1
+\clearpage
+\seccio{sec1}{Punts, rectes, semirectes i segments}{Les peces amb què construïm totes les figures.}
+
+\vfill
+\begin{minipage}[c]{0.56\linewidth}
+\begin{idea}[Punt, recta i pla]
+\textbf{Punt}: una posició, sense grandària: $A$, $B$, $P$\dots\\[3pt]
+\textbf{Recta}: no es corba i no té ni principi ni final. Amb minúscula ($r$, $s$) o amb dos punts: recta $AB$.\\[3pt]
+\textbf{Pla}: una superfície plana sense vores, com un full que no s'acaba mai.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\centering
+\begin{tikzpicture}
+  \fill[fmA!9] (-0.4,-0.6) -- (4.4,-0.6) -- (5.4,2.1) -- (0.6,2.1) -- cycle;
+  \node[font=\comic\small,text=fmA] at (4.55,1.75) {pla};
+  \draw[rr,fmnavy] (-0.1,-0.15) -- (4.7,1.05) node[right,font=\small] {$r$};
+  \pnt{(1,0.1)}{$A$}{below right} \pnt{(3,0.6)}{$B$}{below right} \pnt{(1.6,1.45)}{$P$}{above}
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}$A$ i $B$ són de la recta $r$; \ $P$ no.}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Recta $r$}{\begin{tikzpicture}\draw[rr,fmA] (0,0) -- (3.6,0); \pnt{(1.1,0)}{$A$}{below} \pnt{(2.5,0)}{$B$}{below}\end{tikzpicture}\par\smallskip
+Ni principi ni final.}
+\caixa{fmB}{Semirecta}{\begin{tikzpicture}\draw[sr,fmB] (0,0) -- (3.6,0); \pnt{(0,0)}{$O$}{below}\end{tikzpicture}\par\smallskip
+Té \textbf{origen}, però no final.}
+\caixa{fmK}{Segment $\overline{AB}$}{\begin{tikzpicture}\draw[fmK,line width=1.2pt] (0,0) -- (3.4,0); \pnt{(0,0)}{$A$}{below} \pnt{(3.4,0)}{$B$}{below}\end{tikzpicture}\par\smallskip
+Dos \textbf{extrems}: el mesurem.}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Punts i rectes]
+Per un punt passen \textbf{infinites} rectes.\\[3pt]
+Per dos punts passa \textbf{una única} recta.\\[3pt]
+Tres o més punts són \textbf{alineats} si estan sobre la mateixa recta.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+  \foreach \a/\c in {0/fmA,35/fmB,75/fmK,115/fmV,150/fmR} \draw[\c,line width=1pt] (\a:-1.05) -- (\a:1.05);
+  \pnt{(0,0)}{$P$}{below=2pt}
+  \begin{scope}[xshift=2.3cm,yshift=-0.55cm]
+  \draw[rr,fmnavy] (-0.1,-0.05) -- (2.2,1.1);
+  \pnt{(0.3,0.15)}{$A$}{above left} \pnt{(1.0,0.5)}{$B$}{above left} \pnt{(1.7,0.85)}{$C$}{above left}
+  \end{scope}
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}infinites rectes per $P$ \qquad $A$, $B$ i $C$ alineats}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}
+  \draw[fmK,line width=1.2pt,tk] (0,0) -- (2,0); \draw[fmK,line width=1.2pt,tk] (2,0) -- (4,0);
+  \pnt{(0,0)}{$A$}{below} \pnt{(4,0)}{$B$}{below} \fill[fmR] (2,0) circle (2.4pt) node[below,font=\small,text=fmR] {$M$};
+  \draw[decorate,decoration={brace,amplitude=5pt},fmmuted] (0,0.2) -- node[above=4pt,font=\small] {9 cm} (4,0.2);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Punt mitjà]
+El \textbf{punt mitjà} $M$ dividix el segment en dues parts iguals (les ratletes ho indiquen):\\[3pt]
+$AM=MB=9:2=4{,}5$ cm
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Exemple: \ 4 punts en una recta]
+\centering\begin{tikzpicture}\draw[rr,fmnavy] (-0.3,0) -- (4.3,0); \foreach \x/\n in {0/A,1.3/B,2.6/C,4/D} {\pnt{(\x,0)}{$\n$}{below}}\end{tikzpicture}\par\raggedright\smallskip
+Quants segments? En ordre, sense repetir:\\[2pt]
+$\overline{AB}$, $\overline{AC}$, $\overline{AD}$ \ \textbullet \ $\overline{BC}$, $\overline{BD}$ \ \textbullet \ $\overline{CD}$ \ $\to$ \ $3+2+1=\boxed{6}$
+\end{exemple}
+\begin{exemple}[Exemple: \ 5 punts, cap terna alineada]
+Quantes rectes passen per dos d'ells?\\[2pt]
+De cada punt ixen 4: \ $5\cdot4=20$. Però cada recta surt dues vegades ($AB$ i $BA$):
+\ $\dfrac{5\cdot4}{2}=\boxed{10}$
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 7.2
+\clearpage
+\seccio{sec2}{Posicions relatives de rectes. Mediatriu}{Dues rectes es tallen\dots\ o no es tallen mai.}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\caixa{fmA}{Secants}{\begin{tikzpicture}\draw[rr,fmA] (-1.3,-0.5) -- (1.3,0.5); \draw[rr,fmA!60!black] (-1.2,0.6) -- (1.2,-0.6); \fill[fmR] (0,0) circle (2.3pt);\end{tikzpicture}\par\smallskip
+Es tallen en \textbf{un punt}.}
+\caixa{fmK}{Paral·leles}{\begin{tikzpicture}\draw[rr,fmK] (-1.3,0.35) -- (1.3,0.35) node[right,font=\small,text=fmnavy] {$r$}; \draw[rr,fmK] (-1.3,-0.35) -- (1.3,-0.35) node[right,font=\small,text=fmnavy] {$s$};\end{tikzpicture}\par\smallskip
+No es tallen mai: \ $r\parallel s$.}
+\caixa{fmV}{Coincidents}{\begin{tikzpicture}\draw[rr,fmV,line width=3pt,opacity=0.35] (-1.3,-0.3) -- (1.3,0.3); \draw[rr,fmV] (-1.3,-0.3) -- (1.3,0.3) node[above,font=\small,text=fmnavy] {$r=s$};\end{tikzpicture}\par\smallskip
+Són la \textbf{mateixa} recta.}
+\caixa{fmB}{Perpendiculars}{\begin{tikzpicture}\draw[rr,fmB] (-1.2,0) -- (1.2,0) node[right,font=\small,text=fmnavy] {$r$}; \draw[rr,fmB] (0,-0.62) -- (0,0.62) node[right,font=\small,text=fmnavy] {$s$}; \recte{0}{0}\end{tikzpicture}\par\smallskip
+Secants amb 4 angles rectes: \ $r\perp s$.}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Al teu voltant]
+Rails del tren: \textbf{paral·lels}. \ Cantonada d'un full: \textbf{perpendiculars}. \ Cruïlla de carrers: \textbf{secants}.
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \draw[rr,fmnavy] (-0.4,0) -- (4.4,0) node[right,font=\small] {$r$};
+  \draw[fmmuted,dashed,line width=0.9pt] (2,1.8) -- (0.6,0) (2,1.8) -- (3.7,0);
+  \draw[fmR,line width=1.5pt] (2,1.8) -- node[left,font=\comic\small,text=fmR] {$d$} (2,0); \recte{2}{0}
+  \pnt{(2,1.8)}{$P$}{above}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Distància d'un punt a una recta]
+És la longitud del segment \textbf{perpendicular} que va de $P$ fins a la recta.\\[3pt]
+És el camí \textbf{més curt}: qualsevol altre (els discontinus) és més llarg.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Mediatriu d'un segment]
+La recta \textbf{perpendicular} al segment $\overline{AB}$ que passa pel seu \textbf{punt mitjà} $M$.\\[3pt]
+\textbf{Propietat}: cada punt $P$ de la mediatriu està a la mateixa distància (\textbf{equidista}) dels dos extrems: \ $PA=PB$.
+\end{idea}
+\begin{tcolorbox}[fmbase,colback=white,colframe=fmblue,coltitle=white,title={\faIcon{drafting-compass}\ \ Amb regle i compàs}]
+\pas{1} Obri el compàs més de la meitat de $\overline{AB}$.\\[2pt]
+\pas{2} Punxa en $A$: un arc dalt i un altre baix.\\[2pt]
+\pas{3} Igual des de $B$, amb la mateixa obertura.\\[2pt]
+\pas{4} Unix els dos punts de tall.
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.92]
+  \draw[fmA!70,line width=0.9pt] (30:2.8) arc (30:58:2.8) (-30:2.8) arc (-30:-58:2.8);
+  \draw[fmB!80,line width=0.9pt] ($(4,0)+(150:2.8)$) arc (150:122:2.8) ($(4,0)+(210:2.8)$) arc (210:238:2.8);
+  \draw[fmR,line width=1.5pt] (2,-2.6) -- (2,2.6) node[above,font=\small] {$m$};
+  \draw[fmnavy,line width=1.3pt,tk] (0,0) -- (2,0); \draw[fmnavy,line width=1.3pt,tk] (2,0) -- (4,0); \recte{2}{0}
+  \draw[fmK,dashed,line width=0.9pt] (0,0) -- (2,1.25) -- (4,0);
+  \node[font=\small,text=fmK] at (0.75,0.85) {$PA$}; \node[font=\small,text=fmK] at (3.25,0.85) {$PB$};
+  \fill[fmR] (2,1.96) circle (1.8pt) (2,-1.96) circle (1.8pt);
+  \pnt{(0,0)}{$A$}{left} \pnt{(4,0)}{$B$}{right} \pnt{(2,1.25)}{$P$}{right} \node[below right,font=\small] at (2,0) {$M$};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Exemple: \ un fanal entre dues cases]
+A la mateixa distància de $A$ i de $B$: en qualsevol punt de la \textbf{mediatriu} de $\overline{AB}$.
+\end{exemple}
+\begin{exemple}[Exemple: \ un dipòsit per a tres pobles]
+On es tallen les mediatrius de $\overline{AB}$ i de $\overline{BC}$. \ \nota{és el circumcentre (7.7)}
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 7.3
+\clearpage
+\seccio{sec3}{Angles: elements, mesura i classificació}{Quant s'obrin dues semirectes.}
+
+\vfill
+\begin{minipage}[c]{0.56\linewidth}
+\begin{idea}[Què és un angle?]
+La regió del pla entre dues \textbf{semirectes} amb el mateix origen. Les semirectes són els \textbf{costats}; l'origen comú, el \textbf{vèrtex}.\\[3pt]
+El nomenem amb tres lletres, amb el vèrtex al mig ($\widehat{AOB}$), només amb el vèrtex ($\hat O$) o amb una lletra grega: $\alpha$ (alfa), $\beta$ (beta), $\gamma$ (gamma)\dots
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\centering
+\begin{tikzpicture}[scale=1.15]
+  \fill[fmA!22] (0,0) -- (0:0.9) arc (0:42:0.9) -- cycle; \draw[fmA,line width=1pt] (0:0.9) arc (0:42:0.9);
+  \node[font=\small,text=fmA] at (21:1.2) {$\alpha$};
+  \draw[sr,fmnavy] (0,0) -- (0:3.6); \draw[sr,fmnavy] (0,0) -- (42:3.4);
+  \pnt{(0,0)}{$O$}{below left} \pnt{(0:2.8)}{$A$}{below} \pnt{(42:2.6)}{$B$}{above left}
+  \draw[-{Latex[length=1.6mm]},fmex,line width=0.7pt] (-0.75,0.9) node[above,font=\comic\small,text=fmex] {vèrtex} -- (-0.12,0.14);
+  \draw[-{Latex[length=1.6mm]},fmex,line width=0.7pt] (3.0,1.45) node[right,font=\comic\small,text=fmex] {costats} -- (2.05,1.67);
+  \draw[-{Latex[length=1.6mm]},fmex,line width=0.7pt] (3.0,1.45) -- (3.0,0.1);
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmK}{Un quart de volta}{\begin{tikzpicture}[scale=1.3]\fill[fmK!22] (0,0) -- (0.5,0) arc (0:90:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (1,0) -- (0,0) -- (0,1);\end{tikzpicture}\par\smallskip {\Large$90^\circ$}}
+\caixa{fmB}{Mitja volta}{\begin{tikzpicture}[scale=1.3]\fill[fmB!22] (0,0) -- (0.5,0) arc (0:180:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (1,0) -- (-1,0);\end{tikzpicture}\par\smallskip {\Large$180^\circ$}}
+\caixa{fmA}{Una volta}{\begin{tikzpicture}[scale=1.3]\fill[fmA!22] (0,0) circle (0.5); \draw[line width=1.2pt,fmnavy] (0,0) -- (1,0);\end{tikzpicture}\par\smallskip {\Large$360^\circ$}}
+\end{tcbraster}
+{\centering\comic\color{fmmuted}Mesurem en \textbf{graus} ($^\circ$): una volta sencera dividida en 360 parts iguals.\par}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}
+  \fill[fmK!25] (0,0) -- (0.5,0) arc (0:35:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (1.1,0) -- (0,0) -- (35:1.1);
+  \node[font=\scriptsize,text=fmK!70!black] at (17:0.78) {$35^\circ$};
+  \begin{scope}[xshift=1.9cm]
+  \fill[fmK!25] (0,0) -- (0.5,0) arc (0:35:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (3,0) -- (0,0) -- (35:3);
+  \node[font=\scriptsize,text=fmK!70!black] at (17:0.78) {$35^\circ$};
+  \end{scope}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{compte}[Els costats no compten]
+La mesura d'un angle \textbf{no depén} de la llargària dels costats que dibuixem: els dos angles fan $35^\circ$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=1.12]
+  \fill[fmA!8] (2.6,0) arc (0:180:2.6) -- cycle; \draw[fmA,line width=1pt] (2.6,0) arc (0:180:2.6) -- cycle;
+  \foreach \a in {0,10,...,180} \draw[fmA] (\a:2.6) -- (\a:2.42);
+  \foreach \a in {0,30,...,180} \node[font=\scriptsize\heavy,text=fmA] at (\a:2.92) {\a};
+  \foreach \a in {0,30,...,180} \pgfmathtruncatemacro{\b}{180-\a}\node[font=\tiny,text=fmmuted] at (\a:2.12) {\b};
+  \draw[fmR,line width=1.5pt] (0,0) -- (50:2.5); \draw[fmR,line width=1.5pt] (0,0) -- (2.5,0);
+  \fill[fmR!25] (0,0) -- (0.7,0) arc (0:50:0.7) -- cycle; \node[font=\small\heavy,text=fmR] at (25:1.05) {$50^\circ$};
+  \fill[fmnavy] (0,0) circle (2pt);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[fmbase,colback=white,colframe=fmblue,coltitle=white,title={\faIcon{drafting-compass}\ \ Mesurar amb el transportador}]
+\pas{1} El \textbf{centre} del transportador, damunt del vèrtex.\\[2pt]
+\pas{2} La línia del $0^\circ$, damunt d'un costat.\\[2pt]
+\pas{3} Llegim on passa l'altre costat, en l'escala que comença en 0.
+\end{tcolorbox}
+\begin{compte}[Dues escales]
+Abans de llegir, mira si l'angle és més menut o més gran que un recte: així no confons $50^\circ$ amb $130^\circ$.
+\end{compte}
+\end{minipage}
+
+\clearpage
+\subsection{Classificació dels angles}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt,raster row skip=6pt]
+\caixa{fmmuted}{Nul}{\angd{0}{fmmuted}{}\par $0^\circ$}
+\caixa{fmK}{Agut}{\angd{50}{fmK}{}\par menys de $90^\circ$}
+\caixa{fmA}{Recte}{\begin{tikzpicture}[baseline=(current bounding box.center)]\path (-1.25,-1.15) rectangle (1.35,1.25);\draw[line width=1.3pt,fmnavy] (1.25,0) -- (0,0) -- (0,1.25); \recte{0}{0}\end{tikzpicture}\par $90^\circ$}
+\caixa{fmB}{Obtús}{\angd{130}{fmB}{}\par entre $90^\circ$ i $180^\circ$}
+\caixa{fmV}{Pla}{\angd{180}{fmV}{}\par $180^\circ$}
+\caixa{fmR}{Còncau}{\angd{250}{fmR}{}\par més de $180^\circ$}
+\caixa{fmex}{Complet}{\angd{359.9}{fmex}{}\par $360^\circ$}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=fmnavy,colbacktitle=fmyellow,title={Convex o còncau},left=2mm,right=2mm]
+\textbf{Convexos}: fins a $180^\circ$.\\[3pt] \textbf{Còncaus}: més de $180^\circ$.\\[3pt] Dues semirectes fan sempre un convex i un còncau que sumen $360^\circ$.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Bisectriu d'un angle]
+La semirecta que ix del vèrtex i dividix l'angle en \textbf{dos angles iguals}. Si l'angle fa $80^\circ$, cada meitat fa $40^\circ$.\\[3pt]
+\textbf{Propietat}: cada punt de la bisectriu està a la mateixa distància dels dos costats.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}
+  \fill[fmA!22] (0,0) -- (0:1.1) arc (0:40:1.1) -- cycle; \fill[fmB!22] (0,0) -- (40:1.1) arc (40:80:1.1) -- cycle;
+  \node[font=\small,text=fmA!80!black] at (20:1.45) {$40^\circ$}; \node[font=\small,text=fmB!80!black] at (60:1.45) {$40^\circ$};
+  \draw[sr,fmnavy] (0,0) -- (0:3.2); \draw[sr,fmnavy] (0,0) -- (80:2.6);
+  \draw[sr,fmR,line width=1.5pt] (0,0) -- (40:3.2) node[above right,font=\small] {$b$};
+  \pnt{(0,0)}{$O$}{below left}
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Classifica}: \ $35^\circ$ agut, \ $90^\circ$ recte, \ $145^\circ$ obtús, \ $180^\circ$ pla, \ $220^\circ$ còncau, \ $89^\circ$ agut \nota{per poc!}\\[6pt]
+\textbf{Bisectriu}: forma $37^\circ$ amb un costat.\\ L'angle sencer fa el doble: \ $2\cdot37^\circ=\boxed{74^\circ}$, agut.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Rellotge}: de nombre a nombre hi ha \ $360^\circ:12=30^\circ$.\\[3pt]
+A les 3: \ $3\cdot30^\circ=\boxed{90^\circ}$ \quad a les 6: \ $\boxed{180^\circ}$ \quad a les 2: \ $\boxed{60^\circ}$\\[6pt]
+\textbf{Angle còncau}: si el convex fa $110^\circ$, el còncau fa \ $360^\circ-110^\circ=\boxed{250^\circ}$.
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 7.4
+\clearpage
+\seccio{sec4}{Mesura d'angles: el sistema sexagesimal}{De 60 en 60, com les hores, els minuts i els segons.}
+
+\vfill
+\begin{idea}[Graus, minuts i segons]
+Per a mesurar amb més precisió, partim el grau en parts més menudes, de \textbf{60 en 60}: per això és un sistema \textbf{sexagesimal}.\par\medskip
+\centering\begin{tikzpicture}
+  \node[draw=fmA,fill=fmA!10,rounded corners=2mm,line width=1pt,minimum width=2.6cm,minimum height=0.85cm,font=\heavy] (g) at (0,0) {graus ($^\circ$)};
+  \node[draw=fmB,fill=fmB!10,rounded corners=2mm,line width=1pt,minimum width=2.6cm,minimum height=0.85cm,font=\heavy] (m) at (4.6,0) {minuts ($'$)};
+  \node[draw=fmK,fill=fmK!10,rounded corners=2mm,line width=1pt,minimum width=2.6cm,minimum height=0.85cm,font=\heavy] (s) at (9.2,0) {segons ($''$)};
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmnavy] ([yshift=3pt]g.east) -- node[above,font=\small\heavy] {$\times60$} ([yshift=3pt]m.west);
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmnavy] ([yshift=3pt]m.east) -- node[above,font=\small\heavy] {$\times60$} ([yshift=3pt]s.west);
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmR] ([yshift=-3pt]m.west) -- node[below,font=\small\heavy] {$:60$} ([yshift=-3pt]g.east);
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmR] ([yshift=-3pt]s.west) -- node[below,font=\small\heavy] {$:60$} ([yshift=-3pt]m.east);
+  \draw[-{Latex[length=2.2mm]},line width=1pt,fmnavy,dashed] (g.north) to[out=30,in=150] node[above,font=\small\heavy] {$\times3600$} (s.north);
+\end{tikzpicture}\par\medskip
+$1^\circ=60'$ \qquad $1'=60''$ \qquad $1^\circ=60\cdot60=3600''$
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Forma complexa}]
+Amb diverses unitats: \ $25^\circ\,14'\,36''$\\[3pt]
+Els minuts i els segons han de ser \textbf{menys de 60}.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Forma incomplexa}]
+Amb una sola unitat: \ $90\,876''$ \ o \ $755'$\\[3pt]
+Els graus amb decimals també: \ $12{,}5^\circ$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Complexa $\to$ incomplexa]
+Multipliquem i sumem.\\[3pt] $25^\circ\,14'\,36''$ en segons:\\[3pt]
+$25\cdot3600+14\cdot60+36=$\\[2pt]
+$=90\,000+840+36=\boxed{90\,876''}$\\[6pt]
+$12^\circ\,35'$ en minuts:\\[3pt]
+$12\cdot60+35=720+35=\boxed{755'}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Incomplexa $\to$ complexa]
+Dividim entre 60.\\[3pt] $7385''$ en forma complexa:\\[3pt]
+$7385:60=\cB{123'}$ \ i sobren \ \cK{$5''$}\\[2pt]
+$\cB{123}:60=\cA{2^\circ}$ \ i sobren \ \cB{$3'$}\\[5pt]
+\centering$7385''=\boxed{\cA{2^\circ}\,\cB{3'}\,\cK{5''}}$\par\raggedright\smallskip
+\nota{el residu es queda; el quocient puja a la unitat de l'esquerra}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{truc}[Graus amb decimals]
+La part decimal, per 60:\\[3pt]
+$12{,}5^\circ=12^\circ+0{,}5\cdot60'=\boxed{12^\circ\,30'}$\\[3pt]
+$7{,}25^\circ=7^\circ+0{,}25\cdot60'=\boxed{7^\circ\,15'}$
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{compte}[Més de 60, no!]
+$25^\circ\,75'$ està mal escrit:\\[3pt]
+$75'=1^\circ\,15'$, \ per tant \ $25^\circ\,75'=\boxed{26^\circ\,15'}$
+\end{compte}
+\end{minipage}
+
+\clearpage
+\subsection{Operacions amb angles}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=10pt,raster row skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Suma}]
+Graus amb graus, minuts amb minuts i segons amb segons. Si arribem a 60, en portem un:\par\smallskip
+\centering$\begin{array}{rrrr} & 37^\circ & 48' & 25''\\+ & 25^\circ & 26' & 50''\\ \hline & 62^\circ & \cB{74'} & \cK{75''}\end{array}$\par\smallskip
+$\cK{75''}=1'\,15''$ \qquad $\cB{75'}=1^\circ\,15'$\par\smallskip
+$\boxed{63^\circ\,15'\,15''}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Resta}]
+Si una columna no es pot restar, convertim 1 de l'esquerra en 60 de la dreta:\par\smallskip
+\centering$\begin{array}{rrrr} & 50^\circ & 15' & 10''\\- & 23^\circ & 40' & 35''\end{array}\ \to\ \begin{array}{rrrr} & \cR{49^\circ} & \cR{74'} & \cR{70''}\\- & 23^\circ & 40' & 35''\\ \hline & 26^\circ & 34' & 35''\end{array}$\par\smallskip
+$\boxed{26^\circ\,34'\,35''}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Multiplicació per un natural}]
+Multipliquem cada unitat i després passem el que sobrepassa 60:\par\medskip
+\centering$(15^\circ\,24'\,37'')\cdot3=45^\circ\,72'\,111''=$\\[3pt]
+$=45^\circ\,73'\,51''=\boxed{46^\circ\,13'\,51''}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmV!8,colframe=fmV,coltitle=white,title={Divisió entre un natural}]
+Dividim els graus; el residu, $\times60$, se suma als minuts; i igual amb els segons:\par\smallskip
+$(125^\circ\,17'):4$\\[3pt]
+$125:4=\cA{31^\circ}$, sobra $1^\circ=60'$\\[2pt]
+$(60+17):4=77:4=\cB{19'}$, sobra $1'=60''$\\[2pt]
+$60:4=\cK{15''}$ \qquad $\to$ \ $\boxed{\cA{31^\circ}\,\cB{19'}\,\cK{15''}}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.47\linewidth}
+\textbf{a)} \ $3^\circ\,20'$ en segons:\\[2pt] $3\cdot3600+20\cdot60=10\,800+1200=\boxed{12\,000''}$\\[8pt]
+\textbf{b)} \ $45^\circ\,38'+72^\circ\,49'=117^\circ\,87'=\boxed{118^\circ\,27'}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{c)} \ $90^\circ-42^\circ\,17'\,35''$: \ escrivim $90^\circ=89^\circ\,59'\,60''$\\[3pt]
+\centering$\begin{array}{rrrr} & 89^\circ & 59' & 60''\\- & 42^\circ & 17' & 35''\\ \hline & 47^\circ & 42' & 25''\end{array}$ \ $\Rightarrow$ \ $\boxed{47^\circ\,42'\,25''}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples: \ multiplicació i divisió]
+\begin{minipage}[t]{0.47\linewidth}
+\textbf{d)} \ $(12^\circ\,25'\,40'')\cdot5=60^\circ\,125'\,200''$\\[3pt]
+$200''=3'\,20''$ \ $\to$ \ $60^\circ\,128'\,20''=\boxed{62^\circ\,8'\,20''}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{e)} \ $(100^\circ\,30'):6$\\[3pt]
+$100:6=16^\circ$, sobren $4^\circ=240'$ \ $\to$ \ $(240+30):6=45'$\\[3pt]
+\centering$\boxed{16^\circ\,45'}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ partim un angle pla en 7 angles iguals]
+$180:7=25^\circ$, sobren $5^\circ=300'$ \quad $300:7=42'$, sobren $6'=360''$ \quad $360:7=51''$, sobren $3''$\\[4pt]
+Cada angle fa uns $\boxed{25^\circ\,42'\,51''}$. \ \nota{Comprovació: \ $7\cdot(25^\circ\,42'\,51'')+3''=175^\circ\,294'\,360''=180^\circ$ \be{}}
+\end{exemple}
+
+\vfill
+% ============================================================ 7.5
+\clearpage
+\seccio{sec5}{Relacions entre angles}{Angles que sumen $90^\circ$, que sumen $180^\circ$ o que són iguals.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Complementaris: sumen $90^\circ$},before upper=\centering]
+\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.9,0) arc (0:35:0.9) -- cycle; \fill[fmB!30] (0,0) -- (35:0.9) arc (35:90:0.9) -- cycle;
+  \draw[line width=1.3pt,fmnavy] (2,0) -- (0,0) -- (0,2); \draw[line width=1.2pt,fmnavy] (0,0) -- (35:2.1);
+  \node[font=\small,text=fmA!80!black] at (17:1.3) {$35^\circ$}; \node[font=\small,text=fmB!80!black] at (64:1.3) {$55^\circ$};
+\end{tikzpicture}\par\smallskip
+$35^\circ+55^\circ=90^\circ$\par\smallskip
+El complementari de $\alpha$ és \ $90^\circ-\alpha$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Suplementaris: sumen $180^\circ$},before upper=\centering]
+\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.9,0) arc (0:50:0.9) -- cycle; \fill[fmB!30] (0,0) -- (50:0.9) arc (50:180:0.9) -- cycle;
+  \draw[line width=1.3pt,fmnavy] (2.1,0) -- (-2.1,0); \draw[line width=1.2pt,fmnavy] (0,0) -- (50:2);
+  \node[font=\small,text=fmA!80!black] at (24:1.3) {$50^\circ$}; \node[font=\small,text=fmB!80!black] at (118:1.3) {$130^\circ$};
+\end{tikzpicture}\par\smallskip
+$50^\circ+130^\circ=180^\circ$\par\smallskip
+El suplementari de $\alpha$ és \ $180^\circ-\alpha$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[No tots en tenen]
+Només els angles \textbf{aguts} tenen complementari, i només els més menuts que $180^\circ$ tenen suplementari.
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmK}{Consecutius}{\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.6,0) arc (0:40:0.6) -- cycle; \fill[fmB!30] (0,0) -- (40:0.6) arc (40:100:0.6) -- cycle;
+  \draw[line width=1.2pt,fmnavy] (1.6,0) -- (0,0) -- (100:1.5); \draw[line width=1.2pt,fmR] (0,0) -- (40:1.6);
+\end{tikzpicture}\par\smallskip
+Tenen el vèrtex i \textbf{un costat} (\cR{vermell}) en comú.}
+\caixa{fmB}{Adjacents}{\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.6,0) arc (0:65:0.6) -- cycle; \fill[fmB!30] (0,0) -- (65:0.6) arc (65:180:0.6) -- cycle;
+  \draw[line width=1.2pt,fmnavy] (1.6,0) -- (-1.6,0); \draw[line width=1.2pt,fmR] (0,0) -- (65:1.5);
+\end{tikzpicture}\par\smallskip
+Consecutius, i els altres costats fan una recta: \textbf{sumen $180^\circ$}.}
+\caixa{fmA}{Oposats pel vèrtex}{\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.55,0) arc (0:35:0.55) -- cycle; \fill[fmA!30] (0,0) -- (-0.55,0) arc (180:215:0.55) -- cycle;
+  \fill[fmB!30] (0,0) -- (35:0.55) arc (35:180:0.55) -- cycle; \fill[fmB!30] (0,0) -- (215:0.55) arc (215:360:0.55) -- cycle;
+  \draw[line width=1.2pt,fmnavy] (-1.6,0) -- (1.6,0) (215:1.5) -- (35:1.5);
+  \node[font=\scriptsize] at (17:0.85) {$\alpha$}; \node[font=\scriptsize] at (197:0.85) {$\alpha$};
+  \node[font=\scriptsize] at (107:0.8) {$\beta$}; \node[font=\scriptsize] at (287:0.8) {$\beta$};
+\end{tikzpicture}\par\smallskip
+Dues rectes es tallen: els angles d'enfront són \textbf{iguals}.}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Per què són iguals els oposats pel vèrtex?]
+$\alpha+\beta=180^\circ$ perquè són adjacents. L'altre $\alpha$ també és adjacent a $\beta$: també suma $180^\circ$ amb ell. Per tant, els dos $\alpha$ són iguals.
+\end{truc}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Exemple: \ de $28^\circ$ i de $64^\circ\,15'$]
+De $28^\circ$:\\[2pt] $90^\circ-28^\circ=\boxed{62^\circ}$ \qquad $180^\circ-28^\circ=\boxed{152^\circ}$\\[5pt]
+De $64^\circ\,15'$: \ escrivim $90^\circ=89^\circ\,60'$\\[2pt]
+$89^\circ\,60'-64^\circ\,15'=\boxed{25^\circ\,45'}$\\[2pt]
+$179^\circ\,60'-64^\circ\,15'=\boxed{115^\circ\,45'}$
+\end{exemple}
+\begin{exemple}[Exemple: \ un és el triple de l'altre]
+Dos angles adjacents: el menut $x$, el gran $3x$.\\[3pt]
+$x+3x=180$ \ $\to$ \ $4x=180$ \ $\to$ \ $x=45$\\[3pt]
+Fan $\boxed{45^\circ}$ i $\boxed{135^\circ}$. \ \nota{$45+135=180$ \be{}}
+\end{exemple}
+\end{tcbraster}
+
+\clearpage
+\subsection{Dues paral·leles tallades per una secant}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}\centering
+\begin{tikzpicture}[scale=1.3]
+  \draw[rr,fmnavy] (-2.6,0) -- (2.6,0) node[right,font=\small] {$r$};
+  \draw[rr,fmnavy] (-2.6,-2) -- (2.6,-2) node[right,font=\small] {$s$};
+  \draw[rr,fmmuted] ($(-1.155,-2)+(240:1.1)$) -- ($(0,0)+(60:1.1)$) node[right,font=\small,text=fmnavy] {secant};
+  \foreach \px/\py/\o in {0/0/0,-1.155/-2/4}{
+    \begin{scope}[shift={(\px,\py)}]
+    \fill[fmA!30] (0,0) -- (0.5,0) arc (0:60:0.5) -- cycle; \fill[fmB!30] (0,0) -- (60:0.5) arc (60:180:0.5) -- cycle;
+    \fill[fmA!30] (0,0) -- (-0.5,0) arc (180:240:0.5) -- cycle; \fill[fmB!30] (0,0) -- (240:0.5) arc (240:360:0.5) -- cycle;
+    \pgfmathtruncatemacro{\ua}{\o+1}\pgfmathtruncatemacro{\ub}{\o+2}\pgfmathtruncatemacro{\uc}{\o+3}\pgfmathtruncatemacro{\ud}{\o+4}
+    \node[font=\scriptsize\heavy] at (30:0.66) {\ua}; \node[font=\scriptsize\heavy] at (120:0.62) {\ub};
+    \node[font=\scriptsize\heavy] at (210:0.66) {\uc}; \node[font=\scriptsize\heavy] at (300:0.62) {\ud};
+    \fill[fmnavy] (0,0) circle (1.5pt);
+    \end{scope}}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[Només dues mesures]
+Es formen 8 angles, però només n'hi ha de \textbf{dues mesures}: tots els \cA{aguts} són iguals i tots els \cB{obtusos} també.\\[3pt]
+Un agut i un obtús sumen sempre $180^\circ$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{center}
+\taularod{>{\heavy}l>{\raggedright\arraybackslash}p{7.2cm}>{\hspace{6pt}}c<{\hspace{6pt}}}{
+\rowcolor{fmblue}\color{white}Parella & \leavevmode\color{white}\heavy On estan? & \color{white}\heavy Angles\\
+Corresponents & en la mateixa posició en cada cruïlla & 1 i 5, \ 2 i 6, \ 3 i 7, \ 4 i 8\\
+\rowcolor{fmsurface}Alterns interns & entre les paral·leles, a costats diferents de la secant & 3 i 5, \ 4 i 6\\
+Alterns externs & fora de les paral·leles, a costats diferents de la secant & 1 i 7, \ 2 i 8\\
+\rowcolor{fmsurface}Oposats pel vèrtex & en la mateixa cruïlla, un davant de l'altre & 1 i 3, \ 2 i 4\dots
+}\\[4pt]
+{\comic\color{fmmuted}En tots els casos, els dos angles de la parella són \textbf{iguals}.}
+\end{center}
+
+\vfill
+\begin{exemple}[Exemple: \ en la figura, $r\parallel s$ i l'angle 1 fa $65^\circ$. Calcula els altres set.]
+\begin{minipage}[t]{0.5\linewidth}
+$\hat3=65^\circ$ \ \nota{oposat pel vèrtex a l'1}\\[3pt]
+$\hat2=\hat4=180^\circ-65^\circ=115^\circ$ \ \nota{adjacents a l'1}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+L'altra cruïlla és igual \nota{(corresponents)}:\\[3pt]
+$\hat5=\hat7=\boxed{65^\circ}$ \qquad $\hat6=\hat8=\boxed{115^\circ}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ un angle mesura $20^\circ$ més que el seu complementari]
+L'angle $x$, el complementari $x-20$: \ $x+(x-20)=90$ \ $\to$ \ $2x=110$ \ $\to$ \ $x=\boxed{55^\circ}$ \ \nota{l'altre fa $35^\circ$}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ dues rectes es tallen i un dels angles fa $72^\circ$]
+L'oposat pel vèrtex també fa $\boxed{72^\circ}$, i els altres dos, \ $180^\circ-72^\circ=\boxed{108^\circ}$ \ cadascun.
+\end{exemple}
+
+\vfill
+% ============================================================ 7.6
+\clearpage
+\seccio{sec6}{Polígons: elements i classificació}{Una línia tancada feta de segments.}
+
+\vfill
+\begin{minipage}[c]{0.53\linewidth}
+\begin{idea}[Polígon]
+Una \textbf{línia poligonal} tancada (segments units un darrere l'altre) limita un \textbf{polígon}.\\[4pt]
+\cA{\textbf{Costats}}: els segments que el limiten.\\[2pt]
+\cR{\textbf{Vèrtexs}}: on s'unixen dos costats.\\[2pt]
+\cB{\textbf{Angles interiors}}: dos costats seguits, per dins.\\[2pt]
+\cK{\textbf{Diagonals}}: unixen dos vèrtexs \textbf{no} consecutius.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[scale=1.05]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,-0.3); \coordinate (C) at (3.8,1.6); \coordinate (D) at (1.9,3); \coordinate (E) at (-0.4,1.8);
+  \fill[fmA!7] (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+  \fill[fmB!30] (A) -- ($(A)!0.5cm!(B)$) arc (-5.7:102.5:0.5) -- cycle;
+  \draw[fmK,dashed,line width=1.1pt] (A) -- (C);
+  \draw[fmA,line width=1.4pt,line join=round] (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+  \foreach \p in {A,B,C,D,E} \fill[fmR] (\p) circle (2.3pt);
+  \node[font=\comic\small,text=fmA] at (1.55,-0.48) {costat}; \node[font=\comic\small,text=fmR,right] at (3.9,1.6) {vèrtex};
+  \node[font=\comic\small,text=fmK] at (2.25,0.95) {diagonal};
+  \draw[-{Latex[length=1.6mm]},fmB,line width=0.7pt] (-0.9,0.45) node[left,font=\comic\small,text=fmB,align=center] {angle\\[-2pt]interior} -- (0.12,0.3);
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.47\linewidth}\centering\small
+\taularod{>{\hspace{2pt}}c<{\hspace{2pt}}l>{\hspace{8pt}}c<{\hspace{2pt}}l<{\hspace{2pt}}}{
+\rowcolor{fmblue}\color{white}\heavy Costats & \color{white}\heavy Nom & \color{white}\heavy Costats & \color{white}\heavy Nom\\
+3 & triangle & 8 & octàgon\\
+\rowcolor{fmsurface}4 & quadrilàter & 9 & enneàgon\\
+5 & pentàgon & 10 & decàgon\\
+\rowcolor{fmsurface}6 & hexàgon & 11 & endecàgon\\
+7 & heptàgon & 12 & dodecàgon
+}\\[4pt]
+{\comic\small\color{fmmuted}des de 13: «polígon de 15 costats»\dots}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.49\linewidth}
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=5pt]
+\caixa{fmK}{Convex}{\begin{tikzpicture}[scale=0.55]\fill[fmK!15] (0,0) -- (2,-0.2) -- (2.5,1.1) -- (1.2,2) -- (-0.3,1.2) -- cycle; \draw[fmK,line width=1.1pt] (0,0) -- (2,-0.2) -- (2.5,1.1) -- (1.2,2) -- (-0.3,1.2) -- cycle; \draw[dashed,fmnavy] (0,0) -- (2.5,1.1) (2,-0.2) -- (-0.3,1.2);\end{tikzpicture}\par\smallskip\small Angles $<180^\circ$}
+\caixa{fmR}{Còncau}{\begin{tikzpicture}[scale=0.55]\fill[fmR!15] (0,0) -- (2.4,0) -- (2.4,2) -- (1.2,0.8) -- (0,2) -- cycle; \draw[fmR,line width=1.1pt] (0,0) -- (2.4,0) -- (2.4,2) -- (1.2,0.8) -- (0,2) -- cycle; \draw[dashed,fmnavy,line width=1pt] (0,2) -- (2.4,2);\end{tikzpicture}\par\smallskip\small Un angle $>180^\circ$}
+\caixa{fmA}{Regular}{\begin{tikzpicture}[scale=0.55]\fill[fmA!15] (0:1.1) \foreach \a in {60,120,...,300} {-- (\a:1.1)} -- cycle; \draw[fmA,line width=1.1pt] (0:1.1) \foreach \a in {60,120,...,300} {-- (\a:1.1)} -- cycle;\end{tikzpicture}\par\smallskip\small Tot igual}
+\end{tcbraster}
+\end{minipage}
+
+\vfill
+\begin{compte}[Regular vol dir les dues coses alhora]
+Costats iguals \textbf{i} angles iguals. Un rectangle o un rombe no ho són: l'únic quadrilàter regular és el \textbf{quadrat}.
+\end{compte}
+
+\vfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[Nombre de diagonals]
+De cada vèrtex ixen \textbf{$n-3$} (ni a ell mateix ni als dos veïns), i cada diagonal es compta dues vegades:\par\smallskip
+{\centering$\text{diagonals}=\dfrac{n\cdot(n-3)}{2}$ \qquad hexàgon: \ $\dfrac{6\cdot3}{2}=9$\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.37\linewidth}\centering
+\begin{tikzpicture}[scale=1.15]
+  \foreach \i in {0,...,5} \coordinate (P\i) at (90+60*\i:1.3);
+  \foreach \i/\j in {1/3,1/4,2/4,2/5,3/5} \draw[fmmuted!50,line width=0.7pt] (P\i) -- (P\j);
+  \foreach \j in {2,3,4} \draw[fmK,line width=1.3pt] (P0) -- (P\j);
+  \draw[fmA,line width=1.3pt] (P0) \foreach \i in {1,...,5} {-- (P\i)} -- cycle;
+  \foreach \i in {0,...,5} \fill[fmnavy] (P\i) circle (1.6pt); \fill[fmR] (P0) circle (2.4pt);
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}\cK{3 des d'un vèrtex}, 9 en total}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.3\linewidth}
+\textbf{Octàgon}: \ $\dfrac{8\cdot5}{2}=\boxed{20}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\textbf{Triangle}: \ $\dfrac{3\cdot0}{2}=\boxed{0}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.36\linewidth}
+\textbf{Quin en té 35?} \ $n\cdot(n-3)=70$\\[2pt]
+$9\cdot6=54$, \ $10\cdot7=70$ \be{} \ \textbf{decàgon}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 7.7
+\clearpage
+\seccio{sec7}{Triangles}{El polígon més senzill: tres costats i tres angles.}
+
+\vfill
+\begin{idea}[Noms]
+Els vèrtexs, amb majúscula ($A$, $B$, $C$); el costat oposat a cada vèrtex, amb la minúscula ($a$, $b$, $c$).
+\end{idea}
+
+\vfill
+{\large\heavy\color{fmnavy}Segons els costats}\par\smallskip
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Equilàter}{\begin{tikzpicture}\fill[fmA!18] (0,0) -- (1.8,0) -- (0.9,1.56) -- cycle; \draw[fmA,line width=1.3pt,tk] (0,0) -- (1.8,0); \draw[fmA,line width=1.3pt,tk] (1.8,0) -- (0.9,1.56); \draw[fmA,line width=1.3pt,tk] (0.9,1.56) -- (0,0);\draw[fmA,line width=1.3pt,line join=round] (0,0) -- (1.8,0) -- (0.9,1.56) -- cycle;\end{tikzpicture}\par\smallskip 3 costats iguals}
+\caixa{fmB}{Isòsceles}{\begin{tikzpicture}\fill[fmB!18] (0,0) -- (1.5,0) -- (0.75,1.6) -- cycle; \draw[fmB,line width=1.3pt,tk] (1.5,0) -- (0.75,1.6); \draw[fmB,line width=1.3pt,tk] (0.75,1.6) -- (0,0);\draw[fmB,line width=1.3pt,line join=round] (0,0) -- (1.5,0) -- (0.75,1.6) -- cycle;\end{tikzpicture}\par\smallskip 2 costats iguals}
+\caixa{fmK}{Escalé}{\begin{tikzpicture}\fill[fmK!18] (0,0) -- (2.2,0) -- (0.55,1.3) -- cycle; \draw[fmK,line width=1.3pt,line join=round] (0,0) -- (2.2,0) -- (0.55,1.3) -- cycle;\end{tikzpicture}\par\smallskip cap costat igual}
+\end{tcbraster}
+
+\vfill
+{\large\heavy\color{fmnavy}Segons els angles}\par\smallskip
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Acutangle}{\begin{tikzpicture}\fill[fmA!18] (0,0) -- (2.1,0) -- (1.25,1.5) -- cycle; \draw[fmA,line width=1.3pt,line join=round] (0,0) -- (2.1,0) -- (1.25,1.5) -- cycle;\end{tikzpicture}\par\smallskip 3 angles aguts}
+\caixa{fmB}{Rectangle}{\begin{tikzpicture}\fill[fmB!18] (0,0) -- (2.2,0) -- (0,1.45) -- cycle; \recte{0}{0}
+  \draw[fmB,line width=1.3pt] (0,1.45) -- (0,0) -- (2.2,0); \draw[fmR,line width=1.5pt] (2.2,0) -- (0,1.45);
+  \node[font=\comic\scriptsize,text=fmR,rotate=-33.4] at (1.3,1.02) {hipotenusa}; \node[font=\comic\scriptsize,text=fmB!80!black] at (1.1,-0.22) {catet};
+  \node[font=\comic\scriptsize,text=fmB!80!black,rotate=90] at (-0.22,0.72) {catet};\end{tikzpicture}\par\smallskip 1 angle recte}
+\caixa{fmK}{Obtusangle}{\begin{tikzpicture}\fill[fmK!18] (0,0) -- (2.3,0) -- (-0.55,1.05) -- cycle; \fill[fmR!35] (0,0) -- (0.35,0) arc (0:117.6:0.35) -- cycle;\draw[fmK,line width=1.3pt,line join=round] (0,0) -- (2.3,0) -- (-0.55,1.05) -- cycle;\end{tikzpicture}\par\smallskip 1 angle obtús}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Dos noms més]
+En un triangle \textbf{rectangle}, els costats de l'angle recte són els \textbf{catets}; el de davant, la \textbf{hipotenusa}.\\[3pt]
+En un \textbf{isòsceles}, el costat desigual és la \textbf{base}, i els dos angles de la base són iguals.
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[scale=1.05]
+  \coordinate (A) at (0,0); \coordinate (B) at (4,0); \coordinate (C) at (1.4,2.2);
+  \draw[fmmuted,dashed,line width=0.9pt] (-0.8,2.2) -- (4.3,2.2);
+  \fill[fmA!35] (A) -- (0.55,0) arc (0:57.5:0.55) -- cycle; \fill[fmB!35] (B) -- ($(B)+(-0.55,0)$) arc (180:139.8:0.55) -- cycle;
+  \fill[fmK!35] (C) -- ($(C)+(237.5:0.5)$) arc (237.5:319.8:0.5) -- cycle;
+  \fill[fmA!35] (C) -- ($(C)+(180:0.5)$) arc (180:237.5:0.5) -- cycle; \fill[fmB!35] (C) -- ($(C)+(319.8:0.5)$) arc (319.8:360:0.5) -- cycle;
+  \draw[fmnavy,line width=1.3pt,line join=round] (A) -- (B) -- (C) -- cycle;
+  \pnt{(A)}{$A$}{below left} \pnt{(B)}{$B$}{below right} \pnt{(C)}{$C$}{above}
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}els tres colors junts fan un angle pla}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.51\linewidth}
+\begin{idea}[Els angles sumen $180^\circ$]
+{\centering\Large$\hat A+\hat B+\hat C=180^\circ$\par}\smallskip
+Per $C$, la paral·lela a $AB$: els angles del costat de $C$ són \textbf{alterns interns} amb $\hat A$ i $\hat B$ (7.5). Amb $\hat C$, fan $180^\circ$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Un de sol}]
+Només hi cap \textbf{un} angle recte o obtús: dos ja farien $180^\circ$ o més.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Rectangle}]
+Els dos angles aguts són complementaris: sumen $90^\circ$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Equilàter}]
+Cada angle fa \ $180^\circ:3=60^\circ$.
+\end{tcolorbox}
+\end{tcbraster}
+
+\clearpage
+\subsection{Desigualtat triangular}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[No amb tres segments qualssevol]
+Cada costat ha de ser \textbf{més menut que la suma dels altres dos}. N'hi ha prou de mirar el costat més llarg:\\[4pt]
+$3,\,4,\,6$: \ $6<3+4=7$ \ \be{\text{sí}}\\[3pt]
+$2,\,3,\,7$: \ $7>2+3=5$ \ \mal{\text{no}}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.7]
+  \draw[fmnavy,line width=1.5pt] (0,0) -- node[below,font=\small] {7} (7,0);
+  \draw[fmA,line width=1.5pt] (0,0) -- node[above left,font=\small] {2} (60:2); \draw[fmB,line width=1.5pt] (7,0) -- node[above right,font=\small] {3} ($(7,0)+(130:3)$);
+  \draw[fmA!50,dashed] (2,0) arc (0:90:2); \draw[fmB!50,dashed] (4,0) arc (180:90:3);
+  \node[font=\comic\small,text=fmR] at (3,1.9) {no arriben!};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\subsection{Rectes i punts notables}
+{\comic\color{fmmuted}Hi ha quatre famílies de rectes, tres de cada una. Les tres es tallen sempre en un mateix punt.}\par\smallskip
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\caixa{fmR}{Mediatrius}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2); \coordinate (O) at (1.5,0.6455);
+  \draw[fmR!45] (O) circle (1.633);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \foreach \mx/\my in {1.5/0,0.5/1.1,2/1.1} \draw[fmR,line width=0.8pt] ($(\mx,\my)!-0.35cm!(O)$) -- ($(O)!-0.55cm!(\mx,\my)$);
+  \fill[fmR] (O) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Circumcentre}\par\small equidista dels vèrtexs: centre de la circumferència circumscrita}
+\caixa{fmK}{Bisectrius}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2); \coordinate (I) at (1.222,0.7866);
+  \path (1.5,0.6455) circle (1.633);
+  \draw[fmK!50] (I) circle (0.7866);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \draw[fmK,line width=0.8pt] (A) -- (1.892,1.218) (B) -- (0.5023,1.105) (C) -- (1.345,0);
+  \fill[fmK] (I) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Incentre}\par\small equidista dels costats: centre de la circumferència inscrita}
+\caixa{fmA}{Altures}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2);
+  \path (1.5,0.6455) circle (1.633);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \draw[fmA,line width=0.8pt] (C) -- (1,0) (A) -- (1.643,1.493) (B) -- (0.514,1.130); \recte{1}{0}
+  \fill[fmA] (1,0.909) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Ortocentre}\par\small altura: la perpendicular d'un vèrtex al costat oposat}
+\caixa{fmB}{Mitjanes}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2);
+  \path (1.5,0.6455) circle (1.633);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \draw[fmB,line width=0.8pt] (A) -- (2,1.1) (B) -- (0.5,1.1) (C) -- (1.5,0);
+  \foreach \m in {{(2,1.1)},{(0.5,1.1)},{(1.5,0)}} \fill[fmnavy] \m circle (1.3pt);
+  \fill[fmB] (1.333,0.733) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Baricentre}\par\small mitjana: d'un vèrtex al punt mitjà del costat oposat; és el centre de gravetat}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[On queden?]
+En un triangle \textbf{rectangle}, l'ortocentre és el vèrtex de l'angle recte i el circumcentre, el punt mitjà de la hipotenusa. En un \textbf{obtusangle}, l'ortocentre i el circumcentre queden fora del triangle.
+\end{truc}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=10pt,raster row skip=6pt]
+\begin{exemple}[Exemple: \ dos angles fan $48^\circ$ i $75^\circ$]
+$180^\circ-(48^\circ+75^\circ)=180^\circ-123^\circ=\boxed{57^\circ}$\\[3pt]
+Tots tres aguts: \textbf{acutangle}.
+\end{exemple}
+\begin{exemple}[Exemple: \ els angles fan $x$, $2x$ i $3x$]
+$x+2x+3x=180$ \ $\to$ \ $6x=180$ \ $\to$ \ $x=30$\\[3pt]
+$30^\circ$, $60^\circ$ i $90^\circ$: \textbf{rectangle} i escalé.
+\end{exemple}
+\begin{exemple}[Exemple: \ isòsceles, el desigual fa $40^\circ$]
+Els dos de la base són iguals:\\[2pt]
+$(180^\circ-40^\circ):2=140^\circ:2=\boxed{70^\circ}$ \ cadascun
+\end{exemple}
+\begin{exemple}[Exemple: \ dos costats fan 4 cm i 9 cm]
+El tercer ha de ser més gran que $9-4=5$ i més menut que $9+4=13$: \ \textbf{entre 5 i 13 cm}.
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 7.8
+\clearpage
+\seccio{sec8}{Quadrilàters}{Quatre costats: els classifiquem pels costats paral·lels.}
+
+\vfill
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Paral·lelograms: \ els costats oposats, paral·lels dos a dos},before upper=\centering]
+\begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0) -- (1.6,0) -- (1.6,1.6) -- (0,1.6) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0) -- (1.6,0) -- (1.6,1.6) -- (0,1.6) -- cycle;\end{tikzpicture}\\[-1pt]{\small quadrat}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0) -- (2.8,0) -- (2.8,1.5) -- (0,1.5) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0) -- (2.8,0) -- (2.8,1.5) -- (0,1.5) -- cycle;\end{tikzpicture}\\[-1pt]{\small rectangle}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0.9) -- (0.85,0) -- (1.7,0.9) -- (0.85,1.8) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0.9) -- (0.85,0) -- (1.7,0.9) -- (0.85,1.8) -- cycle;\end{tikzpicture}\\[-1pt]{\small rombe}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0) -- (2.3,0) -- (3,1.4) -- (0.7,1.4) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0) -- (2.3,0) -- (3,1.4) -- (0.7,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small romboide}\end{tabular}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Trapezis: \ només dos costats paral·lels (les bases)},before upper=\centering,width=0.735\linewidth,equal height group=trap,nobeforeafter,box align=top]
+\begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmB!18] (0,0) -- (2.6,0) -- (1.7,1.4) -- (0,1.4) -- cycle; \draw[fmB,line width=1.2pt,line join=round] (0,0) -- (2.6,0) -- (1.7,1.4) -- (0,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small rectangle}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmB!18] (0,0) -- (2.8,0) -- (2.1,1.4) -- (0.7,1.4) -- cycle; \draw[fmB,line width=1.2pt,line join=round] (0,0) -- (2.8,0) -- (2.1,1.4) -- (0.7,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small isòsceles}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmB!18] (0,0) -- (2.8,0) -- (2.4,1.4) -- (0.5,1.4) -- cycle; \draw[fmB,line width=1.2pt,line join=round] (0,0) -- (2.8,0) -- (2.4,1.4) -- (0.5,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small escalé}\end{tabular}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Trapezoides},before upper=\centering,width=0.245\linewidth,equal height group=trap,nobeforeafter,box align=top]
+\begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmK!18] (0,0) -- (2.3,0.3) -- (1.9,1.6) -- (0.4,1.1) -- cycle; \draw[fmK,line width=1.2pt,line join=round] (0,0) -- (2.3,0.3) -- (1.9,1.6) -- (0.4,1.1) -- cycle;\end{tikzpicture}\\[-1pt]{\small cap paral·lel}\end{tabular}
+\end{tcolorbox}\par\medskip
+
+\vfill
+{\large\heavy\color{fmnavy}Propietats dels paral·lelograms}\par\smallskip
+\begin{center}
+\newcommand{\siq}{\textcolor{fmok}{\faCheck}}\newcommand{\noq}{\textcolor{fmmuted!60}{---}}
+\taularod{>{\raggedright\arraybackslash}p{7.2cm}*{4}{>{\hspace{6pt}}c<{\hspace{6pt}}}}{
+\rowcolor{fmblue}\leavevmode\color{white}\heavy Propietat & \color{white}\heavy Quadrat & \color{white}\heavy Rectangle & \color{white}\heavy Rombe & \color{white}\heavy Romboide\\
+Costats oposats iguals & \siq & \siq & \siq & \siq\\
+\rowcolor{fmsurface}Els 4 costats iguals & \siq & \noq & \siq & \noq\\
+Angles oposats iguals & \siq & \siq & \siq & \siq\\
+\rowcolor{fmsurface}Els 4 angles rectes & \siq & \siq & \noq & \noq\\
+Les diagonals es tallen pel punt mitjà & \siq & \siq & \siq & \siq\\
+\rowcolor{fmsurface}Diagonals iguals & \siq & \siq & \noq & \noq\\
+Diagonals perpendiculars & \siq & \noq & \siq & \noq
+}
+\end{center}
+
+\vfill
+\begin{truc}[El quadrat ho té tot]
+El quadrat és alhora un \textbf{rectangle} (4 angles rectes) i un \textbf{rombe} (4 costats iguals): compleix totes les propietats.
+\end{truc}
+
+\clearpage
+\subsection{Els angles d'un quadrilàter}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.25]
+  \coordinate (A) at (0,0); \coordinate (B) at (3.4,0.2); \coordinate (C) at (3,2.2); \coordinate (D) at (0.6,1.9);
+  \fill[fmA!25] (A) -- (B) -- (C) -- cycle; \fill[fmB!25] (A) -- (C) -- (D) -- cycle;
+  \draw[fmnavy,line width=1.3pt,line join=round] (A) -- (B) -- (C) -- (D) -- cycle; \draw[fmR,dashed,line width=1.1pt] (A) -- (C);
+  \node[font=\small\heavy,text=fmA!80!black] at (2.3,0.75) {$180^\circ$}; \node[font=\small\heavy,text=fmB!80!black] at (1.25,1.45) {$180^\circ$};
+  \pnt{(A)}{$A$}{below left} \pnt{(B)}{$B$}{below right} \pnt{(C)}{$C$}{above right} \pnt{(D)}{$D$}{above left}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Els angles sumen $360^\circ$]
+Una diagonal partix el quadrilàter en \textbf{dos triangles}, i els seus angles formen els del quadrilàter:\par\smallskip
+{\centering$\hat A+\hat B+\hat C+\hat D=2\cdot180^\circ=360^\circ$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Tres angles fan} $85^\circ$, $110^\circ$ i $72^\circ$:\\[2pt]
+$360^\circ-267^\circ=\boxed{93^\circ}$\\[6pt]
+\textbf{Un angle d'un rombe fa} $70^\circ$: l'oposat també. Els altres dos:\\[2pt]
+$(360^\circ-2\cdot70^\circ):2=\boxed{110^\circ}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Cert o fals?}\\[2pt]
+Tot quadrat és un rombe. \ \be{\text{cert}}\\[2pt]
+Tot rectangle és un quadrat. \ \mal{\text{fals}} \ \nota{$3\times5$ cm}\\[2pt]
+Un trapezi pot tindre dos angles rectes. \ \be{\text{cert}} \ \nota{el trapezi rectangle}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=1.1]
+  \fill[fmB!15] (0,0) -- (3,0) -- (2.3,1.5) -- (0.7,1.5) -- cycle;
+  \fill[fmA!35] (0,0) -- (0.45,0) arc (0:65:0.45) -- cycle; \fill[fmA!35] (3,0) -- (2.55,0) arc (180:115:0.45) -- cycle;
+  \fill[fmB!45] (0.7,1.5) -- ($(0.7,1.5)+(0:0.4)$) arc (0:-115:0.4) -- cycle; \fill[fmB!45] (2.3,1.5) -- ($(2.3,1.5)+(180:0.4)$) arc (180:295:0.4) -- cycle;
+  \draw[fmB,line width=1.3pt,line join=round] (0,0) -- (3,0) -- (2.3,1.5) -- (0.7,1.5) -- cycle;
+  \node[font=\scriptsize\heavy] at (0.75,0.22) {$65^\circ$}; \node[font=\scriptsize\heavy] at (2.25,0.22) {$65^\circ$};
+  \node[font=\scriptsize\heavy] at (1.05,1.2) {$115^\circ$}; \node[font=\scriptsize\heavy] at (1.95,1.2) {$115^\circ$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.61\linewidth}
+\begin{exemple}[Exemple: \ trapezi isòsceles amb un angle de $65^\circ$]
+Els dos angles de la base gran són iguals: \ $65^\circ$ i $65^\circ$.\\[3pt]
+Els dos de dalt també són iguals: \ $(360^\circ-130^\circ):2=\boxed{115^\circ}$\\[3pt]
+\nota{cada angle de dalt és suplementari del de baix: $65+115=180$}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ els angles fan $x$, \ $x+10^\circ$, \ $x+20^\circ$ \ i \ $x+30^\circ$]
+$x+x+10+x+20+x+30=360$ \ $\to$ \ $4x+60=360$ \ $\to$ \ $4x=300$ \ $\to$ \ $x=75$\\[3pt]
+Els angles fan \ $\boxed{75^\circ}$, \ $\boxed{85^\circ}$, \ $\boxed{95^\circ}$ \ i \ $\boxed{105^\circ}$. \ \nota{suma: $360$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{compte}[Quin paral·lelogram és?]
+Diagonals iguals però no perpendiculars: \textbf{rectangle}. \ Perpendiculars però no iguals: \textbf{rombe}. \ Iguals i perpendiculars: \textbf{quadrat}.
+\end{compte}
+
+\vfill
+% ============================================================ 7.9
+\clearpage
+\seccio{sec9}{Angles dels polígons. Polígons regulars}{Partim el polígon en triangles.}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=1.1]
+  \coordinate (P0) at (0,0); \coordinate (P1) at (2,-0.3); \coordinate (P2) at (3,1); \coordinate (P3) at (2.6,2.4); \coordinate (P4) at (0.9,2.8); \coordinate (P5) at (-0.5,1.5);
+  \fill[fmA!25] (P0) -- (P1) -- (P2) -- cycle; \fill[fmB!25] (P0) -- (P2) -- (P3) -- cycle; \fill[fmK!25] (P0) -- (P3) -- (P4) -- cycle; \fill[fmV!25] (P0) -- (P4) -- (P5) -- cycle;
+  \draw[fmnavy,dashed,line width=0.9pt] (P0) -- (P2) (P0) -- (P3) (P0) -- (P4);
+  \draw[fmnavy,line width=1.3pt,line join=round] (P0) -- (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+  \foreach \t/\p in {1/{(1.65,0.25)},2/{(1.95,1.2)},3/{(1.25,1.75)},4/{(0.25,1.45)}} \node[font=\small\heavy] at \p {\t};
+  \fill[fmR] (P0) circle (2.3pt);
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}hexàgon: 4 triangles}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.61\linewidth}
+\begin{idea}[Suma dels angles d'un polígon]
+Les diagonals d'un vèrtex partixen un polígon convex de $n$ costats en \textbf{$n-2$ triangles}. Els seus angles formen els del polígon:\par\smallskip
+{\centering\Large$S=(n-2)\cdot180^\circ$\par}\smallskip
+Hexàgon: \ $4\cdot180^\circ=720^\circ$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{center}
+\taularod{>{\heavy}l*{6}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmblue}\color{white}Polígon & \color{white}triangle & \color{white}quadrilàter & \color{white}pentàgon & \color{white}hexàgon & \color{white}heptàgon & \color{white}octàgon\\
+Costats $n$ & 3 & 4 & 5 & 6 & 7 & 8\\
+\rowcolor{fmsurface}Triangles & 1 & 2 & 3 & 4 & 5 & 6\\
+Suma $S$ & $180^\circ$ & $360^\circ$ & $540^\circ$ & $720^\circ$ & $900^\circ$ & $1080^\circ$
+}
+\end{center}
+
+\vfill
+\begin{minipage}[c]{0.38\linewidth}\centering
+\begin{tikzpicture}[scale=1.35]
+  \foreach \i in {0,...,4} \coordinate (V\i) at (90+72*\i:1.6);
+  \fill[fmA!7] (V0) -- (V1) -- (V2) -- (V3) -- (V4) -- cycle;
+  \fill[fmK!35] (0,0) -- (234:0.55) arc (234:306:0.55) -- cycle;
+  \draw[fmK,dashed,line width=1pt] (0,0) -- (V2);
+  \draw[fmR,line width=1.4pt] (0,0) -- (V3); \node[font=\small\heavy,text=fmR] at (0.82,-0.35) {$r$};
+  \draw[fmA,line width=1.4pt] (0,0) -- (0,-1.294); \node[font=\small\heavy,text=fmA] at (-0.2,-0.85) {$a$}; \recte[0]{0}{-1.294}
+  \draw[fmnavy,line width=1.3pt,line join=round] (V0) -- (V1) -- (V2) -- (V3) -- (V4) -- cycle;
+  \fill[fmnavy] (0,0) circle (1.8pt) node[above,font=\small] {$O$};
+  \node[font=\comic\scriptsize,text=fmK!80!black,align=center] at (-0.72,0.3) {angle\\[-3pt]central}; \draw[fmK!80!black,line width=0.5pt] (-0.5,0.08) -- (-0.16,-0.4);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.59\linewidth}
+\begin{idea}[Elements d'un polígon regular]
+\textbf{Centre} $O$: a la mateixa distància de tots els vèrtexs.\\[2pt]
+\cR{\textbf{Radi} $r$}: del centre a un vèrtex.\\[2pt]
+\cA{\textbf{Apotema} $a$}: del centre al punt mitjà d'un costat; és perpendicular al costat.\\[2pt]
+\cK{\textbf{Angle central}}: el de dos radis seguits.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Angle interior},before upper=\centering]
+Tots iguals: la suma entre $n$.\par\smallskip
+{\Large$\dfrac{(n-2)\cdot180^\circ}{n}$}\par\smallskip
+Hexàgon: \ $\dfrac{720^\circ}{6}=120^\circ$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Angle central},before upper=\centering]
+La volta sencera entre $n$.\par\smallskip
+{\Large$\dfrac{360^\circ}{n}$}\par\smallskip
+Hexàgon: \ $\dfrac{360^\circ}{6}=60^\circ$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Sempre suplementaris]
+L'angle interior i l'angle central d'un polígon regular sumen $180^\circ$: \ $120^\circ+60^\circ=180^\circ$.
+\end{truc}
+
+\clearpage
+\subsection{Mosaics amb polígons regulars}
+
+\vfill
+\begin{idea}[Cobrir el terra amb rajoles iguals]
+Sense buits i sense muntar-se, els angles que es troben en cada vèrtex han de sumar \textbf{$360^\circ$}. Només passa amb tres polígons regulars:
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Triangles}{\begin{tikzpicture}[scale=0.55]
+  \clip (0,0) rectangle (4,3.2);
+  \fill[fmA!12] (0,0) rectangle (4,3.2);
+  \foreach \j in {0,...,4} \draw[fmA,line width=0.9pt] (-1,\j*0.866) -- (5,\j*0.866);
+  \foreach \k in {-6,...,6} \draw[fmA,line width=0.9pt] (\k,0) -- ++(60:4) (\k,0) -- ++(120:4);
+\end{tikzpicture}\par\smallskip $6\cdot60^\circ=360^\circ$}
+\caixa{fmB}{Quadrats}{\begin{tikzpicture}[scale=0.55]
+  \fill[fmB!12] (0,0) rectangle (4,3.2); \clip (0,0) rectangle (4,3.2);
+  \draw[fmB,line width=0.9pt,step=0.8] (0,0) grid (4.01,3.21);
+\end{tikzpicture}\par\smallskip $4\cdot90^\circ=360^\circ$}
+\caixa{fmK}{Hexàgons}{\begin{tikzpicture}[scale=0.55]
+  \fill[fmK!12] (0,0) rectangle (4,3.2); \clip (0,0) rectangle (4,3.2);
+  \foreach \i in {0,...,4} \foreach \j in {-1,...,3} {
+    \pgfmathsetmacro{\cx}{\i*0.9}\pgfmathsetmacro{\cy}{\j*1.0392+mod(\i,2)*0.5196}
+    \draw[fmK,line width=0.9pt] ($(\cx,\cy)+(0:0.6)$) \foreach \a in {60,120,...,300} {-- ($(\cx,\cy)+(\a:0.6)$)} -- cycle;}
+\end{tikzpicture}\par\smallskip $3\cdot120^\circ=360^\circ$}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[Amb pentàgons no es pot]
+Cada angle fa $108^\circ$: \ 3 angles fan $324^\circ$ (queda un buit) i 4 en fan $432^\circ$ (es munten). $360$ no és múltiple de $108$.
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemple: \ l'octàgon]
+Suma: \ $S=(8-2)\cdot180^\circ=6\cdot180^\circ=\boxed{1080^\circ}$\\[4pt]
+Regular: \ cada angle \ $1080^\circ:8=\boxed{135^\circ}$ \qquad angle central \ $360^\circ:8=\boxed{45^\circ}$ \ \nota{$135+45=180$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ polígon regular amb angles de $140^\circ$. Quants costats té?]
+L'angle central és el suplementari: \ $180^\circ-140^\circ=40^\circ$. \ Com que fa $360^\circ:n$:\\[3pt] $n=360:40=\boxed{9}$ \ $\to$ \ un \textbf{enneàgon}\\[3pt]
+\nota{Comprovació: \ $(9-2)\cdot180^\circ=1260^\circ$ \ i \ $1260^\circ:9=140^\circ$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ els angles sumen $1800^\circ$. Quants costats té?]
+$(n-2)\cdot180=1800$ \ $\to$ \ $n-2=1800:180=10$ \ $\to$ \ $n=12$: \ \textbf{dodecàgon}\\[3pt]Diagonals: \ $\dfrac{12\cdot9}{2}=\boxed{54}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ es pot fer un mosaic només amb octàgons regulars?]
+No: cada angle fa $135^\circ$; 2 angles fan $270^\circ$ i 3 en fan $405^\circ$.\\[3pt]
+\nota{Per això els combinem amb quadrats: \ $135+135+90=360$}
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=22pt,raster before skip=14pt]
+\rtile{7.1}{Punts i rectes}{Per dos punts passa una recta.\\[1ex] Semirecta: un origen.\\[1ex] Segment: dos extrems.}
+\rtile{7.2}{Posicions}{Secants, paral·leles o coincidents.\\[1ex] Mediatriu: equidista dels extrems.}
+\rtile{7.3}{Angles}{Agut, recte, obtús, pla, còncau.\\[1ex] Bisectriu: dues meitats iguals.}
+\rtile{7.4}{Sexagesimal}{$1^\circ=60'$ \ i \ $1'=60''$.\\[1ex] En portem de 60 en 60.}
+\rtile{7.5}{Relacions}{Complementaris: sumen $90^\circ$.\\[1ex] Suplementaris: sumen $180^\circ$.\\[1ex] Oposats pel vèrtex: iguals.}
+\rtile{7.6}{Polígons}{Convex, còncau o regular.\\[1ex] Diagonals: \ $\frac{n\cdot(n-3)}{2}$.}
+\rtile{7.7}{Triangles}{$\hat A+\hat B+\hat C=180^\circ$.\\[1ex] Costat gran $<$ suma dels altres.}
+\rtile{7.8}{Quadrilàters}{Paral·lelograms, trapezis, trapezoides.\\[1ex] Els angles sumen $360^\circ$.}
+\rtile{7.9}{Polígons regulars}{$S=(n-2)\cdot180^\circ$.\\[1ex] Angle central: \ $360^\circ:n$.}
+\end{tcbraster}
+\end{document}

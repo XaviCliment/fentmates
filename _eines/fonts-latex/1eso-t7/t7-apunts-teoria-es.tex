@@ -1,0 +1,1296 @@
+% Apuntes de teoría en PDF · 1.º ESO · Unidad 7: Geometría del plano (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 7: Geometría del plano. 1.º ESO},pdfsubject={Matemáticas 1.º ESO},pdfkeywords={punto, recta, semirrecta, segmento, rectas paralelas, rectas perpendiculares, mediatriz, ángulos, bisectriz, sistema sexagesimal, ángulos complementarios, ángulos suplementarios, polígonos, diagonales, triángulos, cuadriláteros, polígonos regulares, mosaicos}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{7.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$180^\circ$};
+  \draw (130,115) -- (235,115) -- (165,30) -- cycle;
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}1.º ESO · Unidad 7: Geometría del plano}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 1.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 7}\\[2pt]Geometría del plano\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\usetikzlibrary{decorations.markings}
+% marques d'igualtat en un segment (una o dues ratletes al mig)
+\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\draw[line width=0.9pt,solid] (0,-3pt) -- (0,3pt);}}}},
+  tkk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\draw[line width=0.9pt,solid] (-1.3pt,-3pt) -- (-1.3pt,3pt) (1.3pt,-3pt) -- (1.3pt,3pt);}}}},
+  rr/.style={{Latex[length=2mm]}-{Latex[length=2mm]},line width=1.2pt},
+  sr/.style={-{Latex[length=2mm]},line width=1.2pt}}
+% punt amb nom: \pnt{posició}{etiqueta}{lloc}
+\newcommand{\pnt}[3]{\fill[fmnavy] #1 circle (2pt) node[#3,font=\small] {#2};}
+% angle dibuixat: \angd{graus}{color}{text}
+\newcommand{\angd}[3]{\begin{tikzpicture}[baseline=(current bounding box.center)]
+  \path (-1.25,-1.15) rectangle (1.35,1.25);
+  \fill[#2!22] (0,0) -- (0:0.55) arc (0:#1:0.55) -- cycle; \draw[#2,line width=1pt] (0:0.55) arc (0:#1:0.55);
+  \draw[line width=1.3pt,fmnavy,line cap=round] (1.25,0) -- (0,0) -- (#1:1.25); \fill[fmnavy] (0,0) circle (1.6pt);
+  \node[font=\scriptsize,text=#2!80!black] at (#1/2:0.85) {#3};
+\end{tikzpicture}}
+% marca d'angle recte en (x,y), girada a graus
+\newcommand{\recte}[3][0]{\draw[fmnavy,line width=0.8pt,rotate around={#1:(#2,#3)}] (#2+0.22,#3) -- (#2+0.22,#3+0.22) -- (#2,#3+0.22);}
+% caixeta amb color: \caixa{color}{títol}{contingut}
+\newcommand{\caixa}[3]{\begin{tcolorbox}[fmbase,colback=#1!8,colframe=#1,coltitle=white,title={#2},before upper=\centering,left=2mm,right=2mm]#3\end{tcolorbox}}
+
+
+\begin{document}
+\portada{Rectas, ángulos y polígonos: las piezas de todas las figuras.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{7.1}{\faIcon{dot-circle}}{Puntos, rectas y segmentos}
+\itile{sec2}{7.2}{\faIcon{equals}}{Posiciones de rectas. Mediatriz}
+\itile{sec3}{7.3}{\faIcon{drafting-compass}}{Ángulos}
+\itile{sec4}{7.4}{\faClock}{El sistema sexagesimal}
+\itile{sec5}{7.5}{\faIcon{project-diagram}}{Relaciones entre ángulos}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{7.6}{\faIcon{draw-polygon}}{Polígonos}
+\itile{sec7}{7.7}{\tikz[baseline=-0.2ex]\fill (0,0) -- (0.34,0) -- (0.17,0.3) -- cycle;}{Triángulos}
+\itile{sec8}{7.8}{\faIcon{square}}{Cuadriláteros}
+\itile{sec9}{7.9}{\faIcon{shapes}}{Ángulos de los polígonos}
+\itile{resum}{\phantom{7.9}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 7.1
+\clearpage
+\seccio{sec1}{Puntos, rectas, semirrectas y segmentos}{Las piezas con las que construimos todas las figuras.}
+
+\vfill
+\begin{minipage}[c]{0.56\linewidth}
+\begin{idea}[Punto, recta y plano]
+\textbf{Punto}: una posición, sin tamaño: $A$, $B$, $P$\dots\\[3pt]
+\textbf{Recta}: no se curva y no tiene ni principio ni final. Con minúscula ($r$, $s$) o con dos puntos: recta $AB$.\\[3pt]
+\textbf{Plano}: una superficie plana sin bordes, como una hoja que no se acaba nunca.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\centering
+\begin{tikzpicture}
+  \fill[fmA!9] (-0.4,-0.6) -- (4.4,-0.6) -- (5.4,2.1) -- (0.6,2.1) -- cycle;
+  \node[font=\comic\small,text=fmA] at (4.55,1.75) {plano};
+  \draw[rr,fmnavy] (-0.1,-0.15) -- (4.7,1.05) node[right,font=\small] {$r$};
+  \pnt{(1,0.1)}{$A$}{below right} \pnt{(3,0.6)}{$B$}{below right} \pnt{(1.6,1.45)}{$P$}{above}
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}$A$ y $B$ son de la recta $r$; \ $P$ no.}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Recta $r$}{\begin{tikzpicture}\draw[rr,fmA] (0,0) -- (3.6,0); \pnt{(1.1,0)}{$A$}{below} \pnt{(2.5,0)}{$B$}{below}\end{tikzpicture}\par\smallskip
+Ni principio ni final.}
+\caixa{fmB}{Semirrecta}{\begin{tikzpicture}\draw[sr,fmB] (0,0) -- (3.6,0); \pnt{(0,0)}{$O$}{below}\end{tikzpicture}\par\smallskip
+Tiene \textbf{origen}, pero no final.}
+\caixa{fmK}{Segmento $\overline{AB}$}{\begin{tikzpicture}\draw[fmK,line width=1.2pt] (0,0) -- (3.4,0); \pnt{(0,0)}{$A$}{below} \pnt{(3.4,0)}{$B$}{below}\end{tikzpicture}\par\smallskip
+Dos \textbf{extremos}: lo medimos.}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Puntos y rectas]
+Por un punto pasan \textbf{infinitas} rectas.\\[3pt]
+Por dos puntos pasa \textbf{una única} recta.\\[3pt]
+Tres o más puntos están \textbf{alineados} si están sobre la misma recta.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}
+  \foreach \a/\c in {0/fmA,35/fmB,75/fmK,115/fmV,150/fmR} \draw[\c,line width=1pt] (\a:-1.05) -- (\a:1.05);
+  \pnt{(0,0)}{$P$}{below=2pt}
+  \begin{scope}[xshift=2.3cm,yshift=-0.55cm]
+  \draw[rr,fmnavy] (-0.1,-0.05) -- (2.2,1.1);
+  \pnt{(0.3,0.15)}{$A$}{above left} \pnt{(1.0,0.5)}{$B$}{above left} \pnt{(1.7,0.85)}{$C$}{above left}
+  \end{scope}
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}infinitas rectas por $P$ \qquad $A$, $B$ y $C$ alineados}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}
+  \draw[fmK,line width=1.2pt,tk] (0,0) -- (2,0); \draw[fmK,line width=1.2pt,tk] (2,0) -- (4,0);
+  \pnt{(0,0)}{$A$}{below} \pnt{(4,0)}{$B$}{below} \fill[fmR] (2,0) circle (2.4pt) node[below,font=\small,text=fmR] {$M$};
+  \draw[decorate,decoration={brace,amplitude=5pt},fmmuted] (0,0.2) -- node[above=4pt,font=\small] {9 cm} (4,0.2);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Punto medio]
+El \textbf{punto medio} $M$ divide el segmento en dos partes iguales (las rayitas lo indican):\\[3pt]
+$AM=MB=9:2=4{,}5$ cm
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Ejemplo: \ 4 puntos en una recta]
+\centering\begin{tikzpicture}\draw[rr,fmnavy] (-0.3,0) -- (4.3,0); \foreach \x/\n in {0/A,1.3/B,2.6/C,4/D} {\pnt{(\x,0)}{$\n$}{below}}\end{tikzpicture}\par\raggedright\smallskip
+¿Cuántos segmentos? En orden, sin repetir:\\[2pt]
+$\overline{AB}$, $\overline{AC}$, $\overline{AD}$ \ \textbullet \ $\overline{BC}$, $\overline{BD}$ \ \textbullet \ $\overline{CD}$ \ $\to$ \ $3+2+1=\boxed{6}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ 5 puntos, sin tres alineados]
+¿Cuántas rectas pasan por dos de ellos?\\[2pt]
+De cada punto salen 4: \ $5\cdot4=20$. Pero cada recta sale dos veces ($AB$ y $BA$):
+\ $\dfrac{5\cdot4}{2}=\boxed{10}$
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 7.2
+\clearpage
+\seccio{sec2}{Posiciones relativas de rectas. Mediatriz}{Dos rectas se cortan\dots\ o no se cortan nunca.}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\caixa{fmA}{Secantes}{\begin{tikzpicture}\draw[rr,fmA] (-1.3,-0.5) -- (1.3,0.5); \draw[rr,fmA!60!black] (-1.2,0.6) -- (1.2,-0.6); \fill[fmR] (0,0) circle (2.3pt);\end{tikzpicture}\par\smallskip
+Se cortan en \textbf{un punto}.}
+\caixa{fmK}{Paralelas}{\begin{tikzpicture}\draw[rr,fmK] (-1.3,0.35) -- (1.3,0.35) node[right,font=\small,text=fmnavy] {$r$}; \draw[rr,fmK] (-1.3,-0.35) -- (1.3,-0.35) node[right,font=\small,text=fmnavy] {$s$};\end{tikzpicture}\par\smallskip
+No se cortan nunca: \ $r\parallel s$.}
+\caixa{fmV}{Coincidentes}{\begin{tikzpicture}\draw[rr,fmV,line width=3pt,opacity=0.35] (-1.3,-0.3) -- (1.3,0.3); \draw[rr,fmV] (-1.3,-0.3) -- (1.3,0.3) node[above,font=\small,text=fmnavy] {$r=s$};\end{tikzpicture}\par\smallskip
+Son la \textbf{misma} recta.}
+\caixa{fmB}{Perpendiculares}{\begin{tikzpicture}\draw[rr,fmB] (-1.2,0) -- (1.2,0) node[right,font=\small,text=fmnavy] {$r$}; \draw[rr,fmB] (0,-0.62) -- (0,0.62) node[right,font=\small,text=fmnavy] {$s$}; \recte{0}{0}\end{tikzpicture}\par\smallskip
+Secantes con 4 ángulos rectos: \ $r\perp s$.}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[A tu alrededor]
+Raíles del tren: \textbf{paralelos}. \ Esquina de una hoja: \textbf{perpendiculares}. \ Cruce de calles: \textbf{secantes}.
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \draw[rr,fmnavy] (-0.4,0) -- (4.4,0) node[right,font=\small] {$r$};
+  \draw[fmmuted,dashed,line width=0.9pt] (2,1.8) -- (0.6,0) (2,1.8) -- (3.7,0);
+  \draw[fmR,line width=1.5pt] (2,1.8) -- node[left,font=\comic\small,text=fmR] {$d$} (2,0); \recte{2}{0}
+  \pnt{(2,1.8)}{$P$}{above}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Distancia de un punto a una recta]
+Es la longitud del segmento \textbf{perpendicular} que va de $P$ hasta la recta.\\[3pt]
+Es el camino \textbf{más corto}: cualquier otro (los discontinuos) es más largo.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Mediatriz de un segmento]
+La recta \textbf{perpendicular} al segmento $\overline{AB}$ que pasa por su \textbf{punto medio} $M$.\\[3pt]
+\textbf{Propiedad}: cada punto $P$ de la mediatriz está a la misma distancia (\textbf{equidista}) de los dos extremos: \ $PA=PB$.
+\end{idea}
+\begin{tcolorbox}[fmbase,colback=white,colframe=fmblue,coltitle=white,title={\faIcon{drafting-compass}\ \ Con regla y compás}]
+\pas{1} Abre el compás más de la mitad de $\overline{AB}$.\\[2pt]
+\pas{2} Pincha en $A$: un arco arriba y otro abajo.\\[2pt]
+\pas{3} Igual desde $B$, con la misma abertura.\\[2pt]
+\pas{4} Une los dos puntos de corte.
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.92]
+  \draw[fmA!70,line width=0.9pt] (30:2.8) arc (30:58:2.8) (-30:2.8) arc (-30:-58:2.8);
+  \draw[fmB!80,line width=0.9pt] ($(4,0)+(150:2.8)$) arc (150:122:2.8) ($(4,0)+(210:2.8)$) arc (210:238:2.8);
+  \draw[fmR,line width=1.5pt] (2,-2.6) -- (2,2.6) node[above,font=\small] {$m$};
+  \draw[fmnavy,line width=1.3pt,tk] (0,0) -- (2,0); \draw[fmnavy,line width=1.3pt,tk] (2,0) -- (4,0); \recte{2}{0}
+  \draw[fmK,dashed,line width=0.9pt] (0,0) -- (2,1.25) -- (4,0);
+  \node[font=\small,text=fmK] at (0.75,0.85) {$PA$}; \node[font=\small,text=fmK] at (3.25,0.85) {$PB$};
+  \fill[fmR] (2,1.96) circle (1.8pt) (2,-1.96) circle (1.8pt);
+  \pnt{(0,0)}{$A$}{left} \pnt{(4,0)}{$B$}{right} \pnt{(2,1.25)}{$P$}{right} \node[below right,font=\small] at (2,0) {$M$};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Ejemplo: \ una farola entre dos casas]
+A la misma distancia de $A$ y de $B$: en cualquier punto de la \textbf{mediatriz} de $\overline{AB}$.
+\end{exemple}
+\begin{exemple}[Ejemplo: \ un depósito para tres pueblos]
+Donde se cortan las mediatrices de $\overline{AB}$ y de $\overline{BC}$. \ \nota{es el circuncentro (7.7)}
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 7.3
+\clearpage
+\seccio{sec3}{Ángulos: elementos, medida y clasificación}{Cuánto se abren dos semirrectas.}
+
+\vfill
+\begin{minipage}[c]{0.56\linewidth}
+\begin{idea}[¿Qué es un ángulo?]
+La región del plano entre dos \textbf{semirrectas} con el mismo origen. Las semirrectas son los \textbf{lados}; el origen común, el \textbf{vértice}.\\[3pt]
+Lo nombramos con tres letras, con el vértice en medio ($\widehat{AOB}$), solo con el vértice ($\hat O$) o con una letra griega: $\alpha$ (alfa), $\beta$ (beta), $\gamma$ (gamma)\dots
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}\centering
+\begin{tikzpicture}[scale=1.15]
+  \fill[fmA!22] (0,0) -- (0:0.9) arc (0:42:0.9) -- cycle; \draw[fmA,line width=1pt] (0:0.9) arc (0:42:0.9);
+  \node[font=\small,text=fmA] at (21:1.2) {$\alpha$};
+  \draw[sr,fmnavy] (0,0) -- (0:3.6); \draw[sr,fmnavy] (0,0) -- (42:3.4);
+  \pnt{(0,0)}{$O$}{below left} \pnt{(0:2.8)}{$A$}{below} \pnt{(42:2.6)}{$B$}{above left}
+  \draw[-{Latex[length=1.6mm]},fmex,line width=0.7pt] (-0.75,0.9) node[above,font=\comic\small,text=fmex] {vértice} -- (-0.12,0.14);
+  \draw[-{Latex[length=1.6mm]},fmex,line width=0.7pt] (3.0,1.45) node[right,font=\comic\small,text=fmex] {lados} -- (2.05,1.67);
+  \draw[-{Latex[length=1.6mm]},fmex,line width=0.7pt] (3.0,1.45) -- (3.0,0.1);
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmK}{Un cuarto de vuelta}{\begin{tikzpicture}[scale=1.3]\fill[fmK!22] (0,0) -- (0.5,0) arc (0:90:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (1,0) -- (0,0) -- (0,1);\end{tikzpicture}\par\smallskip {\Large$90^\circ$}}
+\caixa{fmB}{Media vuelta}{\begin{tikzpicture}[scale=1.3]\fill[fmB!22] (0,0) -- (0.5,0) arc (0:180:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (1,0) -- (-1,0);\end{tikzpicture}\par\smallskip {\Large$180^\circ$}}
+\caixa{fmA}{Una vuelta}{\begin{tikzpicture}[scale=1.3]\fill[fmA!22] (0,0) circle (0.5); \draw[line width=1.2pt,fmnavy] (0,0) -- (1,0);\end{tikzpicture}\par\smallskip {\Large$360^\circ$}}
+\end{tcbraster}
+{\centering\comic\color{fmmuted}Medimos en \textbf{grados} ($^\circ$): una vuelta entera dividida en 360 partes iguales.\par}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}
+  \fill[fmK!25] (0,0) -- (0.5,0) arc (0:35:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (1.1,0) -- (0,0) -- (35:1.1);
+  \node[font=\scriptsize,text=fmK!70!black] at (17:0.78) {$35^\circ$};
+  \begin{scope}[xshift=1.9cm]
+  \fill[fmK!25] (0,0) -- (0.5,0) arc (0:35:0.5) -- cycle; \draw[line width=1.2pt,fmnavy] (3,0) -- (0,0) -- (35:3);
+  \node[font=\scriptsize,text=fmK!70!black] at (17:0.78) {$35^\circ$};
+  \end{scope}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{compte}[Los lados no cuentan]
+La medida de un ángulo \textbf{no depende} de la longitud de los lados que dibujamos: los dos ángulos miden $35^\circ$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=1.12]
+  \fill[fmA!8] (2.6,0) arc (0:180:2.6) -- cycle; \draw[fmA,line width=1pt] (2.6,0) arc (0:180:2.6) -- cycle;
+  \foreach \a in {0,10,...,180} \draw[fmA] (\a:2.6) -- (\a:2.42);
+  \foreach \a in {0,30,...,180} \node[font=\scriptsize\heavy,text=fmA] at (\a:2.92) {\a};
+  \foreach \a in {0,30,...,180} \pgfmathtruncatemacro{\b}{180-\a}\node[font=\tiny,text=fmmuted] at (\a:2.12) {\b};
+  \draw[fmR,line width=1.5pt] (0,0) -- (50:2.5); \draw[fmR,line width=1.5pt] (0,0) -- (2.5,0);
+  \fill[fmR!25] (0,0) -- (0.7,0) arc (0:50:0.7) -- cycle; \node[font=\small\heavy,text=fmR] at (25:1.05) {$50^\circ$};
+  \fill[fmnavy] (0,0) circle (2pt);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[fmbase,colback=white,colframe=fmblue,coltitle=white,title={\faIcon{drafting-compass}\ \ Medir con el transportador}]
+\pas{1} El \textbf{centro} del transportador, sobre el vértice.\\[2pt]
+\pas{2} La línea del $0^\circ$, sobre un lado.\\[2pt]
+\pas{3} Leemos por dónde pasa el otro lado, en la escala que empieza en 0.
+\end{tcolorbox}
+\begin{compte}[Dos escalas]
+Antes de leer, mira si el ángulo es menor o mayor que un recto: así no confundes $50^\circ$ con $130^\circ$.
+\end{compte}
+\end{minipage}
+
+\clearpage
+\subsection{Clasificación de los ángulos}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt,raster row skip=6pt]
+\caixa{fmmuted}{Nulo}{\angd{0}{fmmuted}{}\par $0^\circ$}
+\caixa{fmK}{Agudo}{\angd{50}{fmK}{}\par menos de $90^\circ$}
+\caixa{fmA}{Recto}{\begin{tikzpicture}[baseline=(current bounding box.center)]\path (-1.25,-1.15) rectangle (1.35,1.25);\draw[line width=1.3pt,fmnavy] (1.25,0) -- (0,0) -- (0,1.25); \recte{0}{0}\end{tikzpicture}\par $90^\circ$}
+\caixa{fmB}{Obtuso}{\angd{130}{fmB}{}\par entre $90^\circ$ y $180^\circ$}
+\caixa{fmV}{Llano}{\angd{180}{fmV}{}\par $180^\circ$}
+\caixa{fmR}{Cóncavo}{\angd{250}{fmR}{}\par más de $180^\circ$}
+\caixa{fmex}{Completo}{\angd{359.9}{fmex}{}\par $360^\circ$}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=fmnavy,colbacktitle=fmyellow,title={Convexo o cóncavo},left=2mm,right=2mm]
+\textbf{Convexos}: hasta $180^\circ$.\\[3pt] \textbf{Cóncavos}: más de $180^\circ$.\\[3pt] Dos semirrectas forman siempre uno convexo y uno cóncavo que suman $360^\circ$.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Bisectriz de un ángulo]
+La semirrecta que sale del vértice y divide el ángulo en \textbf{dos ángulos iguales}. Si el ángulo mide $80^\circ$, cada mitad mide $40^\circ$.\\[3pt]
+\textbf{Propiedad}: cada punto de la bisectriz está a la misma distancia de los dos lados.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}
+  \fill[fmA!22] (0,0) -- (0:1.1) arc (0:40:1.1) -- cycle; \fill[fmB!22] (0,0) -- (40:1.1) arc (40:80:1.1) -- cycle;
+  \node[font=\small,text=fmA!80!black] at (20:1.45) {$40^\circ$}; \node[font=\small,text=fmB!80!black] at (60:1.45) {$40^\circ$};
+  \draw[sr,fmnavy] (0,0) -- (0:3.2); \draw[sr,fmnavy] (0,0) -- (80:2.6);
+  \draw[sr,fmR,line width=1.5pt] (0,0) -- (40:3.2) node[above right,font=\small] {$b$};
+  \pnt{(0,0)}{$O$}{below left}
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Clasifica}: \ $35^\circ$ agudo, \ $90^\circ$ recto, \ $145^\circ$ obtuso, \ $180^\circ$ llano, \ $220^\circ$ cóncavo, \ $89^\circ$ agudo \nota{¡por poco!}\\[6pt]
+\textbf{Bisectriz}: forma $37^\circ$ con un lado.\\ El ángulo entero mide el doble: \ $2\cdot37^\circ=\boxed{74^\circ}$, agudo.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Reloj}: de número a número hay \ $360^\circ:12=30^\circ$.\\[3pt]
+A las 3: \ $3\cdot30^\circ=\boxed{90^\circ}$ \quad a las 6: \ $\boxed{180^\circ}$ \quad a las 2: \ $\boxed{60^\circ}$\\[6pt]
+\textbf{Ángulo cóncavo}: si el convexo mide $110^\circ$, el cóncavo mide \ $360^\circ-110^\circ=\boxed{250^\circ}$.
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 7.4
+\clearpage
+\seccio{sec4}{Medida de ángulos: el sistema sexagesimal}{De 60 en 60, como las horas, los minutos y los segundos.}
+
+\vfill
+\begin{idea}[Grados, minutos y segundos]
+Para medir con más precisión, partimos el grado en partes más pequeñas, de \textbf{60 en 60}: por eso es un sistema \textbf{sexagesimal}.\par\medskip
+\centering\begin{tikzpicture}
+  \node[draw=fmA,fill=fmA!10,rounded corners=2mm,line width=1pt,minimum width=2.6cm,minimum height=0.85cm,font=\heavy] (g) at (0,0) {grados ($^\circ$)};
+  \node[draw=fmB,fill=fmB!10,rounded corners=2mm,line width=1pt,minimum width=2.6cm,minimum height=0.85cm,font=\heavy] (m) at (4.6,0) {minutos ($'$)};
+  \node[draw=fmK,fill=fmK!10,rounded corners=2mm,line width=1pt,minimum width=2.6cm,minimum height=0.85cm,font=\heavy] (s) at (9.2,0) {segundos ($''$)};
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmnavy] ([yshift=3pt]g.east) -- node[above,font=\small\heavy] {$\times60$} ([yshift=3pt]m.west);
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmnavy] ([yshift=3pt]m.east) -- node[above,font=\small\heavy] {$\times60$} ([yshift=3pt]s.west);
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmR] ([yshift=-3pt]m.west) -- node[below,font=\small\heavy] {$:60$} ([yshift=-3pt]g.east);
+  \draw[-{Latex[length=2.2mm]},line width=1.1pt,fmR] ([yshift=-3pt]s.west) -- node[below,font=\small\heavy] {$:60$} ([yshift=-3pt]m.east);
+  \draw[-{Latex[length=2.2mm]},line width=1pt,fmnavy,dashed] (g.north) to[out=30,in=150] node[above,font=\small\heavy] {$\times3600$} (s.north);
+\end{tikzpicture}\par\medskip
+$1^\circ=60'$ \qquad $1'=60''$ \qquad $1^\circ=60\cdot60=3600''$
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Forma compleja}]
+Con varias unidades: \ $25^\circ\,14'\,36''$\\[3pt]
+Los minutos y los segundos deben ser \textbf{menos de 60}.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Forma incompleja}]
+Con una sola unidad: \ $90\,876''$ \ o \ $755'$\\[3pt]
+Los grados con decimales también: \ $12{,}5^\circ$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Compleja $\to$ incompleja]
+Multiplicamos y sumamos.\\[3pt] $25^\circ\,14'\,36''$ en segundos:\\[3pt]
+$25\cdot3600+14\cdot60+36=$\\[2pt]
+$=90\,000+840+36=\boxed{90\,876''}$\\[6pt]
+$12^\circ\,35'$ en minutos:\\[3pt]
+$12\cdot60+35=720+35=\boxed{755'}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Incompleja $\to$ compleja]
+Dividimos entre 60.\\[3pt] $7385''$ en forma compleja:\\[3pt]
+$7385:60=\cB{123'}$ \ y sobran \ \cK{$5''$}\\[2pt]
+$\cB{123}:60=\cA{2^\circ}$ \ y sobran \ \cB{$3'$}\\[5pt]
+\centering$7385''=\boxed{\cA{2^\circ}\,\cB{3'}\,\cK{5''}}$\par\raggedright\smallskip
+\nota{el resto se queda; el cociente sube a la unidad de la izquierda}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{truc}[Grados con decimales]
+La parte decimal, por 60:\\[3pt]
+$12{,}5^\circ=12^\circ+0{,}5\cdot60'=\boxed{12^\circ\,30'}$\\[3pt]
+$7{,}25^\circ=7^\circ+0{,}25\cdot60'=\boxed{7^\circ\,15'}$
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{compte}[¡Más de 60, no!]
+$25^\circ\,75'$ está mal escrito:\\[3pt]
+$75'=1^\circ\,15'$, \ por tanto \ $25^\circ\,75'=\boxed{26^\circ\,15'}$
+\end{compte}
+\end{minipage}
+
+\clearpage
+\subsection{Operaciones con ángulos}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=10pt,raster row skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Suma}]
+Grados con grados, minutos con minutos y segundos con segundos. Si llegamos a 60, nos llevamos uno:\par\smallskip
+\centering$\begin{array}{rrrr} & 37^\circ & 48' & 25''\\+ & 25^\circ & 26' & 50''\\ \hline & 62^\circ & \cB{74'} & \cK{75''}\end{array}$\par\smallskip
+$\cK{75''}=1'\,15''$ \qquad $\cB{75'}=1^\circ\,15'$\par\smallskip
+$\boxed{63^\circ\,15'\,15''}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Resta}]
+Si una columna no se puede restar, convertimos 1 de la izquierda en 60 de la derecha:\par\smallskip
+\centering$\begin{array}{rrrr} & 50^\circ & 15' & 10''\\- & 23^\circ & 40' & 35''\end{array}\ \to\ \begin{array}{rrrr} & \cR{49^\circ} & \cR{74'} & \cR{70''}\\- & 23^\circ & 40' & 35''\\ \hline & 26^\circ & 34' & 35''\end{array}$\par\smallskip
+$\boxed{26^\circ\,34'\,35''}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Multiplicación por un natural}]
+Multiplicamos cada unidad y después pasamos lo que sobrepasa 60:\par\medskip
+\centering$(15^\circ\,24'\,37'')\cdot3=45^\circ\,72'\,111''=$\\[3pt]
+$=45^\circ\,73'\,51''=\boxed{46^\circ\,13'\,51''}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmV!8,colframe=fmV,coltitle=white,title={División entre un natural}]
+Dividimos los grados; el resto, $\times60$, se suma a los minutos; e igual con los segundos:\par\smallskip
+$(125^\circ\,17'):4$\\[3pt]
+$125:4=\cA{31^\circ}$, sobra $1^\circ=60'$\\[2pt]
+$(60+17):4=77:4=\cB{19'}$, sobra $1'=60''$\\[2pt]
+$60:4=\cK{15''}$ \qquad $\to$ \ $\boxed{\cA{31^\circ}\,\cB{19'}\,\cK{15''}}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.47\linewidth}
+\textbf{a)} \ $3^\circ\,20'$ en segundos:\\[2pt] $3\cdot3600+20\cdot60=10\,800+1200=\boxed{12\,000''}$\\[8pt]
+\textbf{b)} \ $45^\circ\,38'+72^\circ\,49'=117^\circ\,87'=\boxed{118^\circ\,27'}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{c)} \ $90^\circ-42^\circ\,17'\,35''$: \ escribimos $90^\circ=89^\circ\,59'\,60''$\\[3pt]
+\centering$\begin{array}{rrrr} & 89^\circ & 59' & 60''\\- & 42^\circ & 17' & 35''\\ \hline & 47^\circ & 42' & 25''\end{array}$ \ $\Rightarrow$ \ $\boxed{47^\circ\,42'\,25''}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos: \ multiplicación y división]
+\begin{minipage}[t]{0.47\linewidth}
+\textbf{d)} \ $(12^\circ\,25'\,40'')\cdot5=60^\circ\,125'\,200''$\\[3pt]
+$200''=3'\,20''$ \ $\to$ \ $60^\circ\,128'\,20''=\boxed{62^\circ\,8'\,20''}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{e)} \ $(100^\circ\,30'):6$\\[3pt]
+$100:6=16^\circ$, sobran $4^\circ=240'$ \ $\to$ \ $(240+30):6=45'$\\[3pt]
+\centering$\boxed{16^\circ\,45'}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ partimos un ángulo llano en 7 ángulos iguales]
+$180:7=25^\circ$, sobran $5^\circ=300'$ \quad $300:7=42'$, sobran $6'=360''$ \quad $360:7=51''$, sobran $3''$\\[4pt]
+Cada ángulo mide unos $\boxed{25^\circ\,42'\,51''}$. \ \nota{Comprobación: \ $7\cdot(25^\circ\,42'\,51'')+3''=175^\circ\,294'\,360''=180^\circ$ \be{}}
+\end{exemple}
+
+\vfill
+% ============================================================ 7.5
+\clearpage
+\seccio{sec5}{Relaciones entre ángulos}{Ángulos que suman $90^\circ$, que suman $180^\circ$ o que son iguales.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Complementarios: suman $90^\circ$},before upper=\centering]
+\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.9,0) arc (0:35:0.9) -- cycle; \fill[fmB!30] (0,0) -- (35:0.9) arc (35:90:0.9) -- cycle;
+  \draw[line width=1.3pt,fmnavy] (2,0) -- (0,0) -- (0,2); \draw[line width=1.2pt,fmnavy] (0,0) -- (35:2.1);
+  \node[font=\small,text=fmA!80!black] at (17:1.3) {$35^\circ$}; \node[font=\small,text=fmB!80!black] at (64:1.3) {$55^\circ$};
+\end{tikzpicture}\par\smallskip
+$35^\circ+55^\circ=90^\circ$\par\smallskip
+El complementario de $\alpha$ es \ $90^\circ-\alpha$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Suplementarios: suman $180^\circ$},before upper=\centering]
+\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.9,0) arc (0:50:0.9) -- cycle; \fill[fmB!30] (0,0) -- (50:0.9) arc (50:180:0.9) -- cycle;
+  \draw[line width=1.3pt,fmnavy] (2.1,0) -- (-2.1,0); \draw[line width=1.2pt,fmnavy] (0,0) -- (50:2);
+  \node[font=\small,text=fmA!80!black] at (24:1.3) {$50^\circ$}; \node[font=\small,text=fmB!80!black] at (118:1.3) {$130^\circ$};
+\end{tikzpicture}\par\smallskip
+$50^\circ+130^\circ=180^\circ$\par\smallskip
+El suplementario de $\alpha$ es \ $180^\circ-\alpha$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[No todos tienen]
+Solo los ángulos \textbf{agudos} tienen complementario, y solo los menores de $180^\circ$ tienen suplementario.
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmK}{Consecutivos}{\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.6,0) arc (0:40:0.6) -- cycle; \fill[fmB!30] (0,0) -- (40:0.6) arc (40:100:0.6) -- cycle;
+  \draw[line width=1.2pt,fmnavy] (1.6,0) -- (0,0) -- (100:1.5); \draw[line width=1.2pt,fmR] (0,0) -- (40:1.6);
+\end{tikzpicture}\par\smallskip
+Tienen el vértice y \textbf{un lado} (\cR{rojo}) en común.}
+\caixa{fmB}{Adyacentes}{\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.6,0) arc (0:65:0.6) -- cycle; \fill[fmB!30] (0,0) -- (65:0.6) arc (65:180:0.6) -- cycle;
+  \draw[line width=1.2pt,fmnavy] (1.6,0) -- (-1.6,0); \draw[line width=1.2pt,fmR] (0,0) -- (65:1.5);
+\end{tikzpicture}\par\smallskip
+Consecutivos, y los otros lados forman una recta: \textbf{suman $180^\circ$}.}
+\caixa{fmA}{Opuestos por el vértice}{\begin{tikzpicture}
+  \fill[fmA!30] (0,0) -- (0.55,0) arc (0:35:0.55) -- cycle; \fill[fmA!30] (0,0) -- (-0.55,0) arc (180:215:0.55) -- cycle;
+  \fill[fmB!30] (0,0) -- (35:0.55) arc (35:180:0.55) -- cycle; \fill[fmB!30] (0,0) -- (215:0.55) arc (215:360:0.55) -- cycle;
+  \draw[line width=1.2pt,fmnavy] (-1.6,0) -- (1.6,0) (215:1.5) -- (35:1.5);
+  \node[font=\scriptsize] at (17:0.85) {$\alpha$}; \node[font=\scriptsize] at (197:0.85) {$\alpha$};
+  \node[font=\scriptsize] at (107:0.8) {$\beta$}; \node[font=\scriptsize] at (287:0.8) {$\beta$};
+\end{tikzpicture}\par\smallskip
+Dos rectas se cortan: los ángulos de enfrente son \textbf{iguales}.}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[¿Por qué son iguales los opuestos por el vértice?]
+$\alpha+\beta=180^\circ$ porque son adyacentes. El otro $\alpha$ también es adyacente a $\beta$: también suma $180^\circ$ con él. Por tanto, los dos $\alpha$ son iguales.
+\end{truc}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Ejemplo: \ de $28^\circ$ y de $64^\circ\,15'$]
+De $28^\circ$:\\[2pt] $90^\circ-28^\circ=\boxed{62^\circ}$ \qquad $180^\circ-28^\circ=\boxed{152^\circ}$\\[5pt]
+De $64^\circ\,15'$: \ escribimos $90^\circ=89^\circ\,60'$\\[2pt]
+$89^\circ\,60'-64^\circ\,15'=\boxed{25^\circ\,45'}$\\[2pt]
+$179^\circ\,60'-64^\circ\,15'=\boxed{115^\circ\,45'}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ uno es el triple del otro]
+Dos ángulos adyacentes: el pequeño $x$, el grande $3x$.\\[3pt]
+$x+3x=180$ \ $\to$ \ $4x=180$ \ $\to$ \ $x=45$\\[3pt]
+Miden $\boxed{45^\circ}$ y $\boxed{135^\circ}$. \ \nota{$45+135=180$ \be{}}
+\end{exemple}
+\end{tcbraster}
+
+\clearpage
+\subsection{Dos paralelas cortadas por una secante}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}\centering
+\begin{tikzpicture}[scale=1.3]
+  \draw[rr,fmnavy] (-2.6,0) -- (2.6,0) node[right,font=\small] {$r$};
+  \draw[rr,fmnavy] (-2.6,-2) -- (2.6,-2) node[right,font=\small] {$s$};
+  \draw[rr,fmmuted] ($(-1.155,-2)+(240:1.1)$) -- ($(0,0)+(60:1.1)$) node[right,font=\small,text=fmnavy] {secante};
+  \foreach \px/\py/\o in {0/0/0,-1.155/-2/4}{
+    \begin{scope}[shift={(\px,\py)}]
+    \fill[fmA!30] (0,0) -- (0.5,0) arc (0:60:0.5) -- cycle; \fill[fmB!30] (0,0) -- (60:0.5) arc (60:180:0.5) -- cycle;
+    \fill[fmA!30] (0,0) -- (-0.5,0) arc (180:240:0.5) -- cycle; \fill[fmB!30] (0,0) -- (240:0.5) arc (240:360:0.5) -- cycle;
+    \pgfmathtruncatemacro{\ua}{\o+1}\pgfmathtruncatemacro{\ub}{\o+2}\pgfmathtruncatemacro{\uc}{\o+3}\pgfmathtruncatemacro{\ud}{\o+4}
+    \node[font=\scriptsize\heavy] at (30:0.66) {\ua}; \node[font=\scriptsize\heavy] at (120:0.62) {\ub};
+    \node[font=\scriptsize\heavy] at (210:0.66) {\uc}; \node[font=\scriptsize\heavy] at (300:0.62) {\ud};
+    \fill[fmnavy] (0,0) circle (1.5pt);
+    \end{scope}}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[Solo dos medidas]
+Se forman 8 ángulos, pero solo hay \textbf{dos medidas}: todos los \cA{agudos} son iguales y todos los \cB{obtusos} también.\\[3pt]
+Un agudo y un obtuso suman siempre $180^\circ$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{center}
+\taularod{>{\heavy}l>{\raggedright\arraybackslash}p{7.2cm}>{\hspace{6pt}}c<{\hspace{6pt}}}{
+\rowcolor{fmblue}\color{white}Pareja & \leavevmode\color{white}\heavy ¿Dónde están? & \color{white}\heavy Ángulos\\
+Correspondientes & en la misma posición en cada cruce & 1 y 5, \ 2 y 6, \ 3 y 7, \ 4 y 8\\
+\rowcolor{fmsurface}Alternos internos & entre las paralelas, a distinto lado de la secante & 3 y 5, \ 4 y 6\\
+Alternos externos & fuera de las paralelas, a distinto lado de la secante & 1 y 7, \ 2 y 8\\
+\rowcolor{fmsurface}Opuestos por el vértice & en el mismo cruce, uno delante del otro & 1 y 3, \ 2 y 4\dots
+}\\[4pt]
+{\comic\color{fmmuted}En todos los casos, los dos ángulos de la pareja son \textbf{iguales}.}
+\end{center}
+
+\vfill
+\begin{exemple}[Ejemplo: \ en la figura, $r\parallel s$ y el ángulo 1 mide $65^\circ$. Calcula los otros siete.]
+\begin{minipage}[t]{0.5\linewidth}
+$\hat3=65^\circ$ \ \nota{opuesto por el vértice al 1}\\[3pt]
+$\hat2=\hat4=180^\circ-65^\circ=115^\circ$ \ \nota{adyacentes al 1}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+El otro cruce es igual \nota{(correspondientes)}:\\[3pt]
+$\hat5=\hat7=\boxed{65^\circ}$ \qquad $\hat6=\hat8=\boxed{115^\circ}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ un ángulo mide $20^\circ$ más que su complementario]
+El ángulo $x$, el complementario $x-20$: \ $x+(x-20)=90$ \ $\to$ \ $2x=110$ \ $\to$ \ $x=\boxed{55^\circ}$ \ \nota{el otro mide $35^\circ$}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ dos rectas se cortan y uno de los ángulos mide $72^\circ$]
+El opuesto por el vértice también mide $\boxed{72^\circ}$, y los otros dos, \ $180^\circ-72^\circ=\boxed{108^\circ}$ \ cada uno.
+\end{exemple}
+
+\vfill
+% ============================================================ 7.6
+\clearpage
+\seccio{sec6}{Polígonos: elementos y clasificación}{Una línea cerrada hecha de segmentos.}
+
+\vfill
+\begin{minipage}[c]{0.53\linewidth}
+\begin{idea}[Polígono]
+Una \textbf{línea poligonal} cerrada (segmentos unidos uno tras otro) limita un \textbf{polígono}.\\[4pt]
+\cA{\textbf{Lados}}: los segmentos que lo limitan.\\[2pt]
+\cR{\textbf{Vértices}}: donde se unen dos lados.\\[2pt]
+\cB{\textbf{Ángulos interiores}}: dos lados seguidos, por dentro.\\[2pt]
+\cK{\textbf{Diagonales}}: unen dos vértices \textbf{no} consecutivos.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[scale=1.05]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,-0.3); \coordinate (C) at (3.8,1.6); \coordinate (D) at (1.9,3); \coordinate (E) at (-0.4,1.8);
+  \fill[fmA!7] (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+  \fill[fmB!30] (A) -- ($(A)!0.5cm!(B)$) arc (-5.7:102.5:0.5) -- cycle;
+  \draw[fmK,dashed,line width=1.1pt] (A) -- (C);
+  \draw[fmA,line width=1.4pt,line join=round] (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+  \foreach \p in {A,B,C,D,E} \fill[fmR] (\p) circle (2.3pt);
+  \node[font=\comic\small,text=fmA] at (1.55,-0.48) {lado}; \node[font=\comic\small,text=fmR,right] at (3.9,1.6) {vértice};
+  \node[font=\comic\small,text=fmK] at (2.25,0.95) {diagonal};
+  \draw[-{Latex[length=1.6mm]},fmB,line width=0.7pt] (-0.9,0.45) node[left,font=\comic\small,text=fmB,align=center] {ángulo\\[-2pt]interior} -- (0.12,0.3);
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.47\linewidth}\centering\small
+\taularod{>{\hspace{2pt}}c<{\hspace{2pt}}l>{\hspace{8pt}}c<{\hspace{2pt}}l<{\hspace{2pt}}}{
+\rowcolor{fmblue}\color{white}\heavy Lados & \color{white}\heavy Nombre & \color{white}\heavy Lados & \color{white}\heavy Nombre\\
+3 & triángulo & 8 & octógono\\
+\rowcolor{fmsurface}4 & cuadrilátero & 9 & eneágono\\
+5 & pentágono & 10 & decágono\\
+\rowcolor{fmsurface}6 & hexágono & 11 & endecágono\\
+7 & heptágono & 12 & dodecágono
+}\\[4pt]
+{\comic\small\color{fmmuted}desde 13: «polígono de 15 lados»\dots}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.49\linewidth}
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=5pt]
+\caixa{fmK}{Convexo}{\begin{tikzpicture}[scale=0.55]\fill[fmK!15] (0,0) -- (2,-0.2) -- (2.5,1.1) -- (1.2,2) -- (-0.3,1.2) -- cycle; \draw[fmK,line width=1.1pt] (0,0) -- (2,-0.2) -- (2.5,1.1) -- (1.2,2) -- (-0.3,1.2) -- cycle; \draw[dashed,fmnavy] (0,0) -- (2.5,1.1) (2,-0.2) -- (-0.3,1.2);\end{tikzpicture}\par\smallskip\small Ángulos $<180^\circ$}
+\caixa{fmR}{Cóncavo}{\begin{tikzpicture}[scale=0.55]\fill[fmR!15] (0,0) -- (2.4,0) -- (2.4,2) -- (1.2,0.8) -- (0,2) -- cycle; \draw[fmR,line width=1.1pt] (0,0) -- (2.4,0) -- (2.4,2) -- (1.2,0.8) -- (0,2) -- cycle; \draw[dashed,fmnavy,line width=1pt] (0,2) -- (2.4,2);\end{tikzpicture}\par\smallskip\small Un ángulo $>180^\circ$}
+\caixa{fmA}{Regular}{\begin{tikzpicture}[scale=0.55]\fill[fmA!15] (0:1.1) \foreach \a in {60,120,...,300} {-- (\a:1.1)} -- cycle; \draw[fmA,line width=1.1pt] (0:1.1) \foreach \a in {60,120,...,300} {-- (\a:1.1)} -- cycle;\end{tikzpicture}\par\smallskip\small Todo igual}
+\end{tcbraster}
+\end{minipage}
+
+\vfill
+\begin{compte}[Regular quiere decir las dos cosas a la vez]
+Lados iguales \textbf{y} ángulos iguales. Un rectángulo o un rombo no lo son: el único cuadrilátero regular es el \textbf{cuadrado}.
+\end{compte}
+
+\vfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[Número de diagonales]
+De cada vértice salen \textbf{$n-3$} (ni a él mismo ni a los dos vecinos), y cada diagonal se cuenta dos veces:\par\smallskip
+{\centering$\text{diagonales}=\dfrac{n\cdot(n-3)}{2}$ \qquad hexágono: \ $\dfrac{6\cdot3}{2}=9$\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.37\linewidth}\centering
+\begin{tikzpicture}[scale=1.15]
+  \foreach \i in {0,...,5} \coordinate (P\i) at (90+60*\i:1.3);
+  \foreach \i/\j in {1/3,1/4,2/4,2/5,3/5} \draw[fmmuted!50,line width=0.7pt] (P\i) -- (P\j);
+  \foreach \j in {2,3,4} \draw[fmK,line width=1.3pt] (P0) -- (P\j);
+  \draw[fmA,line width=1.3pt] (P0) \foreach \i in {1,...,5} {-- (P\i)} -- cycle;
+  \foreach \i in {0,...,5} \fill[fmnavy] (P\i) circle (1.6pt); \fill[fmR] (P0) circle (2.4pt);
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}\cK{3 desde un vértice}, 9 en total}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.3\linewidth}
+\textbf{Octógono}: \ $\dfrac{8\cdot5}{2}=\boxed{20}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\textbf{Triángulo}: \ $\dfrac{3\cdot0}{2}=\boxed{0}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.36\linewidth}
+\textbf{¿Cuál tiene 35?} \ $n\cdot(n-3)=70$\\[2pt]
+$9\cdot6=54$, \ $10\cdot7=70$ \be{} \ \textbf{decágono}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 7.7
+\clearpage
+\seccio{sec7}{Triángulos}{El polígono más sencillo: tres lados y tres ángulos.}
+
+\vfill
+\begin{idea}[Nombres]
+Los vértices, con mayúscula ($A$, $B$, $C$); el lado opuesto a cada vértice, con la minúscula ($a$, $b$, $c$).
+\end{idea}
+
+\vfill
+{\large\heavy\color{fmnavy}Según los lados}\par\smallskip
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Equilátero}{\begin{tikzpicture}\fill[fmA!18] (0,0) -- (1.8,0) -- (0.9,1.56) -- cycle; \draw[fmA,line width=1.3pt,tk] (0,0) -- (1.8,0); \draw[fmA,line width=1.3pt,tk] (1.8,0) -- (0.9,1.56); \draw[fmA,line width=1.3pt,tk] (0.9,1.56) -- (0,0);\draw[fmA,line width=1.3pt,line join=round] (0,0) -- (1.8,0) -- (0.9,1.56) -- cycle;\end{tikzpicture}\par\smallskip 3 lados iguales}
+\caixa{fmB}{Isósceles}{\begin{tikzpicture}\fill[fmB!18] (0,0) -- (1.5,0) -- (0.75,1.6) -- cycle; \draw[fmB,line width=1.3pt,tk] (1.5,0) -- (0.75,1.6); \draw[fmB,line width=1.3pt,tk] (0.75,1.6) -- (0,0);\draw[fmB,line width=1.3pt,line join=round] (0,0) -- (1.5,0) -- (0.75,1.6) -- cycle;\end{tikzpicture}\par\smallskip 2 lados iguales}
+\caixa{fmK}{Escaleno}{\begin{tikzpicture}\fill[fmK!18] (0,0) -- (2.2,0) -- (0.55,1.3) -- cycle; \draw[fmK,line width=1.3pt,line join=round] (0,0) -- (2.2,0) -- (0.55,1.3) -- cycle;\end{tikzpicture}\par\smallskip ningún lado igual}
+\end{tcbraster}
+
+\vfill
+{\large\heavy\color{fmnavy}Según los ángulos}\par\smallskip
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Acutángulo}{\begin{tikzpicture}\fill[fmA!18] (0,0) -- (2.1,0) -- (1.25,1.5) -- cycle; \draw[fmA,line width=1.3pt,line join=round] (0,0) -- (2.1,0) -- (1.25,1.5) -- cycle;\end{tikzpicture}\par\smallskip 3 ángulos agudos}
+\caixa{fmB}{Rectángulo}{\begin{tikzpicture}\fill[fmB!18] (0,0) -- (2.2,0) -- (0,1.45) -- cycle; \recte{0}{0}
+  \draw[fmB,line width=1.3pt] (0,1.45) -- (0,0) -- (2.2,0); \draw[fmR,line width=1.5pt] (2.2,0) -- (0,1.45);
+  \node[font=\comic\scriptsize,text=fmR,rotate=-33.4] at (1.3,1.02) {hipotenusa}; \node[font=\comic\scriptsize,text=fmB!80!black] at (1.1,-0.22) {cateto};
+  \node[font=\comic\scriptsize,text=fmB!80!black,rotate=90] at (-0.22,0.72) {cateto};\end{tikzpicture}\par\smallskip 1 ángulo recto}
+\caixa{fmK}{Obtusángulo}{\begin{tikzpicture}\fill[fmK!18] (0,0) -- (2.3,0) -- (-0.55,1.05) -- cycle; \fill[fmR!35] (0,0) -- (0.35,0) arc (0:117.6:0.35) -- cycle;\draw[fmK,line width=1.3pt,line join=round] (0,0) -- (2.3,0) -- (-0.55,1.05) -- cycle;\end{tikzpicture}\par\smallskip 1 ángulo obtuso}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Dos nombres más]
+En un \textbf{rectángulo}, los lados del ángulo recto son los \textbf{catetos}; el opuesto, la \textbf{hipotenusa}.\\[3pt]
+En un \textbf{isósceles}, el lado desigual es la \textbf{base}, y los dos ángulos de la base son iguales.
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[scale=1.05]
+  \coordinate (A) at (0,0); \coordinate (B) at (4,0); \coordinate (C) at (1.4,2.2);
+  \draw[fmmuted,dashed,line width=0.9pt] (-0.8,2.2) -- (4.3,2.2);
+  \fill[fmA!35] (A) -- (0.55,0) arc (0:57.5:0.55) -- cycle; \fill[fmB!35] (B) -- ($(B)+(-0.55,0)$) arc (180:139.8:0.55) -- cycle;
+  \fill[fmK!35] (C) -- ($(C)+(237.5:0.5)$) arc (237.5:319.8:0.5) -- cycle;
+  \fill[fmA!35] (C) -- ($(C)+(180:0.5)$) arc (180:237.5:0.5) -- cycle; \fill[fmB!35] (C) -- ($(C)+(319.8:0.5)$) arc (319.8:360:0.5) -- cycle;
+  \draw[fmnavy,line width=1.3pt,line join=round] (A) -- (B) -- (C) -- cycle;
+  \pnt{(A)}{$A$}{below left} \pnt{(B)}{$B$}{below right} \pnt{(C)}{$C$}{above}
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}los tres colores juntos forman un ángulo llano}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.51\linewidth}
+\begin{idea}[Los ángulos suman $180^\circ$]
+{\centering\Large$\hat A+\hat B+\hat C=180^\circ$\par}\smallskip
+Por $C$, la paralela a $AB$: los ángulos junto a $C$ son \textbf{alternos internos} con $\hat A$ y $\hat B$. Con $\hat C$, forman $180^\circ$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Uno solo}]
+Solo cabe \textbf{un} ángulo recto u obtuso: dos ya sumarían $180^\circ$ o más.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Rectángulo}]
+Los dos ángulos agudos son complementarios: suman $90^\circ$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Equilátero}]
+Cada ángulo mide \ $180^\circ:3=60^\circ$.
+\end{tcolorbox}
+\end{tcbraster}
+
+\clearpage
+\subsection{Desigualdad triangular}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[No con tres segmentos cualesquiera]
+Cada lado debe ser \textbf{menor que la suma de los otros dos}. Basta con mirar el lado más largo:\\[4pt]
+$3,\,4,\,6$: \ $6<3+4=7$ \ \be{\text{sí}}\\[3pt]
+$2,\,3,\,7$: \ $7>2+3=5$ \ \mal{\text{no}}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.7]
+  \draw[fmnavy,line width=1.5pt] (0,0) -- node[below,font=\small] {7} (7,0);
+  \draw[fmA,line width=1.5pt] (0,0) -- node[above left,font=\small] {2} (60:2); \draw[fmB,line width=1.5pt] (7,0) -- node[above right,font=\small] {3} ($(7,0)+(130:3)$);
+  \draw[fmA!50,dashed] (2,0) arc (0:90:2); \draw[fmB!50,dashed] (4,0) arc (180:90:3);
+  \node[font=\comic\small,text=fmR] at (3,1.9) {¡no llegan!};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\subsection{Rectas y puntos notables}
+{\comic\color{fmmuted}Hay cuatro familias de rectas, tres de cada una. Las tres se cortan siempre en un mismo punto.}\par\smallskip
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\caixa{fmR}{Mediatrices}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2); \coordinate (O) at (1.5,0.6455);
+  \draw[fmR!45] (O) circle (1.633);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \foreach \mx/\my in {1.5/0,0.5/1.1,2/1.1} \draw[fmR,line width=0.8pt] ($(\mx,\my)!-0.35cm!(O)$) -- ($(O)!-0.55cm!(\mx,\my)$);
+  \fill[fmR] (O) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Circuncentro}\par\small equidista de los vértices: centro de la circunferencia circunscrita}
+\caixa{fmK}{Bisectrices}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2); \coordinate (I) at (1.222,0.7866);
+  \path (1.5,0.6455) circle (1.633);
+  \draw[fmK!50] (I) circle (0.7866);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \draw[fmK,line width=0.8pt] (A) -- (1.892,1.218) (B) -- (0.5023,1.105) (C) -- (1.345,0);
+  \fill[fmK] (I) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Incentro}\par\small equidista de los lados: centro de la circunferencia inscrita}
+\caixa{fmA}{Alturas}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2);
+  \path (1.5,0.6455) circle (1.633);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \draw[fmA,line width=0.8pt] (C) -- (1,0) (A) -- (1.643,1.493) (B) -- (0.514,1.130); \recte{1}{0}
+  \fill[fmA] (1,0.909) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Ortocentro}\par\small altura: la perpendicular de un vértice al lado opuesto}
+\caixa{fmB}{Medianas}{\begin{tikzpicture}[scale=0.88]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (1,2.2);
+  \path (1.5,0.6455) circle (1.633);
+  \draw[fmnavy,line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \draw[fmB,line width=0.8pt] (A) -- (2,1.1) (B) -- (0.5,1.1) (C) -- (1.5,0);
+  \foreach \m in {{(2,1.1)},{(0.5,1.1)},{(1.5,0)}} \fill[fmnavy] \m circle (1.3pt);
+  \fill[fmB] (1.333,0.733) circle (2pt);
+\end{tikzpicture}\par\smallskip
+\textbf{Baricentro}\par\small mediana: de un vértice al punto medio del lado opuesto; es el centro de gravedad}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[¿Dónde quedan?]
+En un triángulo \textbf{rectángulo}, el ortocentro es el vértice del ángulo recto y el circuncentro, el punto medio de la hipotenusa. En un \textbf{obtusángulo}, el ortocentro y el circuncentro quedan fuera del triángulo.
+\end{truc}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=10pt,raster row skip=6pt]
+\begin{exemple}[Ejemplo: \ dos ángulos miden $48^\circ$ y $75^\circ$]
+$180^\circ-(48^\circ+75^\circ)=180^\circ-123^\circ=\boxed{57^\circ}$\\[3pt]
+Los tres agudos: \textbf{acutángulo}.
+\end{exemple}
+\begin{exemple}[Ejemplo: \ los ángulos miden $x$, $2x$ y $3x$]
+$x+2x+3x=180$ \ $\to$ \ $6x=180$ \ $\to$ \ $x=30$\\[3pt]
+$30^\circ$, $60^\circ$ y $90^\circ$: \textbf{rectángulo} y escaleno.
+\end{exemple}
+\begin{exemple}[Ejemplo: \ isósceles, el desigual mide $40^\circ$]
+Los dos de la base son iguales:\\[2pt]
+$(180^\circ-40^\circ):2=140^\circ:2=\boxed{70^\circ}$ \ cada uno
+\end{exemple}
+\begin{exemple}[Ejemplo: \ dos lados miden 4 cm y 9 cm]
+El tercero debe ser mayor que $9-4=5$ y menor que $9+4=13$: \ \textbf{entre 5 y 13 cm}.
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 7.8
+\clearpage
+\seccio{sec8}{Cuadriláteros}{Cuatro lados: los clasificamos por los lados paralelos.}
+
+\vfill
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Paralelogramos: \ los lados opuestos, paralelos dos a dos},before upper=\centering]
+\begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0) -- (1.6,0) -- (1.6,1.6) -- (0,1.6) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0) -- (1.6,0) -- (1.6,1.6) -- (0,1.6) -- cycle;\end{tikzpicture}\\[-1pt]{\small cuadrado}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0) -- (2.8,0) -- (2.8,1.5) -- (0,1.5) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0) -- (2.8,0) -- (2.8,1.5) -- (0,1.5) -- cycle;\end{tikzpicture}\\[-1pt]{\small rectángulo}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0.9) -- (0.85,0) -- (1.7,0.9) -- (0.85,1.8) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0.9) -- (0.85,0) -- (1.7,0.9) -- (0.85,1.8) -- cycle;\end{tikzpicture}\\[-1pt]{\small rombo}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmA!18] (0,0) -- (2.3,0) -- (3,1.4) -- (0.7,1.4) -- cycle; \draw[fmA,line width=1.2pt,line join=round] (0,0) -- (2.3,0) -- (3,1.4) -- (0.7,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small romboide}\end{tabular}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Trapecios: \ solo dos lados paralelos (las bases)},before upper=\centering,width=0.735\linewidth,equal height group=trap,nobeforeafter,box align=top]
+\begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmB!18] (0,0) -- (2.6,0) -- (1.7,1.4) -- (0,1.4) -- cycle; \draw[fmB,line width=1.2pt,line join=round] (0,0) -- (2.6,0) -- (1.7,1.4) -- (0,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small rectángulo}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmB!18] (0,0) -- (2.8,0) -- (2.1,1.4) -- (0.7,1.4) -- cycle; \draw[fmB,line width=1.2pt,line join=round] (0,0) -- (2.8,0) -- (2.1,1.4) -- (0.7,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small isósceles}\end{tabular} \hfill \begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmB!18] (0,0) -- (2.8,0) -- (2.4,1.4) -- (0.5,1.4) -- cycle; \draw[fmB,line width=1.2pt,line join=round] (0,0) -- (2.8,0) -- (2.4,1.4) -- (0.5,1.4) -- cycle;\end{tikzpicture}\\[-1pt]{\small escaleno}\end{tabular}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Trapezoides},before upper=\centering,width=0.245\linewidth,equal height group=trap,nobeforeafter,box align=top]
+\begin{tabular}{@{}c@{}}\begin{tikzpicture}[scale=0.8]\path (0,0) -- (0,1.8);\fill[fmK!18] (0,0) -- (2.3,0.3) -- (1.9,1.6) -- (0.4,1.1) -- cycle; \draw[fmK,line width=1.2pt,line join=round] (0,0) -- (2.3,0.3) -- (1.9,1.6) -- (0.4,1.1) -- cycle;\end{tikzpicture}\\[-1pt]{\small ningún paralelo}\end{tabular}
+\end{tcolorbox}\par\medskip
+
+\vfill
+{\large\heavy\color{fmnavy}Propiedades de los paralelogramos}\par\smallskip
+\begin{center}
+\newcommand{\siq}{\textcolor{fmok}{\faCheck}}\newcommand{\noq}{\textcolor{fmmuted!60}{---}}
+\taularod{>{\raggedright\arraybackslash}p{7.2cm}*{4}{>{\hspace{6pt}}c<{\hspace{6pt}}}}{
+\rowcolor{fmblue}\leavevmode\color{white}\heavy Propiedad & \color{white}\heavy Cuadrado & \color{white}\heavy Rectángulo & \color{white}\heavy Rombo & \color{white}\heavy Romboide\\
+Lados opuestos iguales & \siq & \siq & \siq & \siq\\
+\rowcolor{fmsurface}Los 4 lados iguales & \siq & \noq & \siq & \noq\\
+Ángulos opuestos iguales & \siq & \siq & \siq & \siq\\
+\rowcolor{fmsurface}Los 4 ángulos rectos & \siq & \siq & \noq & \noq\\
+Las diagonales se cortan en el punto medio & \siq & \siq & \siq & \siq\\
+\rowcolor{fmsurface}Diagonales iguales & \siq & \siq & \noq & \noq\\
+Diagonales perpendiculares & \siq & \noq & \siq & \noq
+}
+\end{center}
+
+\vfill
+\begin{truc}[El cuadrado lo tiene todo]
+El cuadrado es a la vez un \textbf{rectángulo} (4 ángulos rectos) y un \textbf{rombo} (4 lados iguales): cumple todas las propiedades.
+\end{truc}
+
+\clearpage
+\subsection{Los ángulos de un cuadrilátero}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.25]
+  \coordinate (A) at (0,0); \coordinate (B) at (3.4,0.2); \coordinate (C) at (3,2.2); \coordinate (D) at (0.6,1.9);
+  \fill[fmA!25] (A) -- (B) -- (C) -- cycle; \fill[fmB!25] (A) -- (C) -- (D) -- cycle;
+  \draw[fmnavy,line width=1.3pt,line join=round] (A) -- (B) -- (C) -- (D) -- cycle; \draw[fmR,dashed,line width=1.1pt] (A) -- (C);
+  \node[font=\small\heavy,text=fmA!80!black] at (2.3,0.75) {$180^\circ$}; \node[font=\small\heavy,text=fmB!80!black] at (1.25,1.45) {$180^\circ$};
+  \pnt{(A)}{$A$}{below left} \pnt{(B)}{$B$}{below right} \pnt{(C)}{$C$}{above right} \pnt{(D)}{$D$}{above left}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Los ángulos suman $360^\circ$]
+Una diagonal parte el cuadrilátero en \textbf{dos triángulos}, y sus ángulos forman los del cuadrilátero:\par\smallskip
+{\centering$\hat A+\hat B+\hat C+\hat D=2\cdot180^\circ=360^\circ$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Tres ángulos miden} $85^\circ$, $110^\circ$ y $72^\circ$:\\[2pt]
+$360^\circ-267^\circ=\boxed{93^\circ}$\\[6pt]
+\textbf{Un ángulo de un rombo mide} $70^\circ$: el opuesto también. Los otros dos:\\[2pt]
+$(360^\circ-2\cdot70^\circ):2=\boxed{110^\circ}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{¿Verdadero o falso?}\\[2pt]
+Todo cuadrado es un rombo. \ \be{\text{verdadero}}\\[2pt]
+Todo rectángulo es un cuadrado. \ \mal{\text{falso}} \ \nota{$3\times5$ cm}\\[2pt]
+Un trapecio puede tener dos ángulos rectos. \ \be{\text{verdadero}} \ \nota{el trapecio rectángulo}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=1.1]
+  \fill[fmB!15] (0,0) -- (3,0) -- (2.3,1.5) -- (0.7,1.5) -- cycle;
+  \fill[fmA!35] (0,0) -- (0.45,0) arc (0:65:0.45) -- cycle; \fill[fmA!35] (3,0) -- (2.55,0) arc (180:115:0.45) -- cycle;
+  \fill[fmB!45] (0.7,1.5) -- ($(0.7,1.5)+(0:0.4)$) arc (0:-115:0.4) -- cycle; \fill[fmB!45] (2.3,1.5) -- ($(2.3,1.5)+(180:0.4)$) arc (180:295:0.4) -- cycle;
+  \draw[fmB,line width=1.3pt,line join=round] (0,0) -- (3,0) -- (2.3,1.5) -- (0.7,1.5) -- cycle;
+  \node[font=\scriptsize\heavy] at (0.75,0.22) {$65^\circ$}; \node[font=\scriptsize\heavy] at (2.25,0.22) {$65^\circ$};
+  \node[font=\scriptsize\heavy] at (1.05,1.2) {$115^\circ$}; \node[font=\scriptsize\heavy] at (1.95,1.2) {$115^\circ$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.61\linewidth}
+\begin{exemple}[Ejemplo: \ trapecio isósceles con un ángulo de $65^\circ$]
+Los dos ángulos de la base mayor son iguales: \ $65^\circ$ y $65^\circ$.\\[3pt]
+Los dos de arriba también son iguales: \ $(360^\circ-130^\circ):2=\boxed{115^\circ}$\\[3pt]
+\nota{cada ángulo de arriba es suplementario del de abajo: $65+115=180$}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ los ángulos miden $x$, \ $x+10^\circ$, \ $x+20^\circ$ \ y \ $x+30^\circ$]
+$x+x+10+x+20+x+30=360$ \ $\to$ \ $4x+60=360$ \ $\to$ \ $4x=300$ \ $\to$ \ $x=75$\\[3pt]
+Los ángulos miden \ $\boxed{75^\circ}$, \ $\boxed{85^\circ}$, \ $\boxed{95^\circ}$ \ y \ $\boxed{105^\circ}$. \ \nota{suma: $360$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{compte}[¿Qué paralelogramo es?]
+Diagonales iguales pero no perpendiculares: \textbf{rectángulo}. \ Perpendiculares pero no iguales: \textbf{rombo}. \ Iguales y perpendiculares: \textbf{cuadrado}.
+\end{compte}
+
+\vfill
+% ============================================================ 7.9
+\clearpage
+\seccio{sec9}{Ángulos y polígonos regulares}{Partimos el polígono en triángulos.}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=1.1]
+  \coordinate (P0) at (0,0); \coordinate (P1) at (2,-0.3); \coordinate (P2) at (3,1); \coordinate (P3) at (2.6,2.4); \coordinate (P4) at (0.9,2.8); \coordinate (P5) at (-0.5,1.5);
+  \fill[fmA!25] (P0) -- (P1) -- (P2) -- cycle; \fill[fmB!25] (P0) -- (P2) -- (P3) -- cycle; \fill[fmK!25] (P0) -- (P3) -- (P4) -- cycle; \fill[fmV!25] (P0) -- (P4) -- (P5) -- cycle;
+  \draw[fmnavy,dashed,line width=0.9pt] (P0) -- (P2) (P0) -- (P3) (P0) -- (P4);
+  \draw[fmnavy,line width=1.3pt,line join=round] (P0) -- (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+  \foreach \t/\p in {1/{(1.65,0.25)},2/{(1.95,1.2)},3/{(1.25,1.75)},4/{(0.25,1.45)}} \node[font=\small\heavy] at \p {\t};
+  \fill[fmR] (P0) circle (2.3pt);
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}hexágono: 4 triángulos}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.61\linewidth}
+\begin{idea}[Suma de los ángulos de un polígono]
+Las diagonales de un vértice parten un polígono convexo de $n$ lados en \textbf{$n-2$ triángulos}. Sus ángulos forman los del polígono:\par\smallskip
+{\centering\Large$S=(n-2)\cdot180^\circ$\par}\smallskip
+Hexágono: \ $4\cdot180^\circ=720^\circ$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{center}
+\taularod{>{\heavy}l*{6}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmblue}\color{white}Polígono & \color{white}triángulo & \color{white}cuadrilátero & \color{white}pentágono & \color{white}hexágono & \color{white}heptágono & \color{white}octógono\\
+Lados $n$ & 3 & 4 & 5 & 6 & 7 & 8\\
+\rowcolor{fmsurface}Triángulos & 1 & 2 & 3 & 4 & 5 & 6\\
+Suma $S$ & $180^\circ$ & $360^\circ$ & $540^\circ$ & $720^\circ$ & $900^\circ$ & $1080^\circ$
+}
+\end{center}
+
+\vfill
+\begin{minipage}[c]{0.38\linewidth}\centering
+\begin{tikzpicture}[scale=1.35]
+  \foreach \i in {0,...,4} \coordinate (V\i) at (90+72*\i:1.6);
+  \fill[fmA!7] (V0) -- (V1) -- (V2) -- (V3) -- (V4) -- cycle;
+  \fill[fmK!35] (0,0) -- (234:0.55) arc (234:306:0.55) -- cycle;
+  \draw[fmK,dashed,line width=1pt] (0,0) -- (V2);
+  \draw[fmR,line width=1.4pt] (0,0) -- (V3); \node[font=\small\heavy,text=fmR] at (0.82,-0.35) {$r$};
+  \draw[fmA,line width=1.4pt] (0,0) -- (0,-1.294); \node[font=\small\heavy,text=fmA] at (-0.2,-0.85) {$a$}; \recte[0]{0}{-1.294}
+  \draw[fmnavy,line width=1.3pt,line join=round] (V0) -- (V1) -- (V2) -- (V3) -- (V4) -- cycle;
+  \fill[fmnavy] (0,0) circle (1.8pt) node[above,font=\small] {$O$};
+  \node[font=\comic\scriptsize,text=fmK!80!black,align=center] at (-0.72,0.3) {ángulo\\[-3pt]central}; \draw[fmK!80!black,line width=0.5pt] (-0.5,0.08) -- (-0.16,-0.4);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.59\linewidth}
+\begin{idea}[Elementos de un polígono regular]
+\textbf{Centro} $O$: a la misma distancia de todos los vértices.\\[2pt]
+\cR{\textbf{Radio} $r$}: del centro a un vértice.\\[2pt]
+\cA{\textbf{Apotema} $a$}: del centro al punto medio de un lado; es perpendicular al lado.\\[2pt]
+\cK{\textbf{Ángulo central}}: el de dos radios seguidos.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Ángulo interior},before upper=\centering]
+Todos iguales: la suma entre $n$.\par\smallskip
+{\Large$\dfrac{(n-2)\cdot180^\circ}{n}$}\par\smallskip
+Hexágono: \ $\dfrac{720^\circ}{6}=120^\circ$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Ángulo central},before upper=\centering]
+La vuelta entera entre $n$.\par\smallskip
+{\Large$\dfrac{360^\circ}{n}$}\par\smallskip
+Hexágono: \ $\dfrac{360^\circ}{6}=60^\circ$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Siempre suplementarios]
+El ángulo interior y el ángulo central de un polígono regular suman $180^\circ$: \ $120^\circ+60^\circ=180^\circ$.
+\end{truc}
+
+\clearpage
+\subsection{Mosaicos con polígonos regulares}
+
+\vfill
+\begin{idea}[Cubrir el suelo con baldosas iguales]
+Sin huecos y sin montarse, los ángulos que se juntan en cada vértice deben sumar \textbf{$360^\circ$}. Solo pasa con tres polígonos regulares:
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\caixa{fmA}{Triángulos}{\begin{tikzpicture}[scale=0.55]
+  \clip (0,0) rectangle (4,3.2);
+  \fill[fmA!12] (0,0) rectangle (4,3.2);
+  \foreach \j in {0,...,4} \draw[fmA,line width=0.9pt] (-1,\j*0.866) -- (5,\j*0.866);
+  \foreach \k in {-6,...,6} \draw[fmA,line width=0.9pt] (\k,0) -- ++(60:4) (\k,0) -- ++(120:4);
+\end{tikzpicture}\par\smallskip $6\cdot60^\circ=360^\circ$}
+\caixa{fmB}{Cuadrados}{\begin{tikzpicture}[scale=0.55]
+  \fill[fmB!12] (0,0) rectangle (4,3.2); \clip (0,0) rectangle (4,3.2);
+  \draw[fmB,line width=0.9pt,step=0.8] (0,0) grid (4.01,3.21);
+\end{tikzpicture}\par\smallskip $4\cdot90^\circ=360^\circ$}
+\caixa{fmK}{Hexágonos}{\begin{tikzpicture}[scale=0.55]
+  \fill[fmK!12] (0,0) rectangle (4,3.2); \clip (0,0) rectangle (4,3.2);
+  \foreach \i in {0,...,4} \foreach \j in {-1,...,3} {
+    \pgfmathsetmacro{\cx}{\i*0.9}\pgfmathsetmacro{\cy}{\j*1.0392+mod(\i,2)*0.5196}
+    \draw[fmK,line width=0.9pt] ($(\cx,\cy)+(0:0.6)$) \foreach \a in {60,120,...,300} {-- ($(\cx,\cy)+(\a:0.6)$)} -- cycle;}
+\end{tikzpicture}\par\smallskip $3\cdot120^\circ=360^\circ$}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[Con pentágonos no se puede]
+Cada ángulo mide $108^\circ$: \ 3 ángulos suman $324^\circ$ (queda un hueco) y 4 suman $432^\circ$ (se montan). $360$ no es múltiplo de $108$.
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplo: \ el octógono]
+Suma: \ $S=(8-2)\cdot180^\circ=6\cdot180^\circ=\boxed{1080^\circ}$\\[4pt]
+Regular: \ cada ángulo \ $1080^\circ:8=\boxed{135^\circ}$ \qquad ángulo central \ $360^\circ:8=\boxed{45^\circ}$ \ \nota{$135+45=180$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ polígono regular con ángulos de $140^\circ$. ¿Cuántos lados tiene?]
+El ángulo central es el suplementario: \ $180^\circ-140^\circ=40^\circ$. \ Como mide $360^\circ:n$:\\[3pt] $n=360:40=\boxed{9}$ \ $\to$ \ un \textbf{eneágono}\\[3pt]
+\nota{Comprobación: \ $(9-2)\cdot180^\circ=1260^\circ$ \ y \ $1260^\circ:9=140^\circ$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ los ángulos suman $1800^\circ$. ¿Cuántos lados tiene?]
+$(n-2)\cdot180=1800$ \ $\to$ \ $n-2=1800:180=10$ \ $\to$ \ $n=12$: \ \textbf{dodecágono}\\[3pt]Diagonales: \ $\dfrac{12\cdot9}{2}=\boxed{54}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ ¿se puede hacer un mosaico solo con octógonos regulares?]
+No: cada ángulo mide $135^\circ$; 2 ángulos suman $270^\circ$ y 3 suman $405^\circ$.\\[3pt]
+\nota{Por eso los combinamos con cuadrados: \ $135+135+90=360$}
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=22pt,raster before skip=14pt]
+\rtile{7.1}{Puntos y rectas}{Por dos puntos pasa una recta.\\[1ex] Semirrecta: un origen.\\[1ex] Segmento: dos extremos.}
+\rtile{7.2}{Posiciones}{Secantes, paralelas o coincidentes.\\[1ex] Mediatriz: equidista de los extremos.}
+\rtile{7.3}{Ángulos}{Agudo, recto, obtuso, llano, cóncavo.\\[1ex] Bisectriz: dos mitades iguales.}
+\rtile{7.4}{Sexagesimal}{$1^\circ=60'$ \ y \ $1'=60''$.\\[1ex] Nos llevamos de 60 en 60.}
+\rtile{7.5}{Relaciones}{Complementarios: suman $90^\circ$.\\[1ex] Suplementarios: suman $180^\circ$.\\[1ex] Opuestos por el vértice: iguales.}
+\rtile{7.6}{Polígonos}{Convexo, cóncavo o regular.\\[1ex] Diagonales: \ $\frac{n\cdot(n-3)}{2}$.}
+\rtile{7.7}{Triángulos}{$\hat A+\hat B+\hat C=180^\circ$.\\[1ex] Lado mayor $<$ suma de los otros.}
+\rtile{7.8}{Cuadriláteros}{Paralelogramos, trapecios, trapezoides.\\[1ex] Los ángulos suman $360^\circ$.}
+\rtile{7.9}{Polígonos regulares}{$S=(n-2)\cdot180^\circ$.\\[1ex] Ángulo central: \ $360^\circ:n$.}
+\end{tcbraster}
+\end{document}
