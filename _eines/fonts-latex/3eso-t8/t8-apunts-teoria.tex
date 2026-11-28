@@ -1,0 +1,791 @@
+% Apunts de teoria en PDF · 3r ESO · Unitat 8: Funció lineal i quadràtica
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 8: Funció lineal i quadràtica. 3r ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={proporcionalitat directa, funció lineal, pendent, ordenada en l'origen, equació de la recta, rectes paral·leles, punt de tall, funció quadràtica, paràbola, vèrtex}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{8.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$y=mx+n$};
+  \draw[line width=2pt,opacity=0.6] (120,100)--(232,100) (176,110)--(176,18);
+  \draw[line width=3.2pt] (128,95) -- (228,30);
+  \draw[line width=3.4pt,domain=-36:36,samples=40] plot ({176+\x},{90-0.055*\x*\x});
+  \fill (176,90) circle (5);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3r ESO · Unitat 8: Funció lineal i quadràtica}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 3r ESO · Matemàtiques}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 8}\\[2pt]Funció lineal i quadràtica\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+\begin{document}
+\portada{Rectes i paràboles: les dues gràfiques que més apareixen.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{8.1}{\faBalanceScale}{Proporcionalitat directa}
+\itile{sec2}{8.2}{\faChartLine}{Funció lineal}
+\itile{sec3}{8.3}{\faIcon{pencil-ruler}}{Equació d'una recta}
+\itile{sec4}{8.4}{\faTaxi}{Aplicacions de la funció lineal}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{8.5}{\faTimes}{Dues rectes alhora}
+\itile{sec6}{8.6}{\faIcon{bezier-curve}}{La paràbola $y=ax^2$}
+\itile{sec7}{8.7}{\faDraftingCompass}{La paràbola $y=ax^2+bx+c$}
+\itile{sec8}{8.8}{\faBasketballBall}{Problemes amb paràboles}
+\itile{resum}{\phantom{8.8}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 8.1
+\clearpage
+\seccio{sec1}{Funció de proporcionalitat directa}{El doble de $x$, el doble de $y$: una recta per l'origen.}
+
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Funció de proporcionalitat directa]
+{\centering\fontsize{22}{26}\selectfont$y=\cA{m}\,x$\par}\smallskip
+\chip{fmA}{$m$} és la \textbf{constant de proporcionalitat}: \ $m=\dfrac{y}{x}$, igual per a tots els parells.\\[3pt]
+La gràfica és una \textbf{recta que passa per l'origen} $(0,\,0)$.\\[3pt]
+$m$ també és el \textbf{pendent}: el que augmenta la $y$ quan la $x$ augmenta 1.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[scale=0.68]
+  \eixos{-3}{3}{-3}{3}
+  \draw[fmK,line width=1.6pt] (-1.5,-3) -- (1.5,3); \draw[fmK!60,line width=1.6pt] (-3,-1.5) -- (3,1.5);
+  \draw[fmR,line width=1.6pt] (-1,3) -- (1,-3); \draw[fmR!60,line width=1.6pt] (-3,1) -- (3,-1);
+  \node[above,font=\small,text=fmK!80!black] at (1.5,3) {$y=2x$}; \node[right,font=\small,text=fmK!60!black] at (3,1.5) {$y=\frac12x$};
+  \node[above,font=\small,text=fmR] at (-1,3) {$y=-3x$}; \node[left,font=\small,text=fmR!70!black] at (-3,1) {$y=-\frac13x$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={$m>0$},before upper=\centering]
+\textbf{Creixent}: la recta puja.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={$m<0$},before upper=\centering]
+\textbf{Decreixent}: la recta baixa.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={$|m|$ més gran},before upper=\centering]
+Més \textbf{inclinada}.
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{minipage}[c]{0.58\linewidth}
+\begin{truc}[Basta un punt]
+L'origen ja el tenim. Per a $y=\tfrac32x$, triem una $x$ que faça la $y$ entera: \ $x=2\ \to\ y=3$. \ Unim $(0,\,0)$ i $(2,\,3)$.
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.38\linewidth}\centering
+\begin{tikzpicture}[scale=0.45]
+  \eixos{-2}{4}{-2}{4}
+  \draw[fmblue,line width=1.6pt] (-1.33,-2) -- (2.67,4);
+  \pple[fmR]{(0,0)} \pple[fmR]{(2,3)}
+  \node[right,font=\small\heavy,text=fmR] at (2.1,2.8) {$(2,\,3)$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ un quilo de cireres costa 4,50 €]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\tv[fmex]{$x$ (kg) & 0 & 1 & 2 & 3 & 4}{$y$ (€) & 0 & 4,5 & 9 & 13,5 & 18}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$y=4{,}5\,x$ \ \nota{$m$: el preu d'1 kg}\\[3pt]
+$2{,}4$ kg: \ $4{,}5\cdot2{,}4=\boxed{10{,}80\text{ €}}$
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Exemple: \ un cotxe gasta 6 L cada 100 km. Quants km fa amb 45 L?]
+$m=\dfrac{6}{100}=0{,}06$ L/km \ $\to$ \ $y=0{,}06\,x$ \qquad $0{,}06\,x=45\ \to\ x=\dfrac{45}{0{,}06}=\boxed{750\text{ km}}$
+\end{exemple}
+
+\begin{exemple}[Exemple: \ passa per $(-4,\,6)$. Passa també per $(10,\,-15)$?]
+$m=\dfrac{6}{-4}=-\dfrac32\ \to\ \boxed{y=-\tfrac32x}$ \qquad $x=10:\ \ y=-\tfrac32\cdot10=-15$ \ \be{} \ \ \textbf{sí}
+\end{exemple}
+
+% ============================================================ 8.2
+\clearpage
+\seccio{sec2}{Funció lineal}{La recta de $y=mx$, pujada o baixada $n$ unitats.}
+
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{30}{30}\selectfont,inner sep=3pt,text height=25pt,text depth=8pt}]
+  \node[t] (y) {$y=$};
+  \node[t,right=2pt of y,fill=fmA!12,rounded corners=2mm] (m) {$\cA{m}$};
+  \node[t,right=0pt of m] (x) {$x$};
+  \node[t,right=2pt of x] (p) {$+$};
+  \node[t,right=2pt of p,fill=fmB!12,rounded corners=2mm] (n) {$\cB{n}$};
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,anchor=east,align=center] (lm) at ([xshift=-1.4cm,yshift=0.5cm]y.west) {{\heavy\color{fmA}pendent}\\[-2pt]\small el que varia la $y$ si la $x$ augmenta 1};
+  \node[fill=fmB!14,draw=fmB,rounded corners=2mm,font=\large,anchor=west,align=center] (ln) at ([xshift=1.2cm,yshift=0.5cm]n.east) {{\heavy\color{fmB}ordenada en l'origen}\\[-2pt]\small talla l'eix $Y$ en $(0,\,n)$};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (lm.east) to[out=0,in=110] ([yshift=2pt]m.north);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (ln.west) to[out=180,in=70] ([yshift=2pt]n.north);
+\end{tikzpicture}
+\end{center}
+
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.5]
+  \eixos{-3}{3}{-3}{4}
+  \draw[fmmuted,line width=1.4pt,dashed] (-1.5,-3) -- (1.5,3);
+  \draw[fmblue,line width=1.7pt] (-3,-3) -- (0.5,4);
+  \pple[fmB]{(0,3)}
+  \draw[-{Latex[length=2mm]},fmB,line width=1.1pt] (0.5,0.5) -- (0.5,2.6);
+  \etq{fmblue}{(-2.3,1)}{$y=2x+3$} \etq{fmmuted}{(2.2,1.6)}{$y=2x$}
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}la mateixa recta, 3 unitats amunt}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[Com es dibuixa]
+\pas{1} Marquem $(0,\,n)$.\\[3pt]
+\pas{2} Avancem \textbf{1} a la dreta i \textbf{pugem $m$} (o baixem si $m<0$). Si $m$ és una fracció $\tfrac{a}{b}$: avancem $b$ i pugem $a$.\\[3pt]
+\pas{3} Unim els dos punts.
+\end{idea}
+\end{minipage}
+
+\begin{minipage}[c]{0.5\linewidth}
+\begin{exemple}[Exemple: \ $y=-\tfrac23x+2$]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \eixos{-2}{5}{-2}{4}
+  \draw[fmblue,line width=1.6pt] (-1.5,3) -- (4.5,-1);
+  \draw[fmK,line width=1.1pt,-{Latex[length=1.8mm]}] (0,2) -- (3,2);
+  \draw[fmR,line width=1.1pt,-{Latex[length=1.8mm]}] (3,2) -- (3,0);
+  \pple[fmB]{(0,2)} \pple[fmB]{(3,0)}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\linewidth}\small
+$n=2$: \ $(0,\,2)$\\[2pt]
+\cK{avancem 3}, \cR{baixem 2}:\\ $(3,\,0)$
+\end{minipage}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Talls amb els eixos}]
+Eix $Y$: \ $x=0\ \to\ (0,\,n)$\\[2pt]
+Eix $X$: \ $y=0$, resolem $mx+n=0$\\[4pt]
+{\centering$y=3x-6$: \ $(0,\,-6)$ \ i \ $3x-6=0\to(2,\,0)$\par}
+\end{tcolorbox}
+\end{minipage}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmsurface,colframe=fmmuted,coltitle=white,title={Funció constant: \ $m=0$}]
+\begin{minipage}[c]{0.55\linewidth}$y=n$ és una recta \textbf{horitzontal}.\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering\begin{tikzpicture}[scale=0.3]\eixos{-3}{3}{-2}{3}\draw[fmblue,line width=1.5pt] (-3,2) -- (3,2);\etq{fmblue}{(1.6,2.9)}{$y=2$}\end{tikzpicture}\end{minipage}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Recta vertical: \ $x=k$}]
+\begin{minipage}[c]{0.55\linewidth}\textbf{No és una funció}: a $k$ li corresponen infinites $y$.\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering\begin{tikzpicture}[scale=0.3]\eixos{-3}{3}{-2}{3}\draw[fmR,line width=1.5pt] (-2,-2) -- (-2,3);\etq{fmR}{(-1.6,-2.8)}{$x=-2$}\end{tikzpicture}\end{minipage}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{compte}[Primer, en la forma $y=mx+n$]
+$y=\dfrac{2-3x}{4}=\dfrac24-\dfrac34x\ \to\ y=-\dfrac34x+\dfrac12$: \ $m=-\tfrac34$, \ $n=\tfrac12$. \qquad \mal{m=2}
+\end{compte}
+
+% ============================================================ 8.3
+\clearpage
+\seccio{sec3}{Equació d'una recta}{Dos punts, o un punt i el pendent, determinen una recta.}
+
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Pendent a partir de dos punts]
+Si passa per $A(x_1,\,y_1)$ i $B(x_2,\,y_2)$:\\[3pt]
+{\centering\Large$m=\dfrac{\cR{y_2-y_1}}{\cK{x_2-x_1}}$\par}\smallskip
+el que \cR{puja la $y$} entre el que \cK{avança la $x$}.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[scale=0.68]
+  \eixos{-1}{5}{-1}{4}
+  \draw[fmblue,line width=1.6pt] (-0.75,0.5) -- (4.5,4);
+  \draw[fmK,line width=1.2pt] (0,1) -- (3,1); \draw[fmR,line width=1.2pt] (3,1) -- (3,3);
+  \pple[fmnavy]{(0,1)} \pple[fmnavy]{(3,3)}
+  \node[above left,font=\small\heavy] at (0,1) {$A$}; \node[above left,font=\small\heavy] at (3,3) {$B$};
+  \node[below,font=\small,text=fmK!80!black] at (1.5,1) {3}; \node[right,font=\small,text=fmR] at (3,2) {2};
+  \node[font=\small,text=fmblue,fill=white,inner sep=1pt] at (4.6,2.6) {$m=\frac23$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large Equació punt-pendent: \quad $y-y_0=m\,(x-x_0)$}\par\smallskip
+la recta de pendent $m$ que passa per $(x_0,\,y_0)$
+\end{tcolorbox}
+
+\begin{minipage}[c]{0.4\linewidth}\raggedright
+\textbf{Recta per dos punts}:\\[4pt]
+\pas{1} Calculem el \textbf{pendent}.\\[4pt]
+\pas{2} Punt-pendent amb \textbf{un} dels punts.\\[4pt]
+\pas{3} \textbf{Aïllem} la $y$.\\[4pt]
+\pas{4} \textbf{Comprovem} amb l'altre punt.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{exemple}[Exemple: \ recta per $A(1,\,-2)$ i $B(4,\,7)$]
+\pas{1} $m=\dfrac{7-(-2)}{4-1}=\dfrac93=3$\\[4pt]
+\pas{2} $y-(-2)=3\,(x-1)$\\[4pt]
+\pas{3} $y+2=3x-3\ \to\ \boxed{y=3x-5}$\\[4pt]
+\pas{4} \nota{$B$: \ $3\cdot4-5=7$ \be{}}
+\end{exemple}
+\end{minipage}
+
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Forma general: \ $ax+by+c=0$}]
+Per a passar a $y=mx+n$, \textbf{aïllem la $y$}:\par\smallskip
+{\centering$4x-2y+6=0\ \to\ \boxed{y=2x+3}$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Rectes paral·leles: mateix pendent}]
+Paral·lela a $y=-2x+1$ per $(3,\,4)$:\par\smallskip
+{\centering$y-4=-2\,(x-3)\ \to\ \boxed{y=-2x+10}$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{exemple}[Exemple: \ recta per $(-2,\,7)$ i $(4,\,-2)$, i tall amb l'eix $Y$]
+\begin{minipage}[t]{0.5\linewidth}
+$m=\dfrac{-2-7}{4-(-2)}=\dfrac{-9}{6}=-\dfrac32$\\[4pt]
+$y-7=-\tfrac32\,(x+2)\ \to\ \boxed{y=-\tfrac32x+4}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+Talla l'eix $Y$ en $(0,\,4)$.\\[4pt]
+\nota{comprovació: $-\tfrac32\cdot4+4=-2$ \be{}}
+\end{minipage}
+\end{exemple}
+
+\begin{exemple}[Exemple: \ estan alineats $A(-1,\,-4)$, $B(1,\,2)$ i $C(3,\,7)$?]
+$m_{AB}=\dfrac{2-(-4)}{1-(-1)}=\dfrac62=3$ \qquad $m_{BC}=\dfrac{7-2}{3-1}=\dfrac52$ \qquad $3\neq\dfrac52$: \ \textbf{no} estan alineats.
+\end{exemple}
+
+% ============================================================ 8.4
+\clearpage
+\seccio{sec4}{Aplicacions de la funció lineal}{Una part fixa i una part que creix al mateix ritme.}
+
+\begin{idea}
+{\centering\Large$y=\cA{m}\,x+\cB{n}$\qquad \normalsize\chip{fmB}{$n$: el valor inicial (quan $x=0$)} \ \ \chip{fmA}{$m$: el ritme de canvi per unitat}\par}
+\end{idea}
+
+\begin{center}
+\taularod{l<{\hspace{6pt}}>{\hspace{6pt}}c<{\hspace{6pt}}>{\hspace{6pt}}c<{\hspace{6pt}}>{\hspace{6pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}\heavy Situació & \color{white}\heavy Funció & \color{white}\heavy $m$ & \color{white}\heavy $n$\\
+Taxi: 3 € fixos i 1,20 € per km & $P=1{,}2x+3$ & preu per km & preu fix\\
+\rowcolor{fmsurface}Moviment a velocitat constant & $d=d_0+v\,t$ & velocitat & posició inicial\\
+Graus Celsius $\to$ Fahrenheit & $F=1{,}8\,C+32$ & $1{,}8$ & $32$\\
+\rowcolor{fmsurface}Dipòsit de 500 L que es buida a 25 L/min & $V=500-25t$ & $-25$ & $500$
+}
+\end{center}
+
+\begin{minipage}[c]{0.45\linewidth}\raggedright
+\pas{1} \textbf{Variables}: què és la $x$ i què la $y$ (amb unitats).\\[5pt]
+\pas{2} Troba $m$ i $n$. Si et donen \textbf{dos parells}, calcula la recta que passa per aquests punts.\\[5pt]
+\pas{3} Escriu la fórmula, respon i \textbf{interpreta}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{exemple}[Exemple: \ bicis a 5 € fixos i 2,50 € per hora]
+$P(x)=2{,}5x+5$\\[3pt]
+4 h: \ $P(4)=10+5=\boxed{15\text{ €}}$\\[3pt]
+Amb 25 €: \ $2{,}5x+5=25\ \to\ 2{,}5x=20\ \to\ \boxed{x=8\text{ h}}$
+\end{exemple}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ un rellotge de sorra té 300 g a dalt i en cauen 12 g per minut]
+\begin{minipage}[c]{0.55\linewidth}
+$S(t)=300-12t$\\[4pt]
+Es buida quan $S=0$: \ $12t=300\ \to\ t=25$ min\\[4pt]
+Domini amb sentit: \ $\boxed{[0,\,25]}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[x=0.17cm,y=0.0082cm]
+  \draw[fmmuted!22,line width=0.4pt,xstep=5,ystep=50] (0,0) grid (25,300);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0)--(27.5,0) node[right,font=\small]{$t$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0)--(0,330) node[above,font=\small]{$S$};
+  \draw[fmex,line width=1.7pt] (0,300) -- (25,0);
+  \pple[fmex]{(0,300)} \pple[fmex]{(25,0)}
+  \node[left,font=\scriptsize] at (0,300) {300}; \node[below,font=\scriptsize] at (25,0) {25};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Exemple: \ de °C a °F]
+L'aigua bull a 100 °C $=$ 212 °F i es congela a 0 °C $=$ 32 °F:\\[3pt]
+$m=\dfrac{212-32}{100-0}=1{,}8$, \ $n=32$ \ $\to$ \ $F=1{,}8\,C+32$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Només per a alguns valors]
+La fórmula té sentit en un \textbf{domini}: el temps no és negatiu, un dipòsit no pot tindre menys de 0 L\dots
+\end{compte}
+\end{minipage}
+
+% ============================================================ 8.5
+\clearpage
+\seccio{sec5}{Estudi conjunt de dues funcions lineals}{Comparant pendents i ordenades ja sabem com són.}
+
+\newcommand{\minirectes}[1]{\begin{tikzpicture}[scale=0.42]
+  \draw[-{Latex[length=1.6mm]},fmmuted,line width=0.6pt] (-0.3,0)--(4.3,0); \draw[-{Latex[length=1.6mm]},fmmuted,line width=0.6pt] (0,-0.3)--(0,3.6);
+  #1
+\end{tikzpicture}}
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Secants},before upper=\centering]
+\minirectes{\draw[fmA,line width=1.4pt] (0.2,3.3)--(4,0.3); \draw[fmB,line width=1.4pt] (0.3,0.4)--(4,3.3); \fill[fmR] (2.15,1.75) circle (4.5pt);}\par
+$m_1\neq m_2$\par\smallskip
+{\small un punt comú \ \chip{fmK}{SCD}}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Paral·leles},before upper=\centering]
+\minirectes{\draw[fmA,line width=1.4pt] (0.2,1.2)--(3.2,3.4); \draw[fmB,line width=1.4pt] (0.9,0.2)--(4,2.5);}\par
+$m_1=m_2,\ n_1\neq n_2$\par\smallskip
+{\small cap punt comú \ \chip{fmR}{SI}}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={Coincidents},before upper=\centering]
+\minirectes{\draw[fmA,line width=3.2pt] (0.2,0.4)--(4,3.3); \draw[fmB,line width=1.3pt,dashed] (0.2,0.4)--(4,3.3);}\par
+$m_1=m_2,\ n_1=n_2$\par\smallskip
+{\small infinits punts \ \chip{fmgold}{SCI}}
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering És el mateix que en la unitat 6: el punt de tall és la solució del sistema.\par}
+
+\subsection{El punt de tall}
+\begin{minipage}[c]{0.56\linewidth}
+En el punt de tall, les dues $y$ són \textbf{iguals}: \textbf{igualem} les expressions, trobem la $x$ i després la $y$.\\[6pt]
+$y=3x-1$, \ \ $y=-x+7$:\\[3pt]
+$3x-1=-x+7\ \to\ 4x=8\ \to\ x=2$\\[3pt]
+$y=3\cdot2-1=5$ \ $\to$ \ \boxed{(2,\,5)}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \eixos{-1}{5}{-1}{7}
+  \draw[fmA,line width=1.6pt] (0,-1) -- (2.67,7);
+  \draw[fmB,line width=1.6pt] (0,7) -- (5,2);
+  \fill[fmR] (2,5) circle (6pt);
+  \node[right=3pt,font=\small\heavy] at (2.1,5.2) {$(2,\,5)$};
+\end{tikzpicture}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ A cobra 12 € al mes i 0,05 €/min; B, 4 € al mes i 0,15 €/min. Quan és millor A?]
+\begin{minipage}[c]{0.55\linewidth}
+$A(x)=0{,}05x+12$, \quad $B(x)=0{,}15x+4$\\[4pt]
+$0{,}05x+12=0{,}15x+4\ \to\ 8=0{,}1x\ \to\ x=80$\\[4pt]
+Amb 80 min costen igual (16 €). Després, la recta de \cB{B} va \textbf{per dalt}:\\[2pt]
+\textbf{A és millor a partir de 80 minuts.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[x=0.042cm,y=0.15cm]
+  \draw[fmmuted!22,line width=0.4pt,xstep=20,ystep=5] (0,0) grid (140,25);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0)--(150,0) node[right,font=\scriptsize]{min};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0)--(0,27.5) node[above,font=\scriptsize]{€};
+  \foreach \k in {40,80,120} \node[below,font=\scriptsize,text=fmmuted] at (\k,0) {\k};
+  \foreach \k in {5,10,...,25} \node[left,font=\scriptsize,text=fmmuted] at (0,\k) {\k};
+  \draw[fmA,line width=1.6pt] (0,12) -- (140,19); \draw[fmB,line width=1.6pt] (0,4) -- (140,25);
+  \fill[fmR] (80,16) circle (3.5pt);
+  \etq{fmA}{(118,15.8)}{A} \etq{fmB}{(118,23)}{B}
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\begin{truc}[Dues ofertes]
+Dibuixa les dues rectes: el \textbf{punt de tall} diu on costen el mateix i, a cada costat, és més barata la recta que va \textbf{per baix}.
+\end{truc}
+
+% ============================================================ 8.6
+\clearpage
+\seccio{sec6}{Funcions quadràtiques: la paràbola $y=ax^2$}{Un polinomi de segon grau dibuixa una paràbola.}
+
+\begin{idea}[Funció quadràtica]
+{\centering\Large$y=ax^2+bx+c\qquad (a\neq0)$\par}\smallskip
+La seua gràfica és una corba simètrica anomenada \textbf{paràbola}. La més senzilla és $y=x^2$.
+\end{idea}
+
+\begin{minipage}[c]{0.5\linewidth}
+{\centering\tv{$x$ & $-3$ & $-2$ & $-1$ & 0 & 1 & 2 & 3}{$y$ & 9 & 4 & 1 & 0 & 1 & 4 & 9}\par}\medskip
+\faCheck\ \textbf{Simètrica} respecte de l'eix $Y$: $x$ i $-x$ tenen la mateixa imatge. Aquesta recta és l'\textbf{eix de simetria}.\\[4pt]
+\faCheck\ El \textbf{vèrtex} és $V(0,\,0)$: el \textbf{mínim}.\\[4pt]
+\faCheck\ Decreix en $\lo-\infty,\,0\ro$ i creix en $\lo0,\,+\infty\ro$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}\centering
+\begin{tikzpicture}[x=0.6cm,y=0.36cm]
+  \eixos{-3}{3}{-1}{9}
+  \nums{-3}{3}{1}{9}
+  \draw[fmK,line width=1pt,dashed] (0,-1) -- (0,9.3);
+  \draw[fmblue,line width=1.7pt,domain=-3.05:3.05,samples=50] plot (\x,{\x*\x});
+  \foreach \x in {-3,...,3} \fill[fmR] (\x,{\x*\x}) circle (3.5pt);
+  \node[below right,font=\small\heavy,text=fmR] at (0,0) {$V$};
+\end{tikzpicture}
+\end{minipage}
+
+\subsection{Què fa el coeficient $a$?}
+\begin{minipage}[c]{0.52\linewidth}
+\chip{fmK}{$a>0$} \ branques cap \textbf{amunt} $\cup$: el vèrtex és un \textbf{mínim}.\\[5pt]
+\chip{fmR}{$a<0$} \ branques cap \textbf{avall} $\cap$: el vèrtex és un \textbf{màxim}.\\[5pt]
+\chip{fmblue}{$|a|$ gran} \ més \textbf{tancada}; \ \chip{fmblue}{$|a|<1$} \ més \textbf{oberta} que $y=x^2$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.22\linewidth}\centering
+\begin{tikzpicture}[scale=0.32]
+  \eixos{-3}{3}{-1}{8}
+  \draw[fmK,line width=1.5pt,domain=-1.6:1.6,samples=40] plot (\x,{3*\x*\x});
+  \draw[fmK!55,line width=1.5pt,domain=-3:3,samples=40] plot (\x,{\x*\x/3});
+\end{tikzpicture}\\{\scriptsize\color{fmK!80!black}$3x^2$ \ i \ $\frac13x^2$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.22\linewidth}\centering
+\begin{tikzpicture}[scale=0.32]
+  \eixos{-3}{3}{-8}{1}
+  \draw[fmR,line width=1.5pt,domain=-2.8:2.8,samples=40] plot (\x,{-\x*\x});
+  \draw[fmR!55,line width=1.5pt,domain=-3:3,samples=40] plot (\x,{-\x*\x/4});
+\end{tikzpicture}\\{\scriptsize\color{fmR}$-x^2$ \ i \ $-\frac14x^2$}
+\end{minipage}
+
+\begin{minipage}[c]{0.6\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Desplaçament: \ $y=ax^2+c$}]
+És la paràbola $y=ax^2$ desplaçada \textbf{$c$ unitats} cap amunt (o avall si $c<0$). El vèrtex és $(0,\,c)$.\par\smallskip
+{\centering$y=x^2-4$: \ vèrtex $(0,\,-4)$, talls $x^2=4\to x=\pm2$\par}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.38]
+  \eixos{-3}{3}{-4}{5}
+  \draw[fmmuted,line width=1.2pt,dashed,domain=-2.2:2.2,samples=40] plot (\x,{\x*\x});
+  \draw[fmblue,line width=1.6pt,domain=-3:3,samples=40] plot (\x,{\x*\x-4});
+  \fill[fmR] (0,-4) circle (5pt); \fill[fmK] (-2,0) circle (5pt); \fill[fmK] (2,0) circle (5pt);
+\end{tikzpicture}
+\end{minipage}
+
+\begin{exemple}[Exemple: \ $a$ perquè $y=ax^2$ passe per $(2,\,-6)$]
+$-6=a\cdot2^2\ \to\ \boxed{a=-\tfrac32}$ \qquad Passa també per $(-2,\,-6)$, per \textbf{simetria}: $x=-2$ té la mateixa imatge que $x=2$.
+\end{exemple}
+
+% ============================================================ 8.7
+\clearpage
+\seccio{sec7}{Representació de $y=ax^2+bx+c$}{Vèrtex, eix i talls: amb això ja la tenim.}
+
+\begin{idea}[Elements de la paràbola]
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{Forma}: el signe de $a$ ($\cup$ o $\cap$) i $|a|$.\\[3pt]
+\textbf{Vèrtex}: \ $x_v=\dfrac{-b}{2a}$, \ $y_v=f(x_v)$.\\[3pt]
+\textbf{Eix de simetria}: la recta $x=x_v$.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Tall amb l'eix $Y$}: \ $(0,\,c)$.\\[3pt]
+\textbf{Talls amb l'eix $X$}: resolem $ax^2+bx+c=0$.\\[3pt]
+Quants? Ho diu el discriminant $\Delta=b^2-4ac$.
+\end{minipage}
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={$\Delta>0$: dos talls},before upper=\centering]
+\begin{tikzpicture}[scale=0.42]\eixos{0}{4}{-1}{3}\draw[fmblue,line width=1.5pt,domain=0.2:3.8,samples=40] plot (\x,{(\x-2)*(\x-2)-1});\fill[fmK] (1,0) circle (5pt); \fill[fmK] (3,0) circle (5pt);\end{tikzpicture}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={$\Delta=0$: un (el vèrtex)},before upper=\centering]
+\begin{tikzpicture}[scale=0.42]\eixos{0}{4}{-1}{3}\draw[fmblue,line width=1.5pt,domain=0.3:3.7,samples=40] plot (\x,{(\x-2)*(\x-2)});\fill[fmgold] (2,0) circle (5pt);\end{tikzpicture}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={$\Delta<0$: cap},before upper=\centering]
+\begin{tikzpicture}[scale=0.42]\eixos{0}{4}{-1}{3}\draw[fmblue,line width=1.5pt,domain=0.6:3.4,samples=40] plot (\x,{(\x-2)*(\x-2)+1});\end{tikzpicture}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple pas a pas: \ $y=x^2-2x-3$ \ \ ($a=1$, $b=-2$, $c=-3$)]
+\begin{minipage}[c]{0.56\linewidth}
+\pas{1} $a=1>0$: \ cap amunt, el vèrtex és un \textbf{mínim}.\\[3pt]
+\pas{2} $x_v=\dfrac{-(-2)}{2\cdot1}=1$, \ $y_v=1-2-3=-4$ \ $\to$ \ $\boxed{V(1,\,-4)}$\\[3pt]
+\pas{3} Eix $Y$: \ $(0,\,-3)$\\[3pt]
+\pas{4} Eix $X$: \ $x=\dfrac{2\pm\sqrt{4+12}}{2}=\dfrac{2\pm4}{2}$ \ $\to$ \ $(-1,\,0)$, \ $(3,\,0)$\\[3pt]
+\pas{5} Taula al voltant del vèrtex, \textbf{simètrica}:\\[3pt]
+\hspace*{1.5em}\tv[fmex]{$x$ & $-1$ & 0 & 1 & 2 & 3}{$y$ & 0 & $-3$ & $-4$ & $-3$ & 0}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=0.6cm,y=0.42cm]
+  \eixos{-2}{4}{-4}{5}
+  \nums{-2}{4}{-4}{5}
+  \draw[fmK,line width=1pt,dashed] (1,-4.3) -- (1,5.3);
+  \draw[fmex,line width=1.7pt,domain=-2.1:4.1,samples=50] plot (\x,{\x*\x-2*\x-3});
+  \fill[fmR] (1,-4) circle (4.5pt); \fill[fmK] (-1,0) circle (4.5pt); \fill[fmK] (3,0) circle (4.5pt); \fill[fmA] (0,-3) circle (4.5pt);
+  \node[right=6pt,font=\small\heavy,text=fmR,fill=white,inner sep=1pt] at (1.3,-3.3) {$V(1,\,-4)$};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.52\linewidth}
+\begin{exemple}[Exemple: \ $y=-x^2+6x-5$]
+$x_v=\dfrac{-6}{2\cdot(-1)}=3$, \ $y_v=-9+18-5=4$\\[3pt]
+$V(3,\,4)$, eix $x=3$, tall amb $Y$: $(0,\,-5)$\\[3pt]
+$a=-1<0$: el vèrtex és un \textbf{màxim}.
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{compte}[Compte amb el $-$ de $-x^2$]
+Si $x=3$: \ $-3^2=\cR{-9}$, no $+9$.\\[3pt]
+Ací $a=-1$, $b=6$, $c=-5$.
+\end{compte}
+\end{minipage}
+
+\vfill
+% ============================================================ 8.8
+\clearpage
+\seccio{sec8}{Problemes amb paràboles}{Quin és el valor màxim (o mínim)? Mira el vèrtex.}
+
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faBasketballBall\ \ Llançaments}]
+Altura d'un objecte llançat cap amunt:\par\smallskip
+{\centering$h(t)=h_0+v_0t-5t^2$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faVectorSquare\ \ Àrees}]
+L'àrea d'un rectangle de \textbf{perímetre fix} és quadràtica en la base.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faCoins\ \ Ingressos}]
+Si en pujar el preu es venen menys unitats: \ preu $\times$ unitats.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\large El \textbf{vèrtex} respon: \ \cA{$x_v$} diu \textbf{quan} (o amb quin valor) \ i \ \cB{$y_v$}, \textbf{quant} val el màxim o el mínim.}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Exemple: \ llancem una pedra i la seua altura és $h(t)=20t-5t^2$ \ (m, s)]
+\begin{minipage}[c]{0.6\linewidth}
+\pas{1} Vèrtex: \ $t_v=\dfrac{-20}{2\cdot(-5)}=2$ s, \ $h(2)=40-20=\boxed{20\text{ m}}$\\[4pt]
+\pas{2} Torna a terra quan $h=0$:\\[2pt]
+\hspace*{1.5em}$20t-5t^2=0\ \to\ 5t\,(4-t)=0\ \to\ \boxed{t=4\text{ s}}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[x=0.75cm,y=0.12cm]
+  \draw[fmmuted!22,line width=0.4pt,xstep=1,ystep=5] (0,0) grid (4,20);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0)--(4.6,0) node[right,font=\small]{$t$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0)--(0,23) node[above,font=\small]{$h$};
+  \foreach \k in {1,...,4} \node[below,font=\scriptsize,text=fmmuted] at (\k,0) {\k};
+  \foreach \k in {10,20} \node[left,font=\scriptsize,text=fmmuted] at (0,\k) {\k};
+  \draw[fmex,line width=1.7pt,domain=0:4,samples=40] plot (\x,{20*\x-5*\x*\x});
+  \fill[fmR] (2,20) circle (3.5pt);
+  \node[above right=0pt,font=\small\heavy,text=fmR] at (2,20) {$V(2,\,20)$};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ 40 m de tanca per a un camp rectangular. Quina àrea màxima?]
+Base $x$, altura $20-x$:\\[3pt]
+$A(x)=x(20-x)=-x^2+20x$\\[3pt]
+$x_v=\dfrac{-20}{-2}=10$, \ $A(10)=100$\\[3pt]
+Un \textbf{quadrat} de 10 m: \ $\boxed{100\text{ m}^2}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemple: \ 300 entrades a 20 €; per cada euro de rebaixa, 30 entrades més]
+Rebaixa $x$: preu $20-x$, entrades $300+30x$\\[3pt]
+$I(x)=(20-x)(300+30x)=-30x^2+300x+6000$\\[3pt]
+$x_v=\dfrac{-300}{-60}=5$ \ $\to$ \ a \textbf{15 €}: \ $15\cdot450=\boxed{6750\text{ €}}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{truc}[Dos nombres que sumen 14 amb el producte més gran]
+$P(x)=x\,(14-x)=-x^2+14x$, \ $x_v=7$: \ són el \textbf{7 i el 7} (producte 49). Igual que el camp: el màxim és en el «meitat i meitat».
+\end{truc}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=34pt,raster before skip=18pt]
+\rtile{8.1}{Proporcionalitat}{$y=mx$: recta per l'origen.\\[1ex] $m=\frac{y}{x}$. \ $m>0$ creix, $m<0$ decreix.}
+\rtile{8.2}{Funció lineal}{$y=mx+n$. \ $m$: pendent; \ $n$: tall amb l'eix $Y$.\\[1ex] $m=0$: horitzontal. \ $x=k$: no és funció.}
+\rtile{8.3}{Equació d'una recta}{$m=\frac{y_2-y_1}{x_2-x_1}$.\\[1ex] $y-y_0=m(x-x_0)$. Paral·leles: mateix $m$.}
+\rtile{8.4}{Aplicacions}{$n$: valor inicial. \ $m$: ritme de canvi.\\[1ex] Domini amb sentit.}
+\rtile{8.5}{Dues rectes}{$m$ diferent: secants. Mateix $m$: paral·leles o coincidents.\\[1ex] Punt de tall: igualem.}
+\rtile{8.6}{$y=ax^2$}{$a>0$: $\cup$, mínim. \ $a<0$: $\cap$, màxim.\\[1ex] $|a|$ gran: més tancada.}
+\rtile{8.7}{$y=ax^2+bx+c$}{$x_v=\frac{-b}{2a}$. Eix $Y$: $(0,\,c)$.\\[1ex] Eix $X$: $ax^2+bx+c=0$ ($\Delta$).}
+\rtile{8.8}{Problemes}{El màxim o el mínim és el \textbf{vèrtex}: $x_v$ quan, $y_v$ quant.}
+\end{tcbraster}
+\end{document}
