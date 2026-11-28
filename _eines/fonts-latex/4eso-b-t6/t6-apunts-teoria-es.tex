@@ -1,0 +1,668 @@
+% Apuntes de teoría en PDF · 4.º ESO · Unidad 6: Vectores y rectas (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 6: Vectores y rectas. 4.º ESO},pdfsubject={Matemáticas B 4.º ESO},pdfkeywords={vectores, módulo, producto escalar, punto medio, ecuaciones de la recta, pendiente, posición relativa, perpendiculares, mediatriz}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{6.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$\vec u\cdot\vec v=u_1v_1+u_2v_2$};
+  \draw[line width=2pt] (130,105) -- (232,105) (140,115) -- (140,25);
+  \draw[line width=3.4pt,-{Latex[length=12pt]}] (150,95) -- (210,55);
+  \draw[line width=3.4pt,-{Latex[length=12pt]}] (150,95) -- (190,110);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4.º ESO · Unidad 6: Vectores y rectas}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 4.º ESO · Matemáticas B}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 6}\\[2pt]Vectores y rectas\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+\newcommand{\sis}[2]{\left\{\begin{array}{@{}l@{}}#1\\[2pt]#2\end{array}\right.}
+\newcommand{\vect}[1]{\overrightarrow{#1}}
+\newcommand{\parl}{\mathrel{/\!\!/}}
+\tikzset{vec/.style={-{Latex[length=2.6mm]},line width=1.8pt}}
+
+\begin{document}
+\portada{Flechas con componentes y las ecuaciones de las rectas del plano.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{6.1}{\faLongArrowAltRight}{Vectores}
+\itile{sec2}{6.2}{\faPlus}{Operaciones con vectores}
+\itile{sec3}{6.3}{\faIcon{border-style}}{Producto escalar}
+\itile{sec4}{6.4}{\faMapMarker*}{Aplicaciones de los vectores}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{6.5}{\faRoute}{Ecuaciones de la recta}
+\itile{sec6}{6.6}{\faChartLine}{Pendiente y ecuación general}
+\itile{sec7}{6.7}{\faTimes}{Posición relativa de dos rectas}
+\itile{sec8}{6.8}{\faIcon{plus-square}}{Perpendiculares y mediatriz}
+\itile{resum}{\phantom{6.8}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 6.1
+\clearpage
+\seccio{sec1}{Vectores}{Una flecha: dónde empieza, hacia dónde va y cuánto mide.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.72]
+  \eixos{-2}{4}{-1}{4}
+  \draw[fmA,line width=1.2pt,dashed] (-1,3) -- (3,3); \draw[fmB,line width=1.2pt,dashed] (3,3) -- (3,0);
+  \node[above,font=\small,text=fmA] at (1,3) {$4$}; \node[right,font=\small,text=fmB] at (3,1.5) {$-3$};
+  \draw[vec,fmK!80!black] (-1,3) -- (3,0);
+  \fill[fmnavy] (-1,3) circle (3pt) node[above left,font=\small] {$A$}; \node[below right,font=\small] at (3,0) {$B$};
+\end{tikzpicture}\\
+{\small$\vect{AB}=(4,\,-3)$, \ $|\vect{AB}|=5$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Vector fijo $\vect{AB}$]
+\textbf{Componentes}: extremo menos origen:\\[2pt]
+{\centering$\vect{AB}=B-A=(b_1-a_1,\ b_2-a_2)$\par}\smallskip
+\textbf{Módulo} (Pitágoras): \ $|\vec v|=\sqrt{v_1^2+v_2^2}$\\[3pt]
+\textbf{Dirección}: la de la recta que lo contiene. \textbf{Sentido}: hacia dónde apunta.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Equipolentes}]
+Mismo módulo, dirección y sentido: \textbf{mismas componentes}. Forman el vector libre $\vec v$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Opuesto}]
+$\vect{BA}=-\vect{AB}$: mismo módulo y dirección, sentido contrario.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Extremo u origen}]
+$B=A+\vect{AB}$\\[2pt] $A=B-\vect{AB}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $A(-1,3)$ y $B(3,0)$]
+$\vect{AB}=(3-(-1),\ 0-3)=(4,-3)$ \qquad $|\vect{AB}|=\sqrt{16+9}=\boxed{5}$ \qquad $\vect{BA}=(-4,\,3)$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$\vec v=(2,-5)$ con origen $P(4,1)$: \ extremo $P+\vec v=\boxed{(6,-4)}$\\[4pt]
+$P(2,-3)$, $Q(-4,5)$: \ $\vect{PQ}=(-6,8)$, \ $\vect{QP}=(6,-8)$, \ módulo 10 \qquad $|(5,12)|=13$, \ $|(-2,-2)|=2\sqrt2$\\[4pt]
+$\vect{AB}=(-3,4)$ con $A(5,-2)$: \ $B=(2,2)$
+\end{exemple}
+
+\vfill
+% ============================================================ 6.2
+\clearpage
+\seccio{sec2}{Operaciones con vectores}{Componente a componente.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.75]
+  \draw[vec,fmA] (0,0) -- (3.4,0.6) node[midway,below=1pt,font=\small] {$\vec u$};
+  \draw[vec,fmB] (3.4,0.6) -- (4.4,3) node[midway,right=1pt,font=\small] {$\vec v$};
+  \draw[vec,fmB!50,dashed] (0,0) -- (1,2.4); \draw[vec,fmA!50,dashed] (1,2.4) -- (4.4,3);
+  \draw[vec,fmK!80!black] (0,0) -- (4.4,3);
+  \node[font=\small\heavy,text=fmK!80!black,fill=white,inner sep=1pt] at (2.55,1.2) {$\vec u+\vec v$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}regla del triángulo y del paralelogramo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Operaciones]
+\textbf{Suma}: \ $\vec u+\vec v=(u_1+v_1,\ u_2+v_2)$\\[3pt]
+\textbf{Resta}: \ $\vec u-\vec v=(u_1-v_1,\ u_2-v_2)$\\[3pt]
+\textbf{Por un número}: \ $k\vec u=(ku_1,\ ku_2)$: misma dirección; sentido contrario si $k<0$; el módulo por $|k|$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\vec u\parl\vec v\iff\dfrac{u_1}{v_1}=\dfrac{u_2}{v_2}\iff u_1v_2=u_2v_1$}\par\smallskip
+{\small componentes proporcionales: \ $\vec u=k\vec v$}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\vec u=(3,-1)$, \ $\vec v=(-2,4)$]
+\begin{minipage}[t]{0.48\linewidth}
+a) $\vec u+\vec v=\boxed{(1,\,3)}$\\[3pt]
+b) $\vec u-3\vec v=(3,-1)-(-6,12)=\boxed{(9,-13)}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+c) $2\vec u+\frac12\vec v=(6,-2)+(-1,2)=\boxed{(5,\,0)}$\\[3pt]
+d) $-\vec u-\vec v=\boxed{(-1,-3)}$ \ \nota{el opuesto de a}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ ¿son paralelos?]
+$\vec a=(6,-4)$, $\vec b=(-9,6)$: \ $\frac{6}{-9}=\frac{-4}{6}=-\frac23$ \ \be{} \ ($\vec b=-\frac32\vec a$, sentidos contrarios)\\[3pt]
+$\vec c=(2,5)$, $\vec d=(4,8)$: \ $\frac24\neq\frac58$ \ \mal{\text{no}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $x$ para que $(x,6)\parl(2,x)$]
+$\dfrac x2=\dfrac6x\ \to\ x^2=12\ \to\ \boxed{x=\pm2\sqrt3}$ \ \nota{con $+$, mismo sentido; con $-$, contrario}
+\end{exemple}
+
+\vfill
+% ============================================================ 6.3
+\clearpage
+\seccio{sec3}{Producto escalar. Vectores perpendiculares}{Un número que dice cómo es el ángulo.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\vec u\cdot\vec v=u_1v_1+u_2v_2$}\par\smallskip
+$=|\vec u|\cdot|\vec v|\cdot\cos\alpha$ \qquad {\small es un \textbf{número}, no un vector}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\chip{fmK}{$\vec u\cdot\vec v>0$} ángulo \textbf{agudo}\\[3pt]
+\chip{fmR}{$\vec u\cdot\vec v<0$} ángulo \textbf{obtuso}\\[3pt]
+\chip{fmblue}{$\vec u\cdot\vec v=0$} \textbf{perpendiculares}\\[3pt]
+$\vec u\cdot\vec u=|\vec u|^2$
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Perpendicular a $(a,b)$}]
+\begin{minipage}[c]{0.55\linewidth}$(-b,\,a)$ \ o \ $(b,\,-a)$:\\ intercambiamos y cambiamos un signo.\\[2pt] \small$(a,b)\cdot(-b,a)=0$\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering\begin{tikzpicture}[scale=0.45]\draw[vec,fmA] (0,0) -- (3,1);\draw[vec,fmK] (0,0) -- (-1,3);\draw[fmnavy] (0.3,0.1) -- (0.2,0.4) -- (-0.1,0.3);\end{tikzpicture}\end{minipage}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Paralelo a $(a,b)$}]
+Cualquier múltiplo $k(a,b)$:\\ $(2a,\,2b)$, \ $(-a,\,-b)$\dots
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $A(2,-1)$, $B(5,3)$, $C(0,4)$, $D(-2,1)$]
+$\vect{AB}=(3,4)$, $\vect{CD}=(-2,-3)$: \ $\vect{AB}\cdot\vect{CD}=-6-12=\boxed{-18}$ \ \nota{ángulo obtuso}\\[3pt]
+$3\vect{AB}\cdot\vect{BC}=(9,12)\cdot(-5,1)=-45+12=\boxed{-33}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\vec u=(4,-6)$ con $\vec v=(3,2)$, $\vec w=(-2,3)$, $\vec z=(1,1)$]
+$\vec u\cdot\vec v=12-12=0$: \ \textbf{perpendiculares} \qquad $\vec u=-2\vec w$: \ \textbf{paralelos} \qquad $\vec u\cdot\vec z=-2$, no proporcionales: \textbf{ninguna}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$x$ para que $(x,3)\perp(x+1,-2)$: \ $x^2+x-6=0\ \to\ x=2,\ x=-3$ \qquad $(5,-2)\cdot(3,4)=7>0$: agudo\\[4pt]
+$k$ para que $(k,-5)\perp(4,2)$: \ $4k-10=0\ \to\ k=\frac52$ \qquad Perpendiculares a $(-3,7)$: \ $(7,3)$, $(-7,-3)$
+\end{exemple}
+
+\vfill
+% ============================================================ 6.4
+\clearpage
+\seccio{sec4}{Aplicaciones de los vectores}{Distancias, puntos medios, simétricos y figuras.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.65]
+  \eixos{-2}{6}{-3}{4}
+  \draw[fmA,line width=1.4pt] (-1,3) -- (5,-1);
+  \fill[fmnavy] (-1,3) circle (3pt) node[above,font=\small] {$A$}; \fill[fmnavy] (5,-1) circle (3pt) node[below,font=\small] {$B$};
+  \fill[fmR] (2,1) circle (3.5pt) node[above right,font=\small\heavy,text=fmR] {$M$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+\textbf{Distancia}: \ $d(A,B)=|\vect{AB}|$\\[4pt]
+\textbf{Punto medio}: \ $M=\left(\dfrac{a_1+b_1}{2},\ \dfrac{a_2+b_2}{2}\right)$\\[4pt]
+\textbf{Simétrico} de $A$ respecto de $M$: \ $A'=A+2\,\vect{AM}$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Puntos alineados}]
+$A$, $B$, $C$ alineados si $\vect{AB}\parl\vect{AC}$: componentes proporcionales. Si no, forman un triángulo.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Figuras}]
+Paralelogramo $ABCD$: \ $\vect{AB}=\vect{DC}$, \ $D=A+\vect{BC}$.\\ Rectángulo: lados perpendiculares. Rombo: lados iguales.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $A(-2,3)$ y $B(4,-1)$]
+$\vect{AB}=(6,-4)$, \ $d=\sqrt{52}=2\sqrt{13}\approx\boxed{7{,}21}$ \qquad $M=\left(\frac{-2+4}{2},\ \frac{3-1}{2}\right)=\boxed{(1,\,1)}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ simétrico de $A(5,-2)$ respecto de $M(2,1)$]
+$\vect{AM}=(-3,3)$ \qquad $A'=A+2\vect{AM}=(5-6,\ -2+6)=\boxed{(-1,\,4)}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$A(-1,-3)$, $B(1,1)$, $C(4,7)$: \ $\vect{AB}=(2,4)$, $\vect{AC}=(5,10)$: \ $\frac25=\frac4{10}$ \ \be{} alineados\\[4pt]
+Paralelogramo con $A(-3,1)$, $B(2,-1)$, $C(4,3)$: \ $D=A+\vect{BC}=(-1,\,5)$; \ $\vect{AB}\cdot\vect{BC}=2\neq0$: \textbf{no} es rectángulo
+\end{exemple}
+
+\vfill
+% ============================================================ 6.5
+\clearpage
+\seccio{sec5}{Vectorial, paramétricas y continua}{Un punto y un vector director.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.6]
+  \eixos{-1}{6}{-2}{4}
+  \draw[fmnavy,line width=1.4pt] (-0.5,-2) -- (3.85,3.8);
+  \draw[vec,fmK] (1,0) -- (2.5,2) node[right=2pt,font=\small\heavy] {$\vec v$};
+  \fill[fmR] (1,0) circle (3.5pt) node[below right,font=\small] {$P$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+\textbf{Vectorial}: \ $(x,y)=(p_1,p_2)+\lambda\,(v_1,v_2)$\\[5pt]
+\textbf{Paramétricas}: \ $\sis{x=p_1+\lambda v_1}{y=p_2+\lambda v_2}$\\[5pt]
+\textbf{Continua}: \ $\dfrac{x-p_1}{v_1}=\dfrac{y-p_2}{v_2}$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{idea}[Punto y vector director]
+Si conocemos dos puntos, tomamos uno de ellos y $\vect{AB}$ (o un vector paralelo más sencillo). Cada valor del \textbf{parámetro} $\lambda$ da un punto de la recta.
+\end{idea}
+
+\vfill
+\begin{exemple}[Ejemplo: \ por $A(2,-1)$ con $\vec v=(3,4)$]
+$(x,y)=(2,-1)+\lambda(3,4)$ \qquad $\sis{x=2+3\lambda}{y=-1+4\lambda}$ \qquad $\dfrac{x-2}{3}=\dfrac{y+1}{4}$ \qquad $\lambda=1\to(5,3)$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ por $A(-3,2)$ y $B(1,-4)$]
+$\vect{AB}=(4,-6)\parl(2,-3)$: \quad $\sis{x=-3+2\lambda}{y=2-3\lambda}$ \qquad $\dfrac{x+3}{2}=\dfrac{y-2}{-3}$
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={¿Un punto es de la recta?}]
+Paramétricas: el \textbf{mismo} $\lambda$ en las dos.\\
+Continua: ¿se cumple la igualdad?
+\end{tcolorbox}
+\begin{compte}[Componente 0]
+Con $\vec v=(5,0)$ no hay continua: la recta es horizontal, $y=p_2$.
+\end{compte}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $k$ para que $(k,-7)$ sea de $\sis{x=3+2\lambda}{y=1-4\lambda}$]
+$-7=1-4\lambda\ \to\ \lambda=2$ \qquad $k=3+2\cdot2=\boxed{7}$
+\end{exemple}
+
+\vfill
+% ============================================================ 6.6
+\clearpage
+\seccio{sec6}{Pendiente. Explícita y general}{Todas las formas de escribir la misma recta.}
+
+\vfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[Pendiente]
+{\centering\Large$m=\dfrac{v_2}{v_1}=\dfrac{y_2-y_1}{x_2-x_1}$\par}\smallskip
+$m>0$ crece, $m<0$ decrece, $m=0$ horizontal. Las verticales no tienen.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+\textbf{Punto-pendiente}: \ $y-p_2=m\,(x-p_1)$\\[4pt]
+\textbf{Explícita}: \ $y=mx+n$\\[4pt]
+\textbf{General}: \ $Ax+By+C=0$\\[2pt]
+{\small director $(-B,A)$, \ normal $(A,B)$, \ $m=-\frac AB$}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{center}\small
+\renewcommand{\arraystretch}{1.55}
+\taularod{>{\heavy}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}Ecuación & \color{white}\heavy Expresión & \color{white}\heavy Un punto & \color{white}\heavy Director & \color{white}\heavy Pendiente\\
+Continua & $\frac{x-p_1}{v_1}=\frac{y-p_2}{v_2}$ & $(p_1,p_2)$ & $(v_1,v_2)$ & $\frac{v_2}{v_1}$\\
+\rowcolor{fmsurface}Punto-pendiente & $y-p_2=m(x-p_1)$ & $(p_1,p_2)$ & $(1,m)$ & $m$\\
+Explícita & $y=mx+n$ & $(0,n)$ & $(1,m)$ & $m$\\
+\rowcolor{fmsurface}General & $Ax+By+C=0$ & damos valores & $(-B,A)$ & $-\frac AB$
+}
+\end{center}
+
+\vfill
+\begin{compte}[Signos]
+En $\dfrac{x+3}{2}=\dfrac{y-1}{5}$ el punto es $(-3,1)$; en $y+4=2(x-1)$, el punto es $(1,-4)$.
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplo: \ por $P(-2,3)$ con $m=-3$]
+$y-3=-3(x+2)$ \qquad $y=-3x-3$ \qquad $3x+y+3=0$ \qquad director $(1,-3)$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ por $A(-1,4)$ y $B(3,-2)$]
+$\vect{AB}=(4,-6)\parl(2,-3)$: normal $(3,2)$ \ $\to$ \ $3x+2y+C=0$; \ con $A$: $C=-5$ \qquad $\boxed{3x+2y-5=0}$, \ $y=-\frac32x+\frac52$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $2x-5y+10=0$]
+normal $(2,-5)$, \ director $(5,2)$, \ $m=\frac25$ \qquad $x=0\to(0,2)$, \ $n=2$ \qquad $y=0\to(-5,0)$
+\end{exemple}
+
+\vfill
+% ============================================================ 6.7
+\clearpage
+\seccio{sec7}{Posición relativa de dos rectas}{Secantes, paralelas o coincidentes.}
+
+\newcommand{\minirectes}[1]{\begin{tikzpicture}[scale=0.42]
+  \draw[-{Latex[length=1.6mm]},fmmuted,line width=0.6pt] (-0.3,0)--(4.3,0); \draw[-{Latex[length=1.6mm]},fmmuted,line width=0.6pt] (0,-0.3)--(0,3.6);
+  #1
+\end{tikzpicture}}
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Secantes},before upper=\centering]
+\minirectes{\draw[fmA,line width=1.4pt] (0.2,3.3)--(4,0.3); \draw[fmB,line width=1.4pt] (0.3,0.4)--(4,3.3); \fill[fmR] (2.15,1.75) circle (4.5pt);}\par
+$\dfrac{A}{A'}\neq\dfrac{B}{B'}$\par\smallskip{\small SCD: un punto}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Paralelas},before upper=\centering]
+\minirectes{\draw[fmA,line width=1.4pt] (0.2,1.2)--(3.2,3.4); \draw[fmB,line width=1.4pt] (0.9,0.2)--(4,2.5);}\par
+$\dfrac{A}{A'}=\dfrac{B}{B'}\neq\dfrac{C}{C'}$\par\smallskip{\small SI: ninguno}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={Coincidentes},before upper=\centering]
+\minirectes{\draw[fmA,line width=3.2pt] (0.2,0.4)--(4,3.3); \draw[fmB,line width=1.3pt,dashed] (0.2,0.4)--(4,3.3);}\par
+$\dfrac{A}{A'}=\dfrac{B}{B'}=\dfrac{C}{C'}$\par\smallskip{\small SCI: infinitos}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{idea}[Otras maneras]
+\textbf{Directores}: no paralelos, secantes; paralelos, comprobamos si un punto de una es de la otra.\\[2pt]
+\textbf{Pendientes}: distintas, secantes; iguales y $n$ distinta, paralelas; iguales y misma $n$, coincidentes.\\[2pt]
+El \textbf{punto de corte} es la solución del sistema. Con paramétricas, sustituimos $x$ e $y$ en la otra.
+\end{idea}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$x+2y-4=0$, $3x-y-5=0$: \ $\frac13\neq\frac2{-1}$: secantes; \ $y=3x-5\ \to\ \boxed{(2,\,1)}$\\[4pt]
+$2x-3y+1=0$, $-4x+6y+5=0$: \ $\frac2{-4}=\frac{-3}{6}\neq\frac15$: \textbf{paralelas}\\[4pt] $x-y+2=0$, $3x-3y+6=0$: \ $\frac13=\frac{-1}{-3}=\frac26$: \textbf{coincidentes}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $r:\sis{x=1+2\lambda}{y=-3+\lambda}$ \ y \ $s:x+3y-2=0$]
+$(1+2\lambda)+3(-3+\lambda)-2=0\ \to\ 5\lambda=10\ \to\ \lambda=2$ \qquad punto de corte: \ \boxed{(5,\,-1)}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $a$ para que $ax-3y+2=0$ y $4x+6y-1=0$ sean paralelas]
+$\dfrac a4=\dfrac{-3}{6}\ \to\ \boxed{a=-2}$ \ \nota{y $\frac{2}{-1}\neq-\frac12$: no son coincidentes}
+\end{exemple}
+
+\vfill
+% ============================================================ 6.8
+\clearpage
+\seccio{sec8}{Paralelas, perpendiculares y mediatriz}{Mismo director, o director perpendicular.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Paralelas $r\parl s$}]
+Mismo director, misma pendiente.\\[3pt]
+De $Ax+By+C=0$: \ $\boxed{Ax+By+K=0}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Perpendiculares $r\perp s$}]
+$\vec v_r\cdot\vec v_s=0$; \ $m_s=-\dfrac1{m_r}$.\\[3pt]
+De $Ax+By+C=0$: \ $\boxed{Bx-Ay+K=0}$
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering $K$ se halla haciendo que la recta pase por el punto que nos dan.\par}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.6]
+  \eixos{-2}{6}{-3}{4}
+  \draw[fmA,line width=1.3pt] (-1,2) -- (5,-2);
+  \fill[fmnavy] (-1,2) circle (3pt) node[above,font=\small] {$A$}; \fill[fmnavy] (5,-2) circle (3pt) node[below,font=\small] {$B$};
+  \draw[fmR,line width=1.6pt] (0,-3) -- (4.67,4);
+  \fill[fmR] (2,0) circle (3.5pt) node[right,font=\small\heavy] {$M$};
+  \draw[fmnavy] (2.3,-0.2) -- (2.5,0.1) -- (2.2,0.3);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Mediatriz de $AB$]
+La perpendicular a $AB$ por el punto medio $M$. Todos sus puntos están a la misma distancia de $A$ y de $B$.\\[3pt]
+$\vect{AB}=(a,b)$ es un vector \textbf{normal}: \ $ax+by+K=0$, y $K$ con $M$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $r:2x-y+3=0$ y $P(1,-2)$]
+Paralela: \ $2x-y+K=0$, \ $2+2+K=0$ \ $\to$ \ \boxed{2x-y-4=0}\\[3pt]
+Perpendicular: \ $x+2y+K=0$, \ $1-4+K=0$ \ $\to$ \ \boxed{x+2y+3=0}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ mediatriz de $A(-1,2)$ y $B(5,-2)$]
+$M=(2,0)$, \ $\vect{AB}=(6,-4)\parl(3,-2)$ \ $\to$ \ $3x-2y+K=0$; \ $6+K=0$ \ $\to$ \ \boxed{3x-2y-6=0}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+Paralela y perpendicular a $y=\frac23x-1$ por $(3,4)$: \ $y=\frac23x+2$ \ y \ $y=-\frac32x+\frac{17}{2}$\\[4pt]
+$k$ para que $kx+2y-3=0\perp3x-y+4=0$: \ $(k,2)\cdot(3,-1)=0\ \to\ k=\frac23$
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=46pt,raster before skip=20pt]
+\rtile{6.1}{Vectores}{$\vect{AB}=B-A$. \ $|\vec v|=\sqrt{v_1^2+v_2^2}$.}
+\rtile{6.2}{Operaciones}{Componente a componente.\\[1ex] Paralelos: componentes proporcionales.}
+\rtile{6.3}{Producto escalar}{$\vec u\cdot\vec v=u_1v_1+u_2v_2$. \ $=0$: perpendiculares.\\[1ex] Perpendicular a $(a,b)$: $(-b,a)$.}
+\rtile{6.4}{Aplicaciones}{Distancia, punto medio, simétrico $A'=A+2\vect{AM}$, alineación.}
+\rtile{6.5}{Ecuaciones}{Vectorial, paramétricas, continua: punto y director.}
+\rtile{6.6}{Pendiente}{$y=mx+n$. \ $Ax+By+C=0$: director $(-B,A)$, normal $(A,B)$.}
+\rtile{6.7}{Posición}{Compara $\frac A{A'}$, $\frac B{B'}$, $\frac C{C'}$. Punto de corte: sistema.}
+\rtile{6.8}{Paralelas y perpendiculares}{$Ax+By+K=0$ y $Bx-Ay+K=0$.\\[1ex] Mediatriz: normal $\vect{AB}$, por el punto medio.}
+\end{tcbraster}
+\end{document}

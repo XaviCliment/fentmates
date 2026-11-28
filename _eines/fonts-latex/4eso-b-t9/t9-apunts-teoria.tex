@@ -1,0 +1,825 @@
+% Apunts de teoria en PDF · 4t ESO · Unitat 9: Recompte i probabilitat
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 9: Recompte i probabilitat. 4t ESO},pdfsubject={Matemàtiques B 4t ESO},pdfkeywords={principi de multiplicació, factorial, variacions, permutacions, combinacions, esdeveniments, regla de Laplace, probabilitat condicionada, arbres, taules de contingència}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{9.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$\binom nk\quad P(A\,|\,B)$};
+  \draw (140,70) -- (180,45) (140,70) -- (180,95);
+  \draw (180,45) -- (225,32) (180,45) -- (225,58) (180,95) -- (225,82) (180,95) -- (225,108);
+  \foreach \p in {(140,70),(180,45),(180,95),(225,32),(225,58),(225,82),(225,108)} \fill \p circle (5);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4t ESO · Unitat 9: Recompte i probabilitat}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 4t ESO · Matemàtiques B}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 9}\\[2pt]Recompte i probabilitat\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+\tikzset{br/.style={fmmuted,line width=1pt},nd/.style={circle,fill=fmblue,text=white,font=\scriptsize\heavy,inner sep=1.5pt,minimum size=1.35em},
+  pl/.style={font=\scriptsize,fill=white,inner sep=1pt}}
+\newcommand{\cond}{\,|\,}
+\newcommand{\venn}[2]{\begin{tikzpicture}[scale=0.5]
+  \def\ca{(-0.55,0) circle (1)}\def\cb{(0.55,0) circle (1)}
+  #1
+  \draw[fmnavy,line width=0.8pt] (-1.9,-1.3) rectangle (1.9,1.3); \node[font=\scriptsize,text=fmnavy] at (1.6,1.0) {$E$};
+  #2
+\end{tikzpicture}}
+
+\begin{document}
+\portada{Comptar sense escriure tots els casos i calcular la probabilitat.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{9.1}{\faSitemap}{Principi de multiplicació}
+\itile{sec2}{9.2}{\faSortNumericDown}{Variacions i permutacions}
+\itile{sec3}{9.3}{\faUsers}{Combinacions}
+\itile{sec4}{9.4}{\faDiceFive}{Experiments aleatoris}
+\itile{sec5}{9.5}{\faIcon{object-group}}{Operacions amb esdeveniments}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{9.6}{\faPercent}{Probabilitat. Regla de Laplace}
+\itile{sec7}{9.7}{\faListOl}{Propietats de la probabilitat}
+\itile{sec8}{9.8}{\faProjectDiagram}{Experiments compostos}
+\itile{sec9}{9.9}{\faTable}{Contingència i condicionada}
+\itile{sec10}{9.10}{\faCodeBranch}{Problemes amb arbres}
+\itile{resum}{\phantom{9.10}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 9.1
+\clearpage
+\seccio{sec1}{Principi de multiplicació}{Comptar sense escriure tots els casos.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[x=1cm,y=0.42cm]
+  \node[nd] (r) at (0,0) {};
+  \foreach \i/\y in {1/3,2/0,3/-3} {\node[nd,fill=fmA] (p\i) at (1.5,\y) {\i}; \draw[br] (r)--(p\i);
+    \foreach \j/\d in {a/0.75,b/-0.75} {\node[nd,fill=fmK] (q\i\j) at (3,\y+\d) {\j}; \draw[br] (p\i)--(q\i\j);}}
+  \node[font=\scriptsize\heavy,text=fmA] at (1.5,5.4) {primer}; \node[font=\scriptsize\heavy,text=fmK] at (3,5.4) {postres};
+\end{tikzpicture}\\
+{\small$3\cdot2=6$ camins}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Diagrama d'arbre i principi de multiplicació]
+Una tria en etapes: de cada punt ix una branca per opció. Cada \textbf{camí} és un resultat.\\[3pt]
+Si les etapes es fan de $n_1$, $n_2$, \dots, $n_k$ maneres, el total és
+{\centering\Large$n_1\cdot n_2\cdots n_k$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+Menú amb 3 primers, 4 segons i 2 postres: \ $3\cdot4\cdot2=\boxed{24}$ menús\\[4pt]
+Matrícules de 4 xifres i 3 lletres (20 lletres): \ $10^4\cdot20^3=\boxed{80\,000\,000}$\\[4pt]
+Nombres de 3 xifres amb 1, 2, 3, 4, 5: \ a) amb repetició $5\cdot5\cdot5=125$ \ b) sense $5\cdot4\cdot3=60$\\
+\hspace*{1em}c) parells sense repetir: comencem per la condició, unitats 2 o 4: \ $2\cdot4\cdot3=24$
+\end{exemple}
+
+\vfill
+\begin{truc}
+Comença sempre per l'etapa que té una \textbf{condició} (la primera xifra no pot ser 0, ha de ser parell\dots).
+\end{truc}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm,title={\heavy El factorial},coltitle=fmnavy,colbacktitle=fmyellow]
+{\centering\Large$n!=n\cdot(n-1)\cdot(n-2)\cdots2\cdot1$ \qquad $0!=1$\par}\smallskip
+$4!=24$, \ $5!=120$, \ $10!=3\,628\,800$. \ Com que $n!=n\cdot(n-1)!$: \ $\dfrac{7!}{5!}=\dfrac{7\cdot6\cdot5!}{5!}=42$. \ Calculadora: tecla \texttt{x!}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Exemples]
+Pizzes: 3 masses, 2 salses, 5 ingredients: \ $30$ \qquad Moneda i dau: \ $2\cdot6=12$\\[4pt]
+Del 100 al 999: \ $9\cdot10\cdot10=900$ \qquad Test de 5 preguntes amb 4 respostes: \ $4^5=1\,024$\\[4pt] $\dfrac{10!}{8!}=90$ \qquad $\dfrac{9!}{7!\cdot2!}=\dfrac{9\cdot8}{2}=36$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.2
+\clearpage
+\seccio{sec2}{Variacions i permutacions}{Triem i col·loquem en un ordre.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Variacions},before upper=\centering]
+\small $k$ de $n$, \textbf{importa l'ordre}, \textbf{sense} repetir\par\smallskip
+\normalsize$V_{n,k}=\underbrace{n(n-1)(n-2)\cdots}_{k\text{ factors}}$\\[2pt] $=\dfrac{n!}{(n-k)!}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Amb repetició},before upper=\centering]
+\small $k$ de $n$, \textbf{importa l'ordre}, \textbf{es poden} repetir\par\smallskip
+\normalsize$VR_{n,k}=n\cdot n\cdots n=n^k$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Permutacions},before upper=\centering]
+\small ordenar \textbf{tots} els $n$ elements\par\smallskip
+\normalsize$P_n=V_{n,n}=n!$
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Calculadora: $V_{n,k}$ és \texttt{nPr}. \ $V_{8,3}$: \ \texttt{8 nPr 3 = 336}.\par}
+
+\vfill
+\begin{exemple}[Exemple: \ medalles entre 8 corredors]
+Importa l'ordre (or $\neq$ plata) i ningú no en guanya dues: \ $V_{8,3}=8\cdot7\cdot6=\boxed{336}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ travessa de 14 partits amb 1, X, 2]
+Importa el partit i els signes es repeteixen: \ $VR_{3,14}=3^{14}=\boxed{4\,782\,969}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ 5 amics en un banc]
+$P_5=5!=\boxed{120}$ \qquad Si l'Anna i en Biel van junts: «enganxem-los»: \ $4!\cdot2=\boxed{48}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.49\linewidth}
+Banderes de 3 franges, 6 colors: \ $V_{6,3}=120$\\[3pt]
+Cadenat de 3 xifres: \ $VR_{10,3}=1\,000$\\[3pt]
+7 llibres en un prestatge: \ $7!=5\,040$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+4 lletres diferents de A--F: \ $V_{6,4}=360$\\[3pt]
+Nombres de 4 xifres diferents: \ $9\cdot9\cdot8\cdot7=4\,536$\\[3pt]
+Delegat i subdelegat de 25: \ $V_{25,2}=600$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ lletres A, B, C, D, E]
+Ordenacions: \ $5!=120$ \qquad Que comencen per vocal: \ $2\cdot4!=\boxed{48}$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.3
+\clearpage
+\seccio{sec3}{Combinacions. Quin recompte és?}{Grups en què no importa l'ordre.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$C_{n,k}=\dbinom nk=\dfrac{V_{n,k}}{k!}=\dfrac{n!}{k!\,(n-k)!}$}\par\smallskip
+\small $\{A,B\}=\{B,A\}$: cada grup s'ordena de $k!$ maneres. \ \texttt{nCr}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small
+$\binom n0=\binom nn=1$ \qquad $\binom n1=n$\\[4pt]
+$\binom nk=\binom n{n-k}$: triar els que entren o els que no.\\[4pt]
+A, B, C, D: \ $V_{4,2}=12$, \ $C_{4,2}=\frac{12}2=6$
+\end{minipage}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[q/.style={draw=fmblue,fill=fmdefbg,rounded corners=2mm,line width=1pt,font=\small\heavy,align=center,inner sep=4pt},
+  r/.style={rounded corners=2mm,line width=1pt,font=\small,align=center,inner sep=4pt,minimum width=2.6cm},a/.style={-{Latex[length=2mm]},fmmuted,line width=1pt},l/.style={font=\scriptsize\heavy,fill=white,inner sep=1pt}]
+  \node[q] (o) at (0,0) {Importa\\ l'ordre?};
+  \node[r,draw=fmK,fill=fmK!10] (c) at (0,-2.2) {\textbf{Combinacions}\\ $\binom nk$};
+  \node[q] (rep) at (4,0) {Es poden\\ repetir?};
+  \node[r,draw=fmB,fill=fmB!10] (vr) at (4,-2.2) {\textbf{VR}\\ $n^k$};
+  \node[q] (tots) at (8,0) {Entren\\ tots?};
+  \node[r,draw=fmsf,fill=fmsf!10] (p) at (8,-2.2) {\textbf{Permutacions}\\ $n!$};
+  \node[r,draw=fmA,fill=fmA!10] (v) at (11.6,0) {\textbf{Variacions}\\ $V_{n,k}$};
+  \draw[a] (o)--node[l]{no}(c); \draw[a] (o)--node[l]{sí}(rep);
+  \draw[a] (rep)--node[l]{sí}(vr); \draw[a] (rep)--node[l]{no}(tots);
+  \draw[a] (tots)--node[l]{sí}(p); \draw[a] (tots)--node[l]{no}(v);
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\begin{truc}
+Per saber si importa l'ordre, \textbf{canvia dos elements}: si ix una cosa diferent (un altre podi, un altre número), importa; si és el mateix (el mateix equip), no.
+\end{truc}
+
+\vfill
+\begin{exemple}[Exemples]
+Comissió de 3 entre 10: \ $\binom{10}{3}=\dfrac{10\cdot9\cdot8}{3\cdot2\cdot1}=\boxed{120}$ \qquad amb càrrecs: \ $V_{10,3}=720$\\[4pt]
+Primitiva (6 de 49): \ $\binom{49}{6}=13\,983\,816$ \qquad 8 amics es donen la mà: \ $\binom82=28$\\[4pt]
+2 xiques de 12 i 2 xics de 10: \ $\binom{12}{2}\cdot\binom{10}{2}=66\cdot45=\boxed{2\,970}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+Equips de 5 amb 15 jugadors: \ $\binom{15}{5}=3\,003$ \qquad Diagonals d'un hexàgon: \ $\binom62-6=9$\\[4pt]
+Or, plata i bronze entre 12: \ $V_{12,3}=1\,320$ \qquad 3 llibres de 12: \ $\binom{12}3=220$ \qquad codis ABCDE: \ $5^3=125$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.4
+\clearpage
+\seccio{sec4}{Experiments aleatoris}{Espai mostral i esdeveniments.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={\faCogs\ \ Determinista}]
+Sabem el resultat abans de fer-lo.\\ \small Ex.: el temps que tarda a caure una pilota.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faDiceThree\ \ Aleatori}]
+No el podem predir, però coneixem els possibles.\\ \small Ex.: llançar un dau.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{idea}[Espai mostral i esdeveniments]
+\textbf{Espai mostral} $E$: tots els resultats possibles. \ \textbf{Esdeveniment}: qualsevol subconjunt de $E$ ($A$, $B$\dots). Passa si el resultat és un dels seus elements.
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Elemental}]
+\small Un sol resultat: $\{5\}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Compost}]
+\small Dos o més: $\{2,4,6\}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Segur}]
+\small $E$: sempre passa
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Impossible}]
+\small $\varnothing$: no passa mai
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple: \ llançar un dau]
+$E=\{1,2,3,4,5,6\}$ \qquad «un 5» $=\{5\}$ elemental \qquad «parell» $=\{2,4,6\}$ compost\\[4pt]
+«menor que 7» $=E$ segur \qquad «un 8» $=\varnothing$ impossible
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ urna amb boles de l'1 al 12]
+$A=$ «parell» $=\{2,4,6,8,10,12\}$ \qquad $C=$ «múltiple de 3» $=\{3,6,9,12\}$ \qquad $D=$ «múltiple de 6» $=\{6,12\}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+Tres monedes: \ $2\cdot2\cdot2=8$ resultats: CCC, CCX, CXC, CXX, XCC, XCX, XXC, XXX\\[4pt]
+Dos daus: \ $6\cdot6=36$ parelles \qquad Família de 3 fills, nombre de xics: \ $E=\{0,1,2,3\}$\\[4pt]
+Pal d'una carta: \ $E=\{\text{oros, copes, espases, bastos}\}$\\[4pt]
+Boles de l'1 al 20: \ «múltiple de 5» $=\{5,10,15,20\}$ \qquad «més gran que 20» $=\varnothing$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.5
+\clearpage
+\seccio{sec5}{Operacions amb esdeveniments}{Unió, intersecció i contrari.}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Unió $A\cup B$},before upper=\centering]
+\venn{\fill[fmblue!45] \ca \cb;}{\draw[fmnavy] \ca \cb; \node[font=\scriptsize] at (-0.95,0) {$A$}; \node[font=\scriptsize] at (0.95,0) {$B$};}\par
+\small $A$ \textbf{o} $B$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Intersecció $A\cap B$},before upper=\centering]
+\venn{\begin{scope}\clip \ca; \fill[fmblue!45] \cb; \end{scope}}{\draw[fmnavy] \ca \cb; \node[font=\scriptsize] at (-0.95,0) {$A$}; \node[font=\scriptsize] at (0.95,0) {$B$};}\par
+\small $A$ \textbf{i} $B$ alhora
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Contrari $\overline A$},before upper=\centering]
+\venn{\fill[fmblue!45] (-1.9,-1.3) rectangle (1.9,1.3); \fill[white] (-0.55,0) circle (1);}{\draw[fmnavy] \ca; \node[font=\scriptsize] at (-0.55,0) {$A$};}\par
+\small \textbf{no} passa $A$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Incompatibles},before upper=\centering]
+\venn{}{\draw[fmnavy,fill=fmblue!20] (-0.95,0) circle (0.75) (0.95,0) circle (0.75); \node[font=\scriptsize] at (-0.95,0) {$A$}; \node[font=\scriptsize] at (0.95,0) {$B$};}\par
+\small $A\cap B=\varnothing$
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Diagrames de Venn: el rectangle és l'espai mostral $E$. Un esdeveniment i el seu contrari sempre són incompatibles.\par}
+
+\vfill
+\begin{idea}[Dues relacions útils]
+\textbf{De Morgan}: \ $\overline A\cap\overline B=\overline{A\cup B}$ \ («cap dels dos») \qquad $\overline A\cup\overline B=\overline{A\cap B}$ \ («no tots dos»)\\[3pt]
+$A=(A\cap B)\cup(A\cap\overline B)$, \ dos trossos incompatibles.
+\end{idea}
+
+\vfill
+\begin{exemple}[Exemple: \ dau, \ $A=$ «parell» $=\{2,4,6\}$, \ $B=$ «més de 3» $=\{4,5,6\}$]
+$A\cup B=\{2,4,5,6\}$ \qquad $A\cap B=\{4,6\}$ \qquad $\overline A=\{1,3,5\}$ \qquad $\overline B=\{1,2,3\}$\\[4pt]
+\textbf{No} són incompatibles: tenen en comú el 4 i el 6.
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ boles de l'1 al 12]
+«senar» $=\overline{\text{«parell»}}$ \qquad $D=\{6,12\}\subset C=\{3,6,9,12\}$: si passa $D$, passa $C$ \qquad $C\cap D=D$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+Baralla espanyola, $O=$ «oros», $F=$ «figura»: \ $O\cap F$ = sota, cavall i rei d'oros (3) \qquad $O\cup F$: \ $10+12-3=19$ cartes\\[4pt]
+«parell» i «un 5»: \textbf{incompatibles} \qquad «parell» i «més de 4»: \textbf{no} (tots dos tenen el 6)
+\end{exemple}
+
+\vfill
+% ============================================================ 9.6
+\clearpage
+\seccio{sec6}{Probabilitat. Regla de Laplace}{De la freqüència a la probabilitat.}
+
+\vfill
+\begin{idea}[Freqüència relativa i llei dels grans nombres]
+Si repetim $n$ vegades i $A$ passa $f$ vegades: \ $f_r(A)=\dfrac fn$. \ Quan $n$ és molt gran, $f_r$ s'acosta a un valor fix: la \textbf{probabilitat} $P(A)$.
+\end{idea}
+
+\vfill
+\begin{center}\small
+\taularod{>{\heavy}l*{5}{>{\hspace{3pt}}c<{\hspace{3pt}}}}{%
+\rowcolor{fmblue}\color{white}Xinxeta: llançaments & \color{white}$10$ & \color{white}$50$ & \color{white}$100$ & \color{white}$500$ & \color{white}$1\,000$\\
+Punta amunt & $7$ & $32$ & $61$ & $298$ & $602$\\
+\rowcolor{fmsurface}$f_r$ & $0{,}70$ & $0{,}64$ & $0{,}61$ & $0{,}596$ & $0{,}602$
+}\par\smallskip
+{\comic\color{fmmuted}s'estabilitza a prop de 0,6: \ $P(\text{punta amunt})\approx0{,}6$}
+\end{center}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm,title={\heavy Regla de Laplace},coltitle=fmnavy,colbacktitle=fmyellow]
+{\Large$P(A)=\dfrac{\text{casos favorables}}{\text{casos possibles}}$}
+\end{tcolorbox}
+
+\vfill
+\begin{compte}[Només si són equiprobables]
+No serveix per a la xinxeta ni per a un dau trucat. Amb dos daus, les sumes 2, 3, \dots, 12 \textbf{no} són equiprobables: cal treballar amb les 36 parelles.
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemples]
+Baralla de 40: \ $P(\text{oros})=\frac{10}{40}=\frac14$ \qquad $P(\text{as})=\frac4{40}=\frac1{10}$ \qquad $P(\text{figura})=\frac{12}{40}=\frac3{10}$\\[4pt]
+5 roges, 3 blaves, 2 verdes: \ $P(\text{roja})=\frac12$ \qquad $P(\text{verda})=\frac15$ \qquad $P(\text{no blava})=\frac7{10}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Laplace amb recompte]
+Dues figures en traure 2 cartes alhora: \ $P=\dfrac{\binom{12}{2}}{\binom{40}{2}}=\dfrac{66}{780}=\dfrac{11}{130}\approx0{,}085$\\[4pt]
+Codi de 4 xifres totes diferents: \ $P=\dfrac{V_{10,4}}{VR_{10,4}}=\dfrac{5\,040}{10\,000}=0{,}504$ \qquad Dos daus, suma 9: \ $\frac4{36}=\frac19$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.7
+\clearpage
+\seccio{sec7}{Propietats de la probabilitat}{Contrari, unió i intersecció.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt,raster row skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Entre 0 i 1}]
+$0\le P(A)\le1$ \qquad $P(E)=1$, \ $P(\varnothing)=0$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Contrari}]
+$P(\overline A)=1-P(A)$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+\begin{minipage}[c]{0.65\linewidth}
+{\Large$P(A\cup B)=P(A)+P(B)-P(A\cap B)$}\par\smallskip
+\small Restem la intersecció perquè està comptada dues vegades.\\
+Incompatibles: \ $P(A\cup B)=P(A)+P(B)$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.32\linewidth}\centering
+\venn{\begin{scope}\clip \ca; \fill[fmR!40] \cb; \end{scope}}{\draw[fmnavy] \ca \cb; \node[font=\scriptsize] at (-0.95,0) {$A$}; \node[font=\scriptsize] at (0.95,0) {$B$};}
+\end{minipage}
+\end{tcolorbox}
+
+\vfill
+\begin{idea}[També]
+$P(A)=P(A\cap B)+P(A\cap\overline B)$ \qquad $P(\overline A\cap\overline B)=1-P(A\cup B)$
+\end{idea}
+
+\vfill
+\begin{exemple}[Exemple: \ dau, \ $A=$ «parell», \ $B=$ «més de 3»]
+$P(A\cup B)=\dfrac36+\dfrac36-\dfrac26=\dfrac46=\boxed{\dfrac23}$ \qquad \nota{comprovació: $\{2,4,5,6\}$, 4 de 6}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ oros o figura]
+$P=\dfrac{10}{40}+\dfrac{12}{40}-\dfrac3{40}=\boxed{\dfrac{19}{40}}$ \qquad Copes o as: \ $\dfrac{10}{40}+\dfrac4{40}-\dfrac1{40}=\dfrac{13}{40}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $P(A)=0{,}5$, \ $P(\overline A\cap B)=0{,}3$, \ $P(A\cap B)=0{,}2$]
+$P(B)=P(A\cap B)+P(\overline A\cap B)=0{,}2+0{,}3=\boxed{0{,}5}$ \qquad $P(A\cup B)=0{,}5+0{,}5-0{,}2=\boxed{0{,}8}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+$P(A)=0{,}6$, $P(B)=0{,}3$, $P(A\cap B)=0{,}1$: \ $P(A\cup B)=0{,}8$, \ $P(\overline A)=0{,}4$, \ $P(\overline A\cap\overline B)=0{,}2$\\[4pt]
+$P(A\cup B)=0{,}7$, $P(A)=0{,}5$, $P(B)=0{,}4$: \ $P(A\cap B)=0{,}2$\\[4pt]
+$P(A)=0{,}6$ i $P(B)=0{,}7$ \textbf{no} poden ser incompatibles: la unió valdria $1{,}3>1$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.8
+\clearpage
+\seccio{sec8}{Experiments compostos}{Arbres amb probabilitats en les branques.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={\faTimes\ \ Regla del producte}]
+La probabilitat d'un \textbf{camí} és el producte de les seues branques.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faPlus\ \ Regla de la suma}]
+Si un esdeveniment té diversos camins, \textbf{sumem} les seues probabilitats.
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Les branques que ixen d'un punt sumen 1, i tots els camins també.\par}
+
+\vfill
+\begin{exemple}[Exemple: \ 3 roges i 2 blaves, traiem dues boles \textbf{sense} reemplaçament]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=1.25cm,y=0.42cm]
+  \node[nd] (r) at (0,0) {};
+  \node[nd,fill=fmR] (a) at (1.6,2) {R}; \node[nd,fill=fmblue] (b) at (1.6,-2) {B};
+  \node[nd,fill=fmR] (aa) at (3.3,3) {R}; \node[nd,fill=fmblue] (ab) at (3.3,1) {B};
+  \node[nd,fill=fmR] (ba) at (3.3,-1) {R}; \node[nd,fill=fmblue] (bb) at (3.3,-3) {B};
+  \draw[br] (r)--node[pl]{$\frac35$}(a); \draw[br] (r)--node[pl]{$\frac25$}(b);
+  \draw[br] (a)--node[pl]{$\frac24$}(aa); \draw[br] (a)--node[pl]{$\frac24$}(ab);
+  \draw[br] (b)--node[pl]{$\frac34$}(ba); \draw[br] (b)--node[pl]{$\frac14$}(bb);
+  \foreach \n/\t in {aa/{\frac{6}{20}},ab/{\frac{6}{20}},ba/{\frac{6}{20}},bb/{\frac{2}{20}}} \node[right=3pt,font=\small] at (\n) {$\t$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\linewidth}
+$P(RR)=\dfrac35\cdot\dfrac24=\boxed{\dfrac3{10}}$\\[5pt]
+Un de cada color:\\ $P(RB)+P(BR)=\dfrac6{20}+\dfrac6{20}=\boxed{\dfrac35}$\\[5pt]
+\textbf{Amb} reemplaçament: \ $P(RR)=\dfrac35\cdot\dfrac35=\dfrac9{25}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Amb reemplaçament}]
+Tornem la bola: la bossa no canvia. \textbf{Independents}: \ $P(A\cap B)=P(A)\cdot P(B)$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Sense reemplaçament}]
+La bossa canvia: \textbf{dependents}. Traure-les «alhora» és igual.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}
+«\textbf{Almenys un}»: calcula el contrari («cap») i resta'l d'1. \ Tres daus, almenys un 6: \ $1-\left(\frac56\right)^3=\frac{91}{216}\approx0{,}42$
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.44\linewidth}\centering\small
+{\heavy Dos daus: la suma}\par\smallskip
+\taularod{>{\columncolor{fmblue}\color{white}\heavy}c*{6}{>{\hspace{1pt}}c<{\hspace{1pt}}}}{%
+\rowcolor{fmblue}\color{white}$+$ & \color{white}1 & \color{white}2 & \color{white}3 & \color{white}4 & \color{white}5 & \color{white}6\\
+1 & 2 & 3 & 4 & 5 & 6 & \cellcolor{fmyellow!45}7\\
+2 & 3 & 4 & 5 & 6 & \cellcolor{fmyellow!45}7 & 8\\
+3 & 4 & 5 & 6 & \cellcolor{fmyellow!45}7 & 8 & 9\\
+4 & 5 & 6 & \cellcolor{fmyellow!45}7 & 8 & 9 & 10\\
+5 & 6 & \cellcolor{fmyellow!45}7 & 8 & 9 & 10 & 11\\
+6 & \cellcolor{fmyellow!45}7 & 8 & 9 & 10 & 11 & 12
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.53\linewidth}
+\begin{exemple}[Taula de doble entrada]
+36 resultats equiprobables.\\[3pt]
+$P(\text{suma }7)=\dfrac6{36}=\dfrac16$ \qquad $P(\text{suma }10)=\dfrac3{36}=\dfrac1{12}$\\[4pt]
+$P(\text{dobles})=\dfrac6{36}=\dfrac16$ \qquad $P(\text{almenys un }6)=1-\dfrac{25}{36}=\dfrac{11}{36}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+Dues figures sense reemplaçament: \ $\frac{12}{40}\cdot\frac{11}{39}=\frac{11}{130}$ \qquad Tirador del 80\,\%, 3 trets: \ almenys un, \ $1-0{,}2^3=0{,}992$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.9
+\clearpage
+\seccio{sec9}{Contingència i probabilitat condicionada}{La condició és el nou espai mostral.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}\centering\small
+{\heavy 100 alumnes de 4t: practiquen esport?}\par\smallskip
+\taularod{>{\heavy}l*{3}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{%
+\rowcolor{fmblue} & \color{white}Esport $S$ & \color{white}No $\overline S$ & \color{white}Total\\
+Xics $H$ & $28$ & $12$ & $40$\\
+\rowcolor{fmyellow!30}Xiques $D$ & $33$ & $27$ & $60$\\
+Total & $61$ & $39$ & $100$
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[Taula de contingència]
+Classifica segons dues característiques. Triant a l'atzar, Laplace amb els totals:\\[2pt]
+$P(S)=0{,}61$, \ $P(D)=0{,}6$, \ $P(D\cap S)=0{,}33$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+\begin{minipage}[c]{0.4\linewidth}\centering
+{\Large$P(A\cond B)=\dfrac{P(A\cap B)}{P(B)}$}\par\smallskip
+\small «$A$ sabent que ha passat $B$»
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+En una taula: ens quedem amb la fila o columna de $B$ i hi apliquem Laplace.\\[3pt]
+\textbf{Independents}: \ $P(A\cond B)=P(A)$, \ és a dir, $P(A\cap B)=P(A)\cdot P(B)$.
+\end{minipage}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Exemple: \ amb la taula dels 100 alumnes]
+Una xica fa esport: fila de les xiques, \ $P(S\cond D)=\dfrac{33}{60}=\boxed{0{,}55}$\\[4pt] Un esportista és xica: \ $P(D\cond S)=\dfrac{33}{61}\approx0{,}54$\\[4pt]
+$P(S\cond D)=0{,}55\neq P(S)=0{,}61$: \ \textbf{dependents} \nota{(o bé $0{,}6\cdot0{,}61=0{,}366\neq0{,}33$)}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ 150 viatgers: 60 parlen anglés $I$, 45 francés $F$, 15 tots dos]
+\begin{minipage}[c]{0.42\linewidth}\centering\small
+\taularod{>{\heavy}l*{3}{>{\hspace{4pt}}c<{\hspace{4pt}}}}{%
+\rowcolor{fmblue} & \color{white}$F$ & \color{white}$\overline F$ & \color{white}Total\\
+$I$ & $15$ & $45$ & $60$\\
+\rowcolor{fmsurface}$\overline I$ & $30$ & $60$ & $90$\\
+Total & $45$ & $105$ & $150$
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.56\linewidth}
+$P(I\cup F)=\dfrac{60+45-15}{150}=0{,}6$\\[4pt]
+$P(F\cond I)=\dfrac{15}{60}=0{,}25$\\[4pt]
+Només francés: \ $P(F\cap\overline I)=\dfrac{30}{150}=0{,}2$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ sense taula, \ $P(A)=0{,}5$, \ $P(B)=0{,}4$, \ $P(A\cup B)=0{,}7$]
+$P(A\cap B)=0{,}5+0{,}4-0{,}7=0{,}2$ \qquad $P(A\cond B)=\dfrac{0{,}2}{0{,}4}=0{,}5=P(A)$: \ \textbf{independents}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.10
+\clearpage
+\seccio{sec10}{Problemes amb arbres de dues etapes}{D'on ve? I què n'ix?}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Probabilitat total}]
+Sumem \textbf{tots els camins} que porten a $B$:\\[3pt]
+\small$P(B)=P(A_1)\,P(B\cond A_1)+P(A_2)\,P(B\cond A_2)$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={A posteriori (Bayes)}]
+Si ha eixit $B$, la probabilitat que vinga d'$A_1$:\\[3pt]
+$P(A_1\cond B)=\dfrac{\text{camí d'}A_1\text{ a }B}{\text{tots els camins a }B}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple: \ una prova mèdica]
+{\small 2\,\% de malalts. La prova dona positiu en el 95\,\% dels malalts i en el 4\,\% dels sans.}\par\smallskip
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=1.3cm,y=0.5cm]
+  \node[nd] (r) at (0,0) {};
+  \node[nd,fill=fmR,minimum size=1.6em] (m) at (1.6,2) {M}; \node[nd,fill=fmK,minimum size=1.6em] (s) at (1.6,-2) {S};
+  \node[nd,fill=fmsf] (mp) at (3.3,3) {$+$}; \node[nd,fill=fmmuted] (mn) at (3.3,1) {$-$};
+  \node[nd,fill=fmsf] (sp) at (3.3,-1) {$+$}; \node[nd,fill=fmmuted] (sn) at (3.3,-3) {$-$};
+  \draw[br] (r)--node[pl]{$0{,}02$}(m); \draw[br] (r)--node[pl]{$0{,}98$}(s);
+  \draw[br] (m)--node[pl]{$0{,}95$}(mp); \draw[br] (m)--node[pl]{$0{,}05$}(mn);
+  \draw[br] (s)--node[pl]{$0{,}04$}(sp); \draw[br] (s)--node[pl]{$0{,}96$}(sn);
+  \node[right=3pt,font=\small\heavy,text=fmsf] at (mp) {$0{,}019$}; \node[right=3pt,font=\small\heavy,text=fmsf] at (sp) {$0{,}0392$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\linewidth}
+$P(M\cap+)=0{,}02\cdot0{,}95=0{,}019$\\[4pt]
+$P(+)=0{,}019+0{,}0392=\boxed{0{,}0582}$\\[4pt]
+$P(M\cond+)=\dfrac{0{,}019}{0{,}0582}\approx\boxed{0{,}33}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Sorprenent!]
+Només 1 de cada 3 positius està malalt de veritat: la malaltia és rara i hi ha molts més sans que donen positiu per error.
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemple: \ urna I (2 R, 3 B, 5 N) i urna II (4 R, 2 B, 2 N); triem urna a l'atzar]
+$P(\text{blanca})=\dfrac12\cdot\dfrac3{10}+\dfrac12\cdot\dfrac28=\dfrac3{20}+\dfrac18=\boxed{\dfrac{11}{40}}$ \qquad $P(\text{I}\cond\text{blanca})=\dfrac{3/20}{11/40}=\boxed{\dfrac6{11}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+Moneda: cara, bossa A (2 R, 3 B); creu, bossa B (4 R, 1 B): \ \\ \hspace*{1em}$P(R)=\frac12\cdot\frac25+\frac12\cdot\frac45=\frac35$, \quad $P(A\cond R)=\frac{1/5}{3/5}=\frac13$\\[4pt]
+70\,\% aprova Mates; d'ells el 80\,\% aprova Física, i dels altres el 30\,\%:\\ \hspace*{1em}$P(F)=0{,}7\cdot0{,}8+0{,}3\cdot0{,}3=0{,}65$, \quad $P(M\cond F)=\frac{0{,}56}{0{,}65}\approx0{,}86$
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=24pt,raster before skip=16pt]
+\rtile{9.1}{Multiplicació}{Etapes: $n_1\cdot n_2\cdots n_k$. \ $n!$, \ $0!=1$.}
+\rtile{9.2}{Variacions i permutacions}{$V_{n,k}=\frac{n!}{(n-k)!}$, \ $VR_{n,k}=n^k$, \ $P_n=n!$}
+\rtile{9.3}{Combinacions}{No importa l'ordre: $\binom nk=\frac{n!}{k!(n-k)!}$.}
+\rtile{9.4}{Experiments aleatoris}{Espai mostral $E$. Esdeveniment: subconjunt.}
+\rtile{9.5}{Operacions}{$A\cup B$, $A\cap B$, $\overline A$. Incompatibles: $A\cap B=\varnothing$.}
+\rtile{9.6}{Laplace}{$P(A)=\frac{\text{favorables}}{\text{possibles}}$, si són equiprobables.}
+\rtile{9.7}{Propietats}{$P(\overline A)=1-P(A)$.\\[1ex] $P(A\cup B)=P(A)+P(B)-P(A\cap B)$.}
+\rtile{9.8}{Compostos}{Camí: producte. Diversos camins: suma.}
+\rtile{9.9}{Condicionada}{$P(A\cond B)=\frac{P(A\cap B)}{P(B)}$.\\[1ex] Independents: $P(A\cond B)=P(A)$.}
+\rtile{9.10}{Arbres}{Probabilitat total: suma de camins. A posteriori: camí $\div$ total.}
+\end{tcbraster}
+\end{document}

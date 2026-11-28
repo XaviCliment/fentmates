@@ -1,0 +1,682 @@
+% Apunts de teoria en PDF · 4t ESO · Unitat 5: Trigonometria
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 5: Trigonometria. 4t ESO},pdfsubject={Matemàtiques B 4t ESO},pdfkeywords={graus, radians, sinus, cosinus, tangent, relacions fonamentals, circumferència goniomètrica, reducció al primer quadrant, resolució de triangles}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{5.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$\sin^2\alpha+\cos^2\alpha=1$};
+  \draw (180,70) circle (38); \draw[line width=2pt] (135,70) -- (225,70) (180,115) -- (180,25);
+  \draw (180,70) -- (207,43); \draw[line width=2.2pt] (207,43) -- (207,70);
+  \fill (207,43) circle (5);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4t ESO · Unitat 5: Trigonometria}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 4t ESO · Matemàtiques B}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 5}\\[2pt]Trigonometria\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+\begin{document}
+\portada{Angles, triangles i la circumferència de radi 1.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{5.1}{\faIcon{circle-notch}}{Graus i radians}
+\itile{sec2}{5.2}{\faIcon{play}}{Raons d'un angle agut}
+\itile{sec3}{5.3}{\faStar}{Raons de 30°, 45° i 60°}
+\itile{sec4}{5.4}{\faLink}{Relacions fonamentals}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{5.5}{\faIcon{compass}}{Raons d'un angle qualsevol}
+\itile{sec6}{5.6}{\faIcon{sync-alt}}{Reducció al primer quadrant}
+\itile{sec7}{5.7}{\faRulerCombined}{Triangles rectangles}
+\itile{sec8}{5.8}{\faMountain}{Problemes de trigonometria}
+\itile{resum}{\phantom{5.8}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 5.1
+\clearpage
+\seccio{sec1}{Mesura d'angles: graus i radians}{Un radian: l'arc fa el mateix que el radi.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.3]
+  \draw[fmmuted,line width=1pt] (0,0) circle (1.5);
+  \fill[fmA!20] (0,0) -- (1.5,0) arc (0:57.3:1.5) -- cycle;
+  \draw[fmB,line width=1.6pt] (0,0) -- (1.5,0) node[midway,below,font=\small\heavy] {$r$};
+  \draw[fmB,line width=1.6pt] (0,0) -- (57.3:1.5) node[midway,above left,font=\small\heavy] {$r$};
+  \draw[fmR,line width=2.6pt] (1.5,0) arc (0:57.3:1.5); \node[font=\small\heavy,text=fmR] at (30:1.85) {$r$};
+  \node[font=\small] at (28:0.5) {1 rad};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Graus i radians]
+\textbf{Sexagesimal}: \ $1^\circ=60'$, \ $1'=60''$.\\[3pt]
+\textbf{Radian}: l'angle que abasta un arc de la mateixa longitud que el radi. La volta: $2\pi$ rad.\\[4pt]
+{\centering\Large$180^\circ=\pi\text{ rad}$\par}\smallskip
+1 rad $=\dfrac{180^\circ}{\pi}\approx57^\circ17'45''$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Graus $\to$ radians},before upper=\centering]
+$\alpha\cdot\dfrac{\pi}{180^\circ}$\par\smallskip
+$150^\circ=\dfrac{150\pi}{180}=\dfrac{5\pi}{6}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Radians $\to$ graus},before upper=\centering]
+$\alpha\cdot\dfrac{180^\circ}{\pi}$ \ (canviem $\pi$ per $180^\circ$)\par\smallskip
+$\dfrac{3\pi}{4}=\dfrac{3\cdot180^\circ}{4}=135^\circ$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{center}\small
+\renewcommand{\arraystretch}{1.5}
+\taulaclip{fmblue,line width=1.2pt}{\begin{tabular}{>{\columncolor{fmblue}\color{white}\heavy}c*{11}{w{c}{0.95cm}}}
+Graus & $0^\circ$ & $30^\circ$ & $45^\circ$ & $60^\circ$ & $90^\circ$ & $120^\circ$ & $135^\circ$ & $150^\circ$ & $180^\circ$ & $270^\circ$ & $360^\circ$\\
+\rowcolor{fmsurface}\cellcolor{fmblue}Radians & 0 & $\frac\pi6$ & $\frac\pi4$ & $\frac\pi3$ & $\frac\pi2$ & $\frac{2\pi}3$ & $\frac{3\pi}4$ & $\frac{5\pi}6$ & $\pi$ & $\frac{3\pi}2$ & $2\pi$
+\end{tabular}}
+\end{center}
+
+\vfill
+\begin{exemple}[Exemples]
+$1080^\circ\cdot\dfrac{\pi}{180^\circ}=\boxed{6\pi}$ \ \nota{tres voltes} \qquad $2\text{ rad}\cdot\dfrac{180^\circ}{\pi}\approx\boxed{114^\circ35'30''}$\\[5pt]
+Una tercera part de la volta: \ $\dfrac{360^\circ}{3}=120^\circ=\dfrac{2\pi}{3}$ rad\\[5pt]
+De decimal a sexagesimal: \ $36{,}87^\circ=36^\circ+0{,}87\cdot60'=36^\circ52{,}2'=\boxed{36^\circ52'12''}$ \ \nota{tecla dels graus}
+\end{exemple}
+
+\vfill
+% ============================================================ 5.2
+\clearpage
+\seccio{sec2}{Raons trigonomètriques d'un angle agut}{Quocients entre els costats d'un triangle rectangle.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \filldraw[fill=fmA!10,draw=fmnavy,line width=1.5pt] (0,0) coordinate (A) -- (5,0) coordinate (C) -- (5,3) coordinate (B) -- cycle;
+  \draw[fmnavy,line width=0.8pt] (4.65,0) -- (4.65,0.35) -- (5,0.35);
+  \draw[fmR,line width=1.2pt] (0.9,0) arc (0:31:0.9); \node[font=\small,text=fmR] at (15:1.25) {$\alpha$};
+  \node[below left,font=\small] at (A) {$A$}; \node[below right,font=\small] at (C) {$C$}; \node[above right,font=\small] at (B) {$B$};
+  \node[right,font=\small\heavy,text=fmB] at (5,1.5) {$a$ \ oposat};
+  \node[below,font=\small\heavy,text=fmA] at (2.5,0) {$b$ \ contigu};
+  \node[above left,font=\small\heavy,text=fmK!80!black] at (2.4,1.5) {$c$ \ hipotenusa};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+$\sin\alpha=\dfrac{\cB{a}}{\cK{c}}=\dfrac{\text{catet oposat}}{\text{hipotenusa}}$\\[5pt]
+$\cos\alpha=\dfrac{\cA{b}}{\cK{c}}=\dfrac{\text{catet contigu}}{\text{hipotenusa}}$\\[5pt]
+$\tan\alpha=\dfrac{\cB{a}}{\cA{b}}=\dfrac{\text{catet oposat}}{\text{catet contigu}}$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[No depenen de la grandària]
+Tots els triangles rectangles amb un angle $\alpha$ són \textbf{semblants}: els quocients són els mateixos. \ $0<\sin\alpha<1$, \ $0<\cos\alpha<1$.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[Amb la calculadora]
+Per a trobar l'angle: \ $\sin^{-1}$, $\cos^{-1}$, $\tan^{-1}$ (SHIFT).\\[2pt]
+$\sin\alpha=0{,}6\ \to\ \alpha\approx36^\circ52'12''$
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ catets de 5 cm i 12 cm]
+Hipotenusa: \ $c=\sqrt{25+144}=13$ \qquad $\sin\alpha=\frac{5}{13}$, \ $\cos\alpha=\frac{12}{13}$, \ $\tan\alpha=\frac{5}{12}$ \qquad $\alpha=\tan^{-1}\frac{5}{12}\approx22^\circ37'12''$\\[4pt]
+Per a l'altre angle $\beta$: \ $\sin\beta=\frac{12}{13}=\cos\alpha$, \ $\cos\beta=\frac5{13}=\sin\alpha$ \ \nota{complementaris}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+Catet contigu 3 i $\tan\alpha=\frac43$: \ oposat $=4$, \ hipotenusa $=5$\\[4pt]
+Hipotenusa 50 cm i $\sin\alpha=\frac{7}{25}$: \ oposat $=50\cdot\frac{7}{25}=14$, \ l'altre $=\sqrt{2500-196}=48$ cm\\[4pt]
+$\cos\alpha=0{,}25\to\alpha\approx75^\circ31'21''$ \qquad $\tan\alpha=3\to\alpha\approx71^\circ33'54''$
+\end{exemple}
+
+\vfill
+\begin{compte}[Notació]
+També s'escriu $\text{tg}\,\alpha$ per a la tangent i $\text{sen}\,\alpha$ per al sinus.
+\end{compte}
+
+\vfill
+% ============================================================ 5.3
+\clearpage
+\seccio{sec3}{Raons de 30°, 45° i 60°}{Mig quadrat i mig triangle equilàter.}
+
+\vfill
+\begin{minipage}[c]{0.24\linewidth}\centering
+\begin{tikzpicture}[scale=1.5]
+  \filldraw[fill=fmA!15,draw=fmA,line width=1.4pt] (0,0) -- (1,0) -- (1,1) -- cycle;
+  \node[below,font=\small] at (0.5,0) {1}; \node[right,font=\small] at (1,0.5) {1}; \node[above left,font=\small] at (0.5,0.5) {$\sqrt2$};
+  \node[font=\scriptsize,text=fmR] at (0.3,0.1) {$45^\circ$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}mig quadrat}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.24\linewidth}\centering
+\begin{tikzpicture}[scale=1.3]
+  \filldraw[fill=fmB!15,draw=fmB,line width=1.4pt] (0,0) -- (1,0) -- (0,1.732) -- cycle;
+  \node[below,font=\small] at (0.5,0) {1}; \node[left,font=\small] at (0,0.87) {$\sqrt3$}; \node[above right,font=\small] at (0.5,0.87) {2};
+  \node[font=\scriptsize,text=fmR] at (0.75,0.15) {$60^\circ$}; \node[font=\scriptsize,text=fmR] at (0.12,1.3) {$30^\circ$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}mig equilàter}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\linewidth}\centering
+\renewcommand{\arraystretch}{1.9}
+\taulaclip{fmblue,line width=1.2pt}{\begin{tabular}{>{\columncolor{fmblue}\color{white}\heavy}c*{3}{w{c}{1.4cm}}}
+\rowcolor{fmblue} & \color{white}$30^\circ=\frac\pi6$ & \color{white}$45^\circ=\frac\pi4$ & \color{white}$60^\circ=\frac\pi3$\\
+$\sin$ & $\frac12$ & $\frac{\sqrt2}{2}$ & $\frac{\sqrt3}{2}$\\
+\rowcolor{fmsurface}\cellcolor{fmblue}$\cos$ & $\frac{\sqrt3}{2}$ & $\frac{\sqrt2}{2}$ & $\frac12$\\
+$\tan$ & $\frac{\sqrt3}{3}$ & 1 & $\sqrt3$
+\end{tabular}}
+\end{minipage}
+
+\vfill
+\begin{truc}[Per a recordar-la]
+Els sinus de $30^\circ$, $45^\circ$, $60^\circ$ són $\frac{\sqrt1}{2}$, $\frac{\sqrt2}{2}$, $\frac{\sqrt3}{2}$; els cosinus, els mateixos a l'inrevés. I $\tan45^\circ=1$: els dos catets del mig quadrat són iguals.
+\end{truc}
+
+\vfill
+\begin{exemple}[Exemple: \ altura d'un triangle equilàter de 5 cm, sense Pitàgores]
+$h$ és el catet oposat a $60^\circ$: \ $h=5\sin60^\circ=5\cdot\dfrac{\sqrt3}{2}=\boxed{\dfrac{5\sqrt3}{2}}\approx4{,}33$ cm
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ un catet de 9 cm i l'angle contigu de $45^\circ$]
+$\tan45^\circ=\dfrac b9=1\ \to\ b=9$ cm \qquad $\cos45^\circ=\dfrac9a\ \to\ a=\dfrac{18}{\sqrt2}=\boxed{9\sqrt2\text{ cm}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+Diagonal d'un quadrat de 3 cm: \ $d=\dfrac{3}{\cos45^\circ}=3\sqrt2$ cm \qquad Hipotenusa 12 i angle de $60^\circ$: catets $6\sqrt3$ i $6$\\[4pt]
+$\sin^245^\circ+\cos60^\circ=\frac12+\frac12=1$ \qquad $\tan30^\circ\cdot\tan60^\circ=\frac{\sqrt3}{3}\cdot\sqrt3=1$
+\end{exemple}
+
+\vfill
+% ============================================================ 5.4
+\clearpage
+\seccio{sec4}{Relacions fonamentals}{Amb una raó, calculem les altres.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering]
+\textbf{I}\par\smallskip{\large$\sin^2\alpha+\cos^2\alpha=1$}
+\end{tcolorbox}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering]
+\textbf{II}\par\smallskip{\large$\tan\alpha=\dfrac{\sin\alpha}{\cos\alpha}$}
+\end{tcolorbox}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering]
+\textbf{III}\par\smallskip{\large$\tan^2\alpha+1=\dfrac{1}{\cos^2\alpha}$}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[D'on ixen?]
+I: Pitàgores $a^2+b^2=c^2$ dividit entre $c^2$.\\[2pt]
+II: $\dfrac{a/c}{b/c}=\dfrac ab$.\\[2pt]
+III: dividim I entre $\cos^2\alpha$.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Notació]
+$\sin^2\alpha=(\sin\alpha)^2$, que \textbf{no} és $\sin\alpha^2$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $\sin\beta=\frac35$, agut]
+I: \ $\cos^2\beta=1-\frac{9}{25}=\frac{16}{25}\ \to\ \cos\beta=\frac45$ \ \nota{positiu: agut} \qquad II: \ $\tan\beta=\dfrac{3/5}{4/5}=\boxed{\dfrac34}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $\tan\alpha=\frac{5}{12}$, agut]
+III: \ $\dfrac{1}{\cos^2\alpha}=\dfrac{25}{144}+1=\dfrac{169}{144}\ \to\ \cos\alpha=\dfrac{12}{13}$ \qquad II: \ $\sin\alpha=\tan\alpha\cdot\cos\alpha=\boxed{\dfrac{5}{13}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ hi ha algun angle amb aquestes raons?]
+$\sin\alpha=\frac{7}{25}$, $\cos\alpha=\frac{11}{25}$: \ $\frac{49}{625}+\frac{121}{625}=\frac{170}{625}\neq1$ \ \mal{\text{no}}\\[4pt]
+$\cos\alpha=\frac{\sqrt3}{2}$, $\tan\alpha=\frac{\sqrt3}{3}$: \ $\frac39+1=\frac43=\frac{1}{3/4}$ \ \be{} \ sí ($30^\circ$)
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+$\cos\alpha=\frac23$: \ $\sin\alpha=\frac{\sqrt5}{3}$, \ $\tan\alpha=\frac{\sqrt5}{2}$ \qquad $\cos\alpha=\frac{8}{17}$: \ $\sin\alpha=\frac{15}{17}$, \ $\tan\alpha=\frac{15}{8}$\\[4pt]
+$\tan\gamma=3$: \ $\cos\gamma=\frac{\sqrt{10}}{10}$, \ $\sin\gamma=\frac{3\sqrt{10}}{10}$
+\end{exemple}
+
+\vfill
+% ============================================================ 5.5
+\clearpage
+\seccio{sec5}{Raons d'un angle qualsevol}{La circumferència goniomètrica, de radi 1.}
+
+\vfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[scale=2.0]
+  \draw[fmmuted,line width=0.8pt,-{Latex[length=2mm]}] (-1.3,0) -- (1.5,0) node[right,font=\scriptsize] {$x$};
+  \draw[fmmuted,line width=0.8pt,-{Latex[length=2mm]}] (0,-1.3) -- (0,1.4) node[above,font=\scriptsize] {$y$};
+  \draw[fmnavy,line width=1.2pt] (0,0) circle (1);
+  \draw[fmmuted,dashed] (1,-0.3) -- (1,1.2);
+  \fill[fmyellow!40] (0,0) -- (0.3,0) arc (0:35:0.3) -- cycle; \node[font=\scriptsize] at (17:0.45) {$\alpha$};
+  \draw[fmnavy,line width=1.2pt] (0,0) -- (1,0.7);
+  \draw[fmA,line width=2.4pt] (0,0) -- (0.819,0) node[midway,below,font=\scriptsize\heavy] {$\cos\alpha$};
+  \draw[fmB,line width=2.4pt] (0.819,0) -- (0.819,0.574); \node[left,font=\scriptsize\heavy,text=fmB] at (0.82,0.3) {$\sin\alpha$};
+  \draw[fmK,line width=2.4pt] (1,0) -- (1,0.7); \node[right,font=\scriptsize\heavy,text=fmK!80!black] at (1,0.45) {$\tan\alpha$};
+  \fill[fmR] (0.819,0.574) circle (1.4pt) node[above left,font=\scriptsize] {$P$};
+  \node[font=\scriptsize\heavy] at (0.7,1.15) {I}; \node[font=\scriptsize\heavy] at (-0.7,1.15) {II}; \node[font=\scriptsize\heavy] at (-0.7,-1.15) {III}; \node[font=\scriptsize\heavy] at (0.7,-1.15) {IV};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Circumferència goniomètrica]
+Radi 1, centre l'origen. L'angle comença en el semieix positiu $OX$ i gira en sentit \textbf{contrari a les agulles} del rellotge.\\[4pt]
+{\centering\large$P=(\cA{\cos\alpha},\ \cB{\sin\alpha})$\par}\smallskip
+$-1\le\sin\alpha\le1$, \ $-1\le\cos\alpha\le1$; la tangent, qualsevol valor.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\renewcommand{\arraystretch}{1.4}
+\taulaclip{fmblue,line width=1.2pt}{\begin{tabular}{>{\columncolor{fmblue}\color{white}\heavy}c*{4}{w{c}{0.8cm}}}
+\rowcolor{fmblue} & \color{white}I & \color{white}II & \color{white}III & \color{white}IV\\
+$\sin$ & \cK{$+$} & \cK{$+$} & \cR{$-$} & \cR{$-$}\\
+\rowcolor{fmsurface}\cellcolor{fmblue}$\cos$ & \cK{$+$} & \cR{$-$} & \cR{$-$} & \cK{$+$}\\
+$\tan$ & \cK{$+$} & \cR{$-$} & \cK{$+$} & \cR{$-$}
+\end{tabular}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Voltes i angles negatius}]
+$412^\circ=360^\circ+52^\circ$: mateixes raons que $52^\circ$.\\[2pt]
+$-60^\circ$: el mateix costat que $300^\circ$.
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $90^\circ<\alpha<180^\circ$ i $\sin\alpha=0{,}62$]
+$\cos^2\alpha=1-0{,}62^2=0{,}6156\ \to\ \cos\alpha\approx\cR{-}0{,}7846$ \ \nota{segon quadrant: negatiu} \qquad $\tan\alpha=\dfrac{0{,}62}{-0{,}7846}\approx\boxed{-0{,}7902}$
+\end{exemple}
+
+\vfill
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Dos angles amb la mateixa raó: la calculadora només en dona un}]
+$\sin x=k$: \ $x_2=180^\circ-x_1$ \qquad $\cos x=k$: \ $x_2=360^\circ-x_1$ \qquad $\tan x=k$: \ $x_2=x_1+180^\circ$\par\smallskip
+$\cos x=-0{,}5$: \ $x_1=120^\circ$, \ $x_2=240^\circ$
+\end{tcolorbox}
+
+\vfill
+% ============================================================ 5.6
+\clearpage
+\seccio{sec6}{Reducció al primer quadrant}{Angles simètrics: mateixos valors, signes diferents.}
+
+\vfill
+\begin{center}\small
+\renewcommand{\arraystretch}{1.6}
+\taularod{>{\heavy}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}Angles & \color{white}\heavy & \color{white}\heavy Simetria & \color{white}\heavy $\sin$ & \color{white}\heavy $\cos$ & \color{white}\heavy $\tan$\\
+Suplementaris & $180^\circ-\alpha$ & eix $OY$ & $\sin\alpha$ & $-\cos\alpha$ & $-\tan\alpha$\\
+\rowcolor{fmsurface}Difereixen $180^\circ$ & $180^\circ+\alpha$ & origen $O$ & $-\sin\alpha$ & $-\cos\alpha$ & $\tan\alpha$\\
+Oposats & $360^\circ-\alpha$ & eix $OX$ & $-\sin\alpha$ & $\cos\alpha$ & $-\tan\alpha$\\
+\rowcolor{fmsurface}Complementaris & $90^\circ-\alpha$ & recta $y=x$ & $\cos\alpha$ & $\sin\alpha$ & $\frac{1}{\tan\alpha}$
+}
+\end{center}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.75]
+  \draw[fmmuted,line width=0.8pt] (-1.3,0) -- (1.3,0) (0,-1.3) -- (0,1.3);
+  \draw[fmnavy,line width=1pt] (0,0) circle (1);
+  \foreach \a/\c in {30/fmK,150/fmB,210/fmR,330/fmV} {\draw[\c,line width=1.3pt] (0,0) -- (\a:1); \fill[\c] (\a:1) circle (1.8pt);}
+  \draw[fmmuted,dashed] (30:1) -- (150:1) (30:1) -- (330:1) (150:1) -- (210:1);
+  \node[font=\scriptsize,text=fmK!80!black] at (30:1.25) {$30^\circ$}; \node[font=\scriptsize,text=fmB] at (150:1.3) {$150^\circ$};
+  \node[font=\scriptsize,text=fmR] at (210:1.3) {$210^\circ$}; \node[font=\scriptsize,text=fmV] at (330:1.3) {$330^\circ$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Regla pràctica]
+Busca l'angle \textbf{agut} que forma amb l'eix $OX$ \ ($180^\circ-\beta$, \ $\beta-180^\circ$ o \ $360^\circ-\beta$).\\[3pt]
+Les raons tenen el mateix \textbf{valor absolut}; el \textbf{signe}, el del quadrant.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ les raons de $1920^\circ$]
+$1920^\circ=5\cdot360^\circ+120^\circ$, \ i $120^\circ=180^\circ-60^\circ$ (II):\\[3pt]
+$\sin1920^\circ=\dfrac{\sqrt3}{2}$ \qquad $\cos1920^\circ=-\dfrac12$ \qquad $\tan1920^\circ=-\sqrt3$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ amb $\sin25^\circ\approx0{,}42$, $\cos25^\circ\approx0{,}91$, $\tan25^\circ\approx0{,}47$]
+$65^\circ=90^\circ-25^\circ$: \ $(0{,}91;\ 0{,}42;\ 2{,}13)$ \qquad $205^\circ=180^\circ+25^\circ$: \ $(-0{,}42;\ -0{,}91;\ 0{,}47)$ \qquad $-25^\circ$: \ $(-0{,}42;\ 0{,}91;\ -0{,}47)$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples exactes]
+$135^\circ$: $\left(\frac{\sqrt2}{2},\,-\frac{\sqrt2}{2},\,-1\right)$ \qquad $240^\circ$: $\left(-\frac{\sqrt3}{2},\,-\frac12,\,\sqrt3\right)$ \qquad $330^\circ$: $\left(-\frac12,\,\frac{\sqrt3}{2},\,-\frac{\sqrt3}{3}\right)$
+\end{exemple}
+
+\vfill
+% ============================================================ 5.7
+\clearpage
+\seccio{sec7}{Resolució de triangles rectangles}{Amb dues dades (una, un costat) ho calculem tot.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.8]
+  \filldraw[fill=fmA!10,draw=fmnavy,line width=1.5pt] (0,0) -- (5,0) -- (5,3) -- cycle;
+  \draw[fmnavy,line width=0.8pt] (4.65,0) -- (4.65,0.35) -- (5,0.35);
+  \node[below left,font=\small] at (0,0) {$A$}; \node[below right,font=\small] at (5,0) {$C$}; \node[above right,font=\small] at (5,3) {$B$};
+  \node[right,font=\small] at (5,1.5) {$a$}; \node[below,font=\small] at (2.5,0) {$b$}; \node[above left,font=\small] at (2.5,1.5) {$c$};
+\end{tikzpicture}\\[4pt]
+{\small$\hat A+\hat B=90^\circ$ \qquad $a^2+b^2=c^2$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tcbraster}[raster columns=1,raster row skip=6pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Dos costats}]
+El tercer, per \textbf{Pitàgores}; cada angle, amb una raó i la calculadora.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Un costat i un angle agut}]
+L'altre angle, el \textbf{complementari}; cada costat, amb la raó que el lliga a les dades.
+\end{tcolorbox}
+\end{tcbraster}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ catet $a=11$ cm i hipotenusa $c=20$ cm]
+$b=\sqrt{400-121}=\sqrt{279}\approx16{,}70$ cm \qquad $\sin\hat A=\frac{11}{20}\to\hat A\approx33^\circ22'1''$ \qquad $\hat B\approx56^\circ37'59''$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ catet $a=15$ cm i $\hat B=50^\circ$]
+$\hat A=40^\circ$ \qquad $\tan\hat B=\dfrac ba\to b=15\tan50^\circ\approx17{,}88$ cm \qquad $\cos\hat B=\dfrac ac\to c=\dfrac{15}{\cos50^\circ}\approx23{,}34$ cm
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+$c=32$, $\hat B=57^\circ$: \ $\hat A=33^\circ$, \ $a=32\cos57^\circ\approx17{,}43$, \ $b=32\sin57^\circ\approx26{,}84$\\[4pt]
+$a=250$, $b=308$: \ $c\approx396{,}69$ m, \ $\hat A\approx39^\circ3'57''$, \ $\hat B\approx50^\circ56'3''$\\[4pt]
+Escala de 4 m a $70^\circ$ del terra: \ altura $4\sin70^\circ\approx3{,}76$ m, \ peu a $4\cos70^\circ\approx1{,}37$ m
+\end{exemple}
+
+\vfill
+\begin{compte}[Quin és el costat?]
+En alguns llibres l'angle recte és $\hat A$ i la hipotenusa és $a$. El que importa és saber quin costat és la hipotenusa i quin catet és \textbf{oposat} o \textbf{contigu}.
+\end{compte}
+
+\vfill
+% ============================================================ 5.8
+\clearpage
+\seccio{sec8}{Problemes de trigonometria}{Busca (o fes aparéixer) triangles rectangles.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Elevació, depressió i pendent]
+\textbf{Elevació}: la visual cap amunt amb l'horitzontal. \textbf{Depressió}: cap avall.\\[3pt]
+\textbf{Pendent}: la tangent de l'angle: desnivell entre distància horitzontal.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[scale=0.48]
+  \draw[fmmuted,line width=1pt] (-0.5,0) -- (11,0);
+  \fill[fmB!40] (9.6,0) -- (10,4.5) -- (10.4,0) -- cycle; \draw[fmB,line width=1.6pt] (10,0) -- (10,4.5);
+  \draw[fmK,line width=1.1pt] (0,0) -- (10,4.5); \draw[fmK,line width=1.1pt] (3,0) -- (10,4.5);
+  \draw[fmK] (1.4,0) arc (0:24:1.4); \node[font=\scriptsize] at (1.9,0.3) {$29^\circ$};
+  \draw[fmK] (4.3,0) arc (0:33:1.3); \node[font=\scriptsize] at (4.85,0.4) {$32^\circ$};
+  \node[below,font=\scriptsize] at (0,0) {$B$}; \node[below,font=\scriptsize] at (3,0) {$A$};
+  \node[below,font=\scriptsize] at (1.5,-0.3) {300}; \node[below,font=\scriptsize] at (6.5,-0.3) {$x$}; \node[right,font=\scriptsize\heavy] at (10.2,2.3) {$h$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}doble observació}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ un cim es veu a $32^\circ$ des d'$A$ i a $29^\circ$ des de $B$, 300 m més lluny]
+$\tan32^\circ=\dfrac hx$, \quad $\tan29^\circ=\dfrac{h}{x+300}$ \ $\to$ \ $x\tan32^\circ=(x+300)\tan29^\circ$\\[3pt]
+$x=\dfrac{300\tan29^\circ}{\tan32^\circ-\tan29^\circ}\approx2356{,}75$ m \qquad $h=x\tan32^\circ\approx\boxed{1472{,}66\text{ m}}$
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Polígons regulars}]
+Radi, apotema i mig costat: un triangle rectangle amb angle $\frac{180^\circ}{n}$:\par\smallskip
+{\centering$\tan\dfrac{180^\circ}{n}=\dfrac{l/2}{\text{ap}}$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Àrea amb dos costats i l'angle}]
+L'altura és $h=a\sin\hat C$:\par\smallskip
+{\centering$S=\dfrac12\,a\,b\sin\hat C$\par}\smallskip
+Rombe o paral·lelogram: $S=a\,b\sin\alpha$.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemples]
+Pentàgon regular de 10 cm: \ $\text{ap}=\dfrac{5}{\tan36^\circ}\approx6{,}88$ cm, \ $S\approx\dfrac{50\cdot6{,}88}{2}\approx172{,}05$ cm$^2$\\[4pt]
+$\overline{CA}=6$, $\overline{CB}=10$, $\hat C=50^\circ$: \ $h=6\sin50^\circ\approx4{,}60$, \ $S\approx22{,}98$ cm$^2$, \ $\overline{AB}\approx7{,}67$ cm\\[4pt]
+Camí que puja 120 m en 800 m: \ pendent $0{,}15=15\,\%$, \ angle $\approx8^\circ31'51''$ \qquad Rombe de costat 8 i $60^\circ$: \ $32\sqrt3\approx55{,}43$ cm$^2$
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=30pt,raster before skip=16pt]
+\rtile{5.1}{Radians}{$180^\circ=\pi$ rad.\\[1ex] Multipliquem per $\frac{\pi}{180}$ o per $\frac{180}{\pi}$.}
+\rtile{5.2}{Raons}{$\sin=\frac{\text{op}}{\text{hip}}$, \ $\cos=\frac{\text{cont}}{\text{hip}}$, \ $\tan=\frac{\text{op}}{\text{cont}}$.}
+\rtile{5.3}{30°, 45°, 60°}{Sinus: $\frac{\sqrt1}{2},\frac{\sqrt2}{2},\frac{\sqrt3}{2}$. Cosinus, a l'inrevés.}
+\rtile{5.4}{Relacions}{$\sin^2+\cos^2=1$, \ $\tan=\frac{\sin}{\cos}$, \ $\tan^2+1=\frac1{\cos^2}$.}
+\rtile{5.5}{Angle qualsevol}{$P=(\cos\alpha,\sin\alpha)$. El quadrant decideix el signe.}
+\rtile{5.6}{Reducció}{Angle agut amb l'eix $OX$: mateix valor, signe del quadrant.}
+\rtile{5.7}{Triangles rectangles}{Dues dades, una d'elles un costat.\\[1ex] Pitàgores i raons.}
+\rtile{5.8}{Problemes}{Doble observació: dues tangents i un sistema.\\[1ex] $S=\frac12ab\sin\hat C$.}
+\end{tcbraster}
+\end{document}

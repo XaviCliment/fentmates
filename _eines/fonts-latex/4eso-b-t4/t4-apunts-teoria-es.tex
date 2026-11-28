@@ -1,0 +1,621 @@
+% Apuntes de teoría en PDF · 4.º ESO · Unidad 4: Sistemas de ecuaciones e inecuaciones (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 4: Sistemas de ecuaciones e inecuaciones. 4.º ESO},pdfsubject={Matemáticas B 4.º ESO},pdfkeywords={sistemas lineales, método gráfico, sustitución, igualación, reducción, sistemas no lineales, inecuaciones, semiplano, región factible}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{4.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (14,40) {$\left\{\begin{array}{l}x+y\le4\\x\ge0,\ y\ge0\end{array}\right.$};
+  \fill[opacity=0.5] (140,105) -- (140,40) -- (205,105) -- cycle;
+  \draw[line width=2pt] (130,105) -- (232,105) (140,115) -- (140,25);
+  \draw[line width=3.2pt] (135,35) -- (215,115);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4.º ESO · Unidad 4: Sistemas de ecuaciones e inecuaciones}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 4.º ESO · Matemáticas B}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 4}\\[2pt]Sistemas de ecuaciones e inecuaciones\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+\newcommand{\sis}[2]{\left\{\begin{array}{@{}l@{}}#1\\[2pt]#2\end{array}\right.}
+\newcommand{\passos}[1]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Cómo se resuelven}]#1\end{tcolorbox}}
+
+\begin{document}
+\portada{Dos ecuaciones a la vez, y desigualdades que pintan regiones del plano.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{4.1}{\faChartLine}{Sistemas lineales. Método gráfico}
+\itile{sec2}{4.2}{\faIcon{exchange-alt}}{Sustitución, igualación, reducción}
+\itile{sec3}{4.3}{\faIcon{bezier-curve}}{Sistemas no lineales}
+\itile{sec4}{4.4}{\faTasks}{Problemas con sistemas}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{4.5}{\faRulerHorizontal}{Inecuaciones con una incógnita}
+\itile{sec6}{4.6}{\faAdjust}{Inecuaciones con dos incógnitas}
+\itile{sec7}{4.7}{\faDrawPolygon}{Sistemas con dos incógnitas}
+\itile{resum}{\phantom{4.7}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 4.1
+\clearpage
+\seccio{sec1}{Sistemas lineales. Método gráfico}{Cada ecuación es una recta; la solución, donde se cortan.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Sistema de dos ecuaciones lineales]
+{\centering\Large$\sis{a_1x+b_1y=c_1}{a_2x+b_2y=c_2}$\par}\smallskip
+Una \textbf{solución} es un par $(x,y)$ que cumple las dos a la vez: el \textbf{punto de corte} de las dos rectas.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[scale=0.48]
+  \eixos{-1}{5}{-1}{7}
+  \nums{1}{4}{1}{7}
+  \draw[fmA,line width=1.6pt] (0,7) -- (3.5,0); \draw[fmB,line width=1.6pt] (1,-1) -- (5,3);
+  \fill[fmR] (3,1) circle (6pt); \node[right=3pt,font=\small\heavy] at (3.1,1.3) {$(3,\,1)$};
+  \node[fill=white,inner sep=1pt,font=\small,text=fmA] at (2.4,4.4) {$2x+y=7$}; \node[fill=white,inner sep=1pt,font=\small,text=fmB] at (4.2,3.4) {$x-y=2$};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{center}\small
+\taularod{>{\heavy}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}Rectas & \color{white}\heavy Soluciones & \color{white}\heavy Sistema & \color{white}\heavy Coeficientes\\
+Se cortan & una & compatible determinado (SCD) & $\frac{a_1}{a_2}\neq\frac{b_1}{b_2}$\rule[-8pt]{0pt}{22pt}\\
+\rowcolor{fmsurface}Paralelas & ninguna & incompatible (SI) & $\frac{a_1}{a_2}=\frac{b_1}{b_2}\neq\frac{c_1}{c_2}$\rule[-8pt]{0pt}{22pt}\\
+Coincidentes & infinitas & compatible indeterminado (SCI) & $\frac{a_1}{a_2}=\frac{b_1}{b_2}=\frac{c_1}{c_2}$\rule[-8pt]{0pt}{22pt}
+}
+\end{center}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\passos{\pas{1} Una tabla con dos puntos para cada recta.\\[3pt]
+\pas{2} Las dos rectas en los mismos ejes.\\[3pt]
+\pas{3} Leemos el \textbf{punto de corte}.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Poco preciso]
+Si la solución no es entera, el dibujo solo la aproxima. Normalmente usamos los métodos algebraicos (4.2).
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$\sis{2x+y=7}{x-y=2}$: \ $y=7-2x$ por $(0,7)$ y $(3,1)$; \ $y=x-2$ por $(2,0)$ y $(3,1)$ \ $\to$ \ \boxed{(3,\,1)}\\[5pt]
+$\sis{x-y=1}{2x-2y=5}$: \ $\dfrac12=\dfrac{-1}{-2}\neq\dfrac15$ \ $\to$ paralelas, \textbf{incompatible} \qquad
+$\sis{x+3y=2}{2x+6y=4}$: \ la misma recta, \textbf{SCI}
+\end{exemple}
+
+\vfill
+% ============================================================ 4.2
+\clearpage
+\seccio{sec2}{Sustitución, igualación y reducción}{Eliminamos una incógnita y queda una ecuación de primer grado.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Sustitución}]
+Despejamos una incógnita y la sustituimos en la otra. Cómodo si tiene coeficiente $\pm1$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Igualación}]
+Despejamos la \textbf{misma} incógnita en las dos e igualamos.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Reducción}]
+Multiplicamos para que una incógnita tenga coeficientes opuestos y sumamos.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ el mismo sistema $\sis{x+2y=8}{3x-y=3}$ por los tres métodos]
+\begin{minipage}[t]{0.32\linewidth}
+\textbf{\cA{Sustitución}}\\[2pt]
+$x=8-2y$\\
+$3(8-2y)-y=3$\\
+$-7y=-21\to y=3$\\
+$x=8-6=2$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+\textbf{\cB{Igualación}}\\[2pt]
+$y=\dfrac{8-x}{2}$, \ $y=3x-3$\\[2pt]
+$8-x=6x-6$\\
+$x=2$, \ $y=3$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}
+\textbf{\cK{Reducción}}\\[2pt]
+2.ª por 2: \ $6x-2y=6$\\
+sumamos: \ $7x=14$\\
+$x=2$, \ $y=3$
+\end{minipage}\par\medskip
+{\centering Solución: \ \boxed{x=2,\ y=3} \ \nota{compruébala en las dos}\par}
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Llegamos a $0=0$}]
+Compatible \textbf{indeterminado}: infinitas soluciones.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Llegamos a $0=5$}]
+Igualdad imposible: \textbf{incompatible}.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ con paréntesis y denominadores]
+$\sis{\frac{x+1}{2}+\frac y3=2}{2(x-y)=x-3}$ \ $\to$ \ primero la forma $ax+by=c$: \ $\sis{3x+2y=9}{x-2y=-3}$ \ $\to$ \ sumando, $4x=6$: \ \boxed{x=\tfrac32,\ y=\tfrac94}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$\sis{y=3x-5}{2x+y=10}$: \ $5x=15$, \ $(3,\,4)$ \qquad
+$\sis{x=2y+1}{x=5-2y}$: \ $y=1$, \ $(3,\,1)$ \qquad
+$\sis{3x+2y=12}{5x-2y=4}$: \ $8x=16$, \ $(2,\,3)$
+\end{exemple}
+
+\vfill
+% ============================================================ 4.3
+\clearpage
+\seccio{sec3}{Sistemas no lineales}{Cuadrados, productos\dots: curvas que se cortan.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Sistemas no lineales]
+Alguna ecuación no es de primer grado ($x^2$, $y^2$, $xy$\dots).\\[3pt]
+\textbf{Sustitución}: despejamos de la lineal y sustituimos. Suele quedar una de segundo grado.\\[3pt]
+\textbf{Reducción}: si $x^2$ e $y^2$ aparecen igual en las dos.\\[3pt]
+Puede haber \textbf{varias soluciones}: para cada valor de una incógnita, calculamos la otra.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.55]
+  \eixos{-3}{3}{-2}{4}
+  \draw[fmA,line width=1.6pt,domain=-2.3:2.3,samples=40] plot (\x,{\x*\x-1});
+  \draw[fmB,line width=1.6pt] (-2.8,-1.8) -- (2.8,3.8);
+  \fill[fmR] (2,3) circle (5pt) node[right,font=\small] {$(2,3)$}; \fill[fmR] (-1,0) circle (5pt) node[above left,font=\small] {$(-1,0)$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}$y=x^2-1$ \ e \ $y=x+1$}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\sis{x-y=1}{x^2+y^2=13}$]
+$x=1+y\ \to\ (1+y)^2+y^2=13\ \to\ y^2+y-6=0$ \qquad $y=2\to x=3$; \ $y=-3\to x=-2$ \qquad \boxed{(3,2)\ \text{y}\ (-2,-3)}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\sis{x+y=7}{xy=12}$]
+$y=7-x\ \to\ x(7-x)=12\ \to\ x^2-7x+12=0$: \ $x=3,\ x=4$ \qquad \boxed{(3,4)\ \text{y}\ (4,3)}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\sis{x^2+y^2=25}{x^2-y^2=7}$ \ \ por reducción]
+Sumamos: \ $2x^2=32\ \to\ x=\pm4$; \ $y^2=9\ \to\ y=\pm3$ \qquad cuatro soluciones: \ $(\pm4,\,\pm3)$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\sis{y=x^2-1}{y=x+1}$ \ \ parábola y recta]
+Igualamos: \ $x^2-1=x+1\ \to\ x^2-x-2=0$: \ $x=2,\ x=-1$ \qquad \boxed{(2,3)\ \text{y}\ (-1,0)} \ \nota{los puntos del dibujo}
+\end{exemple}
+
+\vfill
+\begin{compte}[Calcula siempre la otra incógnita]
+Cada valor de $x$ da su $y$: no mezcles las parejas. \ $\sis{x+y=0}{xy=1}$ da $-x^2=1$: \textbf{no tiene solución}.
+\end{compte}
+
+\vfill
+% ============================================================ 4.4
+\clearpage
+\seccio{sec4}{Problemas con sistemas}{Cada condición del enunciado, una ecuación.}
+
+\passosproblema{\textbf{Elegimos}\\$x$ e $y$}{\textbf{Planteamos}\\el sistema}
+
+\vfill
+\begin{exemple}[Ejemplo: \ 30 vehículos entre coches y motos, y 100 ruedas]
+\begin{minipage}[c]{0.5\linewidth}
+$x$ = coches, \ $y$ = motos: \ $\sis{x+y=30}{4x+2y=100}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+Restamos el doble de la 1.ª: \ $2x=40$\\
+\boxed{20\text{ coches y }10\text{ motos}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ un rectángulo de 32 cm de perímetro y 60 cm$^2$ de área]
+\begin{minipage}[c]{0.5\linewidth}
+$\sis{2x+2y=32}{xy=60}$ \ $\to$ \ $y=16-x$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$x^2-16x+60=0$: \ $x=10,\ x=6$\\
+\boxed{10\text{ cm y }6\text{ cm}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ dos números se diferencian en 3 y la suma de sus cuadrados es 117]
+$\sis{x-y=3}{x^2+y^2=117}$ \ $\to$ \ $y^2+3y-54=0$: \ $y=6\to x=9$; \ $y=-9\to x=-6$ \qquad \boxed{9\text{ y }6,\ \text{o}\ -6\text{ y }-9}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+250 animales entre conejos y gallinas, 800 patas: \ $\sis{x+y=250}{4x+2y=800}$ \ $\to$ \ 150 conejos y 100 gallinas\\[5pt]
+Cifras que suman 9; al intercambiarlas, el número aumenta 27: \ $\sis{x+y=9}{(10y+x)-(10x+y)=27}$ \ $\to$ \ \textbf{36}\\[5pt]
+Rectángulo de diagonal 10 cm y área 48 cm$^2$: \ $\sis{x^2+y^2=100}{xy=48}$ \ $\to$ \ 8 cm y 6 cm
+\end{exemple}
+
+\vfill
+\begin{compte}[Interpreta las soluciones]
+Descarta las que no tienen sentido (longitudes negativas, personas no enteras\dots) y responde con una frase.
+\end{compte}
+
+\vfill
+% ============================================================ 4.5
+\clearpage
+\seccio{sec5}{Sistemas de inecuaciones con una incógnita}{Resolvemos cada una y nos quedamos con lo que tienen en común.}
+
+\vfill
+\begin{idea}[Cómo se resuelven]
+Resolvemos \textbf{cada inecuación por separado} (unidad 3). La solución del sistema es la \textbf{intersección}. Si no tienen ningún punto en común, el sistema \textbf{no tiene solución}.
+\end{idea}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\sis{2x-1<5}{x^2-4\ge0}$]
+\begin{minipage}[c]{0.55\linewidth}
+\begin{tabular}{@{}r@{\ \ }l@{}}
+$x<3$ & \intv{-6}{3}{a}{o}{fmA}\\[4pt]
+$x^2\ge4$ & \begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0); \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \draw[fmB,line width=2.6pt,{Latex[length=2.6mm]}-] (-6,0) -- (-2,0); \draw[fmB,line width=2.6pt,-{Latex[length=2.6mm]}] (2,0) -- (7,0);
+  \fill[fmB] (-2,0) circle (3.5pt) node[below=2pt,font=\scriptsize,text=black] {$-2$}; \fill[fmB] (2,0) circle (3.5pt) node[below=2pt,font=\scriptsize,text=black] {$2$};
+\end{tikzpicture}\\[4pt]
+\cK{sistema} & \begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0); \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \draw[fmK,line width=2.6pt,{Latex[length=2.6mm]}-] (-6,0) -- (-2,0); \draw[fmK,line width=2.6pt] (2,0) -- (3,0);
+  \fill[fmK] (-2,0) circle (3.5pt); \fill[fmK] (2,0) circle (3.5pt); \filldraw[fill=white,draw=fmK,line width=1.3pt] (3,0) circle (3.3pt);
+\end{tikzpicture}
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+$2x<6\to x<3$\\[3pt]
+$x^2-4\ge0\to\lo-\infty,-2]\cup[2,+\infty\ro$\\[5pt]
+\boxed{\lo-\infty,-2]\cup[2,\,3\ro}\\[3pt]
+\nota{el 3 no: no cumple la primera}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\sis{x-2>0}{x+1<0}$]
+$x>2$ \ y \ $x<-1$: \ los dos intervalos no tienen ningún punto en común \ $\to$ \ \textbf{no tiene solución}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$\sis{2x-3\le0}{3x+1>0}$: \ $\left]-\frac13,\,\frac32\right]$ \qquad
+$\sis{x^2-x-6<0}{x\ge0}$: \ $\lo-2,3\ro\cap[0,+\infty\ro=[0,\,3\ro$ \qquad
+$\sis{x+1\ge0}{x<-3}$: \ \textbf{ninguna}
+\end{exemple}
+
+\vfill
+\begin{truc}[Una recta encima de la otra]
+Dibuja la solución de cada inecuación en una recta, con la misma escala: lo que coincide en todas es la solución.
+\end{truc}
+
+\vfill
+% ============================================================ 4.6
+\clearpage
+\seccio{sec6}{Inecuaciones con dos incógnitas}{La solución es un semiplano.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Semiplano]
+$ax+by<c$ (o $>$, $\le$, $\ge$): las soluciones son puntos $(x,y)$ del plano. Todas juntas forman un \textbf{semiplano}, uno de los dos lados de la recta $ax+by=c$.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.6]
+  \fill[fmK!25] (-1,-1) -- (-1,3.5) -- (6,0) -- (6,-1) -- cycle;
+  \eixos{-1}{6}{-1}{4}
+  \draw[fmK!80!black,line width=1.7pt] (-1,3.5) -- (6,0);
+  \fill[fmR] (0,0) circle (4pt) node[below left,font=\scriptsize] {$O$};
+  \node[font=\small,text=fmK!80!black,fill=white,inner sep=1pt] at (3.6,2.6) {$x+2y=6$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}$x+2y\le6$: el lado del origen}
+\end{minipage}
+
+\passos{\pas{1} \textbf{Recta frontera}: cambiamos la desigualdad por $=$ y la dibujamos con dos puntos. \ \textbf{Continua} si es $\le$ o $\ge$; \textbf{discontinua} si es $<$ o $>$.\\[3pt]
+\pas{2} \textbf{Punto de prueba}: un punto fuera de la recta, a menudo $O(0,0)$.\\[3pt]
+\pas{3} Si lo cumple, la solución es su semiplano; si no, el otro. Lo sombreamos.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{exemple}[$x+2y\le6$]
+{\centering\begin{tikzpicture}[scale=0.32]\fill[fmK!25] (-1,-1) -- (-1,3.5) -- (6,0) -- (6,-1) -- cycle;\eixos{-1}{6}{-1}{4}\draw[fmK!80!black,line width=1.4pt] (-1,3.5) -- (6,0);\fill[fmR] (0,0) circle (5pt);\end{tikzpicture}\par}
+Recta por $(6,0)$ y $(0,3)$, \textbf{continua}.\\[2pt]
+$O$: $0\le6$ \be{}\\[2pt]
+Semiplano del origen.
+\end{exemple}
+\begin{exemple}[$y>x+1$]
+{\centering\begin{tikzpicture}[scale=0.32]\fill[fmK!25] (-3,-2) -- (2,3) -- (-3,3) -- cycle;\eixos{-3}{3}{-2}{3}\draw[fmK!80!black,line width=1.4pt,dashed] (-3,-2) -- (2,3);\fill[fmR] (0,0) circle (5pt);\end{tikzpicture}\par}
+Recta por $(-1,0)$ y $(0,1)$, \textbf{discontinua}.\\[2pt]
+$O$: $0>1$ \mal{\text{falso}}\\[2pt]
+El otro semiplano.
+\end{exemple}
+\begin{exemple}[$y\ge2x$]
+{\centering\begin{tikzpicture}[scale=0.32]\fill[fmK!25] (-1.5,-3) -- (1.5,3) -- (-3,3) -- (-3,-3) -- cycle;\eixos{-3}{3}{-3}{3}\draw[fmK!80!black,line width=1.4pt] (-1.5,-3) -- (1.5,3);\fill[fmR] (1,0) circle (5pt);\end{tikzpicture}\par}
+Pasa por el origen: probamos $(1,0)$.\\[2pt]
+$0\ge2$ \mal{\text{falso}}\\[2pt]
+El semiplano sin $(1,0)$.
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[Si la recta pasa por el origen]
+No puedes probar con $O(0,0)$: elige otro punto, como $(1,0)$ o $(0,1)$.
+\end{compte}
+
+\vfill
+% ============================================================ 4.7
+\clearpage
+\seccio{sec7}{Sistemas con dos incógnitas}{La intersección de los semiplanos: la región factible.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Región factible]
+Cada inecuación da un semiplano; la solución es la \textbf{intersección}.\\[3pt]
+Los \textbf{vértices} son los cortes de las rectas frontera: resolvemos los sistemas de dos ecuaciones.\\[3pt]
+La región puede ser \textbf{acotada} (un polígono) o \textbf{no acotada}.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[scale=0.6]
+  \fill[fmK!25] (0,0) -- (2,0) -- (3,1) -- (0,4) -- cycle;
+  \eixos{-1}{5}{-1}{5}
+  \draw[fmA,line width=1.4pt] (-0.5,4.5) -- (4.5,-0.5); \draw[fmB,line width=1.4pt] (1,-1) -- (5,3);
+  \draw[fmK!80!black,line width=1.6pt] (0,0) -- (2,0) -- (3,1) -- (0,4) -- cycle;
+  \foreach \p in {(0,0),(2,0),(3,1),(0,4)} \fill[fmR] \p circle (4pt);
+  \node[right,font=\scriptsize] at (3.1,1) {$(3,1)$}; \node[right,font=\scriptsize] at (0.1,4.2) {$(0,4)$}; \node[below,font=\scriptsize] at (2,-0.1) {$(2,0)$};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $x+y\le4$, \ $y\ge x-2$, \ $x\ge0$, \ $y\ge0$]
+$x+y\le4$: semiplano de $O$ \ ($0\le4$) \qquad $y\ge x-2$: semiplano de $O$ \ ($0\ge-2$) \qquad $x,y\ge0$: primer cuadrante\\[3pt]
+Polígono de vértices \ \boxed{(0,0),\ (2,0),\ (3,1),\ (0,4)}: \ región \textbf{acotada}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $x+y\ge4$ \ y \ $x+y\le1$]
+Rectas paralelas: el primer semiplano no contiene $O$ y el segundo sí. No tienen ningún punto en común: \ \textbf{no tiene solución}.
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$\sis{x\ge1,\ y\ge0}{x+y\le5}$: \ triángulo de vértices $(1,0)$, $(5,0)$ y $(1,4)$\\[5pt]
+$\sis{y<-2x+4}{y\ge x}$: \ \textbf{no acotada}, con un solo vértice en $\left(\frac43,\frac43\right)$
+\end{exemple}
+
+\vfill
+\begin{truc}[Sombrea con colores distintos]
+Pinta cada semiplano de un color: la región que tiene todos los colores a la vez es la solución.
+\end{truc}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=36pt,raster before skip=18pt]
+\rtile{4.1}{Método gráfico}{Punto de corte de las rectas.\\[1ex] Se cortan: SCD. Paralelas: SI. Coincidentes: SCI.}
+\rtile{4.2}{Métodos algebraicos}{Sustitución, igualación o reducción.\\[1ex] $0=0$: SCI. \ $0=5$: SI.}
+\rtile{4.3}{No lineales}{Sustitución (o reducción). Varias soluciones: calcula siempre la otra incógnita.}
+\rtile{4.4}{Problemas}{Una condición, una ecuación. Interpreta las soluciones.}
+\rtile{4.5}{Inecuaciones, una incógnita}{Cada una por separado; la solución es la intersección.}
+\rtile{4.6}{Dos incógnitas}{Recta frontera y punto de prueba: un semiplano.}
+\rtile{4.7}{Sistemas}{Intersección de los semiplanos: región factible y sus vértices.}
+\end{tcbraster}
+\end{document}

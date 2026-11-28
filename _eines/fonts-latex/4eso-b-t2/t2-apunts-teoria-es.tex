@@ -1,0 +1,703 @@
+% Apuntes de teoría en PDF · 4.º ESO · Unidad 2: Polinomios y fracciones algebraicas (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 2: Polinomios y fracciones algebraicas. 4.º ESO},pdfsubject={Matemáticas B 4.º ESO},pdfkeywords={polinomios, monomios, binomio de Newton, división, Ruffini, teorema del resto, raíces, factorización, m.c.d., m.c.m., fracciones algebraicas}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{2.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$\dfrac{x^2-4}{x-2}=x+2$};
+  \draw[line width=2.4pt] (140,60) -- (140,105) (130,92) -- (232,92);
+  \node[font=\fontsize{20}{20}\selectfont] at (185,72) {$1\ \ 0\ \ {-5}$};
+  \node[font=\fontsize{20}{20}\selectfont] at (185,103) {$1\ \ 2\ \ {-1}$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4.º ESO · Unidad 2: Polinomios y fracciones algebraicas}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 4.º ESO · Matemáticas B}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 2}\\[2pt]Polinomios y fracciones algebraicas\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+\begin{document}
+\portada{Operamos, dividimos y factorizamos expresiones con letras.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{2.1}{\faFont}{Polinomios}
+\itile{sec2}{2.2}{\faCalculator}{Operaciones y división}
+\itile{sec3}{2.3}{\faEquals}{Valor numérico y resto}
+\itile{sec4}{2.4}{\faSearch}{Raíces de un polinomio}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{2.5}{\faPuzzlePiece}{Factorización}
+\itile{sec6}{2.6}{\faLayerGroup}{M.c.d. y m.c.m.}
+\itile{sec7}{2.7}{\faDivide}{Fracciones algebraicas}
+\itile{resum}{\phantom{2.7}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 2.1
+\clearpage
+\seccio{sec1}{Polinomios}{Sumas de monomios: coeficiente, parte literal y grado.}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{30}{30}\selectfont,inner sep=3pt,text height=24pt,text depth=6pt}]
+  \node[t,fill=fmA!12,rounded corners=2mm] (c) {$\cA{-5}$};
+  \node[t,right=1pt of c,fill=fmB!12,rounded corners=2mm] (l) {$\cB{x^3}$};
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,anchor=east] (lc) at ([xshift=-1.2cm,yshift=0.6cm]c.west) {{\heavy\color{fmA}coeficiente}};
+  \node[fill=fmB!14,draw=fmB,rounded corners=2mm,font=\large,anchor=west,align=center] (ll) at ([xshift=1.2cm,yshift=0.6cm]l.east) {{\heavy\color{fmB}parte literal}\\[-2pt]\small grado: 3};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (lc.east) to[out=0,in=150] ([xshift=-2pt]c.north west);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (ll.west) to[out=180,in=40] ([xshift=2pt]l.north east);
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Monomios]
+Coeficiente por letras con exponentes naturales. \textbf{Grado}: la suma de los exponentes: \ $4x^2y$ tiene grado 3.\\[3pt]
+\textbf{Semejantes}: misma parte literal. Solo los semejantes se suman: \ $3x^2-x^2=2x^2$.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{idea}[Polinomios]
+{\centering$P(x)=a_nx^n+\cdots+a_1x+a_0$\par}\smallskip
+\textbf{Grado} $n$; \ \textbf{coeficiente principal} $a_n$; \ \textbf{término independiente} $a_0$.\\[2pt]
+\textbf{Ordenado} y \textbf{completo} (todos los grados).
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P(x)=3x^2-5+2x^4-x$]
+Ordenado: \ $P(x)=2x^4+3x^2-x-5$ \qquad grado 4, \ coeficiente principal 2, \ término independiente $-5$\\[3pt]
+\textbf{No} es completo: falta el grado 3. \ Completo: \ $2x^4+\cR{0x^3}+3x^2-x-5$ \ \nota{importante para Ruffini}
+\end{exemple}
+
+\vfill
+\begin{center}
+\taularod{>{\heavy}c<{\hspace{8pt}}>{\hspace{8pt}}c<{\hspace{8pt}}>{\hspace{8pt}}c<{\hspace{8pt}}>{\hspace{8pt}}c<{\hspace{6pt}}}{
+\rowcolor{fmblue}\color{white}Monomio & \color{white}\heavy Coeficiente & \color{white}\heavy Parte literal & \color{white}\heavy Grado\\
+$-5x^3$ & $-5$ & $x^3$ & 3\\
+\rowcolor{fmsurface}$\frac23\,x$ & $\frac23$ & $x$ & 1\\
+$4x^2y$ & 4 & $x^2y$ & $2+1=3$\\
+\rowcolor{fmsurface}$7$ & 7 & ninguna & 0
+}
+\end{center}
+
+\vfill
+\begin{exemple}[Ejemplo: \ reduce $5x^2-3x+2x^2+8x-1$]
+Agrupamos los semejantes: \ $(5+2)x^2+(-3+8)x-1=\boxed{7x^2+5x-1}$
+\end{exemple}
+
+\vfill
+\begin{truc}[Binomios y trinomios]
+2 términos, \textbf{binomio} ($x^2-9$); 3 términos, \textbf{trinomio} ($x^2+2x+1$).
+\end{truc}
+
+\vfill
+% ============================================================ 2.2
+\clearpage
+\seccio{sec2}{Operaciones con polinomios}{Suma, producto, binomio de Newton y división.}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Suma, resta y producto]
+\textbf{Restar}: cambiamos el signo de \textbf{todos} los términos del segundo.\\[3pt]
+\textbf{Multiplicar}: cada término por cada término; el grado es la \textbf{suma} de los grados.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+$(a+b)^2=a^2+2ab+b^2$\\[2pt]
+$(a-b)^2=a^2-2ab+b^2$\\[2pt]
+$(a+b)(a-b)=a^2-b^2$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P=2x^3-x+4$, \ $Q=x^2-3x$]
+$P-Q=2x^3-x^2+2x+4$ \qquad $P\cdot Q=2x^5-6x^4-x^3+7x^2-12x$ \ \nota{grado $3+2=5$}\\[3pt]
+$3(x-1)^2-(2x+3)(2x-3)=3x^2-6x+3-4x^2+9=\boxed{-x^2-6x+12}$
+\end{exemple}
+
+\vfill
+\begin{minipage}[c]{0.3\linewidth}\centering
+{\renewcommand{\arraystretch}{1.25}$\begin{array}{c}1\\ 1\quad1\\ 1\quad2\quad1\\ 1\quad3\quad3\quad1\\ 1\quad4\quad6\quad4\quad1\\ 1\quad5\quad10\quad10\quad5\quad1\end{array}$}\\[2pt]
+{\comic\small\color{fmmuted}triángulo de Tartaglia}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.67\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Binomio de Newton}]
+{\centering$(a+b)^n=\binom n0a^n+\binom n1a^{n-1}b+\cdots+\binom nnb^n$\par}\smallskip
+Coeficientes: el triángulo. Los exponentes de $a$ bajan y los de $b$ suben. Con $(a-b)^n$, signos \textbf{alternos}.\\[3pt]
+$(2x-3)^3=8x^3-36x^2+54x-27$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\subsection{División y regla de Ruffini}
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[División entera]
+{\centering$D(x)=d(x)\cdot c(x)+r(x)$\par}\smallskip
+con $\text{gr}\,r<\text{gr}\,d$.\\[3pt]
+Si el divisor es $x-a$: \textbf{Ruffini}. Cuidado: $x+2=x-(-2)$, \ $a=-2$.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}\centering
+{\small$(x^4-5x^2+3x-2):(x+2)$}\\[2pt]
+\ruffini{-2}{1,0,-5,3,-2}{-2,4,2,-10}{1,-2,-1,5,-12}{5}\\[2pt]
+$c(x)=x^3-2x^2-x+5$, \quad $r=-12$
+\end{minipage}
+
+\vfill
+\begin{compte}[Los ceros de los grados que faltan]
+Escribe \textbf{todos} los coeficientes, con un 0 para cada grado que falta: \ $x^4-5x^2+3x-2\ \to\ 1,\ \cR{0},\ -5,\ 3,\ -2$.
+\end{compte}
+
+\vfill
+% ============================================================ 2.3
+\clearpage
+\seccio{sec3}{Valor numérico y teorema del resto}{El resto de dividir entre $x-a$ es $P(a)$.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Valor numérico]
+$P(a)$: sustituimos $x$ por $a$.\\[3pt]
+$P(x)=x^3-2x+5$: \ $P(-2)=-8+4+5=\boxed{1}$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large Teorema del resto}\par\smallskip
+el resto de $P(x):(x-a)$ es\par\smallskip
+{\fontsize{22}{26}\selectfont$r=P(a)$}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{truc}[¿Por qué?]
+$P(x)=(x-a)\cdot c(x)+r$. \ Si ponemos $x=a$, el primer sumando vale 0: \ $P(a)=r$.\\[2pt]
+Dos maneras de calcular $P(a)$: sustituyendo, o haciendo Ruffini y mirando el resto (más rápido con grados altos).
+\end{truc}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Ejemplo: \ resto de $(x^5-3x^2+7):(x+1)$]
+Sin dividir: \ $r=P(-1)=-1-3+7=\boxed{3}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ $k$ para que $(x^3+kx^2-5x+6):(x-3)$ sea exacta]
+$P(3)=0$: \ $27+9k-15+6=0\ \to\ \boxed{k=-2}$
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P(3)$ con Ruffini, para $P(x)=x^4-3x^3+2x-5$]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\scalebox{0.78}{\ruffini{3}{1,-3,0,2,-5}{3,0,0,6}{1,0,0,2,1}{5}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+No hay término en $x^2$: ponemos un \textbf{0}.\\[4pt]
+El resto es el valor numérico: \ $P(3)=\boxed{1}$\\[4pt]
+Comprobamos: \ $81-81+6-5=1$ \ \be{}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[El signo de $a$]
+Dividir entre $x+2$ es dividir entre $x-(-2)$: el resto es \be{P(-2)}, no \mal{P(2)}.
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $a$ y $b$ para que $x^3+ax^2+bx-6$ sea divisible por $x-1$ y, al dividirlo por $x+1$, el resto sea $-4$]
+$P(1)=0$: \ $1+a+b-6=0\ \to\ a+b=5$ \qquad $P(-1)=-4$: \ $-1+a-b-6=-4\ \to\ a-b=3$\\[4pt]
+Resolvemos el sistema: \ $2a=8$ \ $\to$ \ \boxed{a=4,\ b=1}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$P(x)=2x^3-x^2+3$: \ $P(0)=3$, \ $P(1)=4$, \ $P(-1)=0$, \ $P(2)=15$\\[4pt]
+Resto de $(x^3-mx+4):(x+2)$ igual a 10: \ $P(-2)=-8+2m+4=10\ \to\ \boxed{m=7}$\\[4pt]
+¿Es exacta $(x^4-16):(x+2)$? \ $P(-2)=16-16=0$ \ \be{} sí: \ $x+2$ es un factor de $x^4-16$
+\end{exemple}
+
+\vfill
+% ============================================================ 2.4
+\clearpage
+\seccio{sec4}{Raíces de un polinomio}{Los valores que anulan el polinomio.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Raíz y teorema del factor]
+$a$ es una \textbf{raíz} de $P(x)$ si $P(a)=0$.\\[4pt]
+{\centering$P(a)=0\iff(x-a)$ es un \textbf{factor} de $P(x)$\par}\smallskip
+Grado $n$: $n$ raíces como mucho. \ $x^2+1$: ninguna.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faSearch\ \ Raíces enteras}]
+\pas{1} Candidatos: divisores del \textbf{término indep.}\\[2pt]
+\pas{2} Probamos: si $P(a)=0$, es raíz.\\[2pt]
+\pas{3} Sin término indep.: factor común $x$.
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ raíces enteras de $P(x)=x^3-2x^2-5x+6$]
+Candidatos: divisores de 6: \ $\pm1,\ \pm2,\ \pm3,\ \pm6$\\[4pt]
+$P(1)=0$ \be{} \qquad $P(-1)=8$ \qquad $P(2)=-4$ \qquad $P(-2)=0$ \be{} \qquad $P(3)=0$ \be{}\\[4pt]
+Grado 3 y ya tenemos 3: \ \boxed{x=1,\ x=-2,\ x=3}
+\end{exemple}
+
+\vfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[x=0.7cm,y=0.7cm]
+  \draw[fmmuted!30,line width=0.4pt] (-3,-1.5) grid (4,2.5);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (-3,0) -- (4.2,0) node[right,font=\scriptsize] {$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,-1.5) -- (0,2.7) node[above,font=\scriptsize] {$y$};
+  \draw[fmA,line width=1.6pt,domain=-2.3:3.3,samples=80] plot (\x,{0.25*(\x*\x*\x-2*\x*\x-5*\x+6)});
+  \foreach \r in {-2,1,3} {\fill[fmR] (\r,0) circle (3pt); \node[below left=-1pt,font=\scriptsize\heavy,text=fmR] at (\r,0) {$\r$};}
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}$y=x^3-2x^2-5x+6$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.53\linewidth}
+\begin{truc}[Raíces y gráfica]
+Las raíces son los puntos donde la gráfica \textbf{corta el eje $X$}: allí $y=P(x)=0$.\\[3pt]
+Una parábola, $x^2+1$, que no corta el eje no tiene raíces.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Ejemplo: \ $x^3+x^2-4x-4$]
+Candidatos $\pm1,\pm2,\pm4$: \ $\boxed{x=-1,\ 2,\ -2}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[¿Puede ser raíz el 4?]
+De $x^3+2x^2-x+6$: \textbf{no}, porque 4 no es divisor de 6.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ raíces de $x^3-3x+2$]
+\begin{minipage}[c]{0.55\linewidth}
+Candidatos $\pm1,\pm2$: \ $P(1)=0$ \be{}, \ $P(-1)=4$, \ $P(2)=4$, \ $P(-2)=0$ \be{}\\[4pt]
+¿Solo dos raíces y el grado es 3? \ Una se \textbf{repite}: \\[2pt]
+$x^3-3x+2=(x-1)^2(x+2)$ \ \nota{$x=1$ es raíz doble}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\scalebox{0.7}{\ruffini{1}{1,0,-3,2}{1,1,-2}{1,1,-2,0}{4}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$x^4-x^3-2x^2=x^2(x^2-x-2)$:\\ raíces \boxed{x=0\text{ (doble)},\ 2,\ -1} \ \nota{factor común}\\[4pt]
+$2x^2-x-1$: \ $x=1$ y $x=-\frac12$ \ \nota{no todas son enteras}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Grado 3, raíces $1,\,-2,\,3$ y $P(0)=12$:\\
+$P(x)=a(x-1)(x+2)(x-3)$, \ $P(0)=6a=12$\\
+$\boxed{P(x)=2(x-1)(x+2)(x-3)}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 2.5
+\clearpage
+\seccio{sec5}{Factorización de polinomios}{Producto de factores del menor grado posible.}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$P(x)=a_n\,(x-x_1)(x-x_2)\cdots(x-x_n)$}\par\smallskip
+{\small $x_1,\dots,x_n$ son las raíces; si un factor se repite, la raíz es \textbf{doble}, \textbf{triple}\dots}
+\end{tcolorbox}
+
+\vfill
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=6pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\pas{1}\ Factor común},left=2mm,right=2mm]
+$2x^4-6x^3$\\ $=2x^3(x-3)$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\pas{2}\ Identidades},left=2mm,right=2mm]
+$x^2-9=(x+3)(x-3)$\\ $x^2+6x+9=(x+3)^2$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\pas{3}\ Grado 2},left=2mm,right=2mm]
+Ecuación:\\ $a(x-x_1)(x-x_2)$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\pas{4}\ Grado mayor},left=2mm,right=2mm]
+Ruffini hasta llegar a grado 2.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P(x)=x^4-x^3-7x^2+x+6$]
+\begin{minipage}[c]{0.45\linewidth}\centering
+\ruffini{1}{1,-1,-7,1,6}{1,0,-7,-6}{1,0,-7,-6,0}{5}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+$x=1$: resto 0. Con el cociente y $x=-1$: \ $x^3-7x-6=(x+1)(x^2-x-6)$\\[3pt]
+$x^2-x-6=0\ \to\ x=3,\ x=-2$\\[3pt]
+$\boxed{P(x)=(x-1)(x+1)(x-3)(x+2)}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P(x)=2x^3-3x^2-3x+2$ \ (coeficiente principal 2)]
+\begin{minipage}[c]{0.4\linewidth}\centering
+\scalebox{0.72}{\ruffini{-1}{2,-3,-3,2}{-2,5,-2}{2,-5,2,0}{4}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+$P(-1)=0$: \ $P(x)=(x+1)(2x^2-5x+2)$\\[3pt]
+$2x^2-5x+2=0\ \to\ x=\dfrac{5\pm3}{4}=2,\ \dfrac12$\\[3pt]
+$P(x)=2(x+1)(x-2)\left(x-\tfrac12\right)=\boxed{(x+1)(x-2)(2x-1)}$\\[2pt]
+\notab{el 2 entra en el último paréntesis: \ $2\left(x-\frac12\right)=2x-1$}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P(x)=x^3-x^2+x-6$ \ (queda un factor de grado 2 sin raíces)]
+\begin{minipage}[c]{0.4\linewidth}\centering
+\scalebox{0.72}{\ruffini{2}{1,-1,1,-6}{2,2,6}{1,1,3,0}{4}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+$P(2)=0$: \ $P(x)=(x-2)(x^2+x+3)$\\[3pt]
+$x^2+x+3=0$: \ $\Delta=1-12<0$, \ \textbf{no tiene solución}\\[3pt]
+\raggedright Se queda tal cual en la factorización:\\[3pt] $\boxed{P(x)=(x-2)(x^2+x+3)}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$x^3-6x^2+9x=x(x^2-6x+9)=\boxed{x(x-3)^2}$ \ \nota{$x=3$ doble}\\[4pt]
+$x^2-16=(x+4)(x-4)$ \qquad $3x^2-12x+12=3(x-2)^2$ \qquad $x^3-x=x(x+1)(x-1)$\\[4pt]
+$x^4-5x^2+4=(x-1)(x+1)(x-2)(x+2)$ \qquad $x^3+x^2-5x+3=(x-1)^2(x+3)$
+\end{exemple}
+
+\vfill
+% ============================================================ 2.6
+\clearpage
+\seccio{sec6}{Divisibilidad. M.c.d. y m.c.m.}{Como con los números, pero con los polinomios factorizados.}
+
+\vfill
+\begin{idea}[Divisores e irreducibles]
+$Q(x)$ es \textbf{divisor} de $P(x)$ si la división es exacta: $P=Q\cdot C$. \ $x^2-1=(x+1)(x-1)$.\\[3pt]
+Un polinomio sin divisores de grado menor, como $x+3$ o $x^2+1$, es \textbf{irreducible} (como un primo).
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={M.c.d.}]
+Factores \textbf{comunes} con el \textbf{menor} exponente.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={M.c.m.}]
+Factores \textbf{comunes y no comunes} con el \textbf{mayor} exponente.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $P(x)=x^3-4x$ \ y \ $Q(x)=x^2-4x+4$]
+Factorizamos: \ $P=x(x+2)(x-2)$, \quad $Q=(x-2)^2$\\[4pt]
+m.c.d. $=\boxed{x-2}$ \qquad m.c.m. $=\boxed{x(x+2)(x-2)^2}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+¿Es $x-3$ divisor de $x^2-x-6$? \ $P(3)=0$ \be{} sí. \ ¿Y $x+3$? \ $P(-3)=6$ \mal{\text{no}}\\[4pt]
+$x^2+x=x(x+1)$, \ $x^2-1=(x+1)(x-1)$: \ m.c.d. $=x+1$, \ m.c.m. $=x(x+1)(x-1)$\\[4pt]
+$x^2(x-1)$, \ $(x-1)^2$, \ $2(x-1)$: \ m.c.d. $=x-1$, \ m.c.m. $=2x^2(x-1)^2$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ m.c.d. y m.c.m. de $x^3-3x+2$, \ $x^2+x-2$ \ y \ $x^2-1$]
+\begin{minipage}[c]{0.55\linewidth}
+Ruffini con $x=1$: \ $x^3-3x+2=(x-1)^2(x+2)$\\[3pt]
+Ecuación de 2.º grado: \ $x^2+x-2=(x-1)(x+2)$\\[3pt]
+Identidad notable: \ $x^2-1=(x-1)(x+1)$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+m.c.d. $=\boxed{x-1}$ \ \nota{el único común}\\[5pt]
+m.c.m. $=\boxed{(x-1)^2(x+2)(x+1)}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Ejemplo: \ divisores de $(x+1)(x-2)$]
+$1$, \ $x+1$, \ $x-2$ \ y \ $(x+1)(x-2)$\\[3pt]
+\notab{y los que resultan de multiplicarlos por un número: $3(x+1)$\dots}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Ejemplo: \ $k$ para que $x+2$ sea divisor de $x^3+kx+4$]
+$P(-2)=0$: \ $-8-2k+4=0$\\[3pt]
+$\boxed{k=-2}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{truc}[Como con los números]
+$12=2^2\cdot3$ y $18=2\cdot3^2$: \ m.c.d. $=2\cdot3=6$, \ m.c.m. $=2^2\cdot3^2=36$. \ Con polinomios es igual, pero los «primos» son los factores irreducibles. Por eso, antes de nada, \textbf{factoriza} todos los polinomios. El m.c.m. será el denominador común al sumar fracciones algebraicas (2.7).
+\end{truc}
+
+\vfill
+% ============================================================ 2.7
+\clearpage
+\seccio{sec7}{Fracciones algebraicas}{Cocientes de polinomios: simplificamos y operamos como con fracciones.}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Fracción algebraica]
+$\dfrac{P(x)}{Q(x)}$: solo tiene sentido si $Q(x)\neq0$.\\[3pt]
+\textbf{Simplificar}: factorizamos y eliminamos los factores comunes.\\[3pt]
+$\dfrac{x^3-4x}{x^3-4x^2+4x}=\dfrac{x(x+2)(x-2)}{x(x-2)^2}=\boxed{\dfrac{x+2}{x-2}}$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Factores, no sumandos]
+Solo se simplifican \textbf{factores}:\\[3pt]
+\mal{\dfrac{x+3}{x}=3}\qquad \mal{\dfrac{x^2+1}{x^2}=1}
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Suma y resta}]
+Común denominador: el \textbf{m.c.m.} de los denominadores.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Producto},before upper=\centering]
+$\dfrac PQ\cdot\dfrac RS=\dfrac{P\cdot R}{Q\cdot S}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Cociente},before upper=\centering]
+$\dfrac PQ:\dfrac RS=\dfrac{P\cdot S}{Q\cdot R}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\dfrac{x}{x-1}+\dfrac{2}{x^2-1}$]
+$x^2-1=(x+1)(x-1)$: \ m.c.m. $=(x+1)(x-1)$ \qquad $=\dfrac{x(x+1)+2}{(x+1)(x-1)}=\boxed{\dfrac{x^2+x+2}{x^2-1}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ producto y cociente]
+$\dfrac{x^2-9}{x^2+2x}\cdot\dfrac{x+2}{x-3}=\dfrac{(x+3)(x-3)(x+2)}{x(x+2)(x-3)}=\boxed{\dfrac{x+3}{x}}$ \qquad
+$\dfrac{2x-4}{x^2}:\dfrac{x^2-4}{x}=\dfrac{2(x-2)\cdot x}{x^2(x+2)(x-2)}=\boxed{\dfrac{2}{x(x+2)}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\left(\dfrac1x-\dfrac{1}{x+1}\right):\dfrac{1}{x^2+x}$]
+Primero el paréntesis: \ $\dfrac{(x+1)-x}{x(x+1)}=\dfrac{1}{x(x+1)}$ \qquad Después: \ $\dfrac{1}{x(x+1)}:\dfrac{1}{x(x+1)}=\boxed{1}$ \ \nota{si $x\neq0,\,-1$}
+\end{exemple}
+
+\vfill
+\begin{truc}[Factoriza antes de operar]
+Factoriza numeradores y denominadores \textbf{antes} de multiplicar: así simplificas enseguida.
+\end{truc}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=36pt,raster before skip=18pt]
+\rtile{2.1}{Polinomios}{Grado, coeficiente principal y término independiente.\\[1ex] Solo sumamos términos semejantes.}
+\rtile{2.2}{Operaciones}{Identidades notables y binomio de Newton.\\[1ex] Ruffini: un 0 por cada grado que falta.}
+\rtile{2.3}{Resto}{El resto de $P(x):(x-a)$ es $P(a)$.}
+\rtile{2.4}{Raíces}{$P(a)=0\iff(x-a)$ es factor.\\[1ex] Candidatos: divisores del término independiente.}
+\rtile{2.5}{Factorizar}{Factor común, identidades, ecuación de grado 2 y Ruffini.}
+\rtile{2.6}{M.c.d. y m.c.m.}{Comunes con el menor exponente / todos con el mayor.}
+\rtile{2.7}{Fracciones}{Simplificamos factores, no sumandos.\\[1ex] Sumas: m.c.m. de los denominadores.}
+\end{tcbraster}
+\end{document}

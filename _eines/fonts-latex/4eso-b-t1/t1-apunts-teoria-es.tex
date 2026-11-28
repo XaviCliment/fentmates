@@ -1,0 +1,696 @@
+% Apuntes de teoría en PDF · 4.º ESO · Unidad 1: Números reales (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 1: Números reales. 4.º ESO},pdfsubject={Matemáticas B 4.º ESO},pdfkeywords={números reales, irracionales, intervalos, valor absoluto, entornos, potencias, radicales, racionalización, logaritmos}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{1.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$\sqrt[3]{2}\quad \log_2 8$};
+  \draw[line width=2.4pt] (20,95) -- (230,95);
+  \foreach \x in {30,60,90,120,150,180,210} \draw[line width=2.4pt] (\x,89) -- (\x,101);
+  \draw[line width=6pt] (90,95) -- (180,95);
+  \fill (90,95) circle (6); \draw[line width=2.4pt,fill=none] (180,95) circle (6);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4.º ESO · Unidad 1: Números reales}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 4.º ESO · Matemáticas B}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 1}\\[2pt]Números reales\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\begin{document}
+\portada{Racionales e irracionales, intervalos, radicales y logaritmos.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{1.1}{\faLayerGroup}{Clasificación de los números}
+\itile{sec2}{1.2}{\faRulerHorizontal}{Intervalos y semirrectas}
+\itile{sec3}{1.3}{\faObjectGroup}{Unión e intersección}
+\itile{sec4}{1.4}{\faArrowsAltH}{Valor absoluto y entornos}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{1.5}{\faSuperscript}{Potencias de exponente entero}
+\itile{sec6}{1.6}{\faIcon{square-root-alt}}{Radicales}
+\itile{sec7}{1.7}{\faEraser}{Racionalización}
+\itile{sec8}{1.8}{\faIcon{calculator}}{Logaritmos}
+\itile{resum}{\phantom{1.8}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 1.1
+\clearpage
+\seccio{sec1}{Clasificación de los números}{Cada vez que una operación no tenía solución, hemos ampliado los números.}
+
+\vfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}
+  \filldraw[fill=fmyellow!18,draw=fmgold,line width=1.4pt,rounded corners=8mm] (0,0) rectangle (8.2,5.4);
+  \filldraw[fill=fmV!10,draw=fmV,line width=1.4pt,rounded corners=7mm] (0.3,0.3) rectangle (5.7,4.8);
+  \filldraw[fill=fmA!12,draw=fmA,line width=1.4pt,rounded corners=6mm] (0.6,0.6) rectangle (4.2,3.9);
+  \filldraw[fill=fmK!14,draw=fmK,line width=1.4pt,rounded corners=5mm] (0.9,0.9) rectangle (2.6,3.1);
+  \draw[fmgold,line width=1.4pt,dashed] (5.9,0.3) -- (5.9,5.1);
+  \node[font=\Large\heavy,text=fmgold!80!black] at (7.7,4.9) {$\mathbb{R}$};
+  \node[font=\Large\heavy,text=fmV] at (5.2,4.3) {$\mathbb{Q}$};
+  \node[font=\Large\heavy,text=fmA] at (3.75,3.4) {$\mathbb{Z}$};
+  \node[font=\Large\heavy,text=fmK!80!black] at (2.2,2.65) {$\mathbb{N}$};
+  \node[font=\Large\heavy,text=fmR] at (7,4.2) {$\mathbb{I}$};
+  \node at (1.75,1.8) {$0\ \ 7\ \ \sqrt{49}$};
+  \node at (3.4,1.6) {$-3$};
+  \node at (4.95,2.9) {$\tfrac34$}; \node at (4.95,1.9) {$1{,}\overline{3}$};
+  \node at (7,3.1) {$\sqrt2$}; \node at (7,2.2) {$\pi$}; \node at (7,1.3) {$e$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}\raggedright
+\chip{fmK}{$\mathbb{N}$ naturales} para contar.\\[4pt]
+\chip{fmA}{$\mathbb{Z}$ enteros} y sus opuestos.\\[4pt]
+\chip{fmV}{$\mathbb{Q}$ racionales} fracciones $\frac ab$: decimales \textbf{exactos} o \textbf{periódicos}.\\[4pt]
+\chip{fmR}{$\mathbb{I}$ irracionales} infinitas cifras \textbf{no periódicas}: $\sqrt2,\ \pi,\ e,\ \phi$.\\[4pt]
+\chip{fmgold}{$\mathbb{R}$ reales} todos: $\mathbb{R}=\mathbb{Q}\cup\mathbb{I}$, toda la recta.
+\end{minipage}
+
+\vfill
+\begin{compte}[Raíces]
+La raíz de un natural que \textbf{no} es cuadrado perfecto es irracional: $\sqrt2,\ \sqrt{12}\dots$ \ Pero $\sqrt{49}=7$ es natural, y $\sqrt{-4}$ \textbf{no es real}.
+\end{compte}
+
+\vfill
+\subsection{Decimales y fracción generatriz}
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Exacto},before upper=\centering]
+$2{,}45=\dfrac{245}{100}=\dfrac{49}{20}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Periódico puro},before upper=\centering]
+$2{,}\overline{7}=\dfrac{27-2}{9}=\dfrac{25}{9}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmV!8,colframe=fmV,coltitle=white,title={Periódico mixto},before upper=\centering]
+$1{,}2\overline{3}=\dfrac{123-12}{90}=\dfrac{37}{30}$
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering numerador: sin coma menos la parte que no se repite \quad denominador: un 9 por cifra del periodo y un 0 por cifra del anteperiodo\par}
+
+\vfill
+\begin{exemple}[Ejemplos]
+El menor conjunto: \ $\sqrt{49}=7\in\mathbb{N}$, \ $-\frac{12}{4}=-3\in\mathbb{Z}$, \ $0{,}\overline3\in\mathbb{Q}$, \ $\sqrt{12}\in\mathbb{I}$, \ $\frac\pi2\in\mathbb{I}$, \ $\sqrt{-9}\notin\mathbb{R}$\\[6pt]
+Generatrices: \ $3{,}\overline{12}=\dfrac{312-3}{99}=\boxed{\dfrac{103}{33}}$ \qquad $0{,}4\overline{5}=\dfrac{45-4}{90}=\boxed{\dfrac{41}{90}}$
+\end{exemple}
+
+\vfill
+% ============================================================ 1.2
+\clearpage
+\seccio{sec2}{Intervalos y semirrectas}{Trozos de la recta real, con extremos o hasta el infinito.}
+
+\newcommand{\fila}[4]{#1 & $#2$ & $#3$ & #4\\}
+{\centering\renewcommand{\arraystretch}{1.5}\taulaclip{fmblue,line width=1.2pt}{\rowcolors{2}{white}{fmsurface}%
+\begin{tabular}{@{\hspace{8pt}}w{l}{3.2cm}w{c}{2.3cm}w{c}{2.4cm}w{c}{5.9cm}@{}}
+\rowcolor{fmblue}{\color{white}\heavy Nombre} & {\color{white}\heavy Intervalo} & {\color{white}\heavy Desigualdad} & {\color{white}\heavy Gráfica}\\
+\fila{Cerrado}{[a,b]}{a\le x\le b}{\intv{-2}{3}{c}{c}{fmA}}
+\fila{Abierto}{\lo a,b\ro}{a<x<b}{\intv{-2}{3}{o}{o}{fmA}}
+\fila{Semiabierto}{[a,b\ro}{a\le x<b}{\intv{-2}{3}{c}{o}{fmA}}
+\fila{Semiabierto}{\lo a,b]}{a<x\le b}{\intv{-2}{3}{o}{c}{fmA}}
+\fila{Mayores que $a$}{\lo a,+\infty\ro}{x>a}{\intv{1}{6}{o}{a}{fmB}}
+\fila{Mayores o iguales}{[a,+\infty\ro}{x\ge a}{\intv{1}{6}{c}{a}{fmB}}
+\fila{Menores que $b$}{\lo-\infty,b\ro}{x<b}{\intv{-5}{1}{a}{o}{fmB}}
+\fila{Menores o iguales}{\lo-\infty,b]}{x\le b}{\intv{-5}{1}{a}{c}{fmB}}
+\end{tabular}}\par}
+
+\vfill
+\renewcommand{\dicratio}{0.5}
+\begin{dicbox}
+\dic{«mayor que 2»}{x>2\ \to\ \lo2,+\infty\ro}
+\dic{«como mínimo 2», «no menos de 2»}{x\ge2\ \to\ [2,+\infty\ro}
+\dic{«como máximo 5», «no más de 5»}{x\le5\ \to\ \lo-\infty,5]}
+\dic{«entre 1 y 4, ambos incluidos»}{1\le x\le4\ \to\ [1,4]}
+\end{dicbox}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{idea}[Corchetes]
+El extremo \textbf{está}: $[\ ]$ y punto \textbf{lleno}.\\[2pt]
+El extremo \textbf{no está}: $]\ [$ y punto \textbf{vacío}.\\[2pt]
+$\pm\infty$ no es un número: siempre \textbf{abierto}. \ $\mathbb{R}=\lo-\infty,+\infty\ro$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{exemple}[Ejemplos]
+Mayores que $-1$ y menores o iguales que 3:\\ $-1<x\le3\ \to\ \boxed{\lo-1,\,3]}$\\[3pt]
+«Como mínimo $-4$»: $x\ge-4\ \to\ \boxed{[-4,+\infty\ro}$\\[3pt]
+Enteros de $\lo-2,\,3]$: \ $-1,0,1,2,3$
+\end{exemple}
+\end{minipage}
+
+\vfill
+% ============================================================ 1.3
+\clearpage
+\seccio{sec3}{Unión e intersección de intervalos}{Todo lo que está pintado, o solo lo que se solapa.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Unión \ $A\cup B$: «o»}]
+Los números que están en $A$ \textbf{o} en $B$: todo lo que está pintado.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Intersección \ $A\cap B$: «y»}]
+Los que están en $A$ \textbf{y} en $B$ a la vez: donde se solapan. Si no hay ninguno, $\varnothing$.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Dibújalos uno encima del otro]
+En la misma recta y con la misma escala. Si no se tocan, la unión no es un solo intervalo: $[0,2\ro\cup\lo3,4]$.
+\end{truc}
+
+\vfill
+\begin{exemple}[{Ejemplo: \ $A=[-3,2]$, \ $B=\lo0,5]$, \ $C=[4,+\infty\ro$}]
+\begin{minipage}[c]{0.5\linewidth}
+\begin{tabular}{@{}r@{\ \ }l@{}}
+$A$ & \intv{-3}{2}{c}{c}{fmA}\\[3pt]
+$B$ & \intv{0}{5}{o}{c}{fmB}\\[3pt]
+$C$ & \intv{4}{6}{c}{a}{fmV}
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$A\cup B=\boxed{[-3,\,5]}$\\[4pt]
+$A\cap B=\boxed{\lo0,\,2]}$ \ \nota{el 0 no es de $B$}\\[4pt]
+$B\cap C=\boxed{[4,\,5]}$\\[4pt]
+$A\cap C=\boxed{\varnothing}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[{Ejemplo con tres intervalos: \ $A=[-4,1]$, \ $B=\lo-2,3\ro$, \ $C=[2,+\infty\ro$}]
+\begin{minipage}[c]{0.45\linewidth}
+\begin{tabular}{@{}r@{\ \ }l@{}}
+$A$ & \intv{-4}{1}{c}{c}{fmA}\\[3pt]
+$B$ & \intv{-2}{3}{o}{o}{fmB}\\[3pt]
+$C$ & \intv{2}{6}{c}{a}{fmV}
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}
+\notab{Primero el paréntesis, como en las operaciones.}\\[4pt]
+$A\cup B\cup C=\boxed{[-4,\,+\infty\ro}$\\[4pt]
+$A\cap B\cap C=\boxed{\varnothing}$ \ \nota{$A$ y $C$ no se tocan}\\[4pt]
+$A\cap(B\cup C)=[-4,1]\cap\lo-2,+\infty\ro=\boxed{\lo-2,\,1]}$\\[4pt]
+$(A\cup B)\cap C=[-4,3\ro\cap[2,+\infty\ro=\boxed{[2,\,3\ro}$\\[4pt]
+$A\cup(B\cap C)=[-4,1]\cup[2,3\ro$ \ \nota{dos trozos}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$A=\lo-\infty,1]$, $B=\lo-2,3\ro$:\\ $A\cup B=\lo-\infty,3\ro$, \ $A\cap B=\lo-2,1]$\\[4pt]
+$[0,4\ro\cup[4,6]=[0,6]$, \ $[0,4\ro\cap[4,6]=\varnothing$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$x>-1$ \textbf{y} $x\le2$: \ $\lo-1,2]$\\[4pt]
+$x<3$ \textbf{y} $x\ge5$: \ $\varnothing$ \ \nota{ningún número lo cumple}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 1.4
+\clearpage
+\seccio{sec4}{Valor absoluto y entornos}{La distancia hasta el cero, y los puntos cerca de un número.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Valor absoluto]
+{\centering\large$|x|=\begin{cases}\ \ x & \text{si } x\ge0\\ -x & \text{si } x<0\end{cases}$\par}\smallskip
+Es la \textbf{distancia} hasta el 0: nunca es negativo. \ $|-5|=|5|=5$\\[3pt]
+Distancia entre $a$ y $b$: \ $d(a,b)=|a-b|$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[x=0.62cm,y=1.3cm]
+  \draw[fmmuted,line width=0.9pt] (-6,0) -- (6,0);
+  \foreach \k in {-5,...,5} \draw[fmmuted] (\k,-0.08) -- (\k,0.08);
+  \node[below,font=\scriptsize] at (0,0) {0};
+  \fill[fmA!25] (1,-0.25) rectangle (5,0.25); \draw[fmA,line width=1.4pt] (1,0) -- (5,0);
+  \filldraw[fill=white,draw=fmA,line width=1.2pt] (1,0) circle (2.6pt); \filldraw[fill=white,draw=fmA,line width=1.2pt] (5,0) circle (2.6pt);
+  \fill[fmR] (3,0) circle (2.6pt);
+  \node[below,font=\scriptsize] at (1,-0.1) {$a-r$}; \node[below,font=\scriptsize] at (5,-0.1) {$a+r$}; \node[above,font=\scriptsize\heavy,text=fmR] at (3,0.1) {$a$};
+  \draw[decorate,decoration={brace,amplitude=3pt},fmK,line width=0.8pt] (3,0.45) -- (5,0.45) node[midway,above=3pt,font=\scriptsize,text=fmK!80!black] {$r$};
+\end{tikzpicture}\\[3pt]
+{\comic\small\color{fmmuted}entorno de centro $a$ y radio $r$}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Entornos}]
+Abierto: \ $B(a;r)=\{x:|x-a|<r\}=\lo a-r,\,a+r\ro$ \qquad Cerrado: \ $B[a;r]=[a-r,\,a+r]$
+\end{tcolorbox}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\large$|A|<r\iff -r<A<r$\qquad\qquad $|A|>r\iff A<-r\ \text{ o }\ A>r$}
+\end{tcolorbox}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Ejemplo: \ $|3x-6|\le9$]
+$-9\le3x-6\le9$ \ \nota{$+6$}\\[3pt]
+$-3\le3x\le15$ \ \nota{$:3$}\\[3pt]
+$-1\le x\le5\ \to\ \boxed{[-1,\,5]}$
+\end{exemple}
+\begin{exemple}[Ejemplo: \ $|-2x+4|>6$]
+$-2x+4>6$ \ o \ $-2x+4<-6$\\[3pt]
+$x<-1$ \ o \ $x>5$ \ \nota{dividir por $-2$ gira}\\[3pt]
+$\boxed{\lo-\infty,-1\ro\cup\lo5,+\infty\ro}$
+\end{exemple}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[Casos especiales]
+$|A|<-2$ \textbf{no tiene solución} (un valor absoluto nunca es negativo) y $|A|>-1$ se cumple para \textbf{todo} $x\in\mathbb{R}$.
+\end{compte}
+
+\vfill
+% ============================================================ 1.5
+\clearpage
+\seccio{sec5}{Potencias de exponente entero}{Propiedades para multiplicar, dividir y elevar.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Exponente cero y negativo]
+{\centering\large$a^0=1\qquad a^{-n}=\dfrac{1}{a^n}$\\[4pt] $\left(\dfrac ab\right)^{-n}=\left(\dfrac ba\right)^{n}$\par}\smallskip
+$2^{-3}=\frac18$, \ $\left(\frac23\right)^{-2}=\frac94$, \ $53^0=1$
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{compte}[El signo]
+Base negativa: exponente \textbf{par} positivo, \textbf{impar} negativo: $(-2)^4=16$, $(-2)^5=-32$.\\[2pt]
+Y los paréntesis: \ $-2^4=-16$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\large$a^m\cdot a^n=a^{m+n}\qquad a^m:a^n=a^{m-n}\qquad (a^m)^n=a^{m\cdot n}$}\par\medskip
+{\large$(a\cdot b)^n=a^n\cdot b^n\qquad \left(\dfrac ab\right)^n=\dfrac{a^n}{b^n}$}
+\end{tcolorbox}
+
+\vfill
+\begin{truc}[Bases distintas]
+Descompón cada base en \textbf{factores primos} y agrupa las potencias de cada primo.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $\dfrac{3^{-4}\cdot16\cdot9^{-1}}{8^2\cdot3^{-5}\cdot2^{-3}}$]
+$=\dfrac{3^{-4}\cdot2^4\cdot3^{-2}}{2^6\cdot3^{-5}\cdot2^{-3}}=\dfrac{2^4\cdot3^{-6}}{2^3\cdot3^{-5}}=2^{4-3}\cdot3^{-6+5}=2\cdot3^{-1}=\boxed{\dfrac23}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[{Ejemplo: \ $\left[\left(-\dfrac13\right)^3\cdot\left(\dfrac32\right)^{-2}\right]^2$}]
+$=\left[-\dfrac{1}{3^3}\cdot\dfrac{2^2}{3^2}\right]^2=\left[-\dfrac{2^2}{3^5}\right]^2=\boxed{\dfrac{2^4}{3^{10}}}$ \ \nota{exponente par: positivo}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$(-3)^3=-27$ \qquad $-3^2=-9$ \qquad $\left(\frac25\right)^{-2}=\frac{25}{4}$ \qquad $\left(-\frac12\right)^{-3}=-8$
+\end{exemple}
+
+\vfill
+% ============================================================ 1.6
+\clearpage
+\seccio{sec6}{Radicales}{La raíz es una potencia de exponente fraccionario.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Raíz enésima]
+{\centering\Large$\sqrt[n]{a}=x\iff x^n=a$\par}\smallskip
+$\sqrt[3]{8}=2$ \ porque $2^3=8$. \ \ $\sqrt[3]{-8}=-2$.\\[2pt]
+Índice \textbf{par} y radicando \textbf{negativo}: no hay raíz real.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\sqrt[n]{a^m}=a^{\frac mn}$}\par\smallskip
+{\small $\sqrt5=5^{\frac12}$ \quad $\sqrt[3]{7^2}=7^{\frac23}$ \quad $\frac{1}{\sqrt[5]{x}}=x^{-\frac15}$}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Simplificar: dividimos por el m.c.d.}]
+$\sqrt[6]{8}=\sqrt[6]{2^3}=\sqrt2$ \qquad $\sqrt[12]{a^8}=\sqrt[3]{a^2}$\par\smallskip
+\textbf{Índice común} (m.c.m.): \ $\sqrt3=\sqrt[6]{3^3}$, \ $\sqrt[3]5=\sqrt[6]{5^2}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Extraer e introducir factores}]
+$\sqrt{72}=\sqrt{2^3\cdot3^2}=6\sqrt2$ \qquad $\sqrt[3]{16a^5}=2a\sqrt[3]{2a^2}$\par\smallskip
+Introducir: elevado al índice: \ $3\sqrt5=\sqrt{45}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Operaciones}]
+\begin{minipage}[t]{0.5\linewidth}
+\textbf{Sumar}: solo \textbf{semejantes}:\\ $\sqrt8+\sqrt{18}=2\sqrt2+3\sqrt2=5\sqrt2$\\[3pt]
+\textbf{Multiplicar}: mismo índice:\\ $\sqrt3\cdot\sqrt{12}=\sqrt{36}=6$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\textbf{Índice distinto}: índice común:\\ $\sqrt2\cdot\sqrt[3]3=\sqrt[6]{2^3\cdot3^2}=\sqrt[6]{72}$\\[3pt]
+\textbf{Raíz de raíz}: $\sqrt{\sqrt[3]{5}}=\sqrt[6]5$
+\end{minipage}
+\end{tcolorbox}
+
+\vfill
+\begin{compte}[Errores frecuentes]
+\mal{\sqrt{9+16}=3+4} \ ($\sqrt{25}=5$) \qquad \mal{\sqrt2+\sqrt3=\sqrt5} \qquad $\left(\sqrt3+\sqrt2\right)^2=5+2\sqrt6$, \ no $5$
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$3\sqrt{12}-2\sqrt{27}+\sqrt{75}=6\sqrt3-6\sqrt3+5\sqrt3=\boxed{5\sqrt3}$\\[4pt]
+$\left(2+\sqrt5\right)\left(2-\sqrt5\right)=4-5=\boxed{-1}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$\sqrt[3]2\cdot\sqrt[4]2=2^{\frac13+\frac14}=2^{\frac{7}{12}}=\boxed{\sqrt[12]{128}}$\\[4pt]
+$\left(\sqrt[5]{3^2}\right)^3=\sqrt[5]{3^6}=\boxed{3\sqrt[5]{3}}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 1.7
+\clearpage
+\seccio{sec7}{Racionalización}{Quitamos las raíces del denominador.}
+
+\vfill
+{\large Multiplicamos numerador y denominador por el \textbf{mismo} número. Hay tres casos:}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={\pas{1}\ Raíz cuadrada},before upper=\centering]
+por $\sqrt b$\par\medskip
+$\dfrac{6}{\sqrt3}=\dfrac{6\sqrt3}{3}=2\sqrt3$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={\pas{2}\ Raíz de índice $n$},before upper=\centering]
+$\sqrt[n]{b^m}$ por $\sqrt[n]{b^{\,n-m}}$\par\medskip
+$\dfrac{2}{\sqrt[3]5}=\dfrac{2\sqrt[3]{5^2}}{5}=\dfrac{2\sqrt[3]{25}}{5}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\pas{3}\ Suma o resta},before upper=\centering]
+$a\pm\sqrt b$ por el \textbf{conjugado} $a\mp\sqrt b$\par\medskip
+$\dfrac{4}{\sqrt5-1}=\dfrac{4(\sqrt5+1)}{5-1}$\\[8pt]
+$=\sqrt5+1$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[¿Por qué funciona el conjugado?]
+Suma por diferencia es diferencia de cuadrados: \ $(a+b)(a-b)=a^2-b^2$. Al elevar al cuadrado, las raíces cuadradas desaparecen.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplos]
+$\dfrac{5}{2\sqrt{10}}=\dfrac{5\sqrt{10}}{20}=\boxed{\dfrac{\sqrt{10}}{4}}$ \qquad\quad $\dfrac{3}{\sqrt[4]2}=\dfrac{3\sqrt[4]{2^3}}{\sqrt[4]{2^4}}=\boxed{\dfrac{3\sqrt[4]8}{2}}$\\[6pt]
+$\dfrac{2}{\sqrt3+\sqrt2}=\dfrac{2(\sqrt3-\sqrt2)}{(\sqrt3+\sqrt2)(\sqrt3-\sqrt2)}=\dfrac{2(\sqrt3-\sqrt2)}{3-2}=\boxed{2\sqrt3-2\sqrt2}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Más ejemplos]
+$\dfrac{10}{\sqrt5}=2\sqrt5$ \qquad $\dfrac{1}{3\sqrt2}=\dfrac{\sqrt2}{6}$ \qquad $\dfrac{2}{1+\sqrt3}=\dfrac{2(1-\sqrt3)}{1-3}=\sqrt3-1$ \qquad $\dfrac{\sqrt2}{\sqrt2-1}=2+\sqrt2$
+\end{exemple}
+
+\vfill
+% ============================================================ 1.8
+\clearpage
+\seccio{sec8}{Logaritmos}{El logaritmo es un exponente.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Logaritmo]
+{\centering\Large$\log_a b=c\iff a^c=b$\par}\smallskip
+{\small($a>0$, $a\neq1$, $b>0$)}\\[3pt]
+$\log_2 8=3$ \ porque $2^3=8$\\
+$\log_3\frac19=-2$ \ porque $3^{-2}=\frac19$\\
+$\log_5\sqrt5=\frac12$\\[3pt]
+No existe el logaritmo de un negativo ni de 0.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,top=2mm,bottom=2mm]
+$\log_a a=1\qquad \log_a1=0$\\[3pt]
+$\log_a(p\cdot q)=\log_a p+\log_a q$\\[3pt]
+$\log_a\dfrac pq=\log_a p-\log_a q$\\[3pt]
+$\log_a p^n=n\cdot\log_a p$\\[3pt]
+$\log_a x=\dfrac{\log_b x}{\log_b a}$ \ \nota{cambio de base}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{compte}[Para el producto, no para la suma]
+\mal{\log(p+q)=\log p+\log q} \qquad \mal{\log\dfrac pq=\dfrac{\log p}{\log q}}
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Decimal y neperiano}]
+$\log x=\log_{10}x$ \qquad $\ln x=\log_e x$, \ $e\approx2{,}718$\par\smallskip
+$\log1000=3$, \ $\log0{,}01=-2$, \ $\ln e^5=5$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faCalculator\ \ Con calculadora}]
+Teclas \textbf{log} y \textbf{ln}. Otra base, cambio de base:\par\smallskip
+{\centering$\log_3 20=\dfrac{\log20}{\log3}\approx2{,}727$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+$\log_6 4+\log_6 9=\log_6 36=\boxed{2}$\\[3pt]
+$\log_2 40-\log_2 5=\log_2 8=\boxed{3}$\\[3pt]
+$\log\dfrac{100x^3}{y}=2+3\log x-\log y$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Si $\log2\approx0{,}301$ y $\log3\approx0{,}477$:\\
+$\log12=2\log2+\log3\approx\boxed{1{,}079}$\\[3pt]
+$\log5=\log\frac{10}{2}=1-\log2\approx\boxed{0{,}699}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ unas bacterias se duplican cada hora. ¿Cuándo se multiplican por 1000?]
+$2^t=1000\ \to\ t=\log_2 1000=\dfrac{\log1000}{\log2}=\dfrac{3}{0{,}301}\approx\boxed{9{,}97\text{ horas}}$ \ \nota{unas 10 horas}
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=30pt,raster before skip=16pt]
+\rtile{1.1}{Números}{$\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}$, \ $\mathbb{R}=\mathbb{Q}\cup\mathbb{I}$.\\[1ex] Racional: exacto o periódico.}
+\rtile{1.2}{Intervalos}{$[\ ]$ el extremo está, $]\ [$ no.\\[1ex] $\pm\infty$ siempre abierto.}
+\rtile{1.3}{Unión e intersección}{$A\cup B$: todo lo pintado. \ $A\cap B$: lo que se solapa.}
+\rtile{1.4}{Valor absoluto}{$|A|<r\iff-r<A<r$.\\[1ex] $|A|>r\iff A<-r$ o $A>r$.}
+\rtile{1.5}{Potencias}{$a^{-n}=\frac1{a^n}$, \ $a^0=1$.\\[1ex] Bases distintas: factores primos.}
+\rtile{1.6}{Radicales}{$\sqrt[n]{a^m}=a^{\frac mn}$. Sumar: solo semejantes.\\[1ex] Multiplicar: índice común.}
+\rtile{1.7}{Racionalizar}{Por $\sqrt b$, por $\sqrt[n]{b^{n-m}}$ o por el conjugado.}
+\rtile{1.8}{Logaritmos}{$\log_a b=c\iff a^c=b$.\\[1ex] Producto $\to$ suma. Cambio de base.}
+\end{tcbraster}
+\end{document}
