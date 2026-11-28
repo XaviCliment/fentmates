@@ -1,0 +1,648 @@
+% Apuntes de teoría en PDF · 4.º ESO · Unidad 10: Estadística bidimensional (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 10: Estadística bidimensional. 4.º ESO},pdfsubject={Matemáticas A 4.º ESO},pdfkeywords={variables bidimensionales, tabla de doble entrada, nube de puntos, centro de gravedad, correlación, coeficiente de correlación, covarianza, recta de regresión, estimaciones, interpolación, extrapolación}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{10.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$r\approx0{,}9$};
+  \draw[line width=2pt] (120,110) -- (235,110) (125,115) -- (125,15);
+  \foreach \p in {(140,95),(152,88),(160,92),(172,75),(180,70),(192,62),(200,50),(212,45),(222,32)} \fill \p circle (5);
+  \draw[line width=2.4pt] (135,100) -- (230,28);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4.º ESO · Unidad 10: Estadística bidimensional}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 4.º ESO · Matemáticas A}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 10}\\[2pt]Estadística bidimensional\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\newcommand{\passos}[1]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Cómo se resuelven}]#1\end{tcolorbox}}
+\newcommand{\passosT}[2]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ #1}]#2\end{tcolorbox}}
+% núvol: eixos amb graella; #1 xmax, #2 ymax, #3 nom X, #4 nom Y
+\newcommand{\nuvol}[4]{\draw[fmmuted!25] (0,0) grid (#1,#2);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0) -- (#1+0.6,0) node[right,font=\scriptsize] {#3};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0) -- (0,#2+0.6) node[above,font=\scriptsize] {#4};}
+\newcommand{\pnt}[1]{\fill[fmblue] #1 circle (3pt);}
+
+
+\begin{document}
+\portada{Dos variables a la vez: ¿están relacionadas? ¿Podemos prever una a partir de la otra?}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{10.1}{\faTable}{Distribuciones bidimensionales}
+\itile{sec2}{10.2}{\faBraille}{Nube de puntos}
+\itile{sec3}{10.3}{\faChartLine}{Correlación}
+\itile{sec4}{10.4}{\faRulerHorizontal}{Coeficiente de correlación}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{10.5}{\faRoute}{Recta de regresión}
+\itile{sec6}{10.6}{\faBullseye}{Estimaciones}
+\itile{resum}{\phantom{10.6}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 10.1
+\clearpage
+\seccio{sec1}{Distribuciones bidimensionales}{Dos características de cada individuo: ¿están relacionadas?}
+
+\vfill
+\begin{idea}[Variable bidimensional $(X,Y)$]
+Estudia dos variables $X$ e $Y$ sobre los \textbf{mismos individuos}. Cada individuo da un \textbf{par} $(x_i,\,y_i)$; el conjunto de todos es una \textbf{distribución bidimensional}, con $N$ pares.
+\end{idea}
+
+\vfill
+\begin{exemple}[Ejemplo: \ horas de estudio ($X$) y nota ($Y$) de 10 alumnos]
+{\centering\small \taularod[fmex]{>{\heavy}l*{10}{>{\hspace{3pt}}c<{\hspace{3pt}}}}{
+\rowcolor{fmex}\color{white}Horas $x_i$ & \color{white}1 & \color{white}2 & \color{white}2 & \color{white}3 & \color{white}3 & \color{white}4 & \color{white}5 & \color{white}5 & \color{white}6 & \color{white}7\\
+Nota $y_i$ & 3 & 3 & 5 & 4 & 6 & 6 & 7 & 8 & 8 & 9
+}\par}\medskip
+La primera alumna ha estudiado 1 hora y ha sacado un 3: el par $(1,\,3)$. \ $N=10$ pares.
+\end{exemple}
+
+\vfill
+\begin{compte}[El orden importa]
+$(2,\,5)$ significa «2 horas y un 5», que no es lo mismo que $(5,\,2)$, «5 horas y un 2».
+\end{compte}
+
+\vfill
+\begin{exemple}[Ejemplo: \ hijos ($X$) y coches ($Y$) de 20 familias: \ tabla de doble entrada]
+\begin{minipage}[c]{0.42\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{4}{>{\hspace{6pt}}c<{\hspace{6pt}}}}{
+\rowcolor{fmex}\color{white}$X\backslash Y$ & \color{white}0 & \color{white}1 & \color{white}2 & \color{white}$f_x$\\
+1 & 2 & 4 & 1 & \textbf{7}\\
+\rowcolor{fmexbg}2 & 1 & \cellcolor{fmyellow!45}5 & 3 & \textbf{9}\\
+3 & 0 & 1 & 3 & \textbf{4}\\
+\rowcolor{fmexbg}$f_y$ & \textbf{3} & \textbf{10} & \textbf{7} & \textbf{20}
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+Si los pares se repiten: $X$ en las filas, $Y$ en las columnas y, en cada casilla, la \textbf{frecuencia} del par.\\[3pt]
+5 familias tienen 2 hijos y 1 coche.\\[3pt]
+Columna $f_x$: la distribución de $X$ sola. Fila $f_y$: la de $Y$. Las dos suman $N=20$.
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Relación funcional}]
+Hay una \textbf{fórmula}: $X$ determina $Y$.\par\smallskip
+\small Lado y perímetro de un cuadrado: $y=4x$.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Relación estadística}]
+Hay una \textbf{tendencia}, pero no una fórmula.\par\smallskip
+\small Estatura y peso: los más altos suelen pesar más.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={Ninguna relación}]
+Saber $X$ no dice nada de $Y$: \textbf{independientes}.\par\smallskip
+\small Número de calzado y nota de matemáticas.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 10.2
+\clearpage
+\seccio{sec2}{Nube de puntos}{Cada par, un punto del plano.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\passosT{Cómo se dibuja}{\pas{1} Una \textbf{escala} para cada eje que recoja todos los datos (no hace falta que sea la misma). El nombre de cada variable en su eje.\\[3pt]
+\pas{2} Un \textbf{punto} para cada par $(x_i,y_i)$.\\[3pt]
+\pas{3} Si un par se repite, escribe al lado cuántas veces (o haz el punto más grande).}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm,y=0.42cm]
+  \nuvol{8}{10}{horas}{nota}
+  \foreach \k in {2,4,6,8} \node[below,font=\scriptsize] at (\k,0) {\k};
+  \foreach \k in {2,4,...,10} \node[left,font=\scriptsize] at (0,\k) {\k};
+  \foreach \p in {(1,3),(2,3),(2,5),(3,4),(3,6),(4,6),(5,7),(5,8),(6,8),(7,9)} {\pnt{\p}}
+  %
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}los puntos «suben» hacia la derecha}
+\end{minipage}
+
+\vfill
+\begin{truc}[Datos grandes]
+Con estaturas de 150 a 190 cm, el eje no debe empezar en 0: empieza un poco antes del dato más pequeño y marca el corte del eje con un \textbf{zigzag}.
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Centro de gravedad]
+El punto de las dos medias, $G=(\bar x,\,\bar y)$, es el «punto medio» de la nube:\\[3pt]
+{\centering$\bar x=\dfrac{\sum x_i}{N}\qquad\bar y=\dfrac{\sum y_i}{N}$\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm,y=0.42cm]
+  \nuvol{8}{10}{horas}{nota}
+  \foreach \k in {2,4,6,8} \node[below,font=\scriptsize] at (\k,0) {\k};
+  \foreach \k in {2,4,...,10} \node[left,font=\scriptsize] at (0,\k) {\k};
+  \foreach \p in {(1,3),(2,3),(2,5),(3,4),(3,6),(4,6),(5,7),(5,8),(6,8),(7,9)} {\pnt{\p}}
+  \draw[fmR,dashed] (3.8,0) -- (3.8,10) (0,5.9) -- (8,5.9);
+  \filldraw[fill=white,draw=fmR,line width=1.4pt] (3.8,5.9) circle (5pt) node[above right,font=\scriptsize\heavy,text=fmR] {$G$};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ el centro de gravedad de las horas de estudio y las notas]
+$\bar x=\dfrac{1+2+2+3+3+4+5+5+6+7}{10}=\dfrac{38}{10}=3{,}8$ \qquad $\bar y=\dfrac{3+3+5+4+6+6+7+8+8+9}{10}=\dfrac{59}{10}=5{,}9$ \qquad $G=\boxed{(3{,}8,\ 5{,}9)}$\\[4pt]
+Las líneas $x=\bar x$ e $y=\bar y$ forman cuatro zonas: casi todos los puntos están abajo a la izquierda o arriba a la derecha. Las variables «van juntas».
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $x_i$: 2, 4, 5, 6, 8 \ e \ $y_i$: 7, 6, 4, 3, 0]
+$\bar x=\dfrac{25}{5}=5$, \ $\bar y=\dfrac{20}{5}=4$: \ $G=\boxed{(5,\,4)}$. \ Ahora los puntos «bajan»: cuando $x$ crece, $y$ decrece.
+\end{exemple}
+
+\vfill
+% ============================================================ 10.3
+\clearpage
+\seccio{sec3}{Correlación}{La forma de la nube dice cómo es la relación.}
+
+\vfill
+\begin{idea}[Correlación]
+La \textbf{correlación} es la relación estadística entre dos variables.\\[3pt]
+\textbf{Sentido}: \textbf{positiva} (directa) si, cuando $X$ crece, $Y$ tiende a crecer: la nube sube. \textbf{Negativa} (inversa) si $Y$ tiende a decrecer: la nube baja. \textbf{Nula} si no sube ni baja.\\[3pt]
+\textbf{Fuerza}: \textbf{fuerte} si los puntos están muy cerca de una recta; \textbf{débil} si están dispersos. Todos en una recta: relación \textbf{funcional}.
+\end{idea}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt,raster row skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Positiva y fuerte},before upper=\centering,left=1mm,right=1mm]\begin{tikzpicture}[scale=0.32]\draw[fmmuted,line width=0.6pt] (0,0) rectangle (6,6);\fill[fmblue] (0.6,0.8) circle (3.5pt);\fill[fmblue] (1.2,1.4) circle (3.5pt);\fill[fmblue] (1.8,1.7) circle (3.5pt);\fill[fmblue] (2.4,2.6) circle (3.5pt);\fill[fmblue] (3,2.9) circle (3.5pt);\fill[fmblue] (3.6,3.7) circle (3.5pt);\fill[fmblue] (4.2,4.1) circle (3.5pt);\fill[fmblue] (4.8,4.9) circle (3.5pt);\fill[fmblue] (5.4,5.3) circle (3.5pt);\end{tikzpicture}\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Positiva y débil},before upper=\centering,left=1mm,right=1mm]\begin{tikzpicture}[scale=0.32]\draw[fmmuted,line width=0.6pt] (0,0) rectangle (6,6);\fill[fmblue] (0.6,1.6) circle (3.5pt);\fill[fmblue] (1.2,0.8) circle (3.5pt);\fill[fmblue] (1.8,2.9) circle (3.5pt);\fill[fmblue] (2.4,1.9) circle (3.5pt);\fill[fmblue] (3,3.8) circle (3.5pt);\fill[fmblue] (3.6,2.4) circle (3.5pt);\fill[fmblue] (4.2,4.6) circle (3.5pt);\fill[fmblue] (4.8,3.3) circle (3.5pt);\fill[fmblue] (5.4,5) circle (3.5pt);\end{tikzpicture}\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmmuted!8,colframe=fmmuted,coltitle=white,title={Nula},before upper=\centering,left=1mm,right=1mm]\begin{tikzpicture}[scale=0.32]\draw[fmmuted,line width=0.6pt] (0,0) rectangle (6,6);\fill[fmblue] (0.6,3.8) circle (3.5pt);\fill[fmblue] (1.2,1.2) circle (3.5pt);\fill[fmblue] (1.8,5) circle (3.5pt);\fill[fmblue] (2.4,2.6) circle (3.5pt);\fill[fmblue] (3,4.4) circle (3.5pt);\fill[fmblue] (3.6,0.9) circle (3.5pt);\fill[fmblue] (4.2,3.1) circle (3.5pt);\fill[fmblue] (4.8,5.3) circle (3.5pt);\fill[fmblue] (5.4,1.8) circle (3.5pt);\end{tikzpicture}\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!8,colframe=fmR,coltitle=white,title={Negativa y débil},before upper=\centering,left=1mm,right=1mm]\begin{tikzpicture}[scale=0.32]\draw[fmmuted,line width=0.6pt] (0,0) rectangle (6,6);\fill[fmblue] (0.6,4.4) circle (3.5pt);\fill[fmblue] (1.2,5.2) circle (3.5pt);\fill[fmblue] (1.8,3.1) circle (3.5pt);\fill[fmblue] (2.4,4.1) circle (3.5pt);\fill[fmblue] (3,2.2) circle (3.5pt);\fill[fmblue] (3.6,3.6) circle (3.5pt);\fill[fmblue] (4.2,1.4) circle (3.5pt);\fill[fmblue] (4.8,2.7) circle (3.5pt);\fill[fmblue] (5.4,1.0) circle (3.5pt);\end{tikzpicture}\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!8,colframe=fmR,coltitle=white,title={Negativa y fuerte},before upper=\centering,left=1mm,right=1mm]\begin{tikzpicture}[scale=0.32]\draw[fmmuted,line width=0.6pt] (0,0) rectangle (6,6);\fill[fmblue] (0.6,5.2) circle (3.5pt);\fill[fmblue] (1.2,4.6) circle (3.5pt);\fill[fmblue] (1.8,4.3) circle (3.5pt);\fill[fmblue] (2.4,3.4) circle (3.5pt);\fill[fmblue] (3,3.1) circle (3.5pt);\fill[fmblue] (3.6,2.3) circle (3.5pt);\fill[fmblue] (4.2,1.9) circle (3.5pt);\fill[fmblue] (4.8,1.1) circle (3.5pt);\fill[fmblue] (5.4,0.7) circle (3.5pt);\end{tikzpicture}\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Funcional},before upper=\centering,left=1mm,right=1mm]\begin{tikzpicture}[scale=0.32]\draw[fmmuted,line width=0.6pt] (0,0) rectangle (6,6);\draw[fmR!70,line width=0.8pt] (0.3,0.3)--(5.6,5.6);\fill[fmblue] (0.6,0.6) circle (3.5pt);\fill[fmblue] (1.5,1.5) circle (3.5pt);\fill[fmblue] (2.4,2.4) circle (3.5pt);\fill[fmblue] (3.3,3.3) circle (3.5pt);\fill[fmblue] (4.2,4.2) circle (3.5pt);\fill[fmblue] (5.1,5.1) circle (3.5pt);\end{tikzpicture}\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}\centering\small
+\taularod[fmex]{>{\hspace{3pt}}l<{\hspace{3pt}}>{\hspace{3pt}}l<{\hspace{3pt}}}{
+\rowcolor{fmex}\color{white}\heavy Variables & \color{white}\heavy Correlación\\
+Horas de estudio y nota & positiva y fuerte\\
+\rowcolor{fmexbg}Temperatura y helados vendidos & positiva y fuerte\\
+Km de un coche de segunda mano y precio & negativa y fuerte\\
+\rowcolor{fmexbg}Horas de pantalla y horas de sueño & negativa y débil\\
+Estatura y nota de matemáticas & nula
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{truc}[Lineal o no lineal]
+Si los puntos siguen una \textbf{curva} (el rendimiento sube con el entrenamiento hasta que se cansa y baja), la relación puede ser fuerte pero \textbf{no lineal}. Aquí estudiamos las lineales.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{compte}[Correlación no significa causa]
+En verano se venden más helados y también se ahogan más personas en la playa: correlación positiva, pero los helados no son la causa. Las dos dependen de una tercera variable: el \textbf{calor}. Pregúntate si hay otra variable que las haga variar a las dos.
+\end{compte}
+
+\vfill
+% ============================================================ 10.4
+\clearpage
+\seccio{sec4}{Coeficiente de correlación}{Un número entre $-1$ y $1$ que mide la correlación.}
+
+\vfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{idea}[El coeficiente $r$ (de Pearson)]
+Siempre $-1\le r\le1$.\\[3pt]
+El \textbf{signo} dice el sentido: $r>0$ positiva; $r<0$ negativa.\\[3pt]
+$|r|$ dice la \textbf{fuerza}: cerca de 1, fuerte; cerca de 0, débil.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.52\linewidth}\centering
+\begin{tikzpicture}[x=0.6cm]
+  \shade[left color=fmR!60,right color=fmK!60] (-5,0) rectangle (5,0.35);
+  \fill[white,opacity=0.75] (-2.5,0) rectangle (2.5,0.35);
+  \draw[fmnavy,line width=0.8pt] (-5,0) rectangle (5,0.35);
+  \foreach \x/\l in {-5/-1,-4/{-0,8},-2.5/{-0,5},0/0,2.5/{0,5},4/{0,8},5/1} {\draw[fmnavy] (\x,0) -- (\x,-0.12); \node[below,font=\scriptsize] at (\x,-0.12) {$\l$};}
+  \node[font=\scriptsize,align=center] at (-4.5,0.8) {fuerte}; \node[font=\scriptsize] at (-1.25,0.8) {débil}; \node[font=\scriptsize] at (1.25,0.8) {débil}; \node[font=\scriptsize] at (4.5,0.8) {fuerte};
+  \node[font=\scriptsize\heavy,text=fmR] at (-3.5,-0.9) {negativa}; \node[font=\scriptsize\heavy,text=fmK!80!black] at (3.5,-0.9) {positiva};
+\end{tikzpicture}\\[4pt]
+{\small $|r|\ge0{,}8$ fuerte \ \ $0{,}5\le|r|<0{,}8$ moderada \ \ $|r|<0{,}5$ débil}
+\end{minipage}
+
+\vfill
+\begin{compte}[La fuerza la da $|r|$]
+$r=-0{,}9$ es una correlación \textbf{más fuerte} que $r=0{,}6$: el signo solo dice si la nube sube o baja.
+\end{compte}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\passosT{Cómo se calcula}{\pas{1} Tabla con $x_i$, $y_i$, $x_i^2$, $y_i^2$, $x_iy_i$ y las sumas.\\[3pt]
+\pas{2} Medias: \ $\bar x=\frac{\sum x_i}{N}$, \ $\bar y=\frac{\sum y_i}{N}$.\\[3pt]
+\pas{3} $\sigma_x=\sqrt{\frac{\sum x_i^2}{N}-\bar x^2}$, \ $\sigma_y=\sqrt{\frac{\sum y_i^2}{N}-\bar y^2}$.\\[3pt]
+\pas{4} Covarianza: \ $\sigma_{xy}=\frac{\sum x_iy_i}{N}-\bar x\,\bar y$.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$r=\dfrac{\sigma_{xy}}{\sigma_x\cdot\sigma_y}$}\par\smallskip
+\small $\sigma_{xy}>0$: crecen juntas; \ $\sigma_{xy}<0$: una crece y la otra decrece
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ horas de estudio y nota de 5 alumnos]
+\begin{minipage}[c]{0.44\linewidth}\centering\small
+\taularod[fmex]{*{5}{>{\hspace{3pt}}c<{\hspace{3pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}$y_i$ & \color{white}$x_i^2$ & \color{white}$y_i^2$ & \color{white}$x_iy_i$\\
+1 & 2 & 1 & 4 & 2\\
+\rowcolor{fmexbg}2 & 3 & 4 & 9 & 6\\
+3 & 5 & 9 & 25 & 15\\
+\rowcolor{fmexbg}4 & 4 & 16 & 16 & 16\\
+5 & 6 & 25 & 36 & 30\\
+\rowcolor{fmexbg}\textbf{15} & \textbf{20} & \textbf{55} & \textbf{90} & \textbf{69}
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.53\linewidth}
+$\bar x=3$, \ $\bar y=4$\\[3pt]
+$\sigma_x=\sqrt{\frac{55}5-9}=\sqrt2$, \ $\sigma_y=\sqrt{\frac{90}5-16}=\sqrt2$\\[3pt]
+$\sigma_{xy}=\frac{69}5-3\cdot4=13{,}8-12=1{,}8$\\[3pt]
+$r=\dfrac{1{,}8}{\sqrt2\cdot\sqrt2}=\boxed{0{,}9}$: \ positiva y \textbf{fuerte}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ precio (€) y unidades vendidas en una semana]
+Precios 1, 2, 3, 4, 5 \ y \ unidades 50, 44, 40, 32, 24: \ $\sum y_i=190$, \ $\sum y_i^2=7636$, \ $\sum x_iy_i=506$\\[4pt]
+$\bar y=38$, \ $\sigma_y=\sqrt{\frac{7636}5-38^2}=\sqrt{83{,}2}\approx9{,}12$ \qquad $\sigma_{xy}=\frac{506}5-3\cdot38=-12{,}8$ \qquad $r=\dfrac{-12{,}8}{\sqrt2\cdot9{,}12}\approx\boxed{-0{,}99}$\\[3pt]
+Negativa y \textbf{muy fuerte}: cuanto más caro, menos se vende.
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ las horas de estudio y las notas de los 10 alumnos (10.1)]
+\begin{minipage}[c]{0.5\linewidth}
+$\sum x_i=38$, \ $\sum y_i=59$, \ $\sum x_i^2=178$, \ $\sum y_i^2=389$, \ $\sum x_iy_i=259$\\[4pt]
+$\bar x=3{,}8$, \ $\bar y=5{,}9$\\[3pt]
+$\sigma_x=\sqrt{17{,}8-3{,}8^2}=\sqrt{3{,}36}\approx1{,}83$\\[3pt]
+$\sigma_y=\sqrt{38{,}9-5{,}9^2}=\sqrt{4{,}09}\approx2{,}02$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$\sigma_{xy}=25{,}9-3{,}8\cdot5{,}9=3{,}48$\\[4pt]
+$r=\dfrac{3{,}48}{1{,}83\cdot2{,}02}\approx\boxed{0{,}94}$\\[4pt]
+Positiva y fuerte, como decíamos al mirar la nube (10.3).
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $x_i$: 1, 2, 3, 4, 5 \ e \ $y_i$: 3, 1, 4, 2, 5]
+\begin{minipage}[c]{0.3\linewidth}\centering
+\begin{tikzpicture}[x=0.5cm,y=0.42cm]
+  \nuvol{6}{6}{$x$}{$y$}
+  \foreach \p in {(1,3),(2,1),(3,4),(4,2),(5,5)} {\pnt{\p}}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.67\linewidth}
+$\bar x=3$, \ $\bar y=3$, \ $\sigma_x=\sigma_y=\sqrt2$ \qquad $\sum x_iy_i=3+2+12+8+25=50$\\[4pt]
+$\sigma_{xy}=\frac{50}5-3\cdot3=1$ \qquad $r=\dfrac{1}{\sqrt2\cdot\sqrt2}=\boxed{0{,}5}$\\[4pt]
+Positiva pero solo \textbf{moderada}: la nube sube, pero los puntos están dispersos.
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{truc}[Con la calculadora]
+En el modo estadístico de dos variables ($y=a+bx$) introduce los pares: da $\bar x$, $\bar y$, $\sigma_x$, $\sigma_y$ y $r$. Úsala para comprobar.
+\end{truc}
+\begin{compte}[Cuidado con el orden]
+En $\sigma_{xy}$ primero dividimos $\sum x_iy_i$ entre $N$ y después restamos $\bar x\,\bar y$. Si $|r|$ te da mayor que 1, te has equivocado.
+\end{compte}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 10.5
+\clearpage
+\seccio{sec5}{Recta de regresión}{La recta que mejor se ajusta a la nube.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Recta de regresión de $Y$ sobre $X$]
+Si la correlación es fuerte, los puntos se agrupan alrededor de una recta. La que mejor se ajusta resume la relación y sirve para hacer \textbf{estimaciones}.\\[3pt]
+\textbf{A ojo}: por $G=(\bar x,\bar y)$, siguiendo la nube, con tantos puntos por encima como por debajo.\\[3pt]
+\textbf{Con la fórmula}: la que hace mínimos los errores (al cuadrado).
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$y-\bar y=\dfrac{\sigma_{xy}}{\sigma_x^2}\,(x-\bar x)$}\par\smallskip
+\small punto-pendiente (unidad 7): pasa por $G$ con pendiente $m=\dfrac{\sigma_{xy}}{\sigma_x^2}$
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{truc}[El signo de la pendiente]
+$m$ tiene el mismo signo que la covarianza y que $r$: correlación positiva, la recta \textbf{sube}; negativa, \textbf{baja}. La calculadora (modo $y=a+bx$) da $a=n$ y $b=m$.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplo: \ horas de estudio y nota de 5 alumnos (10.4)]
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[x=0.55cm,y=0.42cm]
+  \nuvol{6}{7}{horas}{nota}
+  \foreach \k in {1,...,5} \node[below,font=\scriptsize] at (\k,0) {\k};
+  \foreach \k in {2,4,6} \node[left,font=\scriptsize] at (0,\k) {\k};
+  \draw[fmR,line width=1.4pt] (0,1.3) -- (6,6.7);
+  \foreach \p in {(1,2),(2,3),(3,5),(4,4),(5,6)} {\pnt{\p}}
+  \filldraw[fill=white,draw=fmR,line width=1.2pt] (3,4) circle (4pt);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.62\linewidth}
+$\bar x=3$, \ $\bar y=4$, \ $\sigma_x^2=2$, \ $\sigma_{xy}=1{,}8$: \ $m=\dfrac{1{,}8}{2}=0{,}9$\\[4pt]
+$y-4=0{,}9\,(x-3)\ \to\ \boxed{y=0{,}9x+1{,}3}$\\[4pt]
+Por cada hora más de estudio, la nota sube, de media, \textbf{0,9 puntos}.
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ precio y unidades vendidas (10.4)]
+$\bar x=3$, \ $\bar y=38$, \ $\sigma_x^2=2$, \ $\sigma_{xy}=-12{,}8$: \ $m=\dfrac{-12{,}8}{2}=-6{,}4$\\[4pt]
+$y-38=-6{,}4\,(x-3)\ \to\ \boxed{y=-6{,}4x+57{,}2}$: \ por cada euro más, se venden unas \textbf{6,4 unidades menos}.
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ $x_i$: 2, 4, 5, 6, 8 \ e \ $y_i$: 7, 6, 4, 3, 0 \ (10.2)]
+$\sum x_i^2=145$, \ $\sum x_iy_i=81$: \ $\sigma_x^2=\frac{145}5-25=4$, \ $\sigma_{xy}=\frac{81}5-5\cdot4=-3{,}8$\\[4pt]
+$m=\dfrac{-3{,}8}{4}=-0{,}95$: \ $y-4=-0{,}95\,(x-5)\ \to\ \boxed{y=-0{,}95x+8{,}75}$ \ \nota{recta que baja}
+\end{exemple}
+
+\vfill
+% ============================================================ 10.6
+\clearpage
+\seccio{sec6}{Estimaciones}{Prever $Y$ para un valor de $X$ que no tenemos.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Estimar con la recta]
+Con $y=mx+n$, para un valor $x_0$:\\[3pt]
+{\centering\Large$\hat y=m\cdot x_0+n$\par}\smallskip
+$\hat y$ es una \textbf{estimación}: el valor que esperamos de media, no el que tendrá exactamente un individuo.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\passosT{¿Cuándo es fiable?}{\pas{1} Correlación \textbf{fuerte}: $|r|\ge0{,}8$, buenas; entre 0,5 y 0,8, aproximadas; menos, no fiables.\\[3pt]
+\pas{2} $x_0$ \textbf{dentro} de los datos: \textbf{interpolar}. Fuera: \textbf{extrapolar}, menos fiable.\\[3pt]
+\pas{3} \textbf{Muchos} datos.}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ horas de estudio y nota, \ $y=0{,}9x+1{,}3$ \ ($r=0{,}9$)]
+3,5 horas: \ $\hat y=0{,}9\cdot3{,}5+1{,}3=\boxed{4{,}45}$ \ \nota{fiable: $r$ alto y 3,5 dentro de 1 a 5 horas}\\[4pt]
+12 horas: \ $\hat y=0{,}9\cdot12+1{,}3=12{,}1$: \ \mal{\text{una nota imposible}} \ Los datos van de 1 a 5 horas: no sabemos si tan lejos la relación sigue igual.
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ precio y ventas, \ $y=-6{,}4x+57{,}2$ \ ($r\approx-0{,}99$)]
+\begin{minipage}[c]{0.6\linewidth}
+3,50 €: \ $\hat y=-6{,}4\cdot3{,}5+57{,}2=34{,}8\approx\boxed{35\text{ unidades}}$ \ \nota{muy fiable}\\[4pt]
+10 €: \ $-6{,}4\cdot10+57{,}2=-6{,}8$ unidades: \ imposible, extrapolamos demasiado.\\[4pt]
+\textbf{Estimar $x$}: para vender 45, \ $45=-6{,}4x+57{,}2$:\\ $x=\dfrac{12{,}2}{6{,}4}\approx\boxed{1{,}91\text{ €}}$ \ \nota{solo si $|r|$ es casi 1}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.37\linewidth}\centering
+\begin{tikzpicture}[x=0.5cm,y=0.05cm]
+  \draw[fmmuted!25] (0,0) grid[xstep=1,ystep=10] (6,60);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0) -- (6.6,0) node[right,font=\scriptsize] {€};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,0) -- (0,65) node[above,font=\scriptsize] {unidades};
+  \foreach \k in {1,...,5} \node[below,font=\scriptsize] at (\k,0) {\k};
+  \foreach \k in {20,40,60} \node[left,font=\scriptsize] at (0,\k) {\k};
+  \draw[fmR,line width=1.3pt] (0.3,55.3) -- (6,18.8);
+  \foreach \p in {(1,50),(2,44),(3,40),(4,32),(5,24)} {\pnt{\p}}
+  \draw[fmK,dashed] (3.5,0) -- (3.5,34.8) -- (0,34.8); \fill[fmK] (3.5,34.8) circle (3pt);
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+Recta $y=-0{,}95x+8{,}75$ (10.5): \ para $x=3$, \ $\hat y=5{,}9$; \ para $x=7$, \ $\hat y=2{,}1$ \ \nota{interpolaciones}\\[4pt]
+Si $r=0{,}35$, ninguna estimación es fiable: los puntos están demasiado dispersos alrededor de la recta.
+\end{exemple}
+
+\vfill
+\begin{compte}[Interpolar sí, extrapolar con cuidado]
+Lejos de los datos, la recta puede dar resultados sin sentido (notas de más de 10, ventas negativas). Comprueba siempre que la estimación es razonable.
+\end{compte}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=40pt,raster before skip=20pt]
+\rtile{10.1}{Bidimensional}{Pares $(x_i,y_i)$. Tabla simple o de doble entrada.}
+\rtile{10.2}{Nube de puntos}{Un punto por par. Centro de gravedad $G=(\bar x,\bar y)$.}
+\rtile{10.3}{Correlación}{Positiva, negativa o nula; fuerte o débil. No significa causa.}
+\rtile{10.4}{Coeficiente}{$r=\frac{\sigma_{xy}}{\sigma_x\sigma_y}$, \ $-1\le r\le1$. \ $\sigma_{xy}=\frac{\sum x_iy_i}{N}-\bar x\bar y$.}
+\rtile{10.5}{Regresión}{$y-\bar y=\frac{\sigma_{xy}}{\sigma_x^2}(x-\bar x)$.}
+\rtile{10.6}{Estimaciones}{$\hat y=mx_0+n$. Fiables si $|r|$ es grande y $x_0$ está dentro de los datos.}
+\end{tcbraster}
+\end{document}

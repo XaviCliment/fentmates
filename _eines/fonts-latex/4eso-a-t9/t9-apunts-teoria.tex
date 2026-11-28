@@ -1,0 +1,824 @@
+% Apunts de teoria en PDF · 4t ESO · Unitat 9: Estadística
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 9: Estadística. 4t ESO},pdfsubject={Matemàtiques A 4t ESO},pdfkeywords={població, mostra, variables estadístiques, mostreig, freqüències, taules de freqüències, dades agrupades, marca de classe, gràfics estadístics, histograma, diagrama de sectors, mitjana, mediana, moda, desviació típica, variància, coeficient de variació, quartils, percentils, diagrama de caixes}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{9.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{28}{28}\selectfont] at (14,44) {$\bar x\quad\sigma$};
+  \draw[line width=2pt] (120,110) -- (235,110);
+  \fill (130,110) rectangle (148,70); \fill (155,110) rectangle (173,30); \fill (180,110) rectangle (198,55); \fill (205,110) rectangle (223,85);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4t ESO · Unitat 9: Estadística}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 4t ESO · Matemàtiques A}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 9}\\[2pt]Estadística\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\newcommand{\passos}[1]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Com es resolen}]#1\end{tcolorbox}}
+\newcommand{\passosT}[2]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ #1}]#2\end{tcolorbox}}
+% barra d'un diagrama: #1 x central, #2 altura, #3 color
+\newcommand{\barra}[3]{\filldraw[fill=#3!35,draw=#3,line width=0.9pt] (#1-0.32,0) rectangle (#1+0.32,#2);}
+% diagrama de caixes: #1 y, #2 mín, #3 Q1, #4 Me, #5 Q3, #6 màx, #7 color
+\newcommand{\caixa}[7]{\draw[#7,line width=1.3pt] (#2,#1) -- (#3,#1) (#5,#1) -- (#6,#1) (#2,#1-0.25) -- (#2,#1+0.25) (#6,#1-0.25) -- (#6,#1+0.25);
+  \filldraw[fill=#7!20,draw=#7,line width=1.3pt] (#3,#1-0.45) rectangle (#5,#1+0.45); \draw[#7,line width=2.2pt] (#4,#1-0.45) -- (#4,#1+0.45);}
+
+
+\begin{document}
+\portada{Arrepleguem dades, les ordenem, les dibuixem i les resumim amb uns pocs nombres.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{9.1}{\faUsers}{Població, mostra i variables}
+\itile{sec2}{9.2}{\faTable}{Taules de freqüències}
+\itile{sec3}{9.3}{\faLayerGroup}{Dades agrupades en intervals}
+\itile{sec4}{9.4}{\faChartBar}{Gràfics estadístics}
+\itile{sec5}{9.5}{\faBullseye}{Paràmetres de centralització}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{9.6}{\faArrowsAltH}{Paràmetres de dispersió}
+\itile{sec7}{9.7}{\faMapMarker*}{Quartils i percentils}
+\itile{sec8}{9.8}{\faIcon{box}}{Diagrama de caixes}
+\itile{resum}{\phantom{9.8}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 9.1
+\clearpage
+\seccio{sec1}{Població, mostra i variables estadístiques}{Abans de comptar, cal saber a qui i què preguntem.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Els conceptes bàsics]
+L'\textbf{estadística} arreplega, ordena, representa i interpreta dades per a traure'n conclusions.\\[3pt]
+\textbf{Població}: tots els elements que volem estudiar. \ \textbf{Individu}: cadascun.\\[2pt]
+\textbf{Mostra}: la part de la població que estudiem quan no podem preguntar a tothom. El nombre d'individus és la seua \textbf{grandària}.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{exemple}[Exemple: \ quantes hores dormen?]
+Preguntem a 60 dels 600 alumnes d'un institut, triats a l'atzar.\\[3pt]
+\textbf{Població}: els 600 alumnes. \ \textbf{Individu}: cada alumne. \ \textbf{Mostra}: els 60 (grandària 60).
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[Una mostra ha de ser representativa]
+S'ha d'assemblar a la població. Si només preguntem als de 2n de Batxillerat la víspera d'un examen, les conclusions no valen per a tot l'institut.
+\end{compte}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Qualitativa}]
+Els valors són \textbf{qualitats}, no nombres.\par\smallskip
+\small Color preferit, esport, tipus de mascota, mes de naixement.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Quantitativa discreta}]
+Nombres que s'obtenen \textbf{comptant}: valors aïllats (0, 1, 2\dots).\par\smallskip
+\small Nombre de germans, gols en un partit, llibres llegits.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Quantitativa contínua}]
+Nombres que s'obtenen \textbf{mesurant}: entre dos valors sempre n'hi ha un altre.\par\smallskip
+\small Alçada, pes, temps, temperatura.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{truc}[Es compta o es mesura?]
+Si es \textbf{compta}, és discreta. Si es \textbf{mesura} (amb regle, rellotge, balança, termòmetre\dots), és contínua. \ L'alçada en cm, $152$; $152{,}5$; $152{,}37$\dots: contínua.
+\end{truc}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faRandom\ \ Aleatori simple}]
+\small Tots tenen la mateixa probabilitat d'eixir, com en un sorteig.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Sistemàtic}]
+\small El primer a l'atzar i després un de cada $k$ (un de cada 10 de la llista).
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faLayerGroup\ \ Estratificat}]
+\small Per grups (cursos, edats\dots), de cada un en proporció a la seua grandària.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple: \ mostra estratificada de 50 en un institut de 500 alumnes]
+\begin{minipage}[c]{0.36\linewidth}
+$\dfrac{50}{500}=\dfrac1{10}$: la desena part de cada curs, triats a l'atzar dins del curs.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}l*{5}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmex} & \color{white}1r & \color{white}2n & \color{white}3r & \color{white}4t & \color{white}Total\\
+Alumnes & 150 & 120 & 130 & 100 & 500\\
+\rowcolor{fmexbg}Mostra & 15 & 12 & 13 & 10 & 50
+}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.2
+\clearpage
+\seccio{sec2}{Taules de freqüències amb dades aïllades}{Comptem quantes vegades apareix cada valor.}
+
+\vfill
+\begin{idea}[Freqüències]
+\textbf{Absoluta} $f_i$: quantes vegades apareix el valor. La suma de totes és $N$, el nombre de dades.\\[2pt]
+\textbf{Relativa} $h_i=\dfrac{f_i}{N}$: la part del total (fracció, decimal o \%). Totes sumen 1 (el 100\,\%).\\[2pt]
+\textbf{Acumulades}: $F_i$, les dades menors o iguals que $x_i$ (sumem les $f_i$ des de dalt); \ $H_i=\dfrac{F_i}{N}$. L'última $F_i$ és $N$.
+\end{idea}
+
+\vfill
+\begin{exemple}[Exemple: \ nombre de germans de 20 alumnes]
+\begin{minipage}[c]{0.4\linewidth}
+\small 1 \ 2 \ 0 \ 1 \ 1 \ 3 \ 2 \ 1 \ 0 \ 2\\ 1 \ 1 \ 4 \ 0 \ 2 \ 1 \ 3 \ 1 \ 2 \ 1\\[6pt]
+\normalsize Recompte amb palets: una ratlla per dada; la cinquena travessa les quatre anteriors.\\[4pt]
+9 dels 20 tenen un germà: \ $h=\frac9{20}=0{,}45$, el \boxed{45\,\%}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.56\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c<{\hspace{4pt}}>{\hspace{4pt}}l<{\hspace{4pt}}*{3}{>{\hspace{4pt}}c<{\hspace{4pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}\heavy Recompte & \color{white}$f_i$ & \color{white}$h_i$ & \color{white}\%\\
+0 & $|||$ & 3 & $0{,}15$ & 15\\
+\rowcolor{fmexbg}1 & $\cancel{||||}\ ||||$ & 9 & $0{,}45$ & 45\\
+2 & $\cancel{||||}$ & 5 & $0{,}25$ & 25\\
+\rowcolor{fmexbg}3 & $||$ & 2 & $0{,}1$ & 10\\
+4 & $|$ & 1 & $0{,}05$ & 5\\
+\rowcolor{fmexbg}Total & & 20 & 1 & 100
+}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ notes d'un examen de 25 alumnes]
+\begin{minipage}[c]{0.56\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{6}{>{\hspace{4pt}}c<{\hspace{4pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}$f_i$ & \color{white}$F_i$ & \color{white}$h_i$ & \color{white}$H_i$ & \color{white}\% & \color{white}$\%_A$\\
+4 & 2 & 2 & $0{,}08$ & $0{,}08$ & 8 & 8\\
+\rowcolor{fmexbg}5 & 5 & 7 & $0{,}2$ & $0{,}28$ & 20 & 28\\
+6 & 6 & 13 & $0{,}24$ & $0{,}52$ & 24 & 52\\
+\rowcolor{fmexbg}7 & 5 & 18 & $0{,}2$ & $0{,}72$ & 20 & 72\\
+8 & 4 & 22 & $0{,}16$ & $0{,}88$ & 16 & 88\\
+\rowcolor{fmexbg}9 & 2 & 24 & $0{,}08$ & $0{,}96$ & 8 & 96\\
+10 & 1 & 25 & $0{,}04$ & 1 & 4 & 100
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.41\linewidth}
+Un 6 o menys: \ $F=13$ alumnes, el $\%_A=\boxed{52\,\%}$\\[5pt]
+Aproven (5 o més): \ $25-2=\boxed{23}$\\[5pt]
+Més d'un 7: \ $25-18=7$ alumnes,\\ el $16+8+4=\boxed{28\,\%}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[Comprova els totals]
+Les $f_i$ han de sumar $N$; les $h_i$, 1; els \%, 100; i l'última $F_i$ ha de ser $N$. Si no quadra, has perdut alguna dada en el recompte.
+\end{truc}
+
+\vfill
+% ============================================================ 9.3
+\clearpage
+\seccio{sec3}{Taules amb dades agrupades en intervals}{Si hi ha molts valors diferents, els agrupem.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\begin{idea}[Intervals i marca de classe]
+Per a variables contínues o amb molts valors fem \textbf{intervals} (classes) de la mateixa amplitud.\\[3pt]
+$[150,\ 155\ro$: hi entra el 150, però el 155 va a l'interval següent.\\[3pt]
+\textbf{Marca de classe}: el punt mitjà, \ $\dfrac{150+155}{2}=152{,}5$. Representa totes les dades de l'interval.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\passosT{Com es fan els intervals}{\pas{1} \textbf{Rang}: $x_{\max}-x_{\min}$.\\[3pt]
+\pas{2} Nombre d'intervals: entre 5 i 10, a prop de $\sqrt N$.\\[3pt]
+\pas{3} \textbf{Amplitud}: rang entre el nombre d'intervals, arrodonit cap amunt a un nombre còmode.\\[3pt]
+\pas{4} Comencem en un valor rodó $\le x_{\min}$.}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ alçades (cm) de 30 alumnes]
+{\small 152 \ 147 \ 158 \ 150 \ 143 \ 161 \ 155 \ 149 \ 151 \ 146 \ 157 \ 153 \ 163 \ 150 \ 148 \ 154 \ 159 \ 141 \ 152 \ 156 \ 145 \ 151 \ 160 \ 149 \ 153 \ 144 \ 158 \ 147 \ 162 \ 150}\\[5pt]
+\begin{minipage}[c]{0.36\linewidth}
+\pas{1} Rang: \ $163-141=22$ cm\\[3pt]
+\pas{2} $\sqrt{30}\approx5{,}5$: \ 5 intervals\\[3pt]
+\pas{3} $22:5=4{,}4\ \to$ amplitud \textbf{5}\\[3pt]
+\pas{4} Comencem en 140
+\end{minipage}\hfill
+\begin{minipage}[c]{0.62\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{5}{>{\hspace{4pt}}c<{\hspace{4pt}}}}{
+\rowcolor{fmex}\color{white}Alçada & \color{white}Marca & \color{white}$f_i$ & \color{white}$F_i$ & \color{white}$h_i$ & \color{white}\%\\
+$[140,145\ro$ & 142,5 & 3 & 3 & $0{,}1$ & 10\\
+\rowcolor{fmexbg}$[145,150\ro$ & 147,5 & 7 & 10 & $0{,}233$ & 23,3\\
+$[150,155\ro$ & 152,5 & 10 & 20 & $0{,}333$ & 33,3\\
+\rowcolor{fmexbg}$[155,160\ro$ & 157,5 & 6 & 26 & $0{,}2$ & 20\\
+$[160,165\ro$ & 162,5 & 4 & 30 & $0{,}133$ & 13,3
+}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{compte}[On va el 150?]
+Els tres alumnes que fan exactament 150 cm es compten en $[150,155\ro$, no en $[145,150\ro$.
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[Agrupar perd informació]
+Dins d'un interval ja no sabem les dades exactes: els càlculs amb les marques de classe seran \textbf{aproximats}.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ diners setmanals de 40 alumnes, en intervals de 5 €]
+\centering\small
+\taularod[fmex]{>{\heavy}c*{5}{>{\hspace{6pt}}c<{\hspace{6pt}}}}{
+\rowcolor{fmex}\color{white}Diners (€) & \color{white}$[0,5\ro$ & \color{white}$[5,10\ro$ & \color{white}$[10,15\ro$ & \color{white}$[15,20\ro$ & \color{white}$[20,25\ro$\\
+Marca & 2,5 & 7,5 & 12,5 & 17,5 & 22,5\\
+\rowcolor{fmexbg}$f_i$ & 6 & 10 & 12 & 8 & 4\\
+$F_i$ & 6 & 16 & 28 & 36 & 40
+}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.4
+\clearpage
+\seccio{sec4}{Gràfics estadístics}{D'un colp d'ull, com es reparteixen les dades.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Diagrama de barres i polígon},before upper=\centering]
+\begin{tikzpicture}[x=0.85cm,y=0.3cm]
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (-0.6,0) -- (4.7,0);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (-0.6,0) -- (-0.6,10.5) node[above,font=\scriptsize] {$f_i$};
+  \foreach \k in {2,4,...,10} {\draw[fmmuted!30] (-0.6,\k) -- (4.5,\k); \node[left,font=\scriptsize] at (-0.6,\k) {\k};}
+  \foreach \x/\f in {0/3,1/9,2/5,3/2,4/1} {\barra{\x}{\f}{fmA} \node[below,font=\scriptsize] at (\x,0) {\x};}
+  \draw[fmR,line width=1.4pt] (0,3) -- (1,9) -- (2,5) -- (3,2) -- (4,1); \foreach \x/\f in {0/3,1/9,2/5,3/2,4/1} \fill[fmR] (\x,\f) circle (2.5pt);
+\end{tikzpicture}\par\smallskip
+\small Germans de 20 alumnes. Per a variables \textbf{qualitatives} i \textbf{discretes}: barres separades.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Histograma},before upper=\centering]
+\begin{tikzpicture}[x=0.15cm,y=0.27cm]
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (140,0) -- (167,0) node[right,font=\scriptsize] {cm};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (140,0) -- (140,11.5) node[above,font=\scriptsize] {$f_i$};
+  \foreach \k in {2,4,...,10} {\draw[fmmuted!30] (140,\k) -- (165,\k); \node[left,font=\scriptsize] at (140,\k) {\k};}
+  \foreach \a/\f in {140/3,145/7,150/10,155/6,160/4} {\filldraw[fill=fmK!30,draw=fmK!80!black,line width=0.9pt] (\a,0) rectangle (\a+5,\f);}
+  \foreach \a in {140,150,160} \node[below,font=\scriptsize] at (\a,0) {\a};
+  \draw[fmR,line width=1.4pt] (142.5,3) -- (147.5,7) -- (152.5,10) -- (157.5,6) -- (162.5,4);
+\end{tikzpicture}\par\smallskip
+\small Alçades de 30 alumnes. Dades en \textbf{intervals}: barres juntes; el polígon, per les marques de classe.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[Un gràfic ben fet]
+Posa sempre el \textbf{títol} i el nom de cada \textbf{eix}, i comença l'eix vertical en \textbf{0}: si no, les diferències entre barres semblen més grans del que són.
+\end{compte}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.25]
+  \filldraw[fill=fmA!45,draw=white,line width=1.2pt] (0,0) -- (0:1.4) arc (0:150:1.4) -- cycle;
+  \filldraw[fill=fmB!45,draw=white,line width=1.2pt] (0,0) -- (150:1.4) arc (150:240:1.4) -- cycle;
+  \filldraw[fill=fmK!45,draw=white,line width=1.2pt] (0,0) -- (240:1.4) arc (240:315:1.4) -- cycle;
+  \filldraw[fill=fmV!45,draw=white,line width=1.2pt] (0,0) -- (315:1.4) arc (315:360:1.4) -- cycle;
+  \node[font=\scriptsize] at (75:0.85) {caminant}; \node[font=\scriptsize] at (195:0.85) {autobús};
+  \node[font=\scriptsize] at (277:0.85) {cotxe}; \node[font=\scriptsize] at (337:1.05) {bici};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Diagrama de sectors]
+El cercle és el total; cada sector, proporcional a la seua freqüència:\\[3pt]
+{\centering$\text{angle}=\dfrac{f_i}{N}\cdot360^\circ=h_i\cdot360^\circ$\par}\smallskip
+Sobretot per a variables \textbf{qualitatives}: quina part del total és cada valor.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ com vénen a l'institut els 24 alumnes d'una classe]
+\begin{minipage}[c]{0.55\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}l*{4}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmex} & \color{white}Caminant & \color{white}Autobús & \color{white}Cotxe & \color{white}Bici\\
+$f_i$ & 10 & 6 & 5 & 3\\
+\rowcolor{fmexbg}Angle & $150^\circ$ & $90^\circ$ & $75^\circ$ & $45^\circ$
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\textbf{Truc}: $360:24=15^\circ$ per alumne.\\ Caminant: $10\cdot15^\circ=150^\circ$.\\[4pt]
+\textbf{Pictograma}: un dibuix per a cada quantitat (\faBook\ = 10 llibres); mig dibuix, 5.
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.5
+\clearpage
+\seccio{sec5}{Paràmetres de centralització}{Un sol valor «del mig» que resumeix totes les dades.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Moda $Mo$}]
+El valor que \textbf{més es repeteix}. L'únic per a variables qualitatives.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmB!8,colframe=fmB,coltitle=white,title={Mitjana $\bar x$}]
+La suma de les dades entre $N$: el \textbf{repartiment a parts iguals}.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Mediana $Me$}]
+El valor del \textbf{centre} amb les dades ordenades.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple: \ minuts que tarden 7 alumnes a arribar a l'institut: \ 20, 40, 15, 46, 20, 30, 25]
+\begin{minipage}[c]{0.6\linewidth}
+$Mo=\boxed{20}$ min \ \nota{apareix dues vegades}\\[4pt]
+$\bar x=\dfrac{20+40+15+46+20+30+25}{7}=\dfrac{196}{7}=\boxed{28}$ min\\[4pt]
+Ordenades: \ $15,\ 20,\ 20,\ \boxed{25},\ 30,\ 40,\ 46$: \ $Me=\boxed{25}$ min
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}
+Amb $N$ parell: \ $3,\ 5,\ 6,\ \boxed{7,\ 8},\ 8,\ 9,\ 10$\\[3pt]
+$Me=\dfrac{7+8}{2}=7{,}5$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[La mitjana i les dades extremes]
+Les dades extremes mouen molt la mitjana, però no la mediana: si n'hi ha, la \textbf{mediana} representa millor el conjunt. I abans de buscar la mediana, \textbf{ordena}!
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemple: \ amb una taula (germans de 20 alumnes)]
+\begin{minipage}[c]{0.42\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{3}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}$f_i$ & \color{white}$F_i$ & \color{white}$x_i\cdot f_i$\\
+0 & 3 & 3 & 0\\
+\rowcolor{fmexbg}1 & 9 & 12 & 9\\
+2 & 5 & 17 & 10\\
+\rowcolor{fmexbg}3 & 2 & 19 & 6\\
+4 & 1 & 20 & 4\\
+\rowcolor{fmexbg}Total & 20 & & 29
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+$\bar x=\dfrac{\sum x_i\cdot f_i}{N}=\dfrac{29}{20}=\boxed{1{,}45}$ germans\\[4pt]
+$Me$: les centrals són la 10a i l'11a; la primera $F_i\ge10$ és 12, de l'1: \ $Me=\boxed{1}$\\[4pt]
+$Mo=\boxed{1}$ \ \nota{$f=9$, la més gran}\\[3pt]
+{\small Ningú té 1,45 germans: és el repartiment a parts iguals.}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ dades agrupades (diners de 40 alumnes, 9.3), amb les marques de classe]
+$\bar x\approx\dfrac{2{,}5\cdot6+7{,}5\cdot10+12{,}5\cdot12+17{,}5\cdot8+22{,}5\cdot4}{40}=\dfrac{470}{40}=\boxed{11{,}75\text{ €}}$\\[4pt]
+Interval \textbf{modal}: $[10,15\ro$ \nota{$f=12$} \qquad Interval \textbf{medià}: $\frac N2=20$, la primera $F_i\ge20$ és 28: \ $[10,15\ro$
+\end{exemple}
+
+\vfill
+\begin{truc}[Marta: 6, 7 i 5. Quina nota li cal per a fer un 6,5 de mitjana en 4 exàmens?]
+$\text{suma}=\bar x\cdot N$: \ $6{,}5\cdot4=26$; \ ja té 18 \ $\to$ \ $\boxed{8}$. \ Per a ajuntar grups, sumem les sumes (no fem la mitjana de les mitjanes).
+\end{truc}
+
+\vfill
+% ============================================================ 9.6
+\clearpage
+\seccio{sec6}{Paràmetres de dispersió}{Com d'escampades estan les dades al voltant de la mitjana.}
+
+\vfill
+\begin{idea}[Mateixa mitjana, dades molt diferents]
+Punts en cinc partits: \ \textbf{Anna} $8,\,9,\,10,\,11,\,12$ \ i \ \textbf{Bea} $2,\,6,\,10,\,14,\,18$. Totes dues fan una mitjana de 10, però Anna és molt més regular.
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.54\linewidth}\small
+\textbf{Rang}: \ $x_{\max}-x_{\min}$. Fàcil, però només depén de dues dades.\\[4pt]
+\textbf{Desviació mitjana}: \ $DM=\dfrac{\sum|x_i-\bar x|\cdot f_i}{N}$\\[4pt]
+\textbf{Variància}: \ $\sigma^2=\dfrac{\sum(x_i-\bar x)^2\cdot f_i}{N}$\\[4pt]
+\textbf{Desviació típica}: \ $\sigma=\sqrt{\sigma^2}$, amb les mateixes unitats que les dades: la més usada.\\[4pt]
+Com més grans, més escampades i \textbf{menys representativa} és la mitjana.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.43\linewidth}\centering
+\begin{tikzpicture}[x=0.3cm]
+  \draw[fmmuted] (1,1) -- (19,1); \draw[fmmuted] (1,0) -- (19,0);
+  \foreach \x in {8,9,10,11,12} \fill[fmA] (\x,1) circle (4pt);
+  \foreach \x in {2,6,10,14,18} \fill[fmB] (\x,0) circle (4pt);
+  \draw[fmR,dashed,line width=1pt] (10,-0.5) -- (10,1.5) node[above,font=\scriptsize] {$\bar x=10$};
+  \node[left,font=\scriptsize\heavy,text=fmA] at (1,1) {Anna}; \node[left,font=\scriptsize\heavy,text=fmB] at (1,0) {Bea};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ Anna i Bea]
+\begin{minipage}[c]{0.4\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{3}{>{\hspace{4pt}}c<{\hspace{4pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}$x_i-\bar x$ & \color{white}$|x_i-\bar x|$ & \color{white}$(x_i-\bar x)^2$\\
+8 & $-2$ & 2 & 4\\
+\rowcolor{fmexbg}9 & $-1$ & 1 & 1\\
+10 & 0 & 0 & 0\\
+\rowcolor{fmexbg}11 & 1 & 1 & 1\\
+12 & 2 & 2 & 4\\
+\rowcolor{fmexbg}$\sum$ & & 6 & 10
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\textbf{Anna}: rang 4; \ $DM=\frac65=1{,}2$; \ $\sigma^2=\frac{10}5=2$; \ $\sigma=\sqrt2\approx\boxed{1{,}41}$\\[5pt]
+\textbf{Bea}: desviacions $-8,-4,0,4,8$: \ $\sum|\ |=24$, \ $\sum(\ )^2=160$\\
+rang 16; \ $DM=4{,}8$; \ $\sigma^2=32$; \ $\sigma=\sqrt{32}\approx\boxed{5{,}66}$\\[5pt]
+Tots diuen el mateix: les de Bea estan molt més escampades.
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$\sigma^2=\dfrac{\sum x_i^2\cdot f_i}{N}-\bar x^{\,2}$}\par\smallskip
+{\small la mitjana dels quadrats menys el quadrat de la mitjana: més còmoda si $\bar x$ no és entera}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Exemple: \ germans de 20 alumnes]
+\begin{minipage}[c]{0.4\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{3}{>{\hspace{5pt}}c<{\hspace{5pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}$f_i$ & \color{white}$x_if_i$ & \color{white}$x_i^2f_i$\\
+0 & 3 & 0 & 0\\
+\rowcolor{fmexbg}1 & 9 & 9 & 9\\
+2 & 5 & 10 & 20\\
+\rowcolor{fmexbg}3 & 2 & 6 & 18\\
+4 & 1 & 4 & 16\\
+\rowcolor{fmexbg}$\sum$ & 20 & 29 & 63
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+$\bar x=\dfrac{29}{20}=1{,}45$\\[4pt]
+$\sigma^2=\dfrac{63}{20}-1{,}45^2=3{,}15-2{,}1025=1{,}0475$\\[4pt]
+$\sigma=\sqrt{1{,}0475}\approx\boxed{1{,}02}$ germans\\[3pt]
+\nota{una variància negativa vol dir que t'has equivocat}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ dades agrupades (diners de 40 alumnes, 9.3)]
+Amb les marques de classe: \ $\sum x_i^2f_i=37{,}5+562{,}5+1875+2450+2025=6950$; \ $\bar x=11{,}75$\\[4pt]
+$\sigma^2=\dfrac{6950}{40}-11{,}75^2=173{,}75-138{,}06=35{,}69$ \qquad $\sigma\approx\boxed{5{,}97\text{ €}}$ \qquad $CV=\dfrac{5{,}97}{11{,}75}\approx\boxed{51\,\%}$ \ \nota{molt escampades}
+\end{exemple}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[Coeficient de variació]
+{\centering\Large$CV=\dfrac{\sigma}{\bar x}$\par}\smallskip
+Sense unitats (sovint en \%): compara la dispersió de grups amb mitjanes o unitats molt diferents.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{exemple}[Exemple: \ nadons i adults]
+Nadons: $\bar x=3{,}2$, $\sigma=0{,}4$ kg: \ $CV=\boxed{12{,}5\,\%}$\\[3pt]
+Adults: $\bar x=70$, $\sigma=8$ kg: \ $CV\approx\boxed{11{,}4\,\%}$\\[3pt]
+En proporció, els nadons tenen \textbf{més} dispersió.
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{exemple}[Exemple: \ dues marques de bombetes]
+A: $\bar x=1000$ h, $\sigma=50$ h \quad B: $\bar x=1000$ h, $\sigma=200$ h\\[3pt]
+Duren el mateix de mitjana, però les de \textbf{A} són molt més regulars: és més fàcil saber quant duraran.
+\end{exemple}
+\begin{truc}[Amb la calculadora]
+En mode estadístic, la nostra $\sigma$ és la que es diu $\sigma_x$ (o $\sigma_n$). La $s_x$ divideix entre $N-1$: es fa servir en cursos posteriors.
+\end{truc}
+\end{tcbraster}
+
+\vfill
+% ============================================================ 9.7
+\clearpage
+\seccio{sec7}{Paràmetres de posició: quartils i percentils}{Quin lloc ocupa una dada dins de les dades ordenades.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Quartils i percentils]
+\textbf{Quartils}: divideixen les dades ordenades en quatre parts iguals. $Q_1$ deixa per davall el 25\,\%; \ $Q_2=Me$, el 50\,\%; \ $Q_3$, el 75\,\%.\\[3pt]
+\textbf{Percentil} $P_k$: deixa per davall el $k$\,\%. \ $Q_1=P_{25}$, $Me=P_{50}$, $Q_3=P_{75}$.\\[3pt]
+\textbf{Rang interquartílic}: $RI=Q_3-Q_1$, on hi ha el 50\,\% central. No el mouen les dades extremes.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\passosT{Com es calculen}{\pas{1} \textbf{Ordenem} les $N$ dades.\\[3pt]
+\pas{2} Posició: \ $\dfrac{k\cdot N}{100}$ \ ($Q_1$: $\frac N4$; \ $Q_3$: $\frac{3N}4$).\\[3pt]
+\pas{3} \textbf{No entera}: la dada de la posició següent. \textbf{Entera}: la mitjana d'eixa dada i la següent.}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ notes de 12 alumnes, ja ordenades]
+\centering\small
+\taularod[fmex]{>{\heavy}l*{12}{>{\hspace{3pt}}c<{\hspace{3pt}}}}{
+\rowcolor{fmex}\color{white}Posició & \color{white}1 & \color{white}2 & \color{white}3 & \color{white}4 & \color{white}5 & \color{white}6 & \color{white}7 & \color{white}8 & \color{white}9 & \color{white}10 & \color{white}11 & \color{white}12\\
+Dada & 3 & 4 & \cellcolor{fmA!20}5 & \cellcolor{fmA!20}5 & 6 & \cellcolor{fmK!20}6 & \cellcolor{fmK!20}7 & 7 & \cellcolor{fmB!20}8 & \cellcolor{fmB!20}8 & 9 & 10
+}\par\medskip\raggedright\normalsize
+$Q_1$: $\frac{12}4=3$, entera: \ $\frac{5+5}2=\boxed{5}$ \qquad $Me$: $\frac{12}2=6$: \ $\frac{6+7}2=\boxed{6{,}5}$ \qquad $Q_3$: $\frac{36}4=9$: \ $\frac{8+8}2=\boxed{8}$ \qquad $RI=8-5=3$\\[4pt]
+$P_{90}$: \ $\frac{90\cdot12}{100}=10{,}8$, no entera: la dada 11a, \ $P_{90}=\boxed{9}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ amb una taula (notes de 25 alumnes, 9.2): \ la primera $F_i$ que arriba a la posició]
+\begin{minipage}[c]{0.4\linewidth}\centering\small
+\taularod[fmex]{>{\heavy}c*{7}{>{\hspace{2pt}}c<{\hspace{2pt}}}}{
+\rowcolor{fmex}\color{white}$x_i$ & \color{white}4 & \color{white}5 & \color{white}6 & \color{white}7 & \color{white}8 & \color{white}9 & \color{white}10\\
+$F_i$ & 2 & 7 & 13 & 18 & 22 & 24 & 25
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+$Q_1$: $\frac{25}4=6{,}25\to F=7$: \ $Q_1=\boxed{5}$\\[3pt] $Me$: $12{,}5\to F=13$: \ $Me=\boxed{6}$\\[3pt]
+$Q_3$: $18{,}75\to F=22$: \ $Q_3=\boxed{8}$\\[3pt] $P_{90}$: $22{,}5\to F=24$: \ $P_{90}=\boxed{9}$\\[3pt]
+\nota{si una $F_i$ coincideix exactament amb la posició, mitjana d'eixe valor i el següent}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[Percentils en la vida real]
+Un nadó en el \textbf{percentil 80} de pes pesa més que el 80\,\% dels nadons de la seua edat (i menys que el 20\,\%). Amb dades agrupades, el quartil o percentil és dins del primer interval amb $F_i\ge\frac{kN}{100}$.
+\end{truc}
+
+\vfill
+% ============================================================ 9.8
+\clearpage
+\seccio{sec8}{Diagrama de caixes}{Cinc nombres que resumeixen tota la distribució.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}
+\begin{idea}[El diagrama de caixes (caixa i bigotis)]
+\pas{1} Una escala horitzontal amb totes les dades.\\[3pt]
+\pas{2} Una \textbf{caixa} de $Q_1$ a $Q_3$, amb la \textbf{mediana} marcada.\\[3pt]
+\pas{3} Els \textbf{bigotis}: de la caixa fins al mínim i fins al màxim.
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}\centering
+\begin{tikzpicture}[x=0.75cm]
+  \draw[fmmuted,line width=0.8pt] (3.5,0) -- (10.5,0); \foreach \k in {4,...,10} {\draw[fmmuted] (\k,-0.08) -- (\k,0.08); \node[below,font=\scriptsize] at (\k,-0.1) {\k};}
+  \caixa{1}{4}{5}{6}{8}{10}{fmblue}
+  \foreach \x/\t in {4/mín,5/$Q_1$,6/$Me$,8/$Q_3$,10/màx} \node[above,font=\scriptsize] at (\x,1.5) {\t};
+  \foreach \a/\b in {4/5,5/6,6/8,8/10} \node[font=\scriptsize,text=fmR] at ({(\a+\b)/2},2.05) {25\,\%};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}notes de 25 alumnes (9.7)}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Com s'interpreta}]
+Cada part (bigoti, mitja caixa, mitja caixa, bigoti) té el \textbf{25\,\%} de les dades. Una part \textbf{curta}: dades concentrades; \textbf{llarga}: escampades.\par\smallskip
+La caixa fa el $RI$; el total, el rang.
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Simetria}]
+Mediana al centre de la caixa i bigotis iguals: \textbf{simètrica}. Si no, \textbf{asimètrica}, cap al costat de la part més llarga.\par\smallskip
+En l'exemple, de 5 a 6 molt juntes; de 6 a 10, escampades.
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemple: \ dues classes amb la mateixa mitjana (6,75) i la mateixa mediana (7)]
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[x=0.6cm,y=0.9cm]
+  \draw[fmmuted,line width=0.8pt] (1.5,0) -- (10.5,0); \foreach \k in {2,...,10} {\draw[fmmuted] (\k,-0.06) -- (\k,0.06); \node[below,font=\scriptsize] at (\k,-0.1) {\k};}
+  \caixa{2}{4}{5.5}{7}{8}{9}{fmA} \node[left,font=\small\heavy,text=fmA] at (1.5,2) {A};
+  \caixa{0.9}{2}{4.5}{7}{9.5}{10}{fmB} \node[left,font=\small\heavy,text=fmB] at (1.5,0.9) {B};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$RI_A=8-5{,}5=2{,}5$ \qquad $RI_B=9{,}5-4{,}5=5$\\[4pt]
+La caixa de B és el doble de llarga: les notes de la classe \textbf{A} són molt més \textbf{homogènies}; en la B n'hi ha de molt baixes i de molt altes.\\[3pt]
+\nota{per a comparar, sempre amb la mateixa escala}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Per a saber-ne més: \ valors atípics]
+\begin{minipage}[c]{0.55\linewidth}
+És \textbf{atípica} una dada menor que $Q_1-1{,}5\cdot RI$ o major que $Q_3+1{,}5\cdot RI$.\\[4pt]
+$12,\,14,\,15,\,15,\,16,\,17,\,18,\,19,\,35$: \ $Q_1=15$, $Q_3=18$, $RI=3$\\[3pt]
+Límits: $10{,}5$ i $22{,}5$: \ el \boxed{35} és atípic.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[x=0.17cm]
+  \draw[fmmuted,line width=0.8pt] (10,0) -- (37,0); \foreach \k in {10,15,...,35} {\draw[fmmuted] (\k,-0.08) -- (\k,0.08); \node[below,font=\scriptsize] at (\k,-0.1) {\k};}
+  \caixa{0.8}{12}{15}{16}{18}{19}{fmblue} \fill[fmR] (35,0.8) circle (3pt) node[above,font=\scriptsize,text=fmR] {atípic};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=30pt,raster before skip=16pt]
+\rtile{9.1}{Població i mostra}{Mostra representativa, a l'atzar. Variables: qualitativa, discreta (es compta) o contínua (es mesura).}
+\rtile{9.2}{Freqüències}{$f_i$, \ $h_i=\frac{f_i}{N}$, \ $F_i$ acumulada. L'última $F_i$ és $N$.}
+\rtile{9.3}{Intervals}{$[a,b\ro$. Marca de classe: el punt mitjà.\\[1ex] Amplitud $\approx$ rang $:\sqrt N$.}
+\rtile{9.4}{Gràfics}{Barres, histograma, polígon.\\[1ex] Sectors: $h_i\cdot360^\circ$.}
+\rtile{9.5}{Centralització}{$Mo$, \ $\bar x=\frac{\sum x_if_i}{N}$, \ $Me$: el del centre.}
+\rtile{9.6}{Dispersió}{Rang, $DM$, \ $\sigma^2=\frac{\sum x_i^2f_i}{N}-\bar x^2$, \ $\sigma$, \ $CV=\frac{\sigma}{\bar x}$.}
+\rtile{9.7}{Posició}{$Q_1$, $Me$, $Q_3$, $P_k$: posició $\frac{kN}{100}$. \ $RI=Q_3-Q_1$.}
+\rtile{9.8}{Caixes}{Mín, $Q_1$, $Me$, $Q_3$, màx. Cada part, el 25\,\%.}
+\end{tcbraster}
+\end{document}

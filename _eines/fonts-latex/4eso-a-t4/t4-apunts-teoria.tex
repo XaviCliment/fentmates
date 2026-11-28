@@ -1,0 +1,1030 @@
+% Apunts de teoria en PDF · 4t ESO · Unitat 4: Equacions
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 4: Equacions. 4t ESO},pdfsubject={Matemàtiques A 4t ESO},pdfkeywords={equacions de primer grau, problemes, equacions de segon grau, discriminant, incompletes, parèntesis i denominadors, equacions factoritzades, equacions racionals, equacions amb radicals}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{4.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{26}{26}\selectfont] at (14,44) {$x=\frac{-b\pm\sqrt{\Delta}}{2a}$};
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{24}{24}\selectfont] at (14,100) {$\sqrt{x+1}=x-5$};
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}4t ESO · Unitat 4: Equacions}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 4t ESO · Matemàtiques A}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 4}\\[2pt]Equacions\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% interval sobre la recta: #1 esquerre, #2 dret, #3 tipus esquerre (o/c/a), #4 tipus dret (o/c/a), #5 color
+\def\intvdot#1#2#3{\ifx#2o\filldraw[fill=white,draw=#3,line width=1.3pt] (#1,0) circle (3.3pt);\fi\ifx#2c\fill[#3] (#1,0) circle (3.5pt);\fi}
+\newcommand{\intv}[5]{\begin{tikzpicture}[x=0.4cm,baseline=-3pt]
+  \draw[fmmuted,line width=0.8pt] (-6,0)--(7,0);
+  \foreach \k in {-5,...,6} \draw[fmmuted,line width=0.6pt] (\k,-0.08)--(\k,0.08);
+  \ifx#3a\def\xa{-6}\else\def\xa{#1}\fi
+  \ifx#4a\def\xb{7}\else\def\xb{#2}\fi
+  \ifx#4a\draw[#5,line width=2.6pt,-{Latex[length=2.6mm]}] (\xa,0)--(\xb,0);\else\ifx#3a\draw[#5,line width=2.6pt,{Latex[length=2.6mm]}-] (\xa,0)--(\xb,0);\else\draw[#5,line width=2.6pt] (\xa,0)--(\xb,0);\fi\fi
+  \intvdot{#1}{#3}{#5}\intvdot{#2}{#4}{#5}
+  \ifx#3a\else\node[below=2pt,font=\scriptsize] at (#1,0) {$#1$};\fi
+  \ifx#4a\else\node[below=2pt,font=\scriptsize] at (#2,0) {$#2$};\fi
+\end{tikzpicture}}
+
+\newcommand{\passos}[1]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faListOl\ \ Com es resolen}]#1\end{tcolorbox}}
+\newcommand{\minipar}[2]{\begin{tikzpicture}[x=0.55cm,y=0.42cm]
+  \draw[fmmuted,-{Latex[length=2mm]},line width=0.8pt] (-2.3,0) -- (2.3,0) node[right,font=\scriptsize]{$X$};
+  \draw[#2,line width=1.6pt,domain=-1.75:1.75,samples=40] plot (\x,{\x*\x+#1});
+\end{tikzpicture}}
+
+
+\begin{document}
+\portada{Trobem el nombre que fa certa la igualtat, i resolem problemes amb ell.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{4.1}{\faEquals}{Equacions de primer grau}
+\itile{sec2}{4.2}{\faLightbulb}{Problemes de primer grau}
+\itile{sec3}{4.3}{\faSuperscript}{Equacions de segon grau}
+\itile{sec4}{4.4}{\faIcon{layer-group}}{Parèntesis i denominadors}
+\itile{sec5}{4.5}{\faTasks}{Problemes de segon grau}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec6}{4.6}{\faPuzzlePiece}{Equacions factoritzades}
+\itile{sec7}{4.7}{\faDivide}{Equacions racionals}
+\itile{sec8}{4.8}{\faIcon{square-root-alt}}{Equacions amb radicals}
+\itile{resum}{\phantom{4.8}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 4.1
+\clearpage
+\seccio{sec1}{Equacions de primer grau}{La $x$ només apareix elevada a 1. Sempre tenen una solució.}
+
+\vfill
+\begin{idea}
+{\centering\Large Les reduïm fins a \ \fmkey{$ax=b$} \ i aïllem: \quad $x=\dfrac{b}{a}$\par}
+\end{idea}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\raggedright
+\pas{1} Traiem \textbf{parèntesis}.\\[6pt]
+\pas{2} \textbf{Transposem}: les $x$ a un costat i els nombres a l'altre.\\[6pt]
+\pas{3} \textbf{Reduïm}: sumem els semblants fins a $ax=b$.\\[6pt]
+\pas{4} \textbf{Aïllem} la $x$ i simplifiquem.\\[6pt]
+\pas{5} \textbf{Comprovem}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{exemple}[Exemple: \ $3(x-2)-2(x+1)=4-x$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&3x-6-2x-2=4-x &\qquad& \text{\nota{\pas{1}\ parèntesis}}\\
+&3x-2x\cB{+x}=4\cB{+6+2} && \text{\nota{\pas{2}\ transposem}}\\
+&2x=12 && \text{\nota{\pas{3}\ reduïm}}\\
+&x=\dfrac{12}{2}=\boxed{6} && \text{\nota{\pas{4}\ aïllem}}
+\end{alignat*}
+\nota{\pas{5}\ $3\cdot4-2\cdot7=-2$ \ i \ $4-6=-2$ \ \be{}}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{compte}[El menys davant d'un parèntesi]
+Canvia el signe de \textbf{tots} els termes de dins:\\[4pt]
+\be{-2(x+1)=-2x\,\cR{-}\,2}\qquad\quad \be{-(3-x)=-3\,\cR{+}\,x}\qquad\quad \mal{-2(x+1)=-2x+2}
+\end{compte}
+
+\vfill
+\subsection{Casos especials: quan les $x$ desapareixen}
+{\large De vegades les $x$ es cancel·len i arribem a \ $0x=b$.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={\faTimesCircle\ \ $0x=$ un nombre: cap solució}]
+$2(x+1)=2x+5$\\[2pt]
+$2x+2=2x+5\ \to\ \cR{0x=3}$\\[4pt]
+\notab{Cap nombre multiplicat per 0 dona 3.}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faInfinity\ \ $0x=0$: infinites solucions}]
+$3(x+2)-x=2x+6$\\[2pt]
+$2x+6=2x+6\ \to\ \cK{0x=0}$\\[4pt]
+\notab{Tots els nombres la compleixen: és una identitat.}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Exemple: \ $7x-4=3x+8$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&7x-3x=8+4 &\qquad& \text{\nota{transposem}}\\
+&4x=12\ \to\ x=\dfrac{12}{4}=\boxed{3}
+\end{alignat*}
+\nota{Comprovació: $7\cdot3-4=17$ \ i \ $3\cdot3+8=17$ \be{}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{exemple}[Exemple: \ $2(x+5)=3x-1$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&2x+10=3x-1\\
+&2x-3x=-1-10\\
+&-x=-11\ \to\ \boxed{x=11} &\quad& \text{\nota{canviem el signe}}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\clearpage
+\subsection{Equacions amb denominadors}
+
+\vfill
+\begin{idea}
+{\centering\Large Multipliquem \textbf{tots} els termes pel \fmkey{m.c.m.} dels denominadors.\par}
+\smallskip Obtenim una equació \textbf{equivalent} sense fraccions i continuem com en l'apartat anterior.
+\end{idea}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{24}{24}\selectfont,inner sep=3pt},
+  r/.style={font=\fontsize{20}{20}\selectfont,inner sep=3pt},
+  l/.style={font=\comic\small,text=fmmuted,anchor=west}]
+  \node[t] (a) at (0,0) {$\dfrac{\cA{x+1}}{2}$};
+  \node[t] (m) at (1.6,0) {$-$};
+  \node[t] (b) at (3.2,0) {$\dfrac{\cB{x-2}}{3}$};
+  \node[t] (e) at (4.8,0) {$=$};
+  \node[t] (c) at (6.0,0) {$\cK{2}$};
+  \node[font=\Large\heavy,fill=fmyellow!60,rounded corners=2mm,inner sep=5pt,anchor=west] (mcm) at (8.0,0) {m.c.m.$(2,3)=6$};
+  \node[r] (a2) at (0,-2.5) {$3\,(\cA{x+1})$};
+  \node[r] (m2) at (1.6,-2.5) {$-$};
+  \node[r] (b2) at (3.2,-2.5) {$2\,(\cB{x-2})$};
+  \node[r] (e2) at (4.8,-2.5) {$=$};
+  \node[r] (c2) at (6.0,-2.5) {$12$};
+  \foreach \u/\v/\t in {a/a2/{6:2=3},b/b2/{6:3=2},c/c2/{2\cdot6=12}} {
+    \draw[-{Latex[length=2.5mm]},fmmuted,line width=1.1pt] ([yshift=-2pt]\u.south) -- ([yshift=2pt]\v.north);
+    \node[l] at ($(\u.south)!0.5!(\v.north)+(3pt,0)$) {$\t$};}
+  \node[font=\comic,text=fmmuted,align=left,anchor=north west] at (8.0,-0.75) {Dividim el m.c.m. entre cada\\denominador i el resultat\\\textbf{multiplica} el numerador,\\que va \textbf{entre parèntesis}.};
+  \node[font=\Large,anchor=west] at (-0.9,-3.9) {$\Rightarrow\ 3x+3-2x+4=12\ \Rightarrow\ x+7=12\ \Rightarrow\ \boxed{x=5}$};
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\begin{minipage}[t]{0.52\linewidth}
+\begin{compte}[El menys davant d'una fracció]
+Afecta \textbf{tot} el numerador. Per això el posem sempre \textbf{entre parèntesis}:\\[4pt]
+\be{-\dfrac{x-2}{3}\ \to\ -2(x-2)=-2x\cR{+4}}\\[4pt]
+\mal{-\dfrac{x-2}{3}\ \to\ -2x-4}
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\begin{compte}[No te n'oblides!]
+Els termes \textbf{sense denominador} també es multipliquen pel m.c.m.:\\[4pt]
+\be{\ldots=\cK{2}\ \to\ \ldots=12}\qquad \mal{\ldots=2}
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.58\linewidth}
+\begin{exemple}[Exemple: \ $\dfrac{x-1}{4}-\dfrac{x-3}{6}=1$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&3(x-1)-2(x-3)=12 &\qquad& \text{\nota{m.c.m.$(4,6)=12$}}\\
+&3x-3-2x+6=12\\
+&x+3=12\ \to\ \boxed{x=9}
+\end{alignat*}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.39\linewidth}
+\begin{truc}[No passa res!]
+La solució pot ser una \textbf{fracció}:\\[4pt]
+$-2x=-13\ \to\ x=\dfrac{13}{2}$\\[3pt]
+també és una solució vàlida.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac{x}{3}+\dfrac{x}{2}=10$]
+\begin{minipage}[c]{0.55\linewidth}
+m.c.m.$(3,2)=6$: \quad $2x+3x=60\ \to\ 5x=60\ \to\ \boxed{x=12}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\nota{Comprovació: $\dfrac{12}{3}+\dfrac{12}{2}=4+6=10$ \be{}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 4.2
+\clearpage
+\seccio{sec2}{Problemes de primer grau}{Traduïm l'enunciat a llenguatge algebraic.}
+
+\passosproblema{\textbf{Triem}\\la incògnita}{\textbf{Plantegem}\\l'equació}
+
+\vfill
+\begin{minipage}[c]{0.58\linewidth}\centering\small
+\taularod{>{\hspace{2pt}}l<{\hspace{2pt}}>{\hspace{2pt}}c<{\hspace{2pt}}}{
+\rowcolor{fmblue}\color{white}\heavy Enunciat & \color{white}\heavy Llenguatge algebraic\\
+Tres nombres consecutius & $x,\ x+1,\ x+2$\\
+\rowcolor{fmsurface}Dos parells consecutius & $2x,\ 2x+2$\\
+Edat d'ací a 5 anys / fa 3 & $x+5\ /\ x-3$\\
+\rowcolor{fmsurface}Dos terços d'un nombre & $\frac23x$\\
+Preu amb un 20\,\% de descompte & $0{,}8\,x$\\
+\rowcolor{fmsurface}Dues quantitats que sumen 50 & $x,\ 50-x$
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.39\linewidth}
+\begin{compte}[Comprova i interpreta]
+La solució ha de tindre sentit: una edat no pot ser negativa i un nombre de persones ha de ser natural. Respon amb una frase.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Edats: \ pare de 42 i filla de 12. Quan tindrà el triple?]
+D'ací a $x$ anys: \ $42+x=3(12+x)$\\[3pt]
+$42+x=36+3x\ \to\ 6=2x\ \to\ x=3$\\[3pt]
+\boxed{\text{d'ací a 3 anys}} \ \nota{45 i 15}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Fraccions: \ gasta $\frac25$ i $\frac14$; li queden 105 €]
+$x-\dfrac25x-\dfrac14x=105$ \ \nota{per 20}\\[3pt]
+$20x-8x-5x=2100\ \to\ 7x=2100$\\[3pt]
+\boxed{x=300\text{ €}}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Mescles: \ 50 kg a 9 €/kg amb cafè de 12 €/kg i de 7 €/kg]
+$x$ kg del de 12 €; \ $50-x$ del de 7 €:\\[3pt]
+$12x+7(50-x)=9\cdot50\ \to\ 5x=100$\\[3pt]
+\boxed{20\text{ kg i }30\text{ kg}}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Mòbils: \ 120 km, l'un cap a l'altre a 25 i a 35 km/h]
+En $x$ hores fan $25x$ i $35x$ km:\\[3pt]
+$25x+35x=120\ \to\ 60x=120$\\[3pt]
+\boxed{x=2\text{ hores}}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+Tres parells consecutius que sumen 114: \ $2x+(2x+2)+(2x+4)=114\ \to\ x=18$: \ \boxed{36,\ 38,\ 40}\\[4pt]
+Dipòsit ple als $\frac34$; si traiem 120 L, queda a $\frac13$: \ $\frac34x-120=\frac13x\ \to\ 9x-1440=4x\ \to\ \boxed{x=288\text{ L}}$
+\end{exemple}
+
+\vfill
+% ============================================================ 4.3
+\clearpage
+\seccio{sec3}{Equacions de segon grau}{Ara la $x$ apareix al quadrat. Poden tindre dues solucions!}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}[t/.style={font=\fontsize{30}{30}\selectfont,inner sep=3pt,text height=25pt,text depth=8pt}]
+  \node[t,fill=fmA!12,rounded corners=2mm] (a) {$\cA{a}x^2$};
+  \node[t,right=3pt of a,fill=fmB!12,rounded corners=2mm] (b) {$+\,\cB{b}x$};
+  \node[t,right=3pt of b,fill=fmK!12,rounded corners=2mm] (c) {$+\,\cK{c}$};
+  \node[t,right=3pt of c] (z) {$=0$};
+  \node[font=\large,text=fmmuted,anchor=west] at ([xshift=6pt]z.east) {$(a\neq0)$};
+  \coordinate (pa) at ([xshift=12pt,yshift=-3pt]a.north west);
+  \coordinate (pb) at ([xshift=-14pt,yshift=-3pt]b.north east);
+  \coordinate (pc) at ([xshift=-7pt,yshift=-3pt]c.north east);
+  \node[fill=fmA!14,draw=fmA,rounded corners=2mm,font=\large,anchor=south] (la) at ([xshift=-1.2cm,yshift=1cm]pa) {{\heavy\color{fmA}$a$}: el que va amb $x^2$};
+  \node[fill=fmB!14,draw=fmB,rounded corners=2mm,font=\large,anchor=south] (lb) at ([xshift=1.4cm,yshift=1.75cm]pb) {{\heavy\color{fmB}$b$}: el que va amb $x$};
+  \node[fill=fmK!14,draw=fmK,rounded corners=2mm,font=\large,anchor=south west] (lc) at ([xshift=1.2cm,yshift=0.55cm]pc) {{\heavy\color{fmK!80!black}$c$}: el terme independent};
+  \draw[-{Latex[length=3mm]},fmA,line width=1.3pt] (la.south -| pa) -- (pa);
+  \draw[-{Latex[length=3mm]},fmB,line width=1.3pt] (lb.south) to[out=-90,in=80] (pb);
+  \draw[-{Latex[length=3mm]},fmK,line width=1.3pt] (lc.west) to[out=180,in=70] (pc);
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{idea}[Completa o incompleta?]
+\textbf{Completa}: té els tres termes.\\[2pt]
+{\centering\chip{fmblue}{$2x^2-7x+3=0$}\par}\smallskip
+\textbf{Incompleta}: li falta la $\cB{b}$ o la $\cK{c}$.\\[2pt]
+{\centering\chip{fmblue}{$x^2-9=0$}\ \ \chip{fmblue}{$3x^2+5x=0$}\par}
+\end{idea}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Primer, la forma general]
+Tot al primer membre, ordenat, i un 0 al segon:\\[4pt]
+$5x-x^2=2\ \to\ -x^2+5x-2=0$\\[3pt]
+$\cA{a=-1},\ \ \cB{b=5},\ \ \cK{c=-2}$
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Sense $x$: \ $ax^2+c=0$}]
+Aïllem $x^2$ i fem l'\textbf{arrel}. \fmkey{Dues solucions: $\pm$}\par\smallskip
+{\centering$2x^2-18=0$\\[2pt]
+$x^2=\dfrac{18}{2}=9$\\[2pt]
+$x=\pm\sqrt9=\boxed{\pm3}$\par}
+\smallskip
+\notab{Si $x^2$ dona negatiu, no hi ha solució: \ $x^2=-4$}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Sense terme independent: \ $ax^2+bx=0$}]
+Traiem \textbf{factor comú} $x$. \fmkey{Una solució és $x=0$}\par\smallskip
+{\centering$3x^2-12x=0$\\[2pt]
+$3x\,(x-4)=0$\\[2pt]
+$\boxed{x=0}$ \ o \ $x-4=0\to\boxed{x=4}$\par}
+\smallskip
+\notab{Si un producte val 0, algun factor val 0.}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[No dividisques entre $x$!]
+\mal{x^2=7x\ \to\ x=7}\ \ {\small perds el 0}\\[4pt]
+\be{x^2-7x=0\ \to\ x(x-7)=0}\\[2pt]
+\hspace*{1.4em}$x=0$, \ $x=7$
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Exemple: \ $(x+2)^2=4x+29$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&x^2+4x+4=4x+29 &\quad& \text{\nota{identitat notable}}\\
+&x^2-25=0\ \to\ x^2=25\\
+&\boxed{x=\pm5}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ dues incompletes]
+\begin{tabular}{@{}l@{\quad}l@{\qquad}l@{}}
+\chip{fmblue}{sense $x$} & $5x^2-45=0$ & $5x^2=45\ \to\ x^2=\dfrac{45}{5}=9\ \to\ \boxed{x=\pm3}$\\[10pt]
+\chip{fmblue}{sense nombre} & $x^2+7x=0$ & $x\,(x+7)=0\ \to\ \boxed{x=0}\ \ \text{i}\ \ x+7=0\to\boxed{x=-7}$
+\end{tabular}
+\end{exemple}
+
+\vfill
+\clearpage
+\subsection{Equacions de segon grau completes}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=4mm,bottom=4mm,before skip=4pt]
+{\large Les solucions de \ $\cA{a}x^2+\cB{b}x+\cK{c}=0$ \ són:}\par\vspace{8pt}
+{\fontsize{30}{36}\selectfont$x=\dfrac{-\cB{b}\pm\sqrt{\cB{b}^2-4\cA{a}\cK{c}}}{2\cA{a}}$\par}\vspace{6pt}
+{\comic\color{fmmuted}el $\pm$ ens dona les dues solucions: una amb $+$ i una altra amb $-$\par}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Exemple: \ $x^2-5x+6=0$]
+\begin{minipage}[c]{0.18\linewidth}\centering
+\chip{fmA}{$a=1$}\\[3pt]\chip{fmB}{$b=-5$}\\[3pt]\chip{fmK}{$c=6$}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.8\linewidth}
+{\large$x=\dfrac{-(\cB{-5})\pm\sqrt{(\cB{-5})^2-4\cdot\cA{1}\cdot\cK{6}}}{2\cdot\cA{1}}=\dfrac{5\pm\sqrt{1}}{2}=\dfrac{5\pm1}{2}$}\\[8pt]
+\hspace*{3em}{\large$x_1=\dfrac{5\cR{+}1}{2}=\boxed{3}\qquad\qquad x_2=\dfrac{5\cR{-}1}{2}=\boxed{2}$}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Errors típics amb la fórmula]
+\begin{tabular}{@{}p{0.3\linewidth}p{0.3\linewidth}p{0.32\linewidth}@{}}
+$-b$ és l'\textbf{oposat} de $b$:\newline si $b=-5$, \ $-b=\cR{+5}$ &
+$b^2$ sempre és \textbf{positiu}:\newline $(-5)^2=\cR{+25}$ &
+La ratlla de fracció va davall de \textbf{tot} el numerador.
+\end{tabular}
+\end{compte}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ $2x^2-7x+3=0$]
+\chip{fmA}{$a=2$}\ \chip{fmB}{$b=-7$}\ \chip{fmK}{$c=3$}\\[6pt]
+$x=\dfrac{7\pm\sqrt{49-24}}{4}=\dfrac{7\pm5}{4}$\\[6pt]
+$x_1=\dfrac{12}{4}=\boxed{3}\qquad x_2=\dfrac{2}{4}=\boxed{\dfrac12}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemple: \ $(x+1)(x-2)=2x+2$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&x^2-x-2=2x+2 &\quad& \text{\nota{parèntesis}}\\
+&x^2-3x-4=0 && \text{\nota{tot a l'esquerra}}\\
+&x=\dfrac{3\pm\sqrt{9+16}}{2}=\dfrac{3\pm5}{2}\\
+&\boxed{x_1=4},\quad\boxed{x_2=-1}
+\end{alignat*}
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Exemple: \ $x^2+2x-15=0$]
+$x=\dfrac{-2\pm\sqrt{4+60}}{2}=\dfrac{-2\pm8}{2}$\\[6pt]
+$x_1=\dfrac{6}{2}=\boxed{3}\qquad x_2=\dfrac{-10}{2}=\boxed{-5}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{truc}[I per a les incompletes?]
+La fórmula també funciona, però els mètodes de la pàgina anterior són més ràpids.
+\end{truc}
+\end{minipage}
+
+% ------------------------------------------------------------ 5.5 (discriminant)
+\clearpage
+\subsection{El discriminant: quantes solucions hi ha?}
+{\large El nombre de dins de l'arrel, \ \fmkey{$\Delta=b^2-4ac$}, \ ens ho diu \textbf{sense resoldre}.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={$\Delta>0$},before upper=\centering]
+\minipar{-1.4}{fmK}\par
+\textbf{Dues} solucions\par
+{\small$x^2-5x+6=0$: \ $\Delta=1$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={$\Delta=0$},before upper=\centering]
+\minipar{0}{fmgold}\par
+\textbf{Una} solució (doble)\par
+{\small$x^2-6x+9=0$: \ $\Delta=0$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={$\Delta<0$},before upper=\centering]
+\minipar{0.9}{fmR}\par
+\textbf{Cap} solució\par
+{\small$x^2+x+1=0$: \ $\Delta=-3$\par}
+\end{tcolorbox}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Les solucions són els punts on la paràbola $y=ax^2+bx+c$ talla l'eix $X$.\par}
+
+\vfill
+\begin{minipage}[t]{0.56\linewidth}
+\begin{exemple}[Exemple: \ quantes solucions té?]
+$x^2-4x+4=0$: \ $\Delta=16-16=\cK{0}$ \ $\to$ \ \textbf{una}\\[4pt]
+$3x^2+2x+1=0$: \ $\Delta=4-12=\cR{-8}$ \ $\to$ \ \textbf{cap}\\[4pt]
+$x^2-3x-1=0$: \ $\Delta=9+4=\cA{13}$ \ $\to$ \ \textbf{dues}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.41\linewidth}
+\begin{truc}[$\Delta$ no és un quadrat?]
+Deixem l'arrel:\\[4pt]
+$x^2-3x-1=0$\\[2pt]
+$x=\dfrac{3\pm\sqrt{13}}{2}$ \ \notab{($\approx3,3$ i $-0,3$)}
+\end{truc}
+\end{minipage}
+
+\vfill
+\subsection{Equacions no reduïdes}
+{\large Primer les deixem en la forma \ $ax^2+bx+c=0$:} llevem parèntesis i denominadors (com en les de primer grau) i ho passem tot al primer membre.
+
+\vfill
+\begin{minipage}[t]{0.58\linewidth}
+\begin{exemple}[Exemple: \ $\dfrac{x(x-1)}{2}-\dfrac{x+1}{3}=1$]
+\vspace{-6pt}
+\begin{alignat*}{2}
+&3x(x-1)-2(x+1)=6 &\quad& \text{\nota{m.c.m.\ $=6$}}\\
+&3x^2-5x-8=0\\
+&x=\dfrac{5\pm\sqrt{25+96}}{6}=\dfrac{5\pm11}{6}\\
+&\boxed{x_1=\dfrac{16}{6}=\dfrac83},\quad\boxed{x_2=-1}
+\end{alignat*}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.39\linewidth}
+\begin{truc}[Fes-ho més fàcil]
+Si la $a$ és \textbf{negativa}, multiplica-ho tot per $-1$:\\[3pt]
+$-x^2+2x+8=0\ \to\ x^2-2x-8=0$\\[5pt]
+Si tots tenen un \textbf{divisor comú}, simplifica:\\[3pt]
+$2x^2-2x-12=0\ \to\ x^2-x-6=0$
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ quant ha de valdre $k$ perquè \ $x^2-6x+k=0$ \ tinga una única solució?]
+\begin{minipage}[c]{0.5\linewidth}
+Una única solució $\to$ \ $\Delta=0$:\\[4pt]
+$(-6)^2-4\cdot1\cdot k=0\ \to\ 36-4k=0\ \to\ \boxed{k=9}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+$x^2-6x+9=0\ \to\ x=\dfrac{6\pm0}{2}=\boxed{3}$\\[4pt]
+\nota{és la identitat notable $(x-3)^2=0$}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 4.4
+\clearpage
+\seccio{sec4}{Segon grau amb parèntesis i denominadors}{Primer, a la forma $ax^2+bx+c=0$.}
+
+\vfill
+\begin{minipage}[c]{0.52\linewidth}
+\passos{\pas{1} Desfem productes i \textbf{identitats notables}.\\[3pt]
+\pas{2} Llevem denominadors: pel \textbf{m.c.m.}\\[3pt]
+\pas{3} Tot a un membre, reduïm i, si es pot, simplifiquem.\\[3pt]
+\pas{4} Resolem la completa o la incompleta que queda.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{compte}[Errors típics]
+\mal{(x-3)^2=x^2-9}: falta el doble producte, $-6x$.\\[3pt]
+Un $-$ davant d'una fracció afecta \textbf{tot} el numerador: \ $-\dfrac{x-1}{2}\to-(x-1)$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $(x-2)^2=2x-1$]
+$x^2-4x+4=2x-1\ \to\ x^2-6x+5=0\ \to\ x=\dfrac{6\pm\sqrt{36-20}}{2}=\dfrac{6\pm4}{2}$ \qquad \boxed{x=5,\ x=1}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $(x+3)(x-3)-2x(x-1)=x-13$]
+$x^2-9-2x^2+2x=x-13\ \to\ -x^2+x+4=0\ \to\ x^2-x-4=0$ \ \nota{per $-1$} \qquad $x=\dfrac{1\pm\sqrt{17}}{2}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac{x(x-1)}{3}-\dfrac{x+1}{2}=\dfrac{x-5}{6}$]
+\pas{1} m.c.m. $=6$: \ $2x(x-1)-3(x+1)=x-5$\\[4pt]
+\pas{2} $2x^2-2x-3x-3=x-5\ \to\ 2x^2-6x+2=0$ \ \nota{entre 2} \ $\to$ \ $x^2-3x+1=0$ \qquad \pas{3} \boxed{x=\dfrac{3\pm\sqrt5}{2}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac{(x+1)^2}{4}-\dfrac{x^2-1}{2}=\dfrac{x+1}{2}$ \ (acaba en una incompleta)]
+m.c.m. $=4$: \ $(x+1)^2-2(x^2-1)=2(x+1)\ \to\ x^2+2x+1-2x^2+2=2x+2\ \to\ -x^2+1=0$ \qquad \boxed{x=\pm1}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+$(x+4)^2-8x=25\ \to\ x^2+16=25\ \to\ \boxed{x=\pm3}$\\[4pt]
+$x(2x-3)-(x-1)^2=5\ \to\ x^2-x-6=0\ \to\ \boxed{x=3,\ -2}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+$(2x-1)^2-(x+2)(x-2)=4x+1\ \to\ 3x^2-8x+4=0$:\\ \hspace*{1em}\boxed{x=2,\ \tfrac23}\\[4pt]
+$\dfrac{x^2}{3}-\dfrac{x}{2}=\dfrac{x}{6}\ \to\ 2x^2-4x=0\ \to\ \boxed{x=0,\ 2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 4.5
+\clearpage
+\seccio{sec5}{Problemes de segon grau}{Dues solucions: totes dues tenen sentit?}
+
+\vfill
+\begin{idea}[Les dues solucions, totes vàlides?]
+Es plantegen com els de primer grau, però l'equació pot donar \textbf{dues solucions}. Una longitud, una àrea, una edat o un temps \textbf{no poden ser negatius}, i un nombre de persones ha de ser natural: descartem les que no tenen sentit.\\[3pt]
+\small Situacions típiques: àrees de rectangles i quadrats, Pitàgores ($a^2+b^2=c^2$), nombres consecutius i repartiments.
+\end{idea}
+
+\vfill
+\begin{exemple}[Exemple: \ un hort rectangular fa 4 m més de llarg que d'ample i té 96 m$^2$]
+\begin{minipage}[c]{0.66\linewidth}
+Ample $x$, llarg $x+4$: \ $x(x+4)=96\ \to\ x^2+4x-96=0$\\[4pt]
+$x=\dfrac{-4\pm\sqrt{16+384}}{2}=\dfrac{-4\pm20}{2}$: \ $x=8$, \ \mal{x=-12}\\[4pt]
+\boxed{8\text{ m d'ample i }12\text{ m de llarg}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.3\linewidth}\centering
+\begin{tikzpicture}[scale=0.18]
+  \filldraw[fill=fmK!20,draw=fmK!80!black,line width=1.2pt] (0,0) rectangle (12,8);
+  \node[below,font=\scriptsize] at (6,0) {$x+4$}; \node[left,font=\scriptsize] at (0,4) {$x$}; \node[font=\small] at (6,4) {96 m$^2$};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ la hipotenusa fa 10 cm i un catet fa 2 cm més que l'altre]
+\begin{minipage}[c]{0.66\linewidth}
+Pitàgores: \ $x^2+(x+2)^2=10^2\ \to\ x^2+2x-48=0$\\[4pt]
+$x=\dfrac{-2\pm14}{2}$: \ $x=6$, \ \mal{x=-8} \qquad \boxed{6\text{ cm i }8\text{ cm}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.3\linewidth}\centering
+\begin{tikzpicture}[scale=0.3]
+  \filldraw[fill=fmA!15,draw=fmA,line width=1.2pt] (0,0) -- (8,0) -- (0,6) -- cycle;
+  \draw[fmnavy] (0,0.6) -- (0.6,0.6) -- (0.6,0);
+  \node[below,font=\scriptsize] at (4,0) {$x+2$}; \node[left,font=\scriptsize] at (0,3) {$x$}; \node[above right,font=\scriptsize] at (4,3) {10};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ d'ací a 5 anys, l'edat de Marc serà el quadrat de la que tenia fa 7 anys]
+$x+5=(x-7)^2\ \to\ x+5=x^2-14x+49\ \to\ x^2-15x+44=0$: \ $x=11$, \ $x=4$\\[4pt]
+Amb $x=4$, fa 7 anys tindria $-3$ anys: \mal{x=4}. \qquad Marc té \boxed{11\text{ anys}} \ \nota{$16=4^2$ \be{}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.48\linewidth}
+Dos naturals consecutius amb producte 156:\\ $x(x+1)=156\ \to\ x^2+x-156=0$: \ \boxed{12\text{ i }13}\\[4pt]
+Si al costat d'un quadrat li sumem 3 cm, l'àrea és 64 cm$^2$: \ $(x+3)^2=64$, \ \boxed{x=5\text{ cm}}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Un nombre més el seu quadrat fa 72:\\ $x^2+x-72=0$: \ $x=8$ o $x=-9$ \ \nota{totes dues valen}\\[4pt]
+Marc de foto de $20\times30$ cm amb una vora d'amplària $x$ i àrea total 1\,064 cm$^2$:\\ $(20+2x)(30+2x)=1064\ \to\ x^2+25x-116=0$: \ \boxed{x=4\text{ cm}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 4.6
+\clearpage
+\seccio{sec6}{Equacions factoritzades}{Si un producte val 0, algun factor val 0.}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$A\cdot B\cdot C=0\iff A=0\ \ \text{o}\ \ B=0\ \ \text{o}\ \ C=0$}\par\smallskip
+{\small no cal multiplicar: igualem cada factor a zero}
+\end{tcolorbox}
+
+\vfill
+\begin{compte}[Només si l'altre membre és 0]
+En $(x-1)(x+2)=4$ \textbf{no} podem dir $x-1=4$. Cal multiplicar i resoldre $x^2+x-6=0$.
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemple: \ $(x-2)(x+3)(2x-1)=0$]
+$x-2=0\to x=2$; \quad $x+3=0\to x=-3$; \quad $2x-1=0\to x=\frac12$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $(x^2-9)(x^2+x-2)=0$]
+$x^2-9=0\to x=\pm3$ \qquad $x^2+x-2=0\to x=1,\ x=-2$ \qquad Solucions: \ \boxed{-3,\ -2,\ 1,\ 3}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+$x^2(x-4)(x^2+1)=0$: \ $x=0$ (doble), \ $x=4$; \ $x^2+1=0$ no té solució\\[4pt]
+$(2x+1)^2(x^2+4)=0$: \ $x=-\frac12$ (doble) \qquad $(x+3)(x-1)=5$: \ $x^2+2x-8=0\to x=2,\ x=-4$\\[4pt]
+$(x^2-4x+4)(x^3-x)=0$: \ $(x-2)^2\,x\,(x+1)(x-1)=0$ \ $\to$ \ $x=2$ (doble), \ $0,\ \pm1$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $(x^2-1)^2-(x^2-1)(x+1)=0$ \ (factor comú amb parèntesis)]
+Traiem factor comú $(x^2-1)$: \ $(x^2-1)\big[(x^2-1)-(x+1)\big]=0\ \to\ (x^2-1)(x^2-x-2)=0$\\[4pt]
+$x^2-1=0\to x=\pm1$ \qquad $x^2-x-2=0\to x=2,\ x=-1$ \qquad Solucions: \ \boxed{x=-1\text{ (doble)},\ 1,\ 2}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{compte}[Tampoc simplifiques]
+$x^2(x-3)=4x^2$: \ si dividim entre $x^2$ perdem $x=0$.\\[3pt]
+$x^2(x-3)-4x^2=0\ \to\ x^2(x-7)=0$\\[2pt]
+\boxed{x=0,\ x=7}
+\end{compte}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{exemple}[Exemple: \ solucions $2$, $-1$ i $\frac13$]
+Un factor per solució:\\[3pt]
+$(x-2)(x+1)(3x-1)=0$\\[2pt]
+\notab{$x=\frac13$ dona el factor $3x-1$}
+\end{exemple}
+\end{minipage}
+
+\vfill
+
+\vfill
+% ============================================================ 4.7
+\clearpage
+\seccio{sec7}{Equacions racionals}{Multipliquem pel m.c.m. i comprovem.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\passos{\pas{1} Factoritzem els denominadors i en fem el \textbf{m.c.m.}\\[3pt]
+\pas{2} Multipliquem els dos membres pel m.c.m.\\[3pt]
+\pas{3} Resolem l'equació polinòmica.\\[3pt]
+\pas{4} \textbf{Comprovem}: descartem les que anul·len un denominador.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{compte}[Pot no tindre solució]
+$\dfrac{x}{x-2}-\dfrac{2}{x-2}=3\ \to\ x=2$, però anul·la el denominador: \textbf{no té solució}.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac1x+\dfrac{1}{x+2}=\dfrac34$]
+m.c.m. $=4x(x+2)$: \ $4(x+2)+4x=3x(x+2)\ \to\ 3x^2-2x-8=0\ \to\ x=\dfrac{2\pm10}{6}$\\[3pt]
+\boxed{x=2,\ x=-\tfrac43} \ \nota{cap anul·la els denominadors}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac{x}{x-1}+\dfrac{2}{x+1}=\dfrac{2}{x^2-1}$]
+m.c.m. $=(x+1)(x-1)$: \ $x(x+1)+2(x-1)=2\ \to\ x^2+3x-4=0\ \to\ x=1,\ x=-4$\\[3pt]
+$x=1$ anul·la $x-1$: es descarta. \ Solució: \boxed{x=-4}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+$\dfrac3x+2=5\ \to\ x=1$ \qquad $\dfrac{x}{x+1}=\dfrac2x\ \to\ x^2-2x-2=0\ \to\ x=1\pm\sqrt3$\\[5pt]
+$\dfrac{6}{x^2-4}-\dfrac{1}{x-2}=\dfrac{1}{x+2}$: \ m.c.m. $(x+2)(x-2)$: \ $6-(x+2)=x-2\ \to\ x=3$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac{x+1}{x-1}-\dfrac{x-1}{x+1}=\dfrac83$]
+m.c.m. $=3(x+1)(x-1)$: \ $3(x+1)^2-3(x-1)^2=8(x^2-1)$\\[3pt]
+$3(x^2+2x+1)-3(x^2-2x+1)=8x^2-8\ \to\ 12x=8x^2-8\ \to\ 2x^2-3x-2=0$ \ $\to$ \ $x=\dfrac{3\pm5}{4}$: \ \boxed{x=2,\ x=-\tfrac12}
+\end{exemple}
+
+\vfill
+\newpage
+\vfill
+\begin{exemple}[Exemple: \ $\dfrac2x+\dfrac{x}{x-3}=\dfrac{9}{x^2-3x}$]
+\begin{minipage}[t]{0.6\linewidth}
+Factoritzem: \ $x^2-3x=x(x-3)$, \ que ja és el m.c.m.\\[3pt]
+$2(x-3)+x\cdot x=9\ \to\ x^2+2x-15=0\ \to\ x=3,\ x=-5$\\[3pt]
+$x=3$ anul·la $x-3$ \ \mal{x=3} \qquad Solució: \boxed{x=-5}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.36\linewidth}
+\notab{Comprovem $x=-5$:}\\[2pt]
+$-\frac25+\frac58=\frac{9}{40}$ \ i \ $\frac{9}{25+15}=\frac{9}{40}$ \ \be{}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[Abans del m.c.m., factoritza]
+$x^2-3x=x(x-3)$, \ $x^2-1=(x+1)(x-1)$, \ $x^2-4x+4=(x-2)^2$\dots\ Així el m.c.m. és més senzill i veus de seguida quins valors anul·len els denominadors.
+\end{truc}
+
+\vfill
+\subsection{Problemes que porten a fraccions}
+
+\vfill
+\begin{exemple}[Problema: \ un grup paga 120 € a parts iguals. Si foren 2 més, cadascú pagaria 5 € menys. Quants són?]
+$x$ persones: \ $\dfrac{120}{x}-\dfrac{120}{x+2}=5\ \to\ 120(x+2)-120x=5x(x+2)\ \to\ x^2+2x-48=0\ \to\ x=6,\ x=-8$\\[3pt]
+Una quantitat de persones no pot ser negativa: \ \boxed{6\text{ persones}} \ \nota{$20$ € cadascú; amb 8, $15$ €}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Problema: \ una aixeta omple un dipòsit en unes hores i una altra tarda 3 h més. Juntes, l'omplin en 2 h. Quant tarda cadascuna?]
+En 1 hora: \ $\dfrac1x+\dfrac{1}{x+3}=\dfrac12$ \ \nota{la part del dipòsit que omplin}\\[4pt]
+m.c.m. $2x(x+3)$: \ $2(x+3)+2x=x(x+3)\ \to\ x^2-x-6=0\ \to\ x=3,\ x=-2$ \qquad \boxed{3\text{ h i }6\text{ h}}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Problema: \ un ciclista fa 60 km. Si anara 5 km/h més ràpid, tardaria 1 hora menys. A quina velocitat va?]
+Temps $=\dfrac{\text{distància}}{\text{velocitat}}$: \ $\dfrac{60}{x}-\dfrac{60}{x+5}=1\ \to\ 60(x+5)-60x=x(x+5)\ \to\ x^2+5x-300=0$\\[4pt]
+$x=\dfrac{-5\pm35}{2}=15,\ -20$ \qquad \boxed{15\text{ km/h}} \ \nota{tarda 4 h; a 20 km/h, 3 h}
+\end{exemple}
+
+\vfill
+
+\vfill
+% ============================================================ 4.8
+\clearpage
+\seccio{sec8}{Equacions amb radicals}{Aïllem l'arrel, elevem al quadrat i comprovem.}
+
+\vfill
+\begin{minipage}[c]{0.55\linewidth}
+\passos{\pas{1} \textbf{Aïllem} el radical en un membre.\\[3pt]
+\pas{2} \textbf{Elevem al quadrat} els dos membres.\\[3pt]
+\pas{3} Si queda una arrel, repetim.\\[3pt]
+\pas{4} Resolem i \textbf{comprovem} totes les solucions.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}
+\begin{compte}[Solucions falses]
+En elevar al quadrat poden aparéixer solucions que no ho són: \ $2\neq-2$, però $2^2=(-2)^2$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ $x-\sqrt{x+1}=5$]
+Aïllem: \ $x-5=\sqrt{x+1}$ \qquad Al quadrat: \ $x^2-10x+25=x+1\ \to\ x^2-11x+24=0\ \to\ x=8,\ x=3$\\[3pt]
+Comprovem: \ $8-3=5$ \be{} \qquad $3-2=1\neq5$ \ \mal{x=3} \qquad Solució: \boxed{x=8}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ $\sqrt{2x+3}-\sqrt{x+1}=1$ \ \ (dos radicals)]
+$\sqrt{2x+3}=1+\sqrt{x+1}\ \to\ 2x+3=1+2\sqrt{x+1}+x+1\ \to\ x+1=2\sqrt{x+1}$\\[3pt]
+$x^2+2x+1=4x+4\ \to\ x^2-2x-3=0\ \to\ x=3,\ x=-1$ \qquad totes dues valen: \ \boxed{x=3,\ x=-1}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemples]
+$\sqrt{3x+1}=4\ \to\ x=5$ \be{} \qquad $\sqrt{2x-1}=x-2\ \to\ x^2-6x+5=0$: \ $x=5$ \be{}, \ $x=1$ \mal{1\neq-1}
+\end{exemple}
+
+\vfill
+\begin{truc}[El quadrat d'una suma]
+$(1+\sqrt{x+1})^2=1+2\sqrt{x+1}+(x+1)$: \ no t'oblides del \textbf{doble producte}.
+\end{truc}
+
+\vfill
+\begin{exemple}[Exemple: \ $\sqrt{x+5}+\sqrt x=5$ \ (deixem un radical a cada membre)]
+$\sqrt{x+5}=5-\sqrt x\ \to\ x+5=25-10\sqrt x+x\ \to\ 10\sqrt x=20\ \to\ \sqrt x=2\ \to\ \boxed{x=4}$ \qquad Comprovem: \ $\sqrt9+\sqrt4=5$ \ \be{}
+\end{exemple}
+
+\vfill
+\begin{minipage}[t]{0.48\linewidth}
+\begin{exemple}[Problema: \ un nombre més la seua arrel quadrada fa 12]
+$x+\sqrt x=12\ \to\ \sqrt x=12-x$\\[3pt]
+$x=144-24x+x^2\ \to\ x^2-25x+144=0$\\[3pt]
+$x=16$: \ $16+4=20$ \ \mal{\text{no}}\\[2pt] $x=9$: \ $9+3=12$ \ \be{}\\[3pt]
+El nombre és \boxed{9}
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+\begin{compte}[Una arrel no és mai negativa]
+$\sqrt{x-1}+3=1\ \to\ \sqrt{x-1}=-2$\\[3pt]
+\textbf{No té solució}: no cal ni elevar al quadrat.
+\end{compte}
+\end{minipage}
+
+\vfill
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=34pt,raster before skip=18pt]
+\rtile{4.1}{Primer grau}{Parèntesis, denominadors (m.c.m.), transposem i aïllem.}
+\rtile{4.2}{Problemes}{Triem $x$, plantegem, resolem i comprovem.}
+\rtile{4.3}{Segon grau}{$x=\frac{-b\pm\sqrt{\Delta}}{2a}$. \ $\Delta$: 2, 1 o 0 solucions.\\[1ex] Incompletes: factor comú o aïllar $x^2$.}
+\rtile{4.4}{Parèntesis i denominadors}{Primer a la forma $ax^2+bx+c=0$.}
+\rtile{4.5}{Problemes}{Descarta les solucions sense sentit.}
+\rtile{4.6}{Factoritzades}{Cada factor igual a 0.}
+\rtile{4.7}{Racionals}{Pel m.c.m. i comprovem els denominadors.}
+\rtile{4.8}{Radicals}{Aïllem, al quadrat i comprovem.}
+\end{tcbraster}
+\end{document}
