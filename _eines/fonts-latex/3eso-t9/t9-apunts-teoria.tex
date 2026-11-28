@@ -1,0 +1,767 @@
+% Apunts de teoria en PDF · 3r ESO · Unitat 9: Perímetres i àrees. Teorema de Pitàgores
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apunts de teoria. Unitat 9: Perímetres i àrees. Teorema de Pitàgores. 3r ESO},pdfsubject={Matemàtiques 3r ESO},pdfkeywords={teorema de Pitàgores, catets, hipotenusa, classificació de triangles, perímetre, àrea, polígons regulars, apotema, circumferència, cercle, sector, corona}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{9.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clau]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Exemple]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][Compte!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truc]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$c^2=a^2+b^2$};
+  \draw (150,100) -- (210,100) -- (150,55) -- cycle;
+  \draw[line width=2pt] (150,100) rectangle (210,125);
+  \draw[line width=2pt] (150,100) -- (150,55) -- (105,55) -- (105,100) -- cycle;
+  \draw[line width=2pt] (150,90) -- (160,90) -- (160,100);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3r ESO · Unitat 9: Perímetres i àrees. Teorema de Pitàgores}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Ho diem així\dots & \dots\ així\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apunts de teoria · 3r ESO · Matemàtiques}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unitat 9}\\[2pt]Perímetres i àrees. Teorema de Pitàgores\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Com es llegeixen aquests apunts}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clau}\\[-1pt]{\small el que cal saber}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Exemple}\\[-1pt]{\small pas a pas}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy Compte!}\\[-1pt]{\small errors típics}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truc}\\[-1pt]{\small per a recordar-ho}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resum}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Tota la unitat en una pàgina.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Llegim}\\i entenem},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolem}},5/\faCheckDouble/{\textbf{Comprovem}\\i responem}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% angle recte en el vèrtex #2, entre les direccions cap a #1 i #3
+\newcommand{\angrect}[3]{\draw[fmmuted,line width=0.8pt] ($#2!0.22cm!#1$) -- ($#2!0.22cm!#1!0.22cm!90:#1$) -- ($#2!0.22cm!#3$);}
+\newcommand{\figura}[3]{\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={#1},before upper=\centering,left=2mm,right=2mm]
+#2\par\smallskip #3
+\end{tcolorbox}}
+
+\begin{document}
+\portada{Mesurem contorns i superfícies, i trobem costats amb triangles rectangles.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ Què aprendràs?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{9.1}{\faIcon{square}}{El teorema de Pitàgores}
+\itile{sec2}{9.2}{\faIcon{play}}{Classificació de triangles}
+\itile{sec3}{9.3}{\faSearch}{Aplicacions de Pitàgores}
+\itile{sec4}{9.4}{\faVectorSquare}{Perímetres i àrees de polígons}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{9.5}{\faIcon{stop-circle}}{Polígons regulars}
+\itile{sec6}{9.6}{\faIcon{circle-notch}}{La circumferència}
+\itile{sec7}{9.7}{\faChartPie}{Àrea del cercle}
+\itile{sec8}{9.8}{\faPuzzlePiece}{Figures compostes}
+\itile{resum}{\phantom{9.8}}{\faClipboardList}{En resum}
+\end{minipage}
+\llegenda
+
+% ============================================================ 9.1
+\clearpage
+\seccio{sec1}{El teorema de Pitàgores}{En un triangle rectangle, els catets i la hipotenusa estan lligats.}
+
+\vfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[scale=0.55]
+  \coordinate (C) at (0,0); \coordinate (A) at (4,0); \coordinate (B) at (0,3);
+  \filldraw[fill=fmA!25,draw=fmA,line width=1.1pt] (0,0) rectangle (4,-4);
+  \filldraw[fill=fmB!25,draw=fmB,line width=1.1pt] (0,0) rectangle (-3,3);
+  \filldraw[fill=fmK!22,draw=fmK,line width=1.1pt] (4,0) -- (0,3) -- (3,7) -- (7,4) -- cycle;
+  \filldraw[fill=white,draw=fmnavy,line width=1.6pt] (C) -- (A) -- (B) -- cycle;
+  \draw[fmnavy,line width=0.8pt] (0,0.4) -- (0.4,0.4) -- (0.4,0);
+  \node[font=\large\heavy,text=fmA] at (2,-2) {$a^2=16$};
+  \node[font=\large\heavy,text=fmB] at (-1.5,1.5) {$b^2=9$};
+  \node[font=\large\heavy,text=fmK!80!black] at (3.5,3.5) {$c^2=25$};
+  \node[below,font=\small,text=fmA] at (2,0) {};
+  \node[font=\small\heavy,text=fmA,fill=white,inner sep=1pt] at (2,0.35) {$a$};
+  \node[font=\small\heavy,text=fmB,fill=white,inner sep=1pt] at (0.35,1.5) {$b$};
+  \node[font=\small\heavy,text=fmK!80!black,fill=white,inner sep=1pt] at (2.15,1.75) {$c$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.53\linewidth}
+\begin{idea}[Teorema de Pitàgores]
+En un triangle \textbf{rectangle}, els costats de l'angle recte són els \cA{\textbf{catets}} ($a$ i $b$) i el costat oposat és la \cK{\textbf{hipotenusa}} ($c$), sempre el més llarg.\\[4pt]
+{\centering\fontsize{22}{26}\selectfont$\cK{c}^2=\cA{a}^2+\cB{b}^2$\par}\smallskip
+L'àrea del quadrat de la hipotenusa és la suma de les àrees dels quadrats dels catets: \ $25=16+9$.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={Volem la hipotenusa: \textbf{sumem}}]
+{\centering\Large$c=\sqrt{a^2+b^2}$\par}\smallskip
+$a=6,\ b=8$: \ $c=\sqrt{36+64}=\sqrt{100}=\boxed{10}$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmA!8,colframe=fmA,coltitle=white,title={Volem un catet: \textbf{restem}}]
+{\centering\Large$a=\sqrt{c^2-b^2}$\par}\smallskip
+$c=13,\ b=5$: \ $a=\sqrt{169-25}=\sqrt{144}=\boxed{12}$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[Ternes pitagòriques]
+Nombres naturals amb $a^2+b^2=c^2$:\\[2pt]
+$(3,4,5)\ \ (5,12,13)\ \ (8,15,17)\ \ (7,24,25)$\\[2pt]
+Si les multipliquem, n'ixen més: $(6,8,10)$, $(9,12,15)$\dots
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[Abans de restar]
+Comprova que la \textbf{hipotenusa} és el costat més llarg. Si l'arrel no és exacta, deixa-la indicada ($\sqrt{74}$) o arrodoneix: $\approx8{,}60$.
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ una escala de 5 m recolzada en una paret, amb el peu a 1,4 m. A quina altura arriba?]
+\begin{minipage}[c]{0.25\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \fill[fmmuted!25] (-0.4,0) rectangle (0,5.2); \draw[fmmuted,line width=1pt] (0,0) -- (0,5.2); \draw[fmmuted,line width=1pt] (0,0) -- (2.6,0);
+  \draw[fmB,line width=2pt] (1.4,0) -- (0,4.8);
+  \draw[fmnavy,line width=0.7pt] (0,0.35) -- (0.35,0.35) -- (0.35,0);
+  \node[below,font=\scriptsize] at (0.7,0) {1,4}; \node[right,font=\scriptsize,text=fmB] at (0.8,2.6) {5}; \node[left,font=\scriptsize\heavy] at (-0.4,2.4) {$h$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.72\linewidth}
+L'escala és la \textbf{hipotenusa} i l'altura, un \textbf{catet}:\\[4pt]
+$h=\sqrt{5^2-1{,}4^2}=\sqrt{25-1{,}96}=\sqrt{23{,}04}=\boxed{4{,}8\text{ m}}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ un catet mesura 7 cm més que l'altre i la hipotenusa, 13 cm]
+$x^2+(x+7)^2=13^2\ \to\ x^2+7x-60=0\ \to\ x=\dfrac{-7\pm17}{2}=5$ \quad \nota{$-12$ no té sentit} \quad Catets: \boxed{5\text{ cm i }12\text{ cm}}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.2
+\clearpage
+\seccio{sec2}{Classificació de triangles pels costats}{Comparem $c^2$ amb $a^2+b^2$ i sabem com és l'angle més gran.}
+
+\vfill
+\begin{idea}[El recíproc del teorema]
+Si els costats d'un triangle compleixen $c^2=a^2+b^2$, el triangle \textbf{és rectangle}, i l'angle recte és el que està davant de $c$.
+\end{idea}
+
+\vfill
+{\large Siga $c$ el costat \textbf{més llarg}. Comparem $c^2$ amb $a^2+b^2$:}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=8pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={$c^2<a^2+b^2$},before upper=\centering]
+\begin{tikzpicture}[scale=0.55]\filldraw[fill=fmK!20,draw=fmK!80!black,line width=1.3pt] (0,0) -- (4,0) -- (1.8,2.6) -- cycle;\end{tikzpicture}\par
+\textbf{Acutangle}\par{\small l'angle més gran és agut}\par\smallskip
+$4,\,5,\,6$: \ $36<41$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmyellow!20,colframe=fmgold,coltitle=white,title={$c^2=a^2+b^2$},before upper=\centering]
+\begin{tikzpicture}[scale=0.55]\filldraw[fill=fmyellow!45,draw=fmgold!80!black,line width=1.3pt] (0,0) -- (4,0) -- (0,2.6) -- cycle;\draw[fmnavy,line width=0.7pt] (0,0.35) -- (0.35,0.35) -- (0.35,0);\end{tikzpicture}\par
+\textbf{Rectangle}\par{\small l'angle més gran és recte}\par\smallskip
+$6,\,8,\,10$: \ $100=100$
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={$c^2>a^2+b^2$},before upper=\centering]
+\begin{tikzpicture}[scale=0.55]\filldraw[fill=fmR!18,draw=fmR,line width=1.3pt] (0,0) -- (4,0) -- (-1,2) -- cycle;\end{tikzpicture}\par
+\textbf{Obtusangle}\par{\small l'angle més gran és obtús}\par\smallskip
+$3,\,5,\,7$: \ $49>34$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[Primer: hi ha triangle?]
+El costat més llarg ha de ser \textbf{menor} que la suma dels altres dos (desigualtat triangular).\\[3pt] Amb \mal{2,\ 3\ \text{i}\ 6} no hi ha triangle: \ $6>2+3$.
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemple: \ un marc de 60 cm $\times$ 80 cm té una diagonal d'1 m. Té els angles rectes?]
+\begin{minipage}[c]{0.6\linewidth}
+$60^2+80^2=3600+6400=10\,000=100^2$ \ \be{} \ \textbf{sí, és recte}\\[4pt]
+Si la diagonal fera 98 cm: \ $98^2=9604<10\,000$ \ $\to$ angle \textbf{agut}: no seria rectangular.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.32]
+  \draw[fmex,line width=1.6pt] (0,0) rectangle (8,6); \draw[fmex,line width=1.2pt,dashed] (0,0) -- (8,6);
+  \node[below,font=\scriptsize] at (4,0) {80}; \node[left,font=\scriptsize] at (0,3) {60}; \node[above left,font=\scriptsize\heavy] at (4.3,3.1) {100};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ quant ha de mesurar $x$ perquè el triangle 8, 15, $x$ siga rectangle?]
+\begin{minipage}[t]{0.5\linewidth}
+Si $x$ és la \textbf{hipotenusa}:\\[2pt]
+$x=\sqrt{8^2+15^2}=\sqrt{289}=\boxed{17}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+Si la hipotenusa és 15, $x$ és un \textbf{catet}:\\[2pt]
+$x=\sqrt{15^2-8^2}=\sqrt{161}\approx\boxed{12{,}69}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[La corda de 12 nucs]
+Els antics egipcis feien angles rectes amb una corda de 12 nucs: un triangle de costats \textbf{3, 4 i 5} té un angle recte entre els costats 3 i 4.
+\end{truc}
+
+\vfill
+% ============================================================ 9.3
+\clearpage
+\seccio{sec3}{Aplicacions del teorema de Pitàgores}{Busca el triangle rectangle amagat.}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height=rows,raster column skip=8pt,raster row skip=8pt]
+\figura{Diagonal del rectangle}{\begin{tikzpicture}[scale=0.42]
+  \draw[fmnavy,line width=1.3pt] (0,0) rectangle (5,3); \fill[fmK!25] (0,0) -- (5,0) -- (5,3) -- cycle; \draw[fmK,line width=1.6pt] (0,0) -- (5,3);
+  \node[below,font=\scriptsize] at (2.5,0) {$b$}; \node[right,font=\scriptsize] at (5,1.5) {$h$}; \node[above left,font=\scriptsize\heavy,text=fmK!80!black] at (2.5,1.5) {$d$};
+\end{tikzpicture}}{$d=\sqrt{b^2+h^2}$}
+\figura{Diagonal del quadrat}{\begin{tikzpicture}[scale=0.42]
+  \draw[fmnavy,line width=1.3pt] (0,0) rectangle (3.2,3.2); \fill[fmK!25] (0,0) -- (3.2,0) -- (3.2,3.2) -- cycle; \draw[fmK,line width=1.6pt] (0,0) -- (3.2,3.2);
+  \node[below,font=\scriptsize] at (1.6,0) {$l$}; \node[right,font=\scriptsize] at (3.2,1.6) {$l$};
+\end{tikzpicture}}{$d=\sqrt{l^2+l^2}=l\sqrt2$}
+\figura{Altura de l'isòsceles}{\begin{tikzpicture}[scale=0.42]
+  \draw[fmnavy,line width=1.3pt] (0,0) -- (4,0) -- (2,3.2) -- cycle; \fill[fmK!25] (2,0) -- (4,0) -- (2,3.2) -- cycle; \draw[fmK,line width=1.6pt] (2,0) -- (2,3.2);
+  \node[below,font=\scriptsize] at (3,0) {$\frac b2$}; \node[right,font=\scriptsize] at (3,1.7) {$l$}; \node[left,font=\scriptsize\heavy,text=fmK!80!black] at (2,1.4) {$h$};
+\end{tikzpicture}}{$h=\sqrt{l^2-\left(\tfrac b2\right)^2}$}
+\figura{Altura de l'equilàter}{\begin{tikzpicture}[scale=0.42]
+  \draw[fmnavy,line width=1.3pt] (0,0) -- (4,0) -- (2,3.46) -- cycle; \fill[fmK!25] (2,0) -- (4,0) -- (2,3.46) -- cycle; \draw[fmK,line width=1.6pt] (2,0) -- (2,3.46);
+  \node[below,font=\scriptsize] at (3,0) {$\frac l2$}; \node[right,font=\scriptsize] at (3,1.8) {$l$};
+\end{tikzpicture}}{$h=\sqrt{l^2-\left(\tfrac l2\right)^2}\approx0{,}87\,l$}
+\figura{Costat del rombe}{\begin{tikzpicture}[scale=0.42]
+  \draw[fmnavy,line width=1.3pt] (0,1.6) -- (2.6,0) -- (5.2,1.6) -- (2.6,3.2) -- cycle; \fill[fmK!25] (2.6,1.6) -- (5.2,1.6) -- (2.6,3.2) -- cycle;
+  \draw[fmmuted,dashed] (0,1.6) -- (5.2,1.6) (2.6,0) -- (2.6,3.2); \draw[fmK,line width=1.6pt] (5.2,1.6) -- (2.6,3.2);
+  \node[below,font=\scriptsize] at (3.9,1.6) {$\frac D2$}; \node[left,font=\scriptsize] at (2.6,2.4) {$\frac d2$};
+\end{tikzpicture}}{$l=\sqrt{\left(\tfrac D2\right)^2+\left(\tfrac d2\right)^2}$}
+\figura{Altura del trapezi}{\begin{tikzpicture}[scale=0.42]
+  \draw[fmnavy,line width=1.3pt] (0,0) -- (6,0) -- (4.6,2.6) -- (1.4,2.6) -- cycle; \fill[fmK!25] (0,0) -- (1.4,0) -- (1.4,2.6) -- cycle; \draw[fmK,line width=1.6pt] (1.4,0) -- (1.4,2.6);
+  \node[below,font=\scriptsize] at (0.7,0) {$\frac{B-b}2$}; \node[left,font=\scriptsize] at (0.6,1.5) {$c$};
+\end{tikzpicture}}{$h=\sqrt{c^2-\left(\tfrac{B-b}2\right)^2}$}
+\end{tcbraster}
+{\comic\color{fmmuted}\centering Sempre igual: troba el triangle rectangle, decideix quin costat és la hipotenusa i aplica Pitàgores.\par}
+
+\vfill
+\subsection{Distància entre dos punts del pla}
+\begin{minipage}[c]{0.55\linewidth}
+El segment $AB$ és la \textbf{hipotenusa} d'un triangle rectangle de catets $|x_2-x_1|$ i $|y_2-y_1|$:\par\smallskip
+{\centering\Large$d(A,B)=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$\par}\medskip
+$A(1,\,2)$, $B(7,\,10)$: \ $d=\sqrt{6^2+8^2}=\sqrt{100}=\boxed{10}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.34]
+  \eixos{-1}{8}{-1}{11}
+  \fill[fmK!20] (1,2) -- (7,2) -- (7,10) -- cycle;
+  \draw[fmK,line width=1.6pt] (1,2) -- (7,10); \draw[fmA,line width=1.3pt] (1,2) -- (7,2); \draw[fmB,line width=1.3pt] (7,2) -- (7,10);
+  \fill[fmnavy] (1,2) circle (5pt) node[left,font=\small] {$A$}; \fill[fmnavy] (7,10) circle (5pt) node[above,font=\small] {$B$};
+  \node[below,font=\small,text=fmA] at (4,2) {6}; \node[right,font=\small,text=fmB] at (7,6) {8};
+\end{tikzpicture}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemples]
+\begin{minipage}[t]{0.5\linewidth}
+Isòsceles de costats 10 i base 12:\\ $h=\sqrt{10^2-6^2}=\sqrt{64}=\boxed{8\text{ cm}}$\\[4pt]
+Rombe de diagonals 16 i 12: \ $l=\sqrt{8^2+6^2}=\boxed{10\text{ cm}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+Trapezi isòsceles de bases 20 i 8, costats 10:\\ $\frac{20-8}{2}=6$, \ $h=\sqrt{10^2-6^2}=\boxed{8\text{ cm}}$\\[4pt]
+Equilàter de 6 cm: \ $h=\sqrt{36-9}\approx\boxed{5{,}20\text{ cm}}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.4
+\clearpage
+\seccio{sec4}{Perímetres i àrees de polígons}{El perímetre és el contorn; l'àrea, la superfície.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faRulerHorizontal\ \ Perímetre}]
+La longitud del \textbf{contorn}: en un polígon, la \textbf{suma dels costats}. En cm, m, km\dots
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faVectorSquare\ \ Àrea}]
+La mesura de la \textbf{superfície}. En unitats \textbf{quadrades}: cm$^2$, m$^2$\dots \ \ $1\text{ m}^2=10\,000\text{ cm}^2$
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height=rows,raster column skip=8pt,raster row skip=8pt]
+\figura{Quadrat}{\begin{tikzpicture}[scale=0.4]\filldraw[fill=fmA!20,draw=fmA,line width=1.3pt] (0,0) rectangle (2.6,2.6);\node[below,font=\scriptsize] at (1.3,0) {$l$};\end{tikzpicture}}{\Large$A=l^2$}
+\figura{Rectangle}{\begin{tikzpicture}[scale=0.4]\filldraw[fill=fmA!20,draw=fmA,line width=1.3pt] (0,0) rectangle (4.2,2.6);\node[below,font=\scriptsize] at (2.1,0) {$b$};\node[right,font=\scriptsize] at (4.2,1.3) {$h$};\end{tikzpicture}}{\Large$A=b\cdot h$}
+\figura{Romboide}{\begin{tikzpicture}[scale=0.4]\filldraw[fill=fmA!20,draw=fmA,line width=1.3pt] (0,0) -- (3.6,0) -- (4.8,2.6) -- (1.2,2.6) -- cycle;\draw[fmR,dashed] (1.2,0) -- (1.2,2.6);\node[below,font=\scriptsize] at (1.8,0) {$b$};\node[right,font=\scriptsize,text=fmR] at (1.2,1.3) {$h$};\end{tikzpicture}}{\Large$A=b\cdot h$}
+\figura{Rombe}{\begin{tikzpicture}[scale=0.4]\filldraw[fill=fmB!20,draw=fmB,line width=1.3pt] (0,1.3) -- (2.2,0) -- (4.4,1.3) -- (2.2,2.6) -- cycle;\draw[fmmuted,dashed] (0,1.3) -- (4.4,1.3) (2.2,0) -- (2.2,2.6);\node[above,font=\scriptsize] at (3.3,1.3) {$D$};\node[left,font=\scriptsize] at (2.2,0.6) {$d$};\end{tikzpicture}}{\Large$A=\dfrac{D\cdot d}{2}$}
+\figura{Trapezi}{\begin{tikzpicture}[scale=0.4]\filldraw[fill=fmB!20,draw=fmB,line width=1.3pt] (0,0) -- (4.6,0) -- (3.4,2.6) -- (1,2.6) -- cycle;\draw[fmR,dashed] (1,0) -- (1,2.6);\node[below,font=\scriptsize] at (2.3,0) {$B$};\node[above,font=\scriptsize] at (2.2,2.6) {$b$};\node[right,font=\scriptsize,text=fmR] at (1,1.3) {$h$};\end{tikzpicture}}{\Large$A=\dfrac{(B+b)\cdot h}{2}$}
+\figura{Triangle}{\begin{tikzpicture}[scale=0.4]\filldraw[fill=fmK!20,draw=fmK,line width=1.3pt] (0,0) -- (4.4,0) -- (1.4,2.6) -- cycle;\draw[fmR,dashed] (1.4,0) -- (1.4,2.6);\node[below,font=\scriptsize] at (2.2,0) {$b$};\node[right,font=\scriptsize,text=fmR] at (1.4,1.1) {$h$};\end{tikzpicture}}{\Large$A=\dfrac{b\cdot h}{2}$}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{truc}[D'on ixen?]
+Un triangle és la \textbf{meitat} d'un romboide; el rombe, la meitat del rectangle de costats $D$ i $d$; dos trapezis iguals formen un romboide de base $B+b$.
+\end{truc}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{compte}[L'altura és perpendicular]
+L'altura sempre és \textbf{perpendicular} a la base. Si no la tens, calcula-la amb Pitàgores (9.3).
+\end{compte}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ trapezi rectangle de bases 14 cm i 8 cm i altura 8 cm]
+\begin{minipage}[c]{0.6\linewidth}
+$A=\dfrac{(14+8)\cdot8}{2}=\boxed{88\text{ cm}^2}$\\[4pt]
+Costat oblic: catets $14-8=6$ i 8 \ $\to$ \ $c=\sqrt{36+64}=10$\\[3pt]
+$P=14+8+8+10=\boxed{40\text{ cm}}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.19]
+  \filldraw[fill=fmex!12,draw=fmex,line width=1.3pt] (0,0) -- (14,0) -- (8,8) -- (0,8) -- cycle; \draw[fmK,dashed] (8,0) -- (8,8);
+  \node[below,font=\scriptsize] at (7,0) {14}; \node[above,font=\scriptsize] at (4,8) {8}; \node[left,font=\scriptsize] at (0,4) {8}; \node[above right,font=\scriptsize\heavy,text=fmK!80!black] at (11,4) {10};
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ rajoles de 30 cm de costat per a un terra de 5 m $\times$ 4,2 m]
+En cm: \ $500\cdot420=210\,000$ cm$^2$; \ una rajola, $900$ cm$^2$ \ $\to$ \ $210\,000:900=233{,}3$ \ $\to$ \ \boxed{234\text{ rajoles}}
+\end{exemple}
+
+\vfill
+% ============================================================ 9.5
+\clearpage
+\seccio{sec5}{Polígons regulars}{Tots els costats i tots els angles iguals.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=1.25]
+  \filldraw[fill=fmA!10,draw=fmnavy,line width=1.5pt] (0:2) -- (60:2) -- (120:2) -- (180:2) -- (240:2) -- (300:2) -- cycle;
+  \fill[fmK!25] (0,0) -- (300:2) -- (330:1.732) -- cycle;
+  \draw[fmB,line width=1.6pt] (0,0) -- (300:2) node[midway,left=1pt,font=\small\heavy] {$r$};
+  \draw[fmK,line width=1.6pt] (0,0) -- (330:1.732) node[midway,above=1pt,font=\small\heavy] {$a$};
+  \draw[fmR,line width=1.6pt] (330:1.732) -- (300:2) node[midway,right=1pt,font=\small\heavy] {$\frac l2$};
+  \fill[fmnavy] (0,0) circle (1.6pt) node[left,font=\small] {$O$};
+\end{tikzpicture}\\[2pt]
+{\comic\small\color{fmmuted}hexàgon regular}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Elements]
+\textbf{Centre $O$}: a la mateixa distància de tots els vèrtexs.\\[3pt]
+\cB{\textbf{Radi $r$}}: del centre a un vèrtex.\\[3pt]
+\cK{\textbf{Apotema $a$}}: del centre al punt mitjà d'un costat (perpendicular).\\[4pt]
+Radi, apotema i mig costat formen un \textbf{triangle rectangle}:\\[3pt]
+{\centering\large$r^2=a^2+\left(\dfrac l2\right)^2$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$A=\dfrac{P\cdot a}{2}$}\qquad perímetre per apotema, entre 2\par\smallskip
+{\small un polígon de $n$ costats són $n$ triangles de base $l$ i altura $a$}
+\end{tcolorbox}
+
+\vfill
+\begin{minipage}[t]{0.5\linewidth}
+\begin{exemple}[Exemple: \ pentàgon de costat 8 cm i apotema 5,5 cm]
+$P=5\cdot8=\boxed{40\text{ cm}}$\\[3pt]
+$A=\dfrac{40\cdot5{,}5}{2}=\boxed{110\text{ cm}^2}$
+\end{exemple}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}
+\begin{truc}[L'hexàgon és especial]
+Els seus sis triangles són \textbf{equilàters}: el radi és igual al costat, \ $\boxed{r=l}$.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Exemple: \ hexàgon regular de 10 cm de costat]
+\begin{minipage}[c]{0.6\linewidth}
+$r=l=10$, \ mig costat 5: \ $a=\sqrt{10^2-5^2}=\sqrt{75}\approx8{,}66$ cm\\[4pt]
+$A=\dfrac{60\cdot8{,}66}{2}\approx\boxed{259{,}8\text{ cm}^2}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.6]
+  \draw[fmex,line width=1.3pt] (0:1.6) -- (60:1.6) -- (120:1.6) -- (180:1.6) -- (240:1.6) -- (300:1.6) -- cycle;
+  \foreach \k in {0,60,...,300} \draw[fmex!50] (0,0) -- (\k:1.6);
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ quadrat inscrit en una circumferència de 5 cm de radi]
+La diagonal és un diàmetre, 10 cm: \ $l^2+l^2=100\ \to\ l=\sqrt{50}\approx\boxed{7{,}07\text{ cm}}$, \ $A=l^2=\boxed{50\text{ cm}^2}$
+\end{exemple}
+
+\vfill
+% ============================================================ 9.6
+\clearpage
+\seccio{sec6}{La circumferència: longitud i arcs}{Volta sencera, $2\pi r$; un arc, la part que toca.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.15]
+  \fill[fmA!8] (0,0) circle (1.6);
+  \draw[fmnavy,line width=1.6pt] (0,0) circle (1.6);
+  \draw[fmB,line width=1.4pt] (0,0) -- (40:1.6) node[midway,above left=-1pt,font=\small\heavy] {$r$};
+  \draw[fmA,line width=1.4pt] (-1.6,0) -- (1.6,0); \node[below,font=\small\heavy,text=fmA] at (-0.8,0) {$d$};
+  \draw[fmK,line width=1.4pt] (200:1.6) -- (290:1.6); \node[font=\small,text=fmK!80!black] at (230:0.75) {corda};
+  \draw[fmR,line width=3pt] (95:1.6) arc (95:150:1.6); \node[font=\small\heavy,text=fmR] at (122:1.95) {arc};
+  \fill[fmnavy] (0,0) circle (1.4pt);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Circumferència i cercle]
+La \textbf{circumferència} és la línia de punts a distància $r$ (el \textbf{radi}) del centre. El \textbf{cercle} és la superfície que tanca.\\[3pt]
+La \textbf{corda} uneix dos punts; la més llarga és el \textbf{diàmetre}, $d=2r$. Un \textbf{arc} és un tros de circumferència.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering]
+{\Large$L=2\pi r=\pi d$}\par\smallskip
+{\small $\pi=3{,}14159\dots$: longitud entre diàmetre, sempre el mateix}
+\end{tcolorbox}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering]
+{\Large$L_{\text{arc}}=\dfrac{2\pi r\cdot n}{360}$}\par\smallskip
+{\small un arc de $n^\circ$ és $\frac{n}{360}$ de la volta}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemples]
+Circumferència de $r=4{,}5$ cm: \ $L=2\pi\cdot4{,}5=9\pi\approx\boxed{28{,}27\text{ cm}}$\\[5pt]
+Arc de $120^\circ$ amb $r=9$ cm: \ $L_{\text{arc}}=\dfrac{2\pi\cdot9\cdot120}{360}=6\pi\approx\boxed{18{,}85\text{ cm}}$\\[5pt]
+Semicercle de $r=5$ cm (arc $+$ diàmetre): \ $P=5\pi+10\approx\boxed{25{,}71\text{ cm}}$\\[5pt]
+Arc de 15,71 cm amb $r=6$ cm: \ $n=\dfrac{15{,}71\cdot360}{12\pi}\approx\boxed{150^\circ}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ la roda d'una bici fa 70 cm de diàmetre. Quantes voltes completes fa en 1 km?]
+\begin{minipage}[c]{0.2\linewidth}\centering
+\begin{tikzpicture}[scale=0.55]\draw[fmex,line width=2pt] (0,0) circle (1.2);\foreach \k in {0,45,...,315} \draw[fmex!50] (0,0) -- (\k:1.2);\fill[fmex] (0,0) circle (2pt);\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.77\linewidth}
+Una volta: \ $L=\pi\cdot70\approx219{,}91$ cm\\[3pt]
+$1\text{ km}=100\,000$ cm: \ $\dfrac{100\,000}{219{,}91}\approx454{,}7$ \ $\to$ \ \boxed{454\text{ voltes completes}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{truc}[Calculadora]
+Fes servir la tecla $\pi$ i arrodoneix només al final. Amb $\pi\approx3{,}14$ el resultat canvia una mica.
+\end{truc}
+
+\vfill
+% ============================================================ 9.7
+\clearpage
+\seccio{sec7}{Àrea del cercle i figures circulars}{Una pizza tallada en trossos es converteix en un rectangle.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[scale=0.62]
+  \foreach \i in {0,...,15} {
+    \pgfmathsetmacro\xx{\i*0.39}
+    \ifodd\i \filldraw[fill=fmB!30,draw=fmB,line width=0.8pt] (\xx-0.39,2.2) to[bend left=12] (\xx+0.39,2.2) -- (\xx,0) -- cycle;
+    \else    \filldraw[fill=fmA!30,draw=fmA,line width=0.8pt] (\xx-0.39,0) to[bend right=12] (\xx+0.39,0) -- (\xx,2.2) -- cycle; \fi}
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},line width=0.9pt] (-0.39,-0.25) -- (6.24,-0.25) node[midway,below=5pt,font=\small] {$\pi r$ (mitja circumferència)};
+  \draw[decorate,decoration={brace,amplitude=4pt},line width=0.9pt] (-0.55,0) -- (-0.55,2.2) node[midway,left=5pt,font=\small] {$r$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\fontsize{24}{28}\selectfont$A=\pi r^2$}\par\smallskip
+{\small base $\pi r$ per altura $r$}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{tcbraster}[raster columns=3,raster equal height=rows,raster column skip=8pt]
+\figura{Sector circular}{\begin{tikzpicture}[scale=0.62]\filldraw[fill=fmA!25,draw=fmA,line width=1.3pt] (0,0) -- (0:1.6) arc (0:70:1.6) -- cycle;\draw[fmmuted] (0,0) circle (1.6);\node[font=\scriptsize] at (35:0.55) {$n^\circ$};\end{tikzpicture}}{\large$A=\dfrac{\pi r^2\cdot n}{360}$}
+\figura{Corona circular}{\begin{tikzpicture}[scale=0.62]\filldraw[fill=fmB!25,draw=fmB,line width=1.3pt,even odd rule] (0,0) circle (1.6) (0,0) circle (0.9);\draw[fmnavy] (0,0) -- (1.6,0) node[pos=0.75,above,font=\scriptsize]{$R$};\draw[fmnavy] (0,0) -- (0,0.9) node[midway,left,font=\scriptsize]{$r$};\end{tikzpicture}}{\large$A=\pi\,(R^2-r^2)$}
+\figura{Trapezi circular}{\begin{tikzpicture}[scale=0.62]\filldraw[fill=fmK!25,draw=fmK,line width=1.3pt] (0:0.9) -- (0:1.6) arc (0:70:1.6) -- (70:0.9) arc (70:0:0.9) -- cycle;\draw[fmmuted] (0,0) circle (1.6) (0,0) circle (0.9);\end{tikzpicture}}{\large$A=\dfrac{\pi\,(R^2-r^2)\cdot n}{360}$}
+\end{tcbraster}
+
+\vfill
+\begin{exemple}[Exemples]
+Pizza de 30 cm de diàmetre ($r=15$): \ $A=\pi\cdot15^2\approx\boxed{706{,}86\text{ cm}^2}$\\[5pt]
+Sector de $60^\circ$ amb $r=12$ cm: \ $A=\dfrac{\pi\cdot144\cdot60}{360}=24\pi\approx\boxed{75{,}40\text{ cm}^2}$\\[5pt]
+Corona de radis 10 cm i 6 cm: \ $A=\pi\,(100-36)=64\pi\approx\boxed{201{,}06\text{ cm}^2}$\\[5pt]
+Cercle de 50,27 cm$^2$: \ $r=\sqrt{50{,}27:\pi}\approx\boxed{4\text{ cm}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ què té més pizza, una de 40 cm o dues de 28 cm?]
+Una gran: \ $\pi\cdot20^2=400\pi\approx1256{,}6$ cm$^2$ \qquad Dues xicotetes: \ $2\cdot\pi\cdot14^2=392\pi\approx1231{,}5$ cm$^2$\\[3pt]
+\textbf{La gran}, encara que $40<56$: l'àrea depén del \textbf{quadrat} del radi.
+\end{exemple}
+
+\vfill
+\begin{compte}[Radi, no diàmetre]
+Les fórmules usen el \textbf{radi}. Si et donen el diàmetre, divideix-lo entre 2 abans de res.
+\end{compte}
+
+\vfill
+% ============================================================ 9.8
+\clearpage
+\seccio{sec8}{Figures compostes i problemes}{Sumem trossos coneguts, o restem el que sobra.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faPlus\ \ Descomponem i sumem}]
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[scale=0.3]
+  \filldraw[fill=fmK!20,draw=fmK!80!black,line width=1.3pt] (0,0) -- (10,0) -- (10,3) -- (4,3) -- (4,8) -- (0,8) -- cycle;
+  \draw[fmK!80!black,dashed] (4,0) -- (4,3);
+  \node[below,font=\scriptsize] at (5,0) {10}; \node[left,font=\scriptsize] at (0,4) {8}; \node[above,font=\scriptsize] at (2,8) {4}; \node[right,font=\scriptsize] at (10,1.5) {3};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}
+$4\cdot8+6\cdot3$\\ $=32+18=\boxed{50\text{ m}^2}$
+\end{minipage}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmR!6,colframe=fmR,coltitle=white,title={\faMinus\ \ Figura gran menys trossos}]
+\begin{minipage}[c]{0.45\linewidth}\centering
+\begin{tikzpicture}[scale=0.3]
+  \filldraw[fill=fmR!25,draw=fmR,line width=1.3pt] (0,0) rectangle (8,8);
+  \filldraw[fill=white,draw=fmR,line width=1.1pt] (4,4) circle (4);
+  \node[below,font=\scriptsize] at (4,0) {10};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\linewidth}
+$10^2-\pi\cdot5^2=$\\[2pt] $=100-25\pi$\\[2pt] $\approx\boxed{21{,}46\text{ cm}^2}$
+\end{minipage}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{compte}[El perímetre és només el contorn exterior]
+Les línies que tracem per dins per a descompondre la figura \textbf{no compten}. \ En la L: \ $P=10+3+6+5+4+8=\boxed{36\text{ m}}$
+\end{compte}
+
+\vfill
+\begin{exemple}[Exemple: \ una finestra rectangular d'1,2 m $\times$ 1,5 m acabada en un semicercle]
+\begin{minipage}[c]{0.22\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \filldraw[fill=fmA!15,draw=fmex,line width=1.4pt] (0,0) -- (1.2,0) -- (1.2,1.5) arc (0:180:0.6) -- (0,0);
+  \node[below,font=\scriptsize] at (0.6,0) {1,2}; \node[left,font=\scriptsize] at (0,0.75) {1,5};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.75\linewidth}
+$A=1{,}2\cdot1{,}5+\dfrac{\pi\cdot0{,}6^2}{2}=1{,}8+0{,}18\pi\approx\boxed{2{,}37\text{ m}^2}$\\[4pt]
+Marc: \ $P=1{,}2+2\cdot1{,}5+\dfrac{2\pi\cdot0{,}6}{2}=4{,}2+0{,}6\pi\approx\boxed{6{,}08\text{ m}}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ un camí d'1,5 m d'amplària envolta un jardí de 20 m $\times$ 12 m. Quina superfície té el camí?]
+\begin{minipage}[c]{0.25\linewidth}\centering
+\begin{tikzpicture}[scale=0.11]
+  \filldraw[fill=fmB!30,draw=fmB,line width=1pt] (0,0) rectangle (23,15);
+  \filldraw[fill=fmK!25,draw=fmK,line width=1pt] (1.5,1.5) rectangle (21.5,13.5);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.72\linewidth}
+Rectangle exterior: $(20+3)\times(12+3)=23\times15$\\[3pt]
+$A=23\cdot15-20\cdot12=345-240=\boxed{105\text{ m}^2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Exemple: \ pantalla de 55 polzades en format 16:9 (1 polzada $=$ 2,54 cm)]
+Diagonal: $55\cdot2{,}54=139{,}7$ cm. \ Amplària $16k$, altura $9k$: \ $(16k)^2+(9k)^2=139{,}7^2\ \to\ 337k^2\approx19\,516\ \to\ k\approx7{,}61$\\[3pt]
+\boxed{121{,}8\text{ cm}\times68{,}5\text{ cm}}
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=30pt,raster before skip=16pt]
+\rtile{9.1}{Pitàgores}{$c^2=a^2+b^2$.\\[1ex] Hipotenusa: sumem. Catet: restem.}
+\rtile{9.2}{Classificació}{$c^2<a^2+b^2$: acutangle. \ $=$: rectangle.\\[1ex] $c^2>a^2+b^2$: obtusangle.}
+\rtile{9.3}{Aplicacions}{Diagonals, altures, apotemes\dots: busca el triangle rectangle.\\[1ex] $d(A,B)=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$.}
+\rtile{9.4}{Polígons}{Triangle $\frac{b\cdot h}{2}$, rombe $\frac{D\cdot d}{2}$, trapezi $\frac{(B+b)\,h}{2}$.\\[1ex] L'altura és perpendicular.}
+\rtile{9.5}{Polígons regulars}{$A=\dfrac{P\cdot a}{2}$. \ $r^2=a^2+\left(\frac l2\right)^2$.\\[1ex] Hexàgon: $r=l$.}
+\rtile{9.6}{Circumferència}{$L=2\pi r$. \ Arc: $\dfrac{2\pi r\cdot n}{360}$.}
+\rtile{9.7}{Cercle}{$A=\pi r^2$. \ Sector: $\dfrac{\pi r^2 n}{360}$.\\[1ex] Corona: $\pi\,(R^2-r^2)$.}
+\rtile{9.8}{Compostes}{Sumem trossos o restem el que sobra.\\[1ex] Perímetre: només el contorn.}
+\end{tcbraster}
+\end{document}

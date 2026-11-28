@@ -1,0 +1,720 @@
+% Apuntes de teoría en PDF · 3.º ESO · Unidad 11: Cuerpos geométricos (versión en castellano)
+% Mateix estil que els apunts de Batxillerat (franja i caixes de teoria en blau, exemples en roig), però més visuals,
+% curts i amb dibuixos, per a l'alumnat de 3r ESO. Es compila amb pdflatex dues vegades (per als enllaços de l'índex),
+% amb logo-fentmates.pdf (_eines/logo/pdf/horitzontal-clar.pdf) al costat.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot,es-nolists]{babel}
+\usepackage[sfdefault,book,lining]{FiraSans}
+\usepackage[italic,noplusnominus,noequal]{mathastext}
+\linespread{1.18}
+\usepackage[a4paper,top=2.4cm,bottom=2.2cm,left=1.6cm,right=1.6cm,headheight=1.1cm,headsep=0.5cm,footskip=1cm]{geometry}
+\usepackage{amsmath,amssymb,cancel}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing,shapes.geometric}
+\usepackage{fontawesome5}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Apuntes de teoría. Unidad 11: Cuerpos geométricos. 3.º ESO},pdfsubject={Matemáticas 3.º ESO},pdfkeywords={poliedros, fórmula de Euler, prismas, pirámides, cilindro, cono, esfera, coordenadas geográficas, área, volumen, Cavalieri}}
+
+% colors de la web (bloc d'Àlgebra: blau)
+\definecolor{fmnavy}{HTML}{1B2748}
+\definecolor{fmblue}{HTML}{3D6AA0}
+\definecolor{fmbluel}{HTML}{4E81BD}
+\definecolor{fmyellow}{HTML}{FFC94D}
+\definecolor{fmgold}{HTML}{E9A919}
+\definecolor{fmaccent}{HTML}{FF7A50}
+\definecolor{fmdef}{HTML}{1D4F73}\definecolor{fmdefbg}{HTML}{EEF4F9}
+\definecolor{fmex}{HTML}{A3203A}\definecolor{fmexbg}{HTML}{FBF0F2}
+\definecolor{fmsf}{HTML}{C2410C}
+\definecolor{fmok}{HTML}{15803D}
+\definecolor{fmmuted}{HTML}{5D6685}
+\definecolor{fmsurface}{HTML}{EEF1F8}
+\definecolor{fmA}{HTML}{2F6FD6}\definecolor{fmB}{HTML}{EA6A10}\definecolor{fmR}{HTML}{E11D48}\definecolor{fmK}{HTML}{16A34A}\definecolor{fmV}{HTML}{7C3AED}
+
+% lletres
+\newcommand{\comic}{\fontfamily{ComicNeue-TLF}\selectfont}
+\newcommand{\heavy}{\fontseries{eb}\selectfont}
+\newcommand{\semi}{\fontseries{sb}\selectfont}
+\DeclareUnicodeCharacter{2212}{-}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\lineskip}{4pt}\setlength{\lineskiplimit}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thesection}{11.\arabic{section}}
+\titleformat{\section}[hang]{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont}{\tcbox[on line,colback=fmblue,colframe=fmblue,arc=3mm,boxsep=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\thesection}}{0.45em}{}[\vspace{5pt}{\color{fmblue}\titlerule[2pt]}]
+\titlespacing*{\section}{0pt}{4pt}{6pt}
+\titleformat{\subsection}{\color{fmblue}\Large\semi}{}{0pt}{\faCaretRight\ }
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% frase de cada apartat, «a mà»
+\newcommand{\frase}[1]{\par\vspace{-2pt}{\comic\Large\color{fmbluel}\faCommentDots[regular]\ \ #1\par}\vspace{2pt}}
+\newcommand{\seccio}[3]{\Needspace{16\baselineskip}\section{#2}\hypertarget{#1}{}\frase{#3}}
+% notes a mà dins dels exemples
+\newcommand{\nota}[1]{{\comic\small\color{fmex!85!black}#1}}
+\newcommand{\notab}[1]{{\comic\small\color{fmblue}#1}}
+% bé / malament
+\newcommand{\be}[1]{{\color{fmok}\faCheckCircle}\ \ensuremath{#1}}
+\newcommand{\mal}[1]{{\color{fmR}\faTimesCircle}\ {\color{fmR}\ensuremath{#1}}}
+% pas numerat
+\newcommand{\pas}[1]{\tikz[baseline=(p.base)]\node[circle,fill=fmblue,text=white,inner sep=1.2pt,minimum size=1.25em,font=\small\heavy](p){#1};}
+% etiqueta de color
+\newcommand{\chip}[2]{\tcbox[on line,colback=#1!14,colframe=#1!60,arc=2mm,boxsep=1pt,left=5pt,right=5pt,top=1pt,bottom=1pt]{#2}}
+\newcommand{\fmkey}[1]{\colorbox{fmyellow!55}{\strut #1}}
+\newcommand{\cA}[1]{{\color{fmA}#1}}\newcommand{\cB}[1]{{\color{fmB}#1}}\newcommand{\cK}[1]{{\color{fmK}#1}}\newcommand{\cR}[1]{{\color{fmR}#1}}\newcommand{\cV}[1]{{\color{fmV}#1}}
+
+% caixes
+\tcbset{fmbase/.style={enhanced,arc=3mm,boxrule=1.2pt,left=4mm,right=4mm,top=2mm,bottom=2.5mm,before skip=8pt,after skip=8pt,fonttitle=\heavy\large,before upper=\raggedright}}
+\newtcolorbox{idea}[1][Idea clave]{fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faKey\ \ #1}}
+\newtcolorbox{exemple}[1][Ejemplo]{fmbase,colback=fmexbg,colframe=fmex,colbacktitle=fmexbg,coltitle=fmex,title={\faPencil*\ \ #1},titlerule=0.5pt,titlerule style={fmex!40,dashed}}
+\newtcolorbox{compte}[1][¡Cuidado!]{fmbase,colback=fmsf!6,colframe=fmsf,coltitle=white,fonttitle=\comic\bfseries\Large,title={\faExclamationTriangle\ \ #1}}
+\newtcolorbox{truc}[1][Truco]{fmbase,colback=fmyellow!20,colframe=fmgold,colbacktitle=fmyellow,coltitle=fmnavy,fonttitle=\comic\bfseries\Large,title={\faLightbulb[regular]\ \ #1}}
+
+% dibuix de la targeta de la unitat, en blanc
+\newcommand{\fmcard}{\begin{tikzpicture}[x=0.062cm,y=-0.062cm,white,line width=3pt,line cap=round,line join=round]
+  \begin{scope}[transparency group,opacity=0.15]
+  \node[anchor=base west,inner sep=0pt,font=\fontsize{30}{30}\selectfont] at (14,44) {$C+V=A+2$};
+  \draw (130,105) -- (170,105) -- (170,65) -- (130,65) -- cycle; \draw (130,65) -- (150,50) -- (190,50) -- (170,65); \draw (190,50) -- (190,90) -- (170,105);
+  \draw (215,105) ellipse (18 and 6); \draw (197,105) -- (215,55) -- (233,105);
+  \end{scope}
+\end{tikzpicture}}
+\newcommand{\fmbrand}{\raisebox{-0.25\height}{\includegraphics[height=0.5cm]{logo-fentmates.pdf}}}
+
+% regla de Ruffini: #1 = a, #2 = coeficients, #3 = fila del mig (sense el primer), #4 = fila de baix, #5 = nombre de coeficients
+\newcommand{\ruffini}[5]{\begin{tikzpicture}[x=1.25cm,y=0.85cm,every node/.style={font=\large}]
+  \foreach \v [count=\i] in {#2} \node (t\i) at (\i,0) {$\v$};
+  \foreach \v [count=\i] in {#3} {\pgfmathtruncatemacro\j{\i+1}\node (m\j) at (\j,-1) {$\v$};}
+  \foreach \v [count=\i] in {#4} \node (b\i) at (\i,-2.1) {$\v$};
+  \node[text=fmB] at (0,-1) {$#1$};
+  \draw[line width=1.1pt,fmnavy] (0.45,0.5)--(0.45,-1.5) (0.45,-1.5)--(#5+0.5,-1.5);
+  \node[draw=fmR,line width=1.3pt,rounded corners=2mm,minimum size=0.75cm] at (#5,-2.1) {};
+  \draw[-{Latex[length=2.2mm]},fmK,line width=1.1pt] (t1.south) -- (b1.north);
+  \pgfmathtruncatemacro\last{#5-1}
+  \foreach \i in {1,...,\last} {\pgfmathtruncatemacro\j{\i+1}
+    \draw[-{Latex[length=2.2mm]},fmB,line width=1.1pt,shorten >=1pt] (b\i.north east) -- (m\j.south west);
+    \draw[-{Latex[length=2.2mm]},fmA!70,line width=1pt,dashed,shorten >=2pt] ([xshift=8pt]t\j.south) -- ([xshift=8pt]b\j.north);}
+\end{tikzpicture}}
+
+% capçalera i peu
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\fmbrand}
+\fancyhead[R]{\small\color{fmmuted}3.º ESO · Unidad 11: Cuerpos geométricos}
+\fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+\fancyfoot[R]{\small\color{fmmuted}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\headrule}{\color{fmmuted!40}\hrule height \headrulewidth}
+\fancypagestyle{primera}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+  \fancyfoot[L]{\scriptsize\color{fmmuted}\href{https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es}{\ccbyncsa}\ \ FentMates · fentmates.org · CC BY-NC-SA 4.0}
+  \fancyfoot[R]{\small\color{fmmuted}\thepage}}
+
+% targeta de l'índex
+\newcommand{\itile}[4]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!35,arc=3mm,boxrule=1pt,boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,before skip=0pt,after skip=7pt]
+  \hyperlink{#1}{\begin{minipage}[c]{0.9cm}\centering{\color{fmblue}\LARGE #3}\end{minipage}\hspace{6pt}%
+  \begin{minipage}[c]{0.78\linewidth}{\color{fmblue}\heavy #2}\\[-2pt]{\color{fmnavy}\semi\large #4}\end{minipage}}\end{tcolorbox}}
+
+% taula amb vores arrodonides: el contingut es retalla amb la forma (sense @{} a les vores ni entre columnes)
+\newsavebox\tabclipbox
+\newcommand{\taulaclip}[3][3mm]{\sbox\tabclipbox{#3}\begin{tikzpicture}[baseline=(tcn.base)]
+  \begin{scope}\clip[rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+  \node[inner sep=0pt,outer sep=0pt,anchor=base west] (tcn) at (0,0) {\usebox\tabclipbox};\end{scope}
+  \draw[#2,rounded corners=#1] (0,-\dp\tabclipbox) rectangle (\wd\tabclipbox,\ht\tabclipbox);
+\end{tikzpicture}}
+\newcommand{\taularod}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.5}\begin{tabular}{#2}#3\end{tabular}}}
+% balança
+\newcommand{\balanca}[3]{\begin{tikzpicture}[scale=#3,transform shape,every node/.style={anchor=center}]
+  \fill[fmnavy] (-0.45,-1.9) rectangle (0.45,-1.75);
+  \fill[fmnavy!80] (-0.12,-1.75) rectangle (0.12,0);
+  \fill[fmgold] (0,0.05) circle (0.13);
+  \draw[fmnavy,line width=2.4pt,line cap=round] (-2,0) -- (2,0);
+  \foreach \s in {-1,1} {
+    \draw[fmmuted,line width=0.8pt] (\s*2,0) -- (\s*2-0.75,-1.05) (\s*2,0) -- (\s*2+0.75,-1.05);
+    \fill[fmyellow!70,draw=fmgold,line width=1pt] (\s*2-0.95,-1.05) arc[start angle=180,end angle=360,x radius=0.95,y radius=0.32] -- cycle;}
+  \node[font=\Large,fill=fmA!15,draw=fmA,rounded corners=1.5mm,inner sep=3pt] at (-2,-0.68) {$#1$};
+  \node[font=\Large,fill=fmB!15,draw=fmB,rounded corners=1.5mm,inner sep=3pt] at (2,-0.68) {$#2$};
+\end{tikzpicture}}
+% eixos amb quadrícula (dins d'un tikzpicture): xmin, xmax, ymin, ymax
+\newcommand{\eixos}[4]{\draw[fmmuted!22,line width=0.4pt] (#1,#3) grid (#2,#4);
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (#1-0.2,0)--(#2+0.4,0) node[right,font=\small]{$x$};
+  \draw[-{Latex[length=2mm]},fmmuted,line width=0.8pt] (0,#3-0.2)--(0,#4+0.4) node[above,font=\small]{$y$};}
+% taula de traduccions (diccionari) amb les vores arrodonides
+\newcommand{\dic}[2]{#1 & {\large$#2$}\\}
+\newcommand{\dicratio}{0.62}
+\newcommand{\dichead}{\begin{tabular}{@{}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{}}\faComment[regular]\ Lo decimos así\dots & \dots\ así\end{tabular}}
+\newenvironment{dicbox}{\begin{tcolorbox}[enhanced,arc=3mm,boxrule=1.2pt,colframe=fmblue,colback=white,coltitle=white,fonttitle=\heavy,
+  title={\dichead},left=0pt,right=0pt,top=0pt,bottom=1.5mm,boxsep=0pt,lefttitle=6pt,righttitle=6pt,before skip=0pt,after skip=0pt]\rowcolors{1}{white}{fmsurface}%
+  \begin{tabular}{@{\hspace{6pt}}>{\raggedright}p{\dimexpr\dicratio\linewidth-12pt}>{\centering\arraybackslash}p{\dimexpr\linewidth-\dicratio\linewidth-12pt}@{\hspace{6pt}}}}
+  {\end{tabular}\end{tcolorbox}}
+% resum
+\newcommand{\rtile}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=fmblue!45,arc=3mm,boxrule=1pt,left=3mm,right=3mm,top=2.5mm,bottom=2.5mm,fontupper=\large,
+  title={\tcbox[on line,colback=fmblue,colframe=fmblue,arc=2mm,boxsep=0pt,left=4pt,right=4pt,top=1pt,bottom=1pt]{\color{white}\small\heavy #1}\ \ #2},coltitle=fmnavy,colbacktitle=fmdefbg,fonttitle=\semi,toptitle=0.5mm,bottomtitle=0.5mm]#3\end{tcolorbox}}
+% portada: #1 subtítol a mà
+\newcommand{\portada}[1]{\thispagestyle{primera}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[fmblue] (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+  \begin{scope}
+    \clip (current page.north west) rectangle ([yshift=-9.4cm]current page.north east);
+    \node[anchor=north west,inner sep=0pt] at ([xshift=6.6cm,yshift=-1.3cm]current page.north west) {\fmcard};
+  \end{scope}
+  \node[anchor=north west,inner sep=0pt] at ([xshift=1.6cm,yshift=-1.1cm]current page.north west) {\tcbox[colback=white,colframe=white,arc=2.5mm,boxsep=0pt,left=7pt,right=7pt,top=5pt,bottom=5pt]{\includegraphics[height=0.75cm]{logo-fentmates.pdf}}};
+\end{tikzpicture}
+\vspace*{0.55cm}
+\tcbox[colback=white!15!fmblue,colframe=white!15!fmblue,arc=2.5mm,boxsep=0pt,left=6pt,right=6pt,top=3pt,bottom=3pt]{\color{white}\small\bfseries Apuntes de teoría · 3.º ESO · Matemáticas}
+
+\vspace{2pt}
+{\raggedright\color{white}\fontsize{30}{36}\heavy\selectfont{\color{fmyellow}Unidad 11}\\[2pt]Cuerpos geométricos\par}
+\vspace{8pt}
+{\color{white}\comic\Large #1\par}
+\vspace*{\dimexpr 7.4cm-\pagetotal\relax}
+}
+\newcommand{\llegenda}{\par\vspace{16pt}
+{\color{fmnavy}\heavy\Large\faPalette\ \ Cómo se leen estos apuntes}\par\smallskip
+\begin{tcbraster}[raster columns=4,raster equal height,raster column skip=8pt,raster before skip=12pt]
+\tcbox[colback=fmdefbg,colframe=fmdef,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmdef}\Large\faKey}\\[2pt]{\color{fmdef}\heavy Idea clave}\\[-1pt]{\small lo esencial}}
+\tcbox[colback=fmexbg,colframe=fmex,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmex}\Large\faPencil*}\\[2pt]{\color{fmex}\heavy Ejemplo}\\[-1pt]{\small paso a paso}}
+\tcbox[colback=fmsf!6,colframe=fmsf,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmsf}\Large\faExclamationTriangle}\\[2pt]{\color{fmsf}\heavy ¡Cuidado!}\\[-1pt]{\small errores típicos}}
+\tcbox[colback=fmyellow!20,colframe=fmgold,arc=3mm,boxrule=1.2pt,halign=center,width=\linewidth]{{\color{fmgold!80!black}\Large\faLightbulb[regular]}\\[2pt]{\color{fmnavy}\heavy Truco}\\[-1pt]{\small para recordarlo}}
+\end{tcbraster}}
+\newcommand{\resumtitol}{\clearpage
+\hypertarget{resum}{}
+{\color{fmnavy}\fontsize{23}{27}\heavy\selectfont\faClipboardList\ \ En resumen}\par\vspace{5pt}{\color{fmblue}\titlerule[2pt]}
+\frase{Toda la unidad en una página.}}
+% els 5 passos per a resoldre problemes: #2 = text del pas 2
+\newcommand{\passosproblema}[2]{\begin{center}
+\begin{tikzpicture}[s/.style={draw=fmblue,fill=fmdefbg,rounded corners=3mm,line width=1.2pt,minimum width=2.75cm,minimum height=2.45cm,align=center,font=\small},
+  ic/.style={font=\LARGE,text=fmblue}]
+  \foreach \i/\ic/\t in {1/\faBookOpen/{\textbf{Leemos}\\y entendemos},2/\faQuestionCircle/{#1},3/\faEquals/{#2},4/\faCogs/{\textbf{Resolvemos}},5/\faCheckDouble/{\textbf{Comprobamos}\\y respondemos}} {
+    \node[s] (s\i) at (3.3*\i,0) {};
+    \node[ic] at ([yshift=-0.5cm]s\i.north) {\ic};
+    \node[align=center,font=\small,anchor=north] at ([yshift=-0.95cm]s\i.north) {\t};
+    \node[circle,fill=fmblue,text=white,font=\small\heavy,inner sep=1.5pt,minimum size=1.3em] at (s\i.north west) {\i};}
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} \draw[-{Latex[length=3mm]},fmmuted,line width=1.5pt] (s\i) -- (s\j);
+\end{tikzpicture}
+\end{center}}
+
+\newcommand{\lo}{\mathopen{]}}\newcommand{\ro}{\mathclose{[}}
+% punts ple i buit, nombres dels eixos i taula de valors
+\newcommand{\pple}[2][fmblue]{\fill[#1] #2 circle (3.6pt);}
+\newcommand{\nums}[4]{\foreach \k in {#1,...,#2} {\ifnum\k=0\else\node[below,font=\scriptsize,text=fmmuted] at (\k,0) {$\k$};\fi}
+  \foreach \k in {#3,...,#4} {\ifnum\k=0\else\node[left,font=\scriptsize,text=fmmuted] at (0,\k) {$\k$};\fi}}
+\newcommand{\tv}[3][fmblue]{\taulaclip{#1,line width=1.2pt}{\renewcommand{\arraystretch}{1.45}%
+  \begin{tabular}{>{\columncolor{#1}\color{white}\heavy}c*{12}{w{c}{0.8cm}}}#2\\\rowcolor{#1!8}\cellcolor{#1}#3\end{tabular}}}
+% etiqueta d'una recta o corba
+\newcommand{\etq}[3]{\node[fill=white,inner sep=1.5pt,text=#1,font=\small] at #2 {#3};}
+
+% ortoedre en perspectiva: #1 ample, #2 alt, #3 fondària (en perspectiva), #4 color
+\newcommand{\ortoedre}[4]{\filldraw[fill=#4!18,draw=#4,line width=1.2pt] (0,0) rectangle (#1,#2);
+  \filldraw[fill=#4!30,draw=#4,line width=1.2pt] (0,#2) -- ++(0.6*#3,0.4*#3) -- ++(#1,0) -- (#1,#2) -- cycle;
+  \filldraw[fill=#4!45,draw=#4,line width=1.2pt] (#1,0) -- ++(0.6*#3,0.4*#3) -- ++(0,#2) -- (#1,#2) -- cycle;
+  \draw[#4,dashed,line width=0.7pt] (0,0) -- ++(0.6*#3,0.4*#3) -- ++(#1,0) (0.6*#3,0.4*#3) -- ++(0,#2);}
+% cilindre: #1 radi, #2 altura, #3 color
+\newcommand{\cilindre}[3]{\fill[#3!18] (-#1,0) -- (-#1,#2) arc (180:360:#1 and 0.3*#1) -- (#1,0) arc (0:-180:#1 and 0.3*#1) -- cycle;
+  \draw[#3,line width=1.2pt] (-#1,0) -- (-#1,#2) (#1,0) -- (#1,#2);
+  \filldraw[fill=#3!35,draw=#3,line width=1.2pt] (0,#2) ellipse (#1 and 0.3*#1);
+  \draw[#3,line width=1.2pt] (-#1,0) arc (180:360:#1 and 0.3*#1); \draw[#3,dashed,line width=0.7pt] (#1,0) arc (0:180:#1 and 0.3*#1);}
+% con: #1 radi, #2 altura, #3 color
+\newcommand{\con}[3]{\fill[#3!18] (-#1,0) -- (0,#2) -- (#1,0) arc (0:-180:#1 and 0.3*#1) -- cycle;
+  \draw[#3,line width=1.2pt] (-#1,0) -- (0,#2) -- (#1,0); \draw[#3,line width=1.2pt] (-#1,0) arc (180:360:#1 and 0.3*#1); \draw[#3,dashed,line width=0.7pt] (#1,0) arc (0:180:#1 and 0.3*#1);}
+
+\begin{document}
+\portada{Prismas, pirámides, cilindros, conos y esferas: superficies y volúmenes.}
+
+{\color{fmnavy}\heavy\Large\faMapSigns\ \ ¿Qué aprenderás?}\par\smallskip
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec1}{11.1}{\faCube}{Poliedros. Fórmula de Euler}
+\itile{sec2}{11.2}{\faBox}{Prismas: elementos y área}
+\itile{sec3}{11.3}{\faIcon{caret-up}}{Pirámides y troncos}
+\itile{sec4}{11.4}{\faIcon{database}}{Cilindro y cono}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}
+\itile{sec5}{11.5}{\faGlobeEurope}{La esfera. La Tierra}
+\itile{sec6}{11.6}{\faCubes}{Volumen de prismas y cilindros}
+\itile{sec7}{11.7}{\faIcon{ice-cream}}{Volumen de pirámides, conos y esferas}
+\itile{sec8}{11.8}{\faPuzzlePiece}{Cuerpos compuestos}
+\itile{resum}{\phantom{11.8}}{\faClipboardList}{En resumen}
+\end{minipage}
+\llegenda
+
+% ============================================================ 11.1
+\clearpage
+\seccio{sec1}{Poliedros. Fórmula de Euler}{Cuerpos limitados por polígonos.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \ortoedre{3}{2.2}{2}{fmA}
+  \node[font=\small\heavy,text=fmA] at (1.5,1.1) {cara};
+  \draw[fmR,line width=2.4pt] (3,0) -- (3,2.2); \node[right,font=\small\heavy,text=fmR] at (4.25,0.3) {arista};
+  \draw[-{Latex[length=2mm]},fmR,line width=0.8pt] (4.25,0.3) -- (3.1,0.6);
+  \fill[fmK] (4.2,3) circle (3.5pt); \node[right,font=\small\heavy,text=fmK!80!black] at (4.3,3.1) {vértice};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Poliedro]
+Un \textbf{poliedro} es un cuerpo limitado por \textbf{polígonos}:\\[3pt]
+\cA{\textbf{caras}}: los polígonos; \ \cR{\textbf{aristas}}: los lados de las caras; \ \cK{\textbf{vértices}}: donde se encuentran las aristas.\\[4pt]
+Es \textbf{convexo} si todas las caras se pueden apoyar sobre una mesa; si no, \textbf{cóncavo}.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large Fórmula de Euler: \quad $C+V=A+2$}\par\smallskip
+{\small en todo poliedro convexo \quad prisma pentagonal: \ $7+10=15+2$ \ \be{}}
+\end{tcolorbox}
+
+\vfill
+\subsection{Los cinco poliedros regulares}
+\begin{minipage}[c]{0.62\linewidth}\centering\small
+\renewcommand{\arraystretch}{1.3}
+\taularod{>{\heavy}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}>{\hspace{4pt}}l<{\hspace{4pt}}>{\hspace{4pt}}c<{\hspace{4pt}}}{
+\rowcolor{fmblue}\color{white}Poliedro & \color{white}\heavy $C$ & \color{white}\heavy $V$ & \color{white}\heavy $A$ & \color{white}\heavy Caras & \color{white}\heavy Por vértice\\
+Tetraedro & 4 & 4 & 6 & triángulos & 3\\
+\rowcolor{fmsurface}Cubo & 6 & 8 & 12 & cuadrados & 3\\
+Octaedro & 8 & 6 & 12 & triángulos & 4\\
+\rowcolor{fmsurface}Dodecaedro & 12 & 20 & 30 & pentágonos & 3\\
+Icosaedro & 20 & 12 & 30 & triángulos & 5
+}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.35\linewidth}
+\begin{truc}[¿Por qué solo cinco?]
+En cada vértice, los ángulos de las caras tienen que sumar \textbf{menos de $360^\circ$}. Tres hexágonos ya suman $360^\circ$: queda plano.
+\end{truc}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+Pirámide hexagonal: \ $C=7$, \ $V=7$, \ $A=12$\\ $7+7=12+2$ \ \be{}\\[4pt]
+9 caras y 16 aristas: \ $9+V=18\ \to\ \boxed{V=9}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Prisma de 30 aristas: \ $3n=30\to n=10$\\
+base \textbf{decágono}: \ $C=\boxed{12}$, \ $V=\boxed{20}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 11.2
+\clearpage
+\seccio{sec2}{Prismas: elementos y área}{Dos bases iguales y paralelas, y caras laterales rectangulares.}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.75]
+  \ortoedre{3}{2.4}{1.6}{fmB}
+  \draw[fmR,line width=1.5pt] (0,0) -- (3.96,3.04);
+  \draw[fmK,line width=1.3pt,dashed] (0,0) -- (3.96,0.64);
+  \node[font=\small\heavy,text=fmR] at (1.6,1.7) {$D$};
+  \node[below,font=\small] at (1.5,0) {$a$}; \node[right,font=\small] at (3.5,0.3) {$b$}; \node[right,font=\small] at (3.96,1.9) {$c$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}ortoedro y su diagonal}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[Prisma]
+Dos \textbf{bases} iguales y paralelas, y \textbf{caras laterales} que son paralelogramos. La \textbf{altura} $h$ es la distancia entre las bases.\\[3pt]
+\textbf{Recto}: caras laterales rectangulares. \ \textbf{Regular}: recto y con bases regulares.\\[3pt]
+\textbf{Ortoedro}: una caja. \ \textbf{Cubo}: todas las caras cuadradas.\\[4pt]
+Diagonal del ortoedro: \ $\boxed{D=\sqrt{a^2+b^2+c^2}}$
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.44\linewidth}\centering
+\begin{tikzpicture}[scale=0.42]
+  \foreach \i in {0,...,5} \filldraw[fill=fmA!20,draw=fmA,line width=1pt] (\i*1.3,0) rectangle ++(1.3,4);
+  \filldraw[fill=fmB!30,draw=fmB,line width=1pt] (2.6,4) -- ++(1.3,0) -- ++(0.65,1.126) -- ++(-0.65,1.126) -- ++(-1.3,0) -- ++(-0.65,-1.126) -- cycle;
+  \filldraw[fill=fmB!30,draw=fmB,line width=1pt] (2.6,0) -- ++(1.3,0) -- ++(0.65,-1.126) -- ++(-0.65,-1.126) -- ++(-1.3,0) -- ++(-0.65,1.126) -- cycle;
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},line width=0.8pt] (0,-0.2) -- (2.4,-0.2) node[midway,below=4pt,font=\scriptsize] {};
+  \node[right,font=\small] at (7.8,2) {$h$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}desarrollo de un prisma hexagonal}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.53\linewidth}
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\large$A_L=P_{\text{base}}\cdot h$}\par\medskip
+{\large$A_T=A_L+2\,A_{\text{base}}$}\par\smallskip
+{\small las caras laterales forman un rectángulo de base el perímetro}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ prisma hexagonal regular de $l=4$ cm y $h=10$ cm]
+Apotema de la base: \ $a=\sqrt{4^2-2^2}=\sqrt{12}\approx3{,}46$ \qquad $A_L=24\cdot10=240$ cm$^2$\\[3pt]
+$A_{\text{base}}=\dfrac{24\cdot3{,}46}{2}\approx41{,}57$ \qquad $A_T\approx240+2\cdot41{,}57=\boxed{323{,}14\text{ cm}^2}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+Ortoedro $8\times5\times3$:\\ $2\,(40+24+15)=\boxed{158\text{ cm}^2}$\\[4pt]
+Cubo de 6 cm: \ $6\cdot36=\boxed{216\text{ cm}^2}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Pintar paredes y techo de una habitación $5\times4\times2{,}5$ m (puerta $0{,}8\times2$, ventana $1{,}5\times1{,}2$):\\
+$45+20-1{,}6-1{,}8=61{,}6$ m$^2$; \ botes de 12 m$^2$: \boxed{6\text{ botes}}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ 11.3
+\clearpage
+\seccio{sec3}{Pirámides y troncos de pirámide}{Caras laterales triangulares que se encuentran en el vértice.}
+
+\vfill
+\begin{minipage}[c]{0.4\linewidth}\centering
+\begin{tikzpicture}[scale=1.05]
+  \coordinate (A) at (0,0); \coordinate (B) at (3,0); \coordinate (C) at (4,0.8); \coordinate (D) at (1,0.8);
+  \coordinate (O) at (2,0.4); \coordinate (V) at (2,3.4); \coordinate (M) at (2.5,0);
+  \fill[fmA!15] (A) -- (B) -- (V) -- cycle; \fill[fmA!28] (B) -- (C) -- (V) -- cycle;
+  \draw[fmA,line width=1.2pt] (A) -- (B) -- (C) (A) -- (V) -- (B) (C) -- (V);
+  \draw[fmA,dashed,line width=0.7pt] (A) -- (D) -- (C) (D) -- (V);
+  \fill[fmK!25] (O) -- (V) -- (1.5,0) -- cycle;
+  \draw[fmR,line width=1.5pt] (O) -- (V) node[midway,left,font=\small\heavy] {$h$};
+  \draw[fmB,line width=1.5pt] (O) -- (1.5,0) node[midway,below left=-2pt,font=\small\heavy] {$a_b$};
+  \draw[fmK,line width=1.5pt] (1.5,0) -- (V) node[midway,left=1pt,font=\small\heavy] {$a_p$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\begin{idea}[Pirámide regular]
+Base regular y caras laterales triángulos isósceles iguales.\\[3pt]
+\cK{\textbf{Apotema de la pirámide} $a_p$}: la altura de cada cara lateral.\\
+\cB{\textbf{Apotema de la base} $a_b$}. \ ¡No las confundas!\\[4pt]
+Forman un triángulo rectángulo con la altura:\\[2pt]
+{\centering\Large$a_p^2=h^2+a_b^2$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$A_L=\dfrac{P_{\text{base}}\cdot a_p}{2}\qquad\qquad A_T=A_L+A_{\text{base}}$}\par\smallskip
+{\small el desarrollo es la base y $n$ triángulos de base $l$ y altura $a_p$}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Ejemplo: \ pirámide cuadrangular regular de $l=6$ cm y $h=4$ cm]
+$a_b=3$, \ $a_p=\sqrt{4^2+3^2}=5$ cm \qquad $A_L=\dfrac{24\cdot5}{2}=60$ cm$^2$ \qquad $A_T=60+36=\boxed{96\text{ cm}^2}$
+\end{exemple}
+
+\vfill
+\begin{minipage}[c]{0.34\linewidth}\centering
+\begin{tikzpicture}[scale=0.7]
+  \filldraw[fill=fmB!20,draw=fmB,line width=1.2pt] (0,0) -- (4,0) -- (3,2) -- (1,2) -- cycle;
+  \draw[fmK,line width=1.4pt] (1,2) -- (1,0) node[midway,left,font=\small\heavy] {$h$};
+  \draw[fmR,line width=1.4pt] (0,0) -- (1,2);
+  \node[below,font=\scriptsize] at (0.5,0) {$\frac{l-l'}{2}$};
+  \node[above,font=\small,text=fmR] at (0.3,1.1) {$a_p$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.63\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={Tronco de pirámide}]
+Cortamos una pirámide con un plano paralelo a la base: dos bases semejantes y caras laterales \textbf{trapecios}.\\[3pt]
+{\centering$A_L=\dfrac{(P+P')\cdot a_p}{2}\qquad A_T=A_L+A_B+A_{B'}$\par}
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ tronco cuadrangular regular, aristas de las bases 10 cm y 4 cm, altura 4 cm]
+$a_p=\sqrt{4^2+3^2}=5$ \qquad $A_L=\dfrac{(40+16)\cdot5}{2}=140$ \qquad $A_T=140+100+16=\boxed{256\text{ cm}^2}$
+\end{exemple}
+
+\vfill
+% ============================================================ 11.4
+\clearpage
+\seccio{sec4}{Cilindro y cono}{Cuerpos que salen de hacer girar una figura plana.}
+
+\vfill
+\begin{minipage}[c]{0.5\linewidth}\centering
+\begin{tikzpicture}[scale=0.75]
+  \begin{scope}\cilindre{1}{2.8}{fmA}\draw[fmR,line width=1.4pt] (0,2.8) -- (1,2.8) node[midway,above,font=\small\heavy] {$r$}; \draw[fmK,line width=1.4pt,dashed] (0,0) -- (0,2.8); \node[left,font=\small\heavy,text=fmK!80!black] at (0,1.4) {$h$};\end{scope}
+  \begin{scope}[xshift=3.6cm]\con{1.1}{2.8}{fmB}\fill[fmK!25] (0,0) -- (1.1,0) -- (0,2.8) -- cycle;\draw[fmK,line width=1.4pt] (0,0) -- (0,2.8) node[midway,left,font=\small\heavy] {$h$};\draw[fmR,line width=1.4pt] (0,0) -- (1.1,0) node[midway,below,font=\small\heavy] {$r$};\draw[fmV,line width=1.6pt] (1.1,0) -- (0,2.8) node[midway,right,font=\small\heavy] {$g$};\end{scope}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.47\linewidth}
+\begin{idea}[Cuerpos de revolución]
+Un rectángulo que gira sobre un lado forma un \textbf{cilindro}; un triángulo rectángulo que gira sobre un cateto, un \textbf{cono}.\\[4pt]
+En el cono, la \cV{\textbf{generatriz} $g$} va del vértice al borde de la base:\\[2pt]
+{\centering\Large$g^2=h^2+r^2$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{minipage}[c]{0.48\linewidth}\centering
+\begin{tikzpicture}[scale=0.38]
+  \filldraw[fill=fmA!20,draw=fmA,line width=1pt] (0,0) rectangle (6.28,3);
+  \filldraw[fill=fmA!35,draw=fmA,line width=1pt] (3.14,4) circle (1); \filldraw[fill=fmA!35,draw=fmA,line width=1pt] (3.14,-1) circle (1);
+  \node[below,font=\scriptsize] at (5,0) {$2\pi r$}; \node[right,font=\scriptsize] at (6.28,1.5) {$h$};
+  \begin{scope}[xshift=9.5cm,yshift=0.5cm]
+  \filldraw[fill=fmB!20,draw=fmB,line width=1pt] (0,0) -- (-30:4) arc (-30:60:4) -- cycle;
+  \filldraw[fill=fmB!35,draw=fmB,line width=1pt] (15:5) circle (1);
+  \node[font=\scriptsize] at (20:2) {$g$};
+  \end{scope}
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}desarrollos: rectángulo y dos círculos; sector y círculo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.49\linewidth}\centering
+\renewcommand{\arraystretch}{1.6}
+\taularod{>{\heavy}l<{\hspace{5pt}}>{\hspace{5pt}}c<{\hspace{5pt}}>{\hspace{5pt}}c<{\hspace{5pt}}}{
+\rowcolor{fmblue} & \color{white}\heavy Área lateral & \color{white}\heavy Área total\\
+Cilindro & $2\pi rh$ & $2\pi rh+2\pi r^2$\\
+\rowcolor{fmsurface}Cono & $\pi rg$ & $\pi rg+\pi r^2$
+}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ cono de $r=3$ cm y $h=4$ cm]
+$g=\sqrt{16+9}=5$ \qquad $A_L=\pi\cdot3\cdot5=15\pi\approx47{,}12$ cm$^2$ \qquad $A_T=15\pi+9\pi=24\pi\approx\boxed{75{,}40\text{ cm}^2}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+Cilindro de $r=5$, $h=12$:\\ $A_T=120\pi+50\pi=170\pi\approx\boxed{534{,}07\text{ cm}^2}$\\[4pt]
+Cono de 8 cm de diámetro y $h=10$:\\ $g=\sqrt{100+16}\approx10{,}77$, \ $A_T\approx\boxed{185{,}6\text{ cm}^2}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Lata de 7,4 cm de diámetro y 11 cm de altura:\\
+etiqueta $=A_L=2\pi\cdot3{,}7\cdot11\approx\boxed{255{,}7\text{ cm}^2}$\\
+chapa $=A_T\approx255{,}7+2\pi\cdot3{,}7^2\approx\boxed{341{,}7\text{ cm}^2}$
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{compte}[Generatriz, no altura]
+El área lateral del cono usa la \textbf{generatriz} $g$. Si te dan la altura, calcula primero $g$ con Pitágoras.
+\end{compte}
+
+\vfill
+% ============================================================ 11.5
+\clearpage
+\seccio{sec5}{La esfera. La Tierra}{Todos los puntos a la misma distancia del centro.}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \shade[ball color=fmA!35] (0,0) circle (1.6);
+  \draw[fmA,line width=1.3pt] (0,0) circle (1.6);
+  \draw[fmB,line width=1.2pt] (-1.6,0) arc (180:360:1.6 and 0.45); \draw[fmB,dashed,line width=0.8pt] (1.6,0) arc (0:180:1.6 and 0.45);
+  \draw[fmR,line width=1.3pt] (0,0) -- (1.6,0) node[midway,above,font=\small\heavy] {$r$}; \fill[fmnavy] (0,0) circle (1.5pt);
+  \node[font=\scriptsize,text=fmB] at (0,-0.75) {círculo máximo};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{idea}[La esfera]
+La \textbf{superficie esférica} son los puntos a distancia $r$ del centro; la \textbf{esfera} es el cuerpo que encierra. Un plano por el centro la corta en un \textbf{círculo máximo}.\\[4pt]
+No se puede desplegar sobre un plano (los mapas del mundo deforman). Su área son \textbf{4 círculos máximos}:\\[2pt]
+{\centering\fontsize{20}{24}\selectfont$A=4\pi r^2$\par}
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{truc}[Arquímedes]
+El área de la esfera es igual al área lateral del cilindro que la envuelve: \ $2\pi r\cdot2r=4\pi r^2$. \ Pidió que grabaran esta figura en su tumba.
+\end{truc}
+
+\vfill
+\begin{minipage}[c]{0.36\linewidth}\centering
+\begin{tikzpicture}[scale=0.85]
+  \shade[ball color=fmK!30] (0,0) circle (1.6);
+  \draw[fmnavy,line width=1.2pt] (0,0) circle (1.6);
+  \foreach \l in {-50,-25,25,50} \draw[fmB,line width=0.8pt] ({-1.6*cos(\l)},{1.6*sin(\l)}) arc (180:360:{1.6*cos(\l)} and {0.4*cos(\l)});
+  \draw[fmR,line width=1.4pt] (-1.6,0) arc (180:360:1.6 and 0.4); \node[right,font=\scriptsize,text=fmR] at (1.6,0) {ecuador};
+  \foreach \a in {0.5,1.1} \draw[fmV,line width=0.8pt] (0,1.6) arc (90:270:{\a} and 1.6);
+  \draw[fmV,line width=0.8pt] (0,1.6) -- (0,-1.6);
+  \node[above,font=\scriptsize] at (0,1.6) {N}; \node[below,font=\scriptsize] at (0,-1.6) {S};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\linewidth}
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faGlobeEurope\ \ La Tierra ($r\approx6371$ km)}]
+\cV{\textbf{Meridianos}}: de polo a polo. \ \cB{\textbf{Paralelos}}: perpendiculares al eje; el mayor es el \cR{\textbf{ecuador}}.\\[3pt]
+\textbf{Latitud}: ángulo con el ecuador, $0^\circ$ a $90^\circ$ N o S.\\
+\textbf{Longitud}: ángulo con Greenwich, $0^\circ$ a $180^\circ$ E u O.\\[3pt]
+Valencia: $39{,}5^\circ$ N, $0{,}4^\circ$ O. \ Cada $15^\circ$ de longitud, \textbf{1 hora} de diferencia.
+\end{tcolorbox}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplos]
+Esfera de $r=6$ cm: \ $A=4\pi\cdot36=144\pi\approx\boxed{452{,}39\text{ cm}^2}$\\[5pt]
+Esfera de 1256,64 cm$^2$: \ $r^2=\dfrac{1256{,}64}{4\pi}=100\ \to\ \boxed{r=10\text{ cm}}$\\[5pt]
+La Tierra: \ $4\pi\cdot6371^2\approx\boxed{510\text{ millones de km}^2}$; \ si el 71\,\% es agua, tierra firme: \ $0{,}29\cdot510\approx\boxed{148\text{ millones de km}^2}$
+\end{exemple}
+
+\vfill
+% ============================================================ 11.6
+\clearpage
+\seccio{sec6}{Volumen. Prismas y cilindros}{El espacio que ocupa un cuerpo: área de la base por altura.}
+
+\vfill
+\begin{tcbraster}[raster columns=2,raster equal height,raster column skip=10pt]
+\begin{tcolorbox}[fmbase,colback=fmdefbg,colframe=fmdef,coltitle=white,title={\faCube\ \ Unidades de volumen: de 1000 en 1000}]
+{\centering$1\text{ m}^3=1000\text{ dm}^3$\qquad $1\text{ dm}^3=1000\text{ cm}^3$\par}
+\end{tcolorbox}
+\begin{tcolorbox}[fmbase,colback=fmK!8,colframe=fmK,coltitle=white,title={\faTint\ \ Capacidad}]
+{\centering$1\text{ dm}^3=\boxed{1\text{ L}}$\qquad $1\text{ cm}^3=1\text{ mL}$\qquad $1\text{ m}^3=1000\text{ L}$\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.55]
+  \foreach \i in {0,...,6} \filldraw[fill=fmgold!50,draw=fmgold!80!black,line width=0.8pt] (0,\i*0.45) rectangle (2.4,\i*0.45+0.4);
+  \foreach \i in {0,...,6} \filldraw[fill=fmgold!50,draw=fmgold!80!black,line width=0.8pt] ({4+0.35*\i},\i*0.45) rectangle ++(2.4,0.4);
+  \node[below,font=\scriptsize] at (1.2,0) {recta}; \node[below,font=\scriptsize] at (5.2,0) {torcida};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}mismo volumen}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Principio de Cavalieri]
+Si dos cuerpos tienen la misma altura y, a cualquier altura, las secciones tienen la \textbf{misma área}, tienen el \textbf{mismo volumen}.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=2mm,bottom=2mm]
+{\Large$V_{\text{prisma}}=A_{\text{base}}\cdot h\qquad\qquad V_{\text{cilindro}}=\pi r^2h$}\par\smallskip
+{\small un ortoedro $a\times b\times c$ contiene $a\cdot b\cdot c$ cubitos; por Cavalieri, vale para todos los prismas}
+\end{tcolorbox}
+
+\vfill
+\begin{exemple}[Ejemplos]
+\begin{minipage}[t]{0.48\linewidth}
+3,5 m$^3$ $=\boxed{3500\text{ L}}$ \quad 750 cm$^3=\boxed{0{,}75\text{ L}}$\\[4pt]
+Cubo de 7 cm: \ $7^3=\boxed{343\text{ cm}^3}$\\[4pt]
+Cilindro $r=4$, $h=9$: \ $144\pi\approx\boxed{452{,}39\text{ cm}^3}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+Prisma hexagonal regular, $l=4$, $h=10$:\\ $A_{\text{base}}\approx41{,}57$ \ $\to$ \ $V\approx\boxed{415{,}7\text{ cm}^3}$\\[4pt]
+Cilindro $r=3$, $h=10$: \ $90\pi\approx282{,}7$ cm$^3\approx0{,}28$ L
+\end{minipage}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ una piscina de 25 m $\times$ 12 m $\times$ 1,8 m se llena a 500 L por minuto]
+$V=25\cdot12\cdot1{,}8=540$ m$^3=\boxed{540\,000\text{ L}}$ \qquad $540\,000:500=1080$ min $=\boxed{18\text{ horas}}$
+\end{exemple}
+
+\vfill
+% ============================================================ 11.7
+\clearpage
+\seccio{sec7}{Volumen de pirámides, conos y esferas}{Una pirámide es la tercera parte del prisma.}
+
+\vfill
+\begin{minipage}[c]{0.42\linewidth}\centering
+\begin{tikzpicture}[scale=0.62]
+  \begin{scope}\cilindre{1}{2.6}{fmA}\con{1}{2.6}{fmB}\end{scope}
+  \node[font=\Large] at (2.1,1.3) {$=$};
+  \begin{scope}[xshift=3.4cm]\con{0.55}{2.6}{fmB}\end{scope}
+  \begin{scope}[xshift=4.6cm]\con{0.55}{2.6}{fmB}\end{scope}
+  \begin{scope}[xshift=5.8cm]\con{0.55}{2.6}{fmB}\end{scope}
+  \node[below,font=\scriptsize] at (4.6,-0.4) {tres conos llenos};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.55\linewidth}
+\begin{idea}[Un tercio]
+Con una pirámide llena de agua, hay que verter \textbf{tres} veces para llenar el prisma de la misma base y altura. Igual con el cono y el cilindro.
+\end{idea}
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[enhanced,colback=fmyellow!18,colframe=fmgold,arc=4mm,boxrule=1.6pt,before upper=\centering,top=3mm,bottom=3mm]
+{\Large$V_{\text{pirámide}}=\dfrac{A_{\text{base}}\cdot h}{3}\qquad V_{\text{cono}}=\dfrac{\pi r^2h}{3}\qquad V_{\text{esfera}}=\dfrac43\pi r^3$}
+\end{tcolorbox}
+
+\vfill
+\begin{truc}[Arquímedes, otra vez]
+La esfera es $\frac23$ del cilindro que la envuelve: \ $\frac23\cdot\pi r^2\cdot2r=\frac43\pi r^3$.
+\end{truc}
+
+\vfill
+\begin{exemple}[Ejemplos]
+Pirámide cuadrangular de $l=6$ cm y $h=4$ cm: \ $V=\dfrac{36\cdot4}{3}=\boxed{48\text{ cm}^3}$\\[5pt]
+Cono de $r=5$ cm y $h=12$ cm: \ $V=\dfrac{\pi\cdot25\cdot12}{3}=100\pi\approx\boxed{314{,}16\text{ cm}^3}$\\[5pt]
+Esfera de $r=3$ cm: \ $V=\frac43\pi\cdot27=36\pi\approx\boxed{113{,}10\text{ cm}^3}$ \qquad Pelota de $r=11$ cm: \ $\frac43\pi\cdot1331\approx\boxed{5{,}6\text{ L}}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ cono de generatriz 13 cm y radio 5 cm. ¿Qué esfera tiene el mismo volumen?]
+$h=\sqrt{13^2-5^2}=12$ \ $\to$ \ $V=\dfrac{\pi\cdot25\cdot12}{3}=100\pi$ \qquad $\dfrac43\pi r^3=100\pi\ \to\ r^3=75\ \to\ r\approx\boxed{4{,}22\text{ cm}}$
+\end{exemple}
+
+\vfill
+\begin{compte}[No te olvides del 3]
+Pirámide y cono: \textbf{entre 3}. Si no lo pones, calculas el volumen del prisma o del cilindro.
+\end{compte}
+
+\vfill
+% ============================================================ 11.8
+\clearpage
+\seccio{sec8}{Cuerpos compuestos y problemas}{Descomponemos en cuerpos conocidos y sumamos (o restamos).}
+
+\vfill
+\begin{minipage}[c]{0.3\linewidth}\centering
+\begin{tikzpicture}[scale=0.62]
+  \cilindre{1.2}{3.2}{fmA}
+  \begin{scope}[yshift=3.2cm]\fill[fmB!25] (-1.2,0) -- (0,1.6) -- (1.2,0) -- cycle;\draw[fmB,line width=1.2pt] (-1.2,0) -- (0,1.6) -- (1.2,0);\end{scope}
+  \node[right,font=\scriptsize] at (1.2,1.6) {6 m}; \node[right,font=\scriptsize] at (0.7,4) {3 m}; \node[below,font=\scriptsize] at (0.6,-0.4) {$r=2$};
+\end{tikzpicture}\\
+{\comic\small\color{fmmuted}silo}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.67\linewidth}
+\begin{idea}[Cuerpos compuestos]
+\textbf{Volumen}: sumamos los volúmenes de los cuerpos simples (y \textbf{restamos} si hay agujeros).\\[3pt]
+\textbf{Área}: sumamos solo las superficies que quedan \textbf{por fuera}.
+\end{idea}
+\begin{exemple}[Ejemplo: \ silo: cilindro + cono]
+$V=\pi\cdot4\cdot6+\dfrac{\pi\cdot4\cdot3}{3}=24\pi+4\pi=28\pi\approx\boxed{87{,}96\text{ m}^3}$
+\end{exemple}
+\end{minipage}
+
+\vfill
+\begin{exemple}[Ejemplo: \ un helado: cono de $r=3$ cm y $h=10$ cm, lleno, con media esfera encima]
+$V=\dfrac{\pi\cdot9\cdot10}{3}+\dfrac12\cdot\dfrac43\pi\cdot27=30\pi+18\pi=48\pi\approx\boxed{150{,}8\text{ cm}^3}$
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ un cubo de madera de 10 cm con un agujero cilíndrico de 2 cm de radio que lo atraviesa]
+$V=1000-\pi\cdot4\cdot10=1000-40\pi\approx\boxed{874{,}3\text{ cm}^3}$\\[3pt]
+Área: \ $600-2\cdot4\pi+2\pi\cdot2\cdot10=600+32\pi\approx\boxed{700{,}5\text{ cm}^2}$ \ \nota{6 caras, menos los 2 círculos, más el interior}
+\end{exemple}
+
+\vfill
+\begin{exemple}[Ejemplo: \ cubo en forma de tronco de cono: fondo $r=10$ cm, boca $r=15$ cm, altura 20 cm]
+\begin{minipage}[c]{0.65\linewidth}
+Es un cono grande menos un cono pequeño. Por Tales: \ $\dfrac{x}{10}=\dfrac{x+20}{15}\ \to\ x=40$\\[3pt]
+$V=\dfrac{\pi\cdot225\cdot60}{3}-\dfrac{\pi\cdot100\cdot40}{3}=\dfrac{9500\pi}{3}\approx9948$ cm$^3\approx\boxed{9{,}95\text{ L}}$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.32\linewidth}\centering
+\begin{tikzpicture}[scale=0.07]
+  \fill[fmB!20] (-15,20) -- (-10,0) -- (10,0) -- (15,20) -- cycle;
+  \draw[fmB,line width=1.2pt] (-15,20) -- (-10,0) (10,0) -- (15,20);
+  \draw[fmB,line width=1.2pt] (0,20) ellipse (15 and 3); \draw[fmB,line width=1.2pt] (-10,0) arc (180:360:10 and 2);
+  \draw[fmmuted,dashed] (-10,0) -- (0,-40) -- (10,0);
+\end{tikzpicture}
+\end{minipage}
+\end{exemple}
+
+\vfill
+% ============================================================ resum
+\resumtitol
+\begin{tcbraster}[raster columns=2,raster equal height=rows,raster column skip=14pt,raster row skip=30pt,raster before skip=16pt]
+\rtile{11.1}{Poliedros}{$C+V=A+2$.\\[1ex] Cinco regulares: tetraedro, cubo, octaedro, dodecaedro, icosaedro.}
+\rtile{11.2}{Prismas}{$A_L=P\cdot h$, \ $A_T=A_L+2A_B$.\\[1ex] Ortoedro: $D=\sqrt{a^2+b^2+c^2}$.}
+\rtile{11.3}{Pirámides}{$A_L=\frac{P\cdot a_p}{2}$, \ $a_p^2=h^2+a_b^2$.\\[1ex] Tronco: caras trapecios.}
+\rtile{11.4}{Cilindro y cono}{Cilindro $A_L=2\pi rh$. Cono $A_L=\pi rg$.\\[1ex] $g^2=h^2+r^2$.}
+\rtile{11.5}{Esfera}{$A=4\pi r^2$.\\[1ex] Latitud (N/S) y longitud (E/O).}
+\rtile{11.6}{Volumen}{1 dm$^3=1$ L. \ $V=A_B\cdot h$, \ cilindro $\pi r^2h$.}
+\rtile{11.7}{Un tercio}{Pirámide $\frac{A_B\cdot h}{3}$, cono $\frac{\pi r^2h}{3}$.\\[1ex] Esfera $\frac43\pi r^3$.}
+\rtile{11.8}{Compuestos}{Volúmenes: sumamos o restamos.\\[1ex] Área: solo por fuera.}
+\end{tcbraster}
+\end{document}
